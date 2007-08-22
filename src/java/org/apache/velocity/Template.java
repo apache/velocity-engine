@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.List;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapterImpl;
@@ -228,6 +229,27 @@ public class Template extends Resource
     public void merge( Context context, Writer writer)
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, IOException
     {
+        merge(context, writer, null);
+    }
+
+    
+    /**
+     * The AST node structure is merged with the
+     * context to produce the final output.
+     *
+     *  @param context Conext with data elements accessed by template
+     *  @param writer output writer for rendered template
+     *  @param macroLibraries a list of template files containing macros to be used when merging
+     *  @throws ResourceNotFoundException if template not found
+     *          from any available source.
+     *  @throws ParseErrorException if template cannot be parsed due
+     *          to syntax (or other) error.
+     *  @throws MethodInvocationException When a method on a referenced object in the context could not invoked.
+     *  @throws IOException  Might be thrown while rendering.
+     */
+    public void merge( Context context, Writer writer, List macroLibraries)
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, IOException
+    {
         /*
          *  we shouldn't have to do this, as if there is an error condition,
          *  the application code should never get a reference to the
@@ -247,6 +269,52 @@ public class Template extends Resource
              */
 
             InternalContextAdapterImpl ica = new InternalContextAdapterImpl( context );
+
+            /**
+             * Set the macro libraries
+             */
+            ica.setMacroLibraries(macroLibraries);
+
+            if (macroLibraries != null)
+            {
+                for (int i = 0; i < macroLibraries.size(); i++)
+                {
+                    /**
+                     * Build the macro library
+                     */
+                    try
+                    {
+                        rsvc.getTemplate((String) macroLibraries.get(i));
+                    }
+                    catch (ResourceNotFoundException re)
+                    {
+                        /*
+                        * the macro lib wasn't found.  Note it and throw
+                        */
+                        rsvc.getLog().error("template.merge(): " +
+                                "cannot find template " +
+                                (String) macroLibraries.get(i));
+                        throw re;
+                    }
+                    catch (ParseErrorException pe)
+                    {
+                        /*
+                        * the macro lib was found, but didn't parse - syntax error
+                        *  note it and throw
+                        */
+                        rsvc.getLog().error("template.merge(): " +
+                                "syntax error in template " +
+                                (String) macroLibraries.get(i) + ".");
+                        throw pe;
+                    }
+                    
+                    catch (Exception e)
+                    {
+                        throw new RuntimeException("Template.merge(): parse failed in template  " +
+                                (String) macroLibraries.get(i) + ".", e);
+                    }
+                }
+            }
 
             try
             {
@@ -278,5 +346,6 @@ public class Template extends Resource
         }
     }
 }
+
 
 

@@ -29,6 +29,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.RuntimeMacro;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.ExceptionUtils;
@@ -119,20 +120,22 @@ public class ASTDirective extends SimpleNode
 
             directive.setLocation( getLine(), getColumn() );
         }
-        else if (rsvc.isVelocimacro( directiveName, context.getCurrentTemplateName()  ))
+        else
         {
-            /*
-             *  we seem to be a Velocimacro.
+            /**
+             * Create a new RuntimeMacro
              */
+            directive = new RuntimeMacro(directiveName,
+                    context.getCurrentTemplateName());
 
-            isDirective = true;
-            directive = rsvc.getVelocimacro( directiveName,  context.getCurrentTemplateName());
-
-            try 
+            /**
+             * Initialize it
+             */
+            try
             {
                 directive.init( rsvc, context, this );
             }
-            
+
             /**
              * correct the line/column number if an exception is caught
              */
@@ -145,12 +148,9 @@ public class ASTDirective extends SimpleNode
                         die.getLineNumber() + getLine());
             }
             directive.setLocation( getLine(), getColumn() );
-        }
-        else
-        {
-            isDirective = false;
-        }
 
+            isDirective = true;
+        }
         return data;
     }
 
@@ -208,5 +208,6 @@ public class ASTDirective extends SimpleNode
     }
 
 }
+
 
 

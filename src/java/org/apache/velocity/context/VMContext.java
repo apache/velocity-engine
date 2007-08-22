@@ -20,6 +20,7 @@ package org.apache.velocity.context;
  */
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -326,6 +327,22 @@ public class VMContext implements InternalContextAdapter
     }
 
     /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
+     */
+    public void setMacroLibraries(List macroLibraries)
+    {
+        innerContext.setMacroLibraries(macroLibraries);
+    }
+
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
+     */
+    public List getMacroLibraries()
+    {
+        return innerContext.getMacroLibraries();  
+    }
+
+    /**
      * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
      */
     public EventCartridge attachEventCartridge( EventCartridge ec )
@@ -359,6 +376,7 @@ public class VMContext implements InternalContextAdapter
         return innerContext.getCurrentResource();
     }
 }
+
 
 
 

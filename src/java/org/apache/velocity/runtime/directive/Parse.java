@@ -21,6 +21,8 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventHandlerUtil;
@@ -214,6 +216,23 @@ public class Parse extends InputBase
             return false;
         }
 
+        /**
+         * Add the template name to the macro libraries list
+         */
+        List macroLibraries = context.getMacroLibraries();
+
+        /**
+         * if macroLibraries are not set create a new one
+         */
+        if (macroLibraries == null)
+        {
+            macroLibraries = new ArrayList();
+        }
+
+        context.setMacroLibraries(macroLibraries);
+
+        macroLibraries.add(arg);
+
         /*
          *  and render it
          */
@@ -224,7 +243,7 @@ public class Parse extends InputBase
                 ((SimpleNode) t.getData()).render( context, writer );
             }
         }
-        
+
         /*
          *  if it's a MIE, it came from the render.... throw it...
          */

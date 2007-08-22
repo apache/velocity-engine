@@ -265,6 +265,51 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
         else
             return ( strImage );
     }
+
+    /**
+     * Check weather their is a left parenthesis with leading optional
+     * whitespaces. This method is used in the semantic look ahead of
+     * Directive method. It requires lot of changes to implement the
+     * required look ahead as a BNF production and the code will become
+     * inefficient.
+     */
+    private boolean isLeftParantheses()
+    {
+        char c;
+        int no = 0;
+        try {
+            while(true)
+            {
+                /**
+                 * Read a character
+                 */
+                c = velcharstream.readChar();
+                no++;
+                if (c == '(')
+                {
+                    return true;
+                }
+                /**
+                 * if not a white space return
+                 */
+                else if (c != ' ' && c != '\n' && c != '\r' && c != '\t')
+                {
+                    return false;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+        }
+        finally
+        {
+            /**
+             * Backup the stream to the initial state
+             */
+            velcharstream.backup(no);
+        }
+        return false;
+    }
 }
 
 PARSER_END(Parser)
@@ -1449,14 +1494,6 @@ SimpleNode Directive() :
 
             isVM = rsvc.isVelocimacro(directiveName, currentTemplateName);
 
-            if (!isVM)
-            {
-                token_source.stateStackPop();
-                token_source.inDirective = false;
-                return jjtn000;
-            }
-
-
             /*
              *  Currently, all VMs are LINE directives
              */
@@ -1478,12 +1515,14 @@ SimpleNode Directive() :
     }
 
 
-
+     /**
+      * Look for the patter [WHITESPACE] <LPAREN>
+      */
+    (LOOKAHEAD( { isLeftParantheses() } )
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
-
-    [<WHITESPACE>] <LPAREN>  ( LOOKAHEAD(2) [<WHITESPACE>] [<COMMA> [<WHITESPACE>]]
+    (([<WHITESPACE>] <LPAREN>) ( LOOKAHEAD(2) [<WHITESPACE>] [<COMMA> [<WHITESPACE>]]
 
             argType = DirectiveArg()
             {
@@ -1522,14 +1561,24 @@ SimpleNode Directive() :
                 argPos++;
             }
 
-    )* [<WHITESPACE>] <RPAREN>
+    )* [<WHITESPACE>] <RPAREN>)
     {
 
         if (directiveType  == Directive.LINE)
         {
             return jjtn000;
         }
-    }/*@bgen(jjtree) Block */
+    }
+    |
+    {
+        /**
+         * Not a directive
+         */
+        token_source.stateStackPop();
+        token_source.inDirective = false;
+        return jjtn000;
+    }
+    )/*@bgen(jjtree) Block */
     {
       ASTBlock jjtn001 = new ASTBlock(this, JJTBLOCK);
       boolean jjtc001 = true;
@@ -1537,7 +1586,6 @@ SimpleNode Directive() :
     }
     try {
 /*@egen*/
-
     /*
      *  and the following block if the PD needs it
      */

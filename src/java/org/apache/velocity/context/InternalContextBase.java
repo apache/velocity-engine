@@ -21,6 +21,7 @@ package org.apache.velocity.context;
 
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.List;
 
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
@@ -73,6 +74,12 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *  Is rendering allowed?  Defaults to true, can be changed by #stop directive.
      */
     private boolean allowRendering = true;
+
+    /**
+     *  List for holding the macro libraries. Contains the macro library
+     *  template name as strings.
+     */
+    private List macroLibraries = null;
 
     /**
      *  set the current template name on top of stack
@@ -172,6 +179,22 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         allowRendering = v;
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
+     */
+    public void setMacroLibraries(List macroLibraries)
+    {
+        this.macroLibraries = macroLibraries;
+    }
+
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
+     */
+    public List getMacroLibraries()
+    {
+        return macroLibraries;
+    }
+
 
     /**
      * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
@@ -193,4 +216,5 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         return eventCartridge;
     }
 }
+
 

@@ -21,6 +21,7 @@ package org.apache.velocity.context;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.event.EventCartridge;
@@ -287,6 +288,22 @@ public class EvaluateContext implements InternalContextAdapter
     }
 
     /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
+     */
+    public void setMacroLibraries(List macroLibraries)
+    {
+        innerContext.setMacroLibraries(macroLibraries);
+    }
+    
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
+     */
+    public List getMacroLibraries()
+    {
+        return innerContext.getMacroLibraries();
+    }
+
+    /**
      * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
      */
     public EventCartridge attachEventCartridge( EventCartridge ec )
@@ -320,6 +337,7 @@ public class EvaluateContext implements InternalContextAdapter
         return innerContext.getCurrentResource();
     }
 }
+
 
 
 

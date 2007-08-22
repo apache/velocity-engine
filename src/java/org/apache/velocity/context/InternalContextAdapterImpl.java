@@ -23,6 +23,8 @@ import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
+import java.util.List;
+
 /**
  *  This adapter class is the container for all context types for internal
  *  use.  The AST now uses this class rather than the app-level Context
@@ -192,6 +194,21 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
         icb.setAllowRendering(v);
     }
 
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
+     */
+    public void setMacroLibraries(List macroLibraries)
+    {
+        icb.setMacroLibraries(macroLibraries);
+    }
+
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
+     */
+    public List getMacroLibraries()
+    {
+        return icb.getMacroLibraries();
+    }
 
     /* ---  Context interface methods --- */
 
@@ -202,13 +219,13 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     {
         return context.put( key , value );
     }
-    
+
     /**
      * @see InternalWrapperContext#localPut(String, Object)
      */
     public Object localPut(final String key, final Object value)
     {
-	return put(key, value);
+    return put(key, value);
     }
 
     /**
@@ -296,5 +313,6 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
         return null;
     }
 }
+
 
 
