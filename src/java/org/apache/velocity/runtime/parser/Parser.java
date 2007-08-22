@@ -211,13 +211,13 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     }
 
     /**
-     * Check whether their is a left parenthesis with leading optional
+     * Check whether there is a left parenthesis with leading optional
      * whitespaces. This method is used in the semantic look ahead of
      * Directive method. It requires lot of changes to implement the
      * required look ahead as a BNF production and the code will become
      * inefficient.
      */
-    private boolean isLeftParantheses()
+    private boolean isLeftParenthesis()
     {
         char c;
         int no = 0;
@@ -734,7 +734,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         token_source.SwitchTo(DIRECTIVE);
 
         argPos = 0;
-      if (isLeftParantheses()) {
+      if (isLeftParenthesis()) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case WHITESPACE:
           jj_consume_token(WHITESPACE);

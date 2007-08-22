@@ -293,7 +293,7 @@ public class Parser
      * Directive method. This is done in code instead of as a production
      * for simplicity and efficiency.
      */
-    private boolean isLeftParantheses()
+    private boolean isLeftParenthesis()
     {
         char c;
         int no = 0;
@@ -1395,7 +1395,7 @@ SimpleNode Directive() :
      /**
       * Look for the patter [WHITESPACE] <LPAREN>
       */
-    (LOOKAHEAD( { isLeftParantheses() } )
+    (LOOKAHEAD( { isLeftParenthesis() } )
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */

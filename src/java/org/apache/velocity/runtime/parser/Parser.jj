@@ -15,7 +15,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 /*
@@ -23,14 +23,14 @@
  *    to always have to page past it... :)
  */
 options
-{                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+{
 
     /**
      * The parser must be non-static in order for the
      * above option to work, otherwise the parser value
      * is passed in as null, which isn't all the useful ;)
      */
-    STATIC=false;                                                                                                                                                                                                                                                                                                                       
+    STATIC=false;
 
     /**
      * Declare that we are accepting unicode input and
@@ -267,13 +267,13 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
     }
 
     /**
-     * Check weather their is a left parenthesis with leading optional
+     * Check whether there is a left parenthesis with leading optional
      * whitespaces. This method is used in the semantic look ahead of
      * Directive method. It requires lot of changes to implement the
      * required look ahead as a BNF production and the code will become
      * inefficient.
      */
-    private boolean isLeftParantheses()
+    private boolean isLeftParenthesis()
     {
         char c;
         int no = 0;
@@ -1518,7 +1518,7 @@ SimpleNode Directive() :
      /**
       * Look for the patter [WHITESPACE] <LPAREN>
       */
-    (LOOKAHEAD( { isLeftParantheses() } )
+    (LOOKAHEAD( { isLeftParenthesis() } )
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
@@ -1678,7 +1678,7 @@ void Map() : {/*@bgen(jjtree) Map */
       |
       [ <WHITESPACE> ]
      )
-     
+
      /** note: need both tokens as they are generated in different states **/
      ( <RIGHT_CURLEY> | <RCURLY> )/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
