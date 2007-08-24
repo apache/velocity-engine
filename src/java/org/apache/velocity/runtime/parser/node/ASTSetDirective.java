@@ -122,11 +122,9 @@ public class ASTSetDirective extends SimpleNode
      * @throws IOException
      * @throws MethodInvocationException
      */
-    public synchronized boolean render( InternalContextAdapter context, Writer writer)
+    public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException
     {
-        /** synchronized to avoid this being rendered while init() is being called. **/
-        
         /*
          *  get the RHS node, and its value
          */
