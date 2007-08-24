@@ -43,6 +43,7 @@ public class ASTSetDirective extends SimpleNode
     private Node right = null;
     private ASTReference left = null;
     boolean logOnNull = false;
+    private boolean isInitialized;
 
     /**
      *  This is really immutable after the init, so keep one for this node
@@ -81,28 +82,35 @@ public class ASTSetDirective extends SimpleNode
      * @return Init result.
      * @throws TemplateInitException
      */
-    public Object init(InternalContextAdapter context, Object data)
+    public synchronized Object init(InternalContextAdapter context, Object data)
     throws TemplateInitException
     {
-        /*
-         *  init the tree correctly
-         */
+        /** This method is synchronized to prevent double initialization or initialization while rendering **/
 
-        super.init( context, data );
-
-        uberInfo = new Info(context.getCurrentTemplateName(),
-                getLine(), getColumn());
-
-        right = getRightHandSide();
-        left = getLeftHandSide();
-
-        logOnNull = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
-
-        /*
-         *  grab this now.  No need to redo each time
-         */
-        leftReference = left.getFirstToken().image.substring(1);
-
+        if (!isInitialized)
+        {
+            /*
+             *  init the tree correctly
+             */
+    
+            super.init( context, data );
+    
+            uberInfo = new Info(context.getCurrentTemplateName(),
+                    getLine(), getColumn());
+    
+            right = getRightHandSide();
+            left = getLeftHandSide();
+    
+            logOnNull = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
+    
+            /*
+             *  grab this now.  No need to redo each time
+             */
+            leftReference = left.getFirstToken().image.substring(1);
+        
+            isInitialized = true;
+        }
+            
         return data;
     }
 
@@ -114,9 +122,11 @@ public class ASTSetDirective extends SimpleNode
      * @throws IOException
      * @throws MethodInvocationException
      */
-    public boolean render( InternalContextAdapter context, Writer writer)
+    public synchronized boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException
     {
+        /** synchronized to avoid this being rendered while init() is being called. **/
+        
         /*
          *  get the RHS node, and its value
          */
@@ -139,9 +149,9 @@ public class ASTSetDirective extends SimpleNode
                 {
                     boolean doit = EventHandlerUtil.shouldLogOnNullSet( rsvc, context, left.literal(), right.literal() );
 
-                    if (doit && log.isInfoEnabled())
+                    if (doit && rsvc.getLog().isInfoEnabled())
                     {
-                        log.info("RHS of #set statement is null. Context will not be modified. "
+                        rsvc.getLog().info("RHS of #set statement is null. Context will not be modified. "
                                       + context.getCurrentTemplateName() + " [line " + getLine()
                                       + ", column " + getColumn() + "]");
                     }

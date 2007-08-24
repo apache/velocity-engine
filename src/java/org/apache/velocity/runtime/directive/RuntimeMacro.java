@@ -213,7 +213,10 @@ public class RuntimeMacro extends Directive
              */
             try
             {
-                vmProxy.init(rsvc, this.context, this.node);
+                synchronized(this)
+                {
+                    vmProxy.init(rsvc, this.context, this.node);
+                }
             }
             catch (TemplateInitException die)
             {
