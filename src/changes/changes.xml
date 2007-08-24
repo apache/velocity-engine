@@ -27,6 +27,18 @@
   <body>
     <release version="1.6" date="in Subversion">
 
+      <action type="fix" dev="wglass" issue="VELOCITY-536" due-to="Lei Gu, Dima Tkach">
+          Prevent NPE when template is parsed simultaneously by multiple users.  (may apply only to macros).  
+      </action>
+
+      <action type="fix" dev="wglass" issue="VELOCITY-362" due-to="Supun Kamburugamuva">
+          Users can now include libraries of macros with #parse in a template.
+      </action>
+
+      <action type="add" dev="wglass" issue="VELOCITY-529" due-to="Supun Kamburugamuva">
+          Macro libraries can now be selected programatically when merging templates.
+      </action>
+
       <action type="fix" dev="wglass" issue="VELOCITY-452" due-to="Alexey Panchenko">
           Catch IllegalArgumentException when invoking method.
       </action>
