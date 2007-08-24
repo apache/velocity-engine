@@ -699,17 +699,23 @@ MORE :
 
 |   <"#**" ~["#"]>
     {
-        input_stream.backup(1);
-        inComment = true;
-        stateStackPush();
-        SwitchTo( IN_FORMAL_COMMENT);
+    	if (!inComment)
+    	{
+	        input_stream.backup(1);
+	        inComment = true;
+	        stateStackPush();
+	        SwitchTo( IN_FORMAL_COMMENT);
+    	}
     }
 
 |   "#*"
     {
-        inComment=true;
-        stateStackPush();
-        SwitchTo( IN_MULTI_LINE_COMMENT );
+    	if (!inComment)
+    	{
+	        inComment=true;
+	        stateStackPush();
+	        SwitchTo( IN_MULTI_LINE_COMMENT );
+    	}
     }
 
 |   <HASH : "#" >
