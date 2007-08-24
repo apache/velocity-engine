@@ -166,12 +166,15 @@ public class VelocimacroProxy extends Directive
 
             if (nodeTree != null)
             {
-                if ( !init )
+                synchronized(this)
                 {
-                    nodeTree.init( context, rsvc);
-                    init = true;
+                    if ( !init )
+                    {
+                        nodeTree.init( context, rsvc);
+                        init = true;
+                    }
                 }
-
+                
                 /*
                  *  wrap the current context and add the VMProxyArg objects
                  */
