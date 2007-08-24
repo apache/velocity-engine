@@ -4200,10 +4200,13 @@ void MoreLexicalActions()
          else
             image.append(input_stream.GetSuffix(jjimageLen));
          jjimageLen = 0;
-        input_stream.backup(1);
-        inComment = true;
-        stateStackPush();
-        SwitchTo( IN_FORMAL_COMMENT);
+        if (!inComment)
+        {
+                input_stream.backup(1);
+                inComment = true;
+                stateStackPush();
+                SwitchTo( IN_FORMAL_COMMENT);
+        }
          break;
       case 16 :
          if (image == null)
@@ -4211,9 +4214,12 @@ void MoreLexicalActions()
          else
             image.append(input_stream.GetSuffix(jjimageLen));
          jjimageLen = 0;
-        inComment=true;
-        stateStackPush();
-        SwitchTo( IN_MULTI_LINE_COMMENT );
+        if (!inComment)
+        {
+                inComment=true;
+                stateStackPush();
+                SwitchTo( IN_MULTI_LINE_COMMENT );
+        }
          break;
       case 17 :
          if (image == null)
