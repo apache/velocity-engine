@@ -729,7 +729,7 @@ $email
   <p>
      Note that the <em>\</em> character bind to the <em>$</em>
      from the left. The bind-from-left rule causes <em>\\\$email</em> to
-     render as <em>\\$email</em>. Compare these examples to those in
+     render as <em>\$email</em>. Compare these examples to those in
      which <em>$email</em> is not defined.
   </p>
 
