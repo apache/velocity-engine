@@ -873,6 +873,91 @@
     <delete dir="${build.docs}" quiet="true"/>
   </target>
 
+
+ <!-- ========== Publish Targets ======================================== -->
+
+  <target name="publish.check">
+    <condition property="release.signed">
+      <and>
+        <available file="${build.dir}/${final.name}.tar.gz.asc"/>
+        <available file="${build.dir}/${final.name}.zip.asc"/>
+        <available file="${build.dir}/${final.name}.jar.asc"/>
+        <available file="${build.dir}/${project}-dep-${version}.jar.asc"/>
+      </and>
+    </condition>
+  </target>
+
+  <target name="publish.sigs" unless="release.signed"
+          depends="publish.check">
+    <echo>
+    !!NOT READY TO PUBLISH!!
+    You must first execute "release" target, then sign the distribution
+    files with your pgp key (creating the needed '.asc'signature files).
+    To override this (only when uploading development snapshots not meant
+    for public release), add the property "release.signed=true" to your
+    build.properties.
+    You may also need to add the Jsch jar to Ant's classpath to enable the
+    optional 'scp' task.
+    </echo>
+  </target>
+
+  <target name="publish.user" unless="username">
+    <input message="Type your username and hit enter:" addproperty="username"/>
+  </target>
+
+  <target name="publish.pass" unless="password">
+    <input message="Type your password and hit enter:" addproperty="password"/>
+  </target>
+
+  <target name="publish.auth" if="release.signed"
+          depends="publish.user,publish.pass">
+    <condition property="have.auth">
+      <and>
+        <isset property="username"/>
+        <isset property="password"/>
+      </and>
+    </condition>
+  </target>
+
+  <target name="prepare.publish" 
+          depends="publish.sigs,publish.auth">
+    <condition property="ready">
+      <and>
+        <isset property="release.signed"/>
+        <isset property="have.auth"/>
+      </and>
+    </condition>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Uploads the distribution files after checking that they're ready.   -->
+  <!-- =================================================================== -->
+  <target name="publish" depends="prepare.publish" if="ready"
+          description="Uploads distribution files to the distribution server">
+    <echo>
+    Uploading distribution files from
+      ${build.dir}
+    to
+      ${username}:${password}@${publish.server}:${publish.dir}
+
+    Once the release vote has passed, these should all be copied to
+      /x1/www/www.apache.org/dist/velocity/engine/${version}
+    and the jars should be copied into 
+      /x1/www/people.apache.org/repo/m1-ibiblio-rsync-repository/velocity/jars
+    </echo>
+    <scp todir="${username}:${password}@${publish.server}:${publish.dir}"
+      verbose="true" failonerror="true" trust="yes">
+      <fileset dir="${build.dir}">
+        <include name="*.tar.gz"/>
+        <include name="*.zip"/>
+        <include name="*.jar"/>
+        <include name="*.md5"/>
+        <include name="*.sha1"/>
+        <include name="*.asc"/>
+      </fileset>
+    </scp>
+  </target>
+
   <!-- =================================================================== -->
   <!-- JUnit Tests for Velocity                                            -->
   <!-- =================================================================== -->
@@ -922,5 +1007,69 @@
 
    <ant antfile="${velocity.build.dir}/testcases.xml"
         target="test-clean"/>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Analyze code with FindBugs                                          -->
+  <!-- =================================================================== -->
+  <target name="findbugs" depends="jar">
+    <echo>Working with FindBugs at: ${findbugs.home}</echo>
+    <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask">
+      <classpath>
+        <fileset dir="${findbugs.home}/lib">
+          <include name="findbugs-ant.jar"/>
+        </fileset>
+      </classpath>
+    </taskdef>
+    <echo>Analyzing ${build.dir}/${final.name}.jar built from ${build.src}</echo>
+    <findbugs home="${findbugs.home}"
+              output="html"
+              jvmargs="-Xmx400m"
+              outputFile="${build.test.reports}\findbugs-report.html"
+              failOnError="true">
+      <auxClasspath>
+        <fileset dir="${build.lib}">
+          <include name="**/*.jar"/>
+        </fileset>
+      </auxClasspath>
+      <sourcePath path="${build.src}" />
+      <class location="${build.dir}/${final.name}.jar" />
+    </findbugs>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Analyze code with PMD                                               -->
+  <!-- =================================================================== -->
+  <target name="pmd" depends="compile">
+    <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
+      <classpath>
+        <fileset dir="${pmd.home}/lib">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </taskdef>
+    <echo>Analyzing ${build.src}...</echo>
+    <pmd shortFilenames="true"
+         failonerror="true">
+<!-- To minimize noise keep rulesets that you are done checking here...
+-->
+      <ruleset>unusedcode</ruleset>
+      <ruleset>imports</ruleset>
+<!-- ... and rulesets you're not ready to check here.
+      <ruleset>braces</ruleset>
+      <ruleset>basic</ruleset>
+      <ruleset>strings</ruleset>
+      <ruleset>design</ruleset>
+      <ruleset>codesize</ruleset>
+-->
+      <formatter type="html"
+                 toFile="${build.test.reports}\pmd_report.html"/>
+      <fileset dir="${build.src}">
+        <include name="**/*.java"/>
+      </fileset>
+    </pmd>
+    <echo>Generated report is at ${build.test.reports}\pmd_report.html</echo>
   </target>
 </project>
