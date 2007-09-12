@@ -33,10 +33,10 @@ import java.util.List;
  */
 public class VelArrayMethod implements VelMethod
 {
-    public static String SIZE = "size";
-    public static String IS_EMPTY = "isEmpty";
-    public static String GET = "get";
-    public static String SET = "set";
+    public static final String SIZE = "size";
+    public static final String IS_EMPTY = "isEmpty";
+    public static final String GET = "get";
+    public static final String SET = "set";
 
     public static boolean supports(String methodName, Object[] params)
     {
