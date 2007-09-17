@@ -160,7 +160,8 @@
       )</li>
       <li>Number literal: #set( $monkey.Number = 123 )</li>
       <li>Range operator: #set( $monkey.Numbers = [1..3] )</li>
-      <li>Object array: #set( $monkey.Say = ["Not", $my, "fault"] )</li>
+      <li>Object list: #set( $monkey.Say = ["Not", $my, "fault"] )</li>
+      <li>Object map: #set( $monkey.Map = {"banana" : "good", "roast beef" : "bad"})</li>
     </ul>
 
     <p>
