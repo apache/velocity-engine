@@ -244,12 +244,13 @@ public class MethodMap
         {
             if(c1[i] != c2[i])
             {
+                boolean last = (i == c1.length - 1);
                 c1MoreSpecific =
                     c1MoreSpecific ||
-                    isStrictMethodInvocationConvertible(c2[i], c1[i]);
+                    isStrictConvertible(c2[i], c1[i], last);
                 c2MoreSpecific =
                     c2MoreSpecific ||
-                    isStrictMethodInvocationConvertible(c1[i], c2[i]);
+                    isStrictConvertible(c1[i], c2[i], last);
             }
         }
 
@@ -318,158 +319,83 @@ public class MethodMap
     {
         Class[] methodArgs = method.getParameterTypes();
 
-        if(methodArgs.length != classes.length)
+        if (methodArgs.length > classes.length)
         {
-            return false;
-        }
-
-        for(int i = 0; i < classes.length; ++i)
-        {
-            if(!isMethodInvocationConvertible(methodArgs[i], classes[i]))
+            // if there's just one more methodArg than class arg
+            // and the last methodArg is an array, then treat it as a vararg
+            if (methodArgs.length == classes.length + 1 &&
+                methodArgs[methodArgs.length - 1].isArray())
+            {
+                return true;
+            }
+            else
             {
                 return false;
+            }
+        }
+        else if (methodArgs.length == classes.length)
+        {
+            // this will properly match when the last methodArg
+            // is an array/varargs and the last class is the type of array
+            // (e.g. String when the method is expecting String...)
+            for(int i = 0; i < classes.length; ++i)
+            {
+                if(!isConvertible(methodArgs[i], classes[i], false))
+                {
+                    // if we're on the last arg and the method expects an array
+                    if (i == classes.length - 1 && methodArgs[i].isArray())
+                    {
+                        // check to see if the last arg is convertible
+                        // to the array's component type
+                        return isConvertible(methodArgs[i], classes[i], true);
+                    }
+                    return false;
+                }
+            }
+        }
+        else // more arguments given than the method accepts; check for varargs
+        {
+            // check that the last methodArg is an array
+            Class lastarg = methodArgs[methodArgs.length - 1];
+            if (!lastarg.isArray())
+            {
+                return false;
+            }
+
+            // check that they all match up to the last method arg
+            for (int i = 0; i < methodArgs.length - 1; ++i)
+            {
+                if (!isConvertible(methodArgs[i], classes[i], false))
+                {
+                    return false;
+                }
+            }
+
+            // check that all remaining arguments are convertible to the vararg type
+            Class vararg = lastarg.getComponentType();
+            for (int i = methodArgs.length - 1; i < classes.length; ++i)
+            {
+                if (!isConvertible(vararg, classes[i], false))
+                {
+                    return false;
+                }
             }
         }
 
         return true;
     }
 
-    /**
-     * Determines whether a type represented by a class object is
-     * convertible to another type represented by a class object using a
-     * method invocation conversion, treating object types of primitive
-     * types as if they were primitive types (that is, a Boolean actual
-     * parameter type matches boolean primitive formal type). This behavior
-     * is because this method is used to determine applicable methods for
-     * an actual parameter list, and primitive types are represented by
-     * their object duals in reflective method calls.
-     *
-     * @param formal the formal parameter type to which the actual
-     * parameter type should be convertible
-     * @param actual the actual parameter type.
-     * @return true if either formal type is assignable from actual type,
-     * or formal is a primitive type and actual is its corresponding object
-     * type or an object type of a primitive type that can be converted to
-     * the formal type.
-     */
-    private static boolean isMethodInvocationConvertible(Class formal,
-                                                         Class actual)
+    private static boolean isConvertible(Class formal, Class actual,
+                                         boolean possibleVarArg)
     {
-        /*
-         * if it's a null, it means the arg was null
-         */
-        if (actual == null && !formal.isPrimitive())
-        {
-            return true;
-        }
-
-        /*
-         *  Check for identity or widening reference conversion
-         */
-
-        if (actual != null && formal.isAssignableFrom(actual))
-        {
-            return true;
-        }
-
-        /*
-         * Check for boxing with widening primitive conversion. Note that
-         * actual parameters are never primitives.
-         */
-
-        if (formal.isPrimitive())
-        {
-            if(formal == Boolean.TYPE && actual == Boolean.class)
-                return true;
-            if(formal == Character.TYPE && actual == Character.class)
-                return true;
-            if(formal == Byte.TYPE && actual == Byte.class)
-                return true;
-            if(formal == Short.TYPE &&
-               (actual == Short.class || actual == Byte.class))
-                return true;
-            if(formal == Integer.TYPE &&
-               (actual == Integer.class || actual == Short.class ||
-                actual == Byte.class))
-                return true;
-            if(formal == Long.TYPE &&
-               (actual == Long.class || actual == Integer.class ||
-                actual == Short.class || actual == Byte.class))
-                return true;
-            if(formal == Float.TYPE &&
-               (actual == Float.class || actual == Long.class ||
-                actual == Integer.class || actual == Short.class ||
-                actual == Byte.class))
-                return true;
-            if(formal == Double.TYPE &&
-               (actual == Double.class || actual == Float.class ||
-                actual == Long.class || actual == Integer.class ||
-                actual == Short.class || actual == Byte.class))
-                return true;
-        }
-
-        return false;
+        return IntrospectionUtils.
+            isMethodInvocationConvertible(formal, actual, possibleVarArg);
     }
 
-    /**
-     * Determines whether a type represented by a class object is
-     * convertible to another type represented by a class object using a
-     * method invocation conversion, without matching object and primitive
-     * types. This method is used to determine the more specific type when
-     * comparing signatures of methods.
-     *
-     * @param formal the formal parameter type to which the actual
-     * parameter type should be convertible
-     * @param actual the actual parameter type.
-     * @return true if either formal type is assignable from actual type,
-     * or formal and actual are both primitive types and actual can be
-     * subject to widening conversion to formal.
-     */
-    private static boolean isStrictMethodInvocationConvertible(Class formal,
-                                                               Class actual)
+    private static boolean isStrictConvertible(Class formal, Class actual,
+                                               boolean possibleVarArg)
     {
-        /*
-         * we shouldn't get a null into, but if so
-         */
-        if (actual == null && !formal.isPrimitive())
-        {
-            return true;
-        }
-
-        /*
-         *  Check for identity or widening reference conversion
-         */
-
-        if(formal.isAssignableFrom(actual))
-        {
-            return true;
-        }
-
-        /*
-         *  Check for widening primitive conversion.
-         */
-
-        if(formal.isPrimitive())
-        {
-            if(formal == Short.TYPE && (actual == Byte.TYPE))
-                return true;
-            if(formal == Integer.TYPE &&
-               (actual == Short.TYPE || actual == Byte.TYPE))
-                return true;
-            if(formal == Long.TYPE &&
-               (actual == Integer.TYPE || actual == Short.TYPE ||
-                actual == Byte.TYPE))
-                return true;
-            if(formal == Float.TYPE &&
-               (actual == Long.TYPE || actual == Integer.TYPE ||
-                actual == Short.TYPE || actual == Byte.TYPE))
-                return true;
-            if(formal == Double.TYPE &&
-               (actual == Float.TYPE || actual == Long.TYPE ||
-                actual == Integer.TYPE || actual == Short.TYPE ||
-                actual == Byte.TYPE))
-                return true;
-        }
-        return false;
+        return IntrospectionUtils.
+            isStrictMethodInvocationConvertible(formal, actual, possibleVarArg);
     }
 }
