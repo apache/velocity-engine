@@ -19,6 +19,7 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -167,7 +168,8 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             return new VelMethodImpl(m);
         }
-        else if (obj.getClass().isArray())
+        // if it's an array, check if we support this method automagically
+        if (obj.getClass().isArray())
         {
             // only return *supported* array methods
             if (VelArrayMethod.supports(methodName, args))
@@ -283,6 +285,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     public static class VelMethodImpl implements VelMethod
     {
         final Method method;
+        Boolean isVarArg;
 
         /**
          * @param m
@@ -300,10 +303,102 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         /**
          * @see VelMethod#invoke(java.lang.Object, java.lang.Object[])
          */
-        public Object invoke(Object o, Object[] params)
+        public Object invoke(Object o, Object[] actual)
             throws Exception
         {
-            return method.invoke(o, params);
+            if (isVarArg())
+            {
+                Class[] formal = method.getParameterTypes();
+                int index = formal.length - 1;
+                Class type = formal[index].getComponentType();
+                if (actual.length >= index)
+                {
+                    actual = handleVarArg(type, index, actual);
+                }
+            }
+            return method.invoke(o, actual);
+        }
+
+        /**
+         * @returns true if this method can accept a variable number of arguments
+         */
+        public boolean isVarArg()
+        {
+            if (isVarArg == null)
+            {
+                Class[] formal = method.getParameterTypes();
+                if (formal == null || formal.length == 0)
+                {
+                    this.isVarArg = Boolean.FALSE;
+                }
+                else
+                {
+                    Class last = formal[formal.length - 1];
+                    // if the last arg is an array, then
+                    // we consider this a varargs method
+                    this.isVarArg = Boolean.valueOf(last.isArray());
+                }
+            }
+            return isVarArg.booleanValue();
+        }
+
+        /**
+         * @param type The vararg class type (aka component type
+         *             of the expected array arg)
+         * @param index The index of the vararg in the method declaration
+         *              (This will always be one less than the number of
+         *               expected arguments.)
+         * @param actual The actual parameters being passed to this method
+         * @returns The actual parameters adjusted for the varargs in order
+         *          to fit the method declaration.
+         */
+        private Object[] handleVarArg(final Class type,
+                                      final int index,
+                                      Object[] actual)
+        {
+            // if no values are being passed into the vararg
+            if (actual.length == index)
+            {
+                // create an empty array of the expected type
+                actual = new Object[] { Array.newInstance(type, 0) };
+            }
+            // if one value is being passed into the vararg
+            else if (actual.length == index + 1)
+            {
+                // make sure the last arg is an array of the expected type
+                if (IntrospectionUtils.isMethodInvocationConvertible(type,
+                                                                     actual[index].getClass(),
+                                                                     false))
+                {
+                    // create a 1-length array to hold and replace the last param
+                    Object lastActual = Array.newInstance(type, 1);
+                    Array.set(lastActual, 0, actual[index]);
+                    actual[index] = lastActual;
+                }
+            }
+            // if multiple values are being passed into the vararg
+            else if (actual.length > index + 1)
+            {
+                // put the last and extra actual in an array of the expected type
+                int size = actual.length - index;
+                Object lastActual = Array.newInstance(type, size);
+                for (int i = 0; i < size; i++)
+                {
+                    Array.set(lastActual, i, actual[index + i]);
+                }
+
+                // put all into a new actual array of the appropriate size
+                Object[] newActual = new Object[index + 1];
+                for (int i = 0; i < index; i++)
+                {
+                    newActual[i] = actual[i];
+                }
+                newActual[index] = lastActual;
+
+                // replace the old actual array
+                actual = newActual;
+            }
+            return actual;
         }
 
         /**
