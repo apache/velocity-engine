@@ -29,10 +29,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.VMContext;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.MacroOverflowException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
@@ -386,6 +388,14 @@ public class VelocimacroProxy extends Directive
 
             VMReferenceMungeVisitor v = new VMReferenceMungeVisitor( hm );
             nodeTree.jjtAccept( v, null );
+        }
+
+        /** 
+         * Error in evaluating macro?  Throw runtime exception
+         */
+        catch (ParseException pex)
+        {
+            throw new ParseErrorException(pex);
         }
         /**
          * pass through application level runtime exceptions

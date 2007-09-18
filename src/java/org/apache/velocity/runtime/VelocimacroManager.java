@@ -23,7 +23,9 @@ import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.Hashtable;
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
+import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
@@ -485,6 +487,10 @@ public class VelocimacroManager
 
                 nodeTree = rsvc.parse(br, "VM:" + vmName, true);
                 nodeTree.init(ica, null);
+            }
+            catch (ParseException pex)
+            {
+                throw new ParseErrorException(pex);
             }
             catch (Exception e)
             {

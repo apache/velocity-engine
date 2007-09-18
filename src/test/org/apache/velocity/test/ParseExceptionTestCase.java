@@ -177,6 +177,41 @@ public class ParseExceptionTestCase extends BaseTestCase
 
     /**
      * Tests that parseException has useful info when thrown in VelocityEngine.evaluate()
+     * and the problem comes from a macro definition
+     * @throws Exception
+     */
+    public void testParseExceptionFromMacroDefBody ()
+            throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
+
+        VelocityContext context = new VelocityContext();
+        
+        Writer writer = new StringWriter();
+
+        try
+        {
+            ve.evaluate(context,writer,"testMacro","#macro(aa $blarg) #set(!! = bb) #end #aa('aa')");
+            fail("Should have thown a ParseErrorException");
+        }
+        catch (ParseErrorException e)
+        {
+            assertEquals("testMacro",e.getTemplateName());
+            assertEquals(1,e.getLineNumber());
+            assertEquals(24,e.getColumnNumber());
+        }
+        finally
+        {
+            if (writer != null)
+            {
+                writer.close();
+            }
+        }
+    }
+
+    /**
+     * Tests that parseException has useful info when thrown in VelocityEngine.evaluate()
      * and the problem comes from a macro invocation
      * @throws Exception
      */

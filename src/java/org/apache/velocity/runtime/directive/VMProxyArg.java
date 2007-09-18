@@ -27,8 +27,10 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -430,6 +432,10 @@ public class VMProxyArg
 
                 	nodeTree.init(ica, rsvc);
                     }
+                }
+                catch (ParseException pex)
+                {
+                    throw new ParseErrorException(pex);
                 }
                 /**
                  * pass through application level runtime exceptions
