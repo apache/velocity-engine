@@ -192,6 +192,8 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         
         return ve;
     }
+    
+    
     /**
      * Test whether the literal text is given if a definition cannot be
      * found for a macro.
@@ -241,4 +243,55 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
             fail("Processed template did not match expected output");
         }
     }
+
+
+    /**
+     * Test that if a macro is duplicated, the second one takes precendence
+     *
+     * @throws Exception
+     */
+    public void testDuplicateDefinitions()
+            throws Exception
+    {
+        /*
+         *  ve1: local scope, cache on
+         */
+        VelocityEngine ve1 = new VelocityEngine();
+        
+        ve1.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
+        ve1.setProperty("velocimacro.permissions.allow.inline.to.replace.global",
+                Boolean.FALSE);
+        ve1.setProperty("file.resource.loader.cache", Boolean.TRUE);
+        ve1.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+        ve1.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve1.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
+                TEST_COMPARE_DIR + "/parsemacros");
+        ve1.init();
+        
+        assureResultsDirectoryExists(RESULT_DIR);
+
+        FileOutputStream fos = new FileOutputStream (getFileName(
+                RESULT_DIR, "parseMacro3", RESULT_FILE_EXT));
+
+        VelocityContext context = new VelocityContext();
+
+        Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+        Template template = ve1.getTemplate("parseMacro3.vm");
+        template.merge(context, writer);
+
+        /**
+         * Write to the file
+         */
+        writer.flush();
+        writer.close();
+
+        if (!isMatch(RESULT_DIR, COMPARE_DIR, "parseMacro3",
+                RESULT_FILE_EXT,CMP_FILE_EXT))
+        {
+            fail("Processed template did not match expected output");
+        }
+    }
+
 }
