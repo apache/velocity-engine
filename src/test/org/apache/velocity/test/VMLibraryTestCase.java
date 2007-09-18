@@ -240,6 +240,52 @@ public class VMLibraryTestCase extends BaseTestCase
     }
 
     /**
+     * Runs the tests with global namespace.
+     */
+    public void testVelociMacroLibWithDuplicateDefinitions()
+            throws Exception
+    {
+        assureResultsDirectoryExists(RESULT_DIR);
+        /**
+         * Clear the file before proceeding
+         */
+        File file = new File(getFileName(
+                RESULT_DIR, "vm_library_duplicate", RESULT_FILE_EXT));
+        if (file.exists())
+        {
+            file.delete();
+        }
+
+        /**
+         * Create a file output stream for appending
+         */
+        FileOutputStream fos = new FileOutputStream (getFileName(
+                RESULT_DIR, "vm_library_duplicate", RESULT_FILE_EXT), true);
+
+        List templateList = new ArrayList();
+        VelocityContext context = new VelocityContext();
+        Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+        templateList.add("vm_library1.vm");
+        templateList.add("vm_library2.vm");
+
+        Template template = ve1.getTemplate("vm_library.vm");
+        template.merge(context, writer, templateList);
+
+        /**
+         * Write to the file
+         */
+        writer.flush();
+        writer.close();
+
+        if (!isMatch(RESULT_DIR, COMPARE_DIR, "vm_library_duplicate",
+                RESULT_FILE_EXT,CMP_FILE_EXT))
+        {
+            fail("Processed template did not match expected output");
+        }
+    }
+
+    /**
      * Test whether the literal text is given if a definition cannot be
      * found for a macro.
      *
@@ -274,4 +320,6 @@ public class VMLibraryTestCase extends BaseTestCase
             fail("Processed template did not match expected output");
         }
     }
+
+
 }

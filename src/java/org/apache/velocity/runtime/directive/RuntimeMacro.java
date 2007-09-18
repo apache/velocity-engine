@@ -189,7 +189,7 @@ public class RuntimeMacro extends Directive
             List macroLibraries = context.getMacroLibraries();
             if (macroLibraries != null)
             {
-                for (int i = 0; i < macroLibraries.size(); i++)
+                for (int i = macroLibraries.size() - 1; i >= 0; i--)
                 {
                     o = rsvc.getVelocimacro(macroName,
                             (String)macroLibraries.get(i));
