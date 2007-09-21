@@ -366,7 +366,7 @@ public class MethodMap
                 }
             }
         }
-        else // more arguments given than the method accepts; check for varargs
+        else if (methodArgs.length > 0) // more arguments given than the method accepts; check for varargs
         {
             // check that the last methodArg is an array
             Class lastarg = methodArgs[methodArgs.length - 1];

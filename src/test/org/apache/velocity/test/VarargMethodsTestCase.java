@@ -132,6 +132,11 @@ public class VarargMethodsTestCase extends TestCase
         assertEvalEquals("object,string", "$nasty.test($nice,'foo')");
     }
 
+    public void testNoArgs()
+    {
+        assertEvalEquals("noargs", "$nasty.test()");
+    }
+
 
     protected void assertEvalEquals(String expected, String template)
     {
@@ -209,6 +214,11 @@ public class VarargMethodsTestCase extends TestCase
         public int add(int i)
         {
             return i;
+        }
+
+        public String test()
+        {
+            return "noargs";
         }
 
         public String test(Object[] array)
