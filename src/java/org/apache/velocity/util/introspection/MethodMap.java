@@ -240,6 +240,19 @@ public class MethodMap
         boolean c1MoreSpecific = false;
         boolean c2MoreSpecific = false;
 
+        // compare lengths to handle comparisons where the size of the arrays
+        // doesn't match, but the methods are both applicable due to the fact
+        // that one is a varargs method
+        if (c1.length > c2.length)
+        {
+            return MORE_SPECIFIC;
+        }
+        if (c2.length > c1.length)
+        {
+            return LESS_SPECIFIC;
+        }
+
+        // ok, move on and compare those of equal lengths
         for(int i = 0; i < c1.length; ++i)
         {
             if(c1[i] != c2[i])

@@ -127,6 +127,11 @@ public class VarargMethodsTestCase extends TestCase
         assertEvalEquals("strings", "$nice.test('foo')");
     }
 
+    public void testObjectVarArgVsObjectEtc()
+    {
+        assertEvalEquals("object,string", "$nasty.test($nice,'foo')");
+    }
+
 
     protected void assertEvalEquals(String expected, String template)
     {
@@ -204,6 +209,16 @@ public class VarargMethodsTestCase extends TestCase
         public int add(int i)
         {
             return i;
+        }
+
+        public String test(Object[] array)
+        {
+            return "object[]";
+        }
+
+        public String test(Object object, String property)
+        {
+            return "object,string";
         }
 
     }
