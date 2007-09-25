@@ -152,6 +152,10 @@ public class ArrayMethodsTestCase extends TestCase
         boolean isEmpty = (size == 0);
         checkResult("isEmpty()", String.valueOf(isEmpty), compareToList);
 
+        // check that the wrapping doesn't apply to java.lang.Object methods
+        // such as toString() (for backwards compatibility).
+        assertFalse(evaluate("$array").equals(evaluate("$list")));
+
         for (int i=0; i < size; i++)
         {
             // put the index in the context, so we can try
@@ -185,6 +189,9 @@ public class ArrayMethodsTestCase extends TestCase
             else
             {
                 checkResult(get, setme.toString(), compareToList);
+
+                // now check that contains() properly finds the new value
+                checkResult("contains($setme)", "true", compareToList);
             }
         }
     }
