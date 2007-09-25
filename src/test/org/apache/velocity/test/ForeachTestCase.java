@@ -21,6 +21,7 @@ package org.apache.velocity.test;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -75,10 +76,10 @@ public class ForeachTestCase extends TestCase
     }
 
     /**
-     * Tests proper method execution during a Foreach loop with items
-     * of varying classes.
+     * Tests proper method execution during a Foreach loop over a Collection
+     * with items of varying classes.
      */
-    public void testMethodCall()
+    public void testCollectionAndMethodCall()
         throws Exception
     {
         List col = new ArrayList();
@@ -94,4 +95,41 @@ public class ForeachTestCase extends TestCase
         assertEquals("Method calls while looping over varying classes failed",
                      "int 100 str STRVALUE ", writer.toString());
     }
+
+    /**
+     * Tests that #foreach will be able to retrieve an iterator from
+     * an arbitrary object that happens to have an iterator() method.
+     * (With the side effect of supporting the new Java 5 Iterable interface)
+     */
+    public void testObjectWithIteratorMethod()
+        throws Exception
+    {
+        context.put("iterable", new MyIterable());
+
+        StringWriter writer = new StringWriter();
+        String template = "#foreach ($i in $iterable)$i #end";
+        Velocity.evaluate(context, writer, "test", template);
+        assertEquals("Failed to call iterator() method",
+                     "1 2 3 ", writer.toString());
+    }
+
+
+    public static class MyIterable
+    {
+        private List foo;
+
+        public MyIterable()
+        {
+            foo = new ArrayList();
+            foo.add(new Integer(1));
+            foo.add(new Long(2));
+            foo.add("3");
+        }
+        
+        public Iterator iterator()
+        {
+            return foo.iterator();
+        }
+    }
+        
 }
