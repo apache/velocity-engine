@@ -824,9 +824,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         for( int i = 0; i < userdirective.length; i++)
         {
             loadDirective(userdirective[i]);
-            if (log.isInfoEnabled())
+            if (log.isDebugEnabled())
             {
-                log.info("Loaded User Directive: " + userdirective[i]);
+                log.debug("Loaded User Directive: " + userdirective[i]);
             }
         }
 
@@ -1335,7 +1335,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /* must be initialized before using resourceManager */
         if (!initialized && !initializing)
         {
-            log.info("Velocity not initialized yet. Calling init()...");
+            log.debug("Velocity not initialized yet. Calling init()...");
             init();
         }
 
@@ -1385,7 +1385,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /* must be initialized before using resourceManager */
         if (!initialized && !initializing)
         {
-            log.info("Velocity not initialized yet. Calling init()...");
+            log.debug("Velocity not initialized yet. Calling init()...");
             init();
         }
 

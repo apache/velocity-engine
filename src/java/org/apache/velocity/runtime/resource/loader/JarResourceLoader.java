@@ -103,9 +103,9 @@ public class JarResourceLoader extends ResourceLoader
 
             if (paths != null && paths.size() > 0)
             {
-                log.info("JarResourceLoader : you are using a deprecated configuration"
-                         + " property for the JarResourceLoader -> '<name>.resource.loader.resource.path'."
-                         + " Please change to the conventional '<name>.resource.loader.path'.");
+                log.debug("JarResourceLoader : you are using a deprecated configuration"
+                          + " property for the JarResourceLoader -> '<name>.resource.loader.resource.path'."
+                          + " Please change to the conventional '<name>.resource.loader.path'.");
             }
         }
 

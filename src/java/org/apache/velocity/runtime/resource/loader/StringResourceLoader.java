@@ -241,7 +241,7 @@ public class StringResourceLoader extends ResourceLoader
             // warn them if they are trying to change the class of the repository
             if (!this.repository.getClass().getName().equals(repoClass))
             {
-                log.warn("Cannot change class of string repository '"+repoName+
+                log.error("Cannot change class of string repository '"+repoName+
                           "' from "+this.repository.getClass().getName()+" to "+repoClass);
             }
 
@@ -249,10 +249,10 @@ public class StringResourceLoader extends ResourceLoader
             if (encoding != null &&
                 !this.repository.getEncoding().equals(encoding))
             {
-                if (log.isInfoEnabled())
+                if (log.isDebugEnabled())
                 {
-                    log.info("Changing the default encoding of string repository '"+repoName+
-                             "' from "+this.repository.getEncoding()+" to "+encoding);
+                    log.debug("Changing the default encoding of string repository '"+repoName+
+                              "' from "+this.repository.getEncoding()+" to "+encoding);
                 }
                 this.repository.setEncoding(encoding);
             }

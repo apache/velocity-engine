@@ -354,9 +354,9 @@ public class ASTReference extends SimpleNode
                 writer.write(nullString);
             }
 
-            if (logOnNull && referenceType != QUIET_REFERENCE && log.isInfoEnabled())
+            if (logOnNull && referenceType != QUIET_REFERENCE && log.isDebugEnabled())
             {
-                log.info("Null reference [template '"
+                log.debug("Null reference [template '"
                          + context.getCurrentTemplateName() + "', line "
                          + this.getLine() + ", column " + this.getColumn()
                          + "] : " + this.literal() + " cannot be resolved.");

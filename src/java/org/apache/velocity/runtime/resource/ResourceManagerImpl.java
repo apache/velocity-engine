@@ -101,7 +101,7 @@ public class ResourceManagerImpl
     {
 	if (isInit)
 	{
-	    log.warn("Re-initialization of ResourceLoader attempted!");
+	    log.error("Re-initialization of ResourceLoader attempted!");
 	    return;
 	}
 	
@@ -110,7 +110,7 @@ public class ResourceManagerImpl
         this.rsvc = rsvc;
         log = rsvc.getLog();
 
-        log.debug("Default ResourceManager initializing. (" + this.getClass() + ")");
+        log.trace("Default ResourceManager initializing. (" + this.getClass() + ")");
 
         assembleResourceLoaderInitializers();
 
@@ -233,8 +233,8 @@ public class ResourceManagerImpl
 
             if (loaderConfiguration == null)
             {
-                log.warn("ResourceManager : No configuration information for resource loader named '" +
-                         loaderName + "'. Skipping.");
+                log.error("ResourceManager : No configuration information for resource loader named '" +
+                          loaderName + "'. Skipping.");
 
                 continue;
             }

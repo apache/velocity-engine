@@ -208,12 +208,12 @@ public class Macro extends Directive
                                                macroBody.toString(),
                                                argArray, sourceTemplate);
 
-        if (!macroAdded && rs.getLog().isWarnEnabled())
+        if (!macroAdded && rs.getLog().isErrorEnabled())
         {
             StringBuffer msg = new StringBuffer("Failed to add macro: ");
             macroToString(msg, argArray);
             msg.append(" : source = ").append(sourceTemplate);
-            rs.getLog().warn(msg);
+            rs.getLog().error(msg);
         }
     }
 

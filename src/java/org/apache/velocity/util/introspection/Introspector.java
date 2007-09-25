@@ -141,7 +141,7 @@ public class Introspector extends IntrospectorBase
      */
     public void triggerClear()
     {
-	super.triggerClear();
-        log.info(CACHEDUMP_MSG);
+        super.triggerClear();
+        log.debug(CACHEDUMP_MSG);
     }
 }

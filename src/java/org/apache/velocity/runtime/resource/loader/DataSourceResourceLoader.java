@@ -172,7 +172,7 @@ public class DataSourceResourceLoader extends ResourceLoader
         }
         else
         {
-            log.warn("DataSourceResourceLoader not properly initialized. No DataSource was identified.");
+            log.error("DataSourceResourceLoader not properly initialized. No DataSource was identified.");
         }
     }
 
@@ -373,7 +373,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
             catch (Exception e)
             {
-                log.warn("DataSourceResourceLoader: problem when closing connection", e);
+                log.error("DataSourceResourceLoader: problem when closing connection", e);
             }
         }
     }
@@ -395,7 +395,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
             catch (Exception e)
             {
-                log.warn("DataSourceResourceLoader: problem when closing result set", e);
+                log.error("DataSourceResourceLoader: problem when closing result set", e);
             }
         }
     }
