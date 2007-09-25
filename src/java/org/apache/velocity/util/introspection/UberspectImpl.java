@@ -39,6 +39,7 @@ import org.apache.velocity.runtime.parser.node.PutExecutor;
 import org.apache.velocity.runtime.parser.node.SetExecutor;
 import org.apache.velocity.runtime.parser.node.SetPropertyExecutor;
 import org.apache.velocity.util.ArrayIterator;
+import org.apache.velocity.util.ArrayListWrapper;
 import org.apache.velocity.util.EnumerationIterator;
 
 /**
@@ -184,13 +185,16 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             return new VelMethodImpl(m);
         }
-        // if it's an array, check if we support this method automagically
+        // if it's an array
         if (obj.getClass().isArray())
         {
-            // only return *supported* array methods
-            if (VelArrayMethod.supports(methodName, args))
+            // check for support via our array->list wrapper
+            m = introspector.getMethod(ArrayListWrapper.class, methodName, args);
+            if (m != null)
             {
-                return new VelArrayMethod(obj.getClass(), methodName, args);
+                // and create a method that knows to wrap the value
+                // before invoking the method
+                return new VelMethodImpl(m, true);
             }
         }
         return null;
@@ -302,13 +306,20 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     {
         final Method method;
         Boolean isVarArg;
+        boolean wrapArray;
 
         /**
          * @param m
          */
         public VelMethodImpl(Method m)
         {
-            method = m;
+            this(m, false);
+        }
+
+        public VelMethodImpl(Method method, boolean wrapArray)
+        {
+            this.method = method;
+            this.wrapArray = wrapArray;
         }
 
         private VelMethodImpl()
@@ -331,6 +342,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                 {
                     actual = handleVarArg(type, index, actual);
                 }
+            }
+            else if (wrapArray)
+            {
+                o = new ArrayListWrapper(o);
             }
             return method.invoke(o, actual);
         }
