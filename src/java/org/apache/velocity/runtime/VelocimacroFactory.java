@@ -333,7 +333,7 @@ public class VelocimacroFactory
             {
                 setAddMacroPermission(false);
 
-                log.info("allowInline = false : VMs can NOT be defined inline in templates");
+                log.debug("allowInline = false : VMs can NOT be defined inline in templates");
             }
             else
             {
@@ -353,7 +353,7 @@ public class VelocimacroFactory
             {
                 setReplacementPermission(true);
 
-                log.info("allowInlineToOverride = true : VMs " +
+                log.debug("allowInlineToOverride = true : VMs " +
                     "defined inline may replace previous VM definitions");
             }
             else
@@ -376,7 +376,7 @@ public class VelocimacroFactory
 
             if (getTemplateLocalInline())
             {
-                log.info("allowInlineLocal = true : VMs " +
+                log.debug("allowInlineLocal = true : VMs " +
                     "defined inline will be local to their defining template only.");
             }
             else
@@ -394,7 +394,7 @@ public class VelocimacroFactory
 
             if (getAutoload())
             {
-                log.info("autoload on : VM system " +
+                log.debug("autoload on : VM system " +
                      "will automatically reload global library macros");
             }
             else
@@ -448,7 +448,7 @@ public class VelocimacroFactory
                 msg += "sourceTemplate";
             }
             msg += " argument was null";
-            log.warn(msg);
+            log.error(msg);
             return false;
         }
 
@@ -469,13 +469,16 @@ public class VelocimacroFactory
             vmManager.addVM(name, macroBody, argArray, sourceTemplate);
         }
 
-        /*
-         * Report addition of the new Velocimacro.
-         */
-        StringBuffer msg = new StringBuffer("added ");
-        Macro.macroToString(msg, argArray);
-        msg.append(" : source = ").append(sourceTemplate);
-        log.info(msg.toString());
+        if (log.isDebugEnabled())
+        {
+            /*
+             * Report addition of the new Velocimacro.
+             */
+            StringBuffer msg = new StringBuffer("added ");
+            Macro.macroToString(msg, argArray);
+            msg.append(" : source = ").append(sourceTemplate);
+            log.debug(msg.toString());
+        }
 
         return true;
     }
@@ -520,7 +523,7 @@ public class VelocimacroFactory
          */
         if (!addNewAllowed)
         {
-            log.warn("VM addition rejected : "+name+" : inline VMs not allowed.");
+            log.error("VM addition rejected : "+name+" : inline VMs not allowed.");
             return false;
         }
 
@@ -539,7 +542,7 @@ public class VelocimacroFactory
              */
             if (isVelocimacro(name, sourceTemplate) && !replaceAllowed)
             {
-                log.warn("VM addition rejected : "+name+" : inline not allowed to replace existing VM");
+                log.error("VM addition rejected : "+name+" : inline not allowed to replace existing VM");
                 return false;
             }
         }

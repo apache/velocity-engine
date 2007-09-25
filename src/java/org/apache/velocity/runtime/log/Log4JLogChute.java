@@ -125,7 +125,7 @@ public class Log4JLogChute implements LogChute
         }
         catch (IOException ioe)
         {
-            rsvc.getLog().warn("Could not create file appender '"+file+'\'', ioe);
+            rsvc.getLog().error("Could not create file appender '"+file+'\'', ioe);
             throw ExceptionUtils.createRuntimeException("Error configuring Log4JLogChute : ", ioe);
         }
     }

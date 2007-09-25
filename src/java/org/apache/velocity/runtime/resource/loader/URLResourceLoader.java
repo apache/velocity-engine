@@ -170,8 +170,8 @@ public class URLResourceLoader extends ResourceLoader
         catch (IOException ioe)
         {
             // the file is not reachable at its previous address
-            log.warn("URLResourceLoader: '" + name +
-                     "' is no longer reachable at '" + root + "'", ioe);
+            log.error("URLResourceLoader: '" + name +
+                      "' is no longer reachable at '" + root + "'", ioe);
             return 0;
         }
     }

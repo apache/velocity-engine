@@ -141,7 +141,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
 
         /*  we have no clue what this is  */
-        log.info("Could not determine type of iterator in #foreach loop at " + i);
+        log.error("Could not determine type of iterator in #foreach loop at " + i);
 
         return null;
     }

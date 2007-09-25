@@ -114,7 +114,7 @@ public class AvalonLogChute implements LogChute
         }
         catch (IOException ioe)
         {
-            rsvc.getLog().warn("Unable to create log file for AvalonLogChute", ioe);
+            rsvc.getLog().error("Unable to create log file for AvalonLogChute", ioe);
             throw new Exception("Error configuring AvalonLogChute : " + ioe);
         }
     }
@@ -131,7 +131,7 @@ public class AvalonLogChute implements LogChute
         logger = Hierarchy.getDefaultHierarchy().getLoggerFor(rsvc.toString());
         initTarget(file, null);
         // nag the theoretical user
-        log(WARN_ID, "You shouldn't be using the init(String file) method!");
+        log(DEBUG_ID, "You shouldn't be using the init(String file) method!");
     }
 
     /**

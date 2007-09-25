@@ -147,9 +147,9 @@ public class ASTSetDirective extends SimpleNode
                 {
                     boolean doit = EventHandlerUtil.shouldLogOnNullSet( rsvc, context, left.literal(), right.literal() );
 
-                    if (doit && rsvc.getLog().isInfoEnabled())
+                    if (doit && rsvc.getLog().isDebugEnabled())
                     {
-                        rsvc.getLog().info("RHS of #set statement is null. Context will not be modified. "
+                        rsvc.getLog().debug("RHS of #set statement is null. Context will not be modified. "
                                       + context.getCurrentTemplateName() + " [line " + getLine()
                                       + ", column " + getColumn() + "]");
                     }

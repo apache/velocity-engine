@@ -90,7 +90,7 @@ public class LogManager
             else if (o instanceof LogSystem)
             {
                 // inform the user about the deprecation
-                log.info("LogSystem has been deprecated. Please use a LogChute implementation.");
+                log.debug("LogSystem has been deprecated. Please use a LogChute implementation.");
                 try
                 {
                     // wrap the LogSystem into a chute.
@@ -105,7 +105,7 @@ public class LogManager
             }
             else
             {
-                log.warn(o.getClass().getName() + " object set as runtime.log.logsystem is not a valid log implementation.");
+                log.error(o.getClass().getName() + " object set as runtime.log.logsystem is not a valid log implementation.");
             }
         }
 
@@ -155,7 +155,7 @@ public class LogManager
                     else if (o instanceof LogSystem)
                     {
                         // inform the user about the deprecation
-                        log.info("LogSystem has been deprecated. Please use a LogChute implementation.");
+                        log.debug("LogSystem has been deprecated. Please use a LogChute implementation.");
                         LogChute chute = new LogChuteSystem((LogSystem)o);
                         chute.init(rsvc);
                         return chute;
@@ -191,9 +191,9 @@ public class LogManager
                 }
                 catch(Exception e)
                 {
-                    // log init exception at slightly higher priority
-                    log.info("Failed to initialize an instance of " + claz +
-                             " with the current runtime configuration.", e);
+                    // log unexpected init exception at higher priority
+                    log.error("Failed to initialize an instance of " + claz +
+                              " with the current runtime configuration.", e);
                 }
             }
         }
