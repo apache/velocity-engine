@@ -139,6 +139,22 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             }
             return new EnumerationIterator((Enumeration) obj);
         }
+        else
+        {
+            // look for an iterator() method to support the JDK5 Iterable
+            // interface or any user tools/DTOs that want to work in
+            // foreach without implementing the Collection interface
+            Class type = obj.getClass();
+            try
+            {
+                Method iter = type.getMethod("iterator", null);
+                return (Iterator)iter.invoke(obj, null);
+            }
+            catch (NoSuchMethodException nsme)
+            {
+                // eat this one, but let all other exceptions thru
+            }
+        }
 
         /*  we have no clue what this is  */
         log.error("Could not determine type of iterator in #foreach loop at " + i);
