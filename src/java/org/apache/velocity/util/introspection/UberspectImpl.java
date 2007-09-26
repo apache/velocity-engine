@@ -149,7 +149,16 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             try
             {
                 Method iter = type.getMethod("iterator", null);
-                return (Iterator)iter.invoke(obj, null);
+                Class returns = iter.getReturnType();
+                if (Iterator.class.isAssignableFrom(returns))
+                {
+                    return (Iterator)iter.invoke(obj, null);
+                }
+                else
+                {
+                    log.error("iterator() method of reference in #foreach loop at "
+                              + i + " does not return a true Iterator.");
+                }
             }
             catch (NoSuchMethodException nsme)
             {
