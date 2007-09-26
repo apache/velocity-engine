@@ -113,6 +113,17 @@ public class ForeachTestCase extends TestCase
                      "1 2 3 ", writer.toString());
     }
 
+    public void testNotReallyIterableIteratorMethod()
+        throws Exception
+    {
+        context.put("nri", new NotReallyIterable());
+
+        StringWriter writer = new StringWriter();
+        String template = "#foreach ($i in $nri)$i #end";
+        Velocity.evaluate(context, writer, "test", template);
+        assertEquals("", writer.toString());
+    }
+
 
     public static class MyIterable
     {
@@ -131,5 +142,13 @@ public class ForeachTestCase extends TestCase
             return foo.iterator();
         }
     }
-        
+
+    public static class NotReallyIterable
+    {
+        public Object iterator()
+        {
+            return new Object();
+        }
+    }
+
 }
