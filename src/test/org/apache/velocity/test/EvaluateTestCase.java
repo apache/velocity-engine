@@ -106,6 +106,16 @@ public class EvaluateTestCase extends BaseTestCase
     }
 
     /**
+     * Test in a macro context.
+     * @throws Exception
+     */
+    public void testEvaluateVMContext()
+    throws Exception
+    {
+        testFile("evalvmcontext");
+    }
+
+    /**
      * Test #stop (since it is attached to context).
      * @throws Exception
      */
