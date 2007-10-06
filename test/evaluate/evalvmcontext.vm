@@ -1,0 +1,7 @@
+## test of evaluate in a macro context whith local refs (foreach refs)
+
+#macro(testEval $expr)
+#foreach($value in ["val1", "val2"])value is : #evaluate( $expr );#end
+#end
+
+#testEval( "${value}" )

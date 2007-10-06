@@ -63,7 +63,7 @@ public class EvaluateContext implements InternalContextAdapter
      */
     public EvaluateContext( InternalContextAdapter  inner, RuntimeServices rsvc )
     {
-        innerContext = inner.getBaseContext();
+        innerContext = inner;
         initContext(rsvc);
     }
 
