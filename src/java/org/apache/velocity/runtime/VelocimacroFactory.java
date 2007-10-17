@@ -147,42 +147,45 @@ public class VelocimacroFactory
          */
         if (maxCallingDepth > 0)
         {
-            Stack macroStack = (Stack)templateMap.get(templateName);
-            if (macroStack != null)
+            synchronized(templateMap) 
             {
-                /* 
-                 * If the macro stack size is larger than or equal to
-                 * maxCallingDepth allowed throw an exception
-                 */
-                if (macroStack.size() >= maxCallingDepth)
+                Stack macroStack = (Stack)templateMap.get(templateName);
+                if (macroStack != null)
                 {
-                    log.error("Max calling depth exceded in Template:" +
-                            templateName + "and Macro:" + macroName);
-
-                    String message = "Exceed maximum " + maxCallingDepth +
-                            " macro calls. Call Stack:";
-                    /*
-                     * Construct the message from the stack
+                    /* 
+                     * If the macro stack size is larger than or equal to
+                     * maxCallingDepth allowed throw an exception
                      */
-                    for (int i = 0; i < macroStack.size() - 1; i++)
+                    if (macroStack.size() >= maxCallingDepth)
                     {
-                        message += macroStack.get(i) + "->";
+                        log.error("Max calling depth exceded in Template:" +
+                                templateName + "and Macro:" + macroName);
+    
+                        String message = "Exceed maximum " + maxCallingDepth +
+                                " macro calls. Call Stack:";
+                        /*
+                         * Construct the message from the stack
+                         */
+                        for (int i = 0; i < macroStack.size() - 1; i++)
+                        {
+                            message += macroStack.get(i) + "->";
+                        }
+                        message += macroStack.peek();
+                        
+                        /*
+                        Clean up the template map
+                         */
+                        templateMap.remove(templateName);
+                        throw new MacroOverflowException(message);
                     }
-                    message += macroStack.peek();
-                    
-                    /*
-                    Clean up the template map
-                     */
-                    templateMap.remove(templateName);
-                    throw new MacroOverflowException(message);
+                    macroStack.push(macroName);
                 }
-                macroStack.push(macroName);
-            }
-            else
-            {
-                macroStack = new Stack();
-                macroStack.push(macroName);
-                templateMap.put(templateName, macroStack);
+                else
+                {
+                    macroStack = new Stack();
+                    macroStack.push(macroName);
+                    templateMap.put(templateName, macroStack);
+                }
             }
         }
     }
