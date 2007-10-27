@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedWriter;
@@ -129,6 +129,8 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals(2,errors.size());
         assertEquals("$c1",((InvalidReferenceInfo) errors.get(0)).getInvalidReference());
         assertEquals("$a1.foobar()",((InvalidReferenceInfo) errors.get(1)).getInvalidReference());
+
+        System.out.println("Caught invalid references (local configuration).");
     }
 
     public void testReportInvalidReferences2() throws Exception
@@ -153,7 +155,10 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
             ve.evaluate(context,writer,"test","$a1 $c1 $a1.length() $a1.foobar()");
             fail ("Expected exception.");
         } catch (RuntimeException E) {}
-        
+
+
+        System.out.println("Caught invalid references (global configuration).");
+
     }
 
     /**
@@ -166,6 +171,9 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals("test string&amp;another&lt;b&gt;bold&lt;/b&gt;test",esc.referenceInsert("","test string&another<b>bold</b>test"));
         assertEquals("&lt;&quot;&gt;",esc.referenceInsert("","<\">"));
         assertEquals("test string",esc.referenceInsert("","test string"));
+
+        System.out.println("Correctly escaped HTML");
+
     }
 
     /**
@@ -179,6 +187,9 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals("&lt;&quot;&gt;",esc.referenceInsert("","<\">"));
         assertEquals("&apos;",esc.referenceInsert("","'"));
         assertEquals("test string",esc.referenceInsert("","test string"));
+
+        System.out.println("Correctly escaped XML");
+
     }
 
     /**
@@ -190,6 +201,9 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         EscapeReference esc = new EscapeSqlReference();
         assertEquals("Jimmy''s Pizza",esc.referenceInsert("","Jimmy's Pizza"));
         assertEquals("test string",esc.referenceInsert("","test string"));
+
+        System.out.println("Correctly escaped SQL");
+
     }
 
     /**
@@ -201,6 +215,9 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         EscapeReference esc = new EscapeJavaScriptReference();
         assertEquals("Jimmy\\'s Pizza",esc.referenceInsert("","Jimmy's Pizza"));
         assertEquals("test string",esc.referenceInsert("","test string"));
+
+
+        System.out.println("Correctly escaped Javascript");
     }
 
     /**
@@ -229,6 +246,9 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         context.put("bold","<b>");
         ve.evaluate(context,writer,"test","$bold.substring(0,1)");
         assertEquals("&lt;",writer.toString());
+
+        System.out.println("Escape matched all references (global configuration)");
+
     }
 
     /**
@@ -264,6 +284,9 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         writer = new StringWriter();
         ve.evaluate(newEscapeContext(),writer,"test","$test1_js.substring(0,7)");
         assertEquals("Jimmy\\'s",writer.toString());
+
+        System.out.println("Escape selected references (global configuration)");
+
     }
 
     private Context newEscapeContext()
@@ -316,6 +339,9 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         ve3.evaluate(context,writer,"test","$list.get(0)");
         assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
         assertTrue(writer.toString().indexOf("ArrayList") != -1);
+
+        System.out.println("PrintException handler successful.");
+
     }
 
     public void testIncludeNotFound() throws Exception
@@ -346,6 +372,9 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         {
             fail("Output incorrect.");
         }
+
+        System.out.println("IncludeNotFound handler successful.");
+
     }
 
     public void testIncludeRelativePath() throws Exception
@@ -376,5 +405,8 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         {
             fail("Output incorrect.");
         }
+
+        System.out.println("IncludeRelativePath handler successful.");
+
     }
 }
