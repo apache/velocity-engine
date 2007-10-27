@@ -969,7 +969,9 @@
            fork="true"
            printSummary="yes"
            haltonerror="${test.haltonerror}"
-           haltonfailure="${test.haltonfailure}">
+           haltonfailure="${test.haltonfailure}"
+           showoutput="true"
+           >
 
       <!-- Don't use the run classpath, test using the exploded class tree -->
       <classpath>
