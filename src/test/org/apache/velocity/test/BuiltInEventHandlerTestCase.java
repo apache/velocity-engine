@@ -263,27 +263,37 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         ve.setProperty("eventhandler.escape.javascript.match", "/.*_js.*/");
         ve.init();
 
+        System.out.println("Successfully engine init()");
+
         Writer writer;
 
         // Html no JavaScript
         writer = new StringWriter();
         ve.evaluate(newEscapeContext(),writer,"test","$test1");
+        System.out.println("Escaping test1: "+writer.toString());
         assertEquals("Jimmy's &lt;b&gt;pizza&lt;/b&gt;",writer.toString());
+        System.out.println("Successfully escaped test1: ");
 
         // JavaScript and HTML
         writer = new StringWriter();
         ve.evaluate(newEscapeContext(),writer,"test","$test1_js");
+        System.out.println("Escaping test1_js: "+writer.toString());
         assertEquals("Jimmy\\'s &lt;b&gt;pizza&lt;/b&gt;",writer.toString());
+        System.out.println("Successfully escaped test1_js");
 
         // JavaScript and HTML
         writer = new StringWriter();
         ve.evaluate(newEscapeContext(),writer,"test","$test1_js_test");
+        System.out.println("Escaping test1_js_test: "+writer.toString());
         assertEquals("Jimmy\\'s &lt;b&gt;pizza&lt;/b&gt;",writer.toString());
+        System.out.println("Successfully escaped test1_js_test");
 
         // JavaScript and HTML (method call)
         writer = new StringWriter();
         ve.evaluate(newEscapeContext(),writer,"test","$test1_js.substring(0,7)");
+        System.out.println("Escaping test1_js.substring(0,7): "+writer.toString());
         assertEquals("Jimmy\\'s",writer.toString());
+        System.out.println("Successfully escaped test1_js.substring(0,7)");
 
         System.out.println("Escape selected references (global configuration)");
 
