@@ -41,6 +41,7 @@ public final class VelocityCharStream
   /** */
     public static final boolean staticFlag = false;
   int bufsize;
+  private int nextBufExpand = 2048;
   int available;
   int tokenBegin;
   /** */
@@ -59,12 +60,12 @@ public final class VelocityCharStream
   private char[] buffer;
   private int maxNextCharInd = 0;
   private int inBuf = 0;
-
+ 
   private final void ExpandBuff(boolean wrapAround)
   {
-     char[] newbuffer = new char[bufsize + 2048];
-     int newbufline[] = new int[bufsize + 2048];
-     int newbufcolumn[] = new int[bufsize + 2048];
+     char[] newbuffer = new char[bufsize + nextBufExpand];
+     int newbufline[] = new int[bufsize + nextBufExpand];
+     int newbufcolumn[] = new int[bufsize + nextBufExpand];
 
      try
      {
@@ -105,7 +106,8 @@ public final class VelocityCharStream
      }
 
 
-     bufsize += 2048;
+     bufsize += nextBufExpand;
+     nextBufExpand *= 2;
      available = bufsize;
      tokenBegin = 0;
   }
@@ -116,7 +118,7 @@ public final class VelocityCharStream
      {
         if (available == bufsize)
         {
-           if (tokenBegin > 2048)
+           if (tokenBegin > nextBufExpand)
            {
               bufpos = maxNextCharInd = 0;
               available = tokenBegin;
@@ -128,7 +130,7 @@ public final class VelocityCharStream
         }
         else if (available > tokenBegin)
            available = bufsize;
-        else if ((tokenBegin - available) < 2048)
+        else if ((tokenBegin - available) < nextBufExpand)
            ExpandBuff(true);
         else
            available = tokenBegin;
