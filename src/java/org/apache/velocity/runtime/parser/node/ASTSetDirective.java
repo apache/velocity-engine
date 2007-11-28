@@ -176,10 +176,17 @@ public class ASTSetDirective extends SimpleNode
             EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
 
             /*
-             * if RHS is null it doesn't matter if LHS is simple or complex
-             * because the LHS is removed from context
+             * if RHS is null, remove simple LHS from context
+             * or call setValue() with a null value for complex LHS
              */
-            context.remove( leftReference );
+            if (left.jjtGetNumChildren() == 0)
+            {
+                context.remove( leftReference );
+            }
+            else
+            {
+                left.setValue(context, null);
+            }
 
             return false;
 

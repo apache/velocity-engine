@@ -118,7 +118,7 @@ public class SetTestCase extends BaseTestCase
         checkTemplate(ve,"set1");
 
         /**
-         * Check that #set can accept nulls
+         * Check that #set can accept nulls, and has the correct behaviour for complex LHS
          */
         ve = new VelocityEngine();
         ve.addProperty(RuntimeConstants.SET_NULL_ALLOWED, "true");
