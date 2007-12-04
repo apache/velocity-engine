@@ -39,7 +39,7 @@
   <url>http://velocity.apache.org/engine/devel/</url>
   <description>Apache Velocity is a general purpose template engine.</description>
   <inceptionYear>2000</inceptionYear>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <build>
     <defaultGoal>post-site</defaultGoal>
