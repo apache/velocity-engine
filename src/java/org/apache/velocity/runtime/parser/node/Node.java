@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.IOException;
@@ -44,14 +44,16 @@ public interface Node
     public void jjtOpen();
 
     /** This method is called after all the child nodes have been
-      added. */
+      added.
+     */
     public void jjtClose();
 
     /**
      * This pair of methods are used to inform the node of its
      * parent.
      * @param n
-     * */
+     *
+     */
     public void jjtSetParent(Node n);
 
     /**
@@ -122,7 +124,7 @@ public interface Node
      * @param context
      * @param data
      * @return The init result.
-     * @throws TemplateInitException 
+     * @throws TemplateInitException
      */
     public Object init( InternalContextAdapter context, Object data) throws TemplateInitException;
 

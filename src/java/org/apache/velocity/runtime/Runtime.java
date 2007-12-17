@@ -16,7 +16,7 @@ package org.apache.velocity.runtime;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.Reader;
@@ -205,7 +205,7 @@ public class Runtime implements RuntimeConstants
     /**
      * Initialize the Velocity Runtime with the name of
      * ExtendedProperties object.
-     * *
+     *
      * @param configurationFile The name of a properties file.
      * @throws Exception When a problem occurs during init.
      */
