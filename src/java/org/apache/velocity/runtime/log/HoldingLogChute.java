@@ -36,6 +36,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 class HoldingLogChute implements LogChute
 {
     private Vector pendingMessages = new Vector();
+    private volatile boolean transferring = false;
 
     /**
      * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
@@ -50,13 +51,12 @@ class HoldingLogChute implements LogChute
      * @param level severity level
      * @param message complete error message
      */
-    public void log(int level, String message)
+    public synchronized void log(int level, String message)
     {
-        synchronized(this)
+        if (!transferring)
         {
             Object[] data = new Object[2];
-            // TODO: JDK 1.4+ -> valueOf()
-            data[0] = new Integer(level);
+            data[0] = Integer.valueOf(level);
             data[1] = message;
             pendingMessages.addElement(data);
         }
@@ -69,13 +69,12 @@ class HoldingLogChute implements LogChute
      * @param message complete error message
      * @param t the accompanying java.lang.Throwable
      */
-    public void log(int level, String message, Throwable t)
+    public synchronized void log(int level, String message, Throwable t)
     {
-        synchronized(this)
+        if (!transferring)
         {
             Object[] data = new Object[3];
-            // TODO: JDK 1.4+ -> valueOf()
-            data[0] = new Integer(level);
+            data[0] = Integer.valueOf(level);
             data[1] = message;
             data[2] = t;
             pendingMessages.addElement(data);
@@ -94,26 +93,26 @@ class HoldingLogChute implements LogChute
      * Dumps the log messages this chute is holding into a new chute
      * @param newChute
      */
-    public void transferTo(LogChute newChute)
+    public synchronized void transferTo(LogChute newChute)
     {
-        synchronized(this)
+        if (!transferring && !pendingMessages.isEmpty())
         {
-            if (!pendingMessages.isEmpty())
+            // let the other methods know what's up
+            transferring = true;
+
+            // iterate and log each individual message...
+            for(Iterator i = pendingMessages.iterator(); i.hasNext();)
             {
-                // iterate and log each individual message...
-                for(Iterator i = pendingMessages.iterator(); i.hasNext();)
+                Object[] data = (Object[])i.next();
+                int level = ((Integer)data[0]).intValue();
+                String message = (String)data[1];
+                if (data.length == 2)
                 {
-                    Object[] data = (Object[])i.next();
-                    int level = ((Integer)data[0]).intValue();
-                    String message = (String)data[1];
-                    if (data.length == 2)
-                    {
-                        newChute.log(level, message);
-                    }
-                    else
-                    {
-                        newChute.log(level, message, (Throwable)data[2]);
-                    }
+                    newChute.log(level, message);
+                }
+                else
+                {
+                    newChute.log(level, message, (Throwable)data[2]);
                 }
             }
         }

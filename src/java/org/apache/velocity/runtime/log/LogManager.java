@@ -244,16 +244,18 @@ public class LogManager
         LogChute newLogChute = createLogChute(rsvc);
         LogChute oldLogChute = log.getLogChute();
 
+        // pass the new LogChute to the log first,
+        // (if the old was a HoldingLogChute, we don't want it
+        //  to accrue new messages during the transfer below)
+        log.setLogChute(newLogChute);
+
         // If the old LogChute was the pre-Init logger,
-        // dump its messages into the new system first.
+        // dump its messages into the new system.
         if (oldLogChute instanceof HoldingLogChute)
         {
             HoldingLogChute hlc = (HoldingLogChute)oldLogChute;
             hlc.transferTo(newLogChute);
         }
-
-        // pass the new LogChute to the log
-        log.setLogChute(newLogChute);
     }
 
 }
