@@ -918,7 +918,7 @@ ${data.Request.ServerName}
       Similarly, for the Map example, the elements defined within the
       { }  operator are accessible using the methods defined
       in the Map class. So, for example, you could access
-      the first element above using $monkey.Map.get("bannana") to return
+      the first element above using $monkey.Map.get("banana") to return
       a String 'good', or even $monkey.Map.banana to return the
       same value.
     </p>
