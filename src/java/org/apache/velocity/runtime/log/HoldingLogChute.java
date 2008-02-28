@@ -56,7 +56,7 @@ class HoldingLogChute implements LogChute
         if (!transferring)
         {
             Object[] data = new Object[2];
-            data[0] = Integer.valueOf(level);
+            data[0] = new Integer(level);
             data[1] = message;
             pendingMessages.addElement(data);
         }
@@ -74,7 +74,7 @@ class HoldingLogChute implements LogChute
         if (!transferring)
         {
             Object[] data = new Object[3];
-            data[0] = Integer.valueOf(level);
+            data[0] = new Integer(level);
             data[1] = message;
             data[2] = t;
             pendingMessages.addElement(data);
