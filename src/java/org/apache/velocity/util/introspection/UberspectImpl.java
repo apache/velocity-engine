@@ -342,20 +342,34 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         public Object invoke(Object o, Object[] actual)
             throws Exception
         {
+            // if we're pretending an array is a list...
+            if (wrapArray)
+            {
+                o = new ArrayListWrapper(o);
+            }
+
             if (isVarArg())
             {
                 Class[] formal = method.getParameterTypes();
                 int index = formal.length - 1;
-                Class type = formal[index].getComponentType();
                 if (actual.length >= index)
                 {
+                    Class type = formal[index].getComponentType();
                     actual = handleVarArg(type, index, actual);
                 }
             }
-            else if (wrapArray)
-            {
-                o = new ArrayListWrapper(o);
-            }
+
+            // call extension point invocation
+            return doInvoke(o, actual);
+        }
+
+        /**
+         * Offers an extension point for subclasses (in alternate Uberspects)
+         * to alter the invocation after any array wrapping or varargs handling
+         * has already been completed.
+         */
+        protected Object doInvoke(Object o, Object[] actual) throws Exception
+        {
             return method.invoke(o, actual);
         }
 
