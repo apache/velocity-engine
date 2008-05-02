@@ -64,9 +64,6 @@ public class FieldMethodizer
     /** Hold the field objects by field name */
     private HashMap fieldHash = new HashMap();
 
-    /** Hold the class objects by field name */
-    private HashMap classHash = new HashMap();
-
     /**
      * Allow object to be initialized without any data. You would use
      * addObject() to add data later.
@@ -154,7 +151,7 @@ public class FieldMethodizer
             Field f = (Field) fieldHash.get( fieldName );
             if (f != null)
             {
-                value = f.get(classHash.get(fieldName) );
+                value = f.get(null);
             }
         }
         catch( IllegalAccessException e )
@@ -181,7 +178,6 @@ public class FieldMethodizer
             if ( Modifier.isStatic(mod) && Modifier.isPublic(mod) )
             {
                 fieldHash.put(fields[i].getName(), fields[i]);
-                classHash.put(fields[i].getName(), clas);
             }
         }
     }
