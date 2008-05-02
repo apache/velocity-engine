@@ -67,7 +67,7 @@ public interface RuntimeServices extends RuntimeLogger
      *   <li>Static Content Include System</li>
      *   <li>Velocimacro System</li>
      * </ul>
- * @throws Exception
+     * @throws Exception
      */
     public void init() throws Exception;
 
@@ -347,7 +347,7 @@ public interface RuntimeServices extends RuntimeLogger
      * @param macro  String form of macro body
      * @param argArray  Array of strings, containing the
      *                         #macro() arguments.  the 0th is the name.
- * @param sourceTemplate
+     * @param sourceTemplate
      * @return boolean  True if added, false if rejected for some
      *                  reason (either parameters or permission settings)
      */
@@ -433,7 +433,7 @@ public interface RuntimeServices extends RuntimeLogger
 
     /**
      * Returns the configured class introspection/reflection
-     * implemenation.
+     * implementation.
      * @return The current Uberspect object.
      */
     public Uberspect getUberspect();
@@ -445,10 +445,10 @@ public interface RuntimeServices extends RuntimeLogger
     public Log getLog();
 
     /**
-      * Returns the event handlers for the application.
+     * Returns the event handlers for the application.
      * @return The event handlers for the application.
-      */
-     public EventCartridge getApplicationEventCartridge();
+     */
+    public EventCartridge getApplicationEventCartridge();
 
 
     /**
