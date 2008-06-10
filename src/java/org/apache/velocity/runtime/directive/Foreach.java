@@ -301,6 +301,13 @@ public class Foreach extends Directive
     private String counterName;
 
     /**
+     * The name of the variable to use when placing
+     * iterator hasNext() value into the context.Right
+     * now the defailt is $velocityHasNext
+     */
+    private String hasNextName;
+
+    /**
      * What value to start the loop counter at.
      */
     private int counterInitialValue;
@@ -341,6 +348,7 @@ public class Foreach extends Directive
         super.init(rs, context, node);
 
         counterName = rsvc.getString(RuntimeConstants.COUNTER_NAME);
+        hasNextName = rsvc.getString(RuntimeConstants.HAS_NEXT_NAME);
         counterInitialValue = rsvc.getInt(RuntimeConstants.COUNTER_INITIAL_VALUE);
         maxNbrLoops = rsvc.getInt(RuntimeConstants.MAX_NUMBER_LOOPS,
                                   Integer.MAX_VALUE);
@@ -445,6 +453,7 @@ public class Foreach extends Directive
         {
             // TODO: JDK 1.4+ -> valueOf()
             context.localPut(counterName , new Integer(counter));
+            context.localPut(hasNextName, Boolean.valueOf(i.hasNext()));
             Object value = i.next();
             context.localPut(elementKey, value);
 
