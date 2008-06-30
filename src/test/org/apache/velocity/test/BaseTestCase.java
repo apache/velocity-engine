@@ -171,7 +171,13 @@ public abstract class BaseTestCase
         return isMatch(result,compareDir,baseFileName,compareExt);
     }
 
-    
+
+    protected String getFileContents(String dir, String baseFileName, String ext)
+    {
+        return StringUtils
+            .fileContentsToString(getFileName(dir, baseFileName, ext, true));
+    }
+
     /**
      * Returns whether the processed template matches the
      * content of the provided comparison file.
