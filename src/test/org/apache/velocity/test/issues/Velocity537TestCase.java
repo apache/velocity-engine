@@ -22,6 +22,7 @@ import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.log.NullLogChute;
 import org.apache.velocity.test.BaseTestCase;
@@ -66,16 +67,18 @@ public class Velocity537TestCase extends BaseTestCase
         return new TestSuite(Velocity537TestCase.class);
     }
 
+    private VelocityEngine velocityEngine;
     public void setUp() throws Exception
     {
 
         assureResultsDirectoryExists(RESULTS_DIR);
 
-        Velocity.addProperty(Velocity.FILE_RESOURCE_LOADER_PATH, TEMPLATE_DIR);
+        velocityEngine = new VelocityEngine();
+        velocityEngine.addProperty(Velocity.FILE_RESOURCE_LOADER_PATH, TEMPLATE_DIR);
 
-        Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+        velocityEngine.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
 
-        Velocity.init();
+        velocityEngine.init();
     }
 
     public void testVelocity537() throws Exception
@@ -83,9 +86,14 @@ public class Velocity537TestCase extends BaseTestCase
         executeTest("velocity537.vm");
     }
 
+    public void testVelocity537Again() throws Exception
+    {
+        executeTest("velocity537b.vm");
+    }
+
     protected Template executeTest(final String templateName) throws Exception
     {
-        Template template = RuntimeSingleton.getTemplate(templateName);
+        Template template = velocityEngine.getTemplate(templateName);
 
         FileOutputStream fos = new FileOutputStream(getFileName(RESULTS_DIR, templateName, RESULT_FILE_EXT));
 
