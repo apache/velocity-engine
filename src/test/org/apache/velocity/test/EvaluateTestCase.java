@@ -24,6 +24,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -102,7 +105,30 @@ public class EvaluateTestCase extends BaseTestCase
     public void testEvaluate()
     throws Exception
     {
-        testFile("eval1");
+        testFile("eval1", new HashMap());
+    }
+
+    /**
+     * Test evaluate directive preserves macros (VELOCITY-591)
+     * @throws Exception
+     */
+    public void testEvaluateMacroPreserve()
+    throws Exception
+    {
+        Map properties = new HashMap();
+        properties.clear();
+        properties.put(RuntimeConstants.VM_CONTEXT_LOCALSCOPE,"false");
+        testFile("eval2", properties);
+
+        properties.clear();
+        properties.put(RuntimeConstants.VM_CONTEXT_LOCALSCOPE,"true");
+        testFile("eval2", properties);
+
+        properties.clear();
+        properties.put(RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL,"false");
+        testFile("eval2", properties);
+
+
     }
 
     /**
@@ -112,7 +138,7 @@ public class EvaluateTestCase extends BaseTestCase
     public void testEvaluateVMContext()
     throws Exception
     {
-        testFile("evalvmcontext");
+        testFile("evalvmcontext", new HashMap());
     }
 
     /**
@@ -241,11 +267,19 @@ public class EvaluateTestCase extends BaseTestCase
      * @param basefilename
      * @throws Exception
      */
-    private void testFile(String basefilename)
+    private void testFile(String basefilename, Map properties)
     throws Exception
     {
         VelocityEngine ve = new VelocityEngine();
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+     
+        for (Iterator i = properties.keySet().iterator(); i.hasNext();)
+        {
+            String key = (String) i.next();
+            String value = (String) properties.get(key);
+            ve.addProperty(key, value);
+        }
+        
         ve.init();
         
         Template template;

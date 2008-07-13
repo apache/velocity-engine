@@ -1,0 +1,23 @@
+##
+## Test evaluate preserves macros 
+##
+#macro (test $a)
+a: $a
+#end
+test 1: #test(12)
+#evaluate("basic string")
+
+test 2: #test(22)
+
+##
+## Test again while doing evaluate within macro 
+##
+#macro (test2 $a)
+#evaluate("inner eval: $a")
+#end
+test 3: #test2(33)
+
+#evaluate("basic string")
+
+test 4: #test2(44)
+
