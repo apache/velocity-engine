@@ -363,7 +363,7 @@ public void ReInit(java.io.Reader dstream, int startline,
 public VelocityCharStream(java.io.InputStream dstream, int startline,
   int startcolumn, int buffersize)
   {
-     this(new java.io.InputStreamReader(dstream), startline, startcolumn, 4096);
+     this(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);
   }
 
   /**
@@ -386,7 +386,7 @@ public VelocityCharStream(java.io.InputStream dstream, int startline,
 public void ReInit(java.io.InputStream dstream, int startline,
   int startcolumn, int buffersize)
   {
-     ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, 4096);
+     ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);
   }
   /**
  * @param dstream
