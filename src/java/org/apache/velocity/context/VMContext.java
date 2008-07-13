@@ -259,7 +259,37 @@ public class VMContext implements InternalContextAdapter
      */
     public Object remove(Object key)
     {
-        return vmproxyhash.remove( key );
+        /*
+         *  first see if this is a vmpa
+         */
+
+        VMProxyArg vmpa = (VMProxyArg) vmproxyhash.get( key );
+
+        if( vmpa != null)
+        {
+            return vmproxyhash.remove( key );
+        }
+        else
+        {
+            if( localcontextscope )
+            {
+                /*
+                 *  remove from local context
+                 */
+                return localcontext.remove(key);
+            }
+            
+            /**
+             * remove from local context, or if not there, remove from inner context
+             */
+            Object oldValue = localcontext.remove(key);
+            if (oldValue == null)
+            {
+                oldValue = innerContext.remove(key);
+            }
+            return oldValue;
+        }
+
     }
 
     /**
