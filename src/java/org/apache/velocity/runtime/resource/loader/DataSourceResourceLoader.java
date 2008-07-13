@@ -228,15 +228,15 @@ public class DataSourceResourceLoader extends ResourceLoader
 
             if (rs.next())
             {
-                InputStream ascStream = rs.getAsciiStream(templateColumn);
-                if (ascStream == null)
+                InputStream stream = rs.getBinaryStream(templateColumn);
+                if (stream == null)
                 {
                     throw new ResourceNotFoundException("DataSourceResourceLoader: "
                                                         + "template column for '"
                                                         + name + "' is null");
                 }
 
-                return new BufferedInputStream(ascStream);
+                return new BufferedInputStream(stream);
             }
             else
             {
