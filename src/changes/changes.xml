@@ -27,6 +27,10 @@
   <body>
     <release version="1.6" date="in Subversion">
 
+      <action type="add" dev="nbubna" issue="VELOCITY-600" due-to="Adrian Tarau">
+          New VTL syntax $velocityHasNext within #foreach loops
+      </action>
+
       <action type="fix" dev="wglass" issue="VELOCITY-580" due-to="Marnix van Bochove">
           Multi-line comments in macros were rendering extra *# when evaluated.
       </action>
@@ -37,6 +41,10 @@
 
       <action type="fix" dev="wglass" issue="VELOCITY-566" due-to="Etienne Massip">
           Prevent exception due to simultaneous rendering of macros.  
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-533" due-to="Christopher Schultz">
+          New VTL syntax allows arrays to be treated like fixed length lists.
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-536" due-to="Lei Gu, Dima Tkach">
