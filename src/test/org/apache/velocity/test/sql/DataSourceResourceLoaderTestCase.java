@@ -22,6 +22,7 @@ package org.apache.velocity.test.sql;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 
 import javax.sql.DataSource;
@@ -66,11 +67,21 @@ public class DataSourceResourceLoaderTestCase
      */
     private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/ds/templates";
 
+    /**
+     * String (not containing any VTL) used to test unicode
+     */
+    private String UNICODE_TEMPLATE = "\\u00a9 test \\u0410 \\u0411";
+    
+    /**
+     * Name of template for testing unicode.
+     */
+    private String UNICODE_TEMPLATE_NAME = "testUnicode";
 
     public DataSourceResourceLoaderTestCase(final String name)
     	throws Exception
     {
         super(name, DATA_PATH);
+        setUpUnicode();
     }
 
     public static Test suite()
@@ -84,7 +95,7 @@ public class DataSourceResourceLoaderTestCase
 
         assureResultsDirectoryExists(RESULTS_DIR);
 
-	DataSource ds = new HsqlDataSource("jdbc:hsqldb:.");
+	    DataSource ds = new HsqlDataSource("jdbc:hsqldb:.");
 
         DataSourceResourceLoader rl = new DataSourceResourceLoader();
         rl.setDataSource(ds);
@@ -103,6 +114,14 @@ public class DataSourceResourceLoaderTestCase
 
         Velocity.init();
     }
+    
+    public void setUpUnicode()
+    throws Exception
+    {
+        String insertString = "insert into velocity_template  (id, timestamp, def) VALUES " +
+        		"( '" + UNICODE_TEMPLATE_NAME + "', NOW(), '" + UNICODE_TEMPLATE + "');";
+        executeSQL(insertString);
+    }
 
     /**
      * Tests loading and rendering of a simple template. If that works, we are able to get data
@@ -113,6 +132,26 @@ public class DataSourceResourceLoaderTestCase
     {
         Template t = executeTest("testTemplate1");
         assertFalse("Timestamp is 0", 0 == t.getLastModified());
+    }
+
+    public void testUnicode()
+    throws Exception
+    {
+        Template template = RuntimeSingleton.getTemplate(UNICODE_TEMPLATE_NAME);
+
+        Writer writer = new StringWriter();
+        VelocityContext context = new VelocityContext();
+        template.merge(context, writer);
+        writer.flush();
+        writer.close();
+
+        String outputText = writer.toString();
+        
+        if (!normalizeNewlines(UNICODE_TEMPLATE).equals(
+                normalizeNewlines( outputText ) ))
+        {
+            fail("Output incorrect for Template: " + UNICODE_TEMPLATE_NAME);
+        }
     }
 
     /**

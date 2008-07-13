@@ -19,6 +19,12 @@ package org.apache.velocity.test.sql;
  * under the License.    
  */
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.sql.DataSource;
+
 import org.apache.velocity.test.BaseTestCase;
 
 /**
@@ -44,5 +50,13 @@ public abstract class BaseSQLTest
         {
             hsqlDB = new HsqlDB("jdbc:hsqldb:.", path + "/create-db.sql");
         }
+    }
+    
+    public void executeSQL(String sql)
+    throws SQLException
+    {
+        Connection connection = hsqlDB.getConnection();
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(sql);
     }
 }
