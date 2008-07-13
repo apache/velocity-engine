@@ -15,3 +15,15 @@ $map.bar
 #set($map.bar = $boohoo) 
 $map.foo
 $map.bar
+
+##
+## check a macro
+##
+
+#macro (test) 
+#set ($test = "test") 
+$test 
+#set ($test = $null) 
+$test 
+#end 
+#test() 
