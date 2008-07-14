@@ -272,10 +272,24 @@ public class MethodMap
             if(c2MoreSpecific)
             {
                 /*
+                 * If one method accepts varargs and the other does not,
+                 * call the non-vararg one more specific.
+                 */
+                boolean last1Array = c1[c1.length - 1].isArray();
+                boolean last2Array = c2[c2.length - 1].isArray();
+                if (last1Array && !last2Array)
+                {
+                    return LESS_SPECIFIC;
+                }
+                if (!last1Array && last2Array)
+                {
+                    return MORE_SPECIFIC;
+                }
+
+                /*
                  *  Incomparable due to cross-assignable arguments (i.e.
                  * foo(String, Object) vs. foo(Object, String))
                  */
-
                 return INCOMPARABLE;
             }
 

@@ -132,6 +132,12 @@ public class VarargMethodsTestCase extends TestCase
         assertEvalEquals("object,string", "$nasty.test($nice,'foo')");
     }
 
+    public void testObjectVarArgVsObjectVelocity605()
+    {
+        assertEvalEquals("string", "$nasty.test('joe')");
+        assertEvalEquals("object", "$nasty.test($nice)");
+    }
+
     public void testNoArgs()
     {
         assertEvalEquals("noargs", "$nasty.test()");
@@ -219,6 +225,16 @@ public class VarargMethodsTestCase extends TestCase
         public String test()
         {
             return "noargs";
+        }
+
+        public Object test(Object arg)
+        {
+            return "object";
+        }
+
+        public Object test(String arg)
+        {
+            return "string";
         }
 
         public String test(Object[] array)
