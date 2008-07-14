@@ -149,18 +149,15 @@ public class NodeUtils
      */
     public static String tokenLiteral( Token t )
     {
-      String result;
-
-      // Look at kind of token and return "" when it's a multiline comment
-      if (t.kind == ParserConstants.MULTI_LINE_COMMENT) 
-      {
-        result = "";
-      } 
-      else 
-      {
-        result = specialText( t ) + t.image;
-      }
-      return result;
+        // Look at kind of token and return "" when it's a multiline comment
+        if (t.kind == ParserConstants.MULTI_LINE_COMMENT) 
+        {
+            return "";
+        } 
+        else 
+        {
+            return specialText( t ) + t.image;
+        }
     } 
     
     /**
