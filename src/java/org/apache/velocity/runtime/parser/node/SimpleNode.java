@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -252,15 +253,20 @@ public class SimpleNode implements Node
      */
     public String literal()
     {
-        Token t = first;
-        StringBuffer sb = new StringBuffer(t.image);
+        // if we have only one string, just return it and avoid
+        // buffer allocation. VELOCITY-606
+        if (first == last)
+        {
+            return first.image;
+        }
 
+        Token t = first;
+        StrBuilder sb = new StrBuilder(t.image);
         while (t != last)
         {
             t = t.next;
             sb.append(t.image);
         }
-
         return sb.toString();
     }
 
@@ -386,7 +392,7 @@ public class SimpleNode implements Node
     
     public String toString()
     {
-        StringBuffer tokens = new StringBuffer();
+        StrBuilder tokens = new StrBuilder();
         
         for (Token t = getFirstToken(); t != null; )
         {
