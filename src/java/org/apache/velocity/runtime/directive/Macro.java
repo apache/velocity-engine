@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.apache.commons.lang.text.StrBuilder;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 
@@ -182,22 +184,11 @@ public class Macro extends Directive
         String argArray[] = getArgArray(node, rs);
 
         /*
-         *   now, try and eat the code block. Pass the root.
+         *  Now, try and eat the code block. Pass the root.
+         *  Make a big string out of our macro.
          */
 
-        List macroArray =
-            getASTAsStringArray(node.jjtGetChild(numArgs - 1));
-
-        /*
-         *  make a big string out of our macro
-         */
-
-        StringBuffer macroBody = new StringBuffer();
-
-        for (int i=0; i < macroArray.size(); i++)
-        {
-            macroBody.append(macroArray.get(i));
-        }
+        String macroString = getASTAsString(node.jjtGetChild(numArgs - 1));
 
         /*
          * now, try to add it.  The Factory controls permissions,
@@ -205,7 +196,7 @@ public class Macro extends Directive
          */
 
         boolean macroAdded = rs.addVelocimacro(argArray[0],
-                                               macroBody.toString(),
+                                               macroString,
                                                argArray, sourceTemplate);
 
         if (!macroAdded && rs.getLog().isErrorEnabled())
@@ -281,9 +272,9 @@ public class Macro extends Directive
     /**
      *  Returns an array of the literal rep of the AST
      *  @param rootNode
-     *  @return list of Strings
+     *  @return String form of the macro
      */
-    private static List getASTAsStringArray(Node rootNode)
+    private static String getASTAsString(Node rootNode)
     {
         /*
          *  this assumes that we are passed in the root
@@ -298,11 +289,12 @@ public class Macro extends Directive
          *  our first and last tokens
          */
 
-        List list = new ArrayList();
-
+        // guessing that most macros are much longer than
+        // the 32 char default capacity.  let's guess 4x bigger :)
+        StrBuilder str = new StrBuilder(128);
         while (t != tLast)
         {
-            list.add(NodeUtils.tokenLiteral(t));
+            str.append(NodeUtils.tokenLiteral(t));
             t = t.next;
         }
 
@@ -310,9 +302,9 @@ public class Macro extends Directive
          *  make sure we get the last one...
          */
 
-        list.add(NodeUtils.tokenLiteral(t));
+        str.append(NodeUtils.tokenLiteral(t));
 
-        return list;
+        return str.toString();
     }
 
     /**

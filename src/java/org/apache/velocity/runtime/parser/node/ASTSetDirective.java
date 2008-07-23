@@ -43,6 +43,7 @@ public class ASTSetDirective extends SimpleNode
     private Node right = null;
     private ASTReference left = null;
     boolean logOnNull = false;
+    private boolean allowNull = false;
     private boolean isInitialized;
 
     /**
@@ -102,7 +103,8 @@ public class ASTSetDirective extends SimpleNode
             left = getLeftHandSide();
     
             logOnNull = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
-    
+            allowNull = rsvc.getBoolean(RuntimeConstants.SET_NULL_ALLOWED, false);
+
             /*
              *  grab this now.  No need to redo each time
              */
@@ -136,7 +138,7 @@ public class ASTSetDirective extends SimpleNode
          * it is not allowed by configuration
          */
 
-        if( !rsvc.getBoolean(RuntimeConstants.SET_NULL_ALLOWED,false) )
+        if( !allowNull )
         {
             if ( value == null )
             {                

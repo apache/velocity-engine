@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.collections.ExtendedProperties;
+import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.EventHandler;
@@ -192,9 +193,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  pluggable components
      */
     private Map applicationAttributes = null;
-
-
     private Uberspect uberSpect;
+    private String encoding;
 
     /**
      * Creates a new RuntimeInstance object.
@@ -1284,7 +1284,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
 
         /* now just create the VM call, and use evaluate */
-        StringBuffer template = new StringBuffer("#");
+        StrBuilder template = new StrBuilder("#");
         template.append(vmName);
         template.append("(");
         for( int i = 0; i < params.length; i++)
@@ -1295,6 +1295,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         template.append(" )");
 
         return evaluate(context, writer, logTag, template.toString());
+    }
+
+    /**
+     * Retrieves and caches the configured default encoding
+     * for better performance. (VELOCITY-606)
+     */
+    private String getDefaultEncoding()
+    {
+        if (encoding == null)
+        {
+            encoding = getString(INPUT_ENCODING, ENCODING_DEFAULT);
+        }
+        return encoding;
     }
 
     /**
@@ -1314,7 +1327,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        return getTemplate(name, getString( INPUT_ENCODING, ENCODING_DEFAULT));
+        return getTemplate(name, getDefaultEncoding());
     }
 
     /**
@@ -1364,7 +1377,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          *  the bytestream should be dumped to the output stream
          */
 
-        return getContent(name, getString( INPUT_ENCODING, ENCODING_DEFAULT));
+        return getContent(name, getDefaultEncoding());
     }
 
     /**
