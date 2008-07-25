@@ -382,13 +382,11 @@ public class VelocimacroProxy extends Directive
     {
         try
         {
-            BufferedReader br = new BufferedReader( new StringReader( macroBody ) );
-
             /*
              *  now parse the macro - and don't dump the namespace
              */
 
-            nodeTree = rsvc.parse( br, namespace, false );
+            nodeTree = rsvc.parse(new StringReader(macroBody), namespace, false );
 
             /*
              *  now, to make null references render as proper schmoo

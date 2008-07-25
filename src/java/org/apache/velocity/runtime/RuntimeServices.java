@@ -150,6 +150,13 @@ public interface RuntimeServices extends RuntimeLogger
     public void init(String configurationFile) throws Exception;
 
     /**
+     * Wraps the String in a StringReader and passes it off to
+     * {@link #parse(Reader,String)}.
+     */
+    public SimpleNode parse(String string, String templateName)
+        throws ParseException;
+
+    /**
      * Parse the input and return the root of
      * AST node structure.
      * <br><br>

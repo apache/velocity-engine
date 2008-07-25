@@ -17,7 +17,6 @@ package org.apache.velocity.runtime.parser.node;
  * the License.
  */
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -148,8 +147,7 @@ public class ASTStringLiteral extends SimpleNode
             /*
              * now parse and init the nodeTree
              */
-            BufferedReader br = new BufferedReader(new StringReader(
-                    interpolateimage));
+            StringReader br = new StringReader(interpolateimage);
 
             /*
              * it's possible to not have an initialization context - or we don't

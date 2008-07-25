@@ -1001,6 +1001,29 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  PARSER_POOL_SIZE property appropriately for their
      *  application.  We will revisit this.
      *
+     * @param string String to be parsed
+     * @param templateName name of the template being parsed
+     * @return A root node representing the template as an AST tree.
+     * @throws ParseException When the string could not be parsed as a template.
+     */
+    public SimpleNode parse(String string, String templateName)
+        throws ParseException
+    {
+        return parse(new StringReader(string), templateName);
+    }
+
+    /**
+     * Parse the input and return the root of
+     * AST node structure.
+     * <br><br>
+     *  In the event that it runs out of parsers in the
+     *  pool, it will create and let them be GC'd
+     *  dynamically, logging that it has to do that.  This
+     *  is considered an exceptional condition.  It is
+     *  expected that the user will set the
+     *  PARSER_POOL_SIZE property appropriately for their
+     *  application.  We will revisit this.
+     *
      * @param reader Reader retrieved by a resource loader
      * @param templateName name of the template being parsed
      * @return A root node representing the template as an AST tree.
@@ -1091,8 +1114,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public boolean evaluate(Context context,  Writer out,
                             String logTag, String instring) throws IOException
     {
-        return evaluate(context, out, logTag,
-                        new BufferedReader(new StringReader(instring)));
+        return evaluate(context, out, logTag, new StringReader(instring));
     }
 
     /**

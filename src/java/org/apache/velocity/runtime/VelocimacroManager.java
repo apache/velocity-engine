@@ -19,8 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.util.Hashtable;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.ParseErrorException;
@@ -483,9 +481,7 @@ public class VelocimacroManager
         {
             try
             {
-                BufferedReader br = new BufferedReader(new StringReader(macroBody));
-
-                nodeTree = rsvc.parse(br, "VM:" + vmName, true);
+                nodeTree = rsvc.parse(macroBody, "VM:" + vmName);
                 nodeTree.init(ica, null);
             }
             catch (ParseException pex)
