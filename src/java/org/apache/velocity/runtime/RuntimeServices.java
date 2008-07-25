@@ -478,24 +478,4 @@ public interface RuntimeServices extends RuntimeLogger
      */
     public Directive getDirective(String name);
 
-    /**
-     * This method is called before a macro is rendered. This method
-     * checks whether a macro call is within the allowed calling depth.
-     * If the macro call exceeds the allowed calling depth it will throw
-     * an exception.
-     *
-     * @param macroName name of the macro
-     * @param templateName name of the template file containing the macro
-     * @throws MacroOverflowException if the
-     * number of recursive macro calls exceeds the specified value
-     */
-    public void startMacroRendering(String macroName, String templateName)
-                throws MacroOverflowException;
-
-    /**
-     * This method is called after macro rendering is finished.
-     * @param macroName name of the macro
-     * @param templateName template name that contains the macro
-     */
-    public void endMacroRendering(String macroName, String templateName);
 }

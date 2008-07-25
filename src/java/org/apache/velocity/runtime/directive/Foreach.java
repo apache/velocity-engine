@@ -176,6 +176,46 @@ public class Foreach extends Directive
         }
 
         /**
+         * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentMacroName(java.lang.String)
+         */
+        public void pushCurrentMacroName( String s )
+        {
+            innerContext.pushCurrentMacroName( s );
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentMacroName()
+         */
+        public void popCurrentMacroName()
+        {
+            innerContext.popCurrentMacroName();
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroName()
+         */
+        public String getCurrentMacroName()
+        {
+            return innerContext.getCurrentMacroName();
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroCallDepth()
+         */
+        public int getCurrentMacroCallDepth()
+        {
+            return innerContext.getCurrentMacroCallDepth();
+        }
+
+        /**
+         * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
+         */
+        public Object[] getMacroNameStack()
+        {
+            return innerContext.getMacroNameStack();
+        }
+
+        /**
          * @see org.apache.velocity.context.InternalContextAdapter#icacheGet(java.lang.Object key)
          */
         public IntrospectionCacheData icacheGet(Object key)

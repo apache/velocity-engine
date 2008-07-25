@@ -65,6 +65,7 @@ public class VelocimacroProxy extends Directive
     private HashMap proxyArgHash = new HashMap();
 
     private boolean strictArguments;
+    private int maxCallDepth;
     
     /**
      * Return name of this Velocimacro.
@@ -195,16 +196,46 @@ public class VelocimacroProxy extends Directive
                 }
 
                 /*
-                 Inform that we are about to rendering
-                */
-                rsvc.startMacroRendering(macroName,
-                        vmc.getCurrentTemplateName());
+                 * check that we aren't already at the max call depth
+                 */
+                if (maxCallDepth > 0 && maxCallDepth == vmc.getCurrentMacroCallDepth())
+                {
+                    String templateName = vmc.getCurrentTemplateName();
+                    Object[] stack = vmc.getMacroNameStack();
+
+                    String message = "Max calling depth of "+maxCallDepth+
+                        " was exceeded in Template:" + templateName +
+                        " and Macro:" + macroName + " with Call Stack:";
+                    for (int i = 0; i < stack.length; i++)
+                    {
+                        if (i != 0)
+                        {
+                            message += "->";
+                        }
+                        message += stack[i];
+                    }
+                    rsvc.getLog().error(message);
+
+                    try
+                    {
+                        throw new MacroOverflowException(message);
+                    }
+                    finally
+                    {
+                        // clean out the macro stack, since we just broke it
+                        while (vmc.getCurrentMacroCallDepth() > 0)
+                        {
+                            vmc.popCurrentMacroName();
+                        }
+                    }
+                }
+
                 /*
                  *  now render the VM
                  */
-                 nodeTree.render( vmc, writer );
-
-                 rsvc.endMacroRendering(macroName, vmc.getCurrentTemplateName());
+                vmc.pushCurrentMacroName(macroName);
+                nodeTree.render( vmc, writer );
+                vmc.popCurrentMacroName();
             }
             else
             {
@@ -256,6 +287,11 @@ public class VelocimacroProxy extends Directive
          * Throw exception for invalid number of arguments?
          */
         strictArguments = rs.getConfiguration().getBoolean(RuntimeConstants.VM_ARGUMENTS_STRICT,false);
+
+        /*
+         * get the macro call depth limit
+         */
+        maxCallDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
         
         /*
          *  how many args did we get?
