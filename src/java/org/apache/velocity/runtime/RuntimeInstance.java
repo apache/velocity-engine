@@ -275,6 +275,26 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
+     * Init or die! (with some log help, of course)
+     */
+    private void requireInitialization()
+    {
+        if (!initialized && !initializing)
+        {
+            log.debug("Velocity was not initialized! Calling init()...");
+            try
+            {
+                init();
+            }
+            catch (Exception e)
+            {
+                getLog().error("Could not auto-initialize Velocity", e);
+                throw new IllegalStateException("Velocity could not be initialized!", e);
+            }
+        }
+    }
+
+    /**
      *  Gets the classname for the Uberspect introspection package and
      *  instantiates an instance.
      */
@@ -962,20 +982,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public Parser createNewParser()
     {
-        /* must be initialized before we use runtimeDirectives */
-        if (!initialized && !initializing)
-        {
-            log.debug("Velocity was not initialized! Calling init()...");
-            try
-            {
-                init();
-            }
-            catch (Exception e)
-            {
-                getLog().error("Could not auto-initialize Velocity", e);
-                throw new IllegalStateException("Velocity could not be initialized!");
-            }
-        }
+        requireInitialization();
 
         Parser parser = new Parser(this);
         parser.setDirectives(runtimeDirectives);
@@ -1020,20 +1027,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public SimpleNode parse(Reader reader, String templateName, boolean dumpNamespace)
         throws ParseException
     {
-        /* must be initialized before using parserPool */
-        if (!initialized && !initializing)
-        {
-            log.debug("Velocity was not initialized! Calling init()...");
-            try
-            {
-                init();
-            }
-            catch (Exception e)
-            {
-                getLog().error("Could not auto-initialize Velocity", e);
-                throw new IllegalStateException("Velocity could not be initialized!");
-            }
-        }
+        requireInitialization();
 
         Parser parser = (Parser) parserPool.get();
         boolean keepParser = true;
@@ -1327,12 +1321,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Template getTemplate(String name, String  encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        /* must be initialized before using resourceManager */
-        if (!initialized && !initializing)
-        {
-            log.debug("Velocity not initialized yet. Calling init()...");
-            init();
-        }
+        requireInitialization();
 
         return (Template)
                 resourceManager.getResource(name,
@@ -1377,12 +1366,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public ContentResource getContent(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException, Exception
     {
-        /* must be initialized before using resourceManager */
-        if (!initialized && !initializing)
-        {
-            log.debug("Velocity not initialized yet. Calling init()...");
-            init();
-        }
+        requireInitialization();
 
         return (ContentResource)
                 resourceManager.getResource(name,
@@ -1401,20 +1385,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public String getLoaderNameForResource(String resourceName)
     {
-        /* must be initialized before using resourceManager */
-        if (!initialized && !initializing)
-        {
-            log.debug("Velocity was not initialized! Calling init()...");
-            try
-            {
-                init();
-            }
-            catch (Exception e)
-            {
-                getLog().error("Could not initialize Velocity", e);
-                throw new IllegalStateException("Velocity could not be initialized!");
-            }
-        }
+        requireInitialization();
 
         return resourceManager.getLoaderNameForResource(resourceName);
     }
