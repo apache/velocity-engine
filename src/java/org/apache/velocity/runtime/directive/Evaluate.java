@@ -19,10 +19,7 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 import java.io.Writer;
 
 import org.apache.velocity.context.EvaluateContext;
@@ -154,14 +151,12 @@ public class Evaluate extends Directive
         /*
          * The new string needs to be parsed since the text has been dynamically generated.
          */
-        
-        Reader reader = new BufferedReader(new StringReader(sourceText));
         String templateName = context.getCurrentTemplateName();
         SimpleNode nodeTree = null;
 
         try
         {
-            nodeTree = rsvc.parse(reader, templateName);
+            nodeTree = rsvc.parse(sourceText, templateName);
         }
         catch (ParseException pex)
         {

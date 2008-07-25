@@ -19,10 +19,9 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.io.StringWriter;
 
+import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapterImpl;
@@ -395,14 +394,12 @@ public class VMProxyArg
                      *   just want the parser to consider our arg as a Directive/VM arg rather than
                      *   as if inline in schmoo
                      */
+                    String buff = new StrBuilder("#include(")
+                        .append(callerReference)
+                        .append(")")
+                        .toString();
 
-                    String buff ="#include(" + callerReference + " ) ";
-
-                    //ByteArrayInputStream inStream = new ByteArrayInputStream( buff.getBytes() );
-
-                    BufferedReader br = new BufferedReader( new StringReader( buff ) );
-
-                    nodeTree = rsvc.parse(br, "VMProxyArg:" + callerReference, true);
+                    nodeTree = rsvc.parse(buff, "VMProxyArg:" + callerReference);
 
                     /*
                      *  now, our tree really is the first DirectiveArg(), and only one
