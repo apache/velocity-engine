@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.directive;
  * under the License.
  */
 
+import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
@@ -124,26 +125,35 @@ public class RuntimeMacro extends Directive
         this.context = context;
         this.node = node;
 
-        StringBuffer buffer = new StringBuffer();
         Token t = node.getFirstToken();
 
-        /**
-         * Retrieve the literal text
-         */
-        while (t != null && t != node.getLastToken())
+        if (t == node.getLastToken())
         {
-            buffer.append(t.image);
-            t = t.next;
+            literal = t.image;
         }
+        else
+        {
+            // guessing that most macros are much longer than
+            // the 32 char default capacity.  let's guess 4x bigger :)
+            StrBuilder text = new StrBuilder(128);
+            /**
+             * Retrieve the literal text
+             */
+            while (t != null && t != node.getLastToken())
+            {
+                text.append(t.image);
+                t = t.next;
+            }
+            if (t != null)
+            {
+                text.append(t.image);
+            }
 
-        if (t != null)
-        {
-            buffer.append(t.image);
+            /**
+             * Store the literal text
+             */
+            literal = text.toString();
         }
-        /**
-         * Store the literal text
-         */
-        literal = buffer.toString();
     }
 
     /**
@@ -174,8 +184,7 @@ public class RuntimeMacro extends Directive
         /**
          * first look in the source template
          */
-        Object o = rsvc.getVelocimacro(macroName,
-                sourceTemplate);
+        Object o = rsvc.getVelocimacro(macroName, sourceTemplate);
         if (o != null && o instanceof VelocimacroProxy)
         {
             vmProxy = (VelocimacroProxy)o;
@@ -213,9 +222,13 @@ public class RuntimeMacro extends Directive
              */
             try
             {
-                synchronized(this)
+                synchronized (vmProxy)
                 {
                     vmProxy.init(rsvc, this.context, this.node);
+                    /**
+                     * render it
+                     */
+                    return vmProxy.render(context, writer, node);
                 }
             }
             catch (TemplateInitException die)
@@ -224,10 +237,6 @@ public class RuntimeMacro extends Directive
 
                 throw new ParseErrorException(die.getMessage(), info);
             }
-            /**
-             * render it
-             */
-            return vmProxy.render(context, writer, node);
         }
 
         /**
