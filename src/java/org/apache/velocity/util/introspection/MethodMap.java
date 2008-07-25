@@ -21,7 +21,7 @@ package org.apache.velocity.util.introspection;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class MethodMap
     /**
      * Keep track of all methods with the same name.
      */
-    Map methodByNameMap = new Hashtable();
+    Map methodByNameMap = new HashMap();
 
     /**
      * Add a method to a list of methods by name.
@@ -132,7 +132,86 @@ public class MethodMap
                     arg == null ? null : arg.getClass();
         }
 
-        return getMostSpecific(methodList, classes);
+        return getBestMatch(methodList, classes);
+    }
+
+    private static Method getBestMatch(List methods, Class[] args)
+    {
+        List equivalentMatches = null;
+        Method bestMatch = null;
+        Class[] bestMatchTypes = null;
+        for (Iterator i = methods.iterator(); i.hasNext(); )
+        {
+            Method method = (Method)i.next();
+            if (isApplicable(method, args))
+            {
+                if (bestMatch == null)
+                {
+                    bestMatch = method;
+                    bestMatchTypes = method.getParameterTypes();
+                }
+                else
+                {
+                    Class[] methodTypes = method.getParameterTypes();
+                    switch (compare(methodTypes, bestMatchTypes))
+                    {
+                        case MORE_SPECIFIC:
+                            if (equivalentMatches == null)
+                            {
+                                bestMatch = method;
+                                bestMatchTypes = methodTypes;
+                            }
+                            else
+                            {
+                                // have to beat all other ambiguous ones...
+                                int ambiguities = equivalentMatches.size();
+                                for (int a=0; a < ambiguities; a++)
+                                {
+                                    Method other = (Method)equivalentMatches.get(a);
+                                    switch (compare(methodTypes, other.getParameterTypes()))
+                                    {
+                                        case MORE_SPECIFIC:
+                                            // ...and thus replace them all...
+                                            bestMatch = method;
+                                            bestMatchTypes = methodTypes;
+                                            equivalentMatches = null;
+                                            ambiguities = 0;
+                                            break;
+
+                                        case INCOMPARABLE:
+                                            // ...join them...
+                                            equivalentMatches.add(method);
+                                            break;
+
+                                        case LESS_SPECIFIC:
+                                            // ...or just go away.
+                                            break;
+                                    }
+                                }
+                            }
+                            break;
+
+                        case INCOMPARABLE:
+                            if (equivalentMatches == null)
+                            {
+                                equivalentMatches = new ArrayList(bestMatchTypes.length);
+                            }
+                            equivalentMatches.add(method);
+                            break;
+
+                        case LESS_SPECIFIC:
+                            // do nothing
+                            break;
+                    }
+                }
+            }
+        }
+                
+        if (equivalentMatches != null)
+        {
+            throw new AmbiguousException();
+        }
+        return bestMatch;
     }
 
     /**
@@ -148,85 +227,6 @@ public class MethodMap
         private static final long serialVersionUID = -2314636505414551663L;
     }
 
-
-    private static Method getMostSpecific(List methods, Class[] classes)
-        throws AmbiguousException
-    {
-        LinkedList applicables = getApplicables(methods, classes);
-
-        if(applicables.isEmpty())
-        {
-            return null;
-        }
-
-        if(applicables.size() == 1)
-        {
-            return (Method)applicables.getFirst();
-        }
-
-        /*
-         * This list will contain the maximally specific methods. Hopefully at
-         * the end of the below loop, the list will contain exactly one method,
-         * (the most specific method) otherwise we have ambiguity.
-         */
-
-        LinkedList maximals = new LinkedList();
-
-        for (Iterator applicable = applicables.iterator();
-             applicable.hasNext();)
-        {
-            Method app = (Method) applicable.next();
-            Class[] appArgs = app.getParameterTypes();
-            boolean lessSpecific = false;
-
-            for (Iterator maximal = maximals.iterator();
-                 !lessSpecific && maximal.hasNext();)
-            {
-                Method max = (Method) maximal.next();
-
-                switch(moreSpecific(appArgs, max.getParameterTypes()))
-                {
-                    case MORE_SPECIFIC:
-                    {
-                        /*
-                         * This method is more specific than the previously
-                         * known maximally specific, so remove the old maximum.
-                         */
-
-                        maximal.remove();
-                        break;
-                    }
-
-                    case LESS_SPECIFIC:
-                    {
-                        /*
-                         * This method is less specific than some of the
-                         * currently known maximally specific methods, so we
-                         * won't add it into the set of maximally specific
-                         * methods
-                         */
-
-                        lessSpecific = true;
-                        break;
-                    }
-                }
-            }
-
-            if(!lessSpecific)
-            {
-                maximals.addLast(app);
-            }
-        }
-
-        if(maximals.size() > 1)
-        {
-            // We have more than one maximally specific method
-            throw new AmbiguousException();
-        }
-
-        return (Method)maximals.getFirst();
-    }
-
     /**
      * Determines which method signature (represented by a class array) is more
      * specific. This defines a partial ordering on the method signatures.
@@ -235,7 +235,7 @@ public class MethodMap
      * @return MORE_SPECIFIC if c1 is more specific than c2, LESS_SPECIFIC if
      * c1 is less specific than c2, INCOMPARABLE if they are incomparable.
      */
-    private static int moreSpecific(Class[] c1, Class[] c2)
+    private static int compare(Class[] c1, Class[] c2)
     {
         boolean c1MoreSpecific = false;
         boolean c2MoreSpecific = false;
@@ -307,31 +307,6 @@ public class MethodMap
          */
 
         return INCOMPARABLE;
-    }
-
-    /**
-     * Returns all methods that are applicable to actual argument types.
-     * @param methods list of all candidate methods
-     * @param classes the actual types of the arguments
-     * @return a list that contains only applicable methods (number of
-     * formal and actual arguments matches, and argument types are assignable
-     * to formal types through a method invocation conversion).
-     */
-    private static LinkedList getApplicables(List methods, Class[] classes)
-    {
-        LinkedList list = new LinkedList();
-
-        for (Iterator imethod = methods.iterator(); imethod.hasNext();)
-        {
-            Method method = (Method) imethod.next();
-
-            if(isApplicable(method, classes))
-            {
-                list.add(method);
-            }
-
-        }
-        return list;
     }
 
     /**
