@@ -64,15 +64,7 @@ public class ParserPoolImpl implements ParserPool {
      */
     public Parser get()
     {
-        Parser parser = (Parser) pool.get();
-        if (parser == null)
-        {
-            rsvc.getLog().debug("Created new " +
-                    "parser (pool exhausted).  Consider " +
-                    "increasing pool size.");
-            parser = rsvc.createNewParser();
-        }
-        return parser;
+        return (Parser) pool.get();
     }
 
     /**
