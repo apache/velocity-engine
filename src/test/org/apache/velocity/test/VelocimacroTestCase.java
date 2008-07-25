@@ -38,11 +38,11 @@ import org.apache.velocity.runtime.log.NullLogChute;
  */
 public class VelocimacroTestCase extends TestCase
 {
-    private String template1 = "#macro(foo $a)$a#end #macro(bar $b)#foo($b)#end #foreach($i in [1..3])#bar($i)#end";
-    private String template2 = "#macro(foo1 $a)#set($a = $a + 1)$a#foo1($a)#end#foo1(0)";
-    private String template3 = "#macro(foo1 $a)#set($a = $a + 1)$a#inner($a)#end#macro(inner $b)#foo1($b)#end#foo1(0)";
-    private String template4 = "#macro(foo1 $a)#set($a = $a + 1)$a#inner($a)#end#macro(inner $b)#innerInner($b)#end#macro(innerInner $c)#foo1($c)#end#foo1(0)";
+    private String template1 = "#macro(foo $a)$a#end #macro(bar $b)#foo($b)#end #foreach($i in [1..3])#if($i == 3)#foo($i)#else#bar($i)#end#end";
     private String result1 = "  123";
+    private String template2 = "#macro(bar $a)#set($a = $a + 1)$a#bar($a)#end#bar(0)";
+    private String template3 = "#macro(baz $a)#set($a = $a + 1)$a#inner($a)#end#macro(inner $b)#baz($b)#end#baz(0)";
+    private String template4 = "#macro(bad $a)#set($a = $a + 1)$a#inside($a)#end#macro(inside $b)#loop($b)#end#macro(loop $c)#bad($c)#end#bad(0)";
 
     public VelocimacroTestCase(String name)
     {
@@ -98,37 +98,37 @@ public class VelocimacroTestCase extends TestCase
         try
         {
             Velocity.evaluate(context, writer, "vm_chain2", template2);
+            fail("Did not exceed max macro call depth as expected");
         }
         catch (MacroOverflowException e)
         {
-            /*
-             Check the exception message
-             */
-            assertEquals(e.getMessage(),
-                    "Exceed maximum 5 macro calls. Call Stack:foo1->" +
-                            "foo1->foo1->foo1->foo1");
+            assertEquals("Max calling depth of 5 was exceeded in Template:vm_chain2"+
+                            " and Macro:bar with Call Stack:bar->bar->bar->bar->bar",
+                         e.getMessage());
         }
 
         try
         {
             Velocity.evaluate(context, writer, "vm_chain3", template3);
+            fail("Did not exceed max macro call depth as expected");
         }
         catch (MacroOverflowException e)
         {
-            assertEquals(e.getMessage(),
-                    "Exceed maximum 5 macro calls. Call Stack:foo1->inner->" +
-                            "foo1->inner->foo1");
+            assertEquals("Max calling depth of 5 was exceeded in Template:vm_chain3"+
+                            " and Macro:inner with Call Stack:baz->inner->baz->inner->baz",
+                         e.getMessage());
         }
 
         try
         {
             Velocity.evaluate(context, writer, "vm_chain4", template4);
+            fail("Did not exceed max macro call depth as expected");
         }
         catch (MacroOverflowException e)
         {
-            assertEquals(e.getMessage(),
-                    "Exceed maximum 5 macro calls. Call Stack:foo1->inner->" +
-                            "innerInner->foo1->inner");
+            assertEquals("Max calling depth of 5 was exceeded in Template:vm_chain4"+
+                            " and Macro:loop with Call Stack:bad->inside->loop->bad->inside",
+                         e.getMessage());
         }
     }
 }

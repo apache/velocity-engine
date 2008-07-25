@@ -146,6 +146,46 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     }
 
     /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentMacroName(java.lang.String)
+     */
+    public void pushCurrentMacroName( String s )
+    {
+        icb.pushCurrentMacroName( s );
+    }
+
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentMacroName()
+     */
+    public void popCurrentMacroName()
+    {
+        icb.popCurrentMacroName();
+    }
+
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroName()
+     */
+    public String getCurrentMacroName()
+    {
+        return icb.getCurrentMacroName();
+    }
+
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroCallDepth()
+     */
+    public int getCurrentMacroCallDepth()
+    {
+        return icb.getCurrentMacroCallDepth();
+    }
+
+    /**
+     * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
+     */
+    public Object[] getMacroNameStack()
+    {
+        return icb.getMacroNameStack();
+    }
+
+    /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#icacheGet(java.lang.Object)
      */
     public IntrospectionCacheData icacheGet( Object key )

@@ -60,6 +60,11 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     private Stack templateNameStack = new Stack();
 
     /**
+     *  Velocimacro name stack. The stack top contains the current macro name.
+     */
+    private Stack macroNameStack = new Stack();
+
+    /**
      *  EventCartridge we are to carry.  Set by application
      */
     private EventCartridge eventCartridge = null;
@@ -120,6 +125,61 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     public Object[] getTemplateNameStack()
     {
         return templateNameStack.toArray();
+    }
+
+    /**
+     *  set the current macro name on top of stack
+     *
+     *  @param s current macro name
+     */
+    public void pushCurrentMacroName( String s )
+    {
+        macroNameStack.push(s);
+    }
+
+    /**
+     *  remove the current macro name from stack
+     */
+    public void popCurrentMacroName()
+    {
+        macroNameStack.pop();
+    }
+
+    /**
+     *  get the current macro name
+     *
+     *  @return String current macro name
+     */
+    public String getCurrentMacroName()
+    {
+        if (macroNameStack.empty())
+        {
+            return "<undef>";
+        }
+        else
+        {
+            return (String) macroNameStack.peek();
+        }
+    }
+
+    /**
+     *  get the current macro call depth
+     *
+     *  @return int current macro call depth
+     */
+    public int getCurrentMacroCallDepth()
+    {
+        return macroNameStack.size();
+    }
+
+    /**
+     *  get the current macro name stack
+     *
+     *  @return Object[] with the macro name stack contents.
+     */
+    public Object[] getMacroNameStack()
+    {
+        return macroNameStack.toArray();
     }
 
     /**
