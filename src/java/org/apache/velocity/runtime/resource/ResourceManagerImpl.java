@@ -99,11 +99,11 @@ public class ResourceManagerImpl
     public synchronized void initialize(final RuntimeServices rsvc)
         throws Exception
     {
-	if (isInit)
-	{
-	    log.error("Re-initialization of ResourceLoader attempted!");
-	    return;
-	}
+        if (isInit)
+        {
+            log.error("Re-initialization of ResourceLoader attempted!");
+            return;
+        }
 	
         ResourceLoader resourceLoader = null;
 
@@ -259,6 +259,9 @@ public class ResourceManagerImpl
      * Gets the named resource. Returned class type corresponds to specified type (i.e. <code>Template</code> to <code>
      * RESOURCE_TEMPLATE</code>).
      *
+     * This method is now unsynchronized which requires that ResourceCache
+     * implementations be thread safe (as the default is).
+     *
      * @param  resourceName  The name of the resource to retrieve.
      * @param  resourceType  The type of resource (<code>RESOURCE_TEMPLATE</code>, <code>RESOURCE_CONTENT</code>, etc.).
      * @param  encoding  The character encoding to use.
@@ -269,7 +272,7 @@ public class ResourceManagerImpl
      * @throws  ParseErrorException  if template cannot be parsed due to syntax (or other) error.
      * @throws  Exception  if a problem in parse
      */
-    public synchronized Resource getResource(final String resourceName, final int resourceType, final String encoding)
+    public Resource getResource(final String resourceName, final int resourceType, final String encoding)
         throws ResourceNotFoundException,
             ParseErrorException,
             Exception
@@ -289,13 +292,29 @@ public class ResourceManagerImpl
 
         if (resource != null)
         {
-            /*
-             *  refresh the resource
-             */
-
             try
             {
-                refreshResource(resource, encoding);
+                // avoids additional method call to refreshResource
+                if (resource.requiresChecking())
+                {
+                    /*
+                     * both loadResource() and refreshResource() now return
+                     * a new Resource instance when they are called
+                     * (put in the cache when appropriate) in order to allow
+                     * several threads to parse the same template simultaneously.
+                     * It is redundant work and will cause more garbage collection but the
+                     * benefit is that it allows concurrent parsing and processing
+                     * without race conditions when multiple requests try to
+                     * refresh/load the same template at the same time.
+                     *
+                     * Another alternative is to limit template parsing/retrieval
+                     * so that only one thread can parse each template at a time
+                     * but that creates a scalability bottleneck.
+                     *
+                     * See VELOCITY-606, VELOCITY-595 and VELOCITY-24
+                     */
+                    resource = refreshResource(resource, encoding);
+                }
             }
             catch (ResourceNotFoundException rnfe)
             {
@@ -316,7 +335,7 @@ public class ResourceManagerImpl
             }
             catch (RuntimeException re)
             {
-        	throw re;
+        	    throw re;
             }
             catch (Exception e)
             {
@@ -330,8 +349,7 @@ public class ResourceManagerImpl
             {
                 /*
                  *  it's not in the cache, so load it.
-                 */
-
+                 */    
                 resource = loadResource(resourceName, resourceType, encoding);
 
                 if (resource.getResourceLoader().isCachingOn())
@@ -352,7 +370,7 @@ public class ResourceManagerImpl
             }
             catch (RuntimeException re)
             {
-    		throw re;
+    		    throw re;
             }
             catch (Exception e)
             {
@@ -383,9 +401,7 @@ public class ResourceManagerImpl
             Exception
     {
         Resource resource = ResourceFactory.getResource(resourceName, resourceType);
-
         resource.setRuntimeServices(rsvc);
-
         resource.setName(resourceName);
         resource.setEncoding(encoding);
 
@@ -475,12 +491,11 @@ public class ResourceManagerImpl
      * @throws  ParseErrorException  if template cannot be parsed due to syntax (or other) error.
      * @throws  Exception  if a problem in parse
      */
-    protected void refreshResource(final Resource resource, final String encoding)
+    protected Resource refreshResource(Resource resource, final String encoding)
         throws ResourceNotFoundException,
             ParseErrorException,
             Exception
     {
-
         /*
          * The resource knows whether it needs to be checked
          * or not, and the resource's loader can check to
@@ -489,52 +504,58 @@ public class ResourceManagerImpl
          * the input stream and parse it to make a new
          * AST for the resource.
          */
-        if (resource.requiresChecking())
+            
+        /*
+         *  touch() the resource to reset the counters
+         */
+        resource.touch();
+
+        if (resource.isSourceModified())
         {
             /*
-             *  touch() the resource to reset the counters
+             *  now check encoding info.  It's possible that the newly declared
+             *  encoding is different than the encoding already in the resource
+             *  this strikes me as bad...
              */
 
-            resource.touch();
-
-            if (resource.isSourceModified())
+            if (!org.apache.commons.lang.StringUtils.equals(resource.getEncoding(), encoding))
             {
-                /*
-                 *  now check encoding info.  It's possible that the newly declared
-                 *  encoding is different than the encoding already in the resource
-                 *  this strikes me as bad...
-                 */
-
-                if (!org.apache.commons.lang.StringUtils.equals(resource.getEncoding(), encoding))
-                {
-                    log.warn("Declared encoding for template '" +
+                log.warn("Declared encoding for template '" +
                              resource.getName() +
                              "' is different on reload. Old = '" +
                              resource.getEncoding() + "' New = '" + encoding);
 
-                    resource.setEncoding(encoding);
-                }
-
-                /*
-                 *  read how old the resource is _before_
-                 *  processing (=>reading) it
-                 */
-                long howOldItWas = resource.getResourceLoader().getLastModified(resource);
-
-                /*
-                 *  read in the fresh stream and parse
-                 */
-
-                resource.process();
-
-                /*
-                 *  now set the modification info and reset
-                 *  the modification check counters
-                 */
-
-                resource.setLastModified(howOldItWas);
+                resource.setEncoding(encoding);
             }
+
+            /*
+             *  read how old the resource is _before_
+             *  processing (=>reading) it
+             */
+            long howOldItWas = resource.getResourceLoader().getLastModified(resource);
+
+            String resourceKey = resource.getType() + resource.getName();
+
+            /* 
+             * we create a copy to avoid partially overwriting a
+             * template which may be in use in another thread
+             */ 
+   
+            Resource newResource = 
+                ResourceFactory.getResource(resource.getName(), resource.getType());
+
+            newResource.setRuntimeServices(rsvc);
+            newResource.setName(resource.getName());
+            newResource.setEncoding(resource.getEncoding());
+            newResource.setResourceLoader(resource.getResourceLoader());
+
+            newResource.process();
+            newResource.setLastModified(howOldItWas);
+            resource = newResource;
+
+            globalCache.put(resourceKey, newResource);
         }
+        return resource;
     }
 
     /**
