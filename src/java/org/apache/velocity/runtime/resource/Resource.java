@@ -85,11 +85,6 @@ public abstract class Resource
     protected Object data = null;
 
     /**
-     *  Resource type (RESOURCE_TEMPLATE or RESOURCE_CONTENT)
-     */
-    protected int type;
-
-    /**
      *  Default constructor
      */
     public Resource()
@@ -271,21 +266,5 @@ public abstract class Resource
     public Object getData()
     {
         return data;
-    }
-    
-    /**
-     * Sets the type of this Resource (RESOURCE_TEMPLATE or RESOURCE_CONTENT)
-     */
-    public void setType(int type)
-    {
-        this.type = type;
-    }
-    
-    /**
-     * @return type code of the Resource
-     */
-    public int getType()
-    {
-        return type;
     }
 }

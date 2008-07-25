@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.text.StrBuilder;
+
 import org.apache.velocity.runtime.log.Log;
 
 /**
@@ -39,7 +39,6 @@ import org.apache.velocity.runtime.log.Log;
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
- * @author Nathan Bubna
  * @version $Id$
  */
 public class ClassMap
@@ -73,7 +72,9 @@ public class ClassMap
             log.debug("== Class: " + clazz);
         }
         
-        methodCache = createMethodCache();
+        methodCache = new MethodCache(log);
+        
+        populateMethodCache();
 
         if (debugReflection && log.isDebugEnabled())
         {
@@ -110,11 +111,10 @@ public class ClassMap
      * are taken from all the public methods
      * that our class, its parents and their implemented interfaces provide.
      */
-    private MethodCache createMethodCache()
+    private void populateMethodCache()
     {
-        MethodCache methodCache = new MethodCache(log);
 	//
-	// Looks through all elements in the class hierarchy. This one is bottom-first (i.e. we start
+	// Build a list of all elements in the class hierarchy. This one is bottom-first (i.e. we start
 	// with the actual declaring class and its interfaces and then move up (superclass etc.) until we
 	// hit java.lang.Object. That is important because it will give us the methods of the declaring class
 	// which might in turn be abstract further up the tree.
@@ -126,60 +126,70 @@ public class ClassMap
 	// until Velocity 1.4. As we always reflect all elements of the tree (that's what we have a cache for), we will
 	// hit the public elements sooner or later because we reflect all the public elements anyway.
 	//
+        List classesToReflect = new ArrayList();
+        
         // Ah, the miracles of Java for(;;) ... 
         for (Class classToReflect = getCachedClass(); classToReflect != null ; classToReflect = classToReflect.getSuperclass())
         {
             if (Modifier.isPublic(classToReflect.getModifiers()))
             {
-                populateMethodCacheWith(methodCache, classToReflect);
+                classesToReflect.add(classToReflect);
+                if (debugReflection && log.isDebugEnabled())
+                {
+                    log.debug("Adding " + classToReflect + " for reflection");
+                }
             }
             Class [] interfaces = classToReflect.getInterfaces();
             for (int i = 0; i < interfaces.length; i++)
             {
                 if (Modifier.isPublic(interfaces[i].getModifiers()))
                 {
-                    populateMethodCacheWith(methodCache, interfaces[i]);
-                }
-            }
-        }
-        // return the already initialized cache
-        return methodCache;
-    }
-
-    private void populateMethodCacheWith(MethodCache methodCache, Class classToReflect)
-    {
-        if (debugReflection && log.isDebugEnabled())
-        {
-            log.debug("Reflecting " + classToReflect);
-        }
-
-        try
-        {
-            Method[] methods = classToReflect.getDeclaredMethods();
-
-            for (int i = 0; i < methods.length; i++)
-            {
-                // Strictly spoken that check shouldn't be necessary
-                // because getMethods only returns public methods.
-                int modifiers = methods[i].getModifiers();
-                if (Modifier.isPublic(modifiers)) //  && !)
-                {
-                    // Some of the interfaces contain abstract methods. That is fine, because the actual object must 
-                    // implement them anyway (else it wouldn't be implementing the interface). If we find an abstract
-                    // method in a non-interface, we skip it, because we do want to make sure that no abstract methods end up in
-                    // the cache.                       
-                    if (classToReflect.isInterface() || !Modifier.isAbstract(modifiers))
+                    classesToReflect.add(interfaces[i]);
+                    if (debugReflection && log.isDebugEnabled())
                     {
-                        methodCache.put(methods[i]);
+                        log.debug("Adding " + interfaces[i] + " for reflection");
                     }
                 }
             }
         }
-        catch (SecurityException se) // Everybody feels better with...
+
+        for (Iterator it = classesToReflect.iterator(); it.hasNext(); )
         {
-            if (log.isDebugEnabled())
+            Class classToReflect = (Class) it.next();
+            if (debugReflection && log.isDebugEnabled())
             {
-                log.debug("While accessing methods of " + classToReflect + ": ", se);
+                log.debug("Reflecting " + classToReflect);
+            }
+            
+
+            try
+            {
+                Method[] methods = classToReflect.getMethods();
+
+                for (int i = 0; i < methods.length; i++)
+                {
+                    // Strictly spoken that check shouldn't be necessary
+                    // because getMethods only returns public methods.
+                    int modifiers = methods[i].getModifiers();
+                    if (Modifier.isPublic(modifiers)) //  && !)
+            	    {
+                        // Some of the interfaces contain abstract methods. That is fine, because the actual object must 
+                        // implement them anyway (else it wouldn't be implementing the interface). If we find an abstract
+                        // method in a non-interface, we skip it, because we do want to make sure that no abstract methods end up in
+                        // the cache.                       
+                        if (classToReflect.isInterface() || !Modifier.isAbstract(modifiers))
+                        {
+                            methodCache.put(methods[i]);
+                        }
+                    }
+                }
+            }
+            catch (SecurityException se) // Everybody feels better with...
+            {
+                if (log.isDebugEnabled())
+                {
+                    log.debug("While accessing methods of " + classToReflect + ": ", se);
+                }
             }
         }
     }
@@ -192,9 +202,11 @@ public class ClassMap
      */
     private static final class MethodCache
     {
-        private static final Object CACHE_MISS = new Object();
+        private static final class CacheMiss { }
+        
+        private static final CacheMiss CACHE_MISS = new CacheMiss();
 
-        private static final String NULL_ARG = new Object().getClass().getName();
+        private static final Object OBJECT = new Object();
 
         private static final Map convertPrimitives = new HashMap();
 
@@ -218,7 +230,6 @@ public class ClassMap
          * name and actual arguments used to find it.
          */
         private final Map cache = new HashMap();
-        private final Map locks = new HashMap();
 
         /** Map of methods that are searchable according to method parameters to find a match */
         private final MethodMap methodMap = new MethodMap();
@@ -244,55 +255,52 @@ public class ClassMap
          * @return A Method object representing the method to invoke or null.
          * @throws MethodMap.AmbiguousException When more than one method is a match for the parameters.
          */
-        public Method get(final String name, final Object [] params)
+        public synchronized Method get(final String name, final Object [] params)
                 throws MethodMap.AmbiguousException
         {
-            String methodKey = getLock(makeMethodKey(name, params));
+            String methodKey = makeMethodKey(name, params);
 
-            synchronized (methodKey)
+            Object cacheEntry = cache.get(methodKey);
+
+            // We looked this up before and failed. 
+            if (cacheEntry == CACHE_MISS)
             {
-                Object cacheEntry = cache.get(methodKey);
-
-                // We looked this up before and failed. 
-                if (cacheEntry == CACHE_MISS)
-                {
-                    return null;
-                }
-
-                if (cacheEntry == null)
-                {
-                    try
-                    {
-                        // That one is expensive...
-                        cacheEntry = methodMap.find(name, params);
-                    }
-                    catch(MethodMap.AmbiguousException ae)
-                    {
-                        /*
-                         *  that's a miss :-)
-                         */
-                        cache.put(methodKey, CACHE_MISS);
-                        throw ae;
-                    }
-
-                    cache.put(methodKey, 
-                            (cacheEntry != null) ? cacheEntry : CACHE_MISS);
-                }
-
-                // Yes, this might just be null.
-
-                return (Method) cacheEntry;
+                return null;
             }
+
+            if (cacheEntry == null)
+            {
+                try
+                {
+                    // That one is expensive...
+                    cacheEntry = methodMap.find(name, params);
+                }
+                catch(MethodMap.AmbiguousException ae)
+                {
+                    /*
+                     *  that's a miss :-)
+                     */
+                    cache.put(methodKey, CACHE_MISS);
+                    throw ae;
+                }
+
+                cache.put(methodKey, 
+                        (cacheEntry != null) ? cacheEntry : CACHE_MISS);
+            }
+
+            // Yes, this might just be null.
+
+            return (Method) cacheEntry;
         }
 
-        private void put(Method method)
+        public synchronized void put(Method method)
         {
             String methodKey = makeMethodKey(method);
-
-            // We don't overwrite methods because we fill the
-            // cache from defined class towards java.lang.Object
-            // and that would cause overridden methods to appear
-            // as if they were not overridden.
+            
+            // We don't overwrite methods. Especially not if we fill the
+            // cache from defined class towards java.lang.Object because 
+            // abstract methods in superclasses would else overwrite concrete
+            // classes further down the hierarchy.
             if (cache.get(methodKey) == null)
             {
                 cache.put(methodKey, method);
@@ -301,18 +309,6 @@ public class ClassMap
                 {
                     log.debug("Adding " + method);
                 }
-            }
-        }
-
-        private final String getLock(String key) {
-            synchronized (locks)
-            {
-                String lock = (String)locks.get(key);
-                if (lock == null)
-                {
-                    return key;
-                }
-                return lock;
             }
         }
 
@@ -327,15 +323,10 @@ public class ClassMap
         private String makeMethodKey(final Method method)
         {
             Class[] parameterTypes = method.getParameterTypes();
-            int args = parameterTypes.length;
-            if (args == 0)
-            {
-                return method.getName();
-            }
 
-            StrBuilder methodKey = new StrBuilder((args+1)*16).append(method.getName());
+            StringBuffer methodKey = new StringBuffer(method.getName());
 
-            for (int j = 0; j < args; j++)
+            for (int j = 0; j < parameterTypes.length; j++)
             {
                 /*
                  * If the argument type is primitive then we want
@@ -362,25 +353,18 @@ public class ClassMap
 
         private String makeMethodKey(String method, Object[] params)
         {
-            int args = params.length;
-            if (args == 0)
-            {
-                return method;
-            }
+            StringBuffer methodKey = new StringBuffer().append(method);
 
-            StrBuilder methodKey = new StrBuilder((args+1)*16).append(method);
-
-            for (int j = 0; j < args; j++)
+            for (int j = 0; j < params.length; j++)
             {
                 Object arg = params[j];
+
                 if (arg == null)
                 {
-                    methodKey.append(NULL_ARG);
+                    arg = OBJECT;
                 }
-                else
-                {
-                    methodKey.append(arg.getClass().getName());
-                }
+
+                methodKey.append(arg.getClass().getName());
             }
 
             return methodKey.toString();
