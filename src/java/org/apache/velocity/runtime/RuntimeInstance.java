@@ -1035,62 +1035,44 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
         }
 
-        SimpleNode ast = null;
         Parser parser = (Parser) parserPool.get();
-
+        boolean keepParser = true;
         if (parser == null)
         {
             /*
-             *  if we couldn't get a parser from the pool
-             *  make one and log it.
+             *  if we couldn't get a parser from the pool make one and log it.
              */
-
             if (log.isInfoEnabled())
             {
                 log.info("Runtime : ran out of parsers. Creating a new one. "
                       + " Please increment the parser.pool.size property."
                       + " The current value is too small.");
             }
-
             parser = createNewParser();
-
+            keepParser = false;
         }
 
-        /*
-         *  now, if we have a parser
-         */
-
-        if (parser != null)
+        try
         {
-            try
+            /*
+             *  dump namespace if we are told to.  Generally, you want to
+             *  do this - you don't in special circumstances, such as
+             *  when a VM is getting init()-ed & parsed
+             */
+            if (dumpNamespace)
             {
-                /*
-                 *  dump namespace if we are told to.  Generally, you want to
-                 *  do this - you don't in special circumstances, such as
-                 *  when a VM is getting init()-ed & parsed
-                 */
-
-                if (dumpNamespace)
-                {
-                    dumpVMNamespace(templateName);
-                }
-
-                ast = parser.parse(reader, templateName);
+                dumpVMNamespace(templateName);
             }
-            finally
+            return parser.parse(reader, templateName);
+        }
+        finally
+        {
+            if (keepParser)
             {
-                /*
-                 *  put it back
-                 */
                 parserPool.put(parser);
-
             }
+
         }
-        else
-        {
-            log.error("Runtime : ran out of parsers and unable to create more.");
-        }
-        return ast;
     }
 
     /**
