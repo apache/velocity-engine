@@ -484,22 +484,19 @@ public class VelocimacroFactory
      */
     public Directive getVelocimacro(String vmName, String sourceTemplate)
     {
-        VelocimacroProxy vp = null;
-
-        synchronized(this)
+        VelocimacroProxy vp = vmManager.get(vmName, sourceTemplate);
+        if (vp == null)
         {
-            /*
-             *  don't ask - do
-             */
+            return null;
+        }
 
-            vp = vmManager.get(vmName, sourceTemplate);
-
+        synchronized(vp)
+        {
             /*
              *  if this exists, and autoload is on, we need to check
              *  where this VM came from
              */
-
-            if (vp != null && getAutoload())
+            if (getAutoload())
             {
                 /*
                  *  see if this VM came from a library.  Need to pass sourceTemplate
