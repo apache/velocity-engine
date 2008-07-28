@@ -160,6 +160,31 @@ public class VelocimacroManager
     }
 
     /**
+     * determines if such a macro exists
+     * @param vmName Name of the Velocitymacro to look up.
+     * @param namespace Namespace in which to look up the macro.
+     */
+    public boolean has(final String vmName, final String namespace)
+    {
+        if (usingNamespaces(namespace))
+        {
+            Hashtable local = getNamespace(namespace, false);
+            if (local != null)
+            {
+                if (local.containsKey(vmName))
+                {
+                    return true;
+                }
+            }
+        }
+        if (globalNamespace.containsKey(vmName))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * gets a new living VelocimacroProxy object by the
      * name / source template duple
      * @param vmName Name of the VelocityMacro to look up.

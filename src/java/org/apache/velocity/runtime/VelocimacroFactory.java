@@ -464,14 +464,8 @@ public class VelocimacroFactory
     {
         synchronized(this)
         {
-            /*
-             * first we check the locals to see if we have
-             * a local definition for this template
-             */
-            if (vmManager.get(vm, sourceTemplate) != null)
-                return true;
+            return vmManager.has(vm, sourceTemplate);
         }
-        return false;
     }
 
     /**
