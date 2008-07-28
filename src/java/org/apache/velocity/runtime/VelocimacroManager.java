@@ -19,7 +19,10 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
@@ -51,9 +54,11 @@ public class VelocimacroManager
 
     /** Hash of namespace hashes. */
     private final Hashtable namespaceHash = new Hashtable();
+    /** reference to global namespace */
+    private final Hashtable globalNamespace;
 
     /** map of names of library tempates/namespaces */
-    private final Hashtable libraryMap = new Hashtable();
+    private final Set libraries = Collections.synchronizedSet(new HashSet());
 
     /*
      * big switch for namespaces.  If true, then properties control
@@ -73,7 +78,7 @@ public class VelocimacroManager
          *  add the global namespace to the namespace hash. We always have that.
          */
 
-        addNamespace(GLOBAL_NAMESPACE);
+        globalNamespace = addNamespace(GLOBAL_NAMESPACE);
     }
 
     /**
@@ -103,7 +108,7 @@ public class VelocimacroManager
 
         if (registerFromLib)
         {
-           libraryMap.put(namespace, namespace);
+           libraries.add(namespace);
         }
         else
         {
@@ -115,7 +120,7 @@ public class VelocimacroManager
              *  global
              */
 
-            isLib = libraryMap.containsKey(namespace);
+            isLib = libraries.contains(namespace);
         }
 
         if (!isLib && usingNamespaces(namespace))
@@ -137,7 +142,7 @@ public class VelocimacroManager
              *  already have it to preserve some of the autoload information
              */
 
-            MacroEntry exist = (MacroEntry) getNamespace(GLOBAL_NAMESPACE).get(vmName);
+            MacroEntry exist = (MacroEntry) globalNamespace.get(vmName);
 
             if (exist != null)
             {
@@ -148,7 +153,7 @@ public class VelocimacroManager
              *  now add it
              */
 
-            getNamespace(GLOBAL_NAMESPACE).put(vmName, me);
+            globalNamespace.put(vmName, me);
 
             return true;
         }
@@ -188,7 +193,7 @@ public class VelocimacroManager
          * if it's in the global namespace
          */
 
-        MacroEntry me = (MacroEntry) getNamespace(GLOBAL_NAMESPACE).get( vmName );
+        MacroEntry me = (MacroEntry) globalNamespace.get( vmName );
 
         if (me != null)
         {
@@ -385,7 +390,7 @@ public class VelocimacroManager
          * if it's in the global namespace
          */
 
-        MacroEntry me = (MacroEntry) getNamespace(GLOBAL_NAMESPACE).get(vmName);
+        MacroEntry me = (MacroEntry) globalNamespace.get(vmName);
 
         if (me != null)
         {
