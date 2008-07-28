@@ -100,9 +100,17 @@ public class MacroForwardDefineTestCase
 
         template.merge(context, new StringWriter());
 
-        if ( !isMatch(logger.getLog(), COMPARE_DIR, "velocity.log", "cmp"))
+        String resultLog = logger.getLog();
+        if ( !isMatch(resultLog, COMPARE_DIR, "velocity.log", "cmp"))
         {
-            fail("Output incorrect.");
+            String compare = getFileContents(COMPARE_DIR, "velocity.log", CMP_FILE_EXT);
+
+            String msg = "Log output was incorrect\n"+
+                "-----Result-----\n"+ resultLog +
+                "----Expected----\n"+ compare +
+                "----------------";
+
+            fail(msg);
         }
     }
 }

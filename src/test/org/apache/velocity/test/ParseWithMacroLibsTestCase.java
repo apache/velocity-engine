@@ -156,7 +156,15 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         if (!isMatch(RESULT_DIR, COMPARE_DIR, outputBaseFileName,
                 RESULT_FILE_EXT,CMP_FILE_EXT))
         {
-            fail("Processed template did not match expected output");
+            String result = getFileContents(RESULT_DIR, outputBaseFileName, RESULT_FILE_EXT);
+            String compare = getFileContents(COMPARE_DIR, outputBaseFileName, CMP_FILE_EXT);
+
+            String msg = "Processed template did not match expected output\n"+
+                "-----Result-----\n"+ result +
+                "----Expected----\n"+ compare +
+                "----------------";
+            
+            fail(msg);
         }
 
         /*
