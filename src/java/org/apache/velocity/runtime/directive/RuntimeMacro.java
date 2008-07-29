@@ -179,70 +179,48 @@ public class RuntimeMacro extends Directive
             throws IOException, ResourceNotFoundException,
             ParseErrorException, MethodInvocationException
     {
-        VelocimacroProxy vmProxy = null;
-        
-        /**
-         * first look in the source template
-         */
-        Object o = rsvc.getVelocimacro(macroName, sourceTemplate);
-        if (o != null && o instanceof VelocimacroProxy)
-        {
-            vmProxy = (VelocimacroProxy)o;
-        }
-
-        /**
-         * if not found, look in the macro libraries.
-         */
+        VelocimacroProxy vmProxy = getProxy(context);
         if (vmProxy == null)
         {
-            List macroLibraries = context.getMacroLibraries();
-            if (macroLibraries != null)
-            {
-                for (int i = macroLibraries.size() - 1; i >= 0; i--)
-                {
-                    o = rsvc.getVelocimacro(macroName,
-                            (String)macroLibraries.get(i));
-
-                    /**
-                     * Get the first matching macro
-                     */
-                    if (o != null && o instanceof VelocimacroProxy)
-                    {
-                        vmProxy = (VelocimacroProxy) o;
-                        break;
-                    }
-                }
-            }
+            /**
+             * If we cannot find an implementation write the literal text
+             */
+            writer.write(literal);
+            return true;
         }
 
-        if (vmProxy != null)
+        /**
+         * init and render the proxy
+         * is the init call always necessary?
+         * if so, why are we using this.context instead of context?
+         */
+        synchronized (vmProxy)
         {
-            /**
-             * initialize the macro if necessary
-             */
             try
             {
-                synchronized (vmProxy)
-                {
-                    vmProxy.init(rsvc, this.context, this.node);
-                    /**
-                     * render it
-                     */
-                    return vmProxy.render(context, writer, node);
-                }
+                vmProxy.init(rsvc, this.context, this.node);
             }
             catch (TemplateInitException die)
             {
-                Info info = new Info( sourceTemplate, node.getLine(), node.getColumn() );
-
+                Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
                 throw new ParseErrorException(die.getMessage(), info);
             }
+            return vmProxy.render(context, writer, node);
         }
-
-        /**
-         * If we cannot find an implementation write the literal text
-         */
-        writer.write(literal);
-        return true;
     }
+
+    private VelocimacroProxy getProxy(InternalContextAdapter context)
+    {
+        Object vm = rsvc.getVelocimacro(macroName, sourceTemplate);
+        if (vm == null && context.getMacroLibraries() != null)
+        {
+            List libs = context.getMacroLibraries();
+            for (int i = libs.size()-1; vm == null && i >= 0; i--)
+            {
+                vm = rsvc.getVelocimacro(macroName, (String)libs.get(i));
+            }
+        }
+        return (VelocimacroProxy)vm;
+    }
+
 }
