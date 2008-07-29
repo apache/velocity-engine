@@ -62,7 +62,7 @@ public final class IntrospectorCacheImpl
      */
     public IntrospectorCacheImpl(final Log log)
     {
-	this.log = log;
+	    this.log = log;
     }
 
     /**
@@ -145,7 +145,7 @@ public final class IntrospectorCacheImpl
      *
      * @param listener A Cache listener object.
      */
-    public void addListener(final IntrospectorCacheListener listener)
+    public synchronized void addListener(final IntrospectorCacheListener listener)
     {
         listeners.add(listener);
     }
@@ -155,7 +155,7 @@ public final class IntrospectorCacheImpl
      *
      * @param listener A Cache listener object.
      */
-    public void removeListener(final IntrospectorCacheListener listener)
+    public synchronized void removeListener(final IntrospectorCacheListener listener)
     {
         listeners.remove(listener);
     }
