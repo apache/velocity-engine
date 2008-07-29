@@ -247,7 +247,9 @@ public class ClassMap
         public Method get(final String name, final Object [] params)
                 throws MethodMap.AmbiguousException
         {
-            Object cacheEntry = cache.get(makeMethodKey(name, params));
+            String methodKey = makeMethodKey(name, params);
+
+            Object cacheEntry = cache.get(methodKey);
             if (cacheEntry == CACHE_MISS)
             {
                 // We looked this up before and failed. 
