@@ -96,18 +96,12 @@ public abstract class IntrospectorBase
             throw new IllegalArgumentException("params object is null!");
         }
 
-        ClassMap classMap = null;
-
         IntrospectorCache ic = getIntrospectorCache();
-        
-        synchronized(ic)
-        {
-            classMap = ic.get(c);
 
-            if (classMap == null)
-            {
-                classMap = ic.put(c);
-            }
+        ClassMap classMap = ic.get(c);
+        if (classMap == null)
+        {
+            classMap = ic.put(c);
         }
 
         return classMap.findMethod(name, params);
