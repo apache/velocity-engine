@@ -33,9 +33,14 @@ import org.apache.velocity.runtime.log.Log;
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
-public final class IntrospectorCacheImpl
-        implements IntrospectorCache
+public final class IntrospectorCacheImpl implements IntrospectorCache
 {
+    /**
+     * define a public string so that it can be looked for if interested
+     */
+    public final static String CACHEDUMP_MSG =
+        "IntrospectorCache detected classloader change. Dumping cache.";
+
     /** Class logger */
     private final Log log;
     
@@ -53,11 +58,6 @@ public final class IntrospectorCacheImpl
     private final Set classNameCache = new HashSet();
 
     /**
-     * Set of IntrospectorCache Listeners.
-     */
-    private final Set listeners = new HashSet();
-
-    /**
      * C'tor
      */
     public IntrospectorCacheImpl(final Log log)
@@ -68,13 +68,13 @@ public final class IntrospectorCacheImpl
     /**
      * Clears the internal cache.
      */
-    public synchronized void clear()
+    public void clear()
     {
-        classMapCache.clear();
-        classNameCache.clear();
-        for (Iterator it = listeners.iterator(); it.hasNext(); )
+        synchronized (classMapCache)
         {
-            ((IntrospectorCacheListener) it.next()).triggerClear();
+            classMapCache.clear();
+            classNameCache.clear();
+            log.debug(CACHEDUMP_MSG);
         }
     }
 
@@ -86,35 +86,30 @@ public final class IntrospectorCacheImpl
      * @param c The class to look up.
      * @return A ClassMap object or null if it does not exist in the cache.
      */
-    public synchronized ClassMap get(final Class c)
+    public ClassMap get(final Class c)
     {
         if (c == null)
         {
             throw new IllegalArgumentException("class is null!");
         }
 
-        ClassMap classMap = (ClassMap) classMapCache.get(c);
-
-        /*
-         * If we don't have this, check to see if we have it
-         * by name.  if so, then we have an object with the same
-         * name but loaded through a different class loader.
-         * In that case, we will just dump the cache to be sure.
-         */
-        
+        ClassMap classMap = (ClassMap)classMapCache.get(c);
         if (classMap == null)
         {
-            if (classNameCache.contains(c.getName()))
+            /*
+             * check to see if we have it by name.
+             * if so, then we have an object with the same
+             * name but loaded through a different class loader.
+             * In that case, we will just dump the cache to be sure.
+             */
+            synchronized (classMapCache)
             {
-                clear();
+                if (classNameCache.contains(c.getName()))
+                {
+                    clear();
+                }
             }
         }
-
-        for (Iterator it = listeners.iterator(); it.hasNext(); )
-        {
-            ((IntrospectorCacheListener) it.next()).triggerGet(c, classMap);
-        }
-
         return classMap;
     }
 
@@ -126,37 +121,15 @@ public final class IntrospectorCacheImpl
      * @param c The class for which the class map gets generated.
      * @return A ClassMap object.
      */
-    public synchronized ClassMap put(final Class c)
+    public ClassMap put(final Class c)
     {
-        ClassMap classMap = new ClassMap(c, log);
-        classMapCache.put(c, classMap);
-        classNameCache.add(c.getName());
-        
-        for (Iterator it = listeners.iterator(); it.hasNext(); )
+        final ClassMap classMap = new ClassMap(c, log);
+        synchronized (classMapCache)
         {
-            ((IntrospectorCacheListener) it.next()).triggerPut(c, classMap);
+            classMapCache.put(c, classMap);
+            classNameCache.add(c.getName());
         }
-
         return classMap;
     }
 
-    /**
-     * Register a Cache listener.
-     *
-     * @param listener A Cache listener object.
-     */
-    public synchronized void addListener(final IntrospectorCacheListener listener)
-    {
-        listeners.add(listener);
-    }
-
-    /**
-     * Remove a Cache listener.
-     *
-     * @param listener A Cache listener object.
-     */
-    public synchronized void removeListener(final IntrospectorCacheListener listener)
-    {
-        listeners.remove(listener);
-    }
 }

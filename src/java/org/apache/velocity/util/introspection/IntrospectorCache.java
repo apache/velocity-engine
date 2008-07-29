@@ -52,18 +52,4 @@ public interface IntrospectorCache {
      */
     ClassMap put(Class c);
 
-    /**
-     * Register a Cache listener.
-     *
-     * @param listener A Cache listener object.
-     */
-    void addListener(IntrospectorCacheListener listener);
-
-    /**
-     * Remove a Cache listener.
-     *
-     * @param listener A Cache listener object.
-     */
-    void removeListener(IntrospectorCacheListener listener);
-
 }

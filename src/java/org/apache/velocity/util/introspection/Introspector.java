@@ -57,14 +57,6 @@ import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 public class Introspector extends IntrospectorBase
 {
     /**
-     *  define a public string so that it can be looked for
-     *  if interested
-     */
-
-    public final static String CACHEDUMP_MSG =
-        "Introspector: detected classloader change. Dumping cache.";
-
-    /**
      * @param log A Log object to use for the introspector.
      */
     public Introspector(final Log log)
@@ -136,12 +128,4 @@ public class Introspector extends IntrospectorBase
         return null;
     }
 
-    /**
-     * Logs that the Introspector Cache has been cleared.
-     */
-    public void triggerClear()
-    {
-        super.triggerClear();
-        log.debug(CACHEDUMP_MSG);
-    }
 }
