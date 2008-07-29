@@ -31,7 +31,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.LogChute;
-import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.util.introspection.IntrospectorCacheImpl;
 
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.
@@ -143,7 +143,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogChute
      */
     public void log(int level, String message)
     {
-        if (message.equals( Introspector.CACHEDUMP_MSG) )
+        if (message.equals( IntrospectorCacheImpl.CACHEDUMP_MSG) )
         {
             sawCacheDump = true;
         }
