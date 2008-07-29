@@ -247,42 +247,35 @@ public class ClassMap
         public Method get(final String name, final Object [] params)
                 throws MethodMap.AmbiguousException
         {
-            String methodKey = getLock(makeMethodKey(name, params));
-
-            synchronized (methodKey)
+            Object cacheEntry = cache.get(makeMethodKey(name, params));
+            if (cacheEntry == CACHE_MISS)
             {
-                Object cacheEntry = cache.get(methodKey);
-
                 // We looked this up before and failed. 
-                if (cacheEntry == CACHE_MISS)
-                {
-                    return null;
-                }
-
-                if (cacheEntry == null)
-                {
-                    try
-                    {
-                        // That one is expensive...
-                        cacheEntry = methodMap.find(name, params);
-                    }
-                    catch(MethodMap.AmbiguousException ae)
-                    {
-                        /*
-                         *  that's a miss :-)
-                         */
-                        cache.put(methodKey, CACHE_MISS);
-                        throw ae;
-                    }
-
-                    cache.put(methodKey, 
-                            (cacheEntry != null) ? cacheEntry : CACHE_MISS);
-                }
-
-                // Yes, this might just be null.
-
-                return (Method) cacheEntry;
+                return null;
             }
+
+            if (cacheEntry == null)
+            {
+                try
+                {
+                    // That one is expensive...
+                    cacheEntry = methodMap.find(name, params);
+                }
+                catch(MethodMap.AmbiguousException ae)
+                {
+                    /*
+                     *  that's a miss :-)
+                     */
+                    cache.put(methodKey, CACHE_MISS);
+                    throw ae;
+                }
+
+                cache.put(methodKey, 
+                        (cacheEntry != null) ? cacheEntry : CACHE_MISS);
+            }
+
+            // Yes, this might just be null.
+            return (Method) cacheEntry;
         }
 
         private void put(Method method)
@@ -301,18 +294,6 @@ public class ClassMap
                 {
                     log.debug("Adding " + method);
                 }
-            }
-        }
-
-        private final String getLock(String key) {
-            synchronized (locks)
-            {
-                String lock = (String)locks.get(key);
-                if (lock == null)
-                {
-                    return key;
-                }
-                return lock;
             }
         }
 
