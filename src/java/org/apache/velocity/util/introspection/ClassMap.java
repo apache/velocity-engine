@@ -218,7 +218,6 @@ public class ClassMap
          * name and actual arguments used to find it.
          */
         private final Map cache = new HashMap();
-        private final Map locks = new HashMap();
 
         /** Map of methods that are searchable according to method parameters to find a match */
         private final MethodMap methodMap = new MethodMap();
