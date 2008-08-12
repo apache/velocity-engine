@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -184,7 +185,7 @@ public class ASTStringLiteral extends SimpleNode
         int u = string.indexOf("\\u");
         if (u < 0) return string;
 
-        StringBuffer result = new StringBuffer();
+        StrBuilder result = new StrBuilder();
         
         int lastCopied = 0;
 
