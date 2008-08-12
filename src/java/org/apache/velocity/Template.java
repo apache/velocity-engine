@@ -37,6 +37,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.runtime.resource.ResourceManager;
 
 /**
  * This class is used for controlling all template
@@ -67,6 +68,9 @@ public class Template extends Resource
     /** Default constructor */
     public Template()
     {
+        super();
+        
+        setType(ResourceManager.RESOURCE_TEMPLATE);
     }
 
     /**
@@ -117,7 +121,6 @@ public class Template extends Resource
             try
             {
                 BufferedReader br = new BufferedReader( new InputStreamReader( is, encoding ) );
-
                 data = rsvc.parse( br, name);
                 initDocument();
                 return true;
@@ -148,7 +151,7 @@ public class Template extends Resource
              */
             catch( RuntimeException e )
             {
-                throw e;
+                throw new RuntimeException("Exception thrown processing Template "+getName(), e);
             }
             finally
             {
@@ -346,6 +349,3 @@ public class Template extends Resource
         }
     }
 }
-
-
-
