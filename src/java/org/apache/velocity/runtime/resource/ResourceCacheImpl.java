@@ -20,6 +20,7 @@ package org.apache.velocity.runtime.resource;
  */
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Iterator;
@@ -27,6 +28,7 @@ import java.util.Iterator;
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.MapFactory;
 
 /**
  * Default implementation of the resource cache for the default
@@ -47,7 +49,7 @@ public class ResourceCacheImpl implements ResourceCache
     /**
      * Cache storage, assumed to be thread-safe.
      */
-    protected Map cache = new Hashtable();
+    protected Map cache = MapFactory.create(512, 0.5f, 30, false);
 
     /**
      * Runtime services, generally initialized by the
@@ -72,7 +74,8 @@ public class ResourceCacheImpl implements ResourceCache
             lruCache.putAll(cache);
             cache = lruCache;
         }
-        rsvc.getLog().debug("ResourceCache: initialized ("+this.getClass()+')');
+        rsvc.getLog().debug("ResourceCache: initialized ("+this.getClass()+") with "+
+               cache.getClass()+" cache map.");
     }
 
     /**
@@ -107,3 +110,4 @@ public class ResourceCacheImpl implements ResourceCache
         return cache.keySet().iterator();
     }
 }
+
