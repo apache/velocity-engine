@@ -70,7 +70,8 @@ public class ASTOrNode extends SimpleNode
         throws MethodInvocationException
     {
         // TODO: JDK 1.4+ -> valueOf()
-        return new Boolean(evaluate(context));
+        // return new Boolean(evaluate(context));
+        return evaluate(context) ? Boolean.TRUE : Boolean.FALSE;
     }
 
     /**

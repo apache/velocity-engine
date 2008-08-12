@@ -87,7 +87,8 @@ public interface NullSetEventHandler extends EventHandler
 
         public Object getReturnValue()
         {            
-            return new Boolean(result);
+            // return new Boolean(result);
+            return result ? Boolean.TRUE : Boolean.FALSE;
         }
 
         public boolean isDone()
