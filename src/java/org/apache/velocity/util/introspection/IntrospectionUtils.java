@@ -19,14 +19,6 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 /**
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
