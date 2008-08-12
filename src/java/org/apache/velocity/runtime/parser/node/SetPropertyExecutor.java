@@ -22,6 +22,7 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.util.introspection.Introspector;
 
@@ -78,7 +79,7 @@ public class SetPropertyExecutor
 
         try
         {
-            StringBuffer sb = new StringBuffer("set");
+            StrBuilder sb = new StrBuilder("set");
             sb.append(property);
 
             setMethod(introspector.getMethod(clazz, sb.toString(), params));
