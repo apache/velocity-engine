@@ -43,6 +43,8 @@ public class EventHandlerUtil {
     /**
      * Called before a reference is inserted. All event handlers are called in
      * sequence. The default implementation inserts the reference as is.
+     * 
+     * This is a major hotspot method called by ASTReference render.
      *
      * @param reference reference from template about to be inserted
      * @param value value about to be inserted (after toString() )
@@ -54,6 +56,12 @@ public class EventHandlerUtil {
             InternalContextAdapter context, String reference, Object value)
     {
         // app level cartridges have already been initialized
+        
+        /*
+         * Performance modification: EventCartridge.getReferenceInsertionEventHandlers
+         * now returns a null if there are no handlers. Thus we can avoid creating the
+         * Iterator object.
+         */
         EventCartridge ev1 = rsvc.getApplicationEventCartridge();
         Iterator applicationEventHandlerIterator = 
             (ev1 == null) ? null: ev1.getReferenceInsertionEventHandlers();              
@@ -65,14 +73,31 @@ public class EventHandlerUtil {
         
         try 
         {
-            EventHandlerMethodExecutor methodExecutor = 
-                new ReferenceInsertionEventHandler.referenceInsertExecutor(context, reference, value);
-
-            callEventHandlers(
-                    applicationEventHandlerIterator, 
-                    contextEventHandlerIterator, methodExecutor);
+            /*
+             * Performance modification: methodExecutor is created only if one of the
+             * iterators is not null.
+             */
             
-            return methodExecutor.getReturnValue();   
+            EventHandlerMethodExecutor methodExecutor = null; 
+
+            if( applicationEventHandlerIterator != null )
+            {
+                methodExecutor = 
+                    new ReferenceInsertionEventHandler.referenceInsertExecutor(context, reference, value);
+                iterateOverEventHandlers(applicationEventHandlerIterator, methodExecutor);
+            }
+
+            if( contextEventHandlerIterator != null )
+            {
+                if( methodExecutor == null )
+                    methodExecutor = 
+                        new ReferenceInsertionEventHandler.referenceInsertExecutor(context, reference, value);
+                    
+                iterateOverEventHandlers(contextEventHandlerIterator, methodExecutor);
+            }
+
+            
+            return methodExecutor != null ? methodExecutor.getReturnValue() : value;   
         }
         catch (RuntimeException e)
         {
@@ -83,7 +108,7 @@ public class EventHandlerUtil {
             throw ExceptionUtils.createRuntimeException("Exception in event handler.",e);
         }
     }
-    
+
     /**
      * Called when a null is evaluated during a #set. All event handlers are
      * called in sequence until a false is returned. The default implementation

@@ -204,11 +204,11 @@ public class EventCartridge
     /**
      * Iterate through all the stored ReferenceInsertionEventHandler objects
      * 
-     * @return iterator of handler objects
+     * @return iterator of handler objects, null if there are not handlers
      */
     public Iterator getReferenceInsertionEventHandlers()
     {
-        return referenceHandlers.iterator();
+        return referenceHandlers.size() == 0 ? null : referenceHandlers.iterator();
     }
 
     /**
