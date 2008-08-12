@@ -504,7 +504,7 @@ public class ResourceManagerImpl
          * the input stream and parse it to make a new
          * AST for the resource.
          */
-            
+
         /*
          *  touch() the resource to reset the counters
          */
@@ -540,7 +540,7 @@ public class ResourceManagerImpl
              * we create a copy to avoid partially overwriting a
              * template which may be in use in another thread
              */ 
-   
+
             Resource newResource = 
                 ResourceFactory.getResource(resource.getName(), resource.getType());
 
@@ -548,6 +548,7 @@ public class ResourceManagerImpl
             newResource.setName(resource.getName());
             newResource.setEncoding(resource.getEncoding());
             newResource.setResourceLoader(resource.getResourceLoader());
+            newResource.setModificationCheckInterval(resource.getResourceLoader().getModificationCheckInterval());
 
             newResource.process();
             newResource.setLastModified(howOldItWas);

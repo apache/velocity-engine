@@ -41,6 +41,9 @@ public class ContentResource extends Resource
     /** Default empty constructor */
     public ContentResource()
     {
+        super();
+        
+        setType(ResourceManager.RESOURCE_CONTENT);
     }
 
     /**
