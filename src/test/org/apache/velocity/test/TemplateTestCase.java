@@ -211,7 +211,8 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         if (!isMatch(RESULT_DIR,COMPARE_DIR,baseFileName,
                 RESULT_FILE_EXT,CMP_FILE_EXT))
         {
-            fail("Processed template did not match expected output");
+            fail("Processed template "+getFileName(
+                RESULT_DIR, baseFileName, RESULT_FILE_EXT)+" did not match expected output");
         }
     }
 }
