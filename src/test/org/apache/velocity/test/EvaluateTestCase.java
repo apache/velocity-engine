@@ -302,7 +302,15 @@ public class EvaluateTestCase extends BaseTestCase
         
         if (!isMatch(RESULTS_DIR, COMPARE_DIR, basefilename, RESULT_FILE_EXT, CMP_FILE_EXT))
         {
-            fail("Output incorrect.");
+            String result = getFileContents(RESULTS_DIR, basefilename, RESULT_FILE_EXT);
+            String compare = getFileContents(COMPARE_DIR, basefilename, CMP_FILE_EXT);
+
+            String msg = "Output was incorrect\n"+
+                "-----Result-----\n"+ result +
+                "----Expected----\n"+ compare +
+                "----------------";
+            
+            fail(msg);
         }
     }
         
