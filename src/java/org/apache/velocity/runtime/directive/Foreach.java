@@ -178,6 +178,7 @@ public class Foreach extends Directive
 
         /**
          * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentMacroName(java.lang.String)
+         * @since 1.6
          */
         public void pushCurrentMacroName( String s )
         {
@@ -186,6 +187,7 @@ public class Foreach extends Directive
 
         /**
          * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentMacroName()
+         * @since 1.6
          */
         public void popCurrentMacroName()
         {
@@ -194,6 +196,7 @@ public class Foreach extends Directive
 
         /**
          * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroName()
+         * @since 1.6
          */
         public String getCurrentMacroName()
         {
@@ -202,6 +205,7 @@ public class Foreach extends Directive
 
         /**
          * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroCallDepth()
+         * @since 1.6
          */
         public int getCurrentMacroCallDepth()
         {
@@ -210,6 +214,7 @@ public class Foreach extends Directive
 
         /**
          * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
+         * @since 1.6
          */
         public Object[] getMacroNameStack()
         {
@@ -300,6 +305,7 @@ public class Foreach extends Directive
 
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#setMacroLibraries(List)
+         * @since 1.6
          */
         public void setMacroLibraries(List macroLibraries)
         {
@@ -308,6 +314,7 @@ public class Foreach extends Directive
 
         /**
          * @see org.apache.velocity.context.InternalContextAdapter#getMacroLibraries() 
+         * @since 1.6
          */
         public List getMacroLibraries()
         {

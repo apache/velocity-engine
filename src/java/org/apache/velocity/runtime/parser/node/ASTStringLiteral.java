@@ -180,6 +180,9 @@ public class ASTStringLiteral extends SimpleNode
         return data;
     }
 
+    /**
+     * @since 1.6
+     */
     public static String unescape(final String string)
     {
         int u = string.indexOf("\\u");
@@ -222,6 +225,7 @@ public class ASTStringLiteral extends SimpleNode
     /**
      * Check to see if this is an interpolated string.
      * @return true if this is constant (not an interpolated string)
+     * @since 1.6
      */
     public boolean isConstant()
     {

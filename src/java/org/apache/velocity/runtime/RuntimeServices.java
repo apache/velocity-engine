@@ -153,6 +153,7 @@ public interface RuntimeServices extends RuntimeLogger
     /**
      * Wraps the String in a StringReader and passes it off to
      * {@link #parse(Reader,String)}.
+     * @since 1.6
      */
     public SimpleNode parse(String string, String templateName)
         throws ParseException;
@@ -249,6 +250,7 @@ public interface RuntimeServices extends RuntimeLogger
      * @param writer  Writer for output stream
      * @return true if Velocimacro exists and successfully invoked, false otherwise.
      * @throws IOException While rendering to the writer, an I/O problem occured.
+     * @since 1.6
      */
     public boolean invokeVelocimacro(final String vmName, String logTag,
                                      String[] params, final Context context,
@@ -521,7 +523,8 @@ public interface RuntimeServices extends RuntimeLogger
     /**
      * Retrieve a previously instantiated directive.
      * @param name name of the directive
-     * @return
+     * @return the directive with that name, if any
+     * @since 1.6
      */
     public Directive getDirective(String name);
 

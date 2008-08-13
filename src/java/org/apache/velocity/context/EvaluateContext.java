@@ -45,6 +45,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *
  *  @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  *  @version $Id$
+ *  @since 1.6
  */
 public class EvaluateContext implements InternalContextAdapter
 {

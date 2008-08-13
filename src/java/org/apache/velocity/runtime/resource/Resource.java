@@ -275,6 +275,7 @@ public abstract class Resource
     
     /**
      * Sets the type of this Resource (RESOURCE_TEMPLATE or RESOURCE_CONTENT)
+     * @since 1.6
      */
     public void setType(int type)
     {
@@ -283,6 +284,7 @@ public abstract class Resource
     
     /**
      * @return type code of the Resource
+     * @since 1.6
      */
     public int getType()
     {

@@ -186,6 +186,7 @@ public class VelocimacroManager
       * @param namespace Namespace in which to look up the macro.
       * @param renderingTemplate Name of the template we are currently rendering.
       * @return A proxy representing the Macro.
+      * @since 1.6
       */
      public VelocimacroProxy get(final String vmName, final String namespace, final String renderingTemplate)
      {
@@ -440,6 +441,9 @@ public class VelocimacroManager
         return null;
     }
     
+    /**
+     * @since 1.6
+     */
     public void setInlineReplacesGlobal(boolean is)
     {
         inlineReplacesGlobal = is;

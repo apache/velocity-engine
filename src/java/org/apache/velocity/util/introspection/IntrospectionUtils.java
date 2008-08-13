@@ -28,6 +28,7 @@ package org.apache.velocity.util.introspection;
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author Nathan Bubna
  * @version $Id: IntrospectionUtils.java 476785 2006-11-19 10:06:21Z henning $
+ * @since 1.6
  */
 public class IntrospectionUtils
 {
