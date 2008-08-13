@@ -65,7 +65,8 @@ public class ASTObjectArray extends SimpleNode
     {
         int size = jjtGetNumChildren();
 
-        List objectArray = new ArrayList();
+        // since we know the amount of elements, initialize arraylist with proper size
+        List objectArray = new ArrayList(size);
 
         for (int i = 0; i < size; i++)
         {

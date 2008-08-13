@@ -247,16 +247,19 @@ public class Parser
         String strDirective = strImage.substring(iLast + 1);
 
         boolean bRecognizedDirective = false;
+        
+        // we don't have to call substring method all the time in this method
+        String dirTag = strDirective.substring(1);
 
         /*
          *  is this a PD or a control directive?
          */
 
-        if ( isDirective( strDirective.substring(1)))
+        if ( isDirective(dirTag) )
         {
            bRecognizedDirective = true;
         }
-        else if ( rsvc.isVelocimacro( strDirective.substring(1), currentTemplateName))
+        else if ( rsvc.isVelocimacro(dirTag, currentTemplateName))
         {
             bRecognizedDirective = true;
         }
@@ -264,12 +267,12 @@ public class Parser
         {
             /* order for speed? */
 
-            if ( strDirective.substring(1).equals("if")
-                || strDirective.substring(1).equals("end")
-                || strDirective.substring(1).equals("set")
-                || strDirective.substring(1).equals("else")
-                || strDirective.substring(1).equals("elseif")
-                || strDirective.substring(1).equals("stop")
+            if ( dirTag.equals("if")
+                || dirTag.equals("end")
+                || dirTag.equals("set")
+                || dirTag.equals("else")
+                || dirTag.equals("elseif")
+                || dirTag.equals("stop")
             )
             {
                 bRecognizedDirective = true;
@@ -1208,10 +1211,11 @@ void Escape() : {}
         /*
          * if that failed, lets lookahead to see if we matched a PD or a VM
          */
+        String nTag = t.next.image.substring(1);
 
-        if ( isDirective( t.next.image.substring(1)))
+        if ( isDirective(nTag) )
             control = true;
-        else if ( rsvc.isVelocimacro( t.next.image.substring(1), currentTemplateName))
+        else if ( rsvc.isVelocimacro(nTag, currentTemplateName))
             control = true;
 
         jjtThis.val = "";
@@ -1341,8 +1345,8 @@ SimpleNode Directive() :
     {
         String directiveName;
         if (t.kind == ParserConstants.BRACKETED_WORD)
-	{
-            directiveName = t.image.substring(2,t.image.length() - 1);
+        {
+            directiveName = t.image.substring(2, t.image.length() - 1);
         }
         else
         {

@@ -171,15 +171,18 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
         boolean bRecognizedDirective = false;
 
+        // we don't have to call substring method all the time in this method
+        String dirTag = strDirective.substring(1);
+
         /*
          *  is this a PD or a control directive?
          */
 
-        if ( isDirective( strDirective.substring(1)))
+        if ( isDirective(dirTag) )
         {
            bRecognizedDirective = true;
         }
-        else if ( rsvc.isVelocimacro( strDirective.substring(1), currentTemplateName))
+        else if ( rsvc.isVelocimacro(dirTag, currentTemplateName))
         {
             bRecognizedDirective = true;
         }
@@ -187,12 +190,12 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         {
             /* order for speed? */
 
-            if ( strDirective.substring(1).equals("if")
-                || strDirective.substring(1).equals("end")
-                || strDirective.substring(1).equals("set")
-                || strDirective.substring(1).equals("else")
-                || strDirective.substring(1).equals("elseif")
-                || strDirective.substring(1).equals("stop")
+            if ( dirTag.equals("if")
+                || dirTag.equals("end")
+                || dirTag.equals("set")
+                || dirTag.equals("else")
+                || dirTag.equals("elseif")
+                || dirTag.equals("stop")
             )
             {
                 bRecognizedDirective = true;
@@ -456,10 +459,11 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         /*
          * if that failed, lets lookahead to see if we matched a PD or a VM
          */
+        String nTag = t.next.image.substring(1);
 
-        if ( isDirective( t.next.image.substring(1)))
+        if ( isDirective(nTag) )
             control = true;
-        else if ( rsvc.isVelocimacro( t.next.image.substring(1), currentTemplateName))
+        else if ( rsvc.isVelocimacro(nTag, currentTemplateName))
             control = true;
 
         jjtn000.val = "";
@@ -680,7 +684,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         String directiveName;
         if (t.kind == ParserConstants.BRACKETED_WORD)
         {
-            directiveName = t.image.substring(2,t.image.length() - 1);
+            directiveName = t.image.substring(2, t.image.length() - 1);
         }
         else
         {
@@ -2576,11 +2580,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     finally { jj_save(11, xla); }
   }
 
-  final private boolean jj_3R_47() {
-    if (jj_3R_60()) return true;
-    return false;
-  }
-
   final private boolean jj_3R_84() {
     if (jj_3R_36()) return true;
     return false;
@@ -2996,11 +2995,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     return false;
   }
 
-  final private boolean jj_3_2() {
-    if (jj_scan_token(DOUBLE_ESCAPE)) return true;
-    return false;
-  }
-
   final private boolean jj_3R_34() {
     if (jj_scan_token(IDENTIFIER)) return true;
     Token xsp;
@@ -3008,6 +3002,11 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
       xsp = jj_scanpos;
       if (jj_3_7()) { jj_scanpos = xsp; break; }
     }
+    return false;
+  }
+
+  final private boolean jj_3_2() {
+    if (jj_scan_token(DOUBLE_ESCAPE)) return true;
     return false;
   }
 
@@ -3202,6 +3201,11 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
 
   final private boolean jj_3R_48() {
     if (jj_3R_36()) return true;
+    return false;
+  }
+
+  final private boolean jj_3R_47() {
+    if (jj_3R_60()) return true;
     return false;
   }
 
@@ -3429,6 +3433,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   final private void jj_rescan_token() {
     jj_rescan = true;
     for (int i = 0; i < 12; i++) {
+    try {
       JJCalls p = jj_2_rtns[i];
       do {
         if (p.gen > jj_gen) {
@@ -3450,6 +3455,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         }
         p = p.next;
       } while (p != null);
+      } catch(LookaheadSuccess ls) { }
     }
     jj_rescan = false;
   }
