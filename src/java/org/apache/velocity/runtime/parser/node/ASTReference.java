@@ -276,8 +276,8 @@ public class ASTReference extends SimpleNode
      * @throws IOException
      * @throws MethodInvocationException
      */
-    public boolean render(InternalContextAdapter context, Writer writer)
-        throws IOException, MethodInvocationException
+    public boolean render(InternalContextAdapter context, Writer writer) throws IOException,
+            MethodInvocationException
     {
 
         if (referenceType == RUNT)
@@ -292,21 +292,25 @@ public class ASTReference extends SimpleNode
 
         Object value = execute(null, context);
 
+        String localNullString = null;
+
         /*
-         *  if this reference is escaped (\$foo) then we want to do one of two things :
-         *  1) if this is a reference in the context, then we want to print $foo
-         *  2) if not, then \$foo  (its considered schmoo, not VTL)
+         * if this reference is escaped (\$foo) then we want to do one of two things : 1) if this is
+         * a reference in the context, then we want to print $foo 2) if not, then \$foo (its
+         * considered schmoo, not VTL)
          */
 
         if (escaped)
         {
+            localNullString = getNullString(context);
+            
             if (value == null)
             {
                 if (context.getAllowRendering())
                 {
                     writer.write(escPrefix);
                     writer.write("\\");
-                    writer.write(nullString);
+                    writer.write(localNullString);
                 }
             }
             else
@@ -314,7 +318,7 @@ public class ASTReference extends SimpleNode
                 if (context.getAllowRendering())
                 {
                     writer.write(escPrefix);
-                    writer.write(nullString);
+                    writer.write(localNullString);
                 }
             }
 
@@ -322,12 +326,12 @@ public class ASTReference extends SimpleNode
         }
 
         /*
-         *  the normal processing
-         *
-         *  if we have an event cartridge, get a new value object
+         * the normal processing
+         * 
+         * if we have an event cartridge, get a new value object
          */
 
-        value =  EventHandlerUtil.referenceInsert(rsvc, context, literal(), value);
+        value = EventHandlerUtil.referenceInsert(rsvc, context, literal(), value);
 
         String toString = null;
         if (value != null)
@@ -335,38 +339,35 @@ public class ASTReference extends SimpleNode
             toString = value.toString();
         }
 
-
-        /*
-         *  if value is null...
-         */
-
-        if ( value == null || toString == null)
+        if (value == null || toString == null)
         {
             /*
-             *  write prefix twice, because it's schmoo, so the \ don't escape each other...
+             * write prefix twice, because it's schmoo, so the \ don't escape each other...
              */
 
             if (context.getAllowRendering())
             {
+                if (localNullString == null)
+                    localNullString = getNullString(context);
+
                 writer.write(escPrefix);
                 writer.write(escPrefix);
                 writer.write(morePrefix);
-                writer.write(nullString);
+                writer.write(localNullString);
             }
 
             if (logOnNull && referenceType != QUIET_REFERENCE && log.isDebugEnabled())
             {
-                log.debug("Null reference [template '"
-                         + context.getCurrentTemplateName() + "', line "
-                         + this.getLine() + ", column " + this.getColumn()
-                         + "] : " + this.literal() + " cannot be resolved.");
+                log.debug("Null reference [template '" + context.getCurrentTemplateName()
+                        + "', line " + this.getLine() + ", column " + this.getColumn() + "] : "
+                        + this.literal() + " cannot be resolved.");
             }
             return true;
         }
         else
         {
             /*
-             *  non-null processing
+             * non-null processing
              */
 
             if (context.getAllowRendering())
@@ -378,6 +379,27 @@ public class ASTReference extends SimpleNode
 
             return true;
         }
+    }
+
+    /**
+     * This method helps to implement the "render literal if null" functionality.
+     * 
+     * VelocimacroProxy saves references to macro arguments (AST nodes) so that if we have a macro
+     * #foobar($a $b) then there is key "$a.literal" which points to the literal presentation of the
+     * argument provided to variable $a. If the value of $a is null, we render the string that was
+     * provided as the argument.
+     * 
+     * @param context
+     * @return
+     */
+    private String getNullString(InternalContextAdapter context)
+    {
+        Object callingArgument = context.get(".literal." + nullString);
+
+        if (callingArgument != null)
+            return ((Node) callingArgument).literal();
+        else
+            return nullString;
     }
 
     /**
@@ -666,6 +688,7 @@ public class ASTReference extends SimpleNode
          *  we are working with.
          */
 
+        // FIXME: this is the key to render nulls as literals, we need to look at context(refname+".literal") 
         nullString = literal();
 
         if (t.image.startsWith("$!"))
@@ -773,7 +796,8 @@ public class ASTReference extends SimpleNode
     {
         if (literal != null)
             return literal;
-
+        
+        // this value could be cached in this.literal but it increases memory usage
         return super.literal();
     }
 }

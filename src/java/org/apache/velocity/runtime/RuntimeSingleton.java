@@ -30,6 +30,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.util.introspection.Introspector;
@@ -459,6 +460,24 @@ public class RuntimeSingleton implements RuntimeConstants
         return ri.getVelocimacro( vmName, templateName );
     }
 
+    /**
+     * Adds a new Velocimacro. Usually called by Macro only while parsing.
+     *
+     * @param name  Name of a new velocimacro.
+     * @param macro  root AST node of the parsed macro
+     * @param argArray  Array of strings, containing the
+     *                         #macro() arguments.  the 0th argument is the name.
+     * @param sourceTemplate The template from which the macro is requested.
+     * @return boolean  True if added, false if rejected for some
+     *                  reason (either parameters or permission settings)
+     * @see RuntimeInstance#addVelocimacro(String, Node, String[], String)
+     */
+    public static boolean addVelocimacro(String name, Node macro,
+                                         String argArray[], String sourceTemplate)
+    {
+        return ri.addVelocimacro(name, macro, argArray, sourceTemplate);
+    }
+
    /**
     * Adds a new Velocimacro. Usually called by Macro only while parsing.
     *
@@ -469,7 +488,10 @@ public class RuntimeSingleton implements RuntimeConstants
     * @param sourceTemplate Name of the template that contains the velocimacro.
     * @return True if added, false if rejected for some
     *                  reason (either parameters or permission settings)
-     * @see RuntimeInstance#addVelocimacro(String, String, String[], String)
+    *                  
+    * @deprecated Use addVelocimacro(String, Node, String[], String) instead                  
+    *                  
+    * @see RuntimeInstance#addVelocimacro(String, String, String[], String)
     */
     public static boolean addVelocimacro( String name,
                                           String macro,

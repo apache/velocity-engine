@@ -19,7 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +43,6 @@ import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapterImpl;
-import org.apache.velocity.exception.MacroOverflowException;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -54,6 +52,7 @@ import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.LogManager;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.runtime.resource.ResourceManager;
@@ -1478,7 +1477,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     * Returns the appropriate VelocimacroProxy object if strVMname
+     * Returns the appropriate VelocimacroProxy object if vmName
      * is a valid current Velocimacro.
      *
      * @param vmName Name of velocimacro requested
@@ -1490,6 +1489,26 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         return vmFactory.getVelocimacro( vmName, templateName );
     }
 
+    /**
+     * Returns the appropriate VelocimacroProxy object if vmName
+     * is a valid current Velocimacro.
+     *
+     * @param vmName  Name of velocimacro requested
+     * @param templateName Name of the namespace.
+     * @param renderingTemplate Name of the template we are currently rendering. This
+     *    information is needed when VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL setting is true
+     *    and template contains a macro with the same name as the global macro library.
+     * 
+     * @since Velocity 1.6
+     * 
+     * @return VelocimacroProxy
+     */
+    public Directive getVelocimacro(String vmName, String templateName, String renderingTemplate)
+    {
+        return vmFactory.getVelocimacro( vmName, templateName, renderingTemplate );
+    }
+    
+    
    /**
     * Adds a new Velocimacro. Usually called by Macro only while parsing.
     *
@@ -1498,6 +1517,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     * @param argArray Array of strings, containing the
     *                         #macro() arguments.  the 0th is the name.
     * @param sourceTemplate Name of the template that contains the velocimacro.
+    * 
+    * @deprecated Use addVelocimacro(String, Node, String[], String) instead
+    * 
     * @return True if added, false if rejected for some
     *                  reason (either parameters or permission settings)
     */
@@ -1509,6 +1531,31 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         return vmFactory.addVelocimacro(name, macro,  argArray,  sourceTemplate);
     }
 
+    /**
+     * Adds a new Velocimacro. Usually called by Macro only while parsing.
+     * 
+     * Called by org.apache.velocity.runtime.directive.processAndRegister
+     *
+     * @param name  Name of velocimacro
+     * @param macro  root AST node of the parsed macro
+     * @param argArray  Array of strings, containing the
+     *                         #macro() arguments.  the 0th is the name.
+     * @param sourceTemplate
+     * 
+     * @since Velocity 1.6
+     *                   
+     * @return boolean  True if added, false if rejected for some
+     *                  reason (either parameters or permission settings)
+     */
+    public boolean addVelocimacro( String name,
+                                          Node macro,
+                                          String argArray[],
+                                          String sourceTemplate )
+    {
+        return vmFactory.addVelocimacro(name, macro,  argArray,  sourceTemplate);
+    }
+    
+    
     /**
      *  Checks to see if a VM exists
      *
