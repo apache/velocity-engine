@@ -53,6 +53,9 @@ public class VelocimacroManager
     /** Hash of namespace hashes. */
     private final Map namespaceHash = MapFactory.create(17, 0.5f, 20, false);
 
+    /** reference to global namespace hash */
+    private final Map globalNamespace;
+
     /** set of names of library tempates/namespaces */
     private final Set libraries = Collections.synchronizedSet(new HashSet());
 
@@ -73,7 +76,7 @@ public class VelocimacroManager
          *  add the global namespace to the namespace hash. We always have that.
          */
 
-        addNamespace(GLOBAL_NAMESPACE);
+        globalNamespace = addNamespace(GLOBAL_NAMESPACE);
     }
 
     /**
@@ -110,7 +113,7 @@ public class VelocimacroManager
 
         boolean isLib = true;
 
-        MacroEntry exist = (MacroEntry) getNamespace(GLOBAL_NAMESPACE).get(vmName);
+        MacroEntry exist = (MacroEntry) globalNamespace.get(vmName);
         
         if (registerFromLib)
         {
@@ -158,7 +161,7 @@ public class VelocimacroManager
              *  now add it
              */
 
-            getNamespace(GLOBAL_NAMESPACE).put(vmName, me);
+            globalNamespace.put(vmName, me);
 
             return true;
         }
@@ -230,7 +233,7 @@ public class VelocimacroManager
          * if it's in the global namespace
          */
 
-        MacroEntry me = (MacroEntry) getNamespace(GLOBAL_NAMESPACE).get(vmName);
+        MacroEntry me = (MacroEntry) globalNamespace.get(vmName);
 
         if (me != null)
         {
@@ -427,7 +430,7 @@ public class VelocimacroManager
          * if it's in the global namespace
          */
 
-        MacroEntry me = (MacroEntry) getNamespace(GLOBAL_NAMESPACE).get(vmName);
+        MacroEntry me = (MacroEntry) globalNamespace.get(vmName);
 
         if (me != null)
         {
