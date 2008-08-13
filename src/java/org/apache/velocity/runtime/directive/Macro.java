@@ -19,27 +19,18 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.Writer;
 import java.io.IOException;
-
-import java.util.List;
-import java.util.ArrayList;
-
-import org.apache.commons.lang.text.StrBuilder;
+import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
-
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.NodeUtils;
-import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
-import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
- *   Macro.java
- *
  *  Macro implements the macro definition directive of VTL.
  *
  *  example :
@@ -177,35 +168,20 @@ public class Macro extends Directive
                     + ParserTreeConstants.jjtNodeName[firstType], sourceTemplate, t);
         }
 
-        /*
-         *  get the arguments to the use of the VM
-         */
-
+        // get the arguments to the use of the VM - element 0 contains the macro name
         String argArray[] = getArgArray(node, rs);
 
+        /* 
+         * we already have the macro parsed as AST so there is no point to
+         * transform it into a String again
+         */ 
+        rs.addVelocimacro(argArray[0], node.jjtGetChild(numArgs - 1), argArray, sourceTemplate);
+        
         /*
-         *  Now, try and eat the code block. Pass the root.
-         *  Make a big string out of our macro.
-         */
-
-        String macroString = getASTAsString(node.jjtGetChild(numArgs - 1));
-
-        /*
-         * now, try to add it.  The Factory controls permissions,
-         * so just give it a whack...
-         */
-
-        boolean macroAdded = rs.addVelocimacro(argArray[0],
-                                               macroString,
-                                               argArray, sourceTemplate);
-
-        if (!macroAdded && rs.getLog().isErrorEnabled())
-        {
-            StringBuffer msg = new StringBuffer("Failed to add macro: ");
-            macroToString(msg, argArray);
-            msg.append(" : source = ").append(sourceTemplate);
-            rs.getLog().error(msg);
-        }
+         * Even if the add attempt failed, we don't log anything here.
+         * Logging must be done at VelocimacroFactory or VelocimacroManager because
+         * those classes know the real reason.
+         */ 
     }
 
 
@@ -267,44 +243,6 @@ public class Macro extends Directive
         }
 
         return argArray;
-    }
-
-    /**
-     *  Returns an array of the literal rep of the AST
-     *  @param rootNode
-     *  @return String form of the macro
-     */
-    private static String getASTAsString(Node rootNode)
-    {
-        /*
-         *  this assumes that we are passed in the root
-         *  node of the code block
-         */
-
-        Token t = rootNode.getFirstToken();
-        Token tLast = rootNode.getLastToken();
-
-        /*
-         *  now, run down the part of the tree bounded by
-         *  our first and last tokens
-         */
-
-        // guessing that most macros are much longer than
-        // the 32 char default capacity.  let's guess 4x bigger :)
-        StrBuilder str = new StrBuilder(128);
-        while (t != tLast)
-        {
-            str.append(NodeUtils.tokenLiteral(t));
-            t = t.next;
-        }
-
-        /*
-         *  make sure we get the last one...
-         */
-
-        str.append(NodeUtils.tokenLiteral(t));
-
-        return str.toString();
     }
 
     /**

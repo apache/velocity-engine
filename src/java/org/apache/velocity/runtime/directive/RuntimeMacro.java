@@ -20,6 +20,7 @@ package org.apache.velocity.runtime.directive;
  */
 
 import org.apache.commons.lang.text.StrBuilder;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
@@ -41,18 +42,17 @@ import java.util.List;
  * a implementation for the macro call. Ifn a implementation cannot be
  * found the literal text is rendered.
  */
-
 public class RuntimeMacro extends Directive
 {
     /**
      * Name of the macro
      */
-    private String macroName = "";
+    private String macroName;
 
     /**
      * source template name
      */
-    private String sourceTemplate = "";
+    private String sourceTemplate;
 
     /**
      * Internal context adapter of macro caller.
@@ -62,7 +62,7 @@ public class RuntimeMacro extends Directive
     /**
      * Literal text of the macro
      */
-    private String literal = "";
+    private String literal = null;
 
     /**
      * Node of the macro call
@@ -124,37 +124,32 @@ public class RuntimeMacro extends Directive
         rsvc = rs;
         this.context = context;
         this.node = node;
-
-        Token t = node.getFirstToken();
-
-        if (t == node.getLastToken())
-        {
-            literal = t.image;
-        }
-        else
-        {
-            // guessing that most macros are much longer than
-            // the 32 char default capacity.  let's guess 4x bigger :)
-            StrBuilder text = new StrBuilder(128);
-            /**
-             * Retrieve the literal text
-             */
-            while (t != null && t != node.getLastToken())
-            {
-                text.append(t.image);
-                t = t.next;
-            }
-            if (t != null)
-            {
-                text.append(t.image);
-            }
-
-            /**
-             * Store the literal text
-             */
-            literal = text.toString();
-        }
     }
+    
+    /**
+     * It is probably quite rare that we need to render the macro literal
+     * so do it only on-demand and then cache the value. This tactic helps to
+     * reduce memory usage a bit.
+     */
+    private void makeLiteral()
+    {
+        StrBuilder buffer = new StrBuilder();
+        Token t = node.getFirstToken();
+        
+        while (t != null && t != node.getLastToken())
+        {
+            buffer.append(t.image);
+            t = t.next;
+        }
+
+        if (t != null)
+        {
+            buffer.append(t.image);
+        }
+        
+        literal = buffer.toString();
+    }
+    
 
     /**
      * Velocimacro implementation is not known at the init time. So look for
@@ -179,48 +174,67 @@ public class RuntimeMacro extends Directive
             throws IOException, ResourceNotFoundException,
             ParseErrorException, MethodInvocationException
     {
-        VelocimacroProxy vmProxy = getProxy(context);
-        if (vmProxy == null)
+        VelocimacroProxy vmProxy = null;
+        String renderingTemplate = context.getCurrentTemplateName();
+        
+        /**
+         * first look in the source template
+         */
+        Object o = rsvc.getVelocimacro(macroName, sourceTemplate, renderingTemplate);
+
+        if( o != null )
         {
-            /**
-             * If we cannot find an implementation write the literal text
-             */
-            writer.write(literal);
-            return true;
+            // getVelocimacro can only return a VelocimacroProxy so we don't need the
+            // costly instanceof check
+            vmProxy = (VelocimacroProxy)o;
         }
 
         /**
-         * init and render the proxy
-         * is the init call always necessary?
-         * if so, why are we using this.context instead of context?
+         * if not found, look in the macro libraries.
          */
-        synchronized (vmProxy)
+        if (vmProxy == null)
+        {
+            List macroLibraries = context.getMacroLibraries();
+            if (macroLibraries != null)
+            {
+                for (int i = macroLibraries.size() - 1; i >= 0; i--)
+                {
+                    o = rsvc.getVelocimacro(macroName,
+                            (String)macroLibraries.get(i), renderingTemplate);
+
+                    // get the first matching macro
+                    if (o != null)
+                    {
+                        vmProxy = (VelocimacroProxy) o;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (vmProxy != null)
         {
             try
             {
+            	// mainly check the number of arguments
                 vmProxy.init(rsvc, this.context, this.node);
             }
             catch (TemplateInitException die)
             {
                 Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
+
                 throw new ParseErrorException(die.getMessage(), info);
             }
             return vmProxy.render(context, writer, node);
         }
-    }
 
-    private VelocimacroProxy getProxy(InternalContextAdapter context)
-    {
-        Object vm = rsvc.getVelocimacro(macroName, sourceTemplate);
-        if (vm == null && context.getMacroLibraries() != null)
-        {
-            List libs = context.getMacroLibraries();
-            for (int i = libs.size()-1; vm == null && i >= 0; i--)
-            {
-                vm = rsvc.getVelocimacro(macroName, (String)libs.get(i));
-            }
-        }
-        return (VelocimacroProxy)vm;
+        /**
+         * If we cannot find an implementation write the literal text
+         */
+         if( literal == null )
+            makeLiteral();
+         
+        writer.write(literal);
+        return true;
     }
-
 }

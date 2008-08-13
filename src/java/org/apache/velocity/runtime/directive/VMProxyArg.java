@@ -75,7 +75,9 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  *  keep any dynamic stuff out of it, relying on trick of having the appropriate
  *  context handed to us, and when a constant argument, letting VMContext punch that
  *  into a local context.
- *
+ *  
+ *  @deprecated ProxyVMContext is used instead
+ *  
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  *  @version $Id$
  */

@@ -40,6 +40,8 @@ import org.apache.velocity.exception.MethodInvocationException;
  *  Further, this context also supports the 'VM local context' mode, where
  *  any put() of references that aren't args to the VM are considered
  *  local to the vm, protecting the global context.
+ *  
+ *  @deprecated ProxyVMContext is used instead
  *
  *  @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  *  @version $Id$

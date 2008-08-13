@@ -19,28 +19,20 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.Writer;
-import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.context.VMContext;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.context.ProxyVMContext;
 import org.apache.velocity.exception.MacroOverflowException;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
-import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.visitor.VMReferenceMungeVisitor;
 
 /**
  *  VelocimacroProxy.java
@@ -52,21 +44,16 @@ import org.apache.velocity.runtime.visitor.VMReferenceMungeVisitor;
  */
 public class VelocimacroProxy extends Directive
 {
-    private String macroName = "";
-    private String macroBody = "";
+    private String macroName;
     private String[] argArray = null;
+    private String[] literalArgArray = null;
     private SimpleNode nodeTree = null;
     private int numMacroArgs = 0;
-    private String namespace = "";
-
-    private boolean init = false;
-    private String[] callingArgs;
-    private int[]  callingArgTypes;
-    private HashMap proxyArgHash = new HashMap();
-
+    private boolean preInit = false;
     private boolean strictArguments;
+    private boolean localContextScope = false;
     private int maxCallDepth;
-    
+
     /**
      * Return name of this Velocimacro.
      * @return The name of this Velocimacro.
@@ -77,8 +64,7 @@ public class VelocimacroProxy extends Directive
     }
 
     /**
-     * Velocimacros are always LINE
-     * type directives.
+     * Velocimacros are always LINE type directives.
      * @return The type of this directive.
      */
     public int getType()
@@ -87,25 +73,35 @@ public class VelocimacroProxy extends Directive
     }
 
     /**
-     *   sets the directive name of this VM
+     * sets the directive name of this VM
+     * 
      * @param name
      */
-    public void setName( String name )
+    public void setName(String name)
     {
         macroName = name;
     }
 
     /**
-     *  sets the array of arguments specified in the macro definition
+     * sets the array of arguments specified in the macro definition
+     * 
      * @param arr
      */
-    public void setArgArray( String [] arr )
+    public void setArgArray(String[] arr)
     {
         argArray = arr;
+        
+        // for performance reasons we precache these strings - they are needed in
+        // "render literal if null" functionality
+        literalArgArray = new String[arr.length];
+        for(int i = 0; i < arr.length; i++)
+        {
+            literalArgArray[i] = ".literal.$" + argArray[i];
+        }
 
         /*
-         *  get the arg count from the arg array.  remember that the arg array
-         *  has the macro name as it's 0th element
+         * get the arg count from the arg array. remember that the arg array has the macro name as
+         * it's 0th element
          */
 
         numMacroArgs = argArray.length - 1;
@@ -114,13 +110,14 @@ public class VelocimacroProxy extends Directive
     /**
      * @param tree
      */
-    public void setNodeTree( SimpleNode tree )
+    public void setNodeTree(SimpleNode tree)
     {
         nodeTree = tree;
     }
 
     /**
-     *  returns the number of ars needed for this VM
+     * returns the number of ars needed for this VM
+     * 
      * @return The number of ars needed for this VM
      */
     public int getNumArgs()
@@ -129,181 +126,146 @@ public class VelocimacroProxy extends Directive
     }
 
     /**
-     *   Sets the orignal macro body.  This is simply the cat of the macroArray, but the
-     *   Macro object creates this once during parsing, and everyone shares it.
-     *   Note : it must not be modified.
-     * @param mb
-     */
-    public void setMacrobody( String mb )
-    {
-        macroBody = mb;
-    }
-
-    /**
-     * @param ns
-     */
-    public void setNamespace( String ns )
-    {
-        this.namespace = ns;
-    }
-
-    /**
-     * Renders the macro using the context
-     * @param context
-     * @param writer
-     * @param node
+     * Renders the macro using the context.
+     * 
+     * @param context Current rendering context
+     * @param writer Writer for output
+     * @param node AST that calls the macro
      * @return True if the directive rendered successfully.
      * @throws IOException
      * @throws MethodInvocationException
      * @throws MacroOverflowException
      */
-    public boolean render( InternalContextAdapter context, Writer writer, Node node)
-        throws IOException, MethodInvocationException, MacroOverflowException
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+            throws IOException, MethodInvocationException, MacroOverflowException
     {
-        try
+        // wrap the current context and add the macro arguments
+
+        // the creation of this context is a major bottleneck (incl 2x HashMap)
+        final ProxyVMContext vmc = new ProxyVMContext(context, rsvc, localContextScope);
+
+        int callArguments = node.jjtGetNumChildren();
+
+        if (callArguments > 0)
         {
-            /*
-             *  it's possible the tree hasn't been parsed yet, so get
-             *  the VMManager to parse and init it
-             */
-
-            if (nodeTree != null)
+            // the 0th element is the macro name
+            for (int i = 1; i < argArray.length; i++)
             {
-                synchronized(this)
-                {
-                    if ( !init )
-                    {
-                        nodeTree.init( context, rsvc);
-                        init = true;
-                    }
-                }
-                
-                /*
-                 *  wrap the current context and add the VMProxyArg objects
-                 */
-
-                VMContext vmc = new VMContext( context, rsvc );
-
-                for( int i = 1; i < argArray.length; i++)
-                {
-                    /*
-                     *  we can do this as VMProxyArgs don't change state. They change
-                     *  the context.
-                     */
-
-                    VMProxyArg arg = (VMProxyArg) proxyArgHash.get( argArray[i] );
-                    vmc.addVMProxyArg( arg );
-                }
+                Node macroCallArgument = node.jjtGetChild(i - 1);
 
                 /*
-                 * check that we aren't already at the max call depth
+                 * literalArgArray[i] is needed for "render literal if null" functionality.
+                 * The value is used in ASTReference render-method.
+                 * 
+                 * The idea is to avoid generating the literal until absolutely necessary.
+                 * 
+                 * This makes VMReferenceMungeVisitor obsolete and it would not work anyway 
+                 * when the macro AST is shared
                  */
-                if (maxCallDepth > 0 && maxCallDepth == vmc.getCurrentMacroCallDepth())
-                {
-                    String templateName = vmc.getCurrentTemplateName();
-                    Object[] stack = vmc.getMacroNameStack();
-
-                    String message = "Max calling depth of "+maxCallDepth+
-                        " was exceeded in Template:" + templateName +
-                        " and Macro:" + macroName + " with Call Stack:";
-                    for (int i = 0; i < stack.length; i++)
-                    {
-                        if (i != 0)
-                        {
-                            message += "->";
-                        }
-                        message += stack[i];
-                    }
-                    rsvc.getLog().error(message);
-
-                    try
-                    {
-                        throw new MacroOverflowException(message);
-                    }
-                    finally
-                    {
-                        // clean out the macro stack, since we just broke it
-                        while (vmc.getCurrentMacroCallDepth() > 0)
-                        {
-                            vmc.popCurrentMacroName();
-                        }
-                    }
-                }
-
-                /*
-                 *  now render the VM
-                 */
-                vmc.pushCurrentMacroName(macroName);
-                nodeTree.render( vmc, writer );
-                vmc.popCurrentMacroName();
-            }
-            else
-            {
-                rsvc.getLog().error("VM error " + macroName + ". Null AST");
+                vmc.addVMProxyArg(context, argArray[i], literalArgArray[i], macroCallArgument);
             }
         }
 
         /*
-         *  if it's a MIE, it came from the render.... throw it...
+         * check that we aren't already at the max call depth
          */
-        catch( MethodInvocationException e )
+        if (maxCallDepth > 0 && maxCallDepth == vmc.getCurrentMacroCallDepth())
+        {
+            String templateName = vmc.getCurrentTemplateName();
+            Object[] stack = vmc.getMacroNameStack();
+
+            String message = "Max calling depth of " + maxCallDepth + " was exceeded in Template:"
+                    + templateName + " and Macro:" + macroName + " with Call Stack:";
+            for (int i = 0; i < stack.length; i++)
+            {
+                if (i != 0)
+                {
+                    message += "->";
+                }
+                message += stack[i];
+            }
+            rsvc.getLog().error(message);
+
+            try
+            {
+                throw new MacroOverflowException(message);
+            }
+            finally
+            {
+                // clean out the macro stack, since we just broke it
+                while (vmc.getCurrentMacroCallDepth() > 0)
+                {
+                    vmc.popCurrentMacroName();
+                }
+            }
+        }
+
+        try
+        {
+            // render the velocity macro
+            vmc.pushCurrentMacroName(macroName);
+            nodeTree.render(vmc, writer);
+            vmc.popCurrentMacroName();
+        }
+        catch (MethodInvocationException e)
         {
             throw e;
         }
-
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch( RuntimeException e )
+        catch (RuntimeException e)
         {
             throw e;
         }
-
-        catch ( Exception e )
+        catch (Exception e)
         {
-
-            rsvc.getLog().error("VelocimacroProxy.render() : exception VM = #" +
-                                macroName + "()", e);
+            rsvc.getLog().error("VelocimacroProxy.render() : exception VM = #" + macroName + "()",
+                    e);
         }
-
         return true;
     }
 
     /**
-     *   The major meat of VelocimacroProxy, init() checks the # of arguments, patches the
-     *   macro body, renders the macro into an AST, and then inits the AST, so it is ready
-     *   for quick rendering.  Note that this is only AST dependant stuff. Not context.
+     * The major meat of VelocimacroProxy, init() checks the # of arguments.
+     * 
      * @param rs
      * @param context
      * @param node
      * @throws TemplateInitException
      */
-    public void init( RuntimeServices rs, InternalContextAdapter context, Node node)
-       throws TemplateInitException
+    public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
+            throws TemplateInitException
     {
-        super.init( rs, context, node );
+        // there can be multiple threads here so avoid double inits
+        synchronized (this)
+        {
+            if (!preInit)
+            {
+                super.init(rs, context, node);
 
-        /**
-         * Throw exception for invalid number of arguments?
-         */
-        strictArguments = rs.getConfiguration().getBoolean(RuntimeConstants.VM_ARGUMENTS_STRICT,false);
+                // this is a very expensive call (ExtendedProperties is very slow)
+                strictArguments = rs.getConfiguration().getBoolean(
+                        RuntimeConstants.VM_ARGUMENTS_STRICT, false);
 
-        /*
-         * get the macro call depth limit
-         */
-        maxCallDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
-        
-        /*
-         *  how many args did we get?
-         */
+                // support for local context scope feature, where all references are local
+                // we do not have to check this at every invocation of ProxyVMContext
+                localContextScope = rsvc.getBoolean(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false);
 
-        int i  = node.jjtGetNumChildren();
+                // get the macro call depth limit
+                maxCallDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
 
-        /*
-         *  right number of args?
-         */
+                // initialize the parsed AST
+                // since this is context independent we need to do this only once so
+                // do it here instead of the render method
+                nodeTree.init(context, rs);
 
-        if ( getNumArgs() != i )
+                preInit = true;
+            }
+        }
+
+        // check how many arguments we got
+        int i = node.jjtGetNumChildren();
+
+        // Throw exception for invalid number of arguments?
+        if (getNumArgs() != i)
         {
             // If we have a not-yet defined macro, we do get no arguments because
             // the syntax tree looks different than with a already defined macro.
@@ -312,31 +274,26 @@ public class VelocimacroProxy extends Directive
             // Check for that, if it is true, suppress the error message.
             // Fixes VELOCITY-71.
 
-            for (Node parent = node.jjtGetParent(); parent != null; )
+            for (Node parent = node.jjtGetParent(); parent != null;)
             {
-                if ((parent instanceof ASTDirective) && 
-                        StringUtils.equals(((ASTDirective) parent).getDirectiveName(), "macro"))
+                if ((parent instanceof ASTDirective)
+                        && StringUtils.equals(((ASTDirective) parent).getDirectiveName(), "macro"))
                 {
                     return;
                 }
                 parent = parent.jjtGetParent();
             }
-            
-            String errormsg = "VM #" + macroName + ": error : too " +
-            ((getNumArgs() > i) ? "few" : "many") + 
-            " arguments to macro. Wanted " + getNumArgs() +
-            " got " + i;
+
+            String errormsg = "VM #" + macroName + ": error : too "
+                    + ((getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted "
+                    + getNumArgs() + " got " + i;
 
             if (strictArguments)
             {
                 /**
-                 *  indicate col/line assuming it starts at 0 - this will be
-                 *  corrected one call up
+                 * indicate col/line assuming it starts at 0 - this will be corrected one call up
                  */
-                throw new TemplateInitException(errormsg,
-                        context.getCurrentTemplateName(),
-                        0,
-                        0);
+                throw new TemplateInitException(errormsg, context.getCurrentTemplateName(), 0, 0);
             }
             else
             {
@@ -344,185 +301,6 @@ public class VelocimacroProxy extends Directive
                 return;
             }
         }
-
-        /*
-         *  get the argument list to the instance use of the VM
-         */
-
-         callingArgs = getArgArray( node );
-
-        /*
-         *  now proxy each arg in the context
-         */
-
-         setupMacro( callingArgs, callingArgTypes );
-    }
-
-    /**
-     *  basic VM setup.  Sets up the proxy args for this
-     *  use, and parses the tree
-     * @param callArgs
-     * @param callArgTypes
-     * @return True if the proxy was setup successfully.
-     */
-    public boolean setupMacro( String[] callArgs, int[] callArgTypes )
-    {
-        setupProxyArgs( callArgs, callArgTypes );
-        parseTree( callArgs );
-
-        return true;
-    }
-
-    /**
-     *   parses the macro.  We need to do this here, at init time, or else
-     *   the local-scope template feature is hard to get to work :)
-     *   @param callArgs
-     */
-    private void parseTree( String[] callArgs )
-    {
-        try
-        {
-            /*
-             *  now parse the macro - and don't dump the namespace
-             */
-
-            nodeTree = rsvc.parse(new StringReader(macroBody), namespace, false );
-
-            /*
-             *  now, to make null references render as proper schmoo
-             *  we need to tweak the tree and change the literal of
-             *  the appropriate references
-             *
-             *  we only do this at init time, so it's the overhead
-             *  is irrelevant
-             */
-
-            HashMap hm = new HashMap();
-
-            for( int i = 1; i < argArray.length; i++)
-            {
-                String arg = callArgs[i-1];
-
-                /*
-                 *  if the calling arg is indeed a reference
-                 *  then we add to the map.  We ignore other
-                 *  stuff
-                 */
-
-                if (arg.charAt(0) == '$')
-                {
-                    hm.put( argArray[i], arg );
-                }
-            }
-
-            /*
-             *  now make one of our reference-munging visitor, and
-             *  let 'er rip
-             */
-
-            VMReferenceMungeVisitor v = new VMReferenceMungeVisitor( hm );
-            nodeTree.jjtAccept( v, null );
-        }
-
-        /** 
-         * Error in evaluating macro?  Throw runtime exception
-         */
-        catch (ParseException pex)
-        {
-            throw new ParseErrorException(pex);
-        }
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch( RuntimeException e )
-        {
-            throw e;
-        }
-        catch ( Exception e )
-        {
-            rsvc.getLog().error("VelocimacroManager.parseTree() : exception " +
-                                macroName, e);
-        }
-    }
-
-    private void setupProxyArgs( String[] callArgs, int [] callArgTypes )
-    {
-        /*
-         * for each of the args, make a ProxyArg
-         */
-
-        for( int i = 1; i < argArray.length; i++)
-        {
-            VMProxyArg arg = new VMProxyArg( rsvc, argArray[i], callArgs[i-1], callArgTypes[i-1] );
-            proxyArgHash.put( argArray[i], arg );
-        }
-    }
-
-    /**
-     *   gets the args to the VM from the instance-use AST
-     *   @param node
-     *   @return array of arguments
-     */
-    private String[] getArgArray( Node node )
-    {
-        int numArgs = node.jjtGetNumChildren();
-
-        String args[] = new String[ numArgs ];
-        callingArgTypes = new int[numArgs];
-
-        /*
-         *  eat the args
-         */
-        int i = 0;
-        Token t = null;
-        Token tLast = null;
-
-        while( i <  numArgs )
-        {
-            args[i] = "";
-            /*
-             *  we want string literalss to lose the quotes.  #foo( "blargh" ) should have 'blargh' patched
-             *  into macro body.  So for each arg in the use-instance, treat the stringlierals specially...
-             */
-
-            callingArgTypes[i] = node.jjtGetChild(i).getType();
-
-
-            if (false &&  node.jjtGetChild(i).getType() == ParserTreeConstants.JJTSTRINGLITERAL )
-            {
-                args[i] += node.jjtGetChild(i).getFirstToken().image.substring(1, node.jjtGetChild(i).getFirstToken().image.length() - 1);
-            }
-            else
-            {
-                /*
-                 *  just wander down the token list, concatenating everything together
-                 */
-                t = node.jjtGetChild(i).getFirstToken();
-                tLast = node.jjtGetChild(i).getLastToken();
-
-                while( t != tLast )
-                {
-                    args[i] += t.image;
-                    t = t.next;
-                }
-
-                /*
-                 *  don't forget the last one... :)
-                 */
-                args[i] += t.image;
-            }
-            i++;
-         }
-        return args;
     }
 }
-
-
-
-
-
-
-
-
-
 

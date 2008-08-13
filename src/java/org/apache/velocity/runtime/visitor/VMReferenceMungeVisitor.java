@@ -29,6 +29,8 @@ import org.apache.velocity.runtime.parser.node.ASTReference;
  *  to preserve the 'render literal if null' behavior w/o making
  *  the VMProxy stuff more complicated than it is already.
  *
+ * @deprecated not needed anymore in shared AST macro implementation
+ * 
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */

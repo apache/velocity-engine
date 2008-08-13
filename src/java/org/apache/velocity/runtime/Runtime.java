@@ -426,6 +426,7 @@ public class Runtime implements RuntimeConstants
      * @param sourceTemplate The template from which the macro is requested.
      * @return boolean  True if added, false if rejected for some
      *                  reason (either parameters or permission settings)
+     * @deprecated Just like the whole class....
      */
     public static boolean addVelocimacro( String name,
                                           String macro,
