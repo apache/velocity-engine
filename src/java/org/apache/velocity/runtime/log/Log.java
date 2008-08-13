@@ -26,6 +26,7 @@ package org.apache.velocity.runtime.log;
  *
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id$
+ * @since 1.5
  */
 public class Log
 {

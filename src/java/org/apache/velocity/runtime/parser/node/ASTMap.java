@@ -32,6 +32,7 @@ import org.apache.velocity.runtime.parser.Parser;
  * This class was originally generated from Parset.jjt.
  *
  * @version $Id$
+ * @since 1.5
  */
 public class ASTMap extends SimpleNode
 {

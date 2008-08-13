@@ -118,6 +118,7 @@ public class EventCartridge
       *  Add a reference insertion event handler to the Cartridge.
       *
       *  @param ev ReferenceInsertionEventHandler
+     * @since 1.5
      */
      public void addReferenceInsertionEventHandler( ReferenceInsertionEventHandler ev )
      {
@@ -128,6 +129,7 @@ public class EventCartridge
       *  Add a null set event handler to the Cartridge.
       *
       *  @param ev NullSetEventHandler
+      * @since 1.5
       */
      public void addNullSetEventHandler( NullSetEventHandler ev )
      {
@@ -138,6 +140,7 @@ public class EventCartridge
      *  Add a method exception event handler to the Cartridge.
      *
      *  @param ev MethodExceptionEventHandler
+     *  @since 1.5
      */
     public void addMethodExceptionHandler( MethodExceptionEventHandler ev )
     {
@@ -148,6 +151,7 @@ public class EventCartridge
      *  Add an include event handler to the Cartridge.
      *
      *  @param ev IncludeEventHandler
+     *  @since 1.5
      */
     public void addIncludeEventHandler( IncludeEventHandler ev )
     {
@@ -158,6 +162,7 @@ public class EventCartridge
      *  Add an invalid reference event handler to the Cartridge.
      *
      *  @param ev InvalidReferenceEventHandler
+     *  @since 1.5
      */
     public void addInvalidReferenceEventHandler( InvalidReferenceEventHandler ev )
     {
@@ -205,6 +210,7 @@ public class EventCartridge
      * Iterate through all the stored ReferenceInsertionEventHandler objects
      * 
      * @return iterator of handler objects, null if there are not handlers
+     * @since 1.5
      */
     public Iterator getReferenceInsertionEventHandlers()
     {
@@ -215,6 +221,7 @@ public class EventCartridge
      * Iterate through all the stored NullSetEventHandler objects
      * 
      * @return iterator of handler objects
+     * @since 1.5
      */
     public Iterator getNullSetEventHandlers()
     {
@@ -225,6 +232,7 @@ public class EventCartridge
      * Iterate through all the stored MethodExceptionEventHandler objects
      * 
      * @return iterator of handler objects
+     * @since 1.5
      */
     public Iterator getMethodExceptionEventHandlers()
     {
@@ -245,6 +253,7 @@ public class EventCartridge
      * Iterate through all the stored InvalidReferenceEventHandlers objects
      * 
      * @return iterator of handler objects
+     * @since 1.5
      */
     public Iterator getInvalidReferenceEventHandlers()
     {
@@ -289,6 +298,7 @@ public class EventCartridge
      * 
      * @param rs
      * @throws Exception
+     * @since 1.5
      */
     public void initialize (RuntimeServices rs) throws Exception
     {

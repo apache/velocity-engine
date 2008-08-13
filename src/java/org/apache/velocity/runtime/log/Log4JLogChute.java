@@ -38,6 +38,7 @@ import org.apache.velocity.util.ExceptionUtils;
  * @author <a href="mailto:nbubna@apache.org>Nathan Bubna</a>
  * @version $Id$
  * @since Velocity 1.5
+ * @since 1.5
  */
 public class Log4JLogChute implements LogChute
 {

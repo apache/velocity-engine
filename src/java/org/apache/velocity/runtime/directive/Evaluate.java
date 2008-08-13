@@ -42,6 +42,7 @@ import org.apache.velocity.util.introspection.Info;
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  * @version $Id$
+ * @since 1.6
  */
 public class Evaluate extends Directive
 {

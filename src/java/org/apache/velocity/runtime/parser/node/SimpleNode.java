@@ -390,6 +390,9 @@ public class SimpleNode implements Node
         return first.beginColumn;
     }
     
+    /**
+     * @since 1.5
+     */
     public String toString()
     {
         StrBuilder tokens = new StrBuilder();

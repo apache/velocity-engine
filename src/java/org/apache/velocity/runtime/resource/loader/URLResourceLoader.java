@@ -35,6 +35,7 @@ import org.apache.velocity.runtime.resource.Resource;
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id: URLResourceLoader.java 191743 2005-06-21 23:22:20Z dlr $
+ * @since 1.5
  */
 public class URLResourceLoader extends ResourceLoader
 {

@@ -39,7 +39,7 @@ import java.util.List;
  * This class acts as a proxy for potential macros.  When the AST is built
  * this class is inserted as a placeholder for the macro (whether or not
  * the macro is actually defined).  At render time we check whether there is
- * a implementation for the macro call. Ifn a implementation cannot be
+ * a implementation for the macro call. If an implementation cannot be
  * found the literal text is rendered.
  */
 public class RuntimeMacro extends Directive

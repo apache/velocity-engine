@@ -28,6 +28,7 @@ import org.apache.velocity.util.StringUtils;
  *
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id$
+ * @since 1.5
  */
 public class LogChuteSystem implements LogChute
 {

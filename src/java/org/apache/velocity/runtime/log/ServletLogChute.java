@@ -35,6 +35,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @author Nathan Bubna
  * @version $Revision$ $Date$
+ * @since 1.6
  */
 public class ServletLogChute implements LogChute
 {

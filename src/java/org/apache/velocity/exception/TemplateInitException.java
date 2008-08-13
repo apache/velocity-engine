@@ -27,6 +27,7 @@ import org.apache.velocity.runtime.parser.ParseException;
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
+ * @since 1.5
  */
 public class TemplateInitException extends VelocityException 
         implements ExtendedParseException

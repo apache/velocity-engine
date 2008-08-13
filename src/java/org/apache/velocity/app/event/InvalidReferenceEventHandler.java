@@ -31,6 +31,7 @@ import org.apache.velocity.util.introspection.Info;
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
+ * @since 1.5
  */
 public interface InvalidReferenceEventHandler extends EventHandler
 {

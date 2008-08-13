@@ -50,6 +50,7 @@ public class VelocityException
     /**
      * @param exceptionMessage The message to register.
      * @param wrapped A throwable object that caused the Exception.
+     * @since 1.5
      */
     public VelocityException(final String exceptionMessage, final Throwable wrapped)
     {
@@ -60,6 +61,7 @@ public class VelocityException
 
     /**
      * @param wrapped A throwable object that caused the Exception.
+     * @since 1.5
      */
     public VelocityException(final Throwable wrapped)
     {
@@ -73,6 +75,7 @@ public class VelocityException
      *  MethodInvocationException to be thrown
      *
      *  @return Throwable thrown by method invocation
+     *  @since 1.5
      */
     public Throwable getWrappedThrowable()
     {

@@ -118,6 +118,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * Returns true if the RuntimeInstance has been successfully initialized.
      * @return True if the RuntimeInstance has been successfully initialized.
      * @see RuntimeInstance#isInitialized()
+     * @since 1.5
      */
     public static boolean isInitialized()
     {
@@ -385,6 +386,7 @@ public class RuntimeSingleton implements RuntimeConstants
      *
      * @return A convenience Log instance that wraps the current LogChute.
      * @see RuntimeInstance#getLog()
+     * @since 1.5
      */
     public static Log getLog()
     {
@@ -614,6 +616,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * Returns the event handlers for the application.
      * @return The event handlers for the application.
      * @see RuntimeInstance#getApplicationEventCartridge()
+     * @since 1.5
      */
      public EventCartridge getEventCartridge()
      {

@@ -43,7 +43,7 @@ import org.apache.velocity.runtime.log.LogChute;
  * </p>
  * 
  * @author Nathan Bubna
- * @since Velocity 1.6
+ * @since 1.6
  * @version $Id: CommonsLogLogChute.java 71982 2004-02-18 20:11:07Z nbubna $
  */
 public class CommonsLogLogChute implements LogChute

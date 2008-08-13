@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  * Escape all HTML entities.
  * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeHtml(java.lang.String)">StringEscapeUtils</a>
  * @author wglass
+ * @since 1.5
  */
 public class EscapeHtmlReference extends EscapeReference
 {

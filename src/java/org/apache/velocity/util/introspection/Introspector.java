@@ -58,6 +58,7 @@ public class Introspector extends IntrospectorBase
 {
     /**
      * @param log A Log object to use for the introspector.
+     * @since 1.5
      */
     public Introspector(final Log log)
     {

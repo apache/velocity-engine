@@ -31,6 +31,7 @@ import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
  * @author <a href="mailto:eelco.hillenius@openedge.nl">Eelco Hillenius</a>
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
+ * @since 1.5
  */
 public class StringResourceRepositoryImpl implements StringResourceRepository
 {

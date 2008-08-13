@@ -220,6 +220,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getAllowRendering()
+     * @since 1.5
      */
     public boolean getAllowRendering()
     {
@@ -228,6 +229,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setAllowRendering(boolean)
+     * @since 1.5
      */
     public void setAllowRendering(boolean v)
     {
@@ -262,10 +264,11 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see InternalWrapperContext#localPut(String, Object)
+     * @since 1.5
      */
     public Object localPut(final String key, final Object value)
     {
-    return put(key, value);
+        return put(key, value);
     }
 
     /**

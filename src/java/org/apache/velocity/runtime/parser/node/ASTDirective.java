@@ -208,6 +208,9 @@ public class ASTDirective extends SimpleNode
         return directiveName;
     }
     
+    /**
+     * @since 1.5
+     */
     public String toString()
     {
         return new ToStringBuilder(this)

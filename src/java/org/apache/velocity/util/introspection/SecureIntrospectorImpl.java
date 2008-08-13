@@ -34,6 +34,7 @@ import org.apache.velocity.runtime.log.Log;
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
+ * @since 1.5
  */
 public class SecureIntrospectorImpl extends Introspector implements SecureIntrospectorControl
 {

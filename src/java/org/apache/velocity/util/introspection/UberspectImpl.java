@@ -77,6 +77,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      *  else.
      *
      * @param log The logger instance to use.
+     * @since 1.5
      */
     public void setLog(Log log)
     {

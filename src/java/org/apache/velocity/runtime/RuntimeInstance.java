@@ -267,6 +267,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Returns true if the RuntimeInstance has been successfully initialized.
      * @return True if the RuntimeInstance has been successfully initialized.
+     * @since 1.5
      */
     public boolean isInitialized()
     {
@@ -1416,6 +1417,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Use this to log error messages. It has the usual methods.
      *
      * @return A convenience Log instance that wraps the current LogChute.
+     * @since 1.5
      */
     public Log getLog()
     {
@@ -1659,6 +1661,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Returns the event handlers for the application.
      * @return The event handlers for the application.
+     * @since 1.5
      */
     public EventCartridge getApplicationEventCartridge()
     {

@@ -107,6 +107,7 @@ import org.apache.velocity.util.ClassUtils;
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @author Nathan Bubna
  * @version $Id$
+ * @since 1.5
  */
 public class StringResourceLoader extends ResourceLoader
 {

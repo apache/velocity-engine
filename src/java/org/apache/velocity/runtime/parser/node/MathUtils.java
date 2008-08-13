@@ -45,8 +45,8 @@ import java.util.ArrayList;
  * For all other operations and types (such as Float and Double) there is no overflow checking.
  *
  * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
+ * @since 1.5
  */
-
 public abstract class MathUtils
 {
 

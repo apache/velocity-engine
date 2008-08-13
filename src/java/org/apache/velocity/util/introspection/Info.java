@@ -80,6 +80,7 @@ public class Info
      * [line X, column Y]</code>.
      *
      * @return String representing this object.
+     * @since 1.5
      */
     public String toString()
     {

@@ -36,6 +36,7 @@ import org.apache.velocity.context.Context;
  *
  * @author <a href="mailto:wglass@wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
+ * @since 1.5
  */
 public interface  ContextAware
 {

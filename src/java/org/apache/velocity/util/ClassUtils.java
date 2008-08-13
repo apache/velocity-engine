@@ -29,6 +29,7 @@ import java.io.InputStream;
  *
  *  @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  *  @version $Id$
+ * @since 1.5
  */
 public class ClassUtils {
 

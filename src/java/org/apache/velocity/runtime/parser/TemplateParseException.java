@@ -30,6 +30,7 @@ import org.apache.velocity.exception.ExtendedParseException;
  *
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
+ * @since 1.5
  */
 public class TemplateParseException
         extends ParseException

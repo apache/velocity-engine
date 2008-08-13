@@ -55,6 +55,7 @@ public class Foreach extends Directive
      * A special context to use when the foreach iterator returns a null.  This
      * is required since the standard context may not support nulls.
      * All puts and gets are passed through, except for the foreach iterator key.
+     * @since 1.5
      */
     protected static class NullHolderContext implements InternalContextAdapter
     {

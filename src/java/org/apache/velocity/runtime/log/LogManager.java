@@ -237,6 +237,7 @@ public class LogManager
      * @param log
      * @param rsvc
      * @throws Exception
+     * @since 1.5
      */
     public static void updateLog(Log log, RuntimeServices rsvc) throws Exception
     {

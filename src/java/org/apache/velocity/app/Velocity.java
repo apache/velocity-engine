@@ -425,6 +425,7 @@ public class Velocity implements RuntimeConstants
      * Use this to log error messages. It has the usual methods.
      *
      * @return A convenience Log instance that wraps the current LogChute.
+     * @since 1.5
      */
     public static Log getLog()
     {

@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  * Escapes the characters in a String to be suitable to pass to an SQL query.
  * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)">StringEscapeUtils</a>
  * @author wglass
+ * @since 1.5
  */
 public class EscapeSqlReference extends EscapeReference
 {

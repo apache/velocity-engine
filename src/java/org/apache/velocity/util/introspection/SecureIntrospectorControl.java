@@ -24,6 +24,7 @@ package org.apache.velocity.util.introspection;
  *
  * @author <a href="Will Glass-Husain">wglass@forio.com</a>
  * @version $Id$
+ * @since 1.5
  */
 public interface SecureIntrospectorControl
 {

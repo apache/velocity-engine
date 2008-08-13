@@ -271,6 +271,7 @@ public abstract class BaseVisitor implements ParserVisitor
 
     /**
      * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTFloatingPointLiteral, java.lang.Object)
+     * @since 1.5
      */
     public Object visit(ASTFloatingPointLiteral node, Object data)
     {
@@ -424,6 +425,7 @@ public abstract class BaseVisitor implements ParserVisitor
 
     /**
      * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTEscapedDirective, java.lang.Object)
+     * @since 1.5
      */
     public Object visit(ASTEscapedDirective node, Object data)
     {
@@ -433,6 +435,7 @@ public abstract class BaseVisitor implements ParserVisitor
 
     /**
      * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTEscape, java.lang.Object)
+     * @since 1.5
      */
     public Object visit(ASTEscape node, Object data)
     {
@@ -442,6 +445,7 @@ public abstract class BaseVisitor implements ParserVisitor
 
     /**
      * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTMap, java.lang.Object)
+     * @since 1.5
      */
     public Object visit(ASTMap node, Object data)
     {
@@ -451,6 +455,7 @@ public abstract class BaseVisitor implements ParserVisitor
 
     /**
      * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTIntegerRange, java.lang.Object)
+     * @since 1.5
      */
     public Object visit(ASTIntegerRange node, Object data)
     {
@@ -460,6 +465,7 @@ public abstract class BaseVisitor implements ParserVisitor
 
     /**
      * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTStop, java.lang.Object)
+     * @since 1.5
      */
     public Object visit(ASTStop node, Object data)
     {

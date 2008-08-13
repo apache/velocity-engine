@@ -36,6 +36,7 @@ import org.apache.velocity.runtime.parser.Parser;
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
+ * @since 1.5
  */
 public class ASTStop extends SimpleNode
 {

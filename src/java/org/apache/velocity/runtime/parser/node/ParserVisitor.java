@@ -25,6 +25,7 @@ package org.apache.velocity.runtime.parser.node;
  * org.apache.velocity.runtime.parser.
  *
  * @version $Id$
+ * @since 1.5
  */
 public interface ParserVisitor
 {

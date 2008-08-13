@@ -34,6 +34,7 @@ import java.util.Map;
  * 
  * @author <a href="mailto:wyla@sci.fi">Jarkko Viinamaki</a>
  * @see http://issues.apache.org/jira/browse/VELOCITY-607
+ * @since 1.6
  */
 public class MapFactory
 {

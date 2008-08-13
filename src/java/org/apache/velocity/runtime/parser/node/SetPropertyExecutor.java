@@ -32,6 +32,7 @@ import org.apache.velocity.util.introspection.Introspector;
  *
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
+ * @since 1.5
  */
 public class SetPropertyExecutor
         extends SetExecutor

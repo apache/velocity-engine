@@ -35,6 +35,7 @@ import org.apache.velocity.runtime.RuntimeLogger;
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id$
  * @deprecated This will be removed along with the RuntimeLogger interface.
+ * @since 1.5
  */
 public class RuntimeLoggerLog extends Log
 {

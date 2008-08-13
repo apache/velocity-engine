@@ -39,6 +39,7 @@ public class PropertyExecutor extends AbstractExecutor
      * @param introspector
      * @param clazz
      * @param property
+     * @since 1.5
      */
     public PropertyExecutor(final Log log, final Introspector introspector,
             final Class clazz, final String property)
@@ -70,6 +71,7 @@ public class PropertyExecutor extends AbstractExecutor
 
     /**
      * @return The current introspector.
+     * @since 1.5
      */
     protected Introspector getIntrospector()
     {

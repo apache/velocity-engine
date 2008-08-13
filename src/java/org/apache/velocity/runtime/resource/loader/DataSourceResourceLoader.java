@@ -122,6 +122,7 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:lachiewicz@plusnet.pl">Sylwester Lachiewicz</a>
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
+ * @since 1.5
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
