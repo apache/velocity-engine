@@ -91,7 +91,7 @@ public class MapFactory
                     throw new IllegalStateException("this should not happen", ex);
                 }
             }
-            if (map == null)
+            else
             {
                 /*
                  * Hashtable should be faster than
