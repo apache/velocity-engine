@@ -405,8 +405,8 @@ public class VelocimacroFactory
      * @param macroBody root node of the parsed macro AST
      * @param argArray Name of the macro arguments. First element is the macro name.
      * @param sourceTemplate Source template from which the macro gets registered.
-     * 
      * @return true if Macro was registered successfully.
+     * @since 1.6
      */
     public boolean addVelocimacro(String name, Node macroBody,
             String argArray[], String sourceTemplate)
@@ -550,6 +550,9 @@ public class VelocimacroFactory
         return(getVelocimacro(vmName, sourceTemplate, null));
      }
 
+     /**
+      * @since 1.6
+      */
      public Directive getVelocimacro(String vmName, String sourceTemplate, String renderingTemplate)
      {
         VelocimacroProxy vp = null;

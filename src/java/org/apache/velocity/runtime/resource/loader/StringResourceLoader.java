@@ -111,10 +111,16 @@ import org.apache.velocity.util.ClassUtils;
  */
 public class StringResourceLoader extends ResourceLoader
 {
-    /** Key to determine whether the repository should be set as the static one or not. */
+    /**
+     * Key to determine whether the repository should be set as the static one or not.
+     * @since 1.6
+     */
     public static final String REPOSITORY_STATIC = "repository.static";
 
-    /** By default, repositories are stored statically (shared across the VM). */
+    /**
+     * By default, repositories are stored statically (shared across the VM).
+     * @since 1.6
+     */
     public static final boolean REPOSITORY_STATIC_DEFAULT = true;
 
     /** Key to look up the repository implementation class. */
@@ -124,11 +130,16 @@ public class StringResourceLoader extends ResourceLoader
     public static final String REPOSITORY_CLASS_DEFAULT =
         StringResourceRepositoryImpl.class.getName();
 
-    /** Key to look up the name for the repository to be used. */
+    /**
+     * Key to look up the name for the repository to be used.
+     * @since 1.6
+     */
     public static final String REPOSITORY_NAME = "repository.name";
 
     /** The default name for string resource repositories
-     * ('org.apache.velocity.runtime.resource.util.StringResourceRepository'). */
+     * ('org.apache.velocity.runtime.resource.util.StringResourceRepository').
+     * @since 1.6
+     */
     public static final String REPOSITORY_NAME_DEFAULT =
         StringResourceRepository.class.getName();
 
@@ -153,6 +164,7 @@ public class StringResourceLoader extends ResourceLoader
     /**
      * Returns a reference to the repository stored statically under the
      * specified name.
+     * @since 1.6
      */
     public static StringResourceRepository getRepository(String name)
     {
@@ -162,6 +174,7 @@ public class StringResourceLoader extends ResourceLoader
     /**
      * Sets the specified {@link StringResourceRepository} in static storage
      * under the specified name.
+     * @since 1.6
      */
     public static void setRepository(String name, StringResourceRepository repo)
     {
@@ -171,6 +184,7 @@ public class StringResourceLoader extends ResourceLoader
     /**
      * Removes the {@link StringResourceRepository} stored under the specified
      * name.
+     * @since 1.6
      */
     public static StringResourceRepository removeRepository(String name)
     {
@@ -179,6 +193,7 @@ public class StringResourceLoader extends ResourceLoader
 
     /**
      * Removes all statically stored {@link StringResourceRepository}s.
+     * @since 1.6
      */
     public static void clearRepositories()
     {
@@ -262,7 +277,9 @@ public class StringResourceLoader extends ResourceLoader
         log.trace("StringResourceLoader : initialization complete.");
     }
 
-
+    /**
+     * @since 1.6
+     */
     public StringResourceRepository createRepository(final String className,
                                                      final String encoding)
     {

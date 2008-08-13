@@ -63,6 +63,7 @@ public class StringResourceRepositoryImpl implements StringResourceRepository
 
     /**
      * @see StringResourceRepository#putStringResource(java.lang.String, java.lang.String, java.lang.String)
+     * @since 1.6
      */
     public void putStringResource(final String name, final String body, final String encoding)
     {

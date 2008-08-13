@@ -49,6 +49,7 @@ public interface StringResourceRepository
      * @param name The String name to store the template under.
      * @param body A String containing a template.
      * @param encoding The encoding of this string template
+     * @since 1.6
      */
     void putStringResource(String name, String body, String encoding);
 

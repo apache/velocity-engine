@@ -147,6 +147,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentMacroName(java.lang.String)
+     * @since 1.6
      */
     public void pushCurrentMacroName( String s )
     {
@@ -155,6 +156,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentMacroName()
+     * @since 1.6
      */
     public void popCurrentMacroName()
     {
@@ -163,6 +165,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroName()
+     * @since 1.6
      */
     public String getCurrentMacroName()
     {
@@ -171,6 +174,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroCallDepth()
+     * @since 1.6
      */
     public int getCurrentMacroCallDepth()
     {
@@ -179,6 +183,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
+     * @since 1.6
      */
     public Object[] getMacroNameStack()
     {
@@ -238,6 +243,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
+     * @since 1.6
      */
     public void setMacroLibraries(List macroLibraries)
     {
@@ -246,6 +252,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
+     * @since 1.6
      */
     public List getMacroLibraries()
     {

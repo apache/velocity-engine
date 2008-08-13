@@ -41,6 +41,7 @@ import java.util.List;
  * the macro is actually defined).  At render time we check whether there is
  * a implementation for the macro call. If an implementation cannot be
  * found the literal text is rendered.
+ * @since 1.6
  */
 public class RuntimeMacro extends Directive
 {

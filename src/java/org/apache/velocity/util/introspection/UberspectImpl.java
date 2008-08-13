@@ -326,6 +326,9 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             this(m, false);
         }
 
+        /**
+         * @since 1.6
+         */
         public VelMethodImpl(Method method, boolean wrapArray)
         {
             this.method = method;
@@ -368,6 +371,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          * Offers an extension point for subclasses (in alternate Uberspects)
          * to alter the invocation after any array wrapping or varargs handling
          * has already been completed.
+         * @since 1.6
          */
         protected Object doInvoke(Object o, Object[] actual) throws Exception
         {
@@ -376,6 +380,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
 
         /**
          * @returns true if this method can accept a variable number of arguments
+         * @since 1.6
          */
         public boolean isVarArg()
         {

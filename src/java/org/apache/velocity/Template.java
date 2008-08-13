@@ -249,6 +249,7 @@ public class Template extends Resource
      *          to syntax (or other) error.
      *  @throws MethodInvocationException When a method on a referenced object in the context could not invoked.
      *  @throws IOException  Might be thrown while rendering.
+     *  @since 1.6
      */
     public void merge( Context context, Writer writer, List macroLibraries)
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, IOException

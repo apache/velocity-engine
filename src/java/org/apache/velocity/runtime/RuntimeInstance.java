@@ -1005,6 +1005,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param templateName name of the template being parsed
      * @return A root node representing the template as an AST tree.
      * @throws ParseException When the string could not be parsed as a template.
+     * @since 1.6
      */
     public SimpleNode parse(String string, String templateName)
         throws ParseException
@@ -1250,6 +1251,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param writer  Writer for output stream
      * @return true if Velocimacro exists and successfully invoked, false otherwise.
      * @throws IOException While rendering to the writer, an I/O problem occured.
+     * @since 1.6
      */
     public boolean invokeVelocimacro(final String vmName, String logTag,
                                      String[] params, final Context context,
@@ -1485,6 +1487,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param vmName Name of velocimacro requested
      * @param templateName Name of the template that contains the velocimacro.
      * @return The requested VelocimacroProxy.
+     * @since 1.6
      */
     public Directive getVelocimacro(String vmName, String templateName)
     {

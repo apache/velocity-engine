@@ -23,6 +23,7 @@ package org.apache.velocity.exception;
  * Application-level exception thrown when macro calls within macro calls
  * exceeds the maximum allowed depth. The maximum allowable depth is given
  * in the configuration as velocimacro.max.depth.
+ * @since 1.6
  */
 public class MacroOverflowException extends VelocityException
 {

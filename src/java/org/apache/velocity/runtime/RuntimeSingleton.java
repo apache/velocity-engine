@@ -473,6 +473,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * @return boolean  True if added, false if rejected for some
      *                  reason (either parameters or permission settings)
      * @see RuntimeInstance#addVelocimacro(String, Node, String[], String)
+     * @since 1.6
      */
     public static boolean addVelocimacro(String name, Node macro,
                                          String argArray[], String sourceTemplate)

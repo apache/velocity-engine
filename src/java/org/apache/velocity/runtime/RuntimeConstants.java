@@ -114,7 +114,10 @@ public interface RuntimeConstants
     /** Counter reference name in #foreach directives. */
     String COUNTER_NAME = "directive.foreach.counter.name";
 
-    /** Iterator.hasNext() reference name in #foreach directives. */
+    /**
+     * Iterator.hasNext() reference name in #foreach directives.
+     * @since 1.6
+     */
     String HAS_NEXT_NAME = "directive.foreach.iterator.name";
 
     /** Initial counter value in #foreach directives. */
@@ -141,7 +144,10 @@ public interface RuntimeConstants
     /** Maximum recursion depth allowed for the #parse directive. */
     String PARSE_DIRECTIVE_MAXDEPTH = "directive.parse.max.depth";
 
-    /** class to use for local context with #evaluate() **/
+    /**
+     * class to use for local context with #evaluate()
+     * @since 1.6
+     */
     String EVALUATE_CONTEXT_CLASS = "directive.evaluate.context.class";
 
 
@@ -255,7 +261,10 @@ public interface RuntimeConstants
     /** if true, throw an exception for wrong number of arguments **/
     String VM_ARGUMENTS_STRICT = "velocimacro.arguments.strict";
 
-    /** Specify the maximum depth for macro calls **/
+    /**
+     * Specify the maximum depth for macro calls
+     * @since 1.6
+     */
     String VM_MAX_DEPTH = "velocimacro.max.depth";
     
     /*
