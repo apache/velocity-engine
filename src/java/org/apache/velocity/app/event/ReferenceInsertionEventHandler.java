@@ -51,6 +51,7 @@ public interface  ReferenceInsertionEventHandler extends EventHandler
 
     /**
      * Defines the execution strategy for referenceInsert
+     * @since 1.5
      */
     static class referenceInsertExecutor implements EventHandlerMethodExecutor
     {

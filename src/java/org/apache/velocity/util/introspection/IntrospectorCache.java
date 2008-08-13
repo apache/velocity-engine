@@ -24,6 +24,7 @@ package org.apache.velocity.util.introspection;
  *
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
+ * @since 1.5
  */
 public interface IntrospectorCache {
 

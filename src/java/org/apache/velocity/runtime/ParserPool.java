@@ -29,6 +29,7 @@ import org.apache.velocity.runtime.parser.Parser;
  *
  * @author <a href="mailto:sergek@lokitech.com">Serge Knystautas</a>
  * @version $Id: RuntimeInstance.java 384374 2006-03-08 23:19:30Z nbubna $
+ * @since 1.5
  */
 public interface ParserPool
 {

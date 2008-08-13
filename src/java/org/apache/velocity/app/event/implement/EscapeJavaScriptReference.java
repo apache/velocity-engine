@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  * Escapes the characters in a String to be suitable for use in JavaScript.
  * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeJavaScript(java.lang.String)">StringEscapeUtils</a>
  * @author wglass
+ * @since 1.5
  */
 public class EscapeJavaScriptReference extends EscapeReference
 {

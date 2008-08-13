@@ -74,6 +74,7 @@ public class VelocityEngine implements RuntimeConstants
      *
      * @param propsFilename name of properties file to init with
      * @throws Exception
+     * @since 1.5
      */
     public VelocityEngine(String propsFilename)
         throws Exception
@@ -87,6 +88,7 @@ public class VelocityEngine implements RuntimeConstants
      *
      * @param p name of properties  to init with
      * @throws Exception
+     * @since 1.5
      */
     public VelocityEngine(Properties p)
         throws Exception
@@ -433,6 +435,7 @@ public class VelocityEngine implements RuntimeConstants
      *
      *   @param resourceName  name of the resource to search for
      *   @return true if found, false otherwise
+     *   @since 1.5
      */
     public boolean resourceExists(String resourceName)
     {
@@ -455,6 +458,7 @@ public class VelocityEngine implements RuntimeConstants
      * Returns a convenient Log instance that wraps the current LogChute.
      * Use this to log error messages. It has the usual methods you'd expect.
      * @return A log object.
+     * @since 1.5
      */
     public Log getLog()
     {
@@ -534,6 +538,7 @@ public class VelocityEngine implements RuntimeConstants
       *
       *  @param key object 'name' under which the object is stored
       *  @return value object to store under this key
+      * @since 1.5
       */
      public Object getApplicationAttribute( Object key )
      {

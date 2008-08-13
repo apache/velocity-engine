@@ -335,6 +335,7 @@ public class ASTMethod extends SimpleNode
      * ASTMethod fields with array of parameter classes.  Has
      * public access (and complete constructor) for unit test 
      * purposes.
+     * @since 1.5
      */
     public static class MethodCacheKey
     {
@@ -415,6 +416,7 @@ public class ASTMethod extends SimpleNode
 
     /**
      * @return Returns the methodName.
+     * @since 1.5
      */
     public String getMethodName()
     {

@@ -109,6 +109,7 @@ public abstract class IntrospectorBase
      * Return the internal IntrospectorCache object.
      * 
      * @return The internal IntrospectorCache object.
+     * @since 1.5
      */
     protected IntrospectorCache getIntrospectorCache()
     {

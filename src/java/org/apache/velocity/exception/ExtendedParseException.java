@@ -27,6 +27,7 @@ package org.apache.velocity.exception;
  *
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
+ * @since 1.5
  */
 public interface ExtendedParseException
 {

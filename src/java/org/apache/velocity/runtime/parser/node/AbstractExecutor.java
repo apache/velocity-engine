@@ -74,6 +74,7 @@ public abstract class AbstractExecutor
 
     /**
      * @param method
+     * @since 1.5
      */
     protected void setMethod(final Method method)
     {

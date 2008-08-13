@@ -27,6 +27,7 @@ import java.util.AbstractList;
  *
  * @author Chris Schultz &lt;chris@christopherschultz.net$gt;
  * @version $Revision$ $Date: 2006-04-14 19:40:41 $
+ * @since 1.6
  */
 public class ArrayListWrapper extends AbstractList
 {

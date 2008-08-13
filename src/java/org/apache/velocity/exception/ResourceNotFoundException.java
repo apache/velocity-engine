@@ -48,6 +48,7 @@ public class ResourceNotFoundException extends VelocityException
 
     /**
      * @see VelocityException#VelocityException(String, Throwable)
+     * @since 1.5
      */
     public ResourceNotFoundException(final String exceptionMessage, final Throwable t)
     {
@@ -56,6 +57,7 @@ public class ResourceNotFoundException extends VelocityException
 
     /**
      * @see VelocityException#VelocityException(Throwable)
+     * @since 1.5
      */
     public ResourceNotFoundException(final Throwable t)
     {

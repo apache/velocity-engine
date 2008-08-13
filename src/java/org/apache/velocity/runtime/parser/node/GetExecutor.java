@@ -49,6 +49,7 @@ public class GetExecutor extends AbstractExecutor
      * @param introspector
      * @param clazz
      * @param property
+     * @since 1.5
      */
     public GetExecutor(final Log log, final Introspector introspector,
             final Class clazz, final String property)
@@ -83,6 +84,9 @@ public class GetExecutor extends AbstractExecutor
         this(new RuntimeLoggerLog(rlog), introspector, clazz, property);
     }
 
+    /**
+     * @since 1.5
+     */
     protected void discover(final Class clazz)
     {
         try

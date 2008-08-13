@@ -56,9 +56,10 @@ import org.apache.velocity.util.introspection.Info;
  * 
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
+ * @since 1.5
  */
 public class ReportInvalidReferences implements 
-InvalidReferenceEventHandler, RuntimeServicesAware
+    InvalidReferenceEventHandler, RuntimeServicesAware
 {
 
     public static final String EVENTHANDLER_INVALIDREFERENCE_EXCEPTION = "eventhandler.invalidreference.exception";

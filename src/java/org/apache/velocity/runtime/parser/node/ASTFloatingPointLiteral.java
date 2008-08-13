@@ -31,6 +31,7 @@ import org.apache.velocity.runtime.parser.Parser;
  * or a BigDecimal.
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @since 1.5
  */
 public class ASTFloatingPointLiteral extends SimpleNode
 {

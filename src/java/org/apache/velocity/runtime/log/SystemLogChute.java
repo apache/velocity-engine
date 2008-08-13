@@ -27,6 +27,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id$
+ * @since 1.5
  */
 public class SystemLogChute implements LogChute
 {

@@ -45,6 +45,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  * @author <a href="mailto:wyla@removeme.sci.fi">Jarkko Viinamaki</a>
  * @see http://issues.apache.org/jira/browse/VELOCITY-607
  * @version $Id$
+ * @since 1.6
  */
 public class ProxyVMContext implements InternalContextAdapter
 {

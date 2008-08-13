@@ -32,6 +32,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:nbubna@apache.org">Nathan Bubna</a>
  * @version $Id$
+ * @since 1.5
  */
 class HoldingLogChute implements LogChute
 {

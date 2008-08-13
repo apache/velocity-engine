@@ -51,6 +51,7 @@ public interface MethodExceptionEventHandler extends EventHandler
 
     /**
      * Defines the execution strategy for methodException
+     * @since 1.5
      */
     static class MethodExceptionExecutor implements EventHandlerMethodExecutor
     {

@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
  * However, it running under JDK 1.4 it will set the cause.
  *
  * @author <a href="mailto:isidore@setgame.com">Llewellyn Falco</a>
+ * @since 1.5
  */
 public class ExceptionUtils
 {

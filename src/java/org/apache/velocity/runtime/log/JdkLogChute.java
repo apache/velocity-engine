@@ -29,7 +29,7 @@ import org.apache.velocity.runtime.RuntimeServices;
  *
  * @author <a href="mailto:nbubna@apache.org>Nathan Bubna</a>
  * @version $Id$
- * @since Velocity 1.5
+ * @since 1.5
  */
 public class JdkLogChute implements LogChute
 {

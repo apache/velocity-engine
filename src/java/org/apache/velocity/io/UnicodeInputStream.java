@@ -40,8 +40,8 @@ import org.apache.velocity.util.ExceptionUtils;
  * @author <a href="mailto:mailmur@yahoo.com">Aki Nieminen</a>
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
+ * @since 1.5
  */
-
 public class UnicodeInputStream
     extends InputStream
 {

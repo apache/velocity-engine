@@ -36,6 +36,7 @@ import org.apache.velocity.runtime.log.Log;
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
+ * @since 1.5
  */
 public abstract class SetExecutor
 {

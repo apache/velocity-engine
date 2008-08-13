@@ -44,6 +44,7 @@ public class BooleanPropertyExecutor extends PropertyExecutor
      * @param introspector
      * @param clazz
      * @param property
+     * @since 1.5
      */
     public BooleanPropertyExecutor(final Log log, final Introspector introspector,
             final Class clazz, final String property)

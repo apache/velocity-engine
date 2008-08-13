@@ -254,6 +254,7 @@ public class Macro extends Directive
      *
      * @return A StringBuffer containing the formatted arguments. If a StringBuffer
      *         has passed in as buf, this method returns it.
+     * @since 1.5
      */
     public static final StringBuffer macroToString(final StringBuffer buf,
                                                    final String[] argArray)

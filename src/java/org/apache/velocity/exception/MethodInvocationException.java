@@ -102,30 +102,34 @@ public class MethodInvocationException extends VelocityException implements Exte
 
     /**
      * @see ExtendedParseException#getColumnNumber()
+     * @since 1.5
      */
     public int getColumnNumber()
     {
-	return columnNumber;
+	    return columnNumber;
     }
 
     /**
      * @see ExtendedParseException#getLineNumber()
+     * @since 1.5
      */
     public int getLineNumber()
     {
-	return lineNumber;
+	    return lineNumber;
     }
 
     /**
      * @see ExtendedParseException#getTemplateName()
+     * @since 1.5
      */
     public String getTemplateName()
     {
-	return templateName;
+	    return templateName;
     }
 
     /**
      * @see Exception#getMessage()
+     * @since 1.5
      */
     public String getMessage()
     {

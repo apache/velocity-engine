@@ -46,6 +46,7 @@ public interface NullSetEventHandler extends EventHandler
 
     /**
      * Defines the execution strategy for shouldLogOnNullSet
+     * @since 1.5
      */
     static class ShouldLogOnNullSetExecutor implements EventHandlerMethodExecutor
     {

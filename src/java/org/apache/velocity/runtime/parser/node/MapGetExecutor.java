@@ -29,6 +29,7 @@ import org.apache.velocity.runtime.log.Log;
  *
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
+ * @since 1.5
  */
 public class MapGetExecutor
         extends AbstractExecutor 

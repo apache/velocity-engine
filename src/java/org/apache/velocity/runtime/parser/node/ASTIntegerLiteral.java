@@ -29,6 +29,7 @@ import org.apache.velocity.runtime.parser.Parser;
  * Handles integer numbers.  The value will be either an Integer, a Long, or a BigInteger.
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @since 1.5
  */
 public class ASTIntegerLiteral extends SimpleNode
 {

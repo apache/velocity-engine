@@ -75,6 +75,7 @@ public class ParseErrorException extends VelocityException
      * Create a ParseErrorException with the given ParseException.
      *
      * @param pex the parsing exception
+     * @since 1.5
      */
     public ParseErrorException(ParseException pex)
     {
@@ -106,6 +107,7 @@ public class ParseErrorException extends VelocityException
      * Create a ParseErrorException with the given ParseException.
      *
      * @param pex the parsing exception
+     * @since 1.5
      */
     public ParseErrorException(VelocityException pex)
     {
@@ -139,6 +141,7 @@ public class ParseErrorException extends VelocityException
      * 
      * @param exceptionMessage the error exception message
      * @param info an Info object with the current template info
+     * @since 1.5
      */
     public ParseErrorException(String exceptionMessage, Info info)
     {
@@ -154,6 +157,7 @@ public class ParseErrorException extends VelocityException
      * @param exceptionMessage the error exception message
      * @param info an Info object with the current template info
      * @param invalidSyntax the invalid syntax or reference triggering this exception
+     * @since 1.5
      */
     public ParseErrorException(String exceptionMessage, 
             Info info, String invalidSyntax)
@@ -170,6 +174,7 @@ public class ParseErrorException extends VelocityException
      * Return the column number of the parsing error, or -1 if not defined.
      *
      * @return column number of the parsing error, or -1 if not defined
+     * @since 1.5
      */
     public int getColumnNumber()
     {
@@ -180,6 +185,7 @@ public class ParseErrorException extends VelocityException
      * Return the line number of the parsing error, or -1 if not defined.
      *
      * @return line number of the parsing error, or -1 if not defined
+     * @since 1.5
      */
     public int getLineNumber()
     {
@@ -192,6 +198,7 @@ public class ParseErrorException extends VelocityException
      *
      * @return the name of the template containing the parsing error, or null
      *      if not defined
+     * @since 1.5
      */
     public String getTemplateName()
     {
@@ -204,6 +211,7 @@ public class ParseErrorException extends VelocityException
      * 
      * @return Return the invalid syntax or reference that triggered this error, or null
      * if not defined
+     * @since 1.5
      */
     public String getInvalidSyntax()
     {
