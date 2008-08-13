@@ -19,8 +19,10 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
-
+import java.util.Set;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -51,8 +53,8 @@ public class VelocimacroManager
     /** Hash of namespace hashes. */
     private final Map namespaceHash = MapFactory.create(17, 0.5f, 20, false);
 
-    /** map of names of library tempates/namespaces */
-    private final Map libraryMap = MapFactory.create(256, 0.5f, 10, false);
+    /** set of names of library tempates/namespaces */
+    private final Set libraries = Collections.synchronizedSet(new HashSet());
 
     /*
      * big switch for namespaces.  If true, then properties control
@@ -88,14 +90,16 @@ public class VelocimacroManager
     public boolean addVM(final String vmName, final Node macroBody, final String argArray[],
                          final String namespace, boolean canReplaceGlobalMacro)
     {
+        if (macroBody == null)
+        {
+            // happens only if someone uses this class without the Macro directive
+            // and provides a null value as an argument
+            throw new RuntimeException("Null AST for "+vmName+" in "+namespace);
+        }
+
         MacroEntry me = new MacroEntry(vmName, macroBody, argArray, namespace);
 
         me.setFromLibrary(registerFromLib);
-
-        // this can happen only if someone uses this class without the Macro directive
-        // and provides a null value as an argument
-        if( macroBody == null )
-            throw new RuntimeException("Null AST for "+vmName);
         
         /*
          *  the client (VMFactory) will signal to us via
@@ -110,7 +114,7 @@ public class VelocimacroManager
         
         if (registerFromLib)
         {
-           libraryMap.put(namespace, namespace);
+           libraries.add(namespace);
         }
         else
         {
@@ -122,7 +126,7 @@ public class VelocimacroManager
              *  global
              */
 
-            isLib = libraryMap.containsKey(namespace);
+            isLib = libraries.contains(namespace);
         }
 
         if ( !isLib && usingNamespaces(namespace) )
