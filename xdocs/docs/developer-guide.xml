@@ -568,7 +568,11 @@ in the VTL <code>#foreach()</code> directive.
 <li> <code>Object [] </code>  Regular object array, not much needs to be said
 here. Velocity will internally wrap your array in a class that provides an
 Iterator interface,  but that shouldn't concern you as the programmer, or the
-template author.
+template author.  Of more interest, is the fact that Velocity will now
+allow template authors to treat arrays as fixed-length lists (as of Velocity 1.6). 
+This means they may call methods like <code>size()</code>,
+<code>isEmpty()</code> and <code>get(int)</code> on both arrays and standard
+java.util.List instances without concerning themselves about the difference.
 </li>
 
 <li> <code>java.util.Collection</code>  Velocity will use the

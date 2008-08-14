@@ -538,7 +538,41 @@ $sisyphus.pushRock()
 ## Velocity assumes I mean $sisyphus.getRock()
 
 $book.setTitle( "Homage to Catalonia" )
-## Can't pass a parameter list
+## Can't pass a parameter
+]]></source>
+
+  <p>
+    As of Velocity 1.6, all array references are now "magically" treated as if
+    they are fixed-length lists.  This means that you can call java.util.List methods
+    on array references.  So, if you have a reference to an array (let's say
+    this one is a String[] with three values), you can do:
+  </p>
+
+<source><![CDATA[
+$myarray.isEmpty()
+
+$myarray.size()
+
+$myarray.get(2)
+
+$myarray.set(1, 'test')
+]]></source>
+
+  <p>
+    Also new in Velocity 1.6 is support for vararg methods. A method like
+    <code>public void setPlanets(String... planets)</code> or even just
+    <code>public void setPlanets(String[] planets)</code> (if you are
+    using a pre-Java 5 JDK), can now accept
+    any number of arguments when called in a template.
+  </p>
+
+<source><![CDATA[
+$sun.setPlanets('Earth', 'Mars', 'Neptune')
+
+$sun.setPlanets('Mercury')
+
+$sun.setPlanets()
+## Will just pass in an empty, zero-length array
 ]]></source>
 
  <p>
