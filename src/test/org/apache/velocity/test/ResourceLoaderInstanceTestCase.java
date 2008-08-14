@@ -135,7 +135,17 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
         if ( !isMatch(RESULTS_DIR, COMPARE_DIR, "testfile",
                         RESULT_FILE_EXT, CMP_FILE_EXT) )
         {
-            fail("Output incorrect.");
+            String result = getFileContents(RESULT_DIR, "testfile", RESULT_FILE_EXT);
+            String compare = getFileContents(COMPARE_DIR, "testfile", CMP_FILE_EXT);
+
+            String msg = "Processed template did not match expected output\n"+
+                "-----Result-----\n"+ result +
+                "----Expected----\n"+ compare +
+                "----------------";
+            
+            fail(msg);
+//caveman hack to get gump to give more info
+System.out.println(msg);
         }
     }
 }
