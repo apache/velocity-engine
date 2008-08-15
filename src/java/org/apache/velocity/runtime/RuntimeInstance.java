@@ -289,7 +289,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             catch (Exception e)
             {
                 getLog().error("Could not auto-initialize Velocity", e);
-                throw new IllegalStateException("Velocity could not be initialized!", e);
+                throw new RuntimeException("Velocity could not be initialized!", e);
             }
         }
     }
