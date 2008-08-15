@@ -1607,6 +1607,13 @@ the loop count as $velocityCount.
 </p>
 
 <p>
+<code>directive.foreach.iterator.name = velocityHasNext</code><br/>
+Used in the #foreach() directive, defines the string to be used as the
+context key for the "has next" value. A template would access
+this as $velocityHasNext.
+</p>
+
+<p>
 <code>directive.foreach.counter.initial.value = 1</code><br/>
 Default starting value for the loop counter reference in a #foreach() loop.
 </p>
