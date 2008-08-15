@@ -40,7 +40,7 @@ implements CharStream
 {
     public static final boolean staticFlag = false;
     int bufsize;
-    private int nextBufExpand = 2048;
+    private int nextBufExpand;
     int available;
     int tokenBegin;
 
@@ -106,7 +106,7 @@ implements CharStream
 
 
         bufsize += nextBufExpand;
-        nextBufExpand *= 2;
+        nextBufExpand = bufsize;
         available = bufsize;
         tokenBegin = 0;
     }
@@ -329,7 +329,7 @@ implements CharStream
         line = startline;
         column = startcolumn - 1;
 
-        available = bufsize = buffersize;
+        available = bufsize = nextBufExpand = buffersize;
         buffer = new char[buffersize];
         bufline = new int[buffersize];
         bufcolumn = new int[buffersize];
@@ -360,7 +360,7 @@ implements CharStream
 
         if (buffer == null || buffersize != buffer.length)
         {
-            available = bufsize = buffersize;
+            available = bufsize = nextBufExpand = buffersize;
             buffer = new char[buffersize];
             bufline = new int[buffersize];
             bufcolumn = new int[buffersize];
