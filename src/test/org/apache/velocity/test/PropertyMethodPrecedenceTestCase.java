@@ -63,6 +63,7 @@ public class PropertyMethodPrecedenceTestCase extends TestCase
         context = new VelocityContext();
         context.put("geta", new getGetgetisTool());
         context.put("getA", new GetgetisTool());
+        context.put("geta2", new get2getisTool());
         context.put("get_a", new getisTool());
         context.put("isA", new isTool());
     }
@@ -73,12 +74,21 @@ public class PropertyMethodPrecedenceTestCase extends TestCase
         context = null;
     }
 
-    public void testPropertyMethods()
+    public void testLowercasePropertyMethods()
     {
         assertEvalEquals("getfoo", "$geta.foo");
         assertEvalEquals("getFoo", "$getA.foo");
         assertEvalEquals("get(foo)", "$get_a.foo");
         assertEvalEquals("true", "$isA.foo");
+    }
+
+    public void testUppercasePropertyMethods()
+    {
+        assertEvalEquals("getFoo", "$geta.Foo");
+        assertEvalEquals("getfoo", "$geta2.Foo");
+        assertEvalEquals("getFoo", "$getA.Foo");
+        assertEvalEquals("get(Foo)", "$get_a.Foo");
+        assertEvalEquals("true", "$isA.Foo");
     }
 
 
@@ -87,7 +97,6 @@ public class PropertyMethodPrecedenceTestCase extends TestCase
         try
         {
             String result = evaluate(template);
-System.out.println("expected "+expected+" and got "+result);
             assertEquals(expected, result);
         }
         catch (Exception e)
@@ -117,7 +126,7 @@ System.out.println("expected "+expected+" and got "+result);
     {
         public String get(String s)
         {
-            return "get(foo)";
+            return "get("+s+")";
         }
     }
 
@@ -130,6 +139,14 @@ System.out.println("expected "+expected+" and got "+result);
     }
 
     public static class getGetgetisTool extends GetgetisTool
+    {
+        public String getfoo()
+        {
+            return "getfoo";
+        }
+    }
+
+    public static class get2getisTool extends getisTool
     {
         public String getfoo()
         {
