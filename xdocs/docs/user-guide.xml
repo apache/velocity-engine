@@ -1379,6 +1379,19 @@ $blargh
 ]]></source>
 
     <p>
+    Velocity also now provides an easy way to tell if you are
+    on the last iteration of a loop:
+    </p>
+
+<source><![CDATA[
+#foreach( $customer in $customerList )
+    $customer.Name#if( $velocityHasNext ),#end
+#end
+]]></source>
+
+    <p>
+    The default name for the "has next" variable reference, which is
+    specified in the velocity.properties file, is $velocityHasNext. 
     The default name for the loop counter variable reference, which is
     specified in the velocity.properties file, is $velocityCount. By
     default the counter starts at 1, but this can be set to either 0 or
@@ -1391,6 +1404,7 @@ $blargh
 # Default name of the loop counter
 # variable reference.
 directive.foreach.counter.name = velocityCount
+directive.foreach.iterator.name = velocityHasNext
 
 # Default starting value of the loop
 # counter variable reference.
