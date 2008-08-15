@@ -1224,8 +1224,6 @@ $blargh
 
     <p>
       Velocity has logical AND, OR and NOT operators as well.
-      For further information, please see the
-      <a href="vtl-reference-guide.html">VTL Reference Guide</a>
       Below are examples demonstrating the use of the
       logical AND, OR and NOT operators.
     </p>
