@@ -89,7 +89,7 @@ public class MapFactory
                 }
                 catch (Exception ex)
                 {
-                    throw new IllegalStateException("this should not happen", ex);
+                    throw new RuntimeException("this should not happen", ex);
                 }
             }
             else

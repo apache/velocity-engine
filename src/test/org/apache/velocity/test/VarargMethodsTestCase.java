@@ -66,7 +66,7 @@ public class VarargMethodsTestCase extends TestCase
         context.put("objects", new Object[] { this, Test.class });
         context.put("strings", new String[] { "one", "two" });
         context.put("doubles", new double[] { 1.5, 2.5 });
-        context.put("float", Float.valueOf(1f));
+        context.put("float", new Float(1f));
         context.put("ints", new int[] { 1, 2 });
     }
 
