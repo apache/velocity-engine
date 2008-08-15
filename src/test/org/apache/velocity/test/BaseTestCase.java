@@ -130,6 +130,8 @@ public abstract class BaseTestCase
             {
                 String errMsg = "Unable to create template results directory";
                 RuntimeSingleton.getLog().warn(errMsg);
+//caveman hack to get gump to give more info
+System.out.println(errMsg);
                 fail(errMsg);
             }
         }

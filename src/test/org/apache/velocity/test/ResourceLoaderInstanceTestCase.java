@@ -110,6 +110,8 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
     public void testResourceLoaderInstance ()
             throws Exception
     {
+//caveman hack to get gump to give more info
+System.out.println("Began resource loader instance test");
         assureResultsDirectoryExists(RESULTS_DIR);
 
         Template template = RuntimeSingleton.getTemplate(
@@ -118,7 +120,8 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
         FileOutputStream fos =
                 new FileOutputStream (
                         getFileName(RESULTS_DIR, "testfile", RESULT_FILE_EXT));
-
+//caveman hack to get gump to give more info
+System.out.println("All needed files exist");
 
         Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
