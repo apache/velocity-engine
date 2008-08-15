@@ -2277,7 +2277,11 @@ invoke the method outside of the VM, and pass the value into the VM.
 <strong>Can I register Velocimacros via #parse() ? </strong>
 
     <p>
-    Currently, Velocimacros must be defined before they are first
+    <b>Yes! This became possible in Velocity 1.6.</b>
+    </p>
+    <p>
+    If you are using an earlier version, your Velocimacros
+    must be defined before they are first
     used in a template.  This means that your #macro() declarations
     should come before using the Velocimacros.
     </p>
