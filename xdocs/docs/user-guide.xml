@@ -1902,20 +1902,17 @@ Vyacheslav Ganelin
 ]]></source>
 
   <p>
-  Whether <em>$jazz</em> is true or false, the output will be
+  This causes the directives to be escaped, but the rendering of <em>$jazz</em>
+  proceeds as normal.  So, if <em>$jazz</em> is true, the output is
   </p>
-
  <source><![CDATA[
- #if($ jazz )
+ #if( true )
      Vyacheslav Ganelin
  #end
  ]]></source>
 
   <p>
-  In fact, because all script elements
-  are escaped, <em>$jazz</em> is never evaluated for its boolean value.
-  Suppose
-  backslashes precede script elements that are legitimately escaped:
+  Suppose backslashes precede script elements that are legitimately escaped:
   </p>
 
 <source><![CDATA[
