@@ -85,24 +85,6 @@ public class ASTEQNode extends SimpleNode
         Object right = jjtGetChild(1).value(context);
 
         /*
-         *  they could be null if they are references and not in the context
-         */
-
-        if (left == null || right == null)
-        {
-            log.error((left == null ? "Left" : "Right")
-                           + " side ("
-                           + jjtGetChild( (left == null? 0 : 1) ).literal()
-                           + ") of '==' operation "
-                           + "has null value. "
-                           + "If a reference, it may not be in the context."
-                           + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine()
-                           + ", column " + getColumn() + "]");
-            return false;
-        }
-
-        /*
          *  convert to Number if applicable
          */
         if (left instanceof TemplateNumber)
@@ -117,50 +99,67 @@ public class ASTEQNode extends SimpleNode
        /*
         * If comparing Numbers we do not care about the Class.
         */
-
        if (left instanceof Number && right instanceof Number)
        {
            return MathUtils.compare( (Number)left, (Number)right) == 0;
        }
 
-
-
-       /**
-        * assume that if one class is a subclass of the other
-        * that we should use the equals operator
-        */
-
-        if (left.getClass().isAssignableFrom(right.getClass()) ||
-                right.getClass().isAssignableFrom(left.getClass()) )
+        /**
+         * if both are not null, then assume that if one class
+         * is a subclass of the other that we should use the equals operator
+         */
+        if (left != null && right != null &&
+            (left.getClass().isAssignableFrom(right.getClass()) ||
+             right.getClass().isAssignableFrom(left.getClass())))
         {
             return left.equals( right );
         }
+
+        /*
+         * Ok, time to compare string values
+         */
+        left = (left == null) ? null : left.toString();
+        right = (right == null) ? null: right.toString();
+
+        if (left == null && right == null)
+        {
+            if (log.isDebugEnabled())
+            {
+                log.debug("Both right (" + getLiteral(false) + " and left "
+                          + getLiteral(true) + " sides of '==' operation returned null."
+                          + "If references, they may not be in the context."
+                          + getLocation(context));
+            }
+            return true;
+        }
+        else if (left == null || right == null)
+        {
+            if (log.isDebugEnabled())
+            {
+                log.debug((left == null ? "Left" : "Right")
+                        + " side (" + getLiteral(left == null)
+                        + ") of '==' operation has null value. If it is a "
+                        + "reference, it may not be in the context or its "
+                        + "toString() returned null. " + getLocation(context));
+
+            }
+            return false;
+        }
         else
         {
-            /**
-             * Compare the String representations
-             */
-            if ((left.toString() == null) || (right.toString() == null))
-            {
-        	boolean culprit =  (left.toString() == null);
-                log.error((culprit ? "Left" : "Right")
-                        + " string side "
-                        + "String representation ("
-                        + jjtGetChild((culprit ? 0 : 1) ).literal()
-                        + ") of '!=' operation has null value."
-                        + " Operation not possible. "
-                        + context.getCurrentTemplateName() + " [line " + getLine()
-                        + ", column " + getColumn() + "]");
-
-                return false;
-            }
-
-            else
-            {
-                return left.toString().equals(right.toString());
-            }
+            return left.equals(right);
         }
+    }
 
+    private String getLiteral(boolean left)
+    {
+        return jjtGetChild(left ? 0 : 1).literal();
+    }
+
+    private String getLocation(InternalContextAdapter context)
+    {
+        return context.getCurrentTemplateName() + " [line " + getLine()
+            + ", column " + getColumn() + "]";
     }
 
     /**
