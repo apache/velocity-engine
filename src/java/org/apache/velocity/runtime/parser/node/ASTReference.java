@@ -427,6 +427,10 @@ public class ASTReference extends SimpleNode
             else
                 return false;
         }
+        else if (value.toString() == null)
+        {
+            return false;
+        }
         else
             return true;
     }
