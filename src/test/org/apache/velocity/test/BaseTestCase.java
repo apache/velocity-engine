@@ -121,7 +121,10 @@ public abstract class BaseTestCase
         File dir = new File(resultsDirectory);
         if (!dir.exists())
         {
-            RuntimeSingleton.getLog().info("Template results directory does not exist");
+            String msg = "Template results directory ("+resultsDirectory+")does not exist";
+            RuntimeSingleton.getLog().info(msg);
+//caveman hack to get gump to give more info
+System.out.println(msg);
             if (dir.mkdirs())
             {
                 RuntimeSingleton.getLog().info("Created template results directory");
