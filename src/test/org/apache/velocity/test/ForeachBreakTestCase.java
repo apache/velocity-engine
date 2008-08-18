@@ -19,41 +19,14 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import junit.framework.TestCase;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.log.SystemLogChute;
-
 /**
  * This class tests the break directive within Foreach loop.
  */
-public class ForeachBreakTestCase extends TestCase
+public class ForeachBreakTestCase extends BaseEvalTestCase
 {
-    private VelocityEngine engine;
-    private VelocityContext context;
-
     public ForeachBreakTestCase(String name)
     {
         super(name);
-    }
-
-    public void setUp()
-        throws Exception
-    {
-        engine = new VelocityEngine();
-
-        // make the engine's log output go to the test-report
-        SystemLogChute log = new SystemLogChute();
-        log.setEnabledLevel(SystemLogChute.INFO_ID);
-        log.setSystemErrLevel(SystemLogChute.WARN_ID);
-        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, log);
-
-        context = new VelocityContext();
     }
     
     /**
@@ -77,26 +50,5 @@ public class ForeachBreakTestCase extends TestCase
     {
         assertEvalEquals("~~~, ~~, ~, ",
             "#foreach($i in [1..3])#foreach($j in [2..4])#if($i*$j >= 8)#break#end~#end, #end");
-    }
-
-    protected void assertEvalEquals(String expected, String template)
-    {
-        try
-        {
-            String result = evaluate(template);
-            assertEquals(expected, result);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String evaluate(String template) throws Exception
-    {
-        StringWriter writer = new StringWriter();
-        // use template as its own name, since our templates are short
-        engine.evaluate(context, writer, template, template);
-        return writer.toString();
     }
 }

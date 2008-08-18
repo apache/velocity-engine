@@ -19,58 +19,23 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.log.SystemLogChute;
 
 /**
  * Used to check that method calls on Array references work properly
  * and that they produce the same results as the same methods would on
  * a fixed-size {@link List}.
  */
-public class ArrayMethodsTestCase extends TestCase
+public class ArrayMethodsTestCase extends BaseEvalTestCase
 {
-    private VelocityEngine engine;
-    private VelocityContext context;
-
     private final static boolean PRINT_RESULTS = true;
 
     public ArrayMethodsTestCase(final String name)
     {
         super(name);
-    }
-
-    public void setUp() throws Exception
-    {
-        engine = new VelocityEngine();
-
-        // make the engine's log output go to the test-report
-        SystemLogChute log = new SystemLogChute();
-        log.setEnabledLevel(SystemLogChute.INFO_ID);
-        log.setSystemErrLevel(SystemLogChute.WARN_ID);
-        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, log);
-
-        context = new VelocityContext();
-    }
-
-    public void tearDown()
-    {
-        engine = null;
-        context = null;
-    }
-
-    public static Test suite ()
-    {
-        return new TestSuite(ArrayMethodsTestCase.class);
     }
 
     /**
@@ -223,14 +188,6 @@ public class ArrayMethodsTestCase extends TestCase
                 System.out.println("    <$!list."+method+"> resolved to "+listResult+">");
             }
         }
-    }
-
-    private String evaluate(String template) throws Exception
-    {
-        StringWriter writer = new StringWriter();
-        // use template as its own name, since our templates are short
-        engine.evaluate(context, writer, template, template);
-        return writer.toString();
     }
 
 }
