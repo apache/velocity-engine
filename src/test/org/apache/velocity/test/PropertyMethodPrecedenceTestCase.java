@@ -19,59 +19,25 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.log.SystemLogChute;
 
 /**
  * Used to check that vararg method calls on references work properly
  */
-public class PropertyMethodPrecedenceTestCase extends TestCase
+public class PropertyMethodPrecedenceTestCase extends BaseEvalTestCase
 {
-    private VelocityEngine engine;
-    private VelocityContext context;
-
     public PropertyMethodPrecedenceTestCase(final String name)
     {
         super(name);
     }
 
-    public static Test suite ()
+    public void setContext(VelocityContext context)
     {
-        return new TestSuite(PropertyMethodPrecedenceTestCase.class);
-    }
-
-    public void setUp() throws Exception
-    {
-        engine = new VelocityEngine();
-
-        // make the engine's log output go to the test-report
-        SystemLogChute log = new SystemLogChute();
-        log.setEnabledLevel(SystemLogChute.INFO_ID);
-        log.setSystemErrLevel(SystemLogChute.WARN_ID);
-        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, log);
-
-        context = new VelocityContext();
         context.put("geta", new getGetgetisTool());
         context.put("getA", new GetgetisTool());
         context.put("geta2", new get2getisTool());
         context.put("get_a", new getisTool());
         context.put("isA", new isTool());
-    }
-
-    public void tearDown()
-    {
-        engine = null;
-        context = null;
     }
 
     public void testLowercasePropertyMethods()
@@ -89,28 +55,6 @@ public class PropertyMethodPrecedenceTestCase extends TestCase
         assertEvalEquals("getFoo", "$getA.Foo");
         assertEvalEquals("get(Foo)", "$get_a.Foo");
         assertEvalEquals("true", "$isA.Foo");
-    }
-
-
-    protected void assertEvalEquals(String expected, String template)
-    {
-        try
-        {
-            String result = evaluate(template);
-            assertEquals(expected, result);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String evaluate(String template) throws Exception
-    {
-        StringWriter writer = new StringWriter();
-        // use template as its own name, since our templates are short
-        engine.evaluate(context, writer, template, template);
-        return writer.toString();
     }
 
 

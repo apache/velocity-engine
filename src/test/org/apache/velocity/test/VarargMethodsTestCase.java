@@ -19,61 +19,27 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.log.SystemLogChute;
 
 /**
  * Used to check that vararg method calls on references work properly
  */
-public class VarargMethodsTestCase extends TestCase
+public class VarargMethodsTestCase extends BaseEvalTestCase
 {
-    private VelocityEngine engine;
-    private VelocityContext context;
-
     public VarargMethodsTestCase(final String name)
     {
         super(name);
     }
 
-    public static Test suite ()
+    public void setContext(VelocityContext context)
     {
-        return new TestSuite(VarargMethodsTestCase.class);
-    }
-
-    public void setUp() throws Exception
-    {
-        engine = new VelocityEngine();
-
-        // make the engine's log output go to the test-report
-        SystemLogChute log = new SystemLogChute();
-        log.setEnabledLevel(SystemLogChute.INFO_ID);
-        log.setSystemErrLevel(SystemLogChute.WARN_ID);
-        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, log);
-
-        context = new VelocityContext();
         context.put("nice", new NiceTool());
         context.put("nasty", new NastyTool());
-        context.put("objects", new Object[] { this, Test.class });
+        context.put("objects", new Object[] { this, VelocityContext.class });
         context.put("strings", new String[] { "one", "two" });
         context.put("doubles", new double[] { 1.5, 2.5 });
         context.put("float", new Float(1f));
         context.put("ints", new int[] { 1, 2 });
-    }
-
-    public void tearDown()
-    {
-        engine = null;
-        context = null;
     }
 
     public void testStrings()
@@ -141,27 +107,6 @@ public class VarargMethodsTestCase extends TestCase
     public void testNoArgs()
     {
         assertEvalEquals("noargs", "$nasty.test()");
-    }
-
-
-    protected void assertEvalEquals(String expected, String template)
-    {
-        try
-        {
-            assertEquals(expected, evaluate(template));
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String evaluate(String template) throws Exception
-    {
-        StringWriter writer = new StringWriter();
-        // use template as its own name, since our templates are short
-        engine.evaluate(context, writer, template, template);
-        return writer.toString();
     }
 
 
