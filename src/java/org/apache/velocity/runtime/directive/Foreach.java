@@ -499,28 +499,37 @@ public class Foreach extends Directive
 
         while (!maxNbrLoopsExceeded && i.hasNext())
         {
-            // TODO: JDK 1.4+ -> valueOf()
+            // TODO: JDK 1.4+ -> Integer.valueOf()
             context.localPut(counterName , new Integer(counter));
             context.localPut(hasNextName, Boolean.valueOf(i.hasNext()));
             Object value = i.next();
             context.localPut(elementKey, value);
 
-            /*
-             * If the value is null, use the special null holder context
-             */
-            if( value == null )
+            try
             {
-                if( nullHolderContext == null )
+                /*
+                 * If the value is null, use the special null holder context
+                 */
+                if (value == null)
                 {
-                    // lazy instantiation
-                    nullHolderContext = new NullHolderContext(elementKey, context);
+                    if (nullHolderContext == null)
+                    {
+                        // lazy instantiation
+                        nullHolderContext = new NullHolderContext(elementKey, context);
+                    }
+                    node.jjtGetChild(3).render(nullHolderContext, writer);
                 }
-                node.jjtGetChild(3).render(nullHolderContext, writer);
+                else
+                {
+                    node.jjtGetChild(3).render(context, writer);
+                }
             }
-            else
+            catch (Break.BreakException ex)
             {
-                node.jjtGetChild(3).render(context, writer);
+                // encountered #break directive inside #foreach loop
+                break;
             }
+            
             counter++;
 
             // Determine whether we're allowed to continue looping.
