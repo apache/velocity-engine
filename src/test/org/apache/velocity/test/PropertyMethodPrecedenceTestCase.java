@@ -31,7 +31,7 @@ public class PropertyMethodPrecedenceTestCase extends BaseEvalTestCase
         super(name);
     }
 
-    public void setContext(VelocityContext context)
+    protected void setContext(VelocityContext context)
     {
         context.put("geta", new getGetgetisTool());
         context.put("getA", new GetgetisTool());

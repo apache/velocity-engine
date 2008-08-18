@@ -31,7 +31,7 @@ public class VarargMethodsTestCase extends BaseEvalTestCase
         super(name);
     }
 
-    public void setContext(VelocityContext context)
+    protected void setContext(VelocityContext context)
     {
         context.put("nice", new NiceTool());
         context.put("nasty", new NastyTool());

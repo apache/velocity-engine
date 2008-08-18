@@ -31,7 +31,7 @@ public class IfNullTestCase extends BaseEvalTestCase
         super(name);
     }
 
-    public void setContext(VelocityContext context)
+    protected void setContext(VelocityContext context)
     {
         context.put("nullToString", new NullToString());
         context.put("notnull", new Object());
