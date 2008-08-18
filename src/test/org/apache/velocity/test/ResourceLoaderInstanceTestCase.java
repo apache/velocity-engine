@@ -110,9 +110,17 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
     public void testResourceLoaderInstance ()
             throws Exception
     {
-//caveman hack to get gump to give more info
+//caveman hacks to get gump to give more info
 System.out.println("Began resource loader instance test");
+try
+{
         assureResultsDirectoryExists(RESULTS_DIR);
+}
+catch (Exception e)
+{
+    System.out.println(e);
+    e.printStackTrace();
+}
 
         Template template = RuntimeSingleton.getTemplate(
                 getFileName(null, "testfile", TMPL_FILE_EXT));
