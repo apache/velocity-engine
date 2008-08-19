@@ -144,6 +144,9 @@ public interface RuntimeConstants
     /** Maximum recursion depth allowed for the #parse directive. */
     String PARSE_DIRECTIVE_MAXDEPTH = "directive.parse.max.depth";
 
+    /** Maximum recursion depth allowed for the #define directive. */
+    String DEFINE_DIRECTIVE_MAXDEPTH = "directive.define.max.depth";
+
     /**
      * class to use for local context with #evaluate()
      * @since 1.6
