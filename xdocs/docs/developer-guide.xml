@@ -60,6 +60,7 @@
 <ul>
 <li><a href="#thebasics">The Basics</a></li>
 <li><a href="#supportforiterativeobjectsforforeach">Support for Iterative Objects for #foreach()</a></li>
+<li><a href="#supportforstaticclasses">Support for "Static Classes"</a></li>
 <li><a href="#contextchaining">Context Chaining</a></li>
 <li><a href="#objectscreatedinthetemplate">Objects Created by the Template</a></li>
 <li><a href="#othercontextissues">Other Context Issues</a></li>
@@ -652,6 +653,22 @@ This above isn't meant to give the impression that iterating over
 collections in Velocity is something that requires great care and
 thought.  Rather, the opposite is true, in general.  Just be
 careful when you place an Iterator into the context.
+</p>
+
+<a name="supportforstaticclasses"><strong>Support for "Static Classes"</strong></a>
+
+<p>Not all classes are instantiable.  Classes like <code>java.lang.Math</code>
+do not provide any public constructor, and yet may contain useful static methods.
+In order to access these static methods from a template, you can simply add the
+class itself to the context:
+</p>
+
+<source><![CDATA[
+context.put("Math", Math.class);
+]]></source>
+
+<p>This will allow you to call any public static method in <code>java.lang.Math</code>
+on the <code>$Math</code> reference in the template.
 </p>
 
 <a name="contextchaining"><strong>Context Chaining</strong></a>
