@@ -15,7 +15,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 /*
@@ -23,14 +23,14 @@
  *    to always have to page past it... :)
  */
 options
-{                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+{
 
     /**
      * The parser must be non-static in order for the
      * above option to work, otherwise the parser value
      * is passed in as null, which isn't all the useful ;)
      */
-    STATIC=false;                                                                                                                                                                                                                                                                                                                       
+    STATIC=false;
 
     /**
      * Declare that we are accepting unicode input and
@@ -55,7 +55,7 @@ package org.apache.velocity.runtime.parser;
 
 import java.io.*;
 import java.util.*;
-
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
@@ -181,7 +181,9 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
         }
         catch (Exception e)
         {
-            rsvc.getLog().error("Parser Error: " + templateName, e);
+            String msg = "Parser Error: " + templateName;
+            rsvc.getLog().error(msg, e);
+            throw new VelocityException(msg, e);
         }
 
         currentTemplateName = "";
@@ -226,7 +228,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/
         String strDirective = strImage.substring(iLast + 1);
 
         boolean bRecognizedDirective = false;
-        
+
         // we don't have to call substring method all the time in this method
         String dirTag = strDirective.substring(1);
 
@@ -1687,7 +1689,7 @@ void Map() : {/*@bgen(jjtree) Map */
       |
       [ <WHITESPACE> ]
      )
-     
+
      /** note: need both tokens as they are generated in different states **/
      ( <RIGHT_CURLEY> | <RCURLY> )/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
