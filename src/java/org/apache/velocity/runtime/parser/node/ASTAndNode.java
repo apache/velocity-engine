@@ -90,15 +90,10 @@ public class ASTAndNode extends SimpleNode
         Node right = jjtGetChild(1);
 
         /*
-         *  if either is null, lets log and bail
+         * null == false
          */
-
         if (left == null || right == null)
         {
-            log.error((left == null ? "Left" : "Right") + " side of '&&' operation is null."
-                           + " Operation not possible. "
-                           + context.getCurrentTemplateName() + " [line " + getLine()
-                           + ", column " + getColumn() + "]");
             return false;
         }
 
