@@ -27,6 +27,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
@@ -156,10 +157,13 @@ public class Include extends InputBase
             }
             else
             {
-                rsvc.getLog().error("#include() invalid argument type: "
-                                    + n.toString());
+                String msg = "invalid #include() argument type [line "+getLine()+
+                             ", column "+getColumn()+", template "+
+                             context.getCurrentTemplateName()+"]: "+n.toString();
+                rsvc.getLog().error(msg);
                 outputErrorToStream( writer, "error with arg " + i
                     + " please see log.");
+                throw new VelocityException(msg);
             }
         }
 
@@ -245,10 +249,12 @@ public class Include extends InputBase
         }
         catch (Exception e)
         {
-            rsvc.getLog().error("#include(): arg = '" + arg +
-                                "', called from template " +
-                                context.getCurrentTemplateName() + " at (" +
-                                getLine() + ", " + getColumn() + ')', e);
+            String msg = "#include(): arg = '" + arg +
+                        "', called from template " +
+                        context.getCurrentTemplateName() + " at (" +
+                        getLine() + ", " + getColumn() + ')';
+            rsvc.getLog().error(msg, e);
+            throw new VelocityException(msg, e);
         }
 
 

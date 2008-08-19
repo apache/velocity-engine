@@ -27,6 +27,7 @@ import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -225,9 +226,9 @@ public class ASTMethod extends SimpleNode
             /*
              *  can come from the doIntropection() also, from Introspector
              */
-
-            log.error("ASTMethod.execute() : exception from introspection", e);
-            return null;
+            String msg = "ASTMethod.execute() : exception from introspection";
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
 
         try
@@ -273,9 +274,10 @@ public class ASTMethod extends SimpleNode
         }
         catch( Exception e )
         {
-            log.error("ASTMethod.execute() : exception invoking method '"
-                      + methodName + "' in " + o.getClass(), e);
-            return null;
+            String msg = "ASTMethod.execute() : exception invoking method '"
+                         + methodName + "' in " + o.getClass();
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
     }
 

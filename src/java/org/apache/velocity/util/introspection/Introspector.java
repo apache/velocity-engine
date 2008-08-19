@@ -123,7 +123,7 @@ public class Introspector extends IntrospectorBase
             msg.append(") for class ")
                     .append(c);
 
-            log.error(msg.toString());
+            log.debug(msg.toString());
         }
 
         return null;

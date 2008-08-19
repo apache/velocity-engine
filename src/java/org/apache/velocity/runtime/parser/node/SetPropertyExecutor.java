@@ -23,6 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.util.introspection.Introspector;
 
@@ -114,7 +115,9 @@ public class SetPropertyExecutor
         }
         catch(Exception e)
         {
-            log.error("While looking for property setter for '" + property + "':", e);
+            String msg = "Exception while looking for property setter for '" + property;
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
     }
 

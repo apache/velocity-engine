@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.ASTReference;
@@ -274,7 +275,9 @@ public class ProxyVMContext implements InternalContextAdapter
                 }
                 catch (Exception e)
                 {
-                    rsvc.getLog().error("ProxyVMContext.get() : error rendering reference", e);
+                    String msg = "ProxyVMContext.get() : error rendering reference";
+                    rsvc.getLog().error(msg, e);
+                    throw new VelocityException(msg, e);
                 }
             }
             else

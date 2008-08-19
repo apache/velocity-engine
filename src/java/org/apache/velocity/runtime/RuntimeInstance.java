@@ -47,6 +47,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.LogManager;
@@ -383,7 +384,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         catch (IOException ioe)
         {
-            log.error("Cannot get Velocity Runtime default properties!", ioe);
+            String msg = "Cannot get Velocity Runtime default properties!";
+            log.error(msg, ioe);
+            throw new RuntimeException(msg, ioe);
         }
         finally
         {
@@ -396,7 +399,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch (IOException ioe)
             {
-                log.error("Cannot close Velocity Runtime default properties!", ioe);
+                String msg = "Cannot close Velocity Runtime default properties!";
+                log.error(msg, ioe);
+                throw new RuntimeException(msg, ioe);
             }
         }
     }
@@ -802,7 +807,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         catch (IOException ioe)
         {
-            log.error("Error while loading directive properties!", ioe);
+            String msg = "Error while loading directive properties!";
+            log.error(msg, ioe);
+            throw new RuntimeException(msg, ioe);
         }
         finally
         {
@@ -815,7 +822,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch (IOException ioe)
             {
-                log.error("Cannot close directive properties!", ioe);
+                String msg = "Cannot close directive properties!";
+                log.error(msg, ioe);
+                throw new RuntimeException(msg, ioe);
             }
         }
 
@@ -898,8 +907,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             else
             {
-                log.error(directiveClass + " does not implement "
-                    + Directive.class.getName() + "; it cannot be loaded.");
+                String msg = directiveClass + " does not implement "
+                    + Directive.class.getName() + "; it cannot be loaded.";
+                log.error(msg);
+                throw new VelocityException(msg);
             }
         }
         // The ugly threesome:  ClassNotFoundException,
@@ -907,7 +918,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         // Ignore Findbugs complaint for now.
         catch (Exception e)
         {
-            log.error("Failed to load Directive: " + directiveClass, e);
+            String msg = "Failed to load Directive: " + directiveClass;
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
     }
 
@@ -1219,8 +1232,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch(Exception e)
             {
-                getLog().error("RuntimeInstance.render(): init exception for tag = "
-                               + logTag, e);
+                String msg = "RuntimeInstance.render(): init exception for tag = "+logTag;
+                getLog().error(msg, e);
+                throw new VelocityException(msg, e);
             }
 
             /*
@@ -1261,8 +1275,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /* check necessary parameters */
         if (vmName == null || context == null || writer == null)
         {
-            getLog().error("RuntimeInstance.invokeVelocimacro() : invalid call : vmName, context, and writer must not be null");
-            return false;
+            String msg = "RuntimeInstance.invokeVelocimacro() : invalid call : vmName, context, and writer must not be null";
+            getLog().error(msg);
+            throw new NullPointerException(msg);
         }
 
         /* handle easily corrected parameters */
@@ -1278,9 +1293,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /* does the VM exist? */
         if (!isVelocimacro(vmName, logTag))
         {
-            getLog().error("RuntimeInstance.invokeVelocimacro() : VM '" + vmName
-                           + "' is not registered.");
-            return false;
+            String msg = "RuntimeInstance.invokeVelocimacro() : VM '" + vmName
+                         + "' is not registered.";
+            getLog().error(msg);
+            throw new VelocityException(msg);
         }
 
         /* now just create the VM call, and use evaluate */

@@ -25,9 +25,8 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceCacheImpl;
-
 import org.apache.velocity.exception.ResourceNotFoundException;
-
+import org.apache.velocity.exception.VelocityException;
 import org.apache.commons.collections.ExtendedProperties;
 
 /**
@@ -88,7 +87,9 @@ public abstract class ResourceLoader
         catch (Exception e)
         {
             isCachingOn = false;
-            log.error("Exception using default of '" + isCachingOn + '\'', e);
+            String msg = "Exception parsing cache setting: "+configuration.getString("cache");
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
         try
         {
@@ -97,8 +98,9 @@ public abstract class ResourceLoader
         catch (Exception e)
         {
             modificationCheckInterval = 0;
-            log.error("Exception using default of '" +
-                      modificationCheckInterval + '\'', e);
+            String msg = "Exception parsing modificationCheckInterval setting: "+configuration.getString("modificationCheckInterval");
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
 
         /*
@@ -111,7 +113,9 @@ public abstract class ResourceLoader
         }
         catch (Exception e)
         {
-            log.error("Exception using default of '" + className + '\'', e);
+            String msg = "Exception retrieving resource cache class name";
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
     }
 

@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.    
  */
 
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.StringUtils;
@@ -55,13 +56,11 @@ public class ResourceLoaderFactory
         // The ugly three strike again: ClassNotFoundException,IllegalAccessException,InstantiationException
         catch(Exception e)
         {
-            rs.getLog().error("Problem instantiating the template loader.\n" +
-                          "Look at your properties file and make sure the\n" +
-                          "name of the template loader is correct. Here is the\n" +
-                          "error:", e);
-
-            throw new Exception("Problem initializing template loader: " + loaderClassName +
-            "\nError is: " + StringUtils.stackTrace(e));
+            String msg = "Problem instantiating the template loader: "+loaderClassName+".\n" +
+                         "Look at your properties file and make sure the\n" +
+                         "name of the template loader is correct.";
+            rs.getLog().error(msg, e);
+            throw new VelocityException(msg, e);
         }
     }
 }

@@ -9,7 +9,7 @@
 #end
 
 #macro(test2 $p)
- $p
+ $!p
 #end
 
 #macro(test3 $p)

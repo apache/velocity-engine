@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
@@ -113,7 +114,9 @@ public class BooleanPropertyExecutor extends PropertyExecutor
         }
         catch(Exception e)
         {
-            log.error("While looking for boolean property getter for '" + property + "':", e);
+            String msg = "Exception while looking for boolean property getter for '" + property;
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
     }
 }

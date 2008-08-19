@@ -31,6 +31,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExceptionUtils;
 import org.apache.velocity.util.StringUtils;
@@ -173,7 +174,9 @@ public class DataSourceResourceLoader extends ResourceLoader
         }
         else
         {
-            log.error("DataSourceResourceLoader not properly initialized. No DataSource was identified.");
+            String msg = "DataSourceResourceLoader not properly initialized. No DataSource was identified.";
+            log.error(msg);
+            throw new RuntimeException(msg);
         }
     }
 
@@ -286,7 +289,9 @@ public class DataSourceResourceLoader extends ResourceLoader
         String name = resource.getName();
         if (name == null || name.length() == 0)
         {
-            log.error("DataSourceResourceLoader: Template name was empty or null");
+            String msg = "DataSourceResourceLoader: Template name was empty or null";
+            log.error(msg);
+            throw new NullPointerException(msg);
         }
         else
         {
@@ -305,8 +310,10 @@ public class DataSourceResourceLoader extends ResourceLoader
                 }
                 else
                 {
-                    log.error("DataSourceResourceLoader: could not find resource "
-                              + name + " while " + operation);
+                    String msg = "DataSourceResourceLoader: could not find resource "
+                              + name + " while " + operation;
+                    log.error(msg);
+                    throw new ResourceNotFoundException(msg);
                 }
             }
             catch (SQLException sqle)
@@ -374,7 +381,9 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
             catch (Exception e)
             {
-                log.error("DataSourceResourceLoader: problem when closing connection", e);
+                String msg = "DataSourceResourceLoader: problem when closing connection";
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
             }
         }
     }
@@ -396,7 +405,9 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
             catch (Exception e)
             {
-                log.error("DataSourceResourceLoader: problem when closing result set", e);
+                String msg = "DataSourceResourceLoader: problem when closing result set";
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
             }
         }
     }

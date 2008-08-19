@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
@@ -213,7 +214,9 @@ public class VelocimacroFactory
                          }
                          catch (Exception e)
                          {
-                             log.error(true, "Velocimacro : Error using VM library : " + lib, e);
+                             String msg = "Velocimacro : Error using VM library : " + lib;
+                             log.error(true, msg, e);
+                             throw new VelocityException(msg, e);
                          }
 
                          log.trace("VM library registration complete.");
@@ -360,7 +363,7 @@ public class VelocimacroFactory
             }
             msg += " argument was null";
             log.error(msg);
-            return false;
+            throw new NullPointerException(msg);
         }
 
         /*
@@ -443,7 +446,7 @@ public class VelocimacroFactory
             }
             msg += " argument was null";
             log.error(msg);
-            return false;
+            throw new NullPointerException(msg);
         }
 
         /*
@@ -492,7 +495,7 @@ public class VelocimacroFactory
          */
         if (!addNewAllowed)
         {
-            log.error("VM addition rejected : "+name+" : inline VMs not allowed.");
+            log.warn("VM addition rejected : "+name+" : inline VMs not allowed.");
             return false;
         }
 
@@ -630,7 +633,9 @@ public class VelocimacroFactory
                     }
                     catch (Exception e)
                     {
-                        log.error(true, "Velocimacro : Error using VM library : " + lib, e);
+                        String msg = "Velocimacro : Error using VM library : " + lib;
+                        log.error(true, msg, e);
+                        throw new VelocityException(msg, e);
                     }
 
                     vp = vmManager.get(vmName, sourceTemplate, renderingTemplate);

@@ -371,9 +371,10 @@ public class VelocityEngine implements RuntimeConstants
 
         if ( template == null )
         {
-            getLog().error("Velocity.mergeTemplate() was unable to load template '"
-                           + templateName + "'");
-            return false;
+            String msg = "VelocityEngine.mergeTemplate() was unable to load template '"
+                           + templateName + "'";
+            getLog().error(msg);
+            throw new ResourceNotFoundException(msg);
         }
         else
         {

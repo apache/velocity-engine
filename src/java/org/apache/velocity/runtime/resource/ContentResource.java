@@ -22,8 +22,8 @@ package org.apache.velocity.runtime.resource;
 import java.io.StringWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.VelocityException;
 
 /**
  * This class represent a general text resource that may have been
@@ -84,8 +84,9 @@ public class ContentResource extends Resource
         }
         catch ( Exception e )
         {
-            rsvc.getLog().error("Cannot process content resource", e);
-            return false;
+            String msg = "Cannot process content resource";
+            rsvc.getLog().error(msg, e);
+            throw new VelocityException(msg, e);
         }
         finally
         {
