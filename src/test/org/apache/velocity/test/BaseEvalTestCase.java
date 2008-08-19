@@ -37,6 +37,7 @@ public class BaseEvalTestCase extends TestCase
 {
     protected VelocityEngine engine;
     protected VelocityContext context;
+    protected boolean DEBUG = false;
 
     public BaseEvalTestCase(String name)
     {
@@ -81,22 +82,32 @@ public class BaseEvalTestCase extends TestCase
 
     protected void assertEvalEquals(String expected, String template)
     {
+        assertEquals(expected, evaluate(template));
+    }
+
+    protected String evaluate(String template)
+    {
+        StringWriter writer = new StringWriter();
         try
         {
-            String result = evaluate(template);
-            assertEquals(expected, result);
+            if (DEBUG)
+            {
+                engine.getLog().info("Template: "+template);
+            }
+
+            // use template as its own name, since our templates are short
+            engine.evaluate(context, writer, template, template);
+
+            String result = writer.toString();
+            if (DEBUG)
+            {
+                engine.getLog().info("Result: "+result);
+            }
+            return result;
         }
         catch (Exception e)
         {
             throw new RuntimeException(e);
         }
-    }
-
-    protected String evaluate(String template) throws Exception
-    {
-        StringWriter writer = new StringWriter();
-        // use template as its own name, since our templates are short
-        engine.evaluate(context, writer, template, template);
-        return writer.toString();
     }
 }
