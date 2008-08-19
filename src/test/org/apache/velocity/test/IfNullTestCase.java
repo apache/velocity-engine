@@ -73,6 +73,22 @@ public class IfNullTestCase extends BaseEvalTestCase
         assertEvalEquals("foo", "#if( !$nullToString )foo#{else}bar#end");
     }
 
+    public void testIfAnd()
+    {
+        assertEvalEquals("bar", "#if( $null && $nullToString )foo#{else}bar#end");
+        assertEvalEquals("bar", "#if( $nullToString && $null )foo#{else}bar#end");
+        assertEvalEquals("bar", "#if( $null && $notnull )foo#{else}bar#end");
+        assertEvalEquals("bar", "#if( $notnull && $nullToString )foo#{else}bar#end");
+    }
+
+    public void testIfOr()
+    {
+        assertEvalEquals("bar", "#if( $null || $nullToString )foo#{else}bar#end");
+        assertEvalEquals("bar", "#if( $nullToString || $null )foo#{else}bar#end");
+        assertEvalEquals("foo", "#if( $null || $notnull )foo#{else}bar#end");
+        assertEvalEquals("foo", "#if( $notnull || $nullToString )foo#{else}bar#end");
+    }
+
     public static class NullToString
     {
         public String toString()
