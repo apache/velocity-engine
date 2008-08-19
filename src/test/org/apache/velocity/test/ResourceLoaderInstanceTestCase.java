@@ -115,12 +115,6 @@ System.out.println("Began resource loader instance test");
 try
 {
         assureResultsDirectoryExists(RESULTS_DIR);
-}
-catch (Exception e)
-{
-    System.out.println(e);
-    e.printStackTrace();
-}
 
         Template template = RuntimeSingleton.getTemplate(
                 getFileName(null, "testfile", TMPL_FILE_EXT));
@@ -142,6 +136,12 @@ System.out.println("All needed files exist");
         template.merge(context, writer);
         writer.flush();
         writer.close();
+}
+catch (Exception e)
+{
+    System.out.println(e);
+    e.printStackTrace();
+}
 
         if ( !isMatch(RESULTS_DIR, COMPARE_DIR, "testfile",
                         RESULT_FILE_EXT, CMP_FILE_EXT) )
