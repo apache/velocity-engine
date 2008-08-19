@@ -195,8 +195,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             return new VelMethodImpl(m);
         }
+
+        Class cls = obj.getClass();
         // if it's an array
-        if (obj.getClass().isArray())
+        if (cls.isArray())
         {
             // check for support via our array->list wrapper
             m = introspector.getMethod(ArrayListWrapper.class, methodName, args);
@@ -205,6 +207,15 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                 // and create a method that knows to wrap the value
                 // before invoking the method
                 return new VelMethodImpl(m, true);
+            }
+        }
+        // watch for classes, to allow calling their static methods (VELOCITY-102)
+        else if (cls == Class.class)
+        {
+            m = introspector.getMethod((Class)obj, methodName, args);
+            if (m != null)
+            {
+                return new VelMethodImpl(m);
             }
         }
         return null;
