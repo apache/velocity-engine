@@ -25,6 +25,7 @@ import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -158,7 +159,9 @@ public class ASTIdentifier extends SimpleNode
         }
         catch(Exception e)
         {
-            log.error("ASTIdentifier.execute() : identifier = "+identifier, e);
+            String msg = "ASTIdentifier.execute() : identifier = "+identifier;
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
 
         /*
@@ -238,11 +241,11 @@ public class ASTIdentifier extends SimpleNode
         }
         catch(Exception e)
         {
-            log.error("ASTIdentifier() : exception invoking method "
+            String msg = "ASTIdentifier() : exception invoking method "
                         + "for identifier '" + identifier + "' in "
-                        + o.getClass() + " : " + e);
+                        + o.getClass();
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
-
-        return null;
     }
 }

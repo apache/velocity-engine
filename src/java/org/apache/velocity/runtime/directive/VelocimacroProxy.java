@@ -28,6 +28,7 @@ import org.apache.velocity.context.ProxyVMContext;
 import org.apache.velocity.exception.MacroOverflowException;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
@@ -206,6 +207,7 @@ public class VelocimacroProxy extends Directive
             vmc.pushCurrentMacroName(macroName);
             nodeTree.render(vmc, writer);
             vmc.popCurrentMacroName();
+            return true;
         }
         catch (MethodInvocationException e)
         {
@@ -217,10 +219,10 @@ public class VelocimacroProxy extends Directive
         }
         catch (Exception e)
         {
-            rsvc.getLog().error("VelocimacroProxy.render() : exception VM = #" + macroName + "()",
-                    e);
+            String msg = "VelocimacroProxy.render() : exception VM = #" + macroName + "()";
+            rsvc.getLog().error(msg, e);
+            throw new VelocityException(msg, e);
         }
-        return true;
     }
 
     /**
@@ -284,7 +286,7 @@ public class VelocimacroProxy extends Directive
                 parent = parent.jjtGetParent();
             }
 
-            String errormsg = "VM #" + macroName + ": error : too "
+            String msg = "VM #" + macroName + ": too "
                     + ((getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted "
                     + getNumArgs() + " got " + i;
 
@@ -293,11 +295,11 @@ public class VelocimacroProxy extends Directive
                 /**
                  * indicate col/line assuming it starts at 0 - this will be corrected one call up
                  */
-                throw new TemplateInitException(errormsg, context.getCurrentTemplateName(), 0, 0);
+                throw new TemplateInitException(msg, context.getCurrentTemplateName(), 0, 0);
             }
             else
             {
-                rsvc.getLog().error(errormsg);
+                rsvc.getLog().debug(msg);
                 return;
             }
         }

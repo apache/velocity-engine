@@ -20,7 +20,7 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import java.lang.reflect.InvocationTargetException;
-
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
@@ -102,7 +102,9 @@ public class GetExecutor extends AbstractExecutor
         }
         catch(Exception e)
         {
-            log.error("While looking for get('" + params[0] + "') method:", e);
+            String msg = "Exception while looking for get('" + params[0] + "') method";
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
     }
 

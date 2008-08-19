@@ -22,7 +22,7 @@ package org.apache.velocity.runtime.log;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.util.ClassUtils;
@@ -83,7 +83,9 @@ public class LogManager
                 }
                 catch (Exception e)
                 {
-                    log.error("Could not init runtime.log.logsystem " + o, e);
+                    String msg = "Could not init runtime.log.logsystem " + o;
+                    log.error(msg, e);
+                    throw new VelocityException(msg, e);
                 }
             }
             // then check for a LogSystem
@@ -100,12 +102,16 @@ public class LogManager
                 }
                 catch (Exception e)
                 {
-                    log.error("Could not init runtime.log.logsystem " + o, e);
+                    String msg = "Could not init runtime.log.logsystem " + o;
+                    log.error(msg, e);
+                    throw new VelocityException(msg, e);
                 }
             }
             else
             {
-                log.error(o.getClass().getName() + " object set as runtime.log.logsystem is not a valid log implementation.");
+                String msg = o.getClass().getName() + " object set as runtime.log.logsystem is not a valid log implementation.";
+                log.error(msg);
+                throw new VelocityException(msg);
             }
         }
 
@@ -162,8 +168,9 @@ public class LogManager
                     }
                     else
                     {
-                        log.error("The specified logger class " + claz +
-                                  " does not implement the "+LogChute.class.getName()+" interface.");
+                        String msg = "The specified logger class " + claz +
+                                     " does not implement the "+LogChute.class.getName()+" interface.";
+                        log.error(msg);
                         // be extra informative if it appears to be a classloader issue
                         // this should match all our provided LogChutes
                         if (isProbablyProvidedLogChute(claz))
@@ -171,6 +178,7 @@ public class LogManager
                             // if it's likely to be ours, tip them off about classloader stuff
                             log.error("This appears to be a ClassLoader issue.  Check for multiple Velocity jars in your classpath.");
                         }
+                        throw new VelocityException(msg);
                     }
                 }
                 catch(NoClassDefFoundError ncdfe)
@@ -191,9 +199,11 @@ public class LogManager
                 }
                 catch(Exception e)
                 {
+                    String msg = "Failed to initialize an instance of " + claz +
+                                 " with the current runtime configuration.";
                     // log unexpected init exception at higher priority
-                    log.error("Failed to initialize an instance of " + claz +
-                              " with the current runtime configuration.", e);
+                    log.error(msg, e);
+                    throw new VelocityException(msg);
                 }
             }
         }

@@ -132,12 +132,15 @@ public class JarResourceLoader extends ResourceLoader
         // Check path information
         if ( path == null )
         {
-            log.error("JarResourceLoader : can not load JAR - JAR path is null");
+            String msg = "JarResourceLoader : can not load JAR - JAR path is null";
+            log.error(msg);
+            throw new RuntimeException(msg);
         }
         if ( !path.startsWith("jar:") )
         {
-            log.error("JarResourceLoader : JAR path must start with jar: -> " +
-                "see java.net.JarURLConnection for information");
+            String msg = "JarResourceLoader : JAR path must start with jar: -> see java.net.JarURLConnection for information";
+            log.error(msg);
+            throw new RuntimeException(msg);
         }
         if ( !path.endsWith("!/") )
         {

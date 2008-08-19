@@ -257,8 +257,9 @@ public class StringResourceLoader extends ResourceLoader
             // warn them if they are trying to change the class of the repository
             if (!this.repository.getClass().getName().equals(repoClass))
             {
-                log.error("Cannot change class of string repository '"+repoName+
-                          "' from "+this.repository.getClass().getName()+" to "+repoClass);
+                log.debug("Cannot change class of string repository '"+repoName+
+                          "' from "+this.repository.getClass().getName()+" to "+repoClass+
+                          ". The change will be ignored.");
             }
 
             // allow them to change the default encoding of the repo

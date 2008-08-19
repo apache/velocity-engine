@@ -34,6 +34,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.log.Log;
@@ -293,8 +294,9 @@ public class Velocity implements RuntimeConstants
         }
         catch (IOException ioe)
         {
-            getLog().error("Velocity.invokeVelocimacro() failed", ioe);
-            return false;
+            String msg = "Velocity.invokeVelocimacro("+vmName+") failed";
+            getLog().error(msg, ioe);
+            throw new VelocityException(msg, ioe);
         }
     }
 
@@ -351,9 +353,10 @@ public class Velocity implements RuntimeConstants
 
         if ( template == null )
         {
-            getLog().error("Velocity.mergeTemplate() was unable to load template '"
-                           + templateName + "'");
-            return false;
+            String msg = "Velocity.mergeTemplate() was unable to load template '"
+                           + templateName + "'";
+            getLog().error(msg);
+            throw new ResourceNotFoundException(msg);
         }
         else
         {

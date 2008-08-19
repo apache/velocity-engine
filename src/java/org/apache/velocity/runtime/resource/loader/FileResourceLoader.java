@@ -33,6 +33,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.io.UnicodeInputStream;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.StringUtils;
@@ -152,7 +153,9 @@ public class FileResourceLoader extends ResourceLoader
             }
             catch (IOException ioe)
             {
-                log.error("While loading Template " + template + ": ", ioe);
+                String msg = "Exception while loading Template " + template;
+                log.error(msg, ioe);
+                throw new VelocityException(msg, ioe);
             }
 
             if (inputStream != null)

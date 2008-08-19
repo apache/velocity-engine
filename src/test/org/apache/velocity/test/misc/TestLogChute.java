@@ -36,6 +36,7 @@ public class TestLogChute implements LogChute
     private StringBuffer log = new StringBuffer();
 
     private int logLevel;
+    private boolean on;
     
     public void init(RuntimeServices rs) throws Exception
     {
@@ -43,9 +44,19 @@ public class TestLogChute implements LogChute
         logLevel = getLevelNumber(level, LogChute.DEBUG_ID);
     }
 
+    public void on()
+    {
+        on = true;
+    }
+
+    public void off()
+    {
+        on = false;
+    }
+
     public void log(int level, String message)
     {
-        if (level >= logLevel)
+        if (on && level >= logLevel)
         {
             String levelName;
             levelName = getLevelName(level);
@@ -140,7 +151,7 @@ public class TestLogChute implements LogChute
     
     public void log(int level, String message, Throwable t)
     {
-        if (level >= logLevel)
+        if (on && level >= logLevel)
         {
             String levelName;
             levelName = getLevelName(level);

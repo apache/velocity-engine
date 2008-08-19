@@ -31,6 +31,7 @@ import java.util.Hashtable;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.VelocityException;
 
 /**
  * A small wrapper around a Jar
@@ -84,8 +85,10 @@ public class JarHolder
         }
         catch (IOException ioe)
         {
-            log.error("JarHolder: error establishing connection to JAR at \""
-                      + urlpath + "\"", ioe);
+            String msg = "JarHolder: error establishing connection to JAR at \""
+                         + urlpath + "\"";
+            log.error(msg, ioe);
+            throw new VelocityException(msg, ioe);
         }
     }
 
@@ -100,7 +103,9 @@ public class JarHolder
         }
         catch ( Exception e )
         {
-            log.error("JarHolder: error closing the JAR file", e);
+            String msg = "JarHolder: error closing the JAR file";
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
         theJar = null;
         conn = null;

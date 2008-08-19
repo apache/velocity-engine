@@ -30,6 +30,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -212,8 +213,9 @@ public class Parse extends InputBase
         }
         catch ( Exception e)
         {
-            rsvc.getLog().error("#parse() : arg = " + arg + '.', e);
-            return false;
+            String msg = "#parse() : arg = " + arg + '.';
+            rsvc.getLog().error(msg, e);
+            throw new VelocityException(msg, e);
         }
 
         /**
@@ -263,8 +265,9 @@ public class Parse extends InputBase
 
         catch ( Exception e )
         {
-            rsvc.getLog().error("Exception rendering #parse(" + arg + ')', e);
-            return false;
+            String msg = "Exception rendering #parse(" + arg + ')';
+            rsvc.getLog().error(msg, e);
+            throw new VelocityException(msg, e);
         }
         finally
         {

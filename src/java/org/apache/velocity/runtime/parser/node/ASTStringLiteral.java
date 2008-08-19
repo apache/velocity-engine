@@ -27,6 +27,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
@@ -274,23 +275,6 @@ public class ASTStringLiteral extends SimpleNode
             }
 
             /**
-             * For interpolated Strings we do not pass exceptions through --
-             * just log the problem and move on.
-             */
-            catch (ParseErrorException e)
-            {
-                log.error("Error in interpolating string literal", e);
-            }
-            catch (MethodInvocationException e)
-            {
-                log.error("Error in interpolating string literal", e);
-            }
-            catch (ResourceNotFoundException e)
-            {
-                log.error("Error in interpolating string literal", e);
-            }
-
-            /**
              * pass through application level runtime exceptions
              */
             catch (RuntimeException e)
@@ -300,7 +284,9 @@ public class ASTStringLiteral extends SimpleNode
 
             catch (IOException e)
             {
-                log.error("Error in interpolating string literal", e);
+                String msg = "Error in interpolating string literal";
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
             }
 
         }

@@ -20,7 +20,7 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import java.util.Map;
-
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.log.Log;
 
 /**
@@ -66,7 +66,9 @@ public class MapSetExecutor
                 }
                 catch(Exception e)
                 {
-                    log.error("While looking for get('" + property + "') method:", e);
+                    String msg = "Exception while looking for put('" + property + "') method";
+                    log.error(msg, e);
+                    throw new VelocityException(msg, e);
                 }
                 break;
             }

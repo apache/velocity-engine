@@ -22,6 +22,7 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
@@ -126,7 +127,9 @@ public class PropertyExecutor extends AbstractExecutor
         }
         catch(Exception e)
         {
-            log.error("While looking for property getter for '" + property + "':", e);
+            String msg = "Exception while looking for property getter for '" + property;
+            log.error(msg, e);
+            throw new VelocityException(msg, e);
         }
     }
 

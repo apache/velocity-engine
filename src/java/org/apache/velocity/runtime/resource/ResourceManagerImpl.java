@@ -101,7 +101,7 @@ public class ResourceManagerImpl
     {
         if (isInit)
         {
-            log.error("Re-initialization of ResourceLoader attempted!");
+            log.debug("Re-initialization of ResourceLoader attempted and ignored.");
             return;
         }
 	
@@ -135,12 +135,12 @@ public class ResourceManagerImpl
             }
             else
             {
-                log.error("Unable to find '" +
+                String msg = "Unable to find '" +
                           configuration.getString(RESOURCE_LOADER_IDENTIFIER) +
                           ".resource.loader.class' specification in configuration." +
-                          " This is a critical value.  Please adjust configuration.");
-
-                continue; // for(...
+                          " This is a critical value.  Please adjust configuration.";
+                log.error(msg);
+                throw new Exception(msg);
             }
 
             resourceLoader.commonInit(rsvc, configuration);
@@ -171,17 +171,18 @@ public class ResourceManagerImpl
             }
             catch (ClassNotFoundException cnfe)
             {
-                log.error("The specified class for ResourceCache (" + cacheClassName +
-                          ") does not exist or is not accessible to the current classloader.");
-                cacheObject = null;
+                String msg = "The specified class for ResourceCache (" + cacheClassName +
+                          ") does not exist or is not accessible to the current classloader.";
+                log.error(msg, cnfe);
+                throw cnfe;
             }
 
             if (!(cacheObject instanceof ResourceCache))
             {
-                log.error("The specified class for ResourceCache (" + cacheClassName +
-                          ") does not implement " + ResourceCache.class.getName() +
-                          " ResourceManager. Using default ResourceCache implementation.");
-                cacheObject = null;
+                String msg = "The specified resource cache class (" + cacheClassName +
+                          ") must implement " + ResourceCache.class.getName();
+                log.error(msg);
+                throw new RuntimeException(msg);
             }
         }
 
@@ -233,7 +234,7 @@ public class ResourceManagerImpl
 
             if (loaderConfiguration == null)
             {
-                log.error("ResourceManager : No configuration information for resource loader named '" +
+                log.debug("ResourceManager : No configuration information for resource loader named '" +
                           loaderName + "'. Skipping.");
 
                 continue;
@@ -335,6 +336,7 @@ public class ResourceManagerImpl
             }
             catch (RuntimeException re)
             {
+                log.error("ResourceManager.getResource() exception", re);
         	    throw re;
             }
             catch (Exception e)
@@ -370,6 +372,7 @@ public class ResourceManagerImpl
             }
             catch (RuntimeException re)
             {
+                log.error("ResourceManager.getResource() load exception", re);
     		    throw re;
             }
             catch (Exception e)

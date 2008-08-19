@@ -157,7 +157,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                 }
                 else
                 {
-                    log.error("iterator() method of reference in #foreach loop at "
+                    log.debug("iterator() method of reference in #foreach loop at "
                               + i + " does not return a true Iterator.");
                 }
             }
@@ -168,7 +168,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
 
         /*  we have no clue what this is  */
-        log.error("Could not determine type of iterator in #foreach loop at " + i);
+        log.debug("Could not determine type of iterator in #foreach loop at " + i);
 
         return null;
     }

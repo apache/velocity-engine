@@ -31,6 +31,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.ASTReference;
@@ -473,7 +474,9 @@ public class Foreach extends Directive
         }
         catch(Exception ee)
         {
-            rsvc.getLog().error("Error getting iterator for #foreach", ee);
+            String msg = "Error getting iterator for #foreach";
+            rsvc.getLog().error(msg, ee);
+            throw new VelocityException(msg, ee);
         }
 
         if (i == null)

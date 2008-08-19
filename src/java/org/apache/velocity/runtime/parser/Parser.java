@@ -3,7 +3,7 @@ package org.apache.velocity.runtime.parser;
 
 import java.io.*;
 import java.util.*;
-
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
@@ -125,7 +125,9 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         }
         catch (Exception e)
         {
-            rsvc.getLog().error("Parser Error: " + templateName, e);
+            String msg = "Parser Error: " + templateName;
+            rsvc.getLog().error(msg, e);
+            throw new VelocityException(msg, e);
         }
 
         currentTemplateName = "";
