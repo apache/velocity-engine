@@ -602,48 +602,11 @@ public class ResourceManagerImpl
         for (Iterator it = resourceLoaders.iterator(); it.hasNext(); )
         {
             ResourceLoader resourceLoader = (ResourceLoader) it.next();
-
-            InputStream is = null;
-
-            /*
-             *  if we find one that can provide the resource,
-             *  return the name of the loaders's Class
-             */
-            try
+            if (resourceLoader.resourceExists(resourceName))
             {
-                is = resourceLoader.getResourceStream(resourceName);
-
-                if (is != null)
-                {
-                    return resourceLoader.getClass().toString();
-                }
-            }
-            catch (ResourceNotFoundException rnfe)
-            {
-                /*
-                 * this isn't a problem.  keep going
-                 */
-            }
-            finally
-            {
-
-                /*
-                 *  if we did find one, clean up because we were
-                 *  returned an open stream
-                 */
-                if (is != null)
-                {
-
-                    try
-                    {
-                        is.close();
-                    }
-                    catch (IOException supressed)
-                    { }
-                }
+                return resourceLoader.getClass().toString();
             }
         }
-
         return null;
     }
 }

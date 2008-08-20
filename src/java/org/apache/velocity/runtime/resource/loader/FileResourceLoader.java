@@ -179,6 +179,39 @@ public class FileResourceLoader extends ResourceLoader
     }
 
     /**
+     * Overrides superclass for better performance.
+     */
+    public boolean resourceExists(String name)
+    {
+        if (name == null)
+        {
+            return false;
+        }
+        name = StringUtils.normalizePath(name);
+        if (name == null || name.length() == 0)
+        {
+            return false;
+        }
+
+        int size = paths.size();
+        for (int i = 0; i < size; i++)
+        {
+            String path = (String)paths.get(i);
+            try
+            {
+                File file = getFile(path, name);
+                return file.canRead();
+            }
+            catch (Exception ioe)
+            {
+                String msg = "Exception while checking for template " + name;
+                log.debug(msg, ioe);
+            }
+        }
+        return false;
+    }
+
+    /**
      * Try to find a template given a normalized path.
      *
      * @param path a normalized path
