@@ -52,7 +52,7 @@ public class NodeUtils
             return "";
         }
 
-        StrBuilder specialText = new StrBuilder();
+        StrBuilder sb = new StrBuilder();
 
         Token tmp_t = t.specialToken;
 
@@ -64,8 +64,6 @@ public class NodeUtils
         while (tmp_t != null)
         {
             String st = tmp_t.image;
-
-            StrBuilder sb = new StrBuilder();
 
             for(int i = 0, is = st.length(); i < is; i++)
             {
@@ -125,12 +123,10 @@ public class NodeUtils
                 }
             }
 
-            specialText.append(sb);
-
             tmp_t = tmp_t.next;
         }
 
-        return specialText.toString();
+        return sb.toString();
     }
 
     /**
