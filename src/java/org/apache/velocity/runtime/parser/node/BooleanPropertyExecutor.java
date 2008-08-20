@@ -96,12 +96,13 @@ public class BooleanPropertyExecutor extends PropertyExecutor
 
                 setMethod(getIntrospector().getMethod(clazz, sb.toString(), params));
             }
-
+            
             if (isAlive())
             {
-                if (getMethod().getReturnType() != Boolean.TYPE)
+                if( getMethod().getReturnType() != Boolean.TYPE &&
+                    getMethod().getReturnType() != Boolean.class )
                 {
-                    setMethod(null); // That case is rare but not unknown
+                    setMethod(null);
                 }
             }
         }
