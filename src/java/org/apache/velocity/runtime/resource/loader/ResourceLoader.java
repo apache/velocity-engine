@@ -206,4 +206,51 @@ public abstract class ResourceLoader
     {
         return modificationCheckInterval;
     }
+
+    /**
+     * Check whether any given resource exists. This is not really
+     * a very efficient test and it can and should be overridden in the
+     * subclasses extending ResourceLoader. 
+     *
+     * @param resourceName The name of a resource.
+     * @return true if a resource exists and can be accessed.
+     */
+    public boolean resourceExists(final String resourceName)
+    {
+        InputStream is = null;
+        try
+        {
+            is = getResourceStream(resourceName);
+        }
+        catch (ResourceNotFoundException e)
+        {
+            if (log.isDebugEnabled())
+            {
+                log.debug("Could not load resource '" + resourceName 
+                        + "' from ResourceLoader " + this.getClass().getName() 
+                        + ": ", e);
+            }
+        }
+        finally
+        {
+            try
+            {
+                if (is != null)
+                {
+                    is.close();
+                }
+            }
+            catch (Exception e)
+            {
+                if (log.isErrorEnabled())
+                {
+                    String msg = "While closing InputStream for resource '" + resourceName
+                        + "' from ResourceLoader "+this.getClass().getName();
+                    log.error(msg, e);
+                    throw new VelocityException(msg, e);
+                }
+            }
+        }
+        return (is != null);
+    }
 }

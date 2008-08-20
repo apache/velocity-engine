@@ -323,6 +323,17 @@ public class StringResourceLoader extends ResourceLoader
         return repo;
     }
 
+    /**
+     * Overrides superclass for better performance.
+     */
+    public boolean resourceExists(final String name)
+    {
+        if (name == null)
+        {
+            return false;
+        }
+        return (this.repository.getStringResource(name) != null);
+    }
 
     /**
      * Get an InputStream so that the Runtime can build a
