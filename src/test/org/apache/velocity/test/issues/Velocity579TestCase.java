@@ -22,7 +22,8 @@ package org.apache.velocity.test.issues;
 import org.apache.velocity.test.BaseEvalTestCase;
 
 /**
- * This class tests VELOCITY-579.
+ * This class tests VELOCITY-579 and with some related stuff
+ * from VELOCITY-70 thrown in.
  */
 public class Velocity579TestCase extends BaseEvalTestCase
 {
@@ -36,6 +37,12 @@ public class Velocity579TestCase extends BaseEvalTestCase
         context.put("foo", new Foobar());
         assertEvalEquals("bar", "$foo.foo('bar')");
         assertEvalEquals("$foo.bar()", "$foo.bar()");
+    }
+
+    public void testPublicMethodInheritedFromPrivateClass()
+    {
+        context.put("bar", new MyBar());
+        assertEvalEquals("bar", "$bar.bar()");
     }
 
     public static interface Foo
@@ -57,6 +64,10 @@ public class Velocity579TestCase extends BaseEvalTestCase
         {
             return "bar";
         }
+    }
+
+    public static class MyBar extends Foobar
+    {
     }
 
 }
