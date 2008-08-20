@@ -35,15 +35,7 @@ import org.apache.velocity.runtime.parser.Token;
 public class NodeUtils
 {
     /**
-     * Collect all the <SPECIAL_TOKEN>s that
-     * are carried along with a token. Special
-     * tokens do not participate in parsing but
-     * can still trigger certain lexical actions.
-     * In some cases you may want to retrieve these
-     * special tokens, this is simply a way to
-     * extract them.
-     * @param t
-     * @return String with the special tokens.
+     * @deprecated use getSpecialText(Token t)
      */
     public static String specialText(Token t)
     {
@@ -51,7 +43,22 @@ public class NodeUtils
         {
             return "";
         }
+        return getSpecialText(t).toString();
+    }
 
+    /**
+     * Collect all the <SPECIAL_TOKEN>s that
+     * are carried along with a token. Special
+     * tokens do not participate in parsing but
+     * can still trigger certain lexical actions.
+     * In some cases you may want to retrieve these
+     * special tokens, this is simply a way to
+     * extract them.
+     * @param t the Token
+     * @return StrBuilder with the special tokens.
+     */
+    public static StrBuilder getSpecialText(Token t)
+    {
         StrBuilder sb = new StrBuilder();
 
         Token tmp_t = t.specialToken;
@@ -125,15 +132,13 @@ public class NodeUtils
 
             tmp_t = tmp_t.next;
         }
-
-        return sb.toString();
+        return sb;
     }
 
     /**
      *  complete node literal
      * @param t
      * @return A node literal.
-     *
      */
     public static String tokenLiteral( Token t )
     {
@@ -142,9 +147,18 @@ public class NodeUtils
         {
             return "";
         } 
+        else if (t.specialToken == null || t.specialToken.image.startsWith("##"))
+        {
+            return t.image;
+        }
         else 
         {
-            return specialText( t ) + t.image;
+            StrBuilder special = getSpecialText(t);
+            if (special.length() > 0)
+            {
+                return special.append(t.image).toString();
+            }
+            return t.image;
         }
     } 
     

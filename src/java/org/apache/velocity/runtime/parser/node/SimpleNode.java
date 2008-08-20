@@ -257,15 +257,15 @@ public class SimpleNode implements Node
         // buffer allocation. VELOCITY-606
         if (first == last)
         {
-            return first.image;
+            return NodeUtils.tokenLiteral(first);
         }
 
         Token t = first;
-        StrBuilder sb = new StrBuilder(t.image);
+        StrBuilder sb = new StrBuilder(NodeUtils.tokenLiteral(t));
         while (t != last)
         {
             t = t.next;
-            sb.append(t.image);
+            sb.append(NodeUtils.tokenLiteral(t));
         }
         return sb.toString();
     }
