@@ -98,8 +98,8 @@ public class URLResourceLoader extends ResourceLoader
                 URLConnection conn = u.openConnection();
                 if (timeout > 0)
                 {
-                    conn.setConnectTimeout(10000);
-                    conn.setReadTimeout(10000);
+                    conn.setConnectTimeout(timeout);
+                    conn.setReadTimeout(timeout);
                 }
                 inputStream = conn.getInputStream();
 
