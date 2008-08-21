@@ -63,6 +63,8 @@ import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.UberspectLoggable;
+import org.apache.velocity.util.introspection.ChainableUberspector;
+import org.apache.velocity.util.introspection.LinkingUberspector;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -302,10 +304,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private void initializeIntrospection()
         throws Exception
     {
-        String rm = getString(RuntimeConstants.UBERSPECT_CLASSNAME);
-
-        if (rm != null && rm.length() > 0)
+        String[] uberspectors = configuration.getStringArray(RuntimeConstants.UBERSPECT_CLASSNAME);
+        for (int i=0; i <uberspectors.length;i++)
         {
+            String rm = uberspectors[i];
             Object o = null;
 
             try
@@ -330,32 +332,52 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 throw new Exception(err);
             }
 
-            uberSpect = (Uberspect) o;
+            Uberspect u = (Uberspect)o;
 
-            if (uberSpect instanceof UberspectLoggable)
+            if (u instanceof UberspectLoggable)
             {
-                ((UberspectLoggable) uberSpect).setLog(getLog());
+                ((UberspectLoggable)u).setLog(getLog());
             }
 
-            if (uberSpect instanceof RuntimeServicesAware)
+            if (u instanceof RuntimeServicesAware)
             {
-                ((RuntimeServicesAware) uberSpect).setRuntimeServices(this);
+                ((RuntimeServicesAware)u).setRuntimeServices(this);
             }
-            
+
+            if (uberSpect == null)
+            {
+                uberSpect = u;
+            }
+            else
+            {
+                if (u instanceof ChainableUberspector)
+                {
+                    ((ChainableUberspector)u).wrap(uberSpect);
+                    uberSpect = u;
+                }
+                else
+                {
+                    uberSpect = new LinkingUberspector(uberSpect,u);
+                }
+            }
+        }
+
+        if(uberSpect != null)
+        {
             uberSpect.init();
-         }
-         else
-         {
-            /*
-             *  someone screwed up.  Lets not fool around...
-             */
+        }
+        else
+        {
+           /*
+            *  someone screwed up.  Lets not fool around...
+            */
 
-            String err = "It appears that no class was specified as the"
-            + " Uberspect.  Please ensure that all configuration"
-            + " information is correct.";
+           String err = "It appears that no class was specified as the"
+           + " Uberspect.  Please ensure that all configuration"
+           + " information is correct.";
 
-            log.error(err);
-            throw new Exception(err);
+           log.error(err);
+           throw new Exception(err);
         }
     }
 

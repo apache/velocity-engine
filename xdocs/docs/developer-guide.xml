@@ -1892,9 +1892,14 @@ increment this property immediately to avoid performance degradation.
 org.apache.velocity.util.introspection.UberspectImpl</code>
 <br/>
 This property sets the 'Uberspector', the introspection package that
-handles all introspection strategies for Velocity.  The default works just
-fine, so only replace if you have something really interesting and special
-to do.
+handles all introspection strategies for Velocity. You can specify a
+coma-separated list of Uberspector classes, in which case all Uberspectors are
+chained. The default chaining behaviour is to return the first non-null value
+for each introspection call among all provided uberspectors. You can modify
+this behaviour (for instance to restrict access to some methods) by subclassing
+org.apache.velocity.util.introspection.AbstractChainableUberspector (or
+implementing directly
+org.apache.velocity.util.introspection.ChainableUberspector).
 </p>
 
 </section>
