@@ -27,6 +27,10 @@
   <body>
     <release version="1.6" date="in Subversion">
 
+      <action type="add" dev="cbrisson" issue="VELOCITY-588" due-to="Vincent Massol, Sergiu Dumitriu">
+          Uberspectors chaining
+      </action>
+
       <action type="add" dev="nbubna" issue="VELOCITY-600" due-to="Adrian Tarau">
           New VTL syntax $velocityHasNext within #foreach loops
       </action>
