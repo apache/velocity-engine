@@ -325,6 +325,7 @@ public class StringResourceLoader extends ResourceLoader
 
     /**
      * Overrides superclass for better performance.
+     * @since 1.6
      */
     public boolean resourceExists(final String name)
     {

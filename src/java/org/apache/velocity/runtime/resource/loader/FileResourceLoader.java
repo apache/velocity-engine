@@ -180,6 +180,7 @@ public class FileResourceLoader extends ResourceLoader
 
     /**
      * Overrides superclass for better performance.
+     * @since 1.6
      */
     public boolean resourceExists(String name)
     {
