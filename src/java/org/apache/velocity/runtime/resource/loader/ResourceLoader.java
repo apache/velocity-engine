@@ -214,6 +214,7 @@ public abstract class ResourceLoader
      *
      * @param resourceName The name of a resource.
      * @return true if a resource exists and can be accessed.
+     * @since 1.6
      */
     public boolean resourceExists(final String resourceName)
     {
