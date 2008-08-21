@@ -67,7 +67,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      *  makes sure that the log gets set before this is called,
      *  we can initialize the Introspector using the log object.
      */
-    public void init()
+    public void init() throws Exception
     {
         introspector = new Introspector(log);
     }

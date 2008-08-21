@@ -288,7 +288,7 @@ public interface RuntimeConstants
     /** Default Encoding is ISO-8859-1. */
     String ENCODING_DEFAULT = "ISO-8859-1";
 
-    /** key name for uberspector. */
+    /** key name for uberspector. Multiple classnames can be specified,in which case uberspectors will be chained. */
     String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
 
     /** A comma separated list of packages to restrict access to in the SecureIntrospector. */
