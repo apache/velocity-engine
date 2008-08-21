@@ -41,6 +41,7 @@ public class URLResourceLoader extends ResourceLoader
 {
     private String[] roots = null;
     protected HashMap templateRoots = null;
+    private int timeout = -1;
 
     /**
      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
@@ -50,13 +51,18 @@ public class URLResourceLoader extends ResourceLoader
         log.trace("URLResourceLoader : initialization starting.");
 
         roots = configuration.getStringArray("root");
-
         if (log.isDebugEnabled())
         {
             for (int i=0; i < roots.length; i++)
             {
                 log.debug("URLResourceLoader : adding root '" + roots[i] + "'");
             }
+        }
+
+        timeout = configuration.getInt("timeout", -1);
+        if (timeout > 0)
+        {
+            log.debug("URLResourceLoader : timeout set to "+timeout);
         }
 
         // init the template paths map
@@ -89,7 +95,13 @@ public class URLResourceLoader extends ResourceLoader
             try
             {
                 URL u = new URL(roots[i] + name);
-                inputStream = u.openStream();
+                URLConnection conn = u.openConnection();
+                if (timeout > 0)
+                {
+                    conn.setConnectTimeout(10000);
+                    conn.setReadTimeout(10000);
+                }
+                inputStream = conn.getInputStream();
 
                 if (inputStream != null)
                 {
@@ -166,6 +178,11 @@ public class URLResourceLoader extends ResourceLoader
             // get a connection to the URL
             URL u = new URL(root + name);
             URLConnection conn = u.openConnection();
+            if (timeout > 0)
+            {
+                conn.setConnectTimeout(timeout);
+                conn.setReadTimeout(timeout);
+            }
             return conn.getLastModified();
         }
         catch (IOException ioe)
