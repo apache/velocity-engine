@@ -386,6 +386,19 @@ public class ResourceManagerImpl
     }
 
     /**
+     * Create a new Resource of the specified type.
+     *
+     * @param  resourceName  The name of the resource to retrieve.
+     * @param  resourceType  The type of resource (<code>RESOURCE_TEMPLATE</code>, <code>RESOURCE_CONTENT</code>, etc.).
+     * @return  new instance of appropriate resource type
+     * @since 1.6
+     */
+    protected Resource createResource(String resourceName, int resourceType)
+    {
+        return ResourceFactory.getResource(resourceName, resourceType);
+    }
+
+    /**
      * Loads a resource from the current set of resource loaders.
      *
      * @param  resourceName  The name of the resource to retrieve.
@@ -403,7 +416,7 @@ public class ResourceManagerImpl
             ParseErrorException,
             Exception
     {
-        Resource resource = ResourceFactory.getResource(resourceName, resourceType);
+        Resource resource = createResource(resourceName, resourceType);
         resource.setRuntimeServices(rsvc);
         resource.setName(resourceName);
         resource.setEncoding(encoding);
