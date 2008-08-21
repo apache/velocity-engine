@@ -31,6 +31,47 @@
           Uberspectors chaining
       </action>
 
+      <action type="add" dev="nbubna" issue="VELOCITY-585" due-to="Tim White">
+          Add ability to set a connection timeout for URLResourceLoader.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-227" due-to="Charles Morehead">
+          Make it easier to override ResourceFactory.getResource(...) in ResourceManagerImpl.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-544" due-to="Adam Bishop, Jarkko Viinamäki">
+          Fix BooleanPropertyExecutor to recognize "public Boolean isFoo" properties.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-439" due-to="Tassos Bassoukos, Henning Schmiedehausen">
+          Add a separate resourceExists(String name) method to ResourceLoader(s) to improve performance.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-355" due-to="Geoffrey Lowney, Dan Ertman">
+          Fix missing # and $ characters within #literal() directive output.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-102" due-to="Juozas Baliuka, Adrian Tarau, Jim Seach">
+          Add support for static utility classes: context.put("math", Math.class) -> $math.sin(0)
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-174" due-to="Andrew Tetlaw">
+          Add #define directive set an unrendered block of VTL as a reference.
+          (e.g. #define( $foo )Hello, $bar!#end #set( $bar = 'world') $foo -> Hello, world!)
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-612" due-to="Jarkko Viinamäki">
+          Add #break directive to exit #foreach loops early.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-607" due-to="Jarkko Viinamäki">
+          Fixed major performance issues with Velocimacros.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-606" due-to="Jarkko Viinamäki">
+          Removed many, various performance bottlenecks and concurrency issues. (Also see VELOCITY-595)
+      </action>
+
       <action type="add" dev="nbubna" issue="VELOCITY-600" due-to="Adrian Tarau">
           New VTL syntax $velocityHasNext within #foreach loops
       </action>
@@ -49,6 +90,10 @@
 
       <action type="add" dev="nbubna" issue="VELOCITY-533" due-to="Christopher Schultz">
           New VTL syntax allows arrays to be treated like fixed length lists.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-534">
+          Added support for varargs in method calls.
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-536" due-to="Lei Gu, Dima Tkach">
