@@ -32,6 +32,7 @@ import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 public class ResourceExistsTestCase extends BaseTestCase
 {
     private VelocityEngine velocity;
+    private String path = TEST_COMPARE_DIR + "/resourceexists";
 
     public ResourceExistsTestCase(String name)
     {
@@ -43,16 +44,26 @@ public class ResourceExistsTestCase extends BaseTestCase
         velocity = new VelocityEngine();
         // pass in an instance to Velocity
         velocity.addProperty("resource.loader", "myfile,string");
-        velocity.setProperty("myfile.resource.loader.instance", new FileResourceLoader());
-        velocity.setProperty("myfile.resource.loader.path", TEST_COMPARE_DIR + "/resourceexists");
+        velocity.setProperty("myfile.resource.loader.class", FileResourceLoader.class.getName());
+        velocity.setProperty("myfile.resource.loader.path", path);
         velocity.setProperty("string.resource.loader.class", StringResourceLoader.class.getName());
         velocity.setProperty(velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
     }
 
     public void testFileResourceExists() throws Exception
     {
-        assertTrue(velocity.resourceExists("testfile.vm"));
-        assertFalse(velocity.resourceExists("nosuchfile.vm"));
+        if (!velocity.resourceExists("testfile.vm"))
+        {
+            String msg = "testfile.vm was not found in path "+path;
+            System.out.println(msg);
+            fail(msg);
+        }
+        if (velocity.resourceExists("nosuchfile.vm"))
+        {
+            String msg = "nosuchfile.vm should not have been found in path "+path;
+            System.out.println(msg);
+            fail(msg);
+        }
     }
 
     public void testStringResourceExists() throws Exception

@@ -123,11 +123,11 @@ public abstract class BaseTestCase
         {
             String msg = "Template results directory ("+resultsDirectory+")does not exist";
             RuntimeSingleton.getLog().info(msg);
-//caveman hack to get gump to give more info
-System.out.println(msg);
             if (dir.mkdirs())
             {
                 RuntimeSingleton.getLog().info("Created template results directory");
+//caveman hack to get gump to give more info
+System.out.println("Created template results directory: "+resultsDirectory);
             }
             else
             {
