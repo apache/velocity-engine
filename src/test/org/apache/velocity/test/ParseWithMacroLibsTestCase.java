@@ -145,6 +145,12 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
         Template template = ve.getTemplate("parseMacro1.vm");
+// caveman hack to get info out of gump
+// to compare to ResourceExistsTestCase
+if (template != null)
+{
+    System.out.println("parseMacro1.vm was found at "+TEST_COMPARE_DIR+"/parsemacros");
+}
         template.merge(context, writer);
 
         /**

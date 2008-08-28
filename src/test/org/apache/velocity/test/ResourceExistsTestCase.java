@@ -21,8 +21,10 @@ package org.apache.velocity.test;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.log.NullLogChute;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * Test the resource exists method
@@ -33,6 +35,7 @@ public class ResourceExistsTestCase extends BaseTestCase
 {
     private VelocityEngine velocity;
     private String path = TEST_COMPARE_DIR + "/resourceexists";
+    private TestLogChute logger = new TestLogChute();
 
     public ResourceExistsTestCase(String name)
     {
@@ -42,12 +45,14 @@ public class ResourceExistsTestCase extends BaseTestCase
     public void setUp() throws Exception
     {
         velocity = new VelocityEngine();
-        // pass in an instance to Velocity
         velocity.addProperty("resource.loader", "myfile,string");
         velocity.setProperty("myfile.resource.loader.class", FileResourceLoader.class.getName());
         velocity.setProperty("myfile.resource.loader.path", path);
         velocity.setProperty("string.resource.loader.class", StringResourceLoader.class.getName());
-        velocity.setProperty(velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+
+        // actual instance of logger
+        velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, logger);
+        velocity.setProperty("runtime.log.logsystem.test.level", "debug");
     }
 
     public void testFileResourceExists() throws Exception
@@ -56,6 +61,7 @@ public class ResourceExistsTestCase extends BaseTestCase
         {
             String msg = "testfile.vm was not found in path "+path;
             System.out.println(msg);
+            System.out.println("Log was: "+logger.getLog());
             fail(msg);
         }
         if (velocity.resourceExists("nosuchfile.vm"))
