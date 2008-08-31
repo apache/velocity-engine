@@ -51,6 +51,7 @@ public class ResourceExistsTestCase extends BaseTestCase
         velocity.setProperty("string.resource.loader.class", StringResourceLoader.class.getName());
 
         // actual instance of logger
+        logger.on();
         velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, logger);
         velocity.setProperty("runtime.log.logsystem.test.level", "debug");
     }
@@ -62,6 +63,13 @@ public class ResourceExistsTestCase extends BaseTestCase
             String msg = "testfile.vm was not found in path "+path;
             System.out.println(msg);
             System.out.println("Log was: "+logger.getLog());
+            path = path+"/testfile.vm";
+            java.io.File file = new java.io.File(path);
+            if (file.exists()) {
+                System.out.println("file system found "+path);
+            } else {
+                System.out.println(file+" could not be found as a file");
+            }
             fail(msg);
         }
         if (velocity.resourceExists("nosuchfile.vm"))
