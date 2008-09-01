@@ -105,6 +105,10 @@ public class BaseEvalTestCase extends TestCase
             }
             return result;
         }
+        catch (RuntimeException re)
+        {
+            throw re;
+        }
         catch (Exception e)
         {
             throw new RuntimeException(e);
