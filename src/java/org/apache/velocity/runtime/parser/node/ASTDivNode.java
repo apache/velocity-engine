@@ -20,9 +20,8 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.MathException;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.util.TemplateNumber;
 
 /**
  * Handles number division of nodes<br><br>
@@ -36,7 +35,7 @@ import org.apache.velocity.util.TemplateNumber;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ASTDivNode extends SimpleNode
+public class ASTDivNode extends ASTMathNode
 {
     /**
      * @param id
@@ -55,84 +54,26 @@ public class ASTDivNode extends SimpleNode
         super(p, id);
     }
 
-    /**
-     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
-     */
-    public Object jjtAccept(ParserVisitor visitor, Object data)
-    {
-        return visitor.visit(this, data);
-    }
-
-    /**
-     *  computes the result of the division.
-     * @param context
-     *  @return result or null
-     * @throws MethodInvocationException
-     */
-    public Object value( InternalContextAdapter context)
-        throws MethodInvocationException
+    public Number perform(Number left, Number right, InternalContextAdapter context)
     {
         /*
-         *  get the two args
+         * check for divide by 0
          */
-
-        Object left = jjtGetChild(0).value( context );
-        Object right = jjtGetChild(1).value( context );
-
-        /*
-         *  if either is null, lets log and bail
-         */
-
-        if (left == null || right == null)
+        if (MathUtils.isZero(right))
         {
-            log.error((left == null ? "Left" : "Right")
-                           + " side ("
-                           + jjtGetChild( (left == null? 0 : 1) ).literal()
-                           + ") of division operation has null value."
-                           + " Operation not possible. "
-                           +  context.getCurrentTemplateName()
-                           + " [line " + getLine()
-                           + ", column " + getColumn() + "]");
-            return null;
+            String msg = "Right side of division operation is zero. Must be non-zero. "
+                          + getLocation(context);
+            if (strictMode)
+            {
+                log.error(msg);
+                throw new MathException(msg);
+            }
+            else
+            {
+                log.debug(msg);
+                return null;
+            }
         }
-
-        /*
-         *  convert to Number if applicable
-         */
-        if (left instanceof TemplateNumber)
-        {
-           left = ( (TemplateNumber) left).getAsNumber();
-        }
-        if (right instanceof TemplateNumber)
-        {
-           right = ( (TemplateNumber) right).getAsNumber();
-        }
-
-        /*
-         *  if not a Number, not much we can do either
-         */
-        if ( !( left instanceof Number )  || !( right instanceof Number ))
-        {
-            log.error((!(left instanceof Number) ? "Left" : "Right")
-                           + " side of division operation is not a number. "
-                           + context.getCurrentTemplateName() + " [line " + getLine()
-                           + ", column " + getColumn() + "]");
-
-            return null;
-        }
-
-        /*
-         *  check for divide by 0
-         */
-        if ( MathUtils.isZero ( (Number)right ) )
-        {
-            log.error("Right side of division operation is zero. Must be non-zero. "
-                           +  context.getCurrentTemplateName() + " [line " + getLine()
-                           + ", column " + getColumn() + "]");
-
-            return null;
-        }
-
-        return MathUtils.divide( (Number)left, (Number)right );
+        return MathUtils.divide(left, right);
     }
 }

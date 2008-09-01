@@ -156,12 +156,6 @@ public class ASTEQNode extends SimpleNode
         return jjtGetChild(left ? 0 : 1).literal();
     }
 
-    private String getLocation(InternalContextAdapter context)
-    {
-        return context.getCurrentTemplateName() + " [line " + getLine()
-            + ", column " + getColumn() + "]";
-    }
-
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
      */
