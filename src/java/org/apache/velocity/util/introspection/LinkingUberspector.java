@@ -14,7 +14,7 @@ import org.apache.velocity.util.RuntimeServicesAware;
  * first non-null result is kept for each introspection call.
  * </p>
  * 
- * @since 1.5RC1
+ * @since 1.6
  * @see ChainableUberspector
  * @version $Id: LinkingUberspector.java 10959 2008-07-01 00:12:29Z sdumitriu $
  */
