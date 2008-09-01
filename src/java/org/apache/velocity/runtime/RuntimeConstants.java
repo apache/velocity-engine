@@ -297,6 +297,9 @@ public interface RuntimeConstants
     /** A comma separated list of classes to restrict access to in the SecureIntrospector. */
     String INTROSPECTOR_RESTRICT_CLASSES = "introspector.restrict.classes";
 
+    /** Switch for ignoring nulls in math equations vs throwing exceptions. */
+    String STRICT_MATH = "runtime.strict.math";
+
     /**
      * The <code>parser.pool.class</code> property specifies the name of the {@link org.apache.velocity.util.SimplePool}
      * implementation to use.

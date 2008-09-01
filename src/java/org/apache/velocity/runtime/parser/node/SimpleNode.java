@@ -246,6 +246,17 @@ public class SimpleNode implements Node
         }
     }
 
+    /**
+     * Return a string that tells the current location of this node.
+     */
+    protected String getLocation(InternalContextAdapter context)
+    {
+        return new StrBuilder(50)
+            .append(context.getCurrentTemplateName())
+            .append(" [line ").append(getLine())
+            .append(", column ").append(getColumn()).append("]").toString();
+    }
+
     // All additional methods
 
     /**
