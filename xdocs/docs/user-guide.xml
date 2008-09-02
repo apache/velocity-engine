@@ -54,6 +54,7 @@
     <ol>
         <li><a href="#currency">Currency</a></li>
         <li><a href="#escapingvalidvtlreferences">Escaping Valid VTL References</a></li>
+        <li><a href="#escapinginvalidvtlreferences">Escaping Inalid VTL References</a></li>
     </ol>
 </li>
 <li><a href="#case_substitution">Case Substitution</a></li>
@@ -715,10 +716,12 @@ Jack is a ${vice}maniac.
   <p>
     <a name="escapingvalidvtlreferences"><strong>Escaping Valid VTL References</strong></a>
     <br/>
-    Cases may arise where there is the potential for Velocity to get
-    confused. <em>Escaping</em> special characters is the best way to
-    handle VTL's special characters in your templates, and this can be
-    done using the backslash ( <em>\</em> ) character.
+    Cases may arise where you do not want to have a reference rendered by Velocity.
+    <em>Escaping</em> special characters is the best way to output
+    VTL's special characters in these situations, and this can be
+    done using the backslash ( <em>\</em> ) character <i>when those special
+    characters are part of a valid VTL reference</i>.
+    <a href="#escapinginvalidvtlreferences" style="text-decoration: none"><sup>*</sup></a>
   </p>
 
 <source><![CDATA[
@@ -802,9 +805,42 @@ $moon = $foo
     is output in place of <em>$foo</em>.
   </p>
 
+  <p>
+    <a name="escapinginvalidvtlreferences"><strong>Escaping Invalid VTL References</strong></a>
+    <br/>
+    Sometimes Velocity has trouble parsing your template when it encounters
+    an "invalid reference" that you never intended to be a reference at all.
+    <em>Escaping</em> special characters is, again, the best way to
+    handle these situations, but in these situations, the backslash will
+    likely fail you.  Instead of simply trying to escape the problematic
+    <code>$</code> or <code>#</code>, you should probably just replace this:
+  </p>
+
+<source><![CDATA[
+${my:invalid:non:reference}
+]]></source>
+
+    <p>with something like this</p>
+
+<source><![CDATA[
+#set( $D = '$' )
+${D}{my:invalid:non:reference}
+]]></source>
+
+    <p>You can, of course, put your <code>$</code> or <code>#</code> string directly
+    into the context from your java code (e.g. <code>context.put("D","$");</code>)
+    to avoid the extra #set() directive in your template(s).  Or, if you are using
+    <a href="http://velocity.apache.org/tools/devel/">VelocityTools</a>, you can 
+    just use the EscapeTool like this:</p>
+
+<source><![CDATA[
+${esc.d}{my:invalid:non:reference}
+]]></source>
+
 
   <p>
-     It is also possible to escape VTL directives; this is described in
+     Escaping of both valid and invalid VTL directives is
+     handled in much the same manner; this is described in
      more detail in the Directives section.
   </p>
 
