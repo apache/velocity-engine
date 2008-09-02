@@ -1457,6 +1457,21 @@ directive.foreach.counter.initial.value = 1
 directive.foreach.maxloops = -1
 ]]></source>
 
+    <p>
+    If you want to stop looping in a foreach from within your template,
+    you can now use the #break directive to stop looping at any time:
+    </p>
+
+<source><![CDATA[
+## list first 5 customers only
+#foreach( $customer in $customerList )
+    #if( $velocityCount > 5 )
+        #break
+    #end
+    $customer.Name
+#end
+]]></source>
+
 </section>
 
 <section name="Include" href="include">
