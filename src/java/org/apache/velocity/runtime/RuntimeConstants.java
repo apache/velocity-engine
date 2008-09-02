@@ -126,6 +126,12 @@ public interface RuntimeConstants
     /** Maximum allowed number of loops. */
     String MAX_NUMBER_LOOPS = "directive.foreach.maxloops";
 
+    /**
+     * Whether to throw an exception or just skip bad iterables. Default is true.
+     * @since 1.6
+     */
+    String SKIP_INVALID_ITERATOR = "directive.foreach.skip.invalid";
+
     /** if set to true then allows #set to accept null values in the right hand side. */
     String SET_NULL_ALLOWED = "directive.set.null.allowed";
 

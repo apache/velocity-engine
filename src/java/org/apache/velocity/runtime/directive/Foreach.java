@@ -367,6 +367,11 @@ public class Foreach extends Directive
     private int maxNbrLoops;
 
     /**
+     * Whether or not to throw an Exception if the iterator is null.
+     */
+    private boolean skipInvalidIterator;
+
+    /**
      * The reference name used to access each
      * of the elements in the list object. It
      * is the $item in the following:
@@ -405,6 +410,8 @@ public class Foreach extends Directive
         {
             maxNbrLoops = Integer.MAX_VALUE;
         }
+        skipInvalidIterator =
+            rsvc.getBoolean(RuntimeConstants.SKIP_INVALID_ITERATOR, true);
 
         /*
          *  this is really the only thing we can do here as everything
@@ -474,14 +481,25 @@ public class Foreach extends Directive
         }
         catch(Exception ee)
         {
-            String msg = "Error getting iterator for #foreach";
+            String msg = "Error getting iterator for #foreach at "+uberInfo;
             rsvc.getLog().error(msg, ee);
             throw new VelocityException(msg, ee);
         }
 
         if (i == null)
         {
-            return false;
+            if (skipInvalidIterator)
+            {
+                return false;
+            }
+            else
+            {
+                String msg = "Uberspect returned a null iterator for #foreach at "
+                    + uberInfo + ".  " + node.jjtGetChild(2).literal() + " (" + listObject
+                    + ") is either of wrong type or has an invalid iterator() implementation.";
+                rsvc.getLog().error(msg);
+                throw new VelocityException(msg);
+            }
         }
 
         int counter = counterInitialValue;
