@@ -604,6 +604,12 @@ subsequent #foreach() blocks after the first will fail,
 as the Enumeration doesn't reset.
 </li>
 
+<li> Any public class with a <code>public Iterator iterator()</code> method
+that never returns <code>null</code>.  As a last resort, Velocity will
+look for an <code>iterator()</code> method. This provides great flexibility
+and automatic support for Java 1.5's <code>java.util.Iterable</code> interface.
+</li>
+
 </ul>
 
 <p>
