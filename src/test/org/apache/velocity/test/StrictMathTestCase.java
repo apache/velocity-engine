@@ -36,7 +36,7 @@ public class StrictMathTestCase extends BaseEvalTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        engine.setProperty(RuntimeConstants.STRICT_MATH, true);
+        engine.setProperty(RuntimeConstants.STRICT_MATH, Boolean.TRUE);
         context.put("num", new Integer(5));
         context.put("zero", new Integer(0));
     }
