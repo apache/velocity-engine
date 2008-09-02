@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.    
+-->
+
+<document>
+
+ <properties>
+  <title>Glossary</title>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
+ </properties>
+<body>
+<section name="Velocity Terms and Abbreviations" href="velocity_terms_and_abbreviations">
+  <dl>
+    <dt><a name="anakia">Anakia</a></dt>
+    <dd>An XML transformation tool that uses JDOM and Velocity to transform
+    XML documents into the format of your choice.</dd>
+
+    <dt><a name="blockdirective">Block Directive</a></dt>
+    <dd>A <a href="#directive">directive</a> that spans multiple lines.
+    The block starts with a block directive such as 
+    <code><a href="#if">#if</a></code>, 
+    <code><a href="#foreach">#foreach</a></code>, or 
+    <code><a href="#macro">#macro</a></code> and ends with the 
+    <code><a href="#end">#end</a></code> directive.</dd>
+
+    <dt><a name="comment">Comment</a></dt>
+    <dd>Allow descriptive text to be included in the template that will
+    not be placed into the output of the template engine. Single line
+    comments begin with <code>##</code>. Multi-line comments begin with
+    <code>#*</code> and end with <code>*#</code></dd>
+
+    <dt><a name="context">Context</a></dt>
+    <dd>A means to import Java objects into a <a href="#velocity">Velocity</a>
+    <a href="#template">template</a>.</dd>
+
+    <dt><a name="directive">Directive</a></dt>
+    <dd>Easy to use "active" elements that manipulate template output. 
+    There are both <a href="#linedirective">line</a> and 
+    <a href="#blockdirective">block</a> directives.</dd>
+
+    <dt><a name="docbookframework">DocBook Framework</a></dt>
+    <dd>A framework inteded to help create high quality documentation
+    suitable for online viewing and printing.</dd>
+
+    <dt><a name="dvsl">DVSL</a></dt>
+    <dd>Declarative Velocity Style Language. A tool modeled after XSLT
+    that is used for general XML transformations using the 
+    <a href="#vtl">VTL</a> as the templating language.</dd>
+
+    <dt><a name="else">#else</a></dt>
+    <dd>A <a href="#directive">directive</a> that must be used with
+    an <code><a href="#if">#if</a></code>. It allows text to be included
+    only if the <code>#if</code> was false.</dd>
+
+    <dt><a name="elseif">#elseif</a></dt>
+    <dd>A <a href="#directive">directive</a> that must be used with
+    an <code><a href="#if">#if</a></code>. It allows text to be included
+    if the <code>#if</code> was false and if its own statement is true.</dd>
+
+    <dt><a name="equivalentoperator">Equivalence Operator</a></dt>
+    <dd><code>==</code> Used to directly compare numbers, strings, or objects.
+    If the objects that are being compared are different classes, 
+    <code>toString()</code> is called first and then they are compared.</dd>
+
+    <dt><a name="end">#end</a></dt>
+    <dd>Ends block <a href="#directive">directives</a> such as 
+    <a href="#if">#if</a>, <a href="#foreach">#foreach</a> and 
+    <a href="#macro">#macro</a>.</dd>
+
+    <dt><a name="escaping">Escaping</a></dt>
+    <dd>Removing the special meaning of a <code>#</code> or <code>$</code>
+    so that you can use these characters without <a href="#velocity">Velocity</a>
+    interpretting it as the start of a <a href="#reference">reference</a> or 
+    <a href="#directive">directive</a>. Escaping is done by putting a 
+    <code>\</code> character before the <code>#</code> or <code>$</code>.</dd>
+
+    <dt><a name="foreach">#foreach</a></dt>
+    <dd>A <a href="#directive">directive</a> that allows you to repeat
+    something on every value in a Collection, Array, Iterable, Map or
+    (as of Velocity 1.6+) object with a <code>public Iterator iterator()</code>
+    method.</dd>
+
+    <dt><a name="include">#include</a></dt>
+    <dd>A <a href="#directive">directive</a> that allows the template
+    designer to import a local file, which is then inserted into the
+    location where the <code>#include</code> directive is defined. 
+    Multiple files may be included by seperating the file names with 
+    commas.</dd>
+
+    <dt><a name="identifier">Identifier</a></dt>
+    <dd>The name of a <a href="#variable">variable</a>. Identifiers must
+    start with an alphabetic character (a .. z, A .. Z). The rest of the
+    characters are limited to alphabetic, numberic (0 .. 9), hyphens ("-"),
+    and underscores ("_").</dd>
+
+    <dt><a name="if">#if</a></dt>
+    <dd>A <a href="#directive">directive</a> that allows for text to
+    only be included if a statement is true.</dd>
+
+    <dt><a name="formalreferencenotation">Formal Reference Notation</a></dt>
+    <dd>A notation for <a href="#reference">references</a> that is more
+    formal than the shorthand. The formal notation consists of a 
+    <code>$</code> character followed by a <code>{</code> character and
+    then the identifiers used in the shorthand notation and then a 
+    <code>}</code> character. Formal notation is often useful when 
+    references are directly adjacent to text in a template.</dd>
+
+    <dt><a name="lhs">LHS</a></dt>
+    <dd>Left Hand Side of an assignment</dd>
+
+    <dt><a name="linedirective">Line Directive</a></dt>
+    <dd>A <a href="#directive">directive</a> that is done all on one
+    line, such as <code><a href="#set">#set</a></code>.</dd>
+
+    <dt><a name="literal">Literal</a></dt>
+    <dd>A string enclosed in double quotes</dd>
+
+    <dt><a name="macro">#macro</a></dt>
+    <dd>See <a href="#velocimacro">Velocimacro</a>.</dd>
+
+    <dt><a name="method">Method</a></dt>
+    <dd>A type of <a href="#reference">reference</a>. Methods are
+    defined in the Java code and are capable of doing something useful.
+    The shorthand notation consists of a leading <code>$</code> character
+    followed by an <a href="#identifier">identifier</a>, folowed by a
+    <a href="#vtlmethodbody">VTL Method Body</a>.</dd>
+
+    <dt><a name="mvc">MVC</a></dt>
+    <dd>Model-View-Controller design pattern. Allows web page designers
+    to focus on creating a well-designed site and allows programmers to
+    focus on writing good code</dd>
+
+    <dt><a name="parse">#parse</a></dt>
+    <dd>A <a href="#directive">directive</a> that includes a local file
+    that contains <a href="#vtl">VTL</a>. <a href="#velocity">Velocity</a>
+    then parses the VTL and renders the template.</dd>
+
+    <dt><a name="property">Property</a></dt>
+    <dd>A type of <a href="#reference">reference</a>. The shorthand
+    notation consists of a leading <code>$</code> character followed
+    by an <a href="#identifier">identifier</a>, followed by a 
+    <code>.</code> character and another identifier.</dd>
+
+    <dt><a name="quietreferencenotation">Quiet Reference Notation</a></dt>
+    <dd>Another notation for <a href="#reference">references</a>. A 
+    <code>!</code> character is inserted between the <code>$</code>
+    and the <a href="#identifier">identifier</a>. This overrides 
+    <a href="#velocity">Velocity</a>'s default behavior if the reference
+    is undefined. Normally, if a reference is undefined, the name of the
+    reference that was given is used instead.  With this notation, a blank
+    text field is used.</dd>
+
+    <dt><a name="reference">Reference</a></dt>
+    <dd>Begins with <code>$</code> and are used to get something.
+    There are three types: <a href="#variables">variables</a>, 
+    <a href="#properties">properties</a>, and 
+    <a href="#methods">methods</a>.</dd>
+
+    <dt><a name="resource">Resource</a></dt>
+    <dd>A general text resource that can be loaded from a variety
+    of sources using a <a href="#resourceloader">Resource Loader</a>.</dd>
+
+    <dt><a name="resourceloader">Resource Loader</a></dt>
+    <dd>A class used by a <a href="#velocityengine">Velocity Engine</a>
+    to load resources from the file system, classpath, URLs or even a
+    database depending on the implementation.</dd>
+
+    <dt><a name="rhs">RHS</a></dt>
+    <dd>Right Hand Side of an assignment</dd>
+
+    <dt><a name="set">#set</a></dt>
+    <dd>The <a href="#directive">directive</a> that is used for setting
+    the value of a reference.</dd>
+
+    <dt><a name="stop">#stop</a></dt>
+    <dd>A <a href="#directive">directive</a> that stops the execution
+    of the template engine.  <code>#stop</code> is useful for debugging
+    templates.</dd>
+
+    <dt><a name="stringinterpolation">String Interpolation</a></dt>
+    <dd>Using a variable inside of a string. For example, 
+    <code>"Hello $name"</code> would be "Hello" and then whatever
+    value is stored in <code>$name</code>.</dd>
+
+    <dt><a name="template">Template</a></dt>
+    <dd>A file containing code in a 
+    <a href="#template language">template language</a> such as the
+    <a href="#vtl">VTL</a> that can be run through a 
+    <a href="#templateengine">template engine</a> like 
+    <a href="#velocity">Velocity</a> to produce dynamic output.</dd>
+
+    <dt><a name="templateengine">Template Engine</a></dt>
+    <dd>An engine that merges a <a href="#context">context</a> with a
+    <a href="#template">template</a> to produce output.</dd>
+
+    <dt><a name="templatelanguage">Template Language</a></dt>
+    <dd>A language such as the <a href="#vtl">VTL</a> that can be used
+    to create <a href="#template">templates</a>.</dd>
+
+    <dt><a name="texen">Texen</a></dt>
+    <dd>Texen is a general purpose text generating utility that
+    is driven by Ant.</dd>
+
+    <dt><a name="tool">Tool</a></dt>
+    <dd>A plain old Java object that is useful in a template but it
+    is not meant to be rendered in output. Tools are meant to be used
+    but not to be seen.</dd>
+
+    <dt><a name="turbine">Turbine</a></dt>
+    <dd>A servlet based framework that allows experienced Java
+    developers to quickly build web applications.  Turbine allows
+    you to personalize the web sites and to use user logins to
+    restrict access to parts of your application.</dd>
+
+    <dt><a name="variable">Variable</a></dt>
+    <dd>A type of <a href="#reference">reference</a>. Variables
+    represents values that can change. The shorthand notation
+    consists of a leading <code>$</code> character followed by
+    an <a href="#identifier">identifier</a></dd>
+
+    <dt><a name="velocimacro">Velocimacro</a></dt>
+    <dd>The <code><a href="#macro">#macro</a></code> 
+    <a href="#directive">directive</a> allows designers to define
+    a repeated segment of template. To create a macro "d", you
+    would use <code>#macro(d)</code> followed by the segment of
+    template followed by <code><a href="#end">#end</a></code>.
+    Macros can have as many arguments as necessary by adding them
+    inside the parentheses such as <code>#macro(d $arg1 $arg2)</code>.</dd>
+
+    <dt><a name="velocity">Velocity</a></dt>
+    <dd>A Java-based <a href="#templateengine">template engine</a>.</dd>
+
+    <dt><a name="velocityengine">VelocityEngine</a></dt>
+    <dd>The engine that generates web pages and other output from 
+    <a href="#template">templates</a> containing VTL code.</dd>
+
+    <dt><a name="velocitysingleton">Velocity Singleton</a></dt>
+    <dd>A singleton wrapper around a 
+    <a href="#velocityengine">Velocity engine</a> that is shared
+    across the JVM (or ClassLoader) and may thus be referenced
+    directly without needing to pass an instance around. This allows
+    localized configuration and sharing of resources.</dd>
+
+    <dt><a name="velocitytools">VelocityTools</a></dt>
+    <dd>A collection of <a href="#tool">Tools</a> and infrastructure to
+    easily, automatically and transparently make tools and static data
+    available to Velocity templates.</dd>
+
+    <dt><a name="vtl">VTL</a></dt>
+    <dd>Velocity Template Language. The powerful template language
+    that is used with <a href="#velocity">Velocity</a>.</dd>
+
+    <dt><a name="vtlmethodcall">VTL Method Call</a></dt>
+    <dd>Consists of an <a href="#identifier">identifier</a> followed
+    by a <code>(</code> character, followed by an optional parameter
+    list, followed by a <code>)</code> character. <a href="#vtl">VTL</a>
+    allows template designers to call any public method declared in
+    a public class on values placed in the <a href="#context">context</a>.</dd>
+  </dl>
+</section>
+</body>
+</document>
