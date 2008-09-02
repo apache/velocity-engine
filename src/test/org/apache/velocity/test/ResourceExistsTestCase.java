@@ -20,9 +20,7 @@ package org.apache.velocity.test;
  */
 
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.log.NullLogChute;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.test.misc.TestLogChute;
 
@@ -45,9 +43,8 @@ public class ResourceExistsTestCase extends BaseTestCase
     public void setUp() throws Exception
     {
         velocity = new VelocityEngine();
-        velocity.addProperty("resource.loader", "myfile,string");
-        velocity.setProperty("myfile.resource.loader.class", FileResourceLoader.class.getName());
-        velocity.setProperty("myfile.resource.loader.path", path);
+        velocity.setProperty("resource.loader", "file,string");
+        velocity.setProperty("file.resource.loader.path", path);
         velocity.setProperty("string.resource.loader.class", StringResourceLoader.class.getName());
 
         // actual instance of logger
