@@ -1551,6 +1551,7 @@ $count
 #set($source1 = "abc")
 #set($select = "1")
 #set($dynamicsource = "$source$select")
+## $dynamicsource is now the string '$source1'
 #evaluate($dynamicsource)
 ]]></source>
 
