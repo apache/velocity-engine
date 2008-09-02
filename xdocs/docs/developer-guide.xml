@@ -1647,6 +1647,12 @@ Maximum allowed number of loops for a #foreach() statement.
 </p>
 
 <p>
+<code>directive.foreach.skip.invalid = true</code><br/>
+Tells #foreach to simply skip rendering when the object it is
+iterating over is not or cannot produce a valid Iterator.
+</p>
+
+<p>
 <strong>#set() Directive</strong>
 </p>
 
@@ -1678,6 +1684,18 @@ Output to the render stream will only occur if both the .start and .end
 Defines the allowable parse depth for a template. A template may #parse()
 another template which itself may have a #parse() directive.  This value
 prevents runaway #parse() recursion.
+</p>
+
+<p>
+<strong>Math</strong>
+</p>
+
+<p>
+<code>resource.manager.logwhenfound = true</code><br/>
+Switch to control logging of 'found' messages from resource manager.
+When a resource is found for the first time, the resource name
+and classname of the loader that found it will be noted in the
+runtime log.
 </p>
 
 <p>
@@ -1848,7 +1866,7 @@ Is set to false by default to maintain backwards compatibility with
 templates written before this feature became available.
 </p>
 
-    <p>
+<p>
 <strong>String Interpolation</strong>
 </p>
 
@@ -1859,6 +1877,19 @@ StringLiteral is specifically a string using double quotes that is used
 in a #set() statement, a method call of a reference, a parameter to a VM,
 or as an argument to a VTL directive in general.  See the VTL reference for
 further information.
+</p>
+
+<p>
+<strong>Math</strong>
+</p>
+
+<p>
+<code>runtime.strict.math = false</code><br/>
+Affects all math operations in VTL. If changed to true, this will cause
+Velocity to throw a MathException whenever one side of a math operation
+has a null value (e.g. <code>#set( $foo = $null * 5 )</code>) or when
+trying to divide by zero.  If this value is left <code>false</code>,
+then rendering will continue and that math operation will be ignored.
 </p>
 
 <p>
