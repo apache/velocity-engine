@@ -895,7 +895,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Retrieve a previously instantiated directive.
      * @param name name of the directive
-     * @return
+     * @return the {@link Directive} for that name
      */
     public Directive getDirective(String name) 
     {

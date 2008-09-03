@@ -43,8 +43,9 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  * Since the macro AST is now shared and RuntimeMacro directive is used,
  * the earlier implementation of precalculating VMProxyArgs would not work.
  * 
+ * See <a href="http://issues.apache.org/jira/browse/VELOCITY-607">Issue 607</a>
+ * for more info on this class.
  * @author <a href="mailto:wyla@removeme.sci.fi">Jarkko Viinamaki</a>
- * @see http://issues.apache.org/jira/browse/VELOCITY-607
  * @version $Id$
  * @since 1.6
  */

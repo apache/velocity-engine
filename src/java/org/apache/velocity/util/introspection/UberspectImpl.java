@@ -390,7 +390,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
 
         /**
-         * @returns true if this method can accept a variable number of arguments
+         * @return true if this method can accept a variable number of arguments
          * @since 1.6
          */
         public boolean isVarArg()

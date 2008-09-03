@@ -398,7 +398,6 @@ TOKEN_MGR_DECLS:
      *  Clears all state variables, resets to
      *  start values, clears stateStack.  Call
      *  before parsing.
-     *  @return void
      */
     public void clearStateVars()
     {
