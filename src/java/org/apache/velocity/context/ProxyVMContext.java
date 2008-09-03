@@ -49,16 +49,13 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  * @version $Id$
  * @since 1.6
  */
-public class ProxyVMContext implements InternalContextAdapter
+public class ProxyVMContext extends ChainedInternalContextAdapter
 {
     /** container for our macro AST node arguments. Size must be power of 2. */
     Map vmproxyhash = new HashMap(8, 0.8f);
 
     /** container for any local or constant macro arguments. Size must be power of 2. */
     Map localcontext = new HashMap(8, 0.8f);;
-
-    /** the base context store. This is the 'global' context */
-    InternalContextAdapter innerContext;
 
     /** context that we are wrapping */
     InternalContextAdapter wrappedContext;
@@ -78,29 +75,12 @@ public class ProxyVMContext implements InternalContextAdapter
                           RuntimeServices rsvc,
                           boolean localContextScope)
     {
+        super(inner);
+
         this.localContextScope = localContextScope;
         this.rsvc = rsvc;
 
         wrappedContext = inner;
-        innerContext = inner.getBaseContext();
-    }
-
-    /**
-     * Return the inner / user context.
-     * 
-     * @return The inner / user context.
-     */
-    public Context getInternalUserContext()
-    {
-        return innerContext.getInternalUserContext();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalWrapperContext#getBaseContext()
-     */
-    public InternalContextAdapter getBaseContext()
-    {
-        return innerContext.getBaseContext();
     }
 
     /**
@@ -223,7 +203,7 @@ public class ProxyVMContext implements InternalContextAdapter
                 }
                 else
                 {
-                    return innerContext.put(key, value);
+                    return super.put(key, value);
                 }
             }
         }
@@ -293,7 +273,7 @@ public class ProxyVMContext implements InternalContextAdapter
 
             if (o == null)
             {
-                o = innerContext.get(key);
+                o = super.get(key);
             }
         }
 
@@ -335,163 +315,10 @@ public class ProxyVMContext implements InternalContextAdapter
             Object oldValue = localcontext.remove(key);
             if (oldValue == null)
             {
-                oldValue = innerContext.remove(key);
+                oldValue = super.remove(key);
             }
             return oldValue;
         }
     }
 
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentTemplateName(java.lang.String)
-     */
-    public void pushCurrentTemplateName(String s)
-    {
-        innerContext.pushCurrentTemplateName(s);
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentTemplateName()
-     */
-    public void popCurrentTemplateName()
-    {
-        innerContext.popCurrentTemplateName();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentTemplateName()
-     */
-    public String getCurrentTemplateName()
-    {
-        return innerContext.getCurrentTemplateName();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getTemplateNameStack()
-     */
-    public Object[] getTemplateNameStack()
-    {
-        return innerContext.getTemplateNameStack();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentMacroName(java.lang.String)
-     */
-    public void pushCurrentMacroName(String s)
-    {
-        innerContext.pushCurrentMacroName(s);
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentMacroName()
-     */
-    public void popCurrentMacroName()
-    {
-        innerContext.popCurrentMacroName();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroName()
-     */
-    public String getCurrentMacroName()
-    {
-        return innerContext.getCurrentMacroName();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroCallDepth()
-     */
-    public int getCurrentMacroCallDepth()
-    {
-        return innerContext.getCurrentMacroCallDepth();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
-     */
-    public Object[] getMacroNameStack()
-    {
-        return innerContext.getMacroNameStack();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#icacheGet(java.lang.Object)
-     */
-    public IntrospectionCacheData icacheGet(Object key)
-    {
-        return innerContext.icacheGet(key);
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#icachePut(java.lang.Object,
-     *      org.apache.velocity.util.introspection.IntrospectionCacheData)
-     */
-    public void icachePut(Object key, IntrospectionCacheData o)
-    {
-        innerContext.icachePut(key, o);
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getAllowRendering()
-     */
-    public boolean getAllowRendering()
-    {
-        return innerContext.getAllowRendering();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#setAllowRendering(boolean)
-     */
-    public void setAllowRendering(boolean v)
-    {
-        innerContext.setAllowRendering(v);
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
-     */
-    public void setMacroLibraries(List macroLibraries)
-    {
-        innerContext.setMacroLibraries(macroLibraries);
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
-     */
-    public List getMacroLibraries()
-    {
-        return innerContext.getMacroLibraries();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
-     */
-    public EventCartridge attachEventCartridge(EventCartridge ec)
-    {
-        EventCartridge cartridge = innerContext.attachEventCartridge(ec);
-        return cartridge;
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalEventContext#getEventCartridge()
-     */
-    public EventCartridge getEventCartridge()
-    {
-        return innerContext.getEventCartridge();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#setCurrentResource(org.apache.velocity.runtime.resource.Resource)
-     */
-    public void setCurrentResource(Resource r)
-    {
-        innerContext.setCurrentResource(r);
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentResource()
-     */
-    public Resource getCurrentResource()
-    {
-        return innerContext.getCurrentResource();
-    }
 }

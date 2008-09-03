@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.context.ChainedInternalContextAdapter;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -58,9 +59,8 @@ public class Foreach extends Directive
      * All puts and gets are passed through, except for the foreach iterator key.
      * @since 1.5
      */
-    protected static class NullHolderContext implements InternalContextAdapter
+    protected static class NullHolderContext extends ChainedInternalContextAdapter
     {
-        private InternalContextAdapter  innerContext = null;
         private String   loopVariableKey = "";
         private boolean  active = true;
 
@@ -71,7 +71,7 @@ public class Foreach extends Directive
          */
         private NullHolderContext( String key, InternalContextAdapter context )
         {
-           innerContext = context;
+           super(context);
            if( key != null )
                loopVariableKey = key;
         }
@@ -85,7 +85,7 @@ public class Foreach extends Directive
         {
             return ( active && loopVariableKey.equals(key) )
                 ? null
-                : innerContext.get(key);
+                : super.get(key);
         }
 
         /**
@@ -98,7 +98,7 @@ public class Foreach extends Directive
                 active = true;
             }
 
-            return innerContext.put( key, value );
+            return super.put( key, value );
         }
 
         /**
@@ -115,23 +115,6 @@ public class Foreach extends Directive
             return put(key, value);
         }
 
-       /**
-         * Does the context contain the key
-         * @see org.apache.velocity.context.InternalContextAdapter#containsKey(java.lang.Object key)
-         */
-        public boolean containsKey( Object key )
-        {
-            return innerContext.containsKey(key);
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#getKeys()
-         */
-        public Object[] getKeys()
-        {
-           return innerContext.getKeys();
-        }
-
         /**
          * Remove an object from the context
          * @see org.apache.velocity.context.InternalContextAdapter#remove(java.lang.Object key)
@@ -142,186 +125,8 @@ public class Foreach extends Directive
            {
              active = false;
            }
-           return innerContext.remove(key);
+           return super.remove(key);
         }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#pushCurrentTemplateName(java.lang.String s)
-         */
-        public void pushCurrentTemplateName(String s)
-        {
-            innerContext.pushCurrentTemplateName(s);
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#popCurrentTemplateName()
-         */
-        public void popCurrentTemplateName()
-        {
-            innerContext.popCurrentTemplateName();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#getCurrentTemplateName()
-         */
-        public String getCurrentTemplateName()
-        {
-            return innerContext.getCurrentTemplateName();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#getTemplateNameStack()
-         */
-        public Object[] getTemplateNameStack()
-        {
-            return innerContext.getTemplateNameStack();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentMacroName(java.lang.String)
-         * @since 1.6
-         */
-        public void pushCurrentMacroName( String s )
-        {
-            innerContext.pushCurrentMacroName( s );
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentMacroName()
-         * @since 1.6
-         */
-        public void popCurrentMacroName()
-        {
-            innerContext.popCurrentMacroName();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroName()
-         * @since 1.6
-         */
-        public String getCurrentMacroName()
-        {
-            return innerContext.getCurrentMacroName();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroCallDepth()
-         * @since 1.6
-         */
-        public int getCurrentMacroCallDepth()
-        {
-            return innerContext.getCurrentMacroCallDepth();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
-         * @since 1.6
-         */
-        public Object[] getMacroNameStack()
-        {
-            return innerContext.getMacroNameStack();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#icacheGet(java.lang.Object key)
-         */
-        public IntrospectionCacheData icacheGet(Object key)
-        {
-            return innerContext.icacheGet(key);
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#icachePut(java.lang.Object key, org.apache.velocity.util.introspection.IntrospectionCacheData o)
-         */
-        public void icachePut(Object key, IntrospectionCacheData o)
-        {
-            innerContext.icachePut(key,o);
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#setCurrentResource(org.apache.velocity.runtime.resource.Resource r)
-         */
-        public void setCurrentResource( Resource r )
-        {
-            innerContext.setCurrentResource(r);
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#getCurrentResource()
-         */
-        public Resource getCurrentResource()
-        {
-            return innerContext.getCurrentResource();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#getBaseContext()
-         */
-        public InternalContextAdapter getBaseContext()
-        {
-            return innerContext.getBaseContext();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#getInternalUserContext()
-         */
-        public Context getInternalUserContext()
-        {
-            return innerContext.getInternalUserContext();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#attachEventCartridge(org.apache.velocity.app.event.EventCartridge ec)
-         */
-        public EventCartridge attachEventCartridge(EventCartridge ec)
-        {
-            EventCartridge cartridge = innerContext.attachEventCartridge( ec );
-
-            return cartridge;
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#getEventCartridge()
-         */
-        public EventCartridge getEventCartridge()
-        {
-            return innerContext.getEventCartridge();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#getAllowRendering()
-         */
-        public boolean getAllowRendering()
-        {
-            return innerContext.getAllowRendering();
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#setAllowRendering(boolean v)
-         */
-        public void setAllowRendering(boolean v)
-        {
-            innerContext.setAllowRendering(v);
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#setMacroLibraries(List)
-         * @since 1.6
-         */
-        public void setMacroLibraries(List macroLibraries)
-        {
-            innerContext.setMacroLibraries(macroLibraries);
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#getMacroLibraries() 
-         * @since 1.6
-         */
-        public List getMacroLibraries()
-        {
-            return innerContext.getMacroLibraries();
-        }
-
     }
 
     /**
