@@ -32,8 +32,9 @@ import java.util.Map;
  * Concurrent classes if they are available. We use reflection to instantiate
  * java.util.concurrent classes to avoid compile time dependency on Java 5.
  * 
+ * See <a href="http://issues.apache.org/jira/browse/VELOCITY-607">Issue 607</a>
+ * for more info on this class.
  * @author <a href="mailto:wyla@sci.fi">Jarkko Viinamaki</a>
- * @see http://issues.apache.org/jira/browse/VELOCITY-607
  * @since 1.6
  */
 public class MapFactory

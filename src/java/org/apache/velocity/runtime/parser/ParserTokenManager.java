@@ -89,7 +89,6 @@ public class ParserTokenManager implements ParserConstants
      *  Clears all state variables, resets to
      *  start values, clears stateStack.  Call
      *  before parsing.
-     *  @return void
      */
     public void clearStateVars()
     {
