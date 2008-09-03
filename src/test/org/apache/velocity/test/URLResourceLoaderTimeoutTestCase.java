@@ -68,7 +68,7 @@ public class URLResourceLoaderTimeoutTestCase extends BaseEvalTestCase
     {
         if (isJava5plus)
         {
-            System.out.println("Testing a 1.5+ JDK: "+logger.getLog());
+            System.out.println("Testing a 1.5+ JDK");
             assertEquals(timeout, loader.getTimeout());
         }
         else

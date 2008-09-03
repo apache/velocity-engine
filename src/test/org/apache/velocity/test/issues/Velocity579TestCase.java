@@ -51,6 +51,7 @@ public class Velocity579TestCase extends BaseEvalTestCase
         catch (ClassNotFoundException cnfe)
         {
             //ignore this test in jdk 1.5-
+            System.out.println("Skipping testPublicMethodInheritedFromPrivateClass for pre-1.6 JDK");
         }
     }
 
