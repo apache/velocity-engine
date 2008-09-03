@@ -19,7 +19,7 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Iterator;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.exception.VelocityException;
@@ -87,7 +87,7 @@ public class StrictForeachTestCase extends BaseEvalTestCase
     {
         public Iterator iterator()
         {
-            return Collections.emptyList().iterator();
+            return new ArrayList().iterator();
         }
     }
 
