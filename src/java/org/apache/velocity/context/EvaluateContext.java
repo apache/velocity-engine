@@ -47,14 +47,10 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  @version $Id$
  *  @since 1.6
  */
-public class EvaluateContext implements InternalContextAdapter
+public class EvaluateContext extends ChainedInternalContextAdapter
 {
     /** container for any local items */
     Context localContext;
-
-    /** the base context store.  This is the 'global' context */
-    InternalContextAdapter innerContext = null;
-
     boolean allowRendering = true;
     
      /**
@@ -64,7 +60,7 @@ public class EvaluateContext implements InternalContextAdapter
      */
     public EvaluateContext( InternalContextAdapter  inner, RuntimeServices rsvc )
     {
-        innerContext = inner;
+        super(inner);
         initContext(rsvc);
     }
 
@@ -118,23 +114,6 @@ public class EvaluateContext implements InternalContextAdapter
         }
         
     }
-    
-    /**
-     *  Return the inner / user context.
-     * @return The inner / user context.
-     */
-    public Context getInternalUserContext()
-    {
-        return innerContext.getInternalUserContext();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalWrapperContext#getBaseContext()
-     */
-    public InternalContextAdapter getBaseContext()
-    {
-        return innerContext.getBaseContext();
-    }
 
     /**
      *  Put method also stores values in local scope 
@@ -168,7 +147,7 @@ public class EvaluateContext implements InternalContextAdapter
 
         if ( o == null)
         {
-            o = innerContext.get( key );
+            o = super.get( key );
         }
 
         return o;
@@ -179,7 +158,7 @@ public class EvaluateContext implements InternalContextAdapter
      */
     public boolean containsKey(Object key)
     {
-        return localContext.containsKey(key) || innerContext.containsKey(key);
+        return localContext.containsKey(key) || super.containsKey(key);
     }
 
     /**
@@ -194,7 +173,7 @@ public class EvaluateContext implements InternalContextAdapter
             keys.add(localKeys[i]);
         }
         
-        Object[] innerKeys = innerContext.getKeys();
+        Object[] innerKeys = super.getKeys();
         for (int i=0; i < innerKeys.length; i++)
         {
             keys.add(innerKeys[i]);
@@ -211,86 +190,6 @@ public class EvaluateContext implements InternalContextAdapter
     }
 
     /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentTemplateName(java.lang.String)
-     */
-    public void pushCurrentTemplateName( String s )
-    {
-        innerContext.pushCurrentTemplateName( s );
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentTemplateName()
-     */
-    public void popCurrentTemplateName()
-    {
-        innerContext.popCurrentTemplateName();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentTemplateName()
-     */
-    public String getCurrentTemplateName()
-    {
-        return innerContext.getCurrentTemplateName();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getTemplateNameStack()
-     */
-    public Object[] getTemplateNameStack()
-    {
-        return innerContext.getTemplateNameStack();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentMacroName(java.lang.String)
-     */
-    public void pushCurrentMacroName( String s )
-    {
-        innerContext.pushCurrentMacroName( s );
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentMacroName()
-     */
-    public void popCurrentMacroName()
-    {
-        innerContext.popCurrentMacroName();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroName()
-     */
-    public String getCurrentMacroName()
-    {
-        return innerContext.getCurrentMacroName();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroCallDepth()
-     */
-    public int getCurrentMacroCallDepth()
-    {
-        return innerContext.getCurrentMacroCallDepth();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
-     */
-    public Object[] getMacroNameStack()
-    {
-        return innerContext.getMacroNameStack();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#icacheGet(java.lang.Object)
-     */
-    public IntrospectionCacheData icacheGet( Object key )
-    {
-        return innerContext.icacheGet( key );
-    }
-
-    /**
      * Allows callers to explicitly put objects in the local context.
      * Objects added to the context through this method always end up
      * in the top-level context of possible wrapped contexts.
@@ -302,14 +201,6 @@ public class EvaluateContext implements InternalContextAdapter
     public Object localPut(final String key, final Object value)
     {
         return localContext.put(key, value);
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#icachePut(java.lang.Object, org.apache.velocity.util.introspection.IntrospectionCacheData)
-     */
-    public void icachePut( Object key, IntrospectionCacheData o )
-    {
-        innerContext.icachePut( key, o );
     }
 
     /**
@@ -328,57 +219,4 @@ public class EvaluateContext implements InternalContextAdapter
         allowRendering = false;
     }
 
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
-     */
-    public void setMacroLibraries(List macroLibraries)
-    {
-        innerContext.setMacroLibraries(macroLibraries);
-    }
-    
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
-     */
-    public List getMacroLibraries()
-    {
-        return innerContext.getMacroLibraries();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
-     */
-    public EventCartridge attachEventCartridge( EventCartridge ec )
-    {
-        EventCartridge cartridge = innerContext.attachEventCartridge( ec );
-        return cartridge;
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalEventContext#getEventCartridge()
-     */
-    public EventCartridge getEventCartridge()
-    {
-        return innerContext.getEventCartridge();
-    }
-
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#setCurrentResource(org.apache.velocity.runtime.resource.Resource)
-     */
-    public void setCurrentResource( Resource r )
-    {
-        innerContext.setCurrentResource( r );
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentResource()
-     */
-    public Resource getCurrentResource()
-    {
-        return innerContext.getCurrentResource();
-    }
 }
-
-
-
-
