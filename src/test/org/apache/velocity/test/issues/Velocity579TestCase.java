@@ -42,15 +42,15 @@ public class Velocity579TestCase extends BaseEvalTestCase
     public void testPublicMethodInheritedFromPrivateClass() throws Exception
     {
         context.put("bar", new MyBar());
-        // ugly hack to avoid failed test when running JDK 1.4 or earlier
+        // ugly hack to avoid failed test when running JDK 1.5 or earlier
         try
         {
-            Class.forName("java.lang.annotation.Annotation");
+            Class.forName("java.util.Deque");
             assertEvalEquals("bar", "$bar.bar()");
         }
         catch (ClassNotFoundException cnfe)
         {
-            //ignore this test in jdk 1.4-
+            //ignore this test in jdk 1.5-
         }
     }
 
