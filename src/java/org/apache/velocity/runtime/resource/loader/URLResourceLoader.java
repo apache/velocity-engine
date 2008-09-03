@@ -21,11 +21,13 @@ package org.apache.velocity.runtime.resource.loader;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 
@@ -42,6 +44,7 @@ public class URLResourceLoader extends ResourceLoader
     private String[] roots = null;
     protected HashMap templateRoots = null;
     private int timeout = -1;
+    private Method[] timeoutMethods;
 
     /**
      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
@@ -62,7 +65,19 @@ public class URLResourceLoader extends ResourceLoader
         timeout = configuration.getInt("timeout", -1);
         if (timeout > 0)
         {
-            log.debug("URLResourceLoader : timeout set to "+timeout);
+            try
+            {
+                Class[] types = new Class[] { Integer.TYPE };
+                Method conn = URLConnection.class.getMethod("setConnectTimeout", types);
+                Method read = URLConnection.class.getMethod("setReadTimeout", types);
+                timeoutMethods = new Method[] { conn, read };
+                log.debug("URLResourceLoader : timeout set to "+timeout);
+            }
+            catch (NoSuchMethodException nsme)
+            {
+                log.debug("URLResourceLoader : Java 1.5+ is required to customize timeout!", nsme);
+                timeout = -1;
+            }
         }
 
         // init the template paths map
@@ -96,11 +111,7 @@ public class URLResourceLoader extends ResourceLoader
             {
                 URL u = new URL(roots[i] + name);
                 URLConnection conn = u.openConnection();
-                if (timeout > 0)
-                {
-                    conn.setConnectTimeout(timeout);
-                    conn.setReadTimeout(timeout);
-                }
+                tryToSetTimeout(conn);
                 inputStream = conn.getInputStream();
 
                 if (inputStream != null)
@@ -178,11 +189,7 @@ public class URLResourceLoader extends ResourceLoader
             // get a connection to the URL
             URL u = new URL(root + name);
             URLConnection conn = u.openConnection();
-            if (timeout > 0)
-            {
-                conn.setConnectTimeout(timeout);
-                conn.setReadTimeout(timeout);
-            }
+            tryToSetTimeout(conn);
             return conn.getLastModified();
         }
         catch (IOException ioe)
@@ -191,6 +198,34 @@ public class URLResourceLoader extends ResourceLoader
             String msg = "URLResourceLoader: '"+name+"' is no longer reachable at '"+root+"'";
             log.error(msg, ioe);
             throw new ResourceNotFoundException(msg, ioe);
+        }
+    }
+
+    /**
+     * Returns the current, custom timeout setting. If negative, there is no custom timeout.
+     * @since 1.6
+     */
+    public int getTimeout()
+    {
+        return timeout;
+    }
+
+    private void tryToSetTimeout(URLConnection conn)
+    {
+        if (timeout > 0)
+        {
+            Object[] arg = new Object[] { new Integer(timeout) };
+            try
+            {
+                timeoutMethods[0].invoke(conn, arg);
+                timeoutMethods[1].invoke(conn, arg);
+            }
+            catch (Exception e)
+            {
+                String msg = "Unexpected exception while setting connection timeout for "+conn;
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
+            }
         }
     }
 
