@@ -24,13 +24,14 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import org.apache.commons.lang.text.StrBuilder;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.Renderable;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * Directive that puts an unrendered AST block in the context
@@ -139,7 +140,7 @@ public class Define extends Directive
      * being used for the render, as well as the parent (which already holds
      * everything else we need).
      */
-    public static class Block
+    public static class Block implements Renderable
     {
         private InternalContextAdapter context;
         private Writer writer;
