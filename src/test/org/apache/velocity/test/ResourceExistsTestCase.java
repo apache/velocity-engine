@@ -42,6 +42,7 @@ public class ResourceExistsTestCase extends BaseTestCase
 
     public void setUp() throws Exception
     {
+try {
         velocity = new VelocityEngine();
         velocity.setProperty("resource.loader", "file,string");
         velocity.setProperty("file.resource.loader.path", path);
@@ -51,10 +52,16 @@ public class ResourceExistsTestCase extends BaseTestCase
         logger.on();
         velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, logger);
         velocity.setProperty("runtime.log.logsystem.test.level", "debug");
+} catch (Exception e) {
+    System.out.println("exception via gump: "+e);
+    e.printStackTrace();
+    System.out.println("log: "+logger.getLog());
+}
     }
 
     public void testFileResourceExists() throws Exception
     {
+try {
         if (!velocity.resourceExists("testfile.vm"))
         {
             String msg = "testfile.vm was not found in path "+path;
@@ -75,12 +82,23 @@ public class ResourceExistsTestCase extends BaseTestCase
             System.out.println(msg);
             fail(msg);
         }
+} catch (Exception e) {
+    System.out.println("exception via gump: "+e);
+    e.printStackTrace();
+    System.out.println("log: "+logger.getLog());
+}
     }
 
     public void testStringResourceExists() throws Exception
     {
+try {
         assertFalse(velocity.resourceExists("foo.vm"));
         StringResourceLoader.getRepository().putStringResource("foo.vm", "Make it so!");
         assertTrue(velocity.resourceExists("foo.vm"));
+} catch (Exception e) {
+    System.out.println("exception via gump: "+e);
+    e.printStackTrace();
+    System.out.println("log: "+logger.getLog());
+}
     }
 }
