@@ -371,8 +371,8 @@ visible. *# This text is outside the comment, so it is visible.
 
  <p>
     There is a third type of comment, the VTL comment block, which may
-    be used to store such information as the document author and
-    versioning information:
+    be used to store any sort of extra information you want to track 
+    in the template (e.g. javadoc-style author and versioning information):
  </p>
 
 <source><![CDATA[
