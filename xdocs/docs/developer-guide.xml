@@ -1220,14 +1220,15 @@ all properties from an existing Properties object into the ExtendedProperties an
 then add new properties with your objects to the ExtendedProperties object.
 </p>
 
-<source><![CDATA[
-...
+<source><![CDATA[    ...
 
     VelocityEngine velocityEngine = new VelocityEngine();
-    ExtendedProperties eprops = new ExtendedProperties();
-
-    // if you already have a Properties object do this
-    eprops.putAll(props);
+    ExtendedProperties eprops = null;
+    if (props==null) {
+       eprops = new ExtendedProperties();
+    } else {
+       eprops = ExtendedProperties.convertProperties(props);
+    }
 
     // Now set the property with your object instance
     eprops.setProperty("name", object);
