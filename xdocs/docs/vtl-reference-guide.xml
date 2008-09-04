@@ -54,9 +54,10 @@
     </p>
 
     <ul>
-        <li>Normal notation: <variable>$mud-Slinger_9</variable></li>
-        <li>Silent notation: <variable>$!mud-Slinger_9</variable></li>
+        <li>Shorthand notation: <variable>$mud-Slinger_9</variable></li>
+        <li>Silent Shorthand notation: <variable>$!mud-Slinger_9</variable></li>
         <li>Formal notation: <variable>${mud-Slinger_9}</variable></li>
+        <li>Silent Formal notation: <variable>$!{mud-Slinger_9}</variable></li>
     </ul>
   </subsection>
 
