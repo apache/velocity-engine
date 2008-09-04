@@ -51,13 +51,6 @@
 </li>
 <li><a href="#formalreferencenotation">Formal Reference Notation</a></li>
 <li><a href="#quietreferencenotation">Quiet Reference Notation</a></li>
-<li><a href="#getting_literal">Getting literal</a>
-    <ol>
-        <li><a href="#currency">Currency</a></li>
-        <li><a href="#escapingvalidvtlreferences">Escaping Valid VTL References</a></li>
-        <li><a href="#escapinginvalidvtlreferences">Escaping Inalid VTL References</a></li>
-    </ol>
-</li>
 <li><a href="#case_substitution">Case Substitution</a></li>
 <li><a href="#directives">Directives</a>
     <ol>
@@ -77,7 +70,14 @@
         <li><a href="#velocimacros">Velocimacros</a></li>
     </ol>
 </li>
-<li><a href="#escaping_vtl_directives">Escaping VTL Directives</a></li>
+<li><a href="#getting_literal">Getting literal</a>
+    <ol>
+        <li><a href="#currency">Currency</a></li>
+        <li><a href="#escapingvalidvtlreferences">Escaping Valid VTL References</a></li>
+        <li><a href="#escapinginvalidvtlreferences">Escaping Invalid VTL References</a></li>
+        <li><a href="#escaping_vtl_directives">Escaping VTL Directives</a></li>
+    </ol>
+</li>
 <li><a href="#vtl:_formatting_issues">VTL: Formatting Issues</a></li>
 <li><a href="#other_features_and_miscellany">Other Features and Miscellany</a>
     <ol>
@@ -699,171 +699,6 @@ Jack is a ${vice}maniac.
 
 </section>
 
-<section name="Getting literal" href="getting_literal">
-
-  <p>
-    VTL uses special characters, such as <em>$</em> and <em>#</em>, to
-    do its work, so some added care should be taken where using these
-    characters in your templates. This section deals with escaping the
-    <em>$</em> character.
-  </p>
-
-  <p>
-    <a name="currency"><strong>Currency</strong></a>
-    <br/>
-    There is no problem writing "I bought a 4 lb. sack of potatoes at
-    the farmer's market for only $2.50!" As mentioned, a VTL identifier
-    always begins with an upper- or lowercase letter, so $2.50 would not
-    be mistaken for a reference.
-  </p>
-
-  <p>
-    <a name="escapingvalidvtlreferences"><strong>Escaping Valid VTL References</strong></a>
-    <br/>
-    Cases may arise where you do not want to have a reference rendered by Velocity.
-    <em>Escaping</em> special characters is the best way to output
-    VTL's special characters in these situations, and this can be
-    done using the backslash ( <em>\</em> ) character <i>when those special
-    characters are part of a valid VTL reference</i>.
-    <a href="#escapinginvalidvtlreferences" style="text-decoration: none"><sup>*</sup></a>
-  </p>
-
-<source><![CDATA[
-#set( $email = "foo" )
-$email
-]]></source>
-
-  <p>
-    If Velocity encounters  a reference in your VTL template to
-    <em>$email</em>, it will search the Context for a corresponding
-    value. Here the output will be <em>foo</em>, because <em>$email</em> is
-    defined. If <em>$email</em> is not defined, the output will be
-    <em>$email</em>.
-  </p>
-
-  <p>
-    Suppose that <em>$email</em> is defined (for example, if it has the
-    value <em>foo</em>), and that you want to output <em>$email</em>. There are a few
-    ways of doing this, but the simplest is to use the escape character.
-    Here is a demonstration:
-  </p>
-
-<source><![CDATA[## The following line defines $email in this template:
-#set( $email = "foo" )
-$email
-\$email
-]]></source>
-
-  <p>
-     renders as
-  </p>
-
-<source><![CDATA[foo
-$email
-]]></source>
-
-  <p>
-    If, for some reason, you need a backslash before either line above,
-    you can do the following:
-  </p>
-
-<source><![CDATA[## The following line defines $email in this template:
-#set( $email = "foo" )
-\\$email
-\\\$email
-]]></source>
-
-  <p>
-     which renders as
-  </p>
-
-<source><![CDATA[\foo
-\$email
-]]></source>
-
-  <p>
-     Note that the <em>\</em> character bind to the <em>$</em>
-     from the left. The bind-from-left rule causes <em>\\\$email</em> to
-     render as <em>\$email</em>. Compare these examples to those in
-     which <em>$email</em> is not defined.
-  </p>
-
-<source><![CDATA[
-$email
-\$email
-\\$email
-\\\$email
-]]></source>
-
-  <p>
-     renders as
-  </p>
-
-<source><![CDATA[
-$email
-\$email
-\\$email
-\\\$email
-]]></source>
-
-  <p>
-     Notice Velocity handles references that are defined differently
-     from those that have not been defined. Here is a set directive that
-     gives <em>$foo</em> the value <em>gibbous</em>.
-  </p>
-
-<source><![CDATA[
-#set( $foo = "gibbous" )
-$moon = $foo
-]]></source>
-
-  <p>
-    The output will be: <em>$moon = gibbous</em> -- where <em>$moon</em>
-    is output as a literal because it is undefined and <em>gibbous</em>
-    is output in place of <em>$foo</em>.
-  </p>
-
-  <p>
-    <a name="escapinginvalidvtlreferences"><strong>Escaping Invalid VTL References</strong></a>
-    <br/>
-    Sometimes Velocity has trouble parsing your template when it encounters
-    an "invalid reference" that you never intended to be a reference at all.
-    <em>Escaping</em> special characters is, again, the best way to
-    handle these situations, but in these situations, the backslash will
-    likely fail you.  Instead of simply trying to escape the problematic
-    <code>$</code> or <code>#</code>, you should probably just replace this:
-  </p>
-
-<source><![CDATA[
-${my:invalid:non:reference}
-]]></source>
-
-    <p>with something like this</p>
-
-<source><![CDATA[
-#set( $D = '$' )
-${D}{my:invalid:non:reference}
-]]></source>
-
-    <p>You can, of course, put your <code>$</code> or <code>#</code> string directly
-    into the context from your java code (e.g. <code>context.put("D","$");</code>)
-    to avoid the extra #set() directive in your template(s).  Or, if you are using
-    <a href="http://velocity.apache.org/tools/devel/">VelocityTools</a>, you can 
-    just use the EscapeTool like this:</p>
-
-<source><![CDATA[
-${esc.d}{my:invalid:non:reference}
-]]></source>
-
-
-  <p>
-     Escaping of both valid and invalid VTL directives is
-     handled in much the same manner; this is described in
-     more detail in the Directives section.
-  </p>
-
-</section>
-
 <section name="Case Substitution" href="case_substitution">
 
     <p>
@@ -918,9 +753,7 @@ ${data.Request.ServerName}
     <code>getName()</code> instance method, but not to a public
     <code>Name</code> instance variable of Foo).
     </p>
-
 </section>
-
 
 <section name="Directives" href="directives">
 
@@ -1920,10 +1753,175 @@ $count
     To get around this, simply use the <code>velocimacro.library</code>
     facility to have Velocity load your VMs at startup.
     </p>
- </section>
 
-<section name="Escaping VTL Directives" href="escaping_vtl_directives">
+</section>
+
+<section name="Getting literal" href="getting_literal">
+
   <p>
+    VTL uses special characters, such as <em>$</em> and <em>#</em>, to
+    do its work, so some added care should be taken where using these
+    characters in your templates. This section deals with escaping these
+    characters.
+  </p>
+
+  <p>
+    <a name="currency"><strong>Currency</strong></a>
+    <br/>
+    There is no problem writing "I bought a 4 lb. sack of potatoes at
+    the farmer's market for only $2.50!" As mentioned, a VTL identifier
+    always begins with an upper- or lowercase letter, so $2.50 would not
+    be mistaken for a reference.
+  </p>
+
+  <p>
+    <a name="escapingvalidvtlreferences"><strong>Escaping Valid VTL References</strong></a>
+    <br/>
+    Cases may arise where you do not want to have a reference rendered by Velocity.
+    <em>Escaping</em> special characters is the best way to output
+    VTL's special characters in these situations, and this can be
+    done using the backslash ( <em>\</em> ) character <i>when those special
+    characters are part of a valid VTL reference</i>.
+    <a href="#escapinginvalidvtlreferences" style="text-decoration: none"><sup>*</sup></a>
+  </p>
+
+<source><![CDATA[
+#set( $email = "foo" )
+$email
+]]></source>
+
+  <p>
+    If Velocity encounters  a reference in your VTL template to
+    <em>$email</em>, it will search the Context for a corresponding
+    value. Here the output will be <em>foo</em>, because <em>$email</em> is
+    defined. If <em>$email</em> is not defined, the output will be
+    <em>$email</em>.
+  </p>
+
+  <p>
+    Suppose that <em>$email</em> is defined (for example, if it has the
+    value <em>foo</em>), and that you want to output <em>$email</em>. There are a few
+    ways of doing this, but the simplest is to use the escape character.
+    Here is a demonstration:
+  </p>
+
+<source><![CDATA[## The following line defines $email in this template:
+#set( $email = "foo" )
+$email
+\$email
+]]></source>
+
+  <p>
+     renders as
+  </p>
+
+<source><![CDATA[foo
+$email
+]]></source>
+
+  <p>
+    If, for some reason, you need a backslash before either line above,
+    you can do the following:
+  </p>
+
+<source><![CDATA[## The following line defines $email in this template:
+#set( $email = "foo" )
+\\$email
+\\\$email
+]]></source>
+
+  <p>
+     which renders as
+  </p>
+
+<source><![CDATA[\foo
+\$email
+]]></source>
+
+  <p>
+     Note that the <em>\</em> character bind to the <em>$</em>
+     from the left. The bind-from-left rule causes <em>\\\$email</em> to
+     render as <em>\$email</em>. Compare these examples to those in
+     which <em>$email</em> is not defined.
+  </p>
+
+<source><![CDATA[
+$email
+\$email
+\\$email
+\\\$email
+]]></source>
+
+  <p>
+     renders as
+  </p>
+
+<source><![CDATA[
+$email
+\$email
+\\$email
+\\\$email
+]]></source>
+
+  <p>
+     Notice Velocity handles references that are defined differently
+     from those that have not been defined. Here is a set directive that
+     gives <em>$foo</em> the value <em>gibbous</em>.
+  </p>
+
+<source><![CDATA[
+#set( $foo = "gibbous" )
+$moon = $foo
+]]></source>
+
+  <p>
+    The output will be: <em>$moon = gibbous</em> -- where <em>$moon</em>
+    is output as a literal because it is undefined and <em>gibbous</em>
+    is output in place of <em>$foo</em>.
+  </p>
+
+  <p>
+    <a name="escapinginvalidvtlreferences"><strong>Escaping Invalid VTL References</strong></a>
+    <br/>
+    Sometimes Velocity has trouble parsing your template when it encounters
+    an "invalid reference" that you never intended to be a reference at all.
+    <em>Escaping</em> special characters is, again, the best way to
+    handle these situations, but in these situations, the backslash will
+    likely fail you.  Instead of simply trying to escape the problematic
+    <code>$</code> or <code>#</code>, you should probably just replace this:
+  </p>
+
+<source><![CDATA[
+${my:invalid:non:reference}
+]]></source>
+
+    <p>with something like this</p>
+
+<source><![CDATA[
+#set( $D = '$' )
+${D}{my:invalid:non:reference}
+]]></source>
+
+    <p>You can, of course, put your <code>$</code> or <code>#</code> string directly
+    into the context from your java code (e.g. <code>context.put("D","$");</code>)
+    to avoid the extra #set() directive in your template(s).  Or, if you are using
+    <a href="http://velocity.apache.org/tools/devel/">VelocityTools</a>, you can 
+    just use the EscapeTool like this:</p>
+
+<source><![CDATA[
+${esc.d}{my:invalid:non:reference}
+]]></source>
+
+
+  <p>
+     Escaping of both valid and invalid VTL directives is
+     handled in much the same manner; this is described in
+     more detail in the Directives section.
+  </p>
+
+  <p>
+    <a name="escaping_vtl_directives"><strong>Escaping VTL Directives</strong></a>
+    <br/>
     VTL directives can be escaped with the backslash character ("\") in
     a manner similar to valid VTL references.
   </p>
