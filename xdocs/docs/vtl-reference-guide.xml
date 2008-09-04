@@ -488,7 +488,7 @@ directive.foreach.maxloops = -1
     </p>
 
     <ul>
-      <li>#define( $hello ) Hello World! #end $hello ## displays Hello World!</li>
+      <li>#define( $hello ) Hello $who #end #set( $who = "World!") $hello ## displays Hello World!</li>
     </ul>
   </subsection>
 

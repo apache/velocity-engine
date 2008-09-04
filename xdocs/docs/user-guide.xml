@@ -67,6 +67,7 @@
         <li><a href="#parse">Parse</a></li>
         <li><a href="#stop">Stop</a></li>
         <li><a href="#evaluate">Evaluate</a></li>
+        <li><a href="#define">Define</a></li>
         <li><a href="#velocimacros">Velocimacros</a></li>
     </ol>
 </li>
@@ -1466,11 +1467,12 @@ $count
     The <em>#define</em> directive lets one assign a block of VTL to a reference.
     </p>
 
-    <p>The example below will display <code>hello world!</code>.  
+    <p>The example below will display <code>Hello World!</code>.  
     </p>
 
 <source><![CDATA[
-#define( $block )hello world!#end
+#define( $block )Hello $who#end
+#set( $who = 'World!' )
 $block
 ]]></source>
 
