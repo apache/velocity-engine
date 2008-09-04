@@ -1460,6 +1460,23 @@ $count
  
  </section>
 
+<section name="Define" href="define">
+
+    <p>
+    The <em>#define</em> directive lets one assign a block of VTL to a reference.
+    </p>
+
+    <p>The example below will display <code>hello world!</code>.  
+    </p>
+
+<source><![CDATA[
+#define( $block )hello world!#end
+$block
+]]></source>
+
+ 
+ </section>
+
 <section name="Velocimacros" href="velocimacros">
 
     <p>

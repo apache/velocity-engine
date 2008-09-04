@@ -21,6 +21,8 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.Writer;
 import java.io.IOException;
+import java.io.StringWriter;
+
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -152,14 +154,9 @@ public class Define extends Directive
         }
         
         /**
-         * The hack: toString() will be called when Velocity encounters
-         * the reference in a template. The node is rendered at this point
-         * using the stored context and writer. So far, this appears safe;
-         * We have no idea what the writer is doing at this point we just assume
-         * it's ok to make it write what we want right now. :)  the alternate
-         * would be to render into a StringWriter and return the result
+         *
          */
-        public String toString()
+        public boolean render(InternalContextAdapter context, Writer writer)
         {
             try
             {
@@ -175,13 +172,13 @@ public class Define extends Directive
                      */
                     parent.log.debug("Max recursion depth reached for "+parent.id(context));
                     depth--;
-                    return null;
+                    return false;
                 }
                 else
                 {
                     parent.block.render(context, writer);
                     depth--;
-                    return "";
+                    return true;
                 }
             }
             catch (IOException e)
@@ -195,6 +192,19 @@ public class Define extends Directive
                 String msg = "Failed to render "+parent.id(context)+" due to "+ve;
                 parent.log.error(msg, ve);
                 throw ve;
+            }
+        }
+
+        public String toString()
+        {
+            Writer stringwriter = new StringWriter();
+            if(render(context,stringwriter))
+            {
+                return stringwriter.toString();
+            }
+            else
+            {
+                return null;
             }
         }
     }

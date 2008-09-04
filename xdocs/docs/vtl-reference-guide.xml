@@ -466,6 +466,32 @@ directive.foreach.maxloops = -1
     </ul>
   </subsection>
 
+  <subsection name="#define - Assigns a block of VTL to a reference" href="define">
+    <p>
+    Format:
+    </p>
+
+    <p>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>define</strong> [ <strong>}</strong> ] <strong>( </strong><em>$ref</em><strong> )</strong>
+ <em>statement</em>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>end</strong> [ <strong>}</strong> ]
+
+    </p>
+
+    <ul>
+    <li><em>$ref</em> - Reference that is assigned the VTL block as a value.</li>
+    <li><em>statement</em> - Statement that is assigned to the reference.</li>
+    </ul>
+
+    <p>
+    Example:
+    </p>
+
+    <ul>
+      <li>#define( $hello ) Hello World! #end $hello ## displays Hello World!</li>
+    </ul>
+  </subsection>
+
   <subsection name="#macro - Allows users to define a Velocimacro (VM), a repeated segment of a VTL template, as required" href="macro-AllowsuserstodefineaVelocimacro(VM),arepeatedsegmentofaVTLtemplate,asrequired">
     <p>
     Format:
