@@ -745,25 +745,39 @@ $email
     Suppose that <em>$email</em> is defined (for example, if it has the
     value <em>foo</em>), and that you want to output <em>$email</em>. There are a few
     ways of doing this, but the simplest is to use the escape character.
+    Here is a demonstration:
   </p>
 
-<source><![CDATA[
-## The following line defines $email in this template:
+<source><![CDATA[## The following line defines $email in this template:
 #set( $email = "foo" )
 $email
 \$email
-\\$email
-\\\$email
 ]]></source>
 
   <p>
      renders as
   </p>
 
-<source><![CDATA[
-foo
+<source><![CDATA[foo
 $email
-\foo
+]]></source>
+
+  <p>
+    If, for some reason, you need a backslash before either line above,
+    you can do the following:
+  </p>
+
+<source><![CDATA[## The following line defines $email in this template:
+#set( $email = "foo" )
+\\$email
+\\\$email
+]]></source>
+
+  <p>
+     which renders as
+  </p>
+
+<source><![CDATA[\foo
 \$email
 ]]></source>
 
