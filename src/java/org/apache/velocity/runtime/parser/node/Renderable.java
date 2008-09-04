@@ -28,7 +28,7 @@ import java.io.Writer;
 import java.io.IOException;
 
 /**
- *  This interface caraterize objects other than ASTNodes that can be rendered
+ *  This interface characterize objects other than ASTNodes that can be rendered
  *  to a writer using a context.
  *
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
