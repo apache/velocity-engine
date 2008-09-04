@@ -71,6 +71,11 @@ public class DefineTestCase extends BaseEvalTestCase
         assertEvalEquals("1 2 3", "#define( $i )$inc#end$i $i $i");
     }
 
+    public void testAssignation()
+    {
+        assertEvalEquals("[][hello]","#define( $orig )hello#end[#set( $assig = $orig )][$assig]");
+    }
+
     public void testRecursionLimit()
     {
         try

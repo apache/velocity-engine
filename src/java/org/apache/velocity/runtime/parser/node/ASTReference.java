@@ -280,7 +280,6 @@ public class ASTReference extends SimpleNode
     public boolean render(InternalContextAdapter context, Writer writer) throws IOException,
             MethodInvocationException
     {
-
         if (referenceType == RUNT)
         {
             if (context.getAllowRendering())
@@ -322,7 +321,6 @@ public class ASTReference extends SimpleNode
                     writer.write(localNullString);
                 }
             }
-
             return true;
         }
 
@@ -337,6 +335,12 @@ public class ASTReference extends SimpleNode
         String toString = null;
         if (value != null)
         {
+
+            if(value instanceof Renderable && ((Renderable)value).render(context,writer))
+            {
+                return true;
+            }
+
             toString = value.toString();
         }
 
