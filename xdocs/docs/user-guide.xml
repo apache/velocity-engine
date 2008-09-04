@@ -46,6 +46,7 @@
         <li><a href="#properties">Properties</a></li>
         <li><a href="#methods">Methods</a></li>
         <li><a href="#propertylookuprules">Property Lookup Rules</a></li>
+        <li><a href="#rendering">Rendering</a></li>
     </ol>
 </li>
 <li><a href="#formalreferencenotation">Formal Reference Notation</a></li>
@@ -397,13 +398,6 @@ information:
  </p>
 
  <p>
-    Everything coming to and from a reference is treated as a String
-    object. If there is an object that represents <em>$foo</em> (such as
-    an Integer object), then Velocity will call its
-    <code>.toString()</code> method to resolve the object into a String.
- </p>
-
- <p>
  <a name="variables"><strong>Variables</strong></a>
  <br/>
     The shorthand notation of a variable consists of a leading "$"
@@ -600,6 +594,16 @@ $sun.setPlanets()
      <li>get("Address")</li>
      <li>isAddress()</li>
     </ol>
+ </p>
+
+ <p>
+    <a name="rendering"><strong>Rendering</strong></a>
+    <br/>
+    The final value resulting from each and every reference (whether variable,
+    property, or method) is converted to a String object when it is rendered
+    into the final output. If there is an object that represents <em>$foo</em>
+    (such as an Integer object), then Velocity will call its
+    <code>.toString()</code> method to resolve the object into a String.
  </p>
 
  <p>
