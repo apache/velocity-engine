@@ -231,12 +231,11 @@ public class ResourceManagerImpl
             /*
              *  we can't really count on ExtendedProperties to give us an empty set
              */
-
             if (loaderConfiguration == null)
             {
-                log.debug("ResourceManager : No configuration information for resource loader named '" +
-                          loaderName + "'. Skipping.");
-
+                log.debug("ResourceManager : No configuration information found "+
+                          "for resource loader named '" + loaderName +
+                          "' (id is "+loaderID+"). Skipping it...");
                 continue;
             }
 
