@@ -31,7 +31,9 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
@@ -49,8 +51,8 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  *    content.
  *
  *  2) There is a limited parse depth.  It is set as a property
- *    "parse_directive.maxdepth = 10"  for example.  There is a 20 iteration
- *    safety in the event that the parameter isn't set.
+ *    "directive.parse.max.depth = 10" by default.  This 10 deep
+ *    limit is a safety feature to prevent infinite loops.
  * </pre>
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
@@ -60,6 +62,8 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  */
 public class Parse extends InputBase
 {
+    private int maxDepth;
+
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -76,6 +80,21 @@ public class Parse extends InputBase
     public int getType()
     {
         return LINE;
+    }
+
+    /**
+     * Init's the #parse directive.
+     * @param rs
+     * @param context
+     * @param node
+     * @throws TemplateInitException
+     */
+    public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
+        throws TemplateInitException
+    {
+        super.init(rs, context, node);
+
+        this.maxDepth = rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 10);
     }
 
     /**
@@ -145,27 +164,25 @@ public class Parse extends InputBase
         if (arg == null)
             blockinput = true;
 
-        /*
-         *   see if we have exceeded the configured depth.
-         *   If it isn't configured, put a stop at 20 just in case.
-         */
 
-        Object[] templateStack = context.getTemplateNameStack();
-
-        if ( templateStack.length >=
-                rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 20) )
+        if (maxDepth > 0)
         {
-            StringBuffer path = new StringBuffer();
-
-            for( int i = 0; i < templateStack.length; ++i)
+            /* 
+             * see if we have exceeded the configured depth.
+             */
+            Object[] templateStack = context.getTemplateNameStack();
+            if (templateStack.length >= maxDepth)
             {
-                path.append( " > " + templateStack[i] );
+                StringBuffer path = new StringBuffer();
+                for( int i = 0; i < templateStack.length; ++i)
+                {
+                    path.append( " > " + templateStack[i] );
+                }
+                rsvc.getLog().error("Max recursion depth reached (" +
+                                    templateStack.length + ')' + " File stack:" +
+                                    path);
+                return false;
             }
-
-            rsvc.getLog().error("Max recursion depth reached (" +
-                                templateStack.length + ')' + " File stack:" +
-                                path);
-            return false;
         }
 
         /*
