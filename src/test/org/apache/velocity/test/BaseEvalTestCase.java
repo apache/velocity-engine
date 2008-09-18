@@ -85,6 +85,27 @@ public class BaseEvalTestCase extends TestCase
         assertEquals(expected, evaluate(template));
     }
 
+    protected void assertEvalException(String evil)
+    {
+        assertEvalException(evil, null);
+    }
+
+    protected void assertEvalException(String evil, Class exceptionType)
+    {
+        try
+        {
+            evaluate(evil);
+            fail("Template '"+evil+"' should have thrown an exception.");
+        }
+        catch (Exception e)
+        {
+            if (exceptionType != null && !exceptionType.isAssignableFrom(e.getClass()))
+            {
+                fail("Was expecting template '"+evil+"' to throw "+exceptionType+" not "+e);
+            }
+        }
+    }
+
     protected String evaluate(String template)
     {
         StringWriter writer = new StringWriter();
@@ -107,10 +128,18 @@ public class BaseEvalTestCase extends TestCase
         }
         catch (RuntimeException re)
         {
+            if (DEBUG)
+            {
+                engine.getLog().info("RuntimeException!", re);
+            }
             throw re;
         }
         catch (Exception e)
         {
+            if (DEBUG)
+            {
+                engine.getLog().info("Exception!", e);
+            }
             throw new RuntimeException(e);
         }
     }
