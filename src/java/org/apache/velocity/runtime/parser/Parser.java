@@ -110,7 +110,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
              *  thrown by the Macro class when something is amiss in the
              *  Macro specification
              */
-            rsvc.getLog().error("Parser Error: #macro() : " + templateName, mee);
+            rsvc.getLog().error("Parser Error: " + templateName, mee);
             throw mee;
         }
         catch (ParseException pe)
@@ -785,20 +785,23 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
                 {
                     if (doItNow && argPos == 0)
                     {
-                        /* if a VM and it's the 0th arg... ok */
-                        ;
+                        /* if #macro and it's the 0th arg, ok */
                     }
-                    else if( (t.image.equals("#foreach") || t.image.equals("#{foreach}") ) && argPos == 1)
+                    else if (isVM)
                     {
-                        /* if a foreach and it's the 2nd arg ok */
-                        ;
+                        throw new MacroParseException("Invalid arg #"
+                        + argPos + " in VM " + t.image, currentTemplateName, t);
+                    }
+                                          /* if #foreach and it's the 2nd arg, ok */
+                    else if (d != null && (!directiveName.equals("foreach") || argPos != 1))
+                    {
+                        throw new MacroParseException("Invalid arg #"
+                        + argPos + " in directive " + t.image, currentTemplateName, t);
                     }
                     else
                     {
-                        {if (true) throw new MacroParseException("Invalid arg #"
-                            + argPos + " in "
-                            + (isVM ? "VM " : "directive " )
-                            + t.image, currentTemplateName, t);}
+                        /* either schmoo or a late-defined macro,
+                         * VelocimacroProxy will have to check for latter. */
                     }
                 }
                 else
@@ -807,9 +810,9 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
                     {
                         /* if a VM and it's the 0th arg, not ok */
 
-                        {if (true) throw new MacroParseException("Invalid first arg"
-                            + " in #macro() directive - must be a"
-                            + " word token (no \' or \" surrounding)", currentTemplateName, t);}
+                        throw new MacroParseException("Invalid first arg"
+                        + " in #macro() directive - must be a"
+                        + " word token (no \' or \" surrounding)", currentTemplateName, t);
                     }
                 }
 
