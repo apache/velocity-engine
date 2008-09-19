@@ -583,8 +583,7 @@
   <!-- =================================================================== -->
   <!-- Prepares the Maven POM file                                         -->
   <!-- =================================================================== -->
-  <target name="pom" depends="prepare,build-prepare"
-          description="Gets the POM ready to be distributed">
+  <target name="pom" description="Gets the POM ready to be distributed">
     <!-- Create a distribution ready POM -->
     <copy file="pom.xml" tofile="${build.dir}/${final.name}.pom"/>
 
