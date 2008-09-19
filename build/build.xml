@@ -952,11 +952,6 @@
       ${build.dir}
     to
       ${username}:${password}@${publish.server}:${publish.dir}
-
-    Once the release vote has passed, these should all be copied to
-      /x1/www/www.apache.org/dist/velocity/engine/${version}
-    and the jars should be copied into 
-      /x1/www/people.apache.org/repo/m1-ibiblio-rsync-repository/velocity/jars
     </echo>
     <scp todir="${username}:${password}@${publish.server}:${publish.dir}"
       verbose="true" failonerror="true" trust="yes">
@@ -970,6 +965,49 @@
         <include name="*.pom"/>
       </fileset>
     </scp>
+    <echo>
+                         ***** RELEASE INSTRUCTIONS *****
+
+    * SSH to ${publish.server} and verify the checksums and signatures of the uploaded
+      files with a script like:
+          #!/bin/csh
+          foreach fn ( *.tar.gz *.zip *.jar *.pom )
+            echo Verifying $fn...
+            echo GPG signature should be "Good"
+            gpg --verify $fn.asc
+            echo MD5s should be identical
+            cat $fn.md5
+            md5 -q $fn
+            echo SHA1s should be identical
+            cat $fn.sha1
+            sha1 -q $fn
+            echo
+          end
+
+    * Announce the availability of the test build on the dev@velocity.apache.org list.
+    
+    * Allow a couple days for people to test the test build.
+
+    * Call for a release vote on private@velocity.apache.org and dev@velocity.apache.org
+
+    * Once the release vote has passed, these files should all be copied to
+        /www/www.apache.org/dist/velocity/engine/${version}
+      and the full jar, pom and their md5 and sha1 files should be copied into 
+        /www/people.apache.org/repo/m2-ibiblio-rsync-repository/org/apache/velocity/velocity/${version}/
+
+    * Tag the release in SVN with a command such as:
+        svn copy -m "Release Engine ${version}" https://svn.apache.org/repos/asf/velocity/engine/trunk \
+           https://svn.apache.org/repos/asf/velocity/engine/tags/${project.version}
+
+    * Publish the documentation for this release on the website
+
+    * Update the download and news pages on the website
+
+    * Send an announcement email to all Velocity lists and announce@apache.org
+      once most of the mirrors have been updated with the distribution files.
+    
+    * Review http://wiki.apache.org/velocity/ReleaseProcess for more details.
+    </echo>
   </target>
 
   <!-- =================================================================== -->
