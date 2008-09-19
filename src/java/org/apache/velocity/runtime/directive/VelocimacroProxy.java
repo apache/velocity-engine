@@ -31,6 +31,7 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -301,6 +302,20 @@ public class VelocimacroProxy extends Directive
             {
                 rsvc.getLog().debug(msg);
                 return;
+            }
+        }
+
+        /* now validate that none of the arguments are plain words, (VELOCITY-614)
+         * they should be string literals, references, inline maps, or inline lists */
+        for (int n=0; n < i; n++)
+        {
+            Node child = node.jjtGetChild(n);
+            if (child.getType() == ParserTreeConstants.JJTWORD)
+            {
+                /* indicate col/line assuming it starts at 0
+                 * this will be corrected one call up  */
+                throw new TemplateInitException("Invalid arg #"
+                    + n + " in VM #" + macroName, context.getCurrentTemplateName(), 0, 0);
             }
         }
     }
