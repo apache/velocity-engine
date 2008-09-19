@@ -56,11 +56,6 @@ public class RuntimeMacro extends Directive
     private String sourceTemplate;
 
     /**
-     * Internal context adapter of macro caller.
-     */
-    private InternalContextAdapter context = null;
-
-    /**
      * Literal text of the macro
      */
     private String literal = null;
@@ -112,43 +107,46 @@ public class RuntimeMacro extends Directive
 
     /**
      * Intialize the Runtime macro. At the init time no implementation so we
-     * just save the values to use at the rende time.
+     * just save the values to use at the render time.
      *
      * @param rs runtime services
-     * @param context InternalContexAdapter
-     * @param node node conating the macro call
+     * @param context InternalContextAdapter
+     * @param node node containing the macro call
      */
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
     {
         super.init(rs, context, node);
         rsvc = rs;
-        this.context = context;
         this.node = node;
     }
-    
+
     /**
      * It is probably quite rare that we need to render the macro literal
      * so do it only on-demand and then cache the value. This tactic helps to
      * reduce memory usage a bit.
      */
-    private void makeLiteral()
+    private String getLiteral()
     {
-        StrBuilder buffer = new StrBuilder();
-        Token t = node.getFirstToken();
-        
-        while (t != null && t != node.getLastToken())
+        if (literal == null)
         {
-            buffer.append(t.image);
-            t = t.next;
-        }
+            StrBuilder buffer = new StrBuilder();
+            Token t = node.getFirstToken();
 
-        if (t != null)
-        {
-            buffer.append(t.image);
+            while (t != null && t != node.getLastToken())
+            {
+                buffer.append(t.image);
+                t = t.next;
+            }
+
+            if (t != null)
+            {
+                buffer.append(t.image);
+            }
+
+            literal = buffer.toString();
         }
-        
-        literal = buffer.toString();
+        return literal;
     }
     
 
@@ -218,7 +216,7 @@ public class RuntimeMacro extends Directive
             try
             {
             	// mainly check the number of arguments
-                vmProxy.init(rsvc, this.context, this.node);
+                vmProxy.init(rsvc, context, node);
             }
             catch (TemplateInitException die)
             {
@@ -232,10 +230,7 @@ public class RuntimeMacro extends Directive
         /**
          * If we cannot find an implementation write the literal text
          */
-         if( literal == null )
-            makeLiteral();
-         
-        writer.write(literal);
+        writer.write(getLiteral());
         return true;
     }
 }
