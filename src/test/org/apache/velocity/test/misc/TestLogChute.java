@@ -19,153 +19,96 @@ package org.apache.velocity.test.misc;
  * under the License.    
  */
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
+import org.apache.velocity.runtime.log.SystemLogChute;
 
 /**
- * LogChute implementation that creates a String in memory.  Used to test
- * log information.
+ * LogChute implementation that can easily capture output
+ * or suppress it entirely.  By default, both capture and suppress
+ * are on. To have this behave like a normal SystemLogChute,
+ * you must turn it on() and stopCapture().
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
+ * @author Nathan Bubna
  * @version $Id$
  */
-public class TestLogChute implements LogChute
+public class TestLogChute extends SystemLogChute
 {
     public static final String TEST_LOGGER_LEVEL = "runtime.log.logsystem.test.level";
 
-    private StringBuffer log = new StringBuffer();
+    private ByteArrayOutputStream log;
+    private PrintStream systemDotIn;
+    private boolean suppress = true;
+    private boolean capture = true;
 
-    private int logLevel;
-    private boolean on;
+    public TestLogChute()
+    {
+        log = new ByteArrayOutputStream();
+        systemDotIn = new PrintStream(log, true);
+    }
+
+    public TestLogChute(boolean suppress, boolean capture)
+    {
+        this();
+        this.suppress = suppress;
+        this.capture = capture;
+    }
     
     public void init(RuntimeServices rs) throws Exception
     {
+        super.init(rs);
+
         String level = rs.getString(TEST_LOGGER_LEVEL, "debug");
-        logLevel = getLevelNumber(level, LogChute.DEBUG_ID);
+        setEnabledLevel(toLevel(level));
     }
 
     public void on()
     {
-        on = true;
+        suppress = false;
     }
 
     public void off()
     {
-        on = false;
+        suppress = true;
     }
 
-    public void log(int level, String message)
+    public void startCapture()
     {
-        if (on && level >= logLevel)
+        capture = true;
+    }
+
+    public void stopCapture()
+    {
+        capture = false;
+    }
+
+    public boolean isLevelEnabled(int level)
+    {
+        return !suppress && super.isLevelEnabled(level);
+    }
+            
+
+    protected void write(PrintStream ps, String prefix, String message, Throwable t)
+    {
+        if (capture)
         {
-            String levelName;
-            levelName = getLevelName(level);
-            log.append(" [").append(levelName).append("] ");
-            log.append(message);
-            log.append("\n");
+            super.write(systemDotIn, prefix, message, t);
+        }
+        else
+        {
+            super.write(ps, prefix, message, t);
         }
     }
-    
+
     /**
-     * Return the stored log messages to date.
+     * Return the captured log messages to date.
      * @return log messages
      */
     public String getLog()
     {
         return log.toString();
-    }
-
-    /**
-     * Return the name corresponding to each level
-     * @param level integer level
-     * @return String level name
-     */
-    private String getLevelName(int level)
-    {
-        String levelName;
-        if (level == LogChute.DEBUG_ID)
-        {
-            levelName = "debug";
-        }
-        else if (level == LogChute.INFO_ID)
-        {
-            levelName = "info";
-        }
-        else if (level == LogChute.TRACE_ID)
-        {
-            levelName = "trace";
-        }
-        else if (level == LogChute.WARN_ID)
-        {
-            levelName = "warn";
-        }
-        else if (level == LogChute.ERROR_ID)
-        {
-            levelName = "error";
-        }
-        else 
-        {
-            levelName = "";
-        }
-
-        return levelName;
-    }
-
-    /**
-     * Return the integer level correspoding to the string number, or use the default
-     * @param level name
-     * @param defaultLevel the default if the name does not exist
-     * @return integer level
-     */
-    private int getLevelNumber(String level, int defaultLevel)
-    {
-        if (level == null)
-        {
-            return defaultLevel;
-        }
-        else if (level.equalsIgnoreCase("DEBUG"))
-        {
-            return LogChute.DEBUG_ID;
-        }
-        else if (level.equalsIgnoreCase("ERROR"))
-        {
-            return LogChute.ERROR_ID;
-        }
-        else if (level.equalsIgnoreCase("INFO"))
-        {
-            return LogChute.INFO_ID;
-        }
-        else if (level.equalsIgnoreCase("TRACE"))
-        {
-            return LogChute.TRACE_ID;
-        }
-        else if (level.equalsIgnoreCase("WARN"))
-        {
-            return LogChute.WARN_ID;
-        }
-        else 
-        {
-            return defaultLevel;
-        }
-    }
-    
-    public void log(int level, String message, Throwable t)
-    {
-        if (on && level >= logLevel)
-        {
-            String levelName;
-            levelName = getLevelName(level);
-            log.append(" [").append(levelName).append("] ");
-            log.append(message);
-            log.append("\n");
-            log.append(t.toString());
-            log.append("\n");
-        }
-    }
-
-    public boolean isLevelEnabled(int level)
-    {
-        return level >= logLevel;
     }
 
 }
