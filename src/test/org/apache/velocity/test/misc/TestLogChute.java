@@ -60,8 +60,11 @@ public class TestLogChute extends SystemLogChute
     {
         super.init(rs);
 
-        String level = rs.getString(TEST_LOGGER_LEVEL, "debug");
-        setEnabledLevel(toLevel(level));
+        String level = rs.getString(TEST_LOGGER_LEVEL);
+        if (level != null)
+        {
+            setEnabledLevel(toLevel(level));
+        }
     }
 
     public void on()

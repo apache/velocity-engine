@@ -84,7 +84,7 @@ public class MacroForwardDefineTestCase
         logger = new TestLogChute();
         logger.off();
         Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM,logger);
-        Velocity.setProperty("runtime.log.logsystem.test.level", "debug");
+        Velocity.setProperty(TestLogChute.TEST_LOGGER_LEVEL, "debug");
         Velocity.init();
     }
 
