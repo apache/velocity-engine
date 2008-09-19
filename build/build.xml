@@ -581,6 +581,19 @@
   </target>
 
   <!-- =================================================================== -->
+  <!-- Prepares the Maven POM file                                         -->
+  <!-- =================================================================== -->
+  <target name="pom" depends="prepare,build-prepare"
+          description="Gets the POM ready to be distributed">
+    <!-- Create a distribution ready POM -->
+    <copy file="pom.xml" tofile="${build.dir}/${final.name}.pom"/>
+
+    <!-- Create checksums for the binary distribution files -->
+    <checksum file="${build.dir}/${final.name}.pom" algorithm="md5" fileext=".md5"/>
+    <checksum file="${build.dir}/${final.name}.pom" algorithm="sha1" fileext=".sha1"/>
+  </target>
+
+  <!-- =================================================================== -->
   <!-- Package                                                             -->
   <!-- =================================================================== -->
   <target name="build-package-tree" depends="clean">
@@ -756,7 +769,7 @@
   <!-- ================================================================== -->
   <target name="release"
     description="Build the packages as release manager, does additional checks over the package target"
-    depends="package-java-check, package" />
+    depends="package-java-check, package, pom" />
 
   <!-- ================================================================== -->
   <!-- Packages the distribution with ZIP and TAR-GZIP                    -->
@@ -882,6 +895,7 @@
         <available file="${build.dir}/${final.name}.tar.gz.asc"/>
         <available file="${build.dir}/${final.name}.zip.asc"/>
         <available file="${build.dir}/${final.name}.jar.asc"/>
+        <available file="${build.dir}/${final.name}.pom.asc"/>
         <available file="${build.dir}/${project}-dep-${version}.jar.asc"/>
       </and>
     </condition>
@@ -954,6 +968,7 @@
         <include name="*.md5"/>
         <include name="*.sha1"/>
         <include name="*.asc"/>
+        <include name="*.pom"/>
       </fileset>
     </scp>
   </target>
