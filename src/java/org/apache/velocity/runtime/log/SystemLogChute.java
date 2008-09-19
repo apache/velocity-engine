@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.log;
  * under the License.    
  */
 
+import java.io.PrintStream;
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**
@@ -135,23 +136,22 @@ public class SystemLogChute implements LogChute
         String prefix = getPrefix(level);
         if (level >= this.errLevel)
         {
-            System.err.print(prefix);
-            System.err.println(message);
-            if (t != null)
-            {
-                System.err.println(t.getMessage());
-                t.printStackTrace();
-            }
+            write(System.err, prefix, message, t);
         }
         else
         {
-            System.out.print(prefix);
-            System.out.println(message);
-            if (t != null)
-            {
-                System.out.println(t.getMessage());
-                t.printStackTrace(System.out);
-            }
+            write(System.out, prefix, message, t);
+        }
+    }
+
+    protected void write(PrintStream stream, String prefix, String message, Throwable t)
+    {
+        stream.print(prefix);
+        stream.println(message);
+        if (t != null)
+        {
+            stream.println(t.getMessage());
+            t.printStackTrace(stream);
         }
     }
 

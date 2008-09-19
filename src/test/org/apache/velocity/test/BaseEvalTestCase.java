@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.log.SystemLogChute;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * Base for test cases that use evaluate, instead of going
@@ -38,6 +38,7 @@ public class BaseEvalTestCase extends TestCase
     protected VelocityEngine engine;
     protected VelocityContext context;
     protected boolean DEBUG = false;
+    protected TestLogChute log;
 
     public BaseEvalTestCase(String name)
     {
@@ -49,9 +50,9 @@ public class BaseEvalTestCase extends TestCase
         engine = new VelocityEngine();
 
         //by default, make the engine's log output go to the test-report
-        SystemLogChute log = new SystemLogChute();
-        log.setEnabledLevel(SystemLogChute.INFO_ID);
-        log.setSystemErrLevel(SystemLogChute.WARN_ID);
+        log = new TestLogChute(false, false);
+        log.setEnabledLevel(TestLogChute.INFO_ID);
+        log.setSystemErrLevel(TestLogChute.WARN_ID);
         engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, log);
 
         context = new VelocityContext();
