@@ -997,7 +997,7 @@
 
     * Tag the release in SVN with a command such as:
         svn copy -m "Release Engine ${version}" https://svn.apache.org/repos/asf/velocity/engine/trunk \
-           https://svn.apache.org/repos/asf/velocity/engine/tags/${project.version}
+           https://svn.apache.org/repos/asf/velocity/engine/tags/${version}
 
     * Publish the documentation for this release on the website
 
