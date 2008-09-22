@@ -38,6 +38,18 @@ public class Velocity614TestCase extends BaseEvalTestCase
         assertEvalEquals(template, template);
     }
 
+    public void testEscapeSchmooButNotReallySinceSchmooHasNoEscaping()
+    {
+        String template = "\\#something(Stuff)";
+        assertEvalEquals(template, template);
+    }
+
+    public void testEscapeMacroWithBadArg()
+    {
+        String template = "#macro( evil $arg )$arg#end \\#evil(bar)";
+        assertEvalEquals(" #evil(bar)", template);
+    }
+
     public void testEarlyDefinedMacroWithBadArg()
     {
         assertEvalException("#macro( evil $arg )$arg#end #evil(bar)");
