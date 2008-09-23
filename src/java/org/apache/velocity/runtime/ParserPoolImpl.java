@@ -33,7 +33,6 @@ import org.apache.velocity.runtime.parser.CharStream;
  */
 public class ParserPoolImpl implements ParserPool {
 
-    RuntimeServices rsvc = null;
     SimplePool pool = null;
     int max = RuntimeConstants.NUMBER_OF_PARSERS;
 
@@ -43,7 +42,6 @@ public class ParserPoolImpl implements ParserPool {
      */
     public void initialize(RuntimeServices rsvc)
     {
-        this.rsvc = rsvc;
         max = rsvc.getInt(RuntimeConstants.PARSER_POOL_SIZE, RuntimeConstants.NUMBER_OF_PARSERS);
         pool = new SimplePool(max);
 

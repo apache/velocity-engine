@@ -110,7 +110,7 @@ public class Define extends Directive
         /* put a Block instance into the context,
          * using the user-defined key, for later inline rendering.
          */
-        context.put(key, new Block(context, writer, this));
+        context.put(key, new Block(context, this));
         return true;
     }
 
@@ -143,14 +143,12 @@ public class Define extends Directive
     public static class Block implements Renderable
     {
         private InternalContextAdapter context;
-        private Writer writer;
         private Define parent;
         private int depth;
         
-        public Block(InternalContextAdapter context, Writer writer, Define parent)
+        public Block(InternalContextAdapter context, Define parent)
         {
             this.context = context;
-            this.writer = writer;
             this.parent = parent;
         }
         
