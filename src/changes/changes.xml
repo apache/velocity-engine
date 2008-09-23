@@ -25,7 +25,10 @@
   </properties>
 
   <body>
-    <release version="1.6" date="in Subversion">
+    <release version="1.6" date="In Subversion">
+    </release>
+
+    <release version="1.6-beta1" date="2008-09-22">
 
       <action type="add" dev="cbrisson" issue="VELOCITY-588" due-to="Vincent Massol, Sergiu Dumitriu">
           Uberspectors chaining
@@ -39,7 +42,7 @@
           Make it easier to override ResourceFactory.getResource(...) in ResourceManagerImpl.
       </action>
 
-      <action type="add" dev="nbubna" issue="VELOCITY-544" due-to="Adam Bishop, Jarkko Viinamäki">
+      <action type="add" dev="nbubna" issue="VELOCITY-544" due-to="Adam Bishop, Jarkko Viinamaki">
           Fix BooleanPropertyExecutor to recognize "public Boolean isFoo" properties.
       </action>
 
@@ -60,15 +63,15 @@
           (e.g. #define( $foo )Hello, $bar!#end #set( $bar = 'world') $foo -> Hello, world!)
       </action>
 
-      <action type="add" dev="nbubna" issue="VELOCITY-612" due-to="Jarkko Viinamäki">
+      <action type="add" dev="nbubna" issue="VELOCITY-612" due-to="Jarkko Viinamaki">
           Add #break directive to exit #foreach loops early.
       </action>
 
-      <action type="add" dev="nbubna" issue="VELOCITY-607" due-to="Jarkko Viinamäki">
+      <action type="add" dev="nbubna" issue="VELOCITY-607" due-to="Jarkko Viinamaki">
           Fixed major performance issues with Velocimacros.
       </action>
 
-      <action type="add" dev="nbubna" issue="VELOCITY-606" due-to="Jarkko Viinamäki">
+      <action type="add" dev="nbubna" issue="VELOCITY-606" due-to="Jarkko Viinamaki">
           Removed many, various performance bottlenecks and concurrency issues. (Also see VELOCITY-595)
       </action>
 
@@ -136,7 +139,7 @@
         Fix StringResourceLoader to make it possible to use more than one loader per VM.
       </action>
 
-      <action type="fix" dev="nbuba" issue="VELOCITY-520" due-to="Stepan Koltsov">
+      <action type="fix" dev="nbubna" issue="VELOCITY-520" due-to="Stepan Koltsov">
         Make unicode encoding work in velocity templates.
       </action>
 
