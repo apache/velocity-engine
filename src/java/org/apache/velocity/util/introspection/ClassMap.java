@@ -191,7 +191,7 @@ public class ClassMap
     {
         private static final Object CACHE_MISS = new Object();
 
-        private static final String NULL_ARG = new Object().getClass().getName();
+        private static final String NULL_ARG = Object.class.getName();
 
         private static final Map convertPrimitives = new HashMap();
 

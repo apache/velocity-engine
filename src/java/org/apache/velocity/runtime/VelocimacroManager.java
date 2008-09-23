@@ -306,18 +306,6 @@ public class VelocimacroManager
     }
 
     /**
-     *  returns the hash for the specified namespace.  Will not create a new one
-     *  if it doesn't exist
-     *
-     *  @param namespace  name of the namespace :)
-     *  @return namespace Map of VMs or null if doesn't exist
-     */
-    private Map getNamespace(final String namespace)
-    {
-        return getNamespace(namespace, false);
-    }
-
-    /**
      *  returns the hash for the specified namespace, and if it doesn't exist
      *  will create a new one and add it to the namespaces
      *
@@ -453,7 +441,7 @@ public class VelocimacroManager
     /**
      *  wrapper class for holding VM information
      */
-    private class MacroEntry
+    private static class MacroEntry
     {
         private final String vmName;
         private final String[] argArray;
