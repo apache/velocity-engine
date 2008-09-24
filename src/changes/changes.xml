@@ -26,6 +26,15 @@
 
   <body>
     <release version="1.6" date="In Subversion">
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-585" due-to="Jon Seymour">
+          Fix problem with single backslash in interpolated (double-quoted) strings.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-616" due-to="Alik">
+          Fix escaping of bracketed directives (e.g. \#{if}($foo)$bar\#{end}).
+      </action>
+
     </release>
 
     <release version="1.6-beta1" date="2008-09-22">
