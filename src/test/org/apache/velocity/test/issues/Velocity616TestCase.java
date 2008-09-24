@@ -29,7 +29,6 @@ public class Velocity616TestCase extends BaseEvalTestCase
     public Velocity616TestCase(String name)
     {
        super(name);
-       DEBUG = true;
     }
 
     public void setUp() throws Exception
