@@ -52,7 +52,10 @@ public class Velocity614TestCase extends BaseEvalTestCase
 
     public void testEarlyDefinedMacroWithBadArg()
     {
+        // make sure this still bombs, but don't spam sysout
+        log.off();
         assertEvalException("#macro( evil $arg )$arg#end #evil(bar)");
+        log.on();
     }
 
     // just make sure this doesn't get broken
