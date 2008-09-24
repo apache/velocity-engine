@@ -252,6 +252,10 @@ public class Parser
         
         // we don't have to call substring method all the time in this method
         String dirTag = strDirective.substring(1);
+        if (dirTag.charAt(0) == '{')
+        {
+            dirTag = dirTag.substring(1, dirTag.length() - 1);
+        }
 
         /*
          *  is this a PD or a control directive?
@@ -600,7 +604,7 @@ TOKEN:
      *  for disaster, another long night with Mr. Parser, or both.
      */
 
-    <ESCAPE_DIRECTIVE :  (<DOUBLE_ESCAPE>)* "\\#" <WORD> >
+    <ESCAPE_DIRECTIVE :  (<DOUBLE_ESCAPE>)* "\\#" (<WORD> | <BRACKETED_WORD>) >
 }
 
 
