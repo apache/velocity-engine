@@ -83,6 +83,10 @@ public class BaseEvalTestCase extends TestCase
 
     protected void assertEvalEquals(String expected, String template)
     {
+        if (DEBUG)
+        {
+            engine.getLog().info("Expectation: "+expected);
+        }
         assertEquals(expected, evaluate(template));
     }
 
