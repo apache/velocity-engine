@@ -61,7 +61,7 @@ public class JdkLogChute implements LogChute
         logger = Logger.getLogger(name);
 
         /* get and set specified level for this logger, default to WARN */
-        String lvl = rs.getString(RUNTIME_LOG_JDK_LOGGER_LEVEL, "WARN");
+        String lvl = rs.getString(RUNTIME_LOG_JDK_LOGGER_LEVEL, "WARNING");
         Level level = Level.parse(lvl);
         logger.setLevel(level);
 
