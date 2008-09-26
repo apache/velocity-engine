@@ -203,7 +203,7 @@ public class LogManager
                                  " with the current runtime configuration.";
                     // log unexpected init exception at higher priority
                     log.error(msg, e);
-                    throw new VelocityException(msg);
+                    throw new VelocityException(msg,e);
                 }
             }
         }
