@@ -40,6 +40,10 @@
   <description>Apache Velocity is a general purpose template engine.</description>
   <inceptionYear>2000</inceptionYear>
   <packaging>jar</packaging>
+  
+  <prerequisites>
+      <maven>2.0.9</maven>
+  </prerequisites>
 
   <build>
     <defaultGoal>post-site</defaultGoal>
@@ -244,6 +248,7 @@
           </reportSet>
         </reportSets>
         <configuration>
+            <issueLinkTemplate>${jira.browse.url}/%ISSUE%</issueLinkTemplate>
           <!-- Apache JIRA, Component Engine -->
           <component>12311337</component>
           <!-- FixFor 1.6 -->
@@ -307,8 +312,12 @@
     <url>http://svn.apache.org/viewvc/velocity/engine/trunk</url>
   </scm>
 
+    <properties>
+        <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
+    </properties>
+
   <issueManagement>
     <system>JIRA</system>
-    <url>https://issues.apache.org/jira/browse/VELOCITY</url>
+    <url>${jira.browse.url}/VELOCITY</url>
   </issueManagement>
 </project>
