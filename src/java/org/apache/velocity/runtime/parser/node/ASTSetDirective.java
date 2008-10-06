@@ -52,6 +52,11 @@ public class ASTSetDirective extends SimpleNode
     protected Info uberInfo;
 
     /**
+     * Indicates if we are running in strict reference mode.
+     */
+    protected boolean strictRef = false;
+
+    /**
      * @param id
      */
     public ASTSetDirective(int id)
@@ -104,7 +109,9 @@ public class ASTSetDirective extends SimpleNode
     
             logOnNull = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
             allowNull = rsvc.getBoolean(RuntimeConstants.SET_NULL_ALLOWED, false);
-
+            strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+            if (strictRef) allowNull = true;  // strictRef implies allowNull
+            
             /*
              *  grab this now.  No need to redo each time
              */
@@ -168,7 +175,7 @@ public class ASTSetDirective extends SimpleNode
             }
         }
 
-        if ( value == null )
+        if ( value == null && !strictRef)
         {
             String rightReference = null;
             if (right instanceof ASTExpression)

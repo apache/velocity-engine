@@ -69,6 +69,11 @@ public class ASTReference extends SimpleNode
 
     private String literal = null;
 
+    /**
+     * Indicates if we are running in strict reference mode.
+     */
+    public boolean strictRef = false;
+    
     private int numChildren = 0;
 
     protected Info uberInfo;
@@ -142,7 +147,50 @@ public class ASTReference extends SimpleNode
         logOnNull =
             rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
 
+        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+ 
+        /**
+         * In the case we are referencing a variable with #if($foo) or
+         * #if( ! $foo) then we allow variables to be undefined and we 
+         * set strictRef to false so that if the variable is undefined
+         * an exception is not thrown. 
+         */
+        if (strictRef && numChildren == 0)
+        {
+            logOnNull = false; // Strict mode allows nulls
+            
+            Node node = this.jjtGetParent();
+            if (node instanceof ASTNotNode     // #if( ! $foo)
+             || node instanceof ASTExpression  // #if( $foo )
+             || node instanceof ASTOrNode      // #if( $foo || ...
+             || node instanceof ASTAndNode)    // #if( $foo && ...
+            {
+                // Now scan up tree to see if we are in an If statement
+                while (node != null)
+                {
+                    if (node instanceof ASTIfStatement)
+                    {
+                       strictRef = false;
+                       break;
+                    }
+                    node = node.jjtGetParent();
+                }
+            }
+        }
+                
         return data;
+    }
+
+    /**
+     * Returns the template name, once init() has been called.
+     */
+    public String getTemplateName()
+    {
+        if (uberInfo == null)
+        {
+            return null;
+        }
+        return uberInfo.getTemplateName();
     }
 
     /**
@@ -175,7 +223,7 @@ public class ASTReference extends SimpleNode
 
         Object result = getVariableValue(context, rootString);
 
-        if (result == null)
+        if (result == null && !strictRef)
         {
             return EventHandlerUtil.invalidGetMethod(rsvc, context, 
                     "$" + rootString, null, null, uberInfo);
@@ -200,9 +248,22 @@ public class ASTReference extends SimpleNode
             int failedChild = -1;
             for (int i = 0; i < numChildren; i++)
             {
+                if (strictRef && result == null)
+                {
+                    /**
+                     * At this point we know that an attempt is about to be made
+                     * to call a method or property on a null value.
+                     */
+                    String name = jjtGetChild(i).getFirstToken().image;
+                    throw new MethodInvocationException("Attempted to access '"  
+                        + name + "' on a null value", null, name, uberInfo.getTemplateName(),
+                        jjtGetChild(i).getLine(), jjtGetChild(i).getColumn());
+                  
+                }
                 previousResult = result;
                 result = jjtGetChild(i).execute(result,context);
-                if (result == null)
+                if (result == null && !strictRef)  // If strict and null then well catch this
+                                                   // next time through the loop
                 {
                     failedChild = i;
                     break;
@@ -500,6 +561,14 @@ public class ASTReference extends SimpleNode
 
             if (result == null)
             {
+                if (strictRef)
+                {
+                    String name = jjtGetChild(i+1).getFirstToken().image;
+                    throw new MethodInvocationException("Attempted to access '"  
+                        + name + "' on a null value", null, name, uberInfo.getTemplateName(),
+                        jjtGetChild(i+1).getLine(), jjtGetChild(i+1).getColumn());
+                }            
+              
                 String msg = "reference set : template = "
                     + context.getCurrentTemplateName() +
                     " [line " + getLine() + ",column " +
@@ -525,7 +594,18 @@ public class ASTReference extends SimpleNode
                             value, uberInfo);
 
             if (vs == null)
-                return false;
+            {
+                if (strictRef)
+                {
+                    throw new MethodInvocationException("Object '" + result.getClass().getName() +
+                       "' does not contain property '" + identifier + "'", null, identifier,
+                       uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
+                }
+                else
+                {
+                  return false;
+                }
+            }
 
             vs.invoke(result, value);
         }
@@ -770,7 +850,17 @@ public class ASTReference extends SimpleNode
      */
     public Object getVariableValue(Context context, String variable) throws MethodInvocationException
     {
-        return context.get(variable);
+        Object obj = context.get(variable);
+        if (strictRef && obj == null)
+        {
+          if (!context.containsKey(variable))
+          {
+            throw new MethodInvocationException("Variable '" + variable +
+                "' has not been set", null, identifier,
+                uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());            
+          }
+        }
+        return obj;        
     }
 
 
