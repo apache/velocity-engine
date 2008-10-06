@@ -24,6 +24,7 @@ import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -65,6 +66,11 @@ public class RuntimeMacro extends Directive
      */
     private Node node = null;
 
+    /**
+     * Indicates if we are running in strict reference mode.
+     */
+    protected boolean strictRef = false;
+    
     /**
      * Create a RuntimeMacro instance. Macro name and source
      * template stored for later use.
@@ -119,6 +125,16 @@ public class RuntimeMacro extends Directive
         super.init(rs, context, node);
         rsvc = rs;
         this.node = node;
+        
+        /**
+         * Only check for strictRef setting if this really looks like a macro,
+         * so strict mode doesn't balk at things like #E0E0E0 in a template.
+         */
+        Token t = node.getLastToken();
+        if (t.image.charAt(0) == ')')
+        {
+            strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+        }
     }
 
     /**
@@ -220,11 +236,18 @@ public class RuntimeMacro extends Directive
             }
             catch (TemplateInitException die)
             {
-                Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
+              Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
 
-                throw new ParseErrorException(die.getMessage(), info);
+                throw new ParseErrorException(die.getMessage() + " at " + info.getTemplateName()
+                    + "[" + info.getLine() + "," + info.getColumn() + "]", info);
             }
             return vmProxy.render(context, writer, node);
+        }
+        else if (strictRef)
+        {
+            Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
+            throw new ParseErrorException("Macro '#" + macroName + "' is not defined at "+
+                info.getTemplateName() + "[" + info.getLine() + "," + info.getColumn() + "]", info);
         }
 
         /**

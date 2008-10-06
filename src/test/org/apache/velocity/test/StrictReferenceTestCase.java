@@ -1,6 +1,7 @@
 package org.apache.velocity.test;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
@@ -22,7 +23,7 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
         context.put("bar", null);
         context.put("TRUE", Boolean.TRUE);
     }
-
+    
 
     /**
      * Test the modified behavior of #if in strict mode.  Mainly, that
@@ -58,8 +59,8 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
     {
         evaluate("$bar");
         assertEvalEquals("true", "#if($bar == $NULL)true#end");
-        assertEvalEquals("false", "#set($foobar = $NULL)#if(!$foobar)false#end");
-        assertEvalEquals("13", "#set($list = [1, $NULL, 3])#foreach($item in $list)#if($item)$item#end#end");
+        assertEvalEquals("true", "#set($foobar = $NULL)#if($foobar == $NULL)true#end");
+        assertEvalEquals("13", "#set($list = [1, $NULL, 3])#foreach($item in $list)#if($item != $NULL)$item#end#end");
     }
     
     /**
@@ -137,13 +138,39 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
         evaluate("$fargo.next.nullVal");
         evaluate("#foreach($item in $fargo.nullVal)#end");
     }
-        
+
+    /**
+     * Make sure undefined macros throw exceptions
+     */
+    public void testMacros()
+    {
+        assertParseEx("#bogus()");
+        assertParseEx("#bogus (  )");
+        assertParseEx("#bogus( $a )");        
+        assertParseEx("abc#bogus ( $a )a ");
+
+        assertEvalEquals(" true ", "#macro(test1) true #end#test1()");
+        assertEvalEquals(" true ", "#macro(test2 $a) $a #end#test2 ( \"true\")");
+        assertEvalEquals("#CCFFEE", "#CCFFEE");
+        assertEvalEquals("#F - ()", "#F - ()");
+        assertEvalEquals("#F{}", "#F{}");
+    }
+    
+    
     /**
      * Assert that we get a MethodInvocationException when calling evaluate
      */
     public void assertMethodEx(String template)
     {
         assertEvalException(template, MethodInvocationException.class);
+    }
+
+    /**
+     * Assert that we get a MethodInvocationException when calling evaluate
+     */
+    public void assertParseEx(String template)
+    {
+        assertEvalException(template, ParseErrorException.class);
     }
 
 
