@@ -237,7 +237,17 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
                 }
                 else
                 {
-                    return wrappedContext.get(ref.getRootString());
+                    Object obj = wrappedContext.get(ref.getRootString());
+                    if (obj == null && ref.strictRef)
+                    {
+                        if (!wrappedContext.containsKey(ref.getRootString()))
+                        {
+                            throw new MethodInvocationException("Parameter '" + ref.getRootString() 
+                                + "' not defined", null, key, ref.getTemplateName(), 
+                                ref.getLine(), ref.getColumn());
+                        }
+                    }
+                    return obj;
                 }
             }
             else if (type == ParserTreeConstants.JJTTEXT)
@@ -285,7 +295,9 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
      */
     public boolean containsKey(Object key)
     {
-        return false;
+      return vmproxyhash.containsKey(key)
+          || localcontext.containsKey(key)
+          || super.containsKey(key);
     }
 
     /**

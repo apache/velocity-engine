@@ -54,6 +54,11 @@ public interface RuntimeConstants
     String RUNTIME_LOG_LOGSYSTEM_CLASS = "runtime.log.logsystem.class";
 
     /**
+     * Properties referenced in the template are required to exist the object
+     */
+    String RUNTIME_REFERENCES_STRICT = "runtime.references.strict";
+    
+    /**
      * @deprecated  This appears to have always been meaningless.
      */
     String RUNTIME_LOG_ERROR_STACKTRACE = "runtime.log.error.stacktrace";

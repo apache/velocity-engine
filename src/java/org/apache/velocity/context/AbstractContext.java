@@ -154,18 +154,13 @@ public abstract class AbstractContext extends InternalContextBase
     public Object put(String key, Object value)
     {
         /*
-         * don't even continue if key or value is null
+         * don't even continue if key is null
          */
-
         if (key == null)
         {
             return null;
         }
-        else if (value == null)
-        {
-            return null;
-        }
-
+        
         return internalPut(key, value);
     }
 
@@ -219,7 +214,13 @@ public abstract class AbstractContext extends InternalContextBase
             return false;
         }
 
-        return internalContainsKey(key);
+        boolean exists = internalContainsKey(key);
+        if (!exists && innerContext != null)
+        {
+            exists = innerContext.containsKey(key);
+        }
+        
+        return exists;
     }
 
     /**

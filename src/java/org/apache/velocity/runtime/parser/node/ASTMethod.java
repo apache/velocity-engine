@@ -28,6 +28,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -55,6 +56,11 @@ public class ASTMethod extends SimpleNode
     private int paramCount = 0;
 
     protected Info uberInfo;
+
+    /**
+     * Indicates if we are running in strict reference mode.
+     */
+    protected boolean strictRef = false;
 
     /**
      * @param id
@@ -107,6 +113,8 @@ public class ASTMethod extends SimpleNode
         methodName = getFirstToken().image;
         paramCount = jjtGetNumChildren() - 1;
 
+        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+        
         return data;
     }
 
@@ -201,7 +209,24 @@ public class ASTMethod extends SimpleNode
 
             if (method == null)
             {
-                return null;
+                if (strictRef)                  
+                {
+                    // Create a parameter list for the exception error message
+                    StringBuffer plist = new StringBuffer();
+                    for (int i=0; i<params.length; i++)
+                    {
+                      Class param = paramClasses[i];
+                      plist.append(param == null ? "null" : param.getName());
+                      if (i < params.length -1) plist.append(", ");
+                    }
+                    throw new MethodInvocationException("Object '" + o.getClass().getName() +
+                      "' does not contain method " + methodName + "(" + plist + ")", 
+                      null, methodName, uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
         catch( MethodInvocationException mie )

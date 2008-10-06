@@ -26,6 +26,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -55,6 +56,11 @@ public class ASTIdentifier extends SimpleNode
      *  This is really immutable after the init, so keep one for this node
      */
     protected Info uberInfo;
+    
+    /**
+     * Indicates if we are running in strict reference mode.
+     */
+    protected boolean strictRef = false;
 
     /**
      * @param id
@@ -100,6 +106,8 @@ public class ASTIdentifier extends SimpleNode
         uberInfo = new Info(context.getCurrentTemplateName(),
                 getLine(), getColumn());
 
+        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+        
         return data;
     }
 
@@ -170,7 +178,16 @@ public class ASTIdentifier extends SimpleNode
 
         if (vg == null)
         {
-            return null;
+            if (strictRef)
+            {
+                throw new MethodInvocationException("Object '" + o.getClass().getName() +              
+                    "' does not contain property '" + identifier + "'", null, identifier,
+                    uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /*
