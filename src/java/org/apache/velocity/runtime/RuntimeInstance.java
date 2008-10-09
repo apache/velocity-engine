@@ -585,8 +585,20 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public void init(Properties p) throws Exception
     {
-        overridingProperties = ExtendedProperties.convertProperties(p);
+        setProperties(ExtendedProperties.convertProperties(p));
         init();
+    }
+
+    private void setProperties(ExtendedProperties p)
+    {
+        if (overridingProperties == null)
+        {
+            overridingProperties = p;
+        }
+        else
+        {
+            overridingProperties.combine(p);
+        }
     }
 
     /**
@@ -599,7 +611,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public void init(String configurationFile)
         throws Exception
     {
-        overridingProperties = new ExtendedProperties(configurationFile);
+        setProperties(new ExtendedProperties(configurationFile));
         init();
     }
 
