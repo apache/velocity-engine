@@ -86,11 +86,14 @@ public class Log4JLogChute implements LogChute
             }
         }
 
-        /* get and set specified level for this logger, default to WARN */
-        String lvl = rsvc.getString(RUNTIME_LOG_LOG4J_LOGGER_LEVEL, "WARN");
-        Level level = Level.toLevel(lvl);
-        logger.setLevel(level);
-
+        /* get and set specified level for this logger */
+        String lvl = rsvc.getString(RUNTIME_LOG_LOG4J_LOGGER_LEVEL);
+        if (lvl != null)
+        {
+            Level level = Level.toLevel(lvl);
+            logger.setLevel(level);
+        }
+        
         /* Ok, now let's see if this version of log4j supports the trace level. */
         try
         {
