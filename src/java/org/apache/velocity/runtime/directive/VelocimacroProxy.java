@@ -151,7 +151,7 @@ public class VelocimacroProxy extends Directive
         if (callArguments > 0)
         {
             // the 0th element is the macro name
-            for (int i = 1; i < argArray.length; i++)
+            for (int i = 1; i < argArray.length && i <= callArguments; i++)
             {
                 Node macroCallArgument = node.jjtGetChild(i - 1);
 
