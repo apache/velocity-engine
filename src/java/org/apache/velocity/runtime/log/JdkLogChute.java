@@ -60,12 +60,16 @@ public class JdkLogChute implements LogChute
         }
         logger = Logger.getLogger(name);
 
-        /* get and set specified level for this logger, default to WARN */
-        String lvl = rs.getString(RUNTIME_LOG_JDK_LOGGER_LEVEL, "WARNING");
-        Level level = Level.parse(lvl);
-        logger.setLevel(level);
+        /* get and set specified level for this logger, */
+        String lvl = rs.getString(RUNTIME_LOG_JDK_LOGGER_LEVEL);
+        if (lvl != null)
+        {
+            Level level = Level.parse(lvl);
+            logger.setLevel(level);
+            log(LogChute.DEBUG_ID, "JdkLogChute will use logger '"
+                +name+'\''+" at level '"+level+'\'');
+        }
 
-        log(LogChute.DEBUG_ID, "JdkLogChute will use logger '"+name+'\''+" at level '"+level+'\'');
     }
 
     /**
