@@ -22,6 +22,7 @@ package org.apache.velocity.runtime.directive;
 import org.apache.commons.lang.text.StrBuilder;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -238,18 +239,18 @@ public class RuntimeMacro extends Directive
             {
               Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
 
-                throw new ParseErrorException(die.getMessage() + " at " + info.getTemplateName()
-                    + "[" + info.getLine() + "," + info.getColumn() + "]", info);
+                throw new ParseErrorException(die.getMessage() + " at "
+                    + Log.formatFileString(info), info);
             }
             return vmProxy.render(context, writer, node);
         }
         else if (strictRef)
         {
             Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
-            throw new ParseErrorException("Macro '#" + macroName + "' is not defined at "+
-                info.getTemplateName() + "[" + info.getLine() + "," + info.getColumn() + "]", info);
+            throw new ParseErrorException("Macro '#" + macroName + "' is not defined at "
+                + Log.formatFileString(info), info);
         }
-
+        
         /**
          * If we cannot find an implementation write the literal text
          */

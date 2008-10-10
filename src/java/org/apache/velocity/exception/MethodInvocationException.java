@@ -1,6 +1,7 @@
 package org.apache.velocity.exception;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.runtime.log.Log;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -135,9 +136,8 @@ public class MethodInvocationException extends VelocityException implements Exte
     {
         StringBuffer message = new StringBuffer();
         message.append(super.getMessage());
-        message.append(" @ ");
-        message.append(StringUtils.isNotEmpty(templateName) ? templateName : "<unknown template>");
-        message.append("[").append(lineNumber).append(",").append(columnNumber).append("]");
+        message.append(" at ");
+        message.append(Log.formatFileString(templateName, lineNumber, columnNumber));
         return message.toString();
     }
 }
