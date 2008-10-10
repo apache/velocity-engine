@@ -1,5 +1,7 @@
 package org.apache.velocity.runtime.log;
 
+import org.apache.velocity.util.introspection.Info;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -221,5 +223,31 @@ public class Log
     {
         log(LogChute.ERROR_ID, message, t);
     }
-
+    
+    /**
+     * Simply creates a string that formats the template filename allowing with line number
+     * and column. We use this routine to provide a cosistent format for displaying 
+     * file errors.
+     */
+    public static final String formatFileString(Info info)
+    {
+        return formatFileString(info.getTemplateName(), info.getLine(), info.getColumn());
+    }
+    
+    /**
+     * Simply creates a string that formats the template filename allowing with line number
+     * and column. We use this routine to provide a cosistent format for displaying 
+     * file errors.
+     * @param template File name of template, can be null
+     * @param linenum Line number within the file
+     * @param colnum Column number withing the file at linenum
+     */
+    public static final String formatFileString(String template, int linenum, int colnum)
+    {
+        if (template == null || template.equals(""))
+        {
+            template = "<unknown template>";
+        }
+        return template + "[line " + linenum + ", column " + colnum + "]";
+    }
 }

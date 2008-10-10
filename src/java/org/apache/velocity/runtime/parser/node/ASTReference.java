@@ -31,6 +31,7 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.Renderable;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.introspection.Info;
@@ -635,8 +636,7 @@ public class ASTReference extends SimpleNode
              *  maybe a security exception?
              */
             String msg = "ASTReference setValue() : exception : " + e
-                          + " template = " + context.getCurrentTemplateName()
-                          + " [" + this.getLine() + "," + this.getColumn() + "]";
+                          + " template at " + Log.formatFileString(uberInfo);
             log.error(msg, e);
             throw new VelocityException(msg, e);
          }

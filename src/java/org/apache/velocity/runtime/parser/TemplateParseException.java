@@ -20,6 +20,7 @@ package org.apache.velocity.runtime.parser;
  */
 
 import org.apache.velocity.exception.ExtendedParseException;
+import org.apache.velocity.runtime.log.Log;
 
 
 /**
@@ -211,7 +212,7 @@ public class TemplateParseException
             tok = tok.next;
         }
 
-        retval.append("\"");
+        retval.append("\" at ");
         appendTemplateInfo(retval);
 
         if (expectedTokenSequences.length == 1)
@@ -233,17 +234,7 @@ public class TemplateParseException
      */
     protected void appendTemplateInfo(final StringBuffer sb)
     {
-        sb.append(" at line ").append(getLineNumber())
-          .append(", column ").append(getColumnNumber());
-
-        if (getTemplateName() != null)
-        {
-            sb.append(" of ").append(getTemplateName());
-        }
-        else
-        {
-            sb.append(".");
-        }
+        sb.append(Log.formatFileString(getTemplateName(), getLineNumber(), getColumnNumber()));
         sb.append(eol);
     }
 }
