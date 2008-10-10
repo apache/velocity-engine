@@ -27,6 +27,23 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+      <action type="add" dev="nbubna" issue="VELOCITY-622" due-to="Byron Foster">
+          Format template and line/column numbers consistently in error and log messages.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-624" due-to="Byron Foster">
+          Don't override pre-configured log levels for JdkLogChute or Log4JLogChute.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-618" due-to="Byron Foster">
+          Add optional 'runtime.references.strict' property that has Velocity throw
+          exceptions when it encounters undefined references or velocimacros in a template.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-554" due-to="Adrian Tarau">
+          Inlude Maven Ant tasks jar in downloads and add support for downloading from Maven2 repos.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-585" due-to="Jon Seymour">
           Fix problem with single backslash in interpolated (double-quoted) strings.
       </action>
