@@ -51,6 +51,7 @@
 </li>
 <li><a href="#formalreferencenotation">Formal Reference Notation</a></li>
 <li><a href="#quietreferencenotation">Quiet Reference Notation</a></li>
+<li><a href="#strictreferences">Strict References Setting</a></li>
 <li><a href="#case_substitution">Case Substitution</a></li>
 <li><a href="#directives">Directives</a>
     <ol>
@@ -698,6 +699,63 @@ Jack is a ${vice}maniac.
 <input type="text" name="email" value="$!{email}"/>
 ]]></source>
 
+</section>
+<section name="Strict References Setting" href="strictreferences">
+   <p>
+    Velocity 1.6 introduces the concept of strict references which is
+    activated by setting the velocity configuration property
+    'runtime.references.strict' to true.  With this setting references
+    are required to be either placed explicitly into the context or
+    defined with a #set directive, or Velocity will throw an
+    exception.  References that are in the context with a value of
+    null will not produce an exception.  Additionally, if an attempt
+    is made to call a method or a property on an object within a
+    reference that does not define the specified method or property
+    then Velocity will throw an exception.  This is also true if there
+    is an attempt to call a method or property on a null value.
+  </p>
+  <p>
+    In the following examples $bar is defined but $foo is not, and all
+    these statements will throw an exception:
+  </p>
+    <source><![CDATA[$foo                         ## Exception
+#set($bar = $foo)            ## Exception
+#if($foo == $bar)#end        ## Exception
+#foreach($item in $foo)#end  ## Exception]]></source>
+    
+  <p>
+    Also, The following statements show examples in which Velocity will
+    throw an exception when attempting to call methods or properties
+    that do not exist. In these examples $bar contains an object that
+    defines a property 'foo' which returns a string, and 'retnull' which
+    returns null.
+  </p>
+    
+    <source><![CDATA[$bar.bogus          ## $bar does not provide property bogus, Exception
+$bar.foo.bogus      ## $bar.foo does not provide property bogus, Exception
+$bar.retnull.bogus  ## cannot call a property on null, Exception]]></source>
+
+  <p>
+    In general strict reference behavior is true for all situations
+    in which references are used except for a special case within the
+    #if directive.  If a reference is used within a #if or #elseif directive
+    without any methods or properties, and if it is not being compared
+    to another value, then undefined references are allowed.  This
+    behavior provides an easy way to test if a reference is defined
+    before using it in a template.  In the following example where
+    $foo is not defined the statements will not throw an exception.
+  </p>
+    <source><![CDATA[#if ($foo)#end                  ## False
+#if ( ! $foo)#end               ## True
+#if ($foo && $foo.bar)#end      ## False and $foo.bar will not be evaluated
+#if ($foo && $foo == "bar")#end ## False and $foo == "bar" wil not be evaluated
+#if ($foo1 || $foo2)#end        ## False $foo1 and $foo2 are not defined]]></source>
+  
+  <p>
+    One additional note, undefined macro references will also throw an
+    exception with the strict reference setting.
+  </p>
+        
 </section>
 
 <section name="Case Substitution" href="case_substitution">
