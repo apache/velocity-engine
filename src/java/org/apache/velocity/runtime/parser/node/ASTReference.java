@@ -542,12 +542,8 @@ public class ASTReference extends SimpleNode
 
         if (result == null)
         {
-            String msg = "reference set : template = "
-                + context.getCurrentTemplateName() +
-                " [line " + getLine() + ",column " +
-                getColumn() + "] : " + literal() +
-                " is not a valid reference.";
-            
+            String msg = "reference set is not a valid reference at "
+                    + Log.formatFileString(uberInfo);
             log.error(msg);
             return false;
         }
@@ -570,12 +566,8 @@ public class ASTReference extends SimpleNode
                         jjtGetChild(i+1).getLine(), jjtGetChild(i+1).getColumn());
                 }            
               
-                String msg = "reference set : template = "
-                    + context.getCurrentTemplateName() +
-                    " [line " + getLine() + ",column " +
-                    getColumn() + "] : " + literal() +
-                    " is not a valid reference.";
-                
+                String msg = "reference set is not a valid reference at "
+                    + Log.formatFileString(uberInfo);
                 log.error(msg);
 
                 return false;
@@ -850,14 +842,27 @@ public class ASTReference extends SimpleNode
      */
     public Object getVariableValue(Context context, String variable) throws MethodInvocationException
     {
-        Object obj = context.get(variable);
+        Object obj = null;
+        try
+        {
+            obj = context.get(variable);
+        }
+        catch(RuntimeException e)
+        {
+            log.error("Exception calling reference $" + variable + " at "
+                      + Log.formatFileString(uberInfo));
+            throw e;
+        }
+        
         if (strictRef && obj == null)
         {
           if (!context.containsKey(variable))
           {
-            throw new MethodInvocationException("Variable '" + variable +
-                "' has not been set", null, identifier,
-                uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());            
+              log.error("Variable $" + variable + " has not been set at "
+                        + Log.formatFileString(uberInfo));
+              throw new MethodInvocationException("Variable $" + variable +
+                  " has not been set", null, identifier,
+                  uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());            
           }
         }
         return obj;        

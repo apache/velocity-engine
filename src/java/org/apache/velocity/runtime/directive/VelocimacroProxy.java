@@ -210,10 +210,6 @@ public class VelocimacroProxy extends Directive
             vmc.popCurrentMacroName();
             return true;
         }
-        catch (MethodInvocationException e)
-        {
-            throw e;
-        }
         catch (RuntimeException e)
         {
             throw e;
