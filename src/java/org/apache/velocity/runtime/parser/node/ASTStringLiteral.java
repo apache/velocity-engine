@@ -29,6 +29,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 
@@ -158,17 +159,17 @@ public class ASTStringLiteral extends SimpleNode
              * Also, do *not* dump the VM namespace for this template
              */
 
+            String templateName =
+                (context != null) ? context.getCurrentTemplateName() : "StringLiteral";
             try
             {
-                nodeTree = rsvc.parse(br, (context != null) ? context
-                        .getCurrentTemplateName() : "StringLiteral", false);
+                nodeTree = rsvc.parse(br, templateName, false);
             }
             catch (ParseException e)
             {
-                throw new TemplateInitException(
-                        "Problem parsing String literal.", e,
-                        (context != null) ? context.getCurrentTemplateName()
-                                : "StringLiteral", getColumn(), getLine());
+                String msg = "Failed to parse String literal at "+
+                    Log.formatFileString(templateName, getLine(), getColumn());
+                throw new TemplateInitException(msg, e, templateName, getColumn(), getLine());
             }
 
             /*
