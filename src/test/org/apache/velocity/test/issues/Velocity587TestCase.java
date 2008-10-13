@@ -29,7 +29,6 @@ public class Velocity587TestCase extends BaseEvalTestCase
     public Velocity587TestCase(String name)
     {
        super(name);
-       DEBUG = true;
     }
 
     // remember, they're all doubled, since java will use them as escapes first.
