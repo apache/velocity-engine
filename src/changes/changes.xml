@@ -27,6 +27,14 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-627" due-to="Byron Foster">
+          Fix line number for exceptions with body of #foreach directive.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-626" due-to="Byron Foster">
+          Log full macro stack when a RuntimeException occurs in a template.
+      </action>
+
       <action type="add" dev="nbubna" issue="VELOCITY-622" due-to="Byron Foster">
           Format template and line/column numbers consistently in error and log messages.
       </action>

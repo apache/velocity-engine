@@ -121,9 +121,9 @@ public class ASTDirective extends SimpleNode
                             e);
                 }
                     
-                directive.init(rsvc, context,this);
     
                 directive.setLocation( getLine(), getColumn() );
+                directive.init(rsvc, context,this);
             }
             else
             {
@@ -132,7 +132,8 @@ public class ASTDirective extends SimpleNode
                  */
                 directive = new RuntimeMacro(directiveName,
                         context.getCurrentTemplateName());
-    
+                directive.setLocation( getLine(), getColumn() );
+        
                 /**
                  * Initialize it
                  */
@@ -152,8 +153,6 @@ public class ASTDirective extends SimpleNode
                             die.getColumnNumber() + getColumn(),
                             die.getLineNumber() + getLine());
                 }
-                directive.setLocation( getLine(), getColumn() );
-    
                 isDirective = true;
             }
             
