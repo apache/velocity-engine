@@ -237,12 +237,34 @@ public class RuntimeMacro extends Directive
             }
             catch (TemplateInitException die)
             {
-              Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
-
+                Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
                 throw new ParseErrorException(die.getMessage() + " at "
                     + Log.formatFileString(info), info);
             }
-            return vmProxy.render(context, writer, node);
+
+            try
+            {
+                return vmProxy.render(context, writer, node);
+            }
+            catch (RuntimeException e)
+            {
+                /**
+                 * We catch, the exception here so that we can record in
+                 * the logs the template and line number of the macro call
+                 * which generate the exception.  This information is
+                 * especially important for multiple macro call levels.
+                 * this is also true for the following catch blocks.
+                 */
+                rsvc.getLog().error("Exception in macro #" + macroName + " at " +
+                  Log.formatFileString(sourceTemplate, getLine(), getColumn()));
+                throw e;
+            }
+            catch (IOException e)
+            {
+                rsvc.getLog().error("Exception in macro #" + macroName + " at " +
+                  Log.formatFileString(sourceTemplate, getLine(), getColumn()));
+                throw e;
+            }
         }
         else if (strictRef)
         {
