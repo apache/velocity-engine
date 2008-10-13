@@ -319,12 +319,9 @@ public class ASTReference extends SimpleNode
              */
 
             log.error("Method " + mie.getMethodName()
-                        + " threw exception for reference $"
-                        + rootString
-                        + " in template " + context.getCurrentTemplateName()
-                        + " at " +  " [" + this.getLine() + ","
-                        + this.getColumn() + "]");
-
+                      + " threw exception for reference $" + rootString + " in "
+                      + Log.formatFileString(context.getCurrentTemplateName(),
+                                             getLine(), getColumn()));
             mie.setReferenceName(rootString);
             throw mie;
         }
