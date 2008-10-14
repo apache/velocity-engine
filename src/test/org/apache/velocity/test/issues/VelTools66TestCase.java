@@ -28,7 +28,7 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.log.NullLogChute;
+import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.util.introspection.Introspector;
 
@@ -38,6 +38,8 @@ import org.apache.velocity.util.introspection.Introspector;
 public class VelTools66TestCase
         extends BaseTestCase
 {
+    protected static boolean DEBUG = false;
+
     public VelTools66TestCase(final String name)
             throws Exception
     {
@@ -53,11 +55,20 @@ public class VelTools66TestCase
             throws Exception
     {
         Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
         Velocity.init();
         System.setSecurityManager(new TestSecurityManager());
 
+    }
+
+    protected static void log(String out)
+    {
+        Velocity.getLog().debug(out);
+        if (DEBUG)
+        {
+            System.out.println(out);
+        }
     }
 
     public void tearDown()
@@ -117,7 +128,7 @@ public class VelTools66TestCase
 
         public void checkMemberAccess(final Class c, final int i)
         {
-            System.out.println("checkMemberAccess(" + c.getName() + ", " + i + ")");
+            log("checkMemberAccess(" + c.getName() + ", " + i + ")");
 
             if (c.equals(clazz))
             {
@@ -127,22 +138,22 @@ public class VelTools66TestCase
 
         public void checkRead(final String file)
         {
-            System.out.println("checkRead(" + file + ")");
+            log("checkRead(" + file + ")");
         }
 
         public void checkPackageAccess(final String s)
         {
-            System.out.println("checkPackageAccess(" + s + ")");
+            log("checkPackageAccess(" + s + ")");
         }
 
         public void checkPropertyAccess(final String s)
         {
-            System.out.println("checkPropertyAccess(" + s + ")");
+            log("checkPropertyAccess(" + s + ")");
         }
 
         public void checkPermission(final Permission p)
         {
-            System.out.println("checkPermission(" + p + ")");
+            log("checkPermission(" + p + ")");
         }
     }
 }

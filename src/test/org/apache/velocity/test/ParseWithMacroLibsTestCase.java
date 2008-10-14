@@ -2,7 +2,7 @@ package org.apache.velocity.test;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.log.NullLogChute;
+import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
@@ -192,7 +192,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
                 new Boolean(local));
         ve.setProperty("file.resource.loader.cache", new Boolean(cache));
         ve.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
         ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
         ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/parsemacros");
@@ -221,7 +221,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
                 Boolean.FALSE);
         ve1.setProperty("file.resource.loader.cache", Boolean.TRUE);
         ve1.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
         ve1.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
         ve1.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/parsemacros");
@@ -271,7 +271,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
                 Boolean.FALSE);
         ve1.setProperty("file.resource.loader.cache", Boolean.TRUE);
         ve1.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
         ve1.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
         ve1.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/parsemacros");

@@ -22,7 +22,7 @@ package org.apache.velocity.test.util.introspection;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.log.NullLogChute;
+import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.util.introspection.*;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.VelocityContext;
@@ -48,7 +48,7 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
     public void setUp()
             throws Exception
     {
-        Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+        Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
         Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.util.introspection.UberspectImpl");
         Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.test.util.introspection.ChainedUberspectorsTestCase$ChainedUberspector");
         Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.test.util.introspection.ChainedUberspectorsTestCase$LinkedUberspector");

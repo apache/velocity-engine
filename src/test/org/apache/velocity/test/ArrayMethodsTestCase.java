@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class ArrayMethodsTestCase extends BaseEvalTestCase
 {
-    private final static boolean PRINT_RESULTS = true;
+    private final static boolean PRINT_RESULTS = false;
 
     public ArrayMethodsTestCase(final String name)
     {

@@ -24,7 +24,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.runtime.log.NullLogChute;
+import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.test.BaseTestCase;
 
 /**
@@ -76,7 +76,7 @@ public class Velocity537TestCase extends BaseTestCase
         velocityEngine = new VelocityEngine();
         velocityEngine.addProperty(Velocity.FILE_RESOURCE_LOADER_PATH, TEMPLATE_DIR);
 
-        velocityEngine.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+        velocityEngine.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
         velocityEngine.init();
     }

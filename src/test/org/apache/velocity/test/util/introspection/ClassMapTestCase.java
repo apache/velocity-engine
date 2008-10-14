@@ -24,7 +24,7 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.log.NullLogChute;
+import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.util.introspection.ClassMap;
 
@@ -49,7 +49,7 @@ public class ClassMapTestCase
             throws Exception
     {
         Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
 	Velocity.init();
     }
