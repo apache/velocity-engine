@@ -90,12 +90,12 @@ public class BaseEvalTestCase extends TestCase
         assertEquals(expected, evaluate(template));
     }
 
-    protected void assertEvalException(String evil)
+    protected Exception assertEvalException(String evil)
     {
-        assertEvalException(evil, null);
+        return assertEvalException(evil, null);
     }
 
-    protected void assertEvalException(String evil, Class exceptionType)
+    protected Exception assertEvalException(String evil, Class exceptionType)
     {
         try
         {
@@ -112,6 +112,7 @@ public class BaseEvalTestCase extends TestCase
             {
                 fail("Was expecting template '"+evil+"' to throw "+exceptionType+" not "+e);
             }
+            return e;
         }
         finally
         {
@@ -120,6 +121,7 @@ public class BaseEvalTestCase extends TestCase
                 log.on();
             }
         }
+        return null;
     }
 
     protected String evaluate(String template)
