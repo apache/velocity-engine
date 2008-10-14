@@ -28,7 +28,7 @@ import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.runtime.log.NullLogChute;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.
@@ -38,7 +38,9 @@ import org.apache.velocity.runtime.log.NullLogChute;
  */
 public class MethodInvocationExceptionTestCase extends TestCase
 {
-   /**
+    protected boolean DEBUG = false;
+
+    /**
      * Default constructor.
      * @param name
      */
@@ -55,7 +57,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
          */
 
         Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, NullLogChute.class.getName());
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
         Velocity.init();
     }
@@ -63,6 +65,15 @@ public class MethodInvocationExceptionTestCase extends TestCase
     public static Test suite ()
     {
         return new TestSuite(MethodInvocationExceptionTestCase.class);
+    }
+
+    protected void log(String out)
+    {
+        Velocity.getLog().debug(out);
+        if (DEBUG)
+        {
+            System.out.println(out);
+        }
     }
 
     /**
@@ -91,16 +102,16 @@ public class MethodInvocationExceptionTestCase extends TestCase
         }
         catch( MethodInvocationException mie )
         {
-            System.out.println("Caught MIE (good!) :" );
-            System.out.println("  reference = " + mie.getReferenceName() );
-            System.out.println("  method    = " + mie.getMethodName() );
+            log("Caught MIE (good!) :" );
+            log("  reference = " + mie.getReferenceName() );
+            log("  method    = " + mie.getMethodName() );
 
             Throwable t = mie.getWrappedThrowable();
-            System.out.println("  throwable = " + t );
+            log("  throwable = " + t );
 
             if( t instanceof Exception)
             {
-                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+                log("  exception = " + ( (Exception) t).getMessage() );
             }
         }
     }
@@ -128,16 +139,16 @@ public class MethodInvocationExceptionTestCase extends TestCase
         }
         catch( MethodInvocationException mie )
         {
-            System.out.println("Caught MIE (good!) :" );
-            System.out.println("  reference = " + mie.getReferenceName() );
-            System.out.println("  method    = " + mie.getMethodName() );
+            log("Caught MIE (good!) :" );
+            log("  reference = " + mie.getReferenceName() );
+            log("  method    = " + mie.getMethodName() );
 
             Throwable t = mie.getWrappedThrowable();
-            System.out.println("  throwable = " + t );
+            log("  throwable = " + t );
 
             if( t instanceof Exception)
             {
-                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+                log("  exception = " + ( (Exception) t).getMessage() );
             }
         }
     }
@@ -160,16 +171,16 @@ public class MethodInvocationExceptionTestCase extends TestCase
         }
         catch( MethodInvocationException mie )
         {
-            System.out.println("Caught MIE (good!) :" );
-            System.out.println("  reference = " + mie.getReferenceName() );
-            System.out.println("  method    = " + mie.getMethodName() );
+            log("Caught MIE (good!) :" );
+            log("  reference = " + mie.getReferenceName() );
+            log("  method    = " + mie.getMethodName() );
 
             Throwable t = mie.getWrappedThrowable();
-            System.out.println("  throwable = " + t );
+            log("  throwable = " + t );
 
             if( t instanceof Exception)
             {
-                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+                log("  exception = " + ( (Exception) t).getMessage() );
             }
         }
     }
@@ -191,16 +202,16 @@ public class MethodInvocationExceptionTestCase extends TestCase
         }
         catch( MethodInvocationException mie )
         {
-            System.out.println("Caught MIE (good!) :" );
-            System.out.println("  reference = " + mie.getReferenceName() );
-            System.out.println("  method    = " + mie.getMethodName() );
+            log("Caught MIE (good!) :" );
+            log("  reference = " + mie.getReferenceName() );
+            log("  method    = " + mie.getMethodName() );
 
             Throwable t = mie.getWrappedThrowable();
-            System.out.println("  throwable = " + t );
+            log("  throwable = " + t );
 
             if( t instanceof Exception)
             {
-                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+                log("  exception = " + ( (Exception) t).getMessage() );
             }
         }
     }
@@ -229,16 +240,16 @@ public class MethodInvocationExceptionTestCase extends TestCase
         }
         catch( MethodInvocationException mie )
         {
-            System.out.println("Caught MIE (good!) :" );
-            System.out.println("  reference = " + mie.getReferenceName() );
-            System.out.println("  method    = " + mie.getMethodName() );
+            log("Caught MIE (good!) :" );
+            log("  reference = " + mie.getReferenceName() );
+            log("  method    = " + mie.getMethodName() );
 
             Throwable t = mie.getWrappedThrowable();
-            System.out.println("  throwable = " + t );
+            log("  throwable = " + t );
 
             if( t instanceof Exception)
             {
-                System.out.println("  exception = " + ( (Exception) t).getMessage() );
+                log("  exception = " + ( (Exception) t).getMessage() );
             }
         }
         catch( Exception e)

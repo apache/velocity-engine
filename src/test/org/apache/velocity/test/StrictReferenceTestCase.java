@@ -18,7 +18,7 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, true);
+        engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
         context.put("NULL", null);
         context.put("bar", null);
         context.put("TRUE", Boolean.TRUE);

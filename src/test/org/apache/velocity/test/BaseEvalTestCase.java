@@ -99,6 +99,10 @@ public class BaseEvalTestCase extends TestCase
     {
         try
         {
+            if (!DEBUG)
+            {
+                log.off();
+            }
             evaluate(evil);
             fail("Template '"+evil+"' should have thrown an exception.");
         }
@@ -107,6 +111,13 @@ public class BaseEvalTestCase extends TestCase
             if (exceptionType != null && !exceptionType.isAssignableFrom(e.getClass()))
             {
                 fail("Was expecting template '"+evil+"' to throw "+exceptionType+" not "+e);
+            }
+        }
+        finally
+        {
+            if (!DEBUG)
+            {
+                log.on();
             }
         }
     }

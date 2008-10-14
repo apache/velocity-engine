@@ -52,6 +52,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  */
 public class BuiltInEventHandlerTestCase extends BaseTestCase {
 
+    protected boolean DEBUG = false;
 
     /**
     * VTL file extension.
@@ -102,7 +103,13 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
        return new TestSuite(BuiltInEventHandlerTestCase.class);
     }
 
-
+    protected void log(String out)
+    {
+        if (DEBUG)
+        {
+            System.out.println (out);
+        }
+    }
 
     /**
      * Test reporting of invalid syntax
@@ -130,7 +137,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals("$c1",((InvalidReferenceInfo) errors.get(0)).getInvalidReference());
         assertEquals("$a1.foobar()",((InvalidReferenceInfo) errors.get(1)).getInvalidReference());
 
-        System.out.println("Caught invalid references (local configuration).");
+        log("Caught invalid references (local configuration).");
     }
 
     public void testReportInvalidReferences2() throws Exception
@@ -157,7 +164,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         } catch (RuntimeException E) {}
 
 
-        System.out.println("Caught invalid references (global configuration).");
+        log("Caught invalid references (global configuration).");
 
     }
 
@@ -172,7 +179,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals("&lt;&quot;&gt;",esc.referenceInsert("","<\">"));
         assertEquals("test string",esc.referenceInsert("","test string"));
 
-        System.out.println("Correctly escaped HTML");
+        log("Correctly escaped HTML");
 
     }
 
@@ -188,7 +195,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals("&apos;",esc.referenceInsert("","'"));
         assertEquals("test string",esc.referenceInsert("","test string"));
 
-        System.out.println("Correctly escaped XML");
+        log("Correctly escaped XML");
 
     }
 
@@ -202,7 +209,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals("Jimmy''s Pizza",esc.referenceInsert("","Jimmy's Pizza"));
         assertEquals("test string",esc.referenceInsert("","test string"));
 
-        System.out.println("Correctly escaped SQL");
+        log("Correctly escaped SQL");
 
     }
 
@@ -217,7 +224,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals("test string",esc.referenceInsert("","test string"));
 
 
-        System.out.println("Correctly escaped Javascript");
+        log("Correctly escaped Javascript");
     }
 
     /**
@@ -247,7 +254,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         ve.evaluate(context,writer,"test","$bold.substring(0,1)");
         assertEquals("&lt;",writer.toString());
 
-        System.out.println("Escape matched all references (global configuration)");
+        log("Escape matched all references (global configuration)");
 
     }
 
@@ -290,7 +297,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
 
         **/
         
-        System.out.println("Escape selected references (global configuration)");
+        log("Escape selected references (global configuration)");
 
         
 
@@ -347,7 +354,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
         assertTrue(writer.toString().indexOf("ArrayList") != -1);
 
-        System.out.println("PrintException handler successful.");
+        log("PrintException handler successful.");
 
     }
 
@@ -380,7 +387,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
             fail("Output incorrect.");
         }
 
-        System.out.println("IncludeNotFound handler successful.");
+        log("IncludeNotFound handler successful.");
 
     }
 
@@ -413,7 +420,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
             fail("Output incorrect.");
         }
 
-        System.out.println("IncludeRelativePath handler successful.");
+        log("IncludeRelativePath handler successful.");
 
     }
 }

@@ -41,71 +41,46 @@ public class StrictMathTestCase extends BaseEvalTestCase
         context.put("zero", new Integer(0));
     }
 
-    public boolean nullmath(String operation)
+    protected void assertNullMathEx(String operation)
     {
-        try
-        {
-            evaluate("#set( $foo = $null "+operation+" $num )");
-            fail("Doing "+operation+" with $null left side should have thrown a MathException");
-        }
-        catch (MathException me)
-        {
-            // success!
-        }
-        try
-        {
-            evaluate("#set( $foo = $num "+operation+" $null )");
-            fail("Doing "+operation+" with $null right side should have thrown a MathException");
-            return false;
-        }
-        catch (MathException me)
-        {
-            // success!
-            return true;
-        }
+        String leftnull = "#set( $foo = $null "+operation+" $num )";
+        assertEvalException(leftnull, MathException.class);
+        String rightnull = "#set( $foo = $num "+operation+" $null )";
+        assertEvalException(rightnull, MathException.class);
     }
 
-    public boolean imaginarymath(String operation)
+    protected void assertImaginaryMathEx(String operation)
     {
-        try
-        {
-            evaluate("#set( $foo = $num "+operation+" $zero )");
-            fail("Doing "+operation+" with $zero right side should have thrown a MathException");
-            return false;
-        }
-        catch (MathException me)
-        {
-            // success!
-            return true;
-        }
+        String infinity = "#set( $foo = $num "+operation+" $zero )";
+        assertEvalException(infinity, MathException.class);
     }
    
 
     public void testAdd()
     {
-        assertTrue(nullmath("+"));
+        assertNullMathEx("+");
     }
 
     public void testSub()
     {
-        assertTrue(nullmath("-"));
+        assertNullMathEx("-");
     }
 
     public void testMul()
     {
-        assertTrue(nullmath("*"));
+        assertNullMathEx("*");
     }
 
     public void testMod()
     {
-        assertTrue(nullmath("%"));
-        assertTrue(imaginarymath("%"));
+        assertNullMathEx("%");
+        assertImaginaryMathEx("%");
     }
 
     public void testDiv()
     {
-        assertTrue(nullmath("/"));
-        assertTrue(imaginarymath("/"));
+        assertNullMathEx("/");
+        assertImaginaryMathEx("/");
     }
 
 }

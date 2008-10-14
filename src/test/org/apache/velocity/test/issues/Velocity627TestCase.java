@@ -37,7 +37,7 @@ public class Velocity627TestCase extends BaseEvalTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        engine.setProperty(RuntimeConstants.SKIP_INVALID_ITERATOR, false);
+        engine.setProperty(RuntimeConstants.SKIP_INVALID_ITERATOR, Boolean.FALSE);
     }
   
     public void test627()
