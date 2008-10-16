@@ -31,7 +31,6 @@ public class Velocity629TestCase extends BaseEvalTestCase
     public Velocity629TestCase(String name)
     {
         super(name);
-        DEBUG = true;
     }
   
     public void test629()
