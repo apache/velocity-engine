@@ -310,9 +310,12 @@ public class Foreach extends Directive
             }
             else
             {
-                String msg = "Uberspect returned a null iterator for #foreach at "
-                    + uberInfo + ".  " + node.jjtGetChild(2).literal() + " (" + listObject
-                    + ") is either of wrong type or has an invalid iterator() implementation.";
+                Node pnode = node.jjtGetChild(2);
+                String msg = "#foreach parameter " + pnode.literal() + " at "
+                    + rsvc.getLog().formatFileString(uberInfo.getTemplateName(),
+                       pnode.getLine(), pnode.getColumn()) 
+                    + " is of type " + listObject.getClass().getName()
+                    + " and is either of wrong type or cannot be iterated.";
                 rsvc.getLog().error(msg);
                 throw new VelocityException(msg);
             }
