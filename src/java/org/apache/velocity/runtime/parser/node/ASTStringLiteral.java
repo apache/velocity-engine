@@ -32,6 +32,8 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.visitor.BaseVisitor;
 
 /**
  * ASTStringLiteral support. Will interpolate!
@@ -172,6 +174,8 @@ public class ASTStringLiteral extends SimpleNode
                 throw new TemplateInitException(msg, e, templateName, getColumn(), getLine());
             }
 
+            adjTokenLineNums(nodeTree);
+            
             /*
              * init with context. It won't modify anything
              */
@@ -181,7 +185,37 @@ public class ASTStringLiteral extends SimpleNode
 
         return data;
     }
-
+    
+    /**
+     * Adjust all the line and column numbers that comprise a node so that they
+     * are corrected for the string literals position within the template file.
+     * This is neccessary if an exception is thrown while processing the node so
+     * that the line and column position reported reflects the error position
+     * within the template and not just relative to the error position within
+     * the string literal.
+     */
+    public void adjTokenLineNums(Node node)
+    {
+        Token tok = node.getFirstToken();
+        // Test against null is probably not neccessary, but just being safe
+        while(tok != null && tok != node.getLastToken())
+        {
+            // If tok is on the first line, then the actual column is 
+            // offset by the template column.
+          
+            if (tok.beginLine == 1)
+                tok.beginColumn += getColumn();
+            
+            if (tok.endLine == 1)
+                tok.endColumn += getColumn();
+            
+            tok.beginLine += getLine()- 1;
+            tok.endLine += getLine() - 1;
+            tok = tok.next;
+        }
+    }
+    
+    
     /**
      * @since 1.6
      */
