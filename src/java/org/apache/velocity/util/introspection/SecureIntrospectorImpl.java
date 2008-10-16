@@ -20,7 +20,6 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.lang.reflect.Method;
-
 import org.apache.velocity.runtime.log.Log;
 
 /**
@@ -59,15 +58,15 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      * @return Method object retrieved by Introspector
      * @throws IllegalArgumentException The parameter passed in were incorrect.
      */
-    public Method getMethod(Class clazz, String methodName, Object[] params) throws IllegalArgumentException
+    public Method getMethod(Class clazz, String methodName, Object[] params)
+        throws IllegalArgumentException
     {
-        if (!checkObjectExecutePermission(clazz,methodName))
+        if (!checkObjectExecutePermission(clazz, methodName))
         {
-            log.warn ("Cannot retrieve method " + methodName +
-                      " from object of class " + clazz.getName() +
-                      " due to security restrictions.");
+            log.warn("Cannot retrieve method " + methodName +
+                     " from object of class " + clazz.getName() +
+                     " due to security restrictions.");
             return null;
-
         }
         else
         {
@@ -88,11 +87,11 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      */
     public boolean checkObjectExecutePermission(Class clazz, String methodName)
     {
-
 		/**
 		 * check for wait and notify
 		 */
-        if ( (methodName != null) && (methodName.equals("wait") || methodName.equals("notify")) )
+        if (methodName != null &&
+            (methodName.equals("wait") || methodName.equals("notify")) )
 		{
 			return false;
 		}
@@ -100,26 +99,24 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
 		/**
 		 * Always allow the most common classes - Number, Boolean and String
 		 */
-		else if (java.lang.Number.class.isAssignableFrom(clazz))
+		else if (Number.class.isAssignableFrom(clazz))
 		{
 			return true;
 		}
-
-		else if (java.lang.Boolean.class.isAssignableFrom(clazz))
+		else if (Boolean.class.isAssignableFrom(clazz))
 		{
 			return true;
 		}
-
-		else if (java.lang.String.class.isAssignableFrom(clazz))
+		else if (String.class.isAssignableFrom(clazz))
 		{
 			return true;
 		}
-
 
         /**
          * Always allow Class.getName()
          */
-        else if (java.lang.Class.class.isAssignableFrom(clazz) && (methodName != null) && methodName.equals("getName"))
+        else if (Class.class.isAssignableFrom(clazz) &&
+                 (methodName != null) && methodName.equals("getName"))
         {
             return true;
         }
@@ -131,15 +128,13 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         String className = clazz.getName();
         if (className.startsWith("[L") && className.endsWith(";"))
         {
-            className = className.substring(2,className.length() - 1);
+            className = className.substring(2, className.length() - 1);
         }
 
-        String packageName;
         int dotPos = className.lastIndexOf('.');
-        packageName = (dotPos == -1) ? "" : className.substring(0,dotPos);
+        String packageName = (dotPos == -1) ? "" : className.substring(0, dotPos);
 
-        int sz = badPackages.length;
-        for (int i = 0; i < sz; i++)
+        for (int i = 0, size = badPackages.length; i < size; i++)
         {
             if (packageName.equals(badPackages[i]))
             {
@@ -147,8 +142,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
             }
         }
 
-        sz = badClasses.length;
-        for (int i = 0; i < sz; i++)
+        for (int i = 0, size = badClasses.length; i < size; i++)
         {
             if (className.equals(badClasses[i]))
             {
