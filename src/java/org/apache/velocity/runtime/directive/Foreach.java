@@ -247,6 +247,17 @@ public class Foreach extends Directive
     }
 
     /**
+     * Extension hook to allow subclasses to control whether loop vars
+     * are set locally or not. So, those in favor of VELOCITY-285, can
+     * make that happen easily by overriding this and having it use
+     * context.localPut(k,v). See VELOCITY-630 for more on this.
+     */
+    protected void put(InternalContextAdapter context, String key, Object value)
+    {
+        context.put(key, value);
+    }
+
+    /**
      *  renders the #foreach() block
      * @param context
      * @param writer
@@ -325,11 +336,11 @@ public class Foreach extends Directive
 
         while (!maxNbrLoopsExceeded && i.hasNext())
         {
-            // TODO: JDK 1.4+ -> Integer.valueOf()
-            context.localPut(counterName , new Integer(counter));
-            context.localPut(hasNextName, Boolean.valueOf(i.hasNext()));
+            // TODO: JDK 1.5+ -> Integer.valueOf()
+            put(context, counterName , new Integer(counter));
+            put(context, hasNextName, Boolean.valueOf(i.hasNext()));
             Object value = i.next();
-            context.localPut(elementKey, value);
+            put(context, elementKey, value);
 
             try
             {
