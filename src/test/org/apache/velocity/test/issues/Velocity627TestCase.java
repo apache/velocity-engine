@@ -42,15 +42,9 @@ public class Velocity627TestCase extends BaseEvalTestCase
   
     public void test627()
     {
-        try
-        {
-            evaluate("##\n##\n#foreach($i in \"junk\")blaa#end");
-        }
-        catch(RuntimeException e)
-        {
-            // Make sure the error ouput contains "line 3" if not throw
-            if (e.getMessage().indexOf("[line 3, column") == -1)
-                throw e;
-        }      
+        Exception e = assertEvalException("##\n##\n#foreach($i in \"junk\")blaa#end");
+        System.out.println("e :: " + e.getMessage());
+        // Make sure the error ouput contains "line 3" if not throw
+        assertTrue(e.getMessage().indexOf("[line 3, column 16]") == -1);
     }
 }
