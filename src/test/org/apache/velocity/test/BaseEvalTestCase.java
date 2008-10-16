@@ -124,6 +124,25 @@ public class BaseEvalTestCase extends TestCase
         return null;
     }
 
+    protected Exception assertEvalExceptionAt(String evil, int line, int col)
+    {
+        String loc = "[line "+line+", column "+col+"]";
+        if (DEBUG)
+        {
+            engine.getLog().info("Expectation: Exception at "+loc);
+        }
+        Exception e = assertEvalException(evil, null);
+        if (e.getMessage().indexOf(loc) < 1)
+        {
+            fail("Was expecting exception at "+loc+" instead of "+e.getMessage());
+        }
+        else if (DEBUG)
+        {
+            engine.getLog().info("Result: "+e.getMessage());
+        }
+        return e;
+    }
+
     protected String evaluate(String template)
     {
         StringWriter writer = new StringWriter();
