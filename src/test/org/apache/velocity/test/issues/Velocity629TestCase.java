@@ -41,22 +41,17 @@ public class Velocity629TestCase extends BaseEvalTestCase
                           "#set($list=[1])#set($x=\"\n"+
                           "$list.get(1)\n"+
                           "\")";
-        Exception e = assertEvalException(template);
-        // Make sure the error ouput contains "line 4" if not throw
-        assertTrue(e.getMessage().indexOf("[line 4, column 7]") > -1);
+        // Make sure the error ouput contains "line 4, column 7" if not throw
+        assertEvalExceptionAt(template, 4, 7);
 
         template = "##\n"+
                    "##\n"+
                    "#set($x=\"#if\")";
-        e = assertEvalException(template);
-        // Make sure the error ouput contains "line 3" if not throw
-        assertTrue(e.getMessage().indexOf("[line 3, column 9]") > -1);
+        assertEvalExceptionAt(template, 3, 9);
 
         template = "##\n"+
                    "##\n"+
                    "#macro(test $i)$i#end#set($list=[1])#test(\"$list.get(1)\")";
-        e = assertEvalException(template);
-        // Make sure the error ouput contains "line 3" if not throw
-        assertTrue(e.getMessage().indexOf("[line 3, column 50]") > -1);
+        assertEvalExceptionAt(template, 3, 50);
     }
 }
