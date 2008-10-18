@@ -148,9 +148,9 @@ public interface ParserConstants {
   /** Lexical state. */
   int DEFAULT = 3;
   /** Lexical state. */
-  int PRE_DIRECTIVE = 4;
+  int REFERENCE = 4;
   /** Lexical state. */
-  int REFERENCE = 5;
+  int PRE_DIRECTIVE = 5;
   /** Lexical state. */
   int IN_MULTI_LINE_COMMENT = 6;
   /** Lexical state. */

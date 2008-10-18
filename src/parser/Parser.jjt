@@ -613,7 +613,19 @@ TOKEN:
  * to eat any preceeding whitespace so it is invisible in formatting.
  * (As it should be.)  If this works well, I am going to chuck the whole MORE:
  * token abomination.
+ *
+ * We added the lexical states REFERENCE, REFMODIFIER, REFMOD2 to
+ * address JIRA issue VELOCITY-631. With SET_DIRECTIVE only in the
+ * DEFAULT lexical state the following VTL fails "$a#set($b = 1)"
+ * because the Reference token uses LOOKAHEAD(2) combined with the
+ * fact that we explicity set the lex state to REFERENCE with the $
+ * token, which means we would never evaulate this token during the
+ * look ahead.  This general issue is disscussed here:
+ *
+ *  http://www.engr.mun.ca/~theo/JavaCC-FAQ/javacc-faq-ie.htm#tth_sEc3.12
+ *
  */
+<DEFAULT, REFERENCE, REFMODIFIER, REFMOD2>
 TOKEN:
 {
   <SET_DIRECTIVE: (" "|"\t")*  ("#set" | "#{set}")  (" ")* "(">
