@@ -30,17 +30,17 @@
 <section name="User Guide - Contents" href="user_guide_-_contents">
 
 <ol>
-<li><a href="#about_this_guide">About this Guide</a></li>
-<li><a href="#what_is_velocity">What is Velocity?</a></li>
-<li><a href="#what_can_velocity_do_for_me">What can Velocity do for me?</a>
+<li><a href="#About_this_Guide">About this Guide</a></li>
+<li><a href="#What_is_Velocity">What is Velocity?</a></li>
+<li><a href="#What_can_Velocity_do_for_me">What can Velocity do for me?</a>
     <ol>
-        <li><a href="#the_mud_store_example">The Mud Store example</a></li>
+        <li><a href="#The_Mud_Store_Example">The Mud Store example</a></li>
     </ol>
 </li>
-<li><a href="#velocity_template_language_vtl:_an_introduction">Velocity Template Language (VTL): An Introduction</a></li>
-<li><a href="#hello_velocity_world">Hello Velocity World!</a></li>
-<li><a href="#comments">Comments</a></li>
-<li><a href="#references">References</a>
+<li><a href="#Velocity_Template_Language_VTL:_An_Introduction">Velocity Template Language (VTL): An Introduction</a></li>
+<li><a href="#Hello_Velocity_World">Hello Velocity World!</a></li>
+<li><a href="#Comments">Comments</a></li>
+<li><a href="#References">References</a>
     <ol>
         <li><a href="#variables">Variables</a></li>
         <li><a href="#properties">Properties</a></li>
@@ -52,27 +52,27 @@
 <li><a href="#formalreferencenotation">Formal Reference Notation</a></li>
 <li><a href="#quietreferencenotation">Quiet Reference Notation</a></li>
 <li><a href="#strictreferences">Strict References Setting</a></li>
-<li><a href="#case_substitution">Case Substitution</a></li>
-<li><a href="#directives">Directives</a>
+<li><a href="#Case_Substitution">Case Substitution</a></li>
+<li><a href="#Directives">Directives</a>
     <ol>
         <li><a href="#set">Set</a></li>
         <li><a href="#stringliterals">Literals</a></li>
-        <li><a href="#conditionals">If-Else Statements</a>
+        <li><a href="#Conditionals">If-Else Statements</a>
             <ol>
                 <li><a href="#relationalandlogicaloperators">Relational and Logical
                 Operators</a></li>
             </ol>
         </li>
-        <li><a href="#loops">Foreach Loops</a></li>
-        <li><a href="#include">Include</a></li>
-        <li><a href="#parse">Parse</a></li>
-        <li><a href="#stop">Stop</a></li>
-        <li><a href="#evaluate">Evaluate</a></li>
-        <li><a href="#define">Define</a></li>
-        <li><a href="#velocimacros">Velocimacros</a></li>
+        <li><a href="#Loops">Foreach Loops</a></li>
+        <li><a href="#Include">Include</a></li>
+        <li><a href="#Parse">Parse</a></li>
+        <li><a href="#Stop">Stop</a></li>
+        <li><a href="#Evaluate">Evaluate</a></li>
+        <li><a href="#Define">Define</a></li>
+        <li><a href="#Velocimacros">Velocimacros</a></li>
     </ol>
 </li>
-<li><a href="#getting_literal">Getting literal</a>
+<li><a href="#Getting_literal">Getting literal</a>
     <ol>
         <li><a href="#currency">Currency</a></li>
         <li><a href="#escapingvalidvtlreferences">Escaping Valid VTL References</a></li>
@@ -80,18 +80,18 @@
         <li><a href="#escaping_vtl_directives">Escaping VTL Directives</a></li>
     </ol>
 </li>
-<li><a href="#vtl:_formatting_issues">VTL: Formatting Issues</a></li>
-<li><a href="#other_features_and_miscellany">Other Features and Miscellany</a>
+<li><a href="#VTL:_Formatting_Issues">VTL: Formatting Issues</a></li>
+<li><a href="#Other_Features_and_Miscellany">Other Features and Miscellany</a>
     <ol>
-        <li><a href="#math">Math</a></li>
-        <li><a href="#range_operator">Range Operator</a></li>
-        <li><a href="#advanced_issues:_escaping_and_">Advanced Issues: Escaping and
+        <li><a href="#Math">Math</a></li>
+        <li><a href="#Range_Operator">Range Operator</a></li>
+        <li><a href="#Advanced_Issues:_Escaping_and_">Advanced Issues: Escaping and
         !</a></li>
-        <li><a href="#velocimacro_miscellany">Velocimacro Miscellany</a></li>
-        <li><a href="#string_concatenation">String Concatenation</a></li>
+        <li><a href="#Velocimacro_Miscellany">Velocimacro Miscellany</a></li>
+        <li><a href="#String_Concatenation">String Concatenation</a></li>
     </ol>
 </li>
-<li><a href="#feedback">Feedback</a></li>
+<li><a href="#Feedback">Feedback</a></li>
 </ol>
 
 </section>
