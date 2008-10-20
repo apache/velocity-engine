@@ -27,6 +27,10 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+    </release>
+
+    <release version="1.6-beta2" date="2008-10-26">
+
       <action type="fix" dev="nbubna" issue="VELOCITY-632" due-to="Sebb">
           Fix User Guide's Table of Contents anchor links.
       </action>
