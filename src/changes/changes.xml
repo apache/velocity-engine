@@ -27,6 +27,23 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-632" due-to="Sebb">
+          Fix User Guide's Table of Contents anchor links.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-631" due-to="Byron Foster">
+          Fix parser bug that prevented references from immediately preceding #set directives.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-630" due-to="Byron Foster">
+          Revert change made for VELOCITY-285, as it broke pass-by-name nature
+          of macro arguments.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-629" due-to="Byron Foster">
+          Fix line numbers in string literals.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-627" due-to="Byron Foster">
           Fix line number for exceptions with body of #foreach directive.
       </action>
