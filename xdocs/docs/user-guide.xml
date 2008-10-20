@@ -2186,8 +2186,8 @@ Send me
 
   <p>
     When a division operation is performed between two integers, the result will be an
-    integer. Any remainder can be obtained by using the modulus
-    (<em>%</em>) operator.
+    integer, as the fractional portion is discarded. Any remainder can be obtained by
+    using the modulus (<em>%</em>) operator.
   </p>
 
 <source><![CDATA[
