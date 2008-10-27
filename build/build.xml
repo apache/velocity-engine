@@ -622,7 +622,7 @@
                uri="urn:maven-artifact-ant"
                classpathref="maven-ant-tasks.classpath"/>
 
-    <artifact:install-provider artifactId="wagon-ssh" version="1.0-beta-2"/>
+    <artifact:install-provider artifactId="wagon-ssh" version="${wagon-ssh.version}"/>
 
     <artifact:pom file="${maven.pom}" id="maven.project"/>
   </target>
@@ -665,8 +665,6 @@
     description="Deploys the Maven artifacts in apache repository">
 
     <echo>Deploying to Apache Maven repository</echo>
-
-    <artifact:install-provider artifactId="wagon-ssh" version="${wagon-ssh.version}"/>
 
     <artifact:deploy file="${build.dir}/${project}-${version}.jar" >
         <pom refid="maven.project"/>
