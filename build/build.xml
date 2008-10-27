@@ -28,7 +28,7 @@
 <!-- the ant based build and the maven based build.           -->
 <!-- *** DO NOT CHANGE THIS SETTING LIGHTLY! ***              -->
 
-<project name="Velocity" default="world" basedir="..">
+<project name="Velocity" default="world" basedir=".." xmlns:artifact="urn:maven-artifact-ant">
 
   <path id="basedir-os">
     <pathelement location="${basedir}" />
@@ -425,7 +425,7 @@
   <!-- =================================================================== -->
   <target name="jar-dep" depends="compile-src,build-dependency-classes"
           description="Builds the Velocity Jar file including all dependencies">
-    <property name="jarname" value="${project}-dep-${version}" />
+    <property name="jarname" value="${project}-${version}-dep" />
     <antcall target="build-jar" />
   </target>
 
@@ -574,6 +574,24 @@
       <link href="http://jakarta.apache.org/commons/lang/api-release"/>
       <link href="http://jakarta.apache.org/commons/collections/api-release"/>
     </javadoc>
+
+    <jar jarfile="${build.dir}/${final.name}-javadoc.jar">
+      <fileset dir="${build.javadoc}"/>
+      <manifest>
+        <attribute name="Created-By" value="Apache Ant"/>
+        <attribute name="Specification-Title" value="Velocity is a Java-based template engine" />
+        <attribute name="Specification-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Title" value="org.apache.velocity"/>
+        <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Implementation-Vendor-Id" value="org.apache"/>
+        <attribute name="Implementation-Version" value="${version}"/>
+      </manifest>
+    </jar>
+
+    <checksum file="${build.dir}/${final.name}-javadoc.jar" algorithm="md5" property="checksum.jar-javadoc.md5"/>
+    <checksum file="${build.dir}/${final.name}-javadoc.jar" algorithm="sha1" property="checksum.jar-javadoc.sha1"/>
+    <echo message="${checksum.jar-javadoc.md5} *${final.name}-javadoc.jar" file="${build.dir}/${final.name}-javadoc.jar.md5" />
+    <echo message="${checksum.jar-javadoc.sha1} *${final.name}-javadoc.jar" file="${build.dir}/${final.name}-javadoc.jar.sha1" />
   </target>
 
   <target name="javadocs-clean">
@@ -581,7 +599,7 @@
   </target>
 
   <!-- =================================================================== -->
-  <!-- Prepares the Maven POM file                                         -->
+  <!-- Prepares the Maven POM file for "release" target                    -->
   <!-- =================================================================== -->
   <target name="pom" description="Gets the POM ready to be distributed">
     <!-- Create a distribution ready POM -->
@@ -590,6 +608,77 @@
     <!-- Create checksums for the binary distribution files -->
     <checksum file="${build.dir}/${final.name}.pom" algorithm="md5" fileext=".md5"/>
     <checksum file="${build.dir}/${final.name}.pom" algorithm="sha1" fileext=".sha1"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepare Maven environment                                           -->
+  <!-- =================================================================== -->
+
+  <target name="maven-prepare">
+    <ant antfile="${velocity.build.dir}/download.xml" target="build-download" />
+
+    <path id="maven-ant-tasks.classpath" path="${build.lib}/maven-ant-tasks-${jar.maven.ant.version}.jar"/>
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+               uri="urn:maven-artifact-ant"
+               classpathref="maven-ant-tasks.classpath"/>
+
+    <artifact:install-provider artifactId="wagon-ssh" version="1.0-beta-2"/>
+
+    <artifact:pom file="${maven.pom}" id="maven.project"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Install Maven artifacts                                             -->
+  <!-- =================================================================== -->
+  <target name="maven-install" depends="maven-prepare,release" 
+    description="Installs the Maven artifacts in local repository">
+
+    <artifact:install file="${build.dir}/${project}-${version}.jar" >
+      <pom refid="maven.project"/>
+      <attach file="${build.dir}/${project}-${version}-src.jar" type="jar" classifier="sources"/>
+      <attach file="${build.dir}/${project}-${version}-dep.jar" type="jar" classifier="dep"/>
+      <attach file="${build.dir}/${project}-${version}-javadoc.jar" type="jar" classifier="javadoc"/>
+    </artifact:install>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Deploy Maven artifacts  - custom repository                        -->
+  <!-- =================================================================== -->
+  <target name="maven-deploy-custom-repository" if="maven.remote.repository"
+    description="Deploys the Maven artifacts in local repository">
+
+    <echo>Deploying to ${maven.remote.repository}</echo>
+
+    <artifact:deploy file="${build.dir}/${project}-${version}.jar" >
+        <remoteRepository id="velocity.custom.repository" url="${maven.remote.repository}"/>
+        <pom refid="maven.project"/>
+        <attach file="${build.dir}/${project}-${version}-src.jar" type="jar" classifier="sources"/>
+        <attach file="${build.dir}/${project}-${version}-dep.jar" type="jar" classifier="dep"/>
+        <attach file="${build.dir}/${project}-${version}-javadoc.jar" type="jar" classifier="javadoc"/>
+    </artifact:deploy>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Deploy Maven artifacts - Apache Maven repository                   -->
+  <!-- =================================================================== -->
+  <target name="maven-deploy-apache-repository" unless="maven.remote.repository"
+    description="Deploys the Maven artifacts in apache repository">
+
+    <echo>Deploying to Apache Maven repository</echo>
+
+    <artifact:install-provider artifactId="wagon-ssh" version="${wagon-ssh.version}"/>
+
+    <artifact:deploy file="${build.dir}/${project}-${version}.jar" >
+        <pom refid="maven.project"/>
+        <attach file="${build.dir}/${project}-${version}-src.jar" type="jar" classifier="sources"/>
+        <attach file="${build.dir}/${project}-${version}-dep.jar" type="jar" classifier="dep"/>
+        <attach file="${build.dir}/${project}-${version}-javadoc.jar" type="jar" classifier="javadoc"/>
+    </artifact:deploy>
+  </target>
+
+  <target name="maven-deploy"
+    depends="maven-prepare,release,maven-deploy-custom-repository,maven-deploy-apache-repository" unless="maven.remote.repository"
+    description="Deployes the Maven artifacts in local repository or apache repository">
   </target>
 
   <!-- =================================================================== -->
@@ -608,6 +697,7 @@
     -->
     <antcall target="jar" />
     <antcall target="jar-dep" />
+    <antcall target="jar-src" />
     <antcall target="docs" />
     <antcall target="javadocs" />
 
@@ -705,8 +795,8 @@
     />
 
     <copy
-      file="${build.dir}/${project}-dep-${version}.jar"
-      tofile="${dist.dir}/${project}-dep-${version}.jar"
+      file="${build.dir}/${project}-${version}-dep.jar"
+      tofile="${dist.dir}/${project}-${version}-dep.jar"
     />
   </target>
 
@@ -895,7 +985,9 @@
         <available file="${build.dir}/${final.name}.zip.asc"/>
         <available file="${build.dir}/${final.name}.jar.asc"/>
         <available file="${build.dir}/${final.name}.pom.asc"/>
-        <available file="${build.dir}/${project}-dep-${version}.jar.asc"/>
+        <available file="${build.dir}/${project}-${version}-dep.jar.asc"/>
+        <available file="${build.dir}/${final.name}-src.jar.asc"/>
+        <available file="${build.dir}/${final.name}-javadoc.jar.asc"/>
       </and>
     </condition>
   </target>
@@ -992,7 +1084,7 @@
 
     * Once the release vote has passed, these files should all be copied to
         /www/www.apache.org/dist/velocity/engine/${version}
-      and the full jar, pom and their md5 and sha1 files should be copied into 
+      and the non-dep jar, source jar, javadoc jar, pom and respective md5, sha1 and asc files should be copied into 
         /www/people.apache.org/repo/m2-ibiblio-rsync-repository/org/apache/velocity/velocity/${version}/
 
     * Tag the release in SVN with a command such as:
