@@ -27,6 +27,11 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+      <action type="add" dev="nbubna" issue="VELOCITY-466" due-to="Adrian Tarau">
+          Add Maven-Ant tasks for installing and deploying Maven artifacts, including
+          previously missing source and javadoc jars (VELOCITY-554).
+      </action>
+
     </release>
 
     <release version="1.6-beta2" date="2008-10-26">
