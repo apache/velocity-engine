@@ -675,7 +675,7 @@
   </target>
 
   <target name="maven-deploy"
-    depends="maven-prepare,release,maven-deploy-custom-repository,maven-deploy-apache-repository" unless="maven.remote.repository"
+    depends="maven-prepare,release,maven-deploy-custom-repository,maven-deploy-apache-repository"
     description="Deployes the Maven artifacts in local repository or apache repository">
   </target>
 
