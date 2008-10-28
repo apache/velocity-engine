@@ -27,6 +27,10 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-638" due-to="Benjamin Bentmann">
+          Locked down versions for reporting plugins in Maven POM.
+      </action>
+
       <action type="add" dev="nbubna" issue="VELOCITY-466" due-to="Adrian Tarau">
           Add Maven-Ant tasks for installing and deploying Maven artifacts, including
           previously missing source and javadoc jars (VELOCITY-554).
