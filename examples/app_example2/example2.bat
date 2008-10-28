@@ -13,7 +13,7 @@ rem Unless required by applicable law or agreed to in writing,
 rem software distributed under the License is distributed on an
 rem "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 rem KIND, either express or implied.  See the License for the
-em specific language governing permissions and limitations
+rem specific language governing permissions and limitations
 rem under the License.    
 
 set VELCP=.
