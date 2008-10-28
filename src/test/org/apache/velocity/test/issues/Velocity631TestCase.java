@@ -34,7 +34,6 @@ public class Velocity631TestCase extends BaseEvalTestCase
    
     public void test631()
     {
-        DEBUG = true;
         assertEvalEquals("$a", "$a #set($b = 1)");
         assertEvalEquals("$a", "$a#set($b = 1)");
         assertEvalEquals("$a.b", "$a.b#set($b = 1)");
