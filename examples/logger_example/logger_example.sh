@@ -26,7 +26,7 @@ do
     _VELCP=$_VELCP:"$i"
 done
 
-for i in ../../build/lib/*.jar
+for i in ../../bin/lib/*.jar
 do
     _VELCP=$_VELCP:"$i"
 done
