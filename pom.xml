@@ -224,6 +224,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.1</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -239,6 +240,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
+        <version>2.0</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -260,6 +262,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.2</version>
         <configuration>
           <tag>TODO</tag>
           <tag>FIXME</tag>
@@ -268,10 +271,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.5</version>
         <configuration>
           <links>
             <link>http://java.sun.com/j2se/1.4.2/docs/api</link>
@@ -289,19 +294,19 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changelog-plugin</artifactId>
+        <version>2.1</version>
       </plugin>
-      
       <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>findbugs-maven-plugin</artifactId>
-      <configuration>
-        <xmlOutput>true</xmlOutput>
-        <threshold>Low</threshold>
-        <effort>Max</effort> 
-        <findbugsXmlOutputDirectory>xdocs</findbugsXmlOutputDirectory> 
-      </configuration>
-    </plugin>
-      
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>1.2</version>
+        <configuration>
+          <xmlOutput>true</xmlOutput>
+          <threshold>Low</threshold>
+          <effort>Max</effort> 
+          <findbugsXmlOutputDirectory>xdocs</findbugsXmlOutputDirectory> 
+        </configuration>
+      </plugin>
     </plugins>
   </reporting>
 
