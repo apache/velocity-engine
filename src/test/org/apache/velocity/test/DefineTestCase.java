@@ -76,6 +76,17 @@ public class DefineTestCase extends BaseEvalTestCase
         assertEvalEquals("[][hello]","#define( $orig )hello#end[#set( $assig = $orig )][$assig]");
     }
 
+    public void testNonRenderingUsage()
+    {
+        String template = "#define($foo)\n" +
+                          " foo_contents\n" +
+                          "#end\n" +
+                          "#if ($foo)\n" +
+                          " found foo\n" +
+                          "#end";
+        assertEvalEquals(" found foo\n", template);
+    }
+
     public void testRecursionLimit()
     {
         try
