@@ -207,7 +207,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     }
 
     /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#localPut(java.lang.String,java.lang.Object)
+     * @see org.apache.velocity.context.InternalWrapperContext#localPut(java.lang.String,java.lang.Object)
      */
     public Object localPut(final String key, final Object value)
     {
