@@ -437,8 +437,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             else if (actual.length == index + 1)
             {
                 // make sure the last arg is an array of the expected type
-                if (IntrospectionUtils.isMethodInvocationConvertible(type,
-                                                                     actual[index].getClass(),
+                Class argClass = actual[index].getClass();
+                if (!argClass.isArray() &&
+                    IntrospectionUtils.isMethodInvocationConvertible(type,
+                                                                     argClass,
                                                                      false))
                 {
                     // create a 1-length array to hold and replace the last param

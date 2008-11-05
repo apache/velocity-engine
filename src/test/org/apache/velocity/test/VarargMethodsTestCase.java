@@ -19,6 +19,7 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
+import java.util.Arrays;
 import org.apache.velocity.VelocityContext;
 
 /**
@@ -109,6 +110,12 @@ public class VarargMethodsTestCase extends BaseEvalTestCase
         assertEvalEquals("noargs", "$nasty.test()");
     }
 
+    public void testPassingArrayToVarArgVelocity642()
+    {
+        assertEvalEquals("[one, two]", "$nasty.test642($strings)");
+        assertEvalEquals("[1, 2]", "#set( $list = [1..2] )$nasty.test642($list.toArray())");
+    }
+
 
 
     public static class NiceTool
@@ -190,6 +197,11 @@ public class VarargMethodsTestCase extends BaseEvalTestCase
         public String test(Object object, String property)
         {
             return "object,string";
+        }
+
+        public String test642(Object[] array)
+        {
+            return Arrays.deepToString(array);
         }
 
     }
