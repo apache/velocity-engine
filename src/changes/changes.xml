@@ -27,6 +27,11 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-642" due-to="Ilkka Priha">
+          Fix bug in vararg support where an array passed to a vararg method
+          was being wrapped in another array.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-638" due-to="Benjamin Bentmann">
           Locked down versions for reporting plugins in Maven POM.
       </action>
