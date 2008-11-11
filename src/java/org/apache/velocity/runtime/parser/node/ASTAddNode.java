@@ -61,6 +61,14 @@ public class ASTAddNode extends ASTMathNode
          */
         if (left instanceof String || right instanceof String)
         {
+            if (left == null)
+            {
+                left = jjtGetChild(0).literal();
+            }
+            else if (right == null)
+            {
+                right = jjtGetChild(1).literal();
+            }
             return left.toString().concat(right.toString());
         }
         return null;
