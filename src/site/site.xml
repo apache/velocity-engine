@@ -75,8 +75,7 @@
         <item name="User Guide"               href="user-guide.html"/>
         <item name="Developer Guide"          href="developer-guide.html"/>
         <item name="VTL Reference"            href="vtl-reference-guide.html"/>
-        <item name="Anakia: XML->doc tool"    href="anakia.html"/>
-        <item name="Texen: text generation"   href="texen.html"/>
+        <item name="Glossary"                 href="glossary.html"/>
     </menu>
 
     <menu name="Developers">
