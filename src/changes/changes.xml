@@ -27,6 +27,23 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-352" due-to="Gonzalo Diethelm, Joni Salonen">
+          Update Finnish and Spanish User Guide sections on division operation.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-641" due-to="Will Glass-Husain">
+          Fix classpath for XMLApp example.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-617" due-to="Adrian Tarau">
+          Fix references to Oro dependency to make it clear that it is
+          only necessary for certain reference event handlers.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-640" due-to="Will Glass-Husain">
+          Remove old Anakia/Texen docs and examples.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-642" due-to="Ilkka Priha">
           Fix bug in vararg support where an array passed to a vararg method
           was being wrapped in another array.
