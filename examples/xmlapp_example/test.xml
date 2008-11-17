@@ -20,7 +20,7 @@
 <document>
   <properties>
     <author>
-	<email>velocity-user@jakarta.apache.org</email>
+    <email>user@velocity.apache.org</email>
 	<name>
 	   <last>
 		<full>Team</full>
@@ -32,7 +32,7 @@
 	</name>
     </author>
     <title>
-        The Jakarta Project
+        The Velocity Project
     </title>
   </properties>
 
