@@ -1903,9 +1903,12 @@ respectivamente:
 ]]></source>
 
 <p>
-Cuando se realiza una división el resultado es un entero. El residuo se
-puede obtener utilizando el operador módulo (<em>%</em>).
-  </p>
+  Cuando una operaci&#243;n de divisi&#243;n se realiza
+  entre dos operandos enteros, el resultado ser&#225; un
+  valor entero, correspondiente al valor truncado de la
+  divisi&#243;n. El valor del resto puede obtenerse
+  utilizando el operador m&#243;dulo (<em>%</em>).
+</p>
 
 <source><![CDATA[
 #set( $foo = $bar % 5 )
