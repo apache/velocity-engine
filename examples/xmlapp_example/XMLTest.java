@@ -59,7 +59,7 @@ public class XMLTest
 
             try
             {
-                builder = new SAXBuilder(  "org.apache.xerces.parsers.SAXParser" );
+                builder = new SAXBuilder();
                 root = builder.build("test.xml");
             }
             catch( Exception ee)
