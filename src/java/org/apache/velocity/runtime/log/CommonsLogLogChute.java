@@ -89,15 +89,13 @@ public class CommonsLogLogChute implements LogChute
             case LogChute.INFO_ID:
                 log.info(message);
                 break;
-            case LogChute.DEBUG_ID:
-                log.debug(message);
-                break;
             case LogChute.TRACE_ID:
                 log.trace(message);
                 break;
             case LogChute.ERROR_ID:
                 log.error(message);
                 break;
+            case LogChute.DEBUG_ID:
             default:
                 log.debug(message);
                 break;
@@ -117,15 +115,13 @@ public class CommonsLogLogChute implements LogChute
             case LogChute.INFO_ID:
                 log.info(message, t);
                 break;
-            case LogChute.DEBUG_ID:
-                log.debug(message, t);
-                break;
             case LogChute.TRACE_ID:
                 log.trace(message, t);
                 break;
             case LogChute.ERROR_ID:
                 log.error(message, t);
                 break;
+            case LogChute.DEBUG_ID:
             default:
                 log.debug(message, t);
                 break;

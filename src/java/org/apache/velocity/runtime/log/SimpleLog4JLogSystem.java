@@ -147,12 +147,10 @@ public class SimpleLog4JLogSystem implements LogSystem
             case LogSystem.INFO_ID:
                 logger.info(message);
                 break;
-            case LogSystem.DEBUG_ID:
-                logger.debug(message);
-                break;
             case LogSystem.ERROR_ID:
                 logger.error(message);
                 break;
+            case LogSystem.DEBUG_ID:
             default:
                 logger.debug(message);
                 break;
