@@ -81,6 +81,20 @@ public class BaseEvalTestCase extends TestCase
         // extension hook
     }
 
+    protected void assertContextValue(String key, Object expected)
+    {
+        if (DEBUG)
+        {
+            engine.getLog().info("Expected value of '"+key+"': "+expected);
+        }
+        Object value = context.get(key);
+        if (DEBUG)
+        {
+            engine.getLog().info("Result: "+value);
+        }
+        assertEquals(expected, value);
+    }
+
     protected void assertEvalEquals(String expected, String template)
     {
         if (DEBUG)
