@@ -83,6 +83,17 @@ Upgrading from Velocity 1.4 or earlier
     * Java CC 3.2 is recommended to compile the parser files.
     * HSQLDB 1.7.1 is required for running unit tests.
 
+Upgrading from Velocity 1.5
+
+    * Commons Collections has been upgraded to version 3.2.1.
+    * Commons Lang has been upgraded to version 2.4.
+    * Commons Logging 1.1 has been added.
+
+    Optional:
+
+    * Maven Ant 2.0.9 is required for the Maven Ant tasks.
+    * Java CC 4.1 is recommended to compile the parser files.
+
 
 BUILDING APACHE VELOCITY
 ------------------------
