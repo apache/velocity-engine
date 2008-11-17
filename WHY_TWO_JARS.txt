@@ -12,8 +12,8 @@ wealth of different jars including J2EE code, containing just the
 runtime or the tools. This lead to some confusion about the naming and
 the purpose of the various jars.
 
-Starting with the 1.5 release of Velocity, there is now only one jar,
-velocity-<version>.jar which contains all Velocity code and a second
+Starting with the 1.5 release of Velocity, there is now one jar,
+velocity-<version>.jar, which contains all Velocity code and a second
 jar, velocity-dep-<version>.jar, which contains all Velocity code and
 its external dependencies. 
 
