@@ -28,7 +28,7 @@
     <section name="Velocity dependencies" href="dependencies">
       <p>
        Velocity has a number of external jar dependencies. However, not all of these
-       are needed every time.This document should help you do decide which jars must
+       are needed every time. This document should help you do decide which jars must
        also be present if you want to integrate Velocity into your application.
       </p>
 
@@ -58,7 +58,10 @@
         </tr>
         <tr>
           <td>oro</td><td>Yes</td>
-          <td>Needed for all parts of Velocity</td>
+          <td>Must be present if you have Velocity configured to
+              <a href="developer-guide.html#Configuring_Event_Handlers">automatically escape references</a>.
+              Otherwise, it is not needed.
+          </td>
         </tr>
         <tr>
           <td>log4j</td><td>No</td>
@@ -82,15 +85,15 @@
         </tr>
         <tr>
           <td>jdom</td><td>No</td>
-          <td>Only required for the Anakia tool / ant task</td>
+          <td>Only required for the deprecated Anakia tool / ant task</td>
         </tr>
         <tr>
           <td>werken-xpath</td><td>No</td>
-          <td>Only required for the Anakia tool / ant task</td>
+          <td>Only required for the deprecated Anakia tool / ant task</td>
         </tr>
         <tr>
           <td>antlr</td><td>No</td>
-          <td>Only required for the Anakia tool / ant task</td>
+          <td>Only required for the deprecated Anakia tool / ant task</td>
         </tr>
         <tr>
           <td>ant</td><td>No</td>
@@ -108,14 +111,15 @@
 
       <p>
         The most common case is the integration of the Velocity runtime into your
-        application. In this case, you must add commons-collections, commons-lang
-        and oro to your application (and optional logging if
+        application. In this case, you must add commons-collections and commons-lang
+        to your application (and optional Oro or commons-logging if
         required). If you already have one or more of these libraries in your application,
         you should check if you need to update their versions.
       </p>
 
       <p>The <a href="dependencies.html">auto-generated dependency report</a> lists all mandatory
-         dependencies as <b>compile</b> and all optional dependencies as <b>provided</b>.
+         dependencies as <b>compile</b> and all optional dependencies as <b>provided</b>, though
+         it fails to properly reflect the optional nature of the Oro and Commons-Logging dependencies.
       </p>
     </section>
   </body>
