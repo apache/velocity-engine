@@ -87,14 +87,13 @@ public class SystemLogChute implements LogChute
         {
             case WARN_ID:
                 return WARN_PREFIX;
-            case INFO_ID:
-                return INFO_PREFIX ;
             case DEBUG_ID:
                 return DEBUG_PREFIX;
             case TRACE_ID:
                 return TRACE_PREFIX;
             case ERROR_ID:
                 return ERROR_PREFIX;
+            case INFO_ID:
             default:
                 return INFO_PREFIX;
         }

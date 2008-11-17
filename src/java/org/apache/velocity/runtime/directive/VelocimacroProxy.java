@@ -176,21 +176,24 @@ public class VelocimacroProxy extends Directive
             String templateName = vmc.getCurrentTemplateName();
             Object[] stack = vmc.getMacroNameStack();
 
-            String message = "Max calling depth of " + maxCallDepth + " was exceeded in Template:"
-                    + templateName + " and Macro:" + macroName + " with Call Stack:";
+            StringBuffer out = new StringBuffer(100)
+                .append("Max calling depth of ").append(maxCallDepth)
+                .append(" was exceeded in Template:").append(templateName)
+                .append(" and Macro:").append(macroName)
+                .append(" with Call Stack:");
             for (int i = 0; i < stack.length; i++)
             {
                 if (i != 0)
                 {
-                    message += "->";
+                    out.append("->");
                 }
-                message += stack[i];
+                out.append(stack[i]);
             }
-            rsvc.getLog().error(message);
+            rsvc.getLog().error(out.toString());
 
             try
             {
-                throw new MacroOverflowException(message);
+                throw new MacroOverflowException(out.toString());
             }
             finally
             {

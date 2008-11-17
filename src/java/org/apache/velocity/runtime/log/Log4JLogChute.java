@@ -150,9 +150,6 @@ public class Log4JLogChute implements LogChute
             case LogChute.INFO_ID:
                 logger.info(message);
                 break;
-            case LogChute.DEBUG_ID:
-                logger.debug(message);
-                break;
             case LogChute.TRACE_ID:
                 if (hasTrace)
                 {
@@ -166,6 +163,7 @@ public class Log4JLogChute implements LogChute
             case LogChute.ERROR_ID:
                 logger.error(message);
                 break;
+            case LogChute.DEBUG_ID:
             default:
                 logger.debug(message);
                 break;
@@ -185,9 +183,6 @@ public class Log4JLogChute implements LogChute
             case LogChute.INFO_ID:
                 logger.info(message, t);
                 break;
-            case LogChute.DEBUG_ID:
-                logger.debug(message, t);
-                break;
             case LogChute.TRACE_ID:
                 if (hasTrace)
                 {
@@ -201,6 +196,7 @@ public class Log4JLogChute implements LogChute
             case LogChute.ERROR_ID:
                 logger.error(message, t);
                 break;
+            case LogChute.DEBUG_ID:
             default:
                 logger.debug(message, t);
                 break;
