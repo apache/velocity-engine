@@ -1909,8 +1909,10 @@ Send me
 ]]></source>
 
   <p>
-    Jako-operaation tapauksessa tulos on kokonaisluku. Jakojäännös
-    saadaan käyttöön jäännösoperandilla (<em>%</em>).
+    Kun kaksi kokonaislukua jaetaan kesken&#228;&#228;n, tuloksena on
+    kokonaisluku, jonka arvo on jakolaskun kokonaisosa.
+    Jakoj&#228;&#228;nn&#246;s voidaan laskea modulo-operaattorilla
+    (<em>%</em>).
   </p>
 
 <source><![CDATA[
