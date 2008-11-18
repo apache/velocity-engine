@@ -6,7 +6,6 @@
     <!-- don't worry about deprecated things -->
     <Match>
         <Or>
-            <Package name="De"/>
             <Package name="org.apache.velocity.app.tools"/>
             <Package name="org.apache.velocity.anakia"/>
             <Package name="org.apache.velocity.convert"/>
