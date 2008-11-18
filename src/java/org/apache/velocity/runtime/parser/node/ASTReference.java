@@ -412,8 +412,7 @@ public class ASTReference extends SimpleNode
 
             if (context.getAllowRendering())
             {
-                if (localNullString == null)
-                    localNullString = getNullString(context);
+                localNullString = getNullString(context);
 
                 writer.write(escPrefix);
                 writer.write(escPrefix);
