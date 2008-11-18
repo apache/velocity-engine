@@ -697,7 +697,7 @@ public class VelocimacroFactory
      *  set the switch for automatic reloading of
      *  global library-based VMs
      */
-    private synchronized void setAutoload(boolean b)
+    private void setAutoload(boolean b)
     {
         autoReloadLibrary = b;
     }
@@ -706,7 +706,7 @@ public class VelocimacroFactory
      *  get the switch for automatic reloading of
      *  global library-based VMs
      */
-    private synchronized boolean getAutoload()
+    private boolean getAutoload()
     {
         return autoReloadLibrary;
     }

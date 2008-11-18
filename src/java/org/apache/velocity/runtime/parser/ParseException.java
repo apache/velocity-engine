@@ -73,7 +73,7 @@ public class ParseException extends Exception {
    * this object has been created due to a parse error, the token
    * followng this token will (therefore) be the first error token.
    */
-  public transient Token currentToken;
+  public Token currentToken;
 
   /**
    * Each entry in this array is an array of integers.  Each array
