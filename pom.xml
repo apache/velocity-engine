@@ -311,7 +311,8 @@
         <configuration>
           <xmlOutput>true</xmlOutput>
           <threshold>Low</threshold>
-          <effort>Max</effort> 
+          <effort>Max</effort>
+          <excludeFilterFile>build/findbugs-exclude.xml</excludeFilterFile>
           <findbugsXmlOutputDirectory>xdocs</findbugsXmlOutputDirectory> 
         </configuration>
       </plugin>

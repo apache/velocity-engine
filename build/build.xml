@@ -1171,6 +1171,9 @@
               output="html"
               jvmargs="-Xmx400m"
               outputFile="${build.test.reports}\findbugs-report.html"
+              reportLevel="low"
+              effort="max"
+              excludeFilter="${velocity.build.dir}/findbugs-exclude.xml"
               failOnError="true">
       <auxClasspath>
         <fileset dir="${build.lib}">
