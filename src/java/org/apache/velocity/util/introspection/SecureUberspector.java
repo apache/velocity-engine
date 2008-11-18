@@ -75,22 +75,22 @@ public class SecureUberspector extends UberspectImpl implements RuntimeServicesA
      * @throws Exception
      */
     public Iterator getIterator(Object obj, Info i)
-    throws Exception
+        throws Exception
     {
-        if ((obj != null) && 
-                !((SecureIntrospectorControl) introspector)
-                .checkObjectExecutePermission(obj.getClass(),null))
+        if (obj != null)
         {
-            log.warn ("Cannot retrieve iterator from object of class " + 
-                    obj.getClass().getName() +
-                    " due to security restrictions.");
-            return null;
-
+            SecureIntrospectorControl sic = (SecureIntrospectorControl)introspector;
+            if (sic.checkObjectExecutePermission(obj.getClass(), null))
+            {
+                return super.getIterator(obj, i);
+            }
+            else
+            {
+                log.warn("Cannot retrieve iterator from " + obj.getClass() +
+                         " due to security restrictions.");
+            }
         }
-        else
-        {
-            return super.getIterator(obj,i);
-        }
+        return null;
     }
 
     /**
