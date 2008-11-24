@@ -434,7 +434,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                 actual = new Object[] { Array.newInstance(type, 0) };
             }
             // if one value is being passed into the vararg
-            else if (actual.length == index + 1)
+            else if (actual.length == index + 1 && actual[index] != null)
             {
                 // make sure the last arg is an array of the expected type
                 Class argClass = actual[index].getClass();
