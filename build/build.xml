@@ -856,7 +856,7 @@
   <!-- ================================================================== -->
   <target name="release"
     description="Build the packages as release manager, does additional checks over the package target"
-    depends="package-java-check, package, pom" />
+    depends="package-java-check, clean, package, pom" />
 
   <!-- ================================================================== -->
   <!-- Packages the distribution with ZIP and TAR-GZIP                    -->
