@@ -27,6 +27,10 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-649" due-to="Byron Foster">
+          Fix NPE when null value is passed to array/vararg method.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-644" due-to="Byron Foster">
           Track template name in Node, to get proper template name in the exception
           message when a reference in a macro causes that exception.
