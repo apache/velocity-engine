@@ -116,6 +116,11 @@ public class VarargMethodsTestCase extends BaseEvalTestCase
         assertEvalEquals("[1, 2]", "#set( $list = [1..2] )$nasty.test642($list.toArray())");
     }
 
+    public void testNullToPrimitiveVarArg()
+    {
+        assertEvalEquals("int[]", "$nasty.test649($null)");
+    }
+
 
 
     public static class NiceTool
@@ -217,6 +222,11 @@ public class VarargMethodsTestCase extends BaseEvalTestCase
             }
             o.append("]");
             return o.toString();
+        }
+
+        public String test649(int[] array)
+        {
+            return "int[]";
         }
 
     }
