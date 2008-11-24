@@ -201,7 +201,22 @@ public class VarargMethodsTestCase extends BaseEvalTestCase
 
         public String test642(Object[] array)
         {
-            return Arrays.deepToString(array);
+            //JDK5: return Arrays.deepToString(array);
+            if (array == null)
+            {
+                return null;
+            }
+            StringBuffer o = new StringBuffer("[");
+            for (int i=0; i < array.length; i++)
+            {
+                if (i > 0)
+                {
+                    o.append(", ");
+                }
+                o.append(String.valueOf(array[i]));
+            }
+            o.append("]");
+            return o.toString();
         }
 
     }
