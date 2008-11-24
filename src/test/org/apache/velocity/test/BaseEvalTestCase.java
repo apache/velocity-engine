@@ -138,9 +138,10 @@ public class BaseEvalTestCase extends TestCase
         return null;
     }
 
-    protected Exception assertEvalExceptionAt(String evil, int line, int col)
+    protected Exception assertEvalExceptionAt(String evil, String template,
+                                              int line, int col)
     {
-        String loc = "[line "+line+", column "+col+"]";
+        String loc = template+"[line "+line+", column "+col+"]";
         if (DEBUG)
         {
             engine.getLog().info("Expectation: Exception at "+loc);
@@ -155,6 +156,11 @@ public class BaseEvalTestCase extends TestCase
             engine.getLog().info("Result: "+e.getMessage());
         }
         return e;
+    }
+
+    protected Exception assertEvalExceptionAt(String evil, int line, int col)
+    {
+         return assertEvalExceptionAt(evil, "", line, col);
     }
 
     protected String evaluate(String template)

@@ -27,6 +27,11 @@
   <body>
     <release version="1.6" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-644" due-to="Byron Foster">
+          Track template name in Node, to get proper template name in the exception
+          message when a reference in a macro causes that exception.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-352" due-to="Gonzalo Diethelm, Joni Salonen">
           Update Finnish and Spanish User Guide sections on division operation.
       </action>

@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
 
 /**
@@ -88,8 +89,7 @@ public class ASTIntegerRange extends SimpleNode
             log.error((left == null ? "Left" : "Right")
                            + " side of range operator [n..m] has null value."
                            + " Operation not possible. "
-                           +  context.getCurrentTemplateName() + " [line " + getLine()
-                           + ", column " + getColumn() + "]");
+                           + Log.formatFileString(this));
             return null;
         }
 
@@ -102,9 +102,7 @@ public class ASTIntegerRange extends SimpleNode
             log.error((!(left instanceof Number) ? "Left" : "Right")
                            + " side of range operator is not a valid type. "
                            + "Currently only integers (1,2,3...) and the Number type are supported. "
-                           + context.getCurrentTemplateName() + " [line " + getLine()
-                           + ", column " + getColumn() + ']');
-
+                           + Log.formatFileString(this));
             return null;
         }
 

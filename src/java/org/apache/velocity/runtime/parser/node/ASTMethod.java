@@ -104,7 +104,7 @@ public class ASTMethod extends SimpleNode
          * make an uberinfo - saves new's later on
          */
 
-        uberInfo = new Info(context.getCurrentTemplateName(),
+        uberInfo = new Info(getTemplateName(),
                 getLine(),getColumn());
         /*
          *  this is about all we can do
@@ -189,7 +189,7 @@ public class ASTMethod extends SimpleNode
                  *  cache it
                  */
 
-                method = rsvc.getUberspect().getMethod(o, methodName, params, new Info(context.getCurrentTemplateName(), getLine(), getColumn()));
+                method = rsvc.getUberspect().getMethod(o, methodName, params, new Info(getTemplateName(), getLine(), getColumn()));
 
                 if ((method != null) && (o != null))
                 {
@@ -339,7 +339,7 @@ public class ASTMethod extends SimpleNode
                     + methodName + "' in  " + o.getClass()
                     + " threw exception "
                     + e.toString(),
-                    e, methodName, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
+                    e, methodName, getTemplateName(), this.getLine(), this.getColumn());
             }
         }
         else
@@ -353,7 +353,7 @@ public class ASTMethod extends SimpleNode
             + methodName + "' in  " + o.getClass()
             + " threw exception "
             + t.toString(),
-            t, methodName, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
+            t, methodName, getTemplateName(), this.getLine(), this.getColumn());
         }
     }
 

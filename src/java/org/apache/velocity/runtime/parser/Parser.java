@@ -34,7 +34,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     /**
      *  Name of current template we are parsing.  Passed to us in parse()
      */
-    String currentTemplateName = "";
+    public String currentTemplateName = "";
 
     VelocityCharStream velcharstream = null;
 

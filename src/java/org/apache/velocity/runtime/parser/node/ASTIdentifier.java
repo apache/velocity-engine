@@ -103,8 +103,7 @@ public class ASTIdentifier extends SimpleNode
 
         identifier = getFirstToken().image;
 
-        uberInfo = new Info(context.getCurrentTemplateName(),
-                getLine(), getColumn());
+        uberInfo = new Info(getTemplateName(), getLine(), getColumn());
 
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
         
@@ -226,7 +225,7 @@ public class ASTIdentifier extends SimpleNode
                       + " in  " + o.getClass()
                       + " threw exception "
                       + ite.getTargetException().toString(),
-                      ite.getTargetException(), vg.getMethodName(), context.getCurrentTemplateName(), this.getLine(), this.getColumn());
+                      ite.getTargetException(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
                 }
             }
             else
@@ -240,7 +239,7 @@ public class ASTIdentifier extends SimpleNode
                 + " in  " + o.getClass()
                 + " threw exception "
                 + ite.getTargetException().toString(),
-                ite.getTargetException(), vg.getMethodName(), context.getCurrentTemplateName(), this.getLine(), this.getColumn());
+                ite.getTargetException(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
 
 
             }
