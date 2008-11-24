@@ -55,6 +55,7 @@ public class SimpleNode implements Node
     protected int id;
 
     /** */
+    // TODO - It seems that this field is only valid when parsing, and should not be kept around.    
     protected Parser parser;
 
     /** */
@@ -71,6 +72,9 @@ public class SimpleNode implements Node
 
     /** */
     protected Token last;
+    
+    
+    protected String templateName;
 
     /**
      * @param i
@@ -88,6 +92,7 @@ public class SimpleNode implements Node
     {
         this(i);
         parser = p;
+        templateName = parser.currentTemplateName;
     }
 
     /**
@@ -251,10 +256,7 @@ public class SimpleNode implements Node
      */
     protected String getLocation(InternalContextAdapter context)
     {
-        return new StrBuilder(50)
-            .append(context.getCurrentTemplateName())
-            .append(" [line ").append(getLine())
-            .append(", column ").append(getColumn()).append("]").toString();
+        return Log.formatFileString(this);
     }
 
     // All additional methods
@@ -432,6 +434,11 @@ public class SimpleNode implements Node
             .append("children", jjtGetNumChildren())
             .append("tokens", tokens)
             .toString();
+    }
+
+    public String getTemplateName()
+    {
+      return templateName;
     }
 }
 

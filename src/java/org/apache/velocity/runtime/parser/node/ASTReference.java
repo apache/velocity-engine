@@ -139,8 +139,7 @@ public class ASTReference extends SimpleNode
          * make an uberinfo - saves new's later on
          */
 
-        uberInfo = new Info(context.getCurrentTemplateName(),
-                getLine(),getColumn());
+        uberInfo = new Info(getTemplateName(), getLine(),getColumn());
 
         /*
          * track whether we log invalid references
@@ -180,18 +179,6 @@ public class ASTReference extends SimpleNode
         }
                 
         return data;
-    }
-
-    /**
-     * Returns the template name, once init() has been called.
-     */
-    public String getTemplateName()
-    {
-        if (uberInfo == null)
-        {
-            return null;
-        }
-        return uberInfo.getTemplateName();
     }
 
     /**
@@ -256,10 +243,10 @@ public class ASTReference extends SimpleNode
                      * to call a method or property on a null value.
                      */
                     String name = jjtGetChild(i).getFirstToken().image;
-                    throw new MethodInvocationException("Attempted to access '"  
-                        + name + "' on a null value", null, name, uberInfo.getTemplateName(),
-                        jjtGetChild(i).getLine(), jjtGetChild(i).getColumn());
-                  
+                    throw new VelocityException("Attempted to access '"  
+                        + name + "' on a null value at "
+                        + Log.formatFileString(uberInfo.getTemplateName(),
+                        + jjtGetChild(i).getLine(), jjtGetChild(i).getColumn()));                  
                 }
                 previousResult = result;
                 result = jjtGetChild(i).execute(result,context);
@@ -320,8 +307,7 @@ public class ASTReference extends SimpleNode
 
             log.error("Method " + mie.getMethodName()
                       + " threw exception for reference $" + rootString + " in "
-                      + Log.formatFileString(context.getCurrentTemplateName(),
-                                             getLine(), getColumn()));
+                      + Log.formatFileString(this));
             mie.setReferenceName(rootString);
             throw mie;
         }
@@ -422,7 +408,7 @@ public class ASTReference extends SimpleNode
 
             if (logOnNull && referenceType != QUIET_REFERENCE && log.isDebugEnabled())
             {
-                log.debug("Null reference [template '" + context.getCurrentTemplateName()
+                log.debug("Null reference [template '" + getTemplateName()
                         + "', line " + this.getLine() + ", column " + this.getColumn() + "] : "
                         + this.literal() + " cannot be resolved.");
             }
@@ -609,7 +595,7 @@ public class ASTReference extends SimpleNode
                 + identifier + "' in  " + result.getClass()
                 + " threw exception "
                 + ite.getTargetException().toString(),
-               ite.getTargetException(), identifier, context.getCurrentTemplateName(), this.getLine(), this.getColumn());
+               ite.getTargetException(), identifier, getTemplateName(), this.getLine(), this.getColumn());
         }
         /**
          * pass through application level runtime exceptions

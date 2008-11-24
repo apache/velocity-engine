@@ -111,7 +111,7 @@ public class Parser
     /**
      *  Name of current template we are parsing.  Passed to us in parse()
      */
-    String currentTemplateName = "";
+    public String currentTemplateName = "";
 
     VelocityCharStream velcharstream = null;
 

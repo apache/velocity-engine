@@ -1,0 +1,20 @@
+
+#macro(arrayError)
+  #set($foo = [])
+  $foo.get(2)
+#end
+
+#macro(nullMethod)
+  #set($foo = $NULL)
+  $foo.bar
+#end
+
+#macro(badRef)
+  $bar
+#end
+
+#macro(forloop)
+  #set($val = 1)
+  #foreach($i in $val)
+  #end
+#end

@@ -130,8 +130,7 @@ public class ASTDirective extends SimpleNode
                 /**
                  * Create a new RuntimeMacro
                  */
-                directive = new RuntimeMacro(directiveName,
-                        context.getCurrentTemplateName());
+                directive = new RuntimeMacro(directiveName, getTemplateName());
                 directive.setLocation( getLine(), getColumn() );
         
                 /**

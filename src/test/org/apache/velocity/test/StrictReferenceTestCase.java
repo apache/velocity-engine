@@ -1,6 +1,7 @@
 package org.apache.velocity.test;
 
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeConstants;
 
@@ -121,17 +122,17 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
         fargo.next = new Fargo();
         context.put("fargo", fargo);
 
-        assertMethodEx("$NULL.bogus");
-        assertMethodEx("$fargo.nullVal.bogus");
-        assertMethodEx("$fargo.next.nullVal.bogus");
-        assertMethodEx("#if (\"junk\" == $fargo.nullVal.bogus)#end");
-        assertMethodEx("#if ($fargo.nullVal.bogus > 2)#end");
-        assertMethodEx("#set($fargo.next.nullVal.bogus = \"junk\")");
-        assertMethodEx("#set($foo = $NULL.bogus)");
-        assertMethodEx("#foreach($item in $fargo.next.nullVal.bogus)#end");
+        assertVelocityEx("$NULL.bogus");
+        assertVelocityEx("$fargo.nullVal.bogus");
+        assertVelocityEx("$fargo.next.nullVal.bogus");
+        assertVelocityEx("#if (\"junk\" == $fargo.nullVal.bogus)#end");
+        assertVelocityEx("#if ($fargo.nullVal.bogus > 2)#end");
+        assertVelocityEx("#set($fargo.next.nullVal.bogus = \"junk\")");
+        assertVelocityEx("#set($foo = $NULL.bogus)");
+        assertVelocityEx("#foreach($item in $fargo.next.nullVal.bogus)#end");
 
         evaluate("$fargo.prop.toString()");
-        assertMethodEx("#set($fargo.prop = $NULL)$fargo.prop.next");
+        assertVelocityEx("#set($fargo.prop = $NULL)$fargo.prop.next");
 
         // make sure no exceptions are thrown here
         evaluate("$fargo.next.next");
@@ -163,6 +164,14 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
     public void assertMethodEx(String template)
     {
         assertEvalException(template, MethodInvocationException.class);
+    }
+
+    /**
+     * Assert that we get a VelocityException when calling evaluate
+     */
+    public void assertVelocityEx(String template)
+    {
+        assertEvalException(template, VelocityException.class);
     }
 
     /**

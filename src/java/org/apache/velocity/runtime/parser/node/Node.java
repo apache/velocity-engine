@@ -199,4 +199,9 @@ public interface Node
      * @return The current column position.
      */
     public int getColumn();
+    
+    /**
+     * @return the file name of the template
+     */
+    public String getTemplateName();
 }

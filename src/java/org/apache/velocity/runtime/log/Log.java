@@ -1,5 +1,6 @@
 package org.apache.velocity.runtime.log;
 
+import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.util.introspection.Info;
 
 /*
@@ -225,7 +226,17 @@ public class Log
     }
     
     /**
-     * Simply creates a string that formats the template filename allowing with line number
+     * Creates a string that formats the template filename with line number
+     * and column of the given Node. We use this routine to provide a cosistent format for displaying 
+     * file errors.
+     */
+    public static final String formatFileString(Node node)
+    {
+      return formatFileString(node.getTemplateName(), node.getLine(), node.getColumn());      
+    }
+    
+    /**
+     * Simply creates a string that formats the template filename with line number
      * and column. We use this routine to provide a cosistent format for displaying 
      * file errors.
      */
@@ -235,7 +246,7 @@ public class Log
     }
     
     /**
-     * Simply creates a string that formats the template filename allowing with line number
+     * Simply creates a string that formats the template filename with line number
      * and column. We use this routine to provide a cosistent format for displaying 
      * file errors.
      * @param template File name of template, can be null
