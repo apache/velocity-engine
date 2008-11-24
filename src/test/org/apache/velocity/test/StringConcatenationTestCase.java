@@ -36,7 +36,6 @@ public class StringConcatenationTestCase extends BaseEvalTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        DEBUG = true;
         context.put("foo", "foo");
         context.put("baz", "baz");
     }
