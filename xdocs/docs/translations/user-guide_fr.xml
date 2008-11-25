@@ -1496,7 +1496,7 @@ Send me
 #set( $foo = $bar / 2 )
 ]]></source>
     <p>
-      Lorsqu'une opération de division est exécutée, le résultat sera un entier. Le reste éventuel de la division peut
+      Lorsqu'une opération de division est exécutée entre deux entiers, le résultat sera un entier. Le reste éventuel de la division peut
       être obtenu en utilisant l'opérateur modulo (<em>%</em>).
     </p>
     <source><![CDATA[
