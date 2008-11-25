@@ -24,6 +24,7 @@
     <author email="jvanzyl@zenplex.com">Velocity Documentation Team</author>
     <author email="jcastura@kw.igs.net">John Castura</author>
     <author email="jean-francois.elfouly@wanadoo.fr">Jean-François El Fouly</author>
+    <author email="cbrisson@apache.org">Claude Brisson</author>
   </properties>
 <body>
 
@@ -45,16 +46,13 @@
     <li><a href="#Variables">Variables</a></li>
     <li><a href="#Propriétés">Propriétés</a></li>
     <li><a href="#Méthodes">Méthodes</a></li>
+    <li><a href="#Recherche">Règles de recherche des méthodes</a></li>
+    <li><a href="#Rendu">Rendu</a></li>
   </ol>
 </li>
-<li><a href="#Notationformelledesréférences">Notation formelle des références</a></li>
-<li><a href="#Notationsilencieusedesréférences">Notation silencieuse des références</a></li>
-<li><a href="#Sortielittérale">Sortie littérale</a>
-  <ol>
-    <li><a href="#Devise">Devise</a></li>
-    <li><a href="#EchapperdesréférencesVTLvalides">Echapper des références VTL valides</a></li>
-  </ol>
-</li>
+<li><a href="#Notationformelledesréférences">Références formelles</a></li>
+<li><a href="#Notationsilencieusedesréférences">Références silencieuses</a></li>
+<li><a href="#Modedenotationstrictedesréférences">Mode de notation stricte des références</a></li>
 <li><a href="#Substitutiondecas">Substitution de cas</a></li>
 <li><a href="#Directives">Directives</a>
   <ol>
@@ -69,10 +67,19 @@
     <li><a href="#Include">Include</a></li>
     <li><a href="#Parse">Parse</a></li>
     <li><a href="#Stop">Stop</a></li>
+    <li><a href="#Evaluate">Evaluate</a></li>
+    <li><a href="#Define">Define</a></li>
     <li><a href="#Velocimacros">Velocimacros</a></li>
   </ol>
 </li>
-<li><a href="#EchappementdesdirectivesVTL">Echappement des directives VTL</a></li>
+<li><a href="#Sortielittérale">Sortie littérale</a>
+  <ol>
+    <li><a href="#Devise">Devise</a></li>
+    <li><a href="#EchapperdesréférencesVTLvalides">Echapper des références VTL valides</a></li>
+    <li><a href="#EchapperdesréférencesVTLinvalides">Echapper des références VTL invalides</a></li>
+    <li><a href="#EchappementdesdirectivesVTL">Echappement des directives VTL</a></li>
+  </ol>
+</li>
 <li><a href="#VTL:Questionsdeformat">VTL: Questions de format</a></li>
 <li><a href="#Autrescaractéristiquesetsujetsdivers">Autres caractéristiques et sujets divers</a>
   <ol>
@@ -95,7 +102,7 @@
     dynamique dans des sites web, mais tous les exemples du VTL pourraient aussi bien s'appliquer à d'autres pages ou
     gabarits.
   </p>
-  <p>Merci de choisir Velocity!</p>
+  <p>Merci de choisir Velocity !</p>
 </section>
 
 <section name="Velocity, qu'est-ce que c'est?" href="Velocity,qu'est-cequec'est?">
@@ -311,7 +318,7 @@ $purchase.Total
   <p>
     Prenons le premier exemple, <em>$customer.Address</em>. Cette expression peut avoir deux significations.
     Elle peut signifier: "Regarde dans la table de hachage identifiée par <em>customer</em> et renvoie la valeur associée
-    à la clé <em>Address</em>. Mais <em>$customer.Address</em> peut aussi faire référence à une méthode (les références
+    à la clé <em>Address</em>". Mais <em>$customer.Address</em> peut aussi faire référence à une méthode (les références
     qui désignent des méthodes seront discutées dans la section suivante); <em>$customer.Address</em> pourrait être
     une manière abrégée d'écrire <em>$customer.getAddress()</em>. Quand quelqu'un demande votre page, Velocity va
     déterminer laquelle de ces deux possibilités a un sens, et retournera la valeur appropriée.
@@ -365,6 +372,47 @@ $sisyphus.pushRock()
 $book.setTitle( "Homage to Catalonia" )
 ## On ne peut pas passer une liste de paramètres
 ]]></source>
+  <p>Depuis Velocity 1.6, toutes les références à des tableaux sont "magiquement" considérées comme des listes de taille fixe.
+  Cela signifie que vous pouvez appeler les méthodes de java.util.List sur les références contenant des tableaux. Ainsi, si vous
+  avez une référence sur un tableau (mettons que celui-ci soit un tableau de String avec trois valeurs), vous pouvez écrire :</p>
+    <source><![CDATA[
+$myarray.isEmpty()
+
+$myarray.size()
+
+$myarray.get(2)
+
+$myarray.set(1, 'test') 
+]]></source>
+  <p>Autre nouveauté de Velocity 1.6, la reconnaissance des méthodes à nombre variable d'arguments. Une méthode telle que
+    <em>public void setPlanets(String... planets)</em> ou même simplement <em>public void setPlanets(String[] planets)</em>
+    (si vous utilisez une version de Java antérieure au JDK5) peut maintenant accepter un nombre variable d'arguments
+    quand elle est appelée depuis un gabarit.
+  </p>
+  <p><a name="Recherche"><strong>Règles de recherche des méthodes</strong></a>
+    <br/>Comme mentionné plus haut, les propriétés font souvent référence à des méthodes de l'objet parent. Velocity est relativement
+    malin quand il s'agit de déterminer à quelle méthode correspond une propriété demandée. Il essaye différentes alternatives
+    basées sur plusieurs conventions de nommage établies. L'ordre exact de recherche dépend de ce que le nom la propriété
+    commence ou non avec une majuscule. Pour des noms en minuscule, comme <em>$customer.address</em>, la séquence de recherche est :
+    <ol>
+      <li>getaddress()</li>
+      <li>getAddress()</li>
+      <li>get("address")</li>
+      <li>isAddress()</li>
+    </ol>
+    Pour des noms de propriété en majuscules, comme <em>$customer.Address</em>, c'est légèrement différent :
+    <ol>
+      <li>getAddress()</li>
+      <li>getaddress()</li>
+      <li>get("Address")</li>
+      <li>isAddress()</li>
+    </ol>
+  </p>
+  <p><a name="Rendu"><strong>Rendu</strong></a>
+    <br/>La valeur finale résultant de toute référence (que ce soit une variable, une propriété ou une méthode) est convertie
+    en objet String quand elle est intégrée à la sortie finale. S'il y a un objet qui représente <em>$foo</em> (tel qu'un objet
+    Integer), alors Velocity appellera sa méthode .toString() pour résoudre l'objet en une chaîne de caractère.
+  </p>
   <p>
     <a name="Notationformelledesréférences"><strong>Notation formelle des références</strong></a>
     <br/>Dans les exemples ci-dessus, nous avons utilisé la notation abrégée pour les références, mais il y a aussi
@@ -428,84 +476,43 @@ Jacques est un ${vice}mane.
 ]]></source>
 </section>
 
-<section name="Sortie littérale" href="Sortielittérale">
-  <p>
-    VTL utilise des caractères spéciaux, comme  <em>$</em> et <em>#</em> pour accomplir sa tâche; il faut donc prendre
-    quelques précautions pour utiliser ces caractères dans vos gabarits. Cette section est consacrée à l'échappement
-    du caractère <em>$</em>.
+<section name="Mode de notation stricte des références" href="Modedenotationstrictedesréférences">
+  <p>Velocity 1.6 introduit le concept de références strictes, qui est activé en mettant à <em>true</em> le paramètre
+    de configuration Velocity <em>runtime.references.strict</em>. Dans cette configuration les références doivent
+    être soit placées explicitement dans le contexte, soit définies avec une directive <em>#set</em>, sinon Velocity
+    jettera une exception. Les références qui sont dans le contexte avec une valeur nulle ne produiront pas d'exception.
+    De plus, si une tentative est faite d'appeler une méthode ou une propriété sur un objet contenu dans une référence
+    qui ne définit pas cette méthode ou cette propriété, alors Velocity jettera une exception. Cela reste vrai pour une
+    tentative d'appeler une propriété ou une méthode sur une valeur nulle.
   </p>
-  <p>
-    <a name="Devise"><strong>Devise</strong></a>
-    <br/>Il n'y a pas de problème particulier à écrire "J'ai acheté un sac de 2 kg de patates au marché de la ferme
-    pour seulement $2.50!". Comme dit plus haut, un identifiant VTL commence toujours par une lettre, majuscule ou
-    minuscule, et donc $2.50 ne serait pas pris par erreur pour une référence.
-  </p>
-  <p>
-    <a name="EchapperdesréférencesVTLvalides"><strong>Echapper des références VTL valides</strong></a>
-    <br/>Il peut se produire dans certains cas que Velocity se trouve induit en confusion. <em>Echapper</em> les
-    caractères spéciaux est le meilleur moyen de traiter les caractères spéciaux du VTL dans vos gabarits, et ceci se
-    fait en utilisant le caractère backslash (<em>\</em>).
-  </p>
+  <p>Dans les exemples suivants <em>$bar</em> est défini mais pas <em>$foo</em>, et toutes ces expressions jetteront une exception :</p>
   <source><![CDATA[
-#set( $email = "foo" )
-$email
+$foo ## Exception
+#set($bar = $foo) ## Exception
+#if($foo == $bar)#end ## Exception
+#foreach($item in $foo)#end ## Exception
 ]]></source>
-  <p>
-    Lorsque Velocity rencontre une référence à <em>$email</em> dans votre gabarit VTL, il cherche dans le contexte la
-    valeur correspondante. Ici, la sortie sera <em>foo</em>, parce que <em>$email</em> est défini. Si <em>$email</em>
-    n'était pas défini, la sortie serait <em>$email</em>.
-  </p>
-  <p>
-    Supposons que <em>$email</em> soit défini (par exemple, cette référence a la valeur <em>foo</em>)
-    et que vous vouliez produire <em>$email</em>. Il y a différentes manières de le faire, mais la plus simple est
-    d'utiliser le caractère d'échappement.
-  </p>
-  <source><![CDATA[
-## La ligne qui suit définit $email dans ce gabarit:
-#set( $email = "foo" )
-$email
-\$email
-\\$email
-\\\$email
+<p>Les expressions suivantes montrent des exemples pour lesquels Velocity jettera une exception lors d'une tentative d'appel
+à des méthodes ou propriétés qui n'existent pas. Dans ces exemples, <em>$bar</em> contient un objet définissant la propriété <em>foo</em>
+qui renvoie une chaîne de caractères, et la propriété <em>retnull</em> qui renvoie null.</p>
+<source><![CDATA[
+$bar.bogus ## $bar does not provide property bogus, Exception
+$bar.foo.bogus ## $bar.foo does not provide property bogus, Exception
+$bar.retnull.bogus ## cannot call a property on null, Exception
 ]]></source>
-  <p>sera rendu comme:</p>
-  <source><![CDATA[
-foo
-$email
-\foo
-\$email
+<p>En général ce comportement de référence stricte est vrai pour toutes les situations dans lesquelles des références sont utilisées excepté
+dans un cas spécifique à l'intérieure de la directive <em>#if</em>. Si une référence est utilisée à l'intérieur d'une directive <em>#if</em>
+ou <em>#elseif</em> sans méthode ou propriété, et si elle n'est pas en train d'être comparée à une autre valeur, alors les références indéfinies
+sont autorisées. Ce comportement fournit un moyen simple de tester si une réference est définie avant de l'utiliser dans un gabarit. Dans
+l'exemple suivant, ou <em>$foo</em> n'est pas définit, les expressions ne produiront pas d'exceptions:</p>
+<source><![CDATA[
+#if ($foo)#end ## False
+#if ( ! $foo)#end ## True
+#if ($foo && $foo.bar)#end ## False and $foo.bar will not be evaluated
+#if ($foo && $foo == "bar")#end ## False and $foo == "bar" wil not be evaluated
+#if ($foo1 || $foo2)#end ## False $foo1 and $foo2 are not defined
 ]]></source>
-  <p>
-    Notez que le caractère <em>\</em> s'applique au <em>$</em> à partir de la gauche. Cette règle d'application
-    à partir de la gauche fait que <em>\\\$email</em> est rendu comme <em>\\$email</em>. Comparons maintenant ces examples
-    à ce qui se passe lorsque <em>$email</em> n'est pas défini.
-  </p>
-  <source><![CDATA[
-$email
-\$email
-\\$email
-\\\$email
-]]></source>
-  <p>sera rendu comme:</p>
-  <source><![CDATA[
-$email
-\$email
-\\$email
-\\\$email
-]]></source>
-  <p>
-    Remarquez comment Velocity traite les références définies différemment de celles qui n'ont pas été définies.
-    Voici par exemple une directive set qui donne à <em>$foo</em> la valeur <em>gibbous</em>.
-  </p>
-  <source><![CDATA[
-#set( $foo = "gibbous" )
-$moon = $foo
-]]></source>
-  <p>
-    La sortie sera: <em>$moon = gibbous</em> -- où <em>$moon</em> est rendu littéralement puisqu'il n'est pas défini,
-    alors que <em>gibbous</em> est rendu au lieu de <em>$foo</em>.
-  </p>
-  <p>Il est aussi possible d'échapper les directives VTL; ceci est décrit plus en détail dans la section Directives.</p>
+<p>Une remarque supplémentaire : les références à des macros indéfinies jetteront également une exception.</p>
 </section>
 
 <section name="Substitution de cas" href="Substitutiondecas">
@@ -559,6 +566,17 @@ ${data.Request.ServerName}
     manière créative la sortie d'un code Java -- permet aux concepteurs de vraiment prendre en charge l'apparence et le
     contenu du site web.
   </p>
+  <p>Les directives commencent toujours par un <em>#</em>. Comme les références, le nom des directives peut être entouré
+    par des accolades <em>{</em> et <em>}</em>. C'est utile quand les directives sont immédiatement suivies par du texte.
+    Par exemple, l'expression suivante produit une erreur :
+  </p>
+<source><![CDATA[
+#if($a==1)true ça va#elsepas question!#end
+]]></source>
+<p>Dans ce cas, il faut utiliser des accolades pour séparer le <em>#else</em> du reste de la ligne :</p>
+<source><![CDATA[
+#if($a==1)true ça va#{else}pas question!#end
+]]></source>
   <a name="Set"><strong>#set</strong></a>
   <p>
     La directive <em>#set</em> s'utilise pour donner une valeur à une référence. Une valeur peut être assignée soit à une
@@ -575,28 +593,34 @@ ${data.Request.ServerName}
   </p>
   <p>
     <ul>
-      <li>Une référence (variable)</li>
+      <li>Une variable</li>
       <li>Une chaîne de caractères littérale</li>
-      <li>Une référence (propriété)</li>
-      <li>Une référence à une méthode</li>
+      <li>Une propriété</li>
+      <li>Une méthode</li>
       <li>Un nombre littéral</li>
-      <li>Une ArrayList</li>
+      <li>Une liste</li>
+      <li>Un dictionnaire</li>
     </ul>
   </p>
   <p>Les exemples suivants montrent chacun des types susmentionnés:</p>
   <source><![CDATA[
-#set( $monkey = $bill ) ## référence (variable)
+#set( $monkey = $bill ) ## variable
 #set( $monkey.Friend = "monica" ) ## chaîne de caractères littérale
-#set( $monkey.Blame = $whitehouse.Leak ) ## référence (propriété)
-#set( $monkey.Plan = $spindoctor.weave($web) ) ## référence à une méthode
+#set( $monkey.Blame = $whitehouse.Leak ) ## propriété
+#set( $monkey.Plan = $spindoctor.weave($web) ) ## méthode
 #set( $monkey.Number = 123 ) ## nombre littéral
-#set( $monkey.Say = ["Not", $my, "fault"] ) ## ArrayList
+#set( $monkey.Say = ["Not", $my, "fault"] ) ## liste
+#set( $monkey.Map = {"banana" : "good", "roast beef" : "bad"}) ## dictionnaire
 ]]></source>
   <p>
-    NOTE: Dans le dernier exemple, les éléments définis avec l'opérateur [..] sont accessibles en utilisant les méthodes
+    NOTE: Pour l'exemple de la liste, les éléments définis avec l'opérateur <em>[..]</em> sont accessibles en utilisant les méthodes
     définies dans la classe ArrayList. Ainsi, par exemple, on peut accéder au premier élément en écrivant
-    $monkey.Say.get(0)
+    <em>$monkey.Say.get(0)</em>
   </p>
+  <p>De même, pour l'exemple du dictionnaire, les éléments définis avec l'opérateur { } sont accessibles en utilisant
+  les méthodes définies dans la classe Map. Ainsi, par exemple, on peut accéder au premier élément en écrivant
+  <em>$monkey.Map.get("banana")</em> pour retourner la chaîne 'good', ou même <em>$monkey.Map.banana</em> pour retourner
+  la même valeur.</p>
   <p>Le membre de droite peut aussi être une expression arithmétique simple:</p>
   <source><![CDATA[
 #set( $value = $foo + 1 )
@@ -700,6 +724,22 @@ $blargh
     de Velocity. Ce comportement peut être changé en éditant le fichier <code>velocity.properties</code> et en y écrivant
     l'entrée: <code>stringliterals.interpolate=false</code>.
   </p>
+<p>Également, la directive <em>#litteral</em> permet au concepteur de gabarits de facilement utiliser de gros morceaux de contenu
+non interprété de code VTL. Ceci peut être particulièrement utile en remplacement de multiples <a href="#EchappementdesdirectivesVTL">échappements de directives</a>.</p>
+<source><![CDATA[
+#literal()
+#foreach ($woogie in $boogie)
+  nothing will happen to $woogie
+#end
+#end 
+]]></source>
+<p>Sera rendu comme :</p>
+<source><![CDATA[
+#foreach ($woogie in $boogie)
+  nothing will happen to $woogie
+#end
+]]></source>
+
 </section>
 
 <section name="Conditions" href="Conditions">
@@ -813,6 +853,15 @@ $blargh
     <em>référence silencieuse $!foo</em> que nous avons déjà rencontrée et qui représente quelque chose de complètement
     différent.
   </p>
+  <p>Il y a des versions textes de tous les opérateurs logiques, incluant <em>eq</em> (égal), <em>ne</em> (différent),
+<em>and</em> (et), <em>or</em> (ou), <em>not</em> (négation), <em>gt</em> (strictement plus grand), <em>ge</em> (plus grand
+ou égal), <em>lt</em> (strictement plus petit) et <em>le</em> (plus petit ou égal).</p>
+<p>Une dernière remarque. Quand on souhaite inclure du texte immédiatement après une directive <em>#else</em>, on doit
+utiliser des accolades directement autour de la directive pour la différencier du texte qui suit (toutes les directives
+peuvent être délimitées avec des accolades, même si c'est principalement utile avec <em>#else</em>).</p>
+  <source><![CDATA[
+#if( $foo == $bar )C'est ça !#{else}C'est pas ça!#end
+]]></source>
 </section>
 
 <section name="Boucles" href="Boucles">
@@ -856,9 +905,17 @@ $blargh
 #end
 </table>
 ]]></source>
+  <p>Velocity fournit aussi un moyen simple de savoir si l'on est sur la dernière itération d'une boucle :</p>
+<source><![CDATA[
+#foreach( $customer in $customerList )
+  $customer.Name #if( $velocityHasNext ),#end
+#end   
+]]></source>
   <p>
-    Le nom par défaut de la variable/référence du compteur de bouche est spécifié dans le fichier
-    <code>velocity.properties</code>. Par défaut le compteur démarre à 1, mais ceci aussi peut être paramétré (à 0 ou 1)
+    Le nom de la référence du compteur de bouche est spécifié dans le fichier
+    <code>velocity.properties</code>, sa valeur par défaut est <em>$velocityCount</em>. De même pour le nom de  la
+    référence indiquant si l'on est sur la dernière itération, dont la valeur par défaut est <em>$velocityHasNext</em>.
+    Par défaut le compteur démarre à 1, mais ceci aussi peut être paramétré (à 0 ou 1)
     dans le fichier <code>velocity.properties</code>. Voici à quoi ressemble la section Propriétés du compteur de boucle
     dans le fichier <code>velocity.properties</code>:
   </p>
@@ -866,10 +923,29 @@ $blargh
 # Default name of the loop counter
 # variable reference.
 directive.foreach.counter.name = velocityCount
+directive.foreach.iterator.name = velocityHasNext 
 
 # Default starting value of the loop
 # counter variable reference.
 directive.foreach.counter.initial.value = 1
+]]></source>
+<p>Il est possible de définir le maximum autorisé du nombre de fois qu'une boucle peut être exécutée. Par défaut il
+n'y a pas de maximum (c'est indiqué par la valeur 0 ou moins), mais on peut le fixer à un nombre arbitraire dans le
+fichier <code>velocity.properties</code>. Cela peut être utile comme garde-fou.</p>
+<source><![CDATA[
+# The maximum allowed number of loops.
+directive.foreach.maxloops = -1 
+]]></source>
+<p>Si l'on veut arrêter de boucler depuis l'intérieur d'un <em>#foreach</em>, on peut maintenant utiliser la directive
+<em>#break</em> à n'importe quelle itération de la boucle :</p>
+<source><![CDATA[
+## list first 5 customers only
+#foreach( $customer in $customerList )
+  #if( $velocityCount > 5 )
+    #break
+  #end
+  $customer.Name
+#end 
 ]]></source>
 </section>
 
@@ -953,6 +1029,30 @@ $count
   </p>
   <source><![CDATA[
 #stop
+]]></source>
+</section>
+
+<section name="Evaluate" href="Evaluate">
+<p>La directive <em>#evaluate</em> peut être utilisée pour évaluer dynamiquement du code VTL. Cela permet au gabarit
+d'évaluer une chaîne qui est construite au moment du rendu. Une telle chaîne pourrait être utilisée pour internationaliser
+le gabarit ou pour include des fragments de gabarit depuis une base de donnée.</p>
+<p>L'exemple ci-dessous affiche <em>abs</em></p>
+<source><![CDATA[
+#set($source1 = "abc")
+#set($select = "1")
+#set($dynamicsource = "$source$select")
+## $dynamicsource is now the string '$source1'
+#evaluate($dynamicsource) 
+]]></source>
+</section>
+
+<section name="Define" href="Define">
+<p>La directive <em>#define</em> permet d'assigner un bloc de VTL à une référence.</p>
+<p>L'exemple ci-dessous affiche <em>Hello World!</em></p>
+<source><![CDATA[
+#define( $block )Hello $who#end
+#set( $who = 'World!' )
+$block 
 ]]></source>
 </section>
 
@@ -1154,7 +1254,106 @@ $count
   </p>
 </section>
 
-<section name="Echappement des directives VTL" href="EchappementdesdirectivesVTL">
+<section name="Sortie littérale" href="Sortielittérale">
+  <p>
+    VTL utilise des caractères spéciaux, comme  <em>$</em> et <em>#</em> pour accomplir sa tâche; il faut donc prendre
+    quelques précautions pour utiliser ces caractères dans vos gabarits. Cette section est consacrée à l'échappement
+    du caractère <em>$</em>.
+  </p>
+  <p>
+    <a name="Devise"><strong>Devise</strong></a>
+    <br/>Il n'y a pas de problème particulier à écrire "J'ai acheté un sac de 2 kg de patates au marché de la ferme
+    pour seulement $2.50!". Comme dit plus haut, un identifiant VTL commence toujours par une lettre, majuscule ou
+    minuscule, et donc $2.50 ne serait pas pris par erreur pour une référence.
+  </p>
+  <p>
+    <a name="EchapperdesréférencesVTLvalides"><strong>Echapper des références VTL valides</strong></a>
+    <br/>Il peut se produire dans certains cas que Velocity se trouve induit en confusion. <em>Echapper</em> les
+    caractères spéciaux est le meilleur moyen de traiter les caractères spéciaux du VTL dans vos gabarits, et ceci se
+    fait en utilisant le caractère backslash (<em>\</em>).
+  </p>
+  <source><![CDATA[
+#set( $email = "foo" )
+$email
+]]></source>
+  <p>
+    Lorsque Velocity rencontre une référence à <em>$email</em> dans votre gabarit VTL, il cherche dans le contexte la
+    valeur correspondante. Ici, la sortie sera <em>foo</em>, parce que <em>$email</em> est défini. Si <em>$email</em>
+    n'était pas défini, la sortie serait <em>$email</em>.
+  </p>
+  <p>
+    Supposons que <em>$email</em> soit défini (par exemple, cette référence a la valeur <em>foo</em>)
+    et que vous vouliez produire <em>$email</em>. Il y a différentes manières de le faire, mais la plus simple est
+    d'utiliser le caractère d'échappement.
+  </p>
+  <source><![CDATA[
+## La ligne qui suit définit $email dans ce gabarit:
+#set( $email = "foo" )
+$email
+\$email
+\\$email
+\\\$email
+]]></source>
+  <p>sera rendu comme:</p>
+  <source><![CDATA[
+foo
+$email
+\foo
+\$email
+]]></source>
+  <p>
+    Notez que le caractère <em>\</em> s'applique au <em>$</em> à partir de la gauche. Cette règle d'application
+    à partir de la gauche fait que <em>\\\$email</em> est rendu comme <em>\\$email</em>. Comparons maintenant ces examples
+    à ce qui se passe lorsque <em>$email</em> n'est pas défini.
+  </p>
+  <source><![CDATA[
+$email
+\$email
+\\$email
+\\\$email
+]]></source>
+  <p>sera rendu comme:</p>
+  <source><![CDATA[
+$email
+\$email
+\\$email
+\\\$email
+]]></source>
+  <p>
+    Remarquez comment Velocity traite les références définies différemment de celles qui n'ont pas été définies.
+    Voici par exemple une directive set qui donne à <em>$foo</em> la valeur <em>gibbous</em>.
+  </p>
+  <source><![CDATA[
+#set( $foo = "gibbous" )
+$moon = $foo
+]]></source>
+  <p>
+    La sortie sera: <em>$moon = gibbous</em> -- où <em>$moon</em> est rendu littéralement puisqu'il n'est pas défini,
+    alors que <em>gibbous</em> est rendu au lieu de <em>$foo</em>.
+  </p>
+  <p>
+    <a name="EchapperdesréférencesVTLvalides"><strong>Echapper des références VTL valides</strong></a>
+    <br/>Velocity a parfois des problèmes à interpréter un gabarit quand il rencontre une "référence invalide" pour du texte
+    dont on n'a jamais souhaité que ce soit une référence. Échapper les caractères spéciaux est de nouveau le meilleur moyen
+    de gérer ces situations, mais le caractère <em>\</em> risque de ne pas fonctionner dans ce cas. Au lieu d'essayer de juste
+    échapper le caractère <em>$</em> ou <em>#</em> problématique, il faut probabement simplement remplacer :
+  </p>
+<source><![CDATA[
+${my:invalid:non:reference} 
+]]></source>
+<p>Par :</p>
+<source><![CDATA[
+#set( $D = '$' )
+${D}{my:invalid:non:reference}
+]]></source>
+<p>Vous pouvez bien sûr mettre vos chaînes <em>$</em> et <em>#</em> directement dans le contexte depuis votre code Java (i.e.
+<code>context.put("D","$");</code>) pour éviter les directives <em>#set</em> additionnelles dans vos gabarits. Ou, si vous utilisez
+<a href="http://velocity.apache.org/tools/devel/">VelocityTools</a>, vous pouvez tout simplement utiliser l'outil EscapeTool comme suit :</p>
+<source><![CDATA[
+${esc.d}{my:invalid:non:reference} 
+]]></source>
+<p><a name="EchappementdesdirectivesVTL">Echappement des directives VTL</a><br/>
+</p>
   <p>
     Les directives VTL peuvent être échappées avec le caractère barre de fraction inversée ("\"), de la même manière que
     les références VTL valides.
@@ -1472,8 +1671,9 @@ Outer : inner : outerlala
 #foo( $color )
 ]]></source>
     <strong>Peut-on enregistrer des Velocimacros avec #parse() ?</strong>
+    <p><strong>Oui ! C'est devenu possible avec Velocity 1.6.</strong></p>
     <p>
-      Pour l'instant, les Velocimacros doivent être définies avant d'être utilisées dans un gabarit.
+      Si vous utilisez un version antérieure, les Velocimacros doivent être définies avant d'être utilisées dans un gabarit.
       Ce qui signifie que les déclarations #macro() doivent précéder l'usage des Velocimacros.
     </p>
     <p>
