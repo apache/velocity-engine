@@ -90,6 +90,10 @@
     <a href="#directive">directive</a>. Escaping is done by putting a 
     <code>\</code> character before the <code>#</code> or <code>$</code>.</dd>
 
+    <dt><a name="evaluate">#evaluate</a></dt>
+    <dd>A <a href="#directive">directive</a> which dynamically evaluates
+    a string literal or reference.  </dd>
+
     <dt><a name="foreach">#foreach</a></dt>
     <dd>A <a href="#directive">directive</a> that allows you to repeat
     something on every value in a Collection, Array, Iterable, Map or
