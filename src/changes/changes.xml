@@ -25,7 +25,11 @@
   </properties>
 
   <body>
-    <release version="1.6" date="In Subversion">
+    <release version="1.7" date="In Subversion">
+
+    </release>
+
+    <release version="1.6" date="2008-12-01">
 
       <action type="fix" dev="nbubna" issue="VELOCITY-649" due-to="Byron Foster">
           Fix NPE when null value is passed to array/vararg method.

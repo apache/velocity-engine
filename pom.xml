@@ -33,7 +33,7 @@
 
   <groupId>org.apache.velocity</groupId>
   <artifactId>velocity</artifactId>
-  <version>1.6</version>
+  <version>1.7-dev</version>
 
   <name>Apache Velocity</name>
   <url>http://velocity.apache.org/engine/devel/</url>
@@ -46,7 +46,7 @@
   </prerequisites>
 
   <build>
-    <defaultGoal>post-site</defaultGoal>
+    <defaultGoal>install</defaultGoal>
     <sourceDirectory>src/java</sourceDirectory>
     <testSourceDirectory>src/test</testSourceDirectory>
     <plugins>
