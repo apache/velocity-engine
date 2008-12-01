@@ -135,6 +135,17 @@ and it can be found in the /bin directory as
 velocity-dep-<version>.jar
 
 
+KNOWN ISSUES AND LIMITATIONS
+----------------------------
+
+When running findbugs on a project, the default heap size might not
+be enough to complete the build. For now there is no way to fork
+findbugs and run with its own memory requirements, but the following
+system variable will allow you to do so when running it via Maven:
+
+export MAVEN_OPTS=-Xmx384M
+
+
 TRYING THE EXAMPLES
 -------------------
 
