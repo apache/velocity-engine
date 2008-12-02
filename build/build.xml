@@ -732,12 +732,6 @@
       </fileset>
     </copy>
 
-    <copy todir="${dist.dir}/convert">
-      <fileset dir="${velocity.dir}/convert">
-        <include name="**"/>
-      </fileset>
-    </copy>
-
     <!-- Copy docs, exclude API docs -->
     <copy todir="${dist.dir}/docs">
       <fileset dir="${build.docs}">
