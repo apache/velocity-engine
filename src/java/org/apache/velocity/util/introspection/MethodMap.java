@@ -328,6 +328,14 @@ public class MethodMap
             if (methodArgs.length == classes.length + 1 &&
                 methodArgs[methodArgs.length - 1].isArray())
             {
+                // all the args preceding the vararg must match
+                for (int i = 0; i < classes.length; i++)
+                {
+                    if (!isConvertible(methodArgs[i], classes[i], false))
+                    {
+                        return false;
+                    }
+                }
                 return true;
             }
             else
