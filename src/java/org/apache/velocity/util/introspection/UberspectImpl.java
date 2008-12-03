@@ -431,7 +431,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             if (actual.length == index)
             {
                 // create an empty array of the expected type
-                actual = new Object[] { Array.newInstance(type, 0) };
+                Object[] newActual = new Object[actual.length + 1];
+                System.arraycopy(actual, 0, newActual, 0, actual.length);
+                newActual[index] = Array.newInstance(type, 0);
+                actual = newActual;
             }
             // if one value is being passed into the vararg
             else if (actual.length == index + 1 && actual[index] != null)
