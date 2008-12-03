@@ -27,6 +27,11 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="nbubna">
+          Removed obsolete WebMacro conversion tool and experimental Veltag
+          (which has been replaced by VelocityViewTag from VelocityTools).
+      </action>
+
     </release>
 
     <release version="1.6" date="2008-12-01">
