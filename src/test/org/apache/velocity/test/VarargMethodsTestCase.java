@@ -128,7 +128,6 @@ public class VarargMethodsTestCase extends BaseEvalTestCase
 
     public void testVelocity651()
     {
-        DEBUG = true;
         assertEvalEquals("String,List", "$nasty.test651('test',['TEST'])");
     }
 
