@@ -34,6 +34,15 @@
 
     </release>
 
+    <release version="1.6.1" date="In Subversion">
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-651" due-to="Stephan Schmid">
+          Fix vararg bugs when calling overloaded methods like get(String,String,Object[])
+          and get(String,List). (e.g. in VelocityStruts' MessageTool)
+      </action>
+
+    </release>
+
     <release version="1.6" date="2008-12-01">
 
       <action type="fix" dev="nbubna" issue="VELOCITY-649" due-to="Byron Foster">
