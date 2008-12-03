@@ -1085,6 +1085,9 @@
       and the non-dep jar, source jar, javadoc jar, pom and respective md5, sha1 and asc files should be copied into 
         /www/people.apache.org/repo/m2-ibiblio-rsync-repository/org/apache/velocity/velocity/${version}/
 
+    * Remove older releases of the same grade as this one (alpha, beta, final) from
+        /www/www.apache.org/dist/velocity/engine
+
     * Tag the release in SVN with a command such as:
         svn copy -m "Release Engine ${version}" https://svn.apache.org/repos/asf/velocity/engine/trunk \
            https://svn.apache.org/repos/asf/velocity/engine/tags/${version}
