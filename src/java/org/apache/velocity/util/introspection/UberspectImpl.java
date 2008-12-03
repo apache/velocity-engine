@@ -430,9 +430,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             // if no values are being passed into the vararg
             if (actual.length == index)
             {
-                // create an empty array of the expected type
+                // copy existing args to new array
                 Object[] newActual = new Object[actual.length + 1];
                 System.arraycopy(actual, 0, newActual, 0, actual.length);
+                // create an empty array of the expected type
                 newActual[index] = Array.newInstance(type, 0);
                 actual = newActual;
             }
