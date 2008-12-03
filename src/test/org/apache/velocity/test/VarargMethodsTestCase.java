@@ -121,6 +121,17 @@ public class VarargMethodsTestCase extends BaseEvalTestCase
         assertEvalEquals("int[]", "$nasty.test649($null)");
     }
 
+    public void testArgsBeforeVarargWithNoArgs()
+    {
+        assertEvalEquals("String,String,Object[]", "$nasty.test651('a','b')");
+    }
+
+    public void testVelocity651()
+    {
+        DEBUG = true;
+        assertEvalEquals("String,List", "$nasty.test651('test',['TEST'])");
+    }
+
 
 
     public static class NiceTool
@@ -227,6 +238,16 @@ public class VarargMethodsTestCase extends BaseEvalTestCase
         public String test649(int[] array)
         {
             return "int[]";
+        }
+
+        public String test651(String s, String s2, Object[] args)
+        {
+            return "String,String,Object[]";
+        }
+
+        public String test651(String s, java.util.List l)
+        {
+            return "String,List";
         }
 
     }
