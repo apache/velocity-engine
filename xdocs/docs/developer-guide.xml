@@ -33,22 +33,22 @@
 <ol>
 
 <li>
-<a href="#introduction">Introduction and Getting Started</a>
+<a href="#Introduction">Introduction and Getting Started</a>
 </li>
 
 <li>
-<a href="#resources">Resources</a>
+<a href="#Resources">Resources</a>
 </li>
 
 <li>
-<a href="#how_velocity_works">How Velocity Works</a>
+<a href="#How_Velocity_Works">How Velocity Works</a>
 <ul>
  <li><a href="#thefundamentalpattern">The Fundamental Pattern</a></li>
 </ul>
 </li>
 
 <li>
-<a href="#to_singleton_or_not_to_singleton...">To Singleton Or Not To Singleton...</a>
+<a href="#To_Singleton_Or_Not_To_Singleton...">To Singleton Or Not To Singleton...</a>
 <ul>
   <li><a href="#singleton">Singleton Model</a></li>
   <li><a href="#separate">Separate Instance</a></li>
@@ -56,7 +56,7 @@
 </li>
 
 <li>
-<a href="#the_context">The Context</a>
+<a href="#The_Context">The Context</a>
 <ul>
 <li><a href="#thebasics">The Basics</a></li>
 <li><a href="#supportforiterativeobjectsforforeach">Support for Iterative Objects for #foreach()</a></li>
@@ -68,7 +68,7 @@
 </li>
 
 <li>
-<a href="#using_velocity">Using Velocity in General Applications</a>
+<a href="#Using_Velocity">Using Velocity in General Applications</a>
 <ul>
 <li><a href="#thevelocityhelperclass">The Velocity Helper Class</a></li>
 <li><a href="#exceptions">Exceptions</a></li>
@@ -77,19 +77,19 @@
 </li>
 
 <li>
-  <a href="#application_attributes">Application Attributes</a>
+  <a href="#Application_Attributes">Application Attributes</a>
 </li>
 
 <li>
-<a href="#configuring_event_handlers">Configuring Event Handlers</a>
+<a href="#Configuring_Event_Handlers">Configuring Event Handlers</a>
 </li>
 
 <li>
-<a href="#velocity_configuration_keys_and_values">Velocity Configuration Keys and Values</a>
+<a href="#Velocity_Configuration_Keys_and_Values">Velocity Configuration Keys and Values</a>
 </li>
 
 <li>
-<a href="#configuring_logging">Configuring Logging</a>
+<a href="#Configuring_Logging">Configuring Logging</a>
  <ul>
   <li>
     <a href="#usinglog4jwithexistinglogger">Using Log4j With Existing Logger</a>
@@ -101,7 +101,7 @@
 </li>
 
 <li>
-<a href="#configuring_resource_loaders">Configuring the Resource Loaders (template loaders)</a>
+<a href="#Configuring_Resource_Loaders">Configuring the Resource Loaders (template loaders)</a>
 <ul>
   <li>
     <a href="#resourceloaders">Resource Loaders</a>
@@ -116,22 +116,22 @@
 </li>
 
 <li>
-<a href="#template_encoding_for_internationalization">Template Encoding for Internationalization</a>
+<a href="#Template_Encoding_for_Internationalization">Template Encoding for Internationalization</a>
 </li>
 
 <li>
-<a href="#velocity_and_xml">Velocity and XML</a>
+<a href="#Velocity_and_XML">Velocity and XML</a>
 </li>
 
 <li>
-<a href="#summary">Summary</a>
+<a href="#Summary">Summary</a>
 </li>
 
 </ol>
 </p>
 </section>
 
-<section name="Introduction" href="introduction">
+<section name="Introduction" href="Introduction">
 <p>
 Velocity is a Java-based template engine, a simple and powerful development tool
 that allows you to easily create and render documents that format and present
@@ -220,7 +220,7 @@ default build target, you must add the dependencies to your classpath.
 
 </section>
 
-<section name="Resources" href="resources">
+<section name="Resources" href="Resources">
 <p>
 There are quite a few resources and examples available to the programmer, and we
 recommend that you look at our examples, documentation and even the source code.
@@ -298,7 +298,7 @@ All directory references above are relative to the distribution root directory.
 </p>
 </section>
 
-<section name="How Velocity Works" href="how_velocity_works">
+<section name="How Velocity Works" href="How_Velocity_Works">
 
 <p>
 <a name="thefundamentalpattern"><strong>'The Fundamental Pattern'</strong></a>
@@ -379,7 +379,7 @@ either explicitly, or behind the scenes.
 
 </section>
 
-<section name="To Singleton Or Not To Singleton..." href="to_singleton_or_not_to_singleton...">
+<section name="To Singleton Or Not To Singleton..." href="To_Singleton_Or_Not_To_Singleton...">
 
 <p>
 As of Velocity 1.2 and later, developers now have two options
@@ -501,7 +501,7 @@ classes are intended for the application developer.
 </p>
 </section>
 
-<section name="The Context" href="the_context">
+<section name="The Context" href="The_Context">
 
 <a name="thebasics"><strong>The Basics</strong></a>
 <p>
@@ -878,7 +878,7 @@ won't gather new introspection information each time.
 
 </section>
 
-<section name="Using Velocity" href="using_velocity">
+<section name="Using Velocity" href="Using_Velocity">
 
 <p>If you are using <a href="http://velocity.apache.org/tools/devel/view/">VelocityViewServlet</a>
 or other web frameworks, you may never call Velocity directly.  However, if you use
@@ -1247,7 +1247,7 @@ in the following section.
 
 </section>
 
-<section name="Application Attributes" href="application_attributes">
+<section name="Application Attributes" href="Application_Attributes">
 <p>
 <i>Application Attributes</i> are name-value pairs that can be associated with
 a RuntimeInstance (either via the <code>VelocityEngine</code> or
@@ -1298,7 +1298,7 @@ it must do so via the Object passed as the value.
 </p>
 </section>
 
-<section name="Configuring Event Handlers" href="configuring_event_handlers">
+<section name="Configuring Event Handlers" href="Configuring_Event_Handlers">
 
 <p>
 Velocity contains a fine-grained event handling system that allows you to customize the operation of the engine.  For example, you may change the text of references that are inserted into a page, modify which templates are actually included with <code>#include</code> or <code>#parse</code>, or capture all invalid references.
@@ -1510,7 +1510,7 @@ public class Test
 
 </section>
 
-<section name="Velocity Configuration Keys and Values" href="velocity_configuration_keys_and_values">
+<section name="Velocity Configuration Keys and Values" href="Velocity_Configuration_Keys_and_Values">
 
 <p>
 Velocity's runtime configuration is controlled by a set of configuration keys
@@ -1537,7 +1537,7 @@ values.
 </p>
 
 <p>
-Please sees the section above <a href="#using_velocity"><b>Using
+Please sees the section above <a href="#Using_Velocity"><b>Using
 Velocity</b></a> for discussion on the configuration API.
 </p>
 
@@ -1565,7 +1565,7 @@ instantiated instance of a logging class that supports the interface
 <code>org.apache.velocity.runtime.log.LogChute</code>, which allows
 the combination of Velocity log messages with your other application
 log messages.  Please see the section
-<a href="#configuring_logging"><b>Configuring Logging</b></a>
+<a href="#Configuring_Logging"><b>Configuring Logging</b></a>
 for more information.
 </p>
 
@@ -1962,7 +1962,7 @@ rather than just returning the first non-null value.
 
 </section>
 
-<section name="Configuring Logging" href="configuring_logging">
+<section name="Configuring Logging" href="Configuring_Logging">
 
 <p>
 Velocity has a few nice logging features to allow both simplicity and
@@ -2035,7 +2035,7 @@ You may specify the classname as you specify any other properties. See
 the information on the
 <a href="#thevelocityhelperclass">
 Velocity helper class</a> as well as the
-<a href="#velocity_configuration_keys_and_values">
+<a href="#Velocity_Configuration_Keys_and_Values">
 configuration keys and values.</a>
 Please note that the old <code>org.apache.velocity.runtime.log.LogSystem</code>
 interface has been deprecated for v1.5 in favor of the new LogChute interface.
@@ -2058,7 +2058,7 @@ and Velocity will log messages to your application's logger.
 See the information on the
 <a href="#thevelocityhelperclass">Velocity helper class</a>
 as well as the
-<a href="#velocity_configuration_keys_and_values">configuration keys and values.</a>
+<a href="#Velocity_Configuration_Keys_and_Values">configuration keys and values.</a>
 </li>
 
 </ul>
@@ -2202,7 +2202,7 @@ public class MyClass implements LogChute
 
 </section>
 
-<section name="Configuring Resource Loaders" href="configuring_resource_loaders">
+<section name="Configuring Resource Loaders" href="Configuring_Resource_Loaders">
 
 <a name="resourceloaders"><strong>Resource Loaders</strong></a>
 
@@ -2227,7 +2227,7 @@ each described below.  Note that in the example configuration properties given,
 a common name for the loader is shown
 (ex.'file' in <code>file.resource.loader.path</code>). This 'common name'
 may not work for your configuration. Please read the section on
-<a href="#velocity_configuration_keys_and_values">resource configuration properties</a>
+<a href="#Velocity_Configuration_Keys_and_Values">resource configuration properties</a>
  to understand how this system works.  Also, each of these loaders is
 located in the package <code>org.apache.velocity.runtime.resource.loader</code>.
 </p>
@@ -2309,7 +2309,7 @@ For more information on this loader, please see the javadoc for the class
 <p>
 Configuring the resource loaders for Velocity is straightforward.
 The properties that control the are listed in the
-<a href="#configuring_resource_loaders">resource configuration</a>
+<a href="#Configuring_Resource_Loaders">resource configuration</a>
 section, for further reference.
 </p>
 
@@ -2526,7 +2526,7 @@ This key is also defined as a contstant
 
 </section>
 
-<section name="Template Encoding for Internationalization" href="template_encoding_for_internationalization">
+<section name="Template Encoding for Internationalization" href="Template_Encoding_for_Internationalization">
 
 <p>
 Velocity allows you to specify the character encoding of your
@@ -2559,7 +2559,7 @@ encoding is an application specific issue.
 
 </section>
 
-<section name="Velocity and XML" href="velocity_and_xml">
+<section name="Velocity and XML" href="Velocity_and_XML">
 
 <p>
 Velocity's flexibility and simple template language makes it an ideal environment
@@ -2717,7 +2717,7 @@ Christoph Reck, an active participant in the Velocity community.
 
 </section>
 
-<section name="Summary" href="summary">
+<section name="Summary" href="Summary">
 
 <p>
 We hope this brief guide was a helpful introduction to using Velocity in
