@@ -325,42 +325,23 @@ Here we get the date from the DateTool:  $date.medium
 
 
 You can copy any additional velocity files
-into this same directory.  In examples/WEB-INF you will see a file "toolbox.xml".  This specifies a list of "Tools"
+into this same directory.  In examples/WEB-INF you will see a file "tools.xml".  This specifies a list of "Tools"
 that are automatically included in the context.
 
 <source><![CDATA[
-<toolbox>
-  <xhtml>true</xhtml>
-  <tool>
-     <key>toytool</key>
-     <class>ToyTool</class>
-  </tool>
-  <data type="number">
-    <key>version</key>
-    <value>1.1</value>
-  </data>
-  <data type="boolean">
-    <key>isSimple</key>
-    <value>true</value>
-  </data>
-  <data type="string">
-    <key>foo</key>
-    <value>this is foo.</value>
-  </data>
-  <data type="string">
-    <key>bar</key>
-    <value>this is bar.</value>
-  </data>
-  <tool>
-    <key>map</key>
-    <class>java.util.HashMap</class>
-  </tool>
-  <tool>
-    <key>date</key>
-    <scope>application</scope>
-    <class>org.apache.velocity.tools.generic.DateTool</class>
-  </tool>
-</toolbox>
+<tools>
+    <data type="boolean" key="xhtml" value="true"/>
+    <data type="boolean" key="isSimple" value="true"/>
+    <data type="number" key="version" value="2.0"/>
+    <data key="foo">this is foo</data>
+    <data key="bar">this is bar.</data>
+    <toolbox scope="request">
+        <tool key="toytool" class="ToyTool" restrictTo="index*"/>
+    </toolbox>
+    <toolbox scope="session">
+        <tool key="map" class="java.util.HashMap"/>
+    </toolbox>
+</tools>
 ]]></source>
 
 And finally the web.xml file specifies the name of the servlet and location of toolbox.properties.
@@ -368,14 +349,7 @@ And finally the web.xml file specifies the name of the servlet and location of t
 <web-app>
   <servlet>
     <servlet-name>velocity</servlet-name>
-    <servlet-class>
-        org.apache.velocity.tools.view.servlet.VelocityViewServlet
-    </servlet-class>
-    <init-param>
-      <param-name>org.apache.velocity.toolbox</param-name>
-      <param-value>/WEB-INF/toolbox.xml</param-value>
-    </init-param>
-    <load-on-startup>10</load-on-startup>
+    <servlet-class>org.apache.velocity.tools.view.VelocityViewServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>velocity</servlet-name>
@@ -397,8 +371,8 @@ http://localhost:8080/simple/index.vm
 
 </li>
 <li>Experiment with adding new Velocity pages.  Note that you can access any velocity page just by changing the URL.  Try changing the
-entries in toolbox.xml or creating your own tools.  Consult the <a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a>
-documentation and the <a href="http://wiki.apache.org/velocity/">Wiki</a> for more info on the wide variety of tools available.
+entries in tools.xml or creating your own tools.  Consult the <a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a>
+documentation, the "showcase" example application, and the <a href="http://wiki.apache.org/velocity/">Wiki</a> for more info on the wide variety of tools available.
 </li>
 </ol>
 
