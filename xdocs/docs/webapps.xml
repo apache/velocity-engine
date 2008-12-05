@@ -69,7 +69,7 @@ There are several strong contenders.
 The easiest way to get started is to download the companion <a href="http://velocity.apache.org/tools/devel/">Velocity Tools</a>
 subproject and use the
 <a href="http://velocity.apache.org/tools/devel/view/">VelocityViewServlet</a>.  This servlet is easy to configure
-and install.  You create a directory of templates on your web server, edit an XML file that lists various "Tools" to
+and install.  You create a directory of templates on your web server, optionally edit an XML file that lists various "Tools" to
 place in the context and you are off.  More details can be found in the tutorial below.
 </li>
 
@@ -83,10 +83,10 @@ to take advantage of the large base of Struts infrastructure while designing pag
 <li><strong>Third party frameworks</strong> - There are a number of third party frameworks listed on the
 <a href="http://wiki.apache.org/velocity/PoweredByVelocity">PoweredByVelocity</a>
 wiki page.  Of these, <a href="http://www.springframework.org/">Spring</a> is probably the most sophisticated and well known.
-<a href="http://jakarta.apache.org/turbine/">Jakarta Turbine</a> has many features and can also be very useful.
+<a href="http://turbine.apache.org/">Apache Turbine</a> has many features and can also be very useful.
 It was built with Velocity as the primary page language, which is not surprising since many of the original Velocity
 developers were involved in creating it.
-Simpler alternative are the <a href="http://click.sourceforge.net/">Click</a> or <a href="http://mav.sourceforge.net/">Maverick</a> frameworks,
+Simpler alternatives are the <a href="http://click.sourceforge.net/">Click</a> or <a href="http://mav.sourceforge.net/">Maverick</a> frameworks,
 which provide a simple Controller architecture that integrates nicely with
 Velocity.
 </li>
@@ -111,6 +111,49 @@ you use VelocityViewServlet in Velocity Tools instead.
 There are a few issues with Velocity that are specific to web applications.  Here is a brief discussion of the most
 commonly encountered issues.
 </p>
+
+<subsection name="Resource Loading Headaches" href="ResourceLoadingHeadaches">
+<p>The default Velocity Engine settings make use of the FileResourceLoader.  This
+is great for most applications that are not deployed to a servlet engine.  Once you
+need to build a web application and ship or deploy it as a WAR file, the
+FileResourceLoader can become your worst enemy.  So, we explicitly recommend you do
+NOT use the FileResourceLoader for your web applications.
+</p>
+
+<p>Really, any of the other ResourceLoader implementations out there are preferred,
+but all the other ResourceLoaders shipped with Velocity Engine will require you
+to store your templates somewhere besides the standard file system (e.g. in the classpath,
+in a database, or on a remote server).  If that works for you, then great!  However,
+we recognize that these are not convenient for most people's development cycle.
+</p>
+
+<p>The simplest replacement for FileResourceLoader in a web application is actually
+a part of the VelocityTools project.  It is the 
+<a href="http://velocity.apache.org/tools/devel/javadoc/org/apache/velocity/tools/view/WebappResourceLoader.html">WebappResourceLoader</a>.  This ResourceLoader implementation is
+specifically designed to work just like the FileResourceLoader, but it is aware of
+the servlet context and allows you to configure resource paths relative to the
+servlet root, rather than the local file system.
+</p>
+
+<p>If you are using the VelocityViewServlet, then it is automatically configured
+and ready to use the WebappResourceLoader.  So if you want to change the configured path(s),
+you need only add a line like the following to your velocity.properties:
+</p>
+
+<source><![CDATA[webapp.resource.loader.path=/WEB-INF/mytemplates/]]></source>
+
+<p>If you need to set the WebappResourceLoader up on your own, then you can make your properties something like this:</p>
+
+<source><![CDATA[resource.loader=webapp
+webapp.resource.loader.class=org.apache.velocity.tools.view.WebappResourceLoader
+webapp.resource.loader.path=/WEB-INF/mytemplates/]]></source>
+
+<p>You will <b>also need to put the ServletContext into your VelocityEngine's application attributes</b> before initializing that Engine.  This is how the WebappResourceLoader knows
+how to find templates.</p>
+
+<source><![CDATA[myVelocityEngine.setApplicationAttribute("javax.servlet.ServletContext", servletContext);]]></source>
+
+</subsection>
 
 <subsection name="Changing Object State - Don't!" href="ChangingObjectState-Don't!">
 <p>Velocity provides the ability to call any method of an object acting as a reference.  This can be useful when displaying
