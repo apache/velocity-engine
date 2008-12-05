@@ -10,9 +10,17 @@ Upgrading from earlier versions
  must be adjusted because newer versions of Velocity might require
  updates.
 
+* Upgrading from Velocity 1.6
+
+  There are no changes in the dependencies since Velocity 1.6
+
 * Upgrading from Velocity 1.5
 
-  There are no changes in the dependencies since Velocity 1.5
+    * {{{http://commons.apache.org/collections/}Commons Collections}} has been upgraded to version 3.2.1.
+
+    * {{{http://commons.apache.org/lang/}Commons Lang}} has been upgraded to version 2.4.
+
+    * {{{http://commons.apache.org/logging/}Commons Logging}} is required for compiling and using CommonsLogLogChute.
 
 * Upgrading from Velocity 1.4 or earlier
 
