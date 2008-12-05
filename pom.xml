@@ -320,10 +320,10 @@
   </reporting>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/trunk</developerConnection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/branches/1.6.x</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/branches/1.6.x</developerConnection>
     <tag>HEAD</tag>
-    <url>http://svn.apache.org/viewvc/velocity/engine/trunk</url>
+    <url>http://svn.apache.org/viewvc/velocity/engine/branches/1.6.x</url>
   </scm>
 
     <properties>
