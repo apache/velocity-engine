@@ -26,7 +26,7 @@
 
   <body>
 
-    <release version="1.6.1" date="In Subversion">
+    <release version="1.6.1" date="2008-12-12">
 
       <action type="fix" dev="nbubna" issue="VELOCITY-651" due-to="Stephan Schmid">
           Fix vararg bugs when calling overloaded methods like get(String,String,Object[])
