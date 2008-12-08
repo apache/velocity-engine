@@ -21,6 +21,7 @@ package org.apache.velocity.context;
 
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -57,9 +58,6 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     /** container for any local or constant macro arguments. Size must be power of 2. */
     Map localcontext = new HashMap(8, 0.8f);;
 
-    /** context that we are wrapping */
-    InternalContextAdapter wrappedContext;
-
     /** support for local context scope feature, where all references are local */
     private boolean localContextScope;
 
@@ -79,8 +77,6 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
 
         this.localContextScope = localContextScope;
         this.rsvc = rsvc;
-
-        wrappedContext = inner;
     }
 
     /**
@@ -168,56 +164,28 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
      */
     protected Object put(final String key, final Object value, final boolean forceLocal)
     {
-        Node astNode = (Node) vmproxyhash.get(key);
-
-        if (astNode != null)
+        Object old = localcontext.put(key, value);
+        if (!forceLocal)
         {
-            if (astNode.getType() == ParserTreeConstants.JJTREFERENCE)
-            {
-                ASTReference ref = (ASTReference) astNode;
-
-                if (ref.jjtGetNumChildren() > 0)
-                    ref.setValue(wrappedContext, value);
-                else
-                    wrappedContext.put(ref.getRootString(), value);
-
-            }
-            else
-            {
-                rsvc.getLog().error("ProxyVMContext.put() : New value cannot be assigned to a constant: "
-                                    + key + " / " + get("$" + key + ".literal"));
-            }
-            return null;
+            old = super.put(key, value);
         }
-        else
-        {
-            if (forceLocal)
-            {
-                return localcontext.put(key, value);
-            }
-            else
-            {
-                if (localcontext.containsKey(key))
-                {
-                    return localcontext.put(key, value);
-                }
-                else
-                {
-                    return super.put(key, value);
-                }
-            }
-        }
+        return old;
     }
 
     /**
-     * Implementation of the Context.get() method.
+     * Implementation of the Context.get() method.  First checks
+     * localcontext, then arguments, then global context.
      * 
      * @param key name of item to get
      * @return stored object or null
      */
     public Object get(String key)
     {
-        Object o = null;
+        Object o = localcontext.get(key);
+        if (o != null)
+        {
+            return o;
+        }
 
         Node astNode = (Node) vmproxyhash.get(key);
 
@@ -233,14 +201,14 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
 
                 if (ref.jjtGetNumChildren() > 0)
                 {
-                    return ref.execute(null, wrappedContext);
+                    return ref.execute(null, innerContext);
                 }
                 else
                 {
-                    Object obj = wrappedContext.get(ref.getRootString());
+                    Object obj = innerContext.get(ref.getRootString());
                     if (obj == null && ref.strictRef)
                     {
-                        if (!wrappedContext.containsKey(ref.getRootString()))
+                        if (!innerContext.containsKey(ref.getRootString()))
                         {
                             throw new MethodInvocationException("Parameter '" + ref.getRootString() 
                                 + "' not defined", null, key, ref.getTemplateName(), 
@@ -256,8 +224,7 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
                 try
                 {
                     StringWriter writer = new StringWriter();
-                    astNode.render(wrappedContext, writer);
-
+                    astNode.render(innerContext, writer);
                     return writer.toString();
                 }
                 catch (RuntimeException e)
@@ -274,20 +241,11 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
             else
             {
                 // use value method to render other dynamic nodes
-                return astNode.value(wrappedContext);
-            }
-        }
-        else
-        {
-            o = localcontext.get(key);
-
-            if (o == null)
-            {
-                o = super.get(key);
+                return astNode.value(innerContext);
             }
         }
 
-        return o;
+        return super.get(key);
     }
 
     /**
@@ -305,7 +263,18 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
      */
     public Object[] getKeys()
     {
-        return vmproxyhash.keySet().toArray();
+        if (localcontext.isEmpty())
+        {
+            return vmproxyhash.keySet().toArray();
+        }
+        else if (vmproxyhash.isEmpty())
+        {
+            return localcontext.keySet().toArray();
+        }
+
+        HashSet keys = new HashSet(localcontext.keySet());
+        keys.addAll(vmproxyhash.keySet());
+        return keys.toArray();
     }
 
     /**
@@ -313,24 +282,18 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
      */
     public Object remove(Object key)
     {
-        if (vmproxyhash.containsKey(key))
+        Object loc = localcontext.remove(key);
+        Object arg = vmproxyhash.remove(key);
+        Object glo = null;
+        if (!localContextScope)
         {
-            return vmproxyhash.remove(key);
+            glo = super.remove(key);
         }
-        else
+        if (loc != null)
         {
-            if (localContextScope)
-            {
-                return localcontext.remove(key);
-            }
-
-            Object oldValue = localcontext.remove(key);
-            if (oldValue == null)
-            {
-                oldValue = super.remove(key);
-            }
-            return oldValue;
+            return loc;
         }
+        return glo;
     }
 
 }
