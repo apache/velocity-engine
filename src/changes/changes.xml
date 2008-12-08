@@ -26,7 +26,12 @@
 
   <body>
 
-    <release version="1.6.1" date="2008-12-12">
+    <release version="1.6.1" date="2008-12-15">
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-615" due-to="Steve O'Hara">
+          Fix limitation in new macro implementation that resisted #set calls
+          to change references defined as arguments for the macro.
+      </action>
 
       <action type="fix" dev="nbubna" issue="VELOCITY-651" due-to="Stephan Schmid">
           Fix vararg bugs when calling overloaded methods like get(String,String,Object[])
