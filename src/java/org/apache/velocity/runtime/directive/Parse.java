@@ -34,6 +34,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
@@ -202,9 +203,7 @@ public class Parse extends InputBase
              * the arg wasn't found.  Note it and throw
              */
             rsvc.getLog().error("#parse(): cannot find template '" + arg +
-                                "', called from template " +
-                                context.getCurrentTemplateName() + " at (" +
-                                getLine() + ", " + getColumn() + ")" );
+                                "', called at " + Log.formatFileString(this));
             throw rnfe;
         }
         catch ( ParseErrorException pee )
@@ -213,12 +212,8 @@ public class Parse extends InputBase
              * the arg was found, but didn't parse - syntax error
              *  note it and throw
              */
-
             rsvc.getLog().error("#parse(): syntax error in #parse()-ed template '"
-                                + arg + "', called from template " +
-                                context.getCurrentTemplateName() + " at (" +
-                                getLine() + ", " + getColumn() + ")" );
-
+                                + arg + "', called at " + Log.formatFileString(this));
             throw pee;
         }
         /**
@@ -226,11 +221,14 @@ public class Parse extends InputBase
          */
         catch( RuntimeException e )
         {
+            rsvc.getLog().error("Exception rendering #parse(" + arg + ") at " +
+                                Log.formatFileString(this));
             throw e;
         }
         catch ( Exception e)
         {
-            String msg = "#parse() : arg = " + arg + '.';
+            String msg = "Exception rendering #parse(" + arg + ") at " +
+                         Log.formatFileString(this);
             rsvc.getLog().error(msg, e);
             throw new VelocityException(msg, e);
         }
@@ -262,27 +260,22 @@ public class Parse extends InputBase
                 ((SimpleNode) t.getData()).render( context, writer );
             }
         }
-
-        /*
-         *  if it's a MIE, it came from the render.... throw it...
-         */
-        catch( MethodInvocationException e )
-        {
-            throw e;
-        }
-        
         /**
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )
         {
+            /**
+             * Log #parse errors so the user can track which file called which.
+             */
+            rsvc.getLog().error("Exception rendering #parse(" + arg + ") at " +
+                                Log.formatFileString(this));
             throw e;
         }
-
-
         catch ( Exception e )
         {
-            String msg = "Exception rendering #parse(" + arg + ')';
+            String msg = "Exception rendering #parse(" + arg + ") at " +
+                         Log.formatFileString(this);
             rsvc.getLog().error(msg, e);
             throw new VelocityException(msg, e);
         }
