@@ -30,6 +30,7 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.resource.Resource;
@@ -157,9 +158,8 @@ public class Include extends InputBase
             }
             else
             {
-                String msg = "invalid #include() argument type [line "+getLine()+
-                             ", column "+getColumn()+", template "+
-                             context.getCurrentTemplateName()+"]: "+n.toString();
+                String msg = "invalid #include() argument '" 
+                  + n.toString() + "' at " + Log.formatFileString(this);
                 rsvc.getLog().error(msg);
                 outputErrorToStream( writer, "error with arg " + i
                     + " please see log.");
@@ -198,7 +198,7 @@ public class Include extends InputBase
         Object value = node.value( context );
         if ( value == null)
         {
-            rsvc.getLog().error("#include()  null argument");
+            rsvc.getLog().error("#include() null argument");
             return false;
         }
 
@@ -234,9 +234,7 @@ public class Include extends InputBase
              * the arg wasn't found.  Note it and throw
              */
             rsvc.getLog().error("#include(): cannot find resource '" + arg +
-                                "', called from template " +
-                                context.getCurrentTemplateName() + " at (" +
-                                getLine() + ", " + getColumn() + ")" );
+                                "', called at " + Log.formatFileString(this));
             throw rnfe;
         }
 
@@ -245,14 +243,14 @@ public class Include extends InputBase
          */
         catch( RuntimeException e )
         {
+            rsvc.getLog().error("#include(): arg = '" + arg +
+                                "', called at " + Log.formatFileString(this));
             throw e;
         }
         catch (Exception e)
         {
             String msg = "#include(): arg = '" + arg +
-                        "', called from template " +
-                        context.getCurrentTemplateName() + " at (" +
-                        getLine() + ", " + getColumn() + ')';
+                        "', called at " + Log.formatFileString(this);
             rsvc.getLog().error(msg, e);
             throw new VelocityException(msg, e);
         }

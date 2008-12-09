@@ -120,9 +120,8 @@ public class ASTDirective extends SimpleNode
                             parser.getDirective(directiveName).getClass().getName(),
                             e);
                 }
-                    
-    
-                directive.setLocation( getLine(), getColumn() );
+                        
+                directive.setLocation(getLine(), getColumn(), getTemplateName());
                 directive.init(rsvc, context,this);
             }
             else
@@ -131,7 +130,7 @@ public class ASTDirective extends SimpleNode
                  * Create a new RuntimeMacro
                  */
                 directive = new RuntimeMacro(directiveName, getTemplateName());
-                directive.setLocation( getLine(), getColumn() );
+                directive.setLocation(getLine(), getColumn(), getTemplateName());
         
                 /**
                  * Initialize it
