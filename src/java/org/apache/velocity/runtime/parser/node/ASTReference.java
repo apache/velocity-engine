@@ -301,13 +301,6 @@ public class ASTReference extends SimpleNode
         }
         catch(MethodInvocationException mie)
         {
-            /*
-             *  someone tossed their cookies
-             */
-
-            log.error("Method " + mie.getMethodName()
-                      + " threw exception for reference $" + rootString + " in "
-                      + Log.formatFileString(this));
             mie.setReferenceName(rootString);
             throw mie;
         }
