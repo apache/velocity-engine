@@ -43,6 +43,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
 {
     private int line = 0;
     private int column = 0;
+    private String templateName;
 
     /**
      *
@@ -73,6 +74,17 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     }
 
     /**
+     * Allows the template location to be set.
+     * @param line
+     * @param column
+     */
+    public void setLocation(int line, int column, String templateName)
+    {
+        setLocation(line, column);
+        this.templateName = templateName;
+    }
+
+    /**
      * for log msg purposes
      * @return The current line for log msg purposes.
      */
@@ -88,6 +100,15 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     public int getColumn()
     {
         return column;
+    }
+    
+    /**
+     * @return The template file name this directive was defined in, or null if not 
+     * defined in a file.
+     */
+    public String getTemplateName()
+    {
+      return templateName;
     }
 
     /**
