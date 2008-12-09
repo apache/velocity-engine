@@ -36,6 +36,14 @@
 
     <release version="1.6.1" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-654" due-to="Byron Foster">
+          Correct/enhance template name reporting for #include and #parse.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-653" due-to="Byron Foster">
+          Removed redundant error message in ASTReference.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-615" due-to="Steve O'Hara">
           Fix limitation in new macro implementation that resisted #set calls
           to change references defined as arguments for the macro.
