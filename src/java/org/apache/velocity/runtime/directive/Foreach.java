@@ -341,8 +341,8 @@ public class Foreach extends Directive
         {
             // TODO: JDK 1.5+ -> Integer.valueOf()
             put(context, counterName , new Integer(counter));
-            put(context, hasNextName, Boolean.valueOf(i.hasNext()));
             Object value = i.next();
+            put(context, hasNextName, Boolean.valueOf(i.hasNext()));
             put(context, elementKey, value);
 
             try
