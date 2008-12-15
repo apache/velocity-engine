@@ -27,6 +27,10 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="fix" dev="cbrisson">
+          Fix $velocityHasNext so it is not always true.
+      </action>
+
       <action type="add" dev="nbubna">
           Removed obsolete WebMacro conversion tool and experimental Veltag
           (which has been replaced by VelocityViewTag from VelocityTools).
@@ -34,7 +38,7 @@
 
     </release>
 
-    <release version="1.6.1" date="In Subversion">
+    <release version="1.6.1" date="2008-12-15">
 
       <action type="fix" dev="nbubna" issue="VELOCITY-654" due-to="Byron Foster">
           Correct/enhance template name reporting for #include and #parse.
