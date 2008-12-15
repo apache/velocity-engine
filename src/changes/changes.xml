@@ -26,6 +26,14 @@
 
   <body>
 
+    <release version="1.6.2-dev" date="In Subversion">
+
+      <action type="fix" dev="cbrisson">
+          Fix $velocityHasNext so it is not always true.
+      </action>
+
+    </release>
+
     <release version="1.6.1" date="2008-12-15">
 
       <action type="fix" dev="nbubna" issue="VELOCITY-654" due-to="Byron Foster">
