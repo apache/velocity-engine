@@ -844,13 +844,61 @@
     <echo message="${checksum.tgz.sha1} *${final.name}.tar.gz" file="${build.dir}/${final.name}.tar.gz.sha1" />
   </target>
 
+  <target name="release.howto">
+    <echo>
+                         ***** RELEASE INSTRUCTIONS *****
+
+    * Be sure you can answer "yes" to the following:
+
+        * Was your local code up to date and free of modifications or extra files?
+
+        * Was the version number correct in both build.properties and pom.xml?
+
+        * For a final release, the distributionManagement.site.url value
+          in the pom.xml should be:
+            scpexe://people.apache.org/www/velocity.apache.org/engine/releases/velocity-${version}
+          and for alpha or beta releases it should be:
+            scpexe://people.apache.org/www/velocity.apache.org/engine/devel/
+
+        * Do all new files have the Apache License? (use "ant rat" to double-check)
+
+        * Is ${build.src}/changes/changes.xml up to date?
+          Feel free to set an estimated release date for this version in that file;
+          it can be corrected later if the release is delayed.
+
+        * Is ${build.src}/site/apt/upgrading.apt up to date for this release?
+
+        * Is the ${velocity.dir}/README.txt up to date for this release?
+
+        * If a final release, update the "Where do I get releases?" section of
+            ${build.dir}/xdocs/docs/index.xml
+          to show the latest stable version number.
+
+    * Write down the current svn revision so you don't have to look it up
+      later when you make the tag for this release (post-vote).
+
+    * Go to ${build.dir} and sign all the jar, zip, tar.gz and pom files
+      with your personal PGP key. If using gpg, you'll probably do this:
+        gpg --armor --output ${final.name}.zip.asc --detach-sig ${final.name}.zip
+
+    * SSH into people.apache.org and make sure that this directory exists:
+        ${publish.dir}
+
+    * If you haven't done it before, ensure that your PGP key is appended to
+        /www/www.apache.org/dist/velocity/KEYS
+      Some instructions for that are at the top of that file.
+
+    * Call "ant publish"
+    </echo>        
+  </target>
+
   <!-- ================================================================== -->
   <!-- Internal targets for Release Manager to ensure that the right      -->
   <!-- JDK is used for building the release.                              -->
   <!-- ================================================================== -->
   <target name="release"
     description="Build the packages as release manager, does additional checks over the package target"
-    depends="package-java-check, clean, package, pom" />
+    depends="package-java-check, clean, package, pom, release.howto"/>
 
   <!-- ================================================================== -->
   <!-- Packages the distribution with ZIP and TAR-GZIP                    -->
@@ -1026,11 +1074,7 @@
     </condition>
   </target>
 
-  <!-- =================================================================== -->
-  <!-- Uploads the distribution files after checking that they're ready.   -->
-  <!-- =================================================================== -->
-  <target name="publish" depends="prepare.publish" if="ready"
-          description="Uploads distribution files to the distribution server">
+  <target name="publish.upload" depends="prepare.publish" if="ready">
     <echo>
     Uploading distribution files from
       ${build.dir}
@@ -1049,6 +1093,9 @@
         <include name="*.pom"/>
       </fileset>
     </scp>
+  </target>
+
+  <target name="publish.howto">
     <echo>
                          ***** RELEASE INSTRUCTIONS *****
 
@@ -1068,9 +1115,9 @@
             echo
           end
 
-    * Announce the availability of the test build on the dev@velocity.apache.org list.
+    * Announce the availability of an Engine ${version} test build on dev@velocity.apache.org.
     
-    * Allow a couple days for people to test the test build.
+    * Allow a few days for people to test the test build.
 
     * Call for a release vote on private@velocity.apache.org and dev@velocity.apache.org
 
@@ -1083,19 +1130,39 @@
         /www/www.apache.org/dist/velocity/engine
 
     * Tag the release in SVN with a command such as:
-        svn copy -m "Release Engine ${version}" https://svn.apache.org/repos/asf/velocity/engine/trunk \
+        svn copy -m "Release Engine ${version}" -r [revision #] \
+           https://svn.apache.org/repos/asf/velocity/engine/trunk \
            https://svn.apache.org/repos/asf/velocity/engine/tags/${version}
 
-    * Publish the documentation for this release on the website
+    * Go to ${velocity.dir} and run "mvn site" then "mvn site:deploy"
+      to publish the documentation for this release on the website
 
-    * Update the download and news pages on the website
+    * Wait a day or so for the mirrors and maven repos to sync up.
 
-    * Send an announcement email to all Velocity lists and announce@apache.org
-      once most of the mirrors have been updated with the distribution files.
+    * Update the main website (velocity-site project) with the release info:
+
+       * Add this ${version} release to news.xml, download.xml, doap_engine.rdf and
+         the "Release status" section of index.xml
+
+       * Check those changes into SVN
+
+       * Email Henning to have him update and build the site from velocity.zones.apache.org
+         (or get velocity-site to work for other people besides Henning)
+
+    * Wait a few hours for the site to sync up.
+
+    * Send an announcement email from your apache.org address to all Velocity lists
+      and also to announce@apache.org.
     
     * Review http://wiki.apache.org/velocity/ReleaseProcess for more details.
     </echo>
   </target>
+
+  <!-- =================================================================== -->
+  <!-- Uploads the distribution files after checking that they're ready.   -->
+  <!-- =================================================================== -->
+  <target name="publish" depends="publish.upload,publish.howto" if="ready"
+      description="Uploads distribution files and provides instructions"/>
 
   <!-- =================================================================== -->
   <!-- JUnit Tests for Velocity                                            -->
@@ -1148,6 +1215,31 @@
 
    <ant antfile="${velocity.build.dir}/testcases.xml"
         target="test-clean"/>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Analyze code with Apache RAT                                        -->
+  <!-- =================================================================== -->
+  <target name="rat" depends="package-tgz"
+    description="Runs Apache RAT against the source code.">
+    <!-- TODO: download RAT and deps -->
+    <echo>
+      NOTE: At this time, you must add Apache RAT, Apache RAT AntTasks
+      Commons-Lang, Commons-Collections and Commons-CLI to Ant's lib directory
+      to use this.
+    </echo>
+    <mkdir dir="${build.test.reports}"/>
+    <typedef resource="org/apache/rat/anttasks/antlib.xml" uri="antlib:rat.anttasks"/>
+    <rat:report xmlns:rat="antlib:org.apache.rat.anttasks"
+      reportFile="${build.test.reports}/rat-report.txt">
+      <tarfileset>
+        <gzipresource>
+          <file file="${build.dir}/${final.name}.tar.gz"/>
+        </gzipresource>
+      </tarfileset>
+    </rat:report>
+    <echo>Your RAT report is here: ${build.test.reports}/rat-report.txt</echo>
   </target>
 
 
