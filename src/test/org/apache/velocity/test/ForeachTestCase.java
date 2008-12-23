@@ -124,6 +124,20 @@ public class ForeachTestCase extends TestCase
         assertEquals("", writer.toString());
     }
 
+    public void testVelocityHasNextProperty()
+        throws Exception
+    {
+        List list = new ArrayList();
+        list.add("test1");
+        list.add("test2");
+        list.add("test3");
+        context.put("list", list);
+    
+        StringWriter writer = new StringWriter();
+        String template = "#foreach ($value in $list)$value #if( $velocityHasNext )SEPARATOR #end#end";
+        Velocity.evaluate(context, writer, "test", template);
+        assertEquals("test1 SEPARATOR test2 SEPARATOR test3 ", writer.toString());
+    }    
 
     public static class MyIterable
     {
