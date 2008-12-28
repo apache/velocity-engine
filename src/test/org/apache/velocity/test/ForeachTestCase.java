@@ -38,28 +38,11 @@ import org.apache.velocity.test.provider.ForeachMethodCallHelper;
  * @author Daniel Rall
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  */
-public class ForeachTestCase extends TestCase
+public class ForeachTestCase extends BaseEvalTestCase
 {
-    private VelocityContext context;
-
     public ForeachTestCase(String name)
     {
         super(name);
-    }
-
-    public void setUp()
-        throws Exception
-    {
-        // Limit the loop to three iterations.
-        Velocity.setProperty(RuntimeConstants.MAX_NUMBER_LOOPS,
-                             new Integer(3));
-
-        Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
-
-        Velocity.init();
-
-        context = new VelocityContext();
     }
 
     /**
@@ -68,11 +51,11 @@ public class ForeachTestCase extends TestCase
     public void testMaxNbrLoopsConstraint()
         throws Exception
     {
-        StringWriter writer = new StringWriter();
-        String template = "#foreach ($item in [1..10])$item #end";
-        Velocity.evaluate(context, writer, "test", template);
-        assertEquals("Max number loops not enforced",
-                     "1 2 3 ", writer.toString());
+        // Limit the loop to three iterations.
+        engine.setProperty(RuntimeConstants.MAX_NUMBER_LOOPS,
+                             new Integer(3));
+
+        assertEvalEquals("1 2 3 ", "#foreach ($item in [1..10])$item #end");             
     }
 
     /**
@@ -88,12 +71,7 @@ public class ForeachTestCase extends TestCase
         context.put("helper", new ForeachMethodCallHelper());
         context.put("col", col);
 
-        StringWriter writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test",
-                          "#foreach ( $item in $col )$helper.getFoo($item) " +
-                          "#end");
-        assertEquals("Method calls while looping over varying classes failed",
-                     "int 100 str STRVALUE ", writer.toString());
+        assertEvalEquals("int 100 str STRVALUE ", "#foreach ( $item in $col )$helper.getFoo($item) #end");             
     }
 
     /**
@@ -106,11 +84,7 @@ public class ForeachTestCase extends TestCase
     {
         context.put("iterable", new MyIterable());
 
-        StringWriter writer = new StringWriter();
-        String template = "#foreach ($i in $iterable)$i #end";
-        Velocity.evaluate(context, writer, "test", template);
-        assertEquals("Failed to call iterator() method",
-                     "1 2 3 ", writer.toString());
+        assertEvalEquals("1 2 3 ", "#foreach ($i in $iterable)$i #end");             
     }
 
     public void testNotReallyIterableIteratorMethod()
@@ -118,10 +92,7 @@ public class ForeachTestCase extends TestCase
     {
         context.put("nri", new NotReallyIterable());
 
-        StringWriter writer = new StringWriter();
-        String template = "#foreach ($i in $nri)$i #end";
-        Velocity.evaluate(context, writer, "test", template);
-        assertEquals("", writer.toString());
+        assertEvalEquals("", "#foreach ($i in $nri)$i #end");             
     }
 
     public void testVelocityHasNextProperty()
@@ -132,13 +103,27 @@ public class ForeachTestCase extends TestCase
         list.add("test2");
         list.add("test3");
         context.put("list", list);
-    
-        StringWriter writer = new StringWriter();
-        String template = "#foreach ($value in $list)$value #if( $velocityHasNext )SEPARATOR #end#end";
-        Velocity.evaluate(context, writer, "test", template);
-        assertEquals("test1 SEPARATOR test2 SEPARATOR test3 ", writer.toString());
+        assertEvalEquals("test1 SEPARATOR test2 SEPARATOR test3 ", "#foreach ($value in $list)$value #if( $velocityHasNext )SEPARATOR #end#end");             
     }    
 
+    public void testNestedVelocityHasNextProperty()
+        throws Exception
+    {
+        List list = new ArrayList();
+        list.add("test1");
+        list.add("test2");
+        list.add("test3");
+        list.add("test4");
+        context.put("list", list);
+        List list2 = new ArrayList();
+        list2.add("a1");
+        list2.add("a2");
+        list2.add("a3");
+        context.put("list2", list2);
+
+        assertEvalEquals("test1 (a1;a2;a3)-test2 (a1;a2;a3)-test3 (a1;a2;a3)-test4 (a1;a2;a3)", "#foreach ($value in $list)$value (#foreach ($val in $list2)$val#if( $velocityHasNext );#end#end)#if( $velocityHasNext )-#end#end");             
+    }    
+    
     public static class MyIterable
     {
         private List foo;
