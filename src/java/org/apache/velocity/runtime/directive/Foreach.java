@@ -329,7 +329,8 @@ public class Foreach extends Directive
          */
         Object o = context.get(elementKey);
         Object savedCounter = context.get(counterName);
-
+        Object nextFlag = context.get(hasNextName);
+        
         /*
          * Instantiate the null holder context if a null value
          * is returned by the foreach iterator.  Only one instance is
@@ -404,6 +405,18 @@ public class Foreach extends Directive
         else
         {
             context.remove(elementKey);
+        }
+
+        /*
+         * restores the "hasNext" boolean flag if it exists
+         */         
+        if( nextFlag != null )
+        {
+            context.put(hasNextName, nextFlag);
+        }
+        else
+        {
+            context.remove(hasNextName);
         }
 
         return true;
