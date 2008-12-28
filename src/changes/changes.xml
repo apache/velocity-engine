@@ -28,7 +28,16 @@
 
     <release version="1.6.2-dev" date="In Subversion">
 
-      <action type="fix" dev="cbrisson">
+      <action type="fix" dev="byron" issue="VELOCITY-658" due-to="Jarkko Viinamäki">
+          Fix $velocityHasNext so that it works in nested foreach blocks.
+      </action>
+
+      <action type="fix" dev="byron" issue="VELOCITY-645">
+          Throw an exception in strict mode when >=, &lt;=, &lt; or >
+          comparisons can't be made.
+      </action>
+      
+      <action type="fix" dev="cbrisson" issue="VELOCITY-657">
           Fix $velocityHasNext so it is not always true.
       </action>
 
