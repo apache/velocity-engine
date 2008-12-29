@@ -20,12 +20,14 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.RuntimeLoggerLog;
@@ -67,7 +69,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      *  makes sure that the log gets set before this is called,
      *  we can initialize the Introspector using the log object.
      */
-    public void init() throws Exception
+    public void init()
     {
         introspector = new Introspector(log);
     }
@@ -102,10 +104,8 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param obj The iterative object.
      * @param i Info about the object's location.
      * @return An {@link Iterator} object.
-     * @throws Exception
      */
     public Iterator getIterator(Object obj, Info i)
-            throws Exception
     {
         if (obj.getClass().isArray())
         {
@@ -153,7 +153,15 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                 Class returns = iter.getReturnType();
                 if (Iterator.class.isAssignableFrom(returns))
                 {
-                    return (Iterator)iter.invoke(obj, null);
+                    try
+                    {
+                        return (Iterator)iter.invoke(obj, null);
+                    } 
+                    catch (Exception e)
+                    {
+                        throw new VelocityException("Error invoking the method 'iterator' on class '" 
+                            + obj.getClass().getName() +"'", e);
+                    }
                 }
                 else
                 {
@@ -180,10 +188,8 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param args
      * @param i
      * @return A Velocity Method.
-     * @throws Exception
      */
     public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
-            throws Exception
     {
         if (obj == null)
         {
@@ -230,7 +236,6 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @throws Exception
      */
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
-            throws Exception
     {
         if (obj == null)
         {
@@ -286,7 +291,6 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      */
     public VelPropertySet getPropertySet(Object obj, String identifier,
                                          Object arg, Info i)
-            throws Exception
     {
         if (obj == null)
         {

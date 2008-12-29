@@ -84,7 +84,7 @@ public class Template extends Resource
      * @throws IOException problem reading input stream
      */
     public boolean process()
-        throws ResourceNotFoundException, ParseErrorException, IOException
+        throws ResourceNotFoundException, ParseErrorException
     {
         data = null;
         InputStream is = null;
@@ -151,14 +151,28 @@ public class Template extends Resource
              */
             catch( RuntimeException e )
             {
-                throw new RuntimeException("Exception thrown processing Template "+getName(), e);
+                errorCondition = new VelocityException("Exception thrown processing Template "
+                    +getName(), e);
+                throw errorCondition;
             }
             finally
             {
                 /*
                  *  Make sure to close the inputstream when we are done.
                  */
-                is.close();
+                try
+                {
+                    is.close();
+                }
+                catch(IOException e)
+                {
+                    // If we are already throwing an exception then we want the original
+                    // exception to be continued to be thrown, otherwise, throw a new Exception.
+                    if (errorCondition == null)
+                    {
+                         throw new VelocityException(e);
+                    }                    
+                }
             }
         }
         else
@@ -166,7 +180,6 @@ public class Template extends Resource
             /*
              *  is == null, therefore we have some kind of file issue
              */
-
             errorCondition = new ResourceNotFoundException("Unknown resource error for resource " + name );
             throw errorCondition;
         }
@@ -227,10 +240,9 @@ public class Template extends Resource
      *  @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      *  @throws MethodInvocationException When a method on a referenced object in the context could not invoked.
-     *  @throws IOException  Might be thrown while rendering.
      */
     public void merge( Context context, Writer writer)
-        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, IOException
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         merge(context, writer, null);
     }
@@ -248,11 +260,10 @@ public class Template extends Resource
      *  @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      *  @throws MethodInvocationException When a method on a referenced object in the context could not invoked.
-     *  @throws IOException  Might be thrown while rendering.
      *  @since 1.6
      */
     public void merge( Context context, Writer writer, List macroLibraries)
-        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, IOException
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         /*
          *  we shouldn't have to do this, as if there is an error condition,
@@ -326,6 +337,10 @@ public class Template extends Resource
                 ica.setCurrentResource( this );
 
                 ( (SimpleNode) data ).render( ica, writer);
+            }
+            catch (IOException e)
+            {
+                throw new VelocityException("IO Error rendering template '"+ name + "'", e);
             }
             finally
             {

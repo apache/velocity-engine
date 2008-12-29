@@ -59,7 +59,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      * @see org.apache.velocity.util.introspection.Uberspect#init()
      */
     //@Override
-    public void init() throws Exception
+    public void init()
     {
         leftUberspect.init();
         rightUberspect.init();
@@ -73,7 +73,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      */
     //@SuppressWarnings("unchecked")
     //@Override
-    public Iterator getIterator(Object obj, Info i) throws Exception
+    public Iterator getIterator(Object obj, Info i)
     {
         Iterator it = leftUberspect.getIterator(obj,i);
         return it != null ? it : rightUberspect.getIterator(obj,i);
@@ -86,7 +86,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      *      java.lang.Object[], org.apache.velocity.util.introspection.Info)
      */
     //@Override
-    public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i) throws Exception
+    public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
     {
         VelMethod method = leftUberspect.getMethod(obj,methodName,args,i);
         return method != null ? method : rightUberspect.getMethod(obj,methodName,args,i);
@@ -99,7 +99,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      *      org.apache.velocity.util.introspection.Info)
      */
     //@Override
-    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i) throws Exception
+    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
     {
         VelPropertyGet getter = leftUberspect.getPropertyGet(obj,identifier,i);
         return getter != null ? getter : rightUberspect.getPropertyGet(obj,identifier,i);
@@ -112,7 +112,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      *      java.lang.Object, org.apache.velocity.util.introspection.Info)
      */
     //@Override
-    public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i) throws Exception
+    public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
     {
         VelPropertySet setter = leftUberspect.getPropertySet(obj,identifier,arg,i);
         return setter != null ? setter : rightUberspect.getPropertySet(obj,identifier,arg,i);

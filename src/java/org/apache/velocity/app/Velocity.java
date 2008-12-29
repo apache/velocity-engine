@@ -70,11 +70,8 @@ public class Velocity implements RuntimeConstants
     /**
      *  initialize the Velocity runtime engine, using the default
      *  properties of the Velocity distribution
-     *
-     * @throws Exception When an error during initialization occurs.
      */
     public static void init()
-        throws Exception
     {
         RuntimeSingleton.init();
     }
@@ -85,10 +82,8 @@ public class Velocity implements RuntimeConstants
      *
      *  @param propsFilename file containing properties to use to initialize
      *         the Velocity runtime
-     * @throws Exception When an error during initialization occurs.
      */
     public static void init( String propsFilename )
-        throws Exception
     {
         RuntimeSingleton.init(propsFilename);
     }
@@ -102,7 +97,6 @@ public class Velocity implements RuntimeConstants
      *
      */
     public static void init( Properties p )
-        throws Exception
     {
         RuntimeSingleton.init( p );
     }
@@ -321,7 +315,7 @@ public class Velocity implements RuntimeConstants
      */
     public static boolean mergeTemplate( String templateName,
                                          Context context, Writer writer )
-        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         return mergeTemplate( templateName, RuntimeSingleton.getString(INPUT_ENCODING,ENCODING_DEFAULT),
                                context, writer );
@@ -347,7 +341,7 @@ public class Velocity implements RuntimeConstants
      */
     public static boolean mergeTemplate( String templateName, String encoding,
                                       Context context, Writer writer )
-        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         Template template = RuntimeSingleton.getTemplate(templateName, encoding);
 
@@ -378,7 +372,7 @@ public class Velocity implements RuntimeConstants
      * @throws Exception if an error occurs in template initialization
      */
     public static Template getTemplate(String name)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return RuntimeSingleton.getTemplate( name );
     }
@@ -399,7 +393,7 @@ public class Velocity implements RuntimeConstants
      *  @since Velocity v1.1
      */
     public static Template getTemplate(String name, String encoding)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return RuntimeSingleton.getTemplate( name, encoding );
     }

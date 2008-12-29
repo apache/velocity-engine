@@ -31,7 +31,7 @@ import org.apache.velocity.util.introspection.VelPropertyGet;
 public class UberspectTestImpl extends UberspectImpl
 {
 
-    public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i) throws Exception
+    public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
     {
         VelMethod method = super.getMethod(obj, methodName, args, i);
 
@@ -46,7 +46,7 @@ public class UberspectTestImpl extends UberspectImpl
         return method;
     }
 
-    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i) throws Exception
+    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
     {
         VelPropertyGet propertyGet = super.getPropertyGet(obj, identifier, i);
 

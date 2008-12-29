@@ -37,10 +37,8 @@ public class ResourceLoaderFactory
      * @param rs
      * @param loaderClassName
      * @return TemplateLoader
-     * @throws Exception
      */
     public static ResourceLoader getLoader(RuntimeServices rs, String loaderClassName)
-     throws Exception
     {
         ResourceLoader loader = null;
 

@@ -72,10 +72,8 @@ public class SecureUberspector extends UberspectImpl implements RuntimeServicesA
      * @param obj object to iterate over
      * @param i line, column, template info
      * @return Iterator for object
-     * @throws Exception
      */
     public Iterator getIterator(Object obj, Info i)
-        throws Exception
     {
         if (obj != null)
         {

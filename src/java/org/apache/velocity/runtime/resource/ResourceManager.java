@@ -48,9 +48,8 @@ public interface ResourceManager
     /**
      * Initialize the ResourceManager.
      * @param rs
-     * @throws Exception
      */
-    public void initialize( RuntimeServices rs ) throws Exception;
+    public void initialize( RuntimeServices rs );
 
     /**
      * Gets the named resource.  Returned class type corresponds to specified type
@@ -68,7 +67,7 @@ public interface ResourceManager
      * @throws Exception if a problem in parse
      */
     public Resource getResource(String resourceName, int resourceType, String encoding )
-        throws ResourceNotFoundException, ParseErrorException, Exception;
+        throws ResourceNotFoundException, ParseErrorException;
 
     /**
      *  Determines is a template exists, and returns name of the loader that

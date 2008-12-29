@@ -83,7 +83,7 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
     // replaces getFoo by getBar
     public static class ChainedUberspector extends AbstractChainableUberspector
     {
-        public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info info) throws Exception
+        public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info info)
         {
             identifier = identifier.replaceAll("foo","bar");
             return inner.getPropertySet(obj,identifier,arg,info);
@@ -93,7 +93,7 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
     // replaces setFoo by setBar
     public static class LinkedUberspector extends UberspectImpl
     {
-        public VelPropertyGet getPropertyGet(Object obj, String identifier, Info info) throws Exception
+        public VelPropertyGet getPropertyGet(Object obj, String identifier, Info info)
         {
             identifier = identifier.replaceAll("foo","bar");
             return super.getPropertyGet(obj,identifier,info);

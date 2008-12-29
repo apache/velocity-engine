@@ -19,8 +19,6 @@ package org.apache.velocity.runtime.resource;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +27,7 @@ import java.util.Vector;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
@@ -93,11 +92,8 @@ public class ResourceManagerImpl
      * Initialize the ResourceManager.
      *
      * @param  rsvc  The Runtime Services object which is associated with this Resource Manager.
-     *
-     * @throws  Exception
      */
     public synchronized void initialize(final RuntimeServices rsvc)
-        throws Exception
     {
         if (isInit)
         {
@@ -140,7 +136,7 @@ public class ResourceManagerImpl
                           ".resource.loader.class' specification in configuration." +
                           " This is a critical value.  Please adjust configuration.";
                 log.error(msg);
-                throw new Exception(msg);
+                throw new VelocityException(msg);
             }
 
             resourceLoader.commonInit(rsvc, configuration);
@@ -164,7 +160,6 @@ public class ResourceManagerImpl
 
         if (org.apache.commons.lang.StringUtils.isNotEmpty(cacheClassName))
         {
-
             try
             {
                 cacheObject = ClassUtils.getNewInstance(cacheClassName);
@@ -174,7 +169,17 @@ public class ResourceManagerImpl
                 String msg = "The specified class for ResourceCache (" + cacheClassName +
                           ") does not exist or is not accessible to the current classloader.";
                 log.error(msg, cnfe);
-                throw cnfe;
+                throw new VelocityException(msg, cnfe);
+            }
+            catch (IllegalAccessException ae)
+            {
+                throw new VelocityException("Could not access class '" 
+                    + cacheClassName + "'", ae);
+            } 
+            catch (InstantiationException ie)
+            {
+                throw new VelocityException("Could not instantiate class '" 
+                    + cacheClassName + "'", ie);
             }
 
             if (!(cacheObject instanceof ResourceCache))
@@ -270,12 +275,10 @@ public class ResourceManagerImpl
      *
      * @throws  ResourceNotFoundException  if template not found from any available source.
      * @throws  ParseErrorException  if template cannot be parsed due to syntax (or other) error.
-     * @throws  Exception  if a problem in parse
      */
     public Resource getResource(final String resourceName, final int resourceType, final String encoding)
         throws ResourceNotFoundException,
-            ParseErrorException,
-            Exception
+            ParseErrorException
     {
         /*
          * Check to see if the resource was placed in the cache.
@@ -338,11 +341,6 @@ public class ResourceManagerImpl
                 log.error("ResourceManager.getResource() exception", re);
         	    throw re;
             }
-            catch (Exception e)
-            {
-                log.error("ResourceManager.getResource() exception", e);
-                throw e;
-            }
         }
         else
         {
@@ -372,12 +370,7 @@ public class ResourceManagerImpl
             catch (RuntimeException re)
             {
                 log.error("ResourceManager.getResource() load exception", re);
-    		    throw re;
-            }
-            catch (Exception e)
-            {
-                log.error("ResourceManager.getResource() exception new", e);
-                throw e;
+                throw re;
             }
         }
 
@@ -408,12 +401,10 @@ public class ResourceManagerImpl
      *
      * @throws  ResourceNotFoundException  if template not found from any available source.
      * @throws  ParseErrorException  if template cannot be parsed due to syntax (or other) error.
-     * @throws  Exception  if a problem in parse
      */
     protected Resource loadResource(String resourceName, int resourceType, String encoding)
         throws ResourceNotFoundException,
-            ParseErrorException,
-            Exception
+            ParseErrorException
     {
         Resource resource = createResource(resourceName, resourceType);
         resource.setRuntimeServices(rsvc);
@@ -504,12 +495,9 @@ public class ResourceManagerImpl
      *
      * @throws  ResourceNotFoundException  if template not found from current source for this Resource
      * @throws  ParseErrorException  if template cannot be parsed due to syntax (or other) error.
-     * @throws  Exception  if a problem in parse
      */
     protected Resource refreshResource(Resource resource, final String encoding)
-        throws ResourceNotFoundException,
-            ParseErrorException,
-            Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         /*
          * The resource knows whether it needs to be checked

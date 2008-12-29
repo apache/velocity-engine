@@ -63,7 +63,7 @@ public class LogManager
 {
     // Creates a new logging system or returns an existing one
     // specified by the application.
-    private static LogChute createLogChute(RuntimeServices rsvc) throws Exception
+    private static LogChute createLogChute(RuntimeServices rsvc)
     {
         Log log = rsvc.getLog();
 
@@ -246,10 +246,9 @@ public class LogManager
      * settings determined by the RuntimeServices.
      * @param log
      * @param rsvc
-     * @throws Exception
      * @since 1.5
      */
-    public static void updateLog(Log log, RuntimeServices rsvc) throws Exception
+    public static void updateLog(Log log, RuntimeServices rsvc)
     {
         // create a new LogChute using the RuntimeServices
         LogChute newLogChute = createLogChute(rsvc);

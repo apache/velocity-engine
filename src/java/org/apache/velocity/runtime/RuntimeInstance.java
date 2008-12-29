@@ -236,7 +236,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws Exception When an error occured during initialization.
      */
     public synchronized void init()
-        throws Exception
     {
         if (!initialized && !initializing)
         {
@@ -302,7 +301,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  instantiates an instance.
      */
     private void initializeIntrospection()
-        throws Exception
     {
         String[] uberspectors = configuration.getStringArray(RuntimeConstants.UBERSPECT_CLASSNAME);
         for (int i=0; i <uberspectors.length;i++)
@@ -319,7 +317,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 String err = "The specified class for Uberspect (" + rm
                     + ") does not exist or is not accessible to the current classloader.";
                 log.error(err);
-                throw new Exception(err);
+                throw new VelocityException(err, cnfe);
+            }
+            catch (InstantiationException ie)
+            {
+              throw new VelocityException("Could not instantiate class '" + rm + "'", ie);
+            }
+            catch (IllegalAccessException ae)
+            {
+              throw new VelocityException("Cannot access class '" + rm + "'", ae);
             }
 
             if (!(o instanceof Uberspect))
@@ -329,7 +335,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + "; Velocity is not initialized correctly.";
 
                 log.error(err);
-                throw new Exception(err);
+                throw new VelocityException(err);
             }
 
             Uberspect u = (Uberspect)o;
@@ -377,7 +383,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
            + " information is correct.";
 
            log.error(err);
-           throw new Exception(err);
+           throw new VelocityException(err);
         }
     }
 
@@ -583,7 +589,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param p
      * @throws Exception When an error occurs during initialization.
      */
-    public void init(Properties p) throws Exception
+    public void init(Properties p)
     {
         setProperties(ExtendedProperties.convertProperties(p));
         init();
@@ -606,17 +612,22 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * ExtendedProperties object.
      *
      * @param configurationFile
-     * @throws Exception When an error occurs during initialization.
      */
     public void init(String configurationFile)
-        throws Exception
     {
-        setProperties(new ExtendedProperties(configurationFile));
+        try
+        {
+            setProperties(new ExtendedProperties(configurationFile));
+        } 
+        catch (IOException e)
+        {
+            throw new VelocityException("Error reading properties from '" 
+                + configurationFile + "'", e);
+        }
         init();
     }
 
     private void initializeResourceManager()
-        throws Exception
     {
         /*
          * Which resource manager?
@@ -643,7 +654,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 String err = "The specified class for ResourceManager (" + rm
                     + ") does not exist or is not accessible to the current classloader.";
                 log.error(err);
-                throw new Exception(err);
+                throw new VelocityException(err, cnfe);
+            }
+            catch (InstantiationException ie)
+            {
+              throw new VelocityException("Could not instantiate class '" + rm + "'", ie);
+            }
+            catch (IllegalAccessException ae)
+            {
+              throw new VelocityException("Cannot access class '" + rm + "'", ae);
             }
 
             if (!(o instanceof ResourceManager))
@@ -653,7 +672,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + "; Velocity is not initialized correctly.";
 
                 log.error(err);
-                throw new Exception(err);
+                throw new VelocityException(err);
             }
 
             resourceManager = (ResourceManager) o;
@@ -671,12 +690,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             + " information is correct.";
 
             log.error(err);
-            throw new Exception( err );
+            throw new VelocityException( err );
         }
     }
 
     private void initializeEventHandlers()
-        throws Exception
     {
 
         eventCartridge = new EventCartridge();
@@ -746,12 +764,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     private EventHandler initializeSpecificEventHandler(String classname, String paramName, Class EventHandlerInterface)
-        throws Exception
     {
         if ( classname != null && classname.length() > 0)
         {
             Object o = null;
-            try {
+            try 
+            {
                 o = ClassUtils.getNewInstance(classname);
             }
             catch (ClassNotFoundException cnfe )
@@ -760,7 +778,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + paramName + " (" + classname
                     + ") does not exist or is not accessible to the current classloader.";
                 log.error(err);
-                throw new Exception(err);
+                throw new VelocityException(err, cnfe);
+            }
+            catch (InstantiationException ie)
+            {
+              throw new VelocityException("Could not instantiate class '" + classname + "'", ie);
+            }
+            catch (IllegalAccessException ae)
+            {
+              throw new VelocityException("Cannot access class '" + classname + "'", ae);
             }
 
             if (!EventHandlerInterface.isAssignableFrom(EventHandlerInterface))
@@ -771,7 +797,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + "; Velocity is not initialized correctly.";
 
                 log.error(err);
-                throw new Exception(err);
+                throw new VelocityException(err);
             }
 
             EventHandler ev = (EventHandler) o;
@@ -785,10 +811,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Initialize the Velocity logging system.
-     *
-     * @throws Exception
      */
-    private void initializeLog() throws Exception
+    private void initializeLog()
     {
         // since the Log we started with was just placeholding,
         // let's update it with the real LogChute settings.
@@ -802,11 +826,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * directives to be initialized are listed in
      * the RUNTIME_DEFAULT_DIRECTIVES properties
      * file.
-     *
-     * @throws Exception
      */
     private void initializeDirectives()
-        throws Exception
     {
         /*
          * Initialize the runtime directive table.
@@ -829,7 +850,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             if (inputStream == null)
             {
-                throw new Exception("Error loading directive.properties! " +
+                throw new VelocityException("Error loading directive.properties! " +
                                     "Something is very wrong if these properties " +
                                     "aren't being located. Either your Velocity " +
                                     "distribution is incomplete or your Velocity " +
@@ -962,7 +983,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Initializes the Velocity parser pool.
      */
-    private void initializeParserPool() throws Exception
+    private void initializeParserPool()
     {
         /*
          * Which parser pool?
@@ -989,7 +1010,15 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + pp
                     + ") does not exist (or is not accessible to the current classloader.";
                 log.error(err);
-                throw new Exception(err);
+                throw new VelocityException(err, cnfe);
+            }
+            catch (InstantiationException ie)
+            {
+              throw new VelocityException("Could not instantiate class '" + pp + "'", ie);
+            }
+            catch (IllegalAccessException ae)
+            {
+              throw new VelocityException("Cannot access class '" + pp + "'", ae);
             }
 
             if (!(o instanceof ParserPool))
@@ -999,7 +1028,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     + " Velocity not initialized correctly.";
 
                 log.error(err);
-                throw new Exception(err);
+                throw new VelocityException(err);
             }
 
             parserPool = (ParserPool) o;
@@ -1017,7 +1046,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 + " information is correct.";
 
             log.error(err);
-            throw new Exception( err );
+            throw new VelocityException( err );
         }
 
     }
@@ -1372,10 +1401,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
      */
     public Template getTemplate(String name)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return getTemplate(name, getDefaultEncoding());
     }
@@ -1390,10 +1418,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
      */
     public Template getTemplate(String name, String  encoding)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         requireInitialization();
 
@@ -1412,10 +1439,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
      * @throws ParseErrorException When the template could not be parsed.
-     * @throws Exception Any other error.
      */
     public ContentResource getContent(String name)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         /*
          *  the encoding is irrelvant as we don't do any converstion
@@ -1435,10 +1461,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
      * @throws ParseErrorException When the template could not be parsed.
-     * @throws Exception Any other error.
      */
     public ContentResource getContent(String name, String encoding)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         requireInitialization();
 
