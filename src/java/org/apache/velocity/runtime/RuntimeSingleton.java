@@ -105,11 +105,9 @@ public class RuntimeSingleton implements RuntimeConstants
      *   <li>Static Content Include System</li>
      *   <li>Velocimacro System</li>
      * </ul>
-     * @throws Exception When an error occured during initialization.
      * @see RuntimeInstance#init()
      */
     public synchronized static void init()
-        throws Exception
     {
         ri.init();
     }
@@ -221,10 +219,9 @@ public class RuntimeSingleton implements RuntimeConstants
      * object.
      *
      * @param p
-     * @throws Exception When an error occurs during initialization.
      * @see RuntimeInstance#init(Properties)
      */
-    public static void init(Properties p) throws Exception
+    public static void init(Properties p)
     {
         ri.init(p);
     }
@@ -234,11 +231,9 @@ public class RuntimeSingleton implements RuntimeConstants
      * ExtendedProperties object.
      *
      * @param configurationFile
-     * @throws Exception When an error occurs during initialization.
      * @see RuntimeInstance#init(String)
      */
     public static void init(String configurationFile)
-        throws Exception
     {
         ri.init( configurationFile );
     }
@@ -296,11 +291,10 @@ public class RuntimeSingleton implements RuntimeConstants
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
      * @see RuntimeInstance#getTemplate(String)
      */
     public static Template getTemplate(String name)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return ri.getTemplate( name );
     }
@@ -317,11 +311,10 @@ public class RuntimeSingleton implements RuntimeConstants
      *          to syntax (or other) error.
      * @throws Exception if an error occurs in template initialization
      * @throws ParseErrorException When the template could not be parsed.
-     * @throws Exception Any other error.
      * @see RuntimeInstance#getTemplate(String, String)
      */
     public static Template getTemplate(String name, String  encoding)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return ri.getTemplate( name, encoding );
     }
@@ -336,11 +329,10 @@ public class RuntimeSingleton implements RuntimeConstants
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
      * @throws ParseErrorException When the template could not be parsed.
-     * @throws Exception Any other error.
      * @see RuntimeInstance#getContent(String)
      */
     public static ContentResource getContent(String name)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return ri.getContent( name );
     }
@@ -355,11 +347,10 @@ public class RuntimeSingleton implements RuntimeConstants
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
      * @throws ParseErrorException When the template could not be parsed.
-     * @throws Exception Any other error.
      * @see RuntimeInstance#getContent(String, String)
      */
     public static ContentResource getContent( String name, String encoding )
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return ri.getContent( name, encoding );
     }

@@ -63,7 +63,7 @@ public class CommonsLogLogChute implements LogChute
 
     /********** LogChute methods *************/
 
-    public void init(RuntimeServices rs) throws Exception
+    public void init(RuntimeServices rs)
     {
         String name = 
             (String)rs.getProperty(LOGCHUTE_COMMONS_LOG_NAME);

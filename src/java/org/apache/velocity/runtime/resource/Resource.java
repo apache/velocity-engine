@@ -117,10 +117,9 @@ public abstract class Resource
      * @exception ResourceNotFoundException Similar in semantics as
      * returning <code>false</code>.
      * @throws ParseErrorException
-     * @throws Exception
      */
     public abstract boolean process()
-        throws ResourceNotFoundException, ParseErrorException, Exception;
+        throws ResourceNotFoundException, ParseErrorException;
 
     /**
      * @return True if source has been modified.

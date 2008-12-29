@@ -51,7 +51,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      * @see org.apache.velocity.util.introspection.Uberspect#init()
      */
     //@Override
-    public void init() throws Exception
+    public void init()
     {
         if (this.inner != null) {
             this.inner.init();
@@ -66,7 +66,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      */
     //@SuppressWarnings("unchecked")
     //@Override
-    public Iterator getIterator(Object obj, Info i) throws Exception
+    public Iterator getIterator(Object obj, Info i)
     {
         return (this.inner != null) ? this.inner.getIterator(obj, i) : null;
     }
@@ -78,7 +78,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      *      java.lang.Object[], org.apache.velocity.util.introspection.Info)
      */
     //@Override
-    public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i) throws Exception
+    public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
     {
         return (this.inner != null) ? this.inner.getMethod(obj, methodName, args, i) : null;
     }
@@ -90,7 +90,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      *      org.apache.velocity.util.introspection.Info)
      */
     //@Override
-    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i) throws Exception
+    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
     {
         return (this.inner != null) ? this.inner.getPropertyGet(obj, identifier, i) : null;
     }
@@ -102,7 +102,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      *      java.lang.Object, org.apache.velocity.util.introspection.Info)
      */
     //@Override
-    public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i) throws Exception
+    public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
     {
         return (this.inner != null) ? this.inner.getPropertySet(obj, identifier, arg, i) : null;
     }
