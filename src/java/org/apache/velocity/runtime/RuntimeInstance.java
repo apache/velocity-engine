@@ -60,11 +60,11 @@ import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
+import org.apache.velocity.util.introspection.ChainableUberspector;
 import org.apache.velocity.util.introspection.Introspector;
+import org.apache.velocity.util.introspection.LinkingUberspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.UberspectLoggable;
-import org.apache.velocity.util.introspection.ChainableUberspector;
-import org.apache.velocity.util.introspection.LinkingUberspector;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -816,7 +816,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         // since the Log we started with was just placeholding,
         // let's update it with the real LogChute settings.
-        LogManager.updateLog(this.log, this);
+        try
+        {
+            LogManager.updateLog(this.log, this);
+        } 
+        catch (Exception e)
+        {
+            throw new VelocityException("Error initializing log: " + e.getMessage(), e);
+        }
     }
 
 
