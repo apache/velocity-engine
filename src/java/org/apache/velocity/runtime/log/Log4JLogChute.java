@@ -59,7 +59,7 @@ public class Log4JLogChute implements LogChute
     /**
      * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
      */
-    public void init(RuntimeServices rs)
+    public void init(RuntimeServices rs) throws Exception
     {
         rsvc = rs;
 
@@ -109,7 +109,7 @@ public class Log4JLogChute implements LogChute
     }
 
     // This tries to create a file appender for the specified file name.
-    private void initAppender(String file)
+    private void initAppender(String file) throws Exception
     {
         try
         {

@@ -57,6 +57,7 @@ public class TestLogChute extends SystemLogChute
     }
     
     public void init(RuntimeServices rs)
+        throws Exception
     {
         super.init(rs);
 

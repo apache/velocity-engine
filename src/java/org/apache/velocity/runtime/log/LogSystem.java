@@ -61,7 +61,7 @@ public interface LogSystem
      * @param rs
      * @throws Exception
      */
-    public void init( RuntimeServices rs );
+    public void init( RuntimeServices rs ) throws Exception;
 
     /**
      * @param level
