@@ -73,11 +73,9 @@ public class VelocityEngine implements RuntimeConstants
      *  the engine using the properties file specified
      *
      * @param propsFilename name of properties file to init with
-     * @throws Exception
      * @since 1.5
      */
     public VelocityEngine(String propsFilename)
-        throws Exception
     {
         ri.init(propsFilename);
     }
@@ -87,11 +85,9 @@ public class VelocityEngine implements RuntimeConstants
      *  the engine using the Properties specified
      *
      * @param p name of properties  to init with
-     * @throws Exception
      * @since 1.5
      */
     public VelocityEngine(Properties p)
-        throws Exception
     {
         ri.init(p);
     }
@@ -99,10 +95,8 @@ public class VelocityEngine implements RuntimeConstants
     /**
      *  initialize the Velocity runtime engine, using the default
      *  properties of the Velocity distribution
-     * @throws Exception
      */
     public void init()
-        throws Exception
     {
         ri.init();
     }
@@ -113,10 +107,8 @@ public class VelocityEngine implements RuntimeConstants
      *
      *  @param propsFilename file containing properties to use to initialize
      *         the Velocity runtime
-     * @throws Exception
      */
     public void init(String propsFilename)
-        throws Exception
     {
         ri.init(propsFilename);
     }
@@ -126,11 +118,8 @@ public class VelocityEngine implements RuntimeConstants
      *  plus the properties in the passed in java.util.Properties object
      *
      *  @param p  Proprties object containing initialization properties
-     * @throws Exception
-     *
      */
     public void init(Properties p)
-        throws Exception
     {
         ri.init(p);
     }
@@ -209,12 +198,11 @@ public class VelocityEngine implements RuntimeConstants
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While rendering to the writer, an I/O problem occured.
      */
     public  boolean evaluate( Context context,  Writer out,
                                      String logTag, String instring )
         throws ParseErrorException, MethodInvocationException,
-            ResourceNotFoundException, IOException
+            ResourceNotFoundException
     {
         return ri.evaluate(context, out, logTag, instring);
     }
@@ -282,14 +270,12 @@ public class VelocityEngine implements RuntimeConstants
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While reading from the reader or rendering to the writer,
-     *                     an I/O problem occured.
      *  @since Velocity v1.1
      */
     public boolean evaluate(Context context, Writer writer,
                                     String logTag, Reader reader)
         throws ParseErrorException, MethodInvocationException,
-            ResourceNotFoundException,IOException
+            ResourceNotFoundException
     {
         return ri.evaluate(context, writer, logTag, reader);
     }
@@ -309,12 +295,10 @@ public class VelocityEngine implements RuntimeConstants
      * @param context Context object containing data/objects used for rendering.
      * @param writer  Writer for output stream
      * @return true if Velocimacro exists and successfully invoked, false otherwise.
-     * @throws IOException While rendering to the writer, an I/O problem occured.
      */
     public boolean invokeVelocimacro( String vmName, String logTag,
                                               String params[], Context context,
                                               Writer writer )
-        throws Exception
     {
         return ri.invokeVelocimacro(vmName, logTag, params, context, writer);
     }
@@ -333,14 +317,13 @@ public class VelocityEngine implements RuntimeConstants
      * @throws ResourceNotFoundException
      * @throws ParseErrorException
      * @throws MethodInvocationException
-     * @throws Exception
      * @deprecated Use
      *  {@link #mergeTemplate( String templateName, String encoding,
      *                Context context, Writer writer )}
      */
     public boolean mergeTemplate( String templateName,
                                          Context context, Writer writer )
-        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         return mergeTemplate( templateName, ri.getString(INPUT_ENCODING,ENCODING_DEFAULT),
                                context, writer );
@@ -359,13 +342,11 @@ public class VelocityEngine implements RuntimeConstants
      * @throws ResourceNotFoundException
      * @throws ParseErrorException
      * @throws MethodInvocationException
-     * @throws Exception
-     *
      *  @since Velocity v1.1
      */
     public boolean mergeTemplate( String templateName, String encoding,
                                       Context context, Writer writer )
-        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception
+        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         Template template = ri.getTemplate(templateName, encoding);
 
@@ -393,10 +374,9 @@ public class VelocityEngine implements RuntimeConstants
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
      */
     public Template getTemplate(String name)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return ri.getTemplate( name );
     }
@@ -412,12 +392,10 @@ public class VelocityEngine implements RuntimeConstants
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
-     *
      *  @since Velocity v1.1
      */
     public Template getTemplate(String name, String encoding)
-        throws ResourceNotFoundException, ParseErrorException, Exception
+        throws ResourceNotFoundException, ParseErrorException
     {
         return ri.getTemplate( name, encoding );
     }

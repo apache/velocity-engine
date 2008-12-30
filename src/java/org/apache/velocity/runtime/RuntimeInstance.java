@@ -1192,11 +1192,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While rendering to the writer, an I/O problem occured.
      * @since Velocity 1.6
      */
     public boolean evaluate(Context context,  Writer out,
-                            String logTag, String instring) throws IOException
+                            String logTag, String instring)
     {
         return evaluate(context, out, logTag, new StringReader(instring));
     }
@@ -1217,12 +1216,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While reading from the reader or rendering to the writer,
-     *                     an I/O problem occured.
      * @since Velocity 1.6
      */
     public boolean evaluate(Context context, Writer writer,
-                            String logTag, Reader reader) throws IOException
+                            String logTag, Reader reader)
     {
         if (logTag == null)
         {
@@ -1269,11 +1266,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While rendering to the writer, an I/O problem occured.
      * @since Velocity 1.6
      */
     public boolean render(Context context, Writer writer,
-                          String logTag, SimpleNode nodeTree) throws IOException
+                          String logTag, SimpleNode nodeTree)
     {
         /*
          * we want to init then render
@@ -1307,10 +1303,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 throw new VelocityException(msg, e);
             }
 
-            /*
-             *  now render, and let any exceptions fly
-             */
-            nodeTree.render(ica, writer);
+            try
+            {
+                nodeTree.render(ica, writer);
+            } 
+            catch (IOException e)
+            {
+                throw new VelocityException("IO Error in writer: " + e.getMessage(), e);
+            }
         }
         finally
         {
@@ -1334,14 +1334,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param context Context object containing data/objects used for rendering.
      * @param writer  Writer for output stream
      * @return true if Velocimacro exists and successfully invoked, false otherwise.
-     * @throws IOException While rendering to the writer, an I/O problem occured.
      * @since 1.6
      */
     public boolean invokeVelocimacro(final String vmName, String logTag,
                                      String[] params, final Context context,
                                      final Writer writer)
-        throws IOException
-    {
+     {
         /* check necessary parameters */
         if (vmName == null || context == null || writer == null)
         {
