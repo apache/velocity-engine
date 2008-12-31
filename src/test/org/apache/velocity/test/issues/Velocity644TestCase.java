@@ -39,7 +39,6 @@ public class Velocity644TestCase extends BaseEvalTestCase
         engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, "test/templates/");
         engine.setProperty(RuntimeConstants.VM_LIBRARY, "testCase644.vm");
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
-        engine.setProperty(RuntimeConstants.SKIP_INVALID_ITERATOR, Boolean.FALSE);
         context.put("NULL", null);
     }
 

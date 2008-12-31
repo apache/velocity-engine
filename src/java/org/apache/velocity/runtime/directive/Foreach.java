@@ -213,23 +213,18 @@ public class Foreach extends Directive
         }
         skipInvalidIterator =
             rsvc.getBoolean(RuntimeConstants.SKIP_INVALID_ITERATOR, true);
-
+        
         if (rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false))
         {
           // If we are in strict mode then the default for skipInvalidItarator
           // is true.  However, if the property is explicitly set, then honor the setting.
-          if (rsvc.getString(RuntimeConstants.SKIP_INVALID_ITERATOR) == null)
-          {
-            skipInvalidIterator = false;
-          }
+          skipInvalidIterator = rsvc.getBoolean(RuntimeConstants.SKIP_INVALID_ITERATOR, false);
         }
-        
-        
+                
         /*
          *  this is really the only thing we can do here as everything
          *  else is context sensitive
          */
-
         SimpleNode sn = (SimpleNode) node.jjtGetChild(0);
 
         if (sn instanceof ASTReference)
@@ -249,7 +244,7 @@ public class Foreach extends Directive
          * make an uberinfo - saves new's later on
          */
 
-        uberInfo = new Info(context.getCurrentTemplateName(),
+        uberInfo = new Info(this.getTemplateName(),
                 getLine(),getColumn());
     }
 
