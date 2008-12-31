@@ -20,7 +20,6 @@ package org.apache.velocity.app;
  */
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -34,7 +33,6 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.log.Log;
@@ -175,12 +173,11 @@ public class Velocity implements RuntimeConstants
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While rendering to the writer, an I/O problem occured.
      */
     public static  boolean evaluate( Context context,  Writer out,
                                      String logTag, String instring )
         throws ParseErrorException, MethodInvocationException,
-            ResourceNotFoundException, IOException
+            ResourceNotFoundException
     {
         return RuntimeSingleton.getRuntimeServices()
             .evaluate(context, out, logTag, instring);
@@ -210,7 +207,7 @@ public class Velocity implements RuntimeConstants
     public static boolean evaluate( Context context, Writer writer,
                                     String logTag, InputStream instream )
         throws ParseErrorException, MethodInvocationException,
-            ResourceNotFoundException, IOException
+            ResourceNotFoundException
     {
         /*
          *  first, parse - convert ParseException if thrown
@@ -249,14 +246,12 @@ public class Velocity implements RuntimeConstants
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While reading from the reader or rendering to the writer,
-     *                     an I/O problem occured.
      *  @since Velocity v1.1
      */
     public static boolean evaluate( Context context, Writer writer,
                                     String logTag, Reader reader )
         throws ParseErrorException, MethodInvocationException,
-            ResourceNotFoundException,IOException
+            ResourceNotFoundException
     {
         return RuntimeSingleton.getRuntimeServices().evaluate(context, writer,
                                                               logTag, reader);
@@ -281,17 +276,8 @@ public class Velocity implements RuntimeConstants
                                               String params[], Context context,
                                               Writer writer )
     {
-        try
-        {
-            return RuntimeSingleton.getRuntimeServices()
-                .invokeVelocimacro(vmName, logTag, params, context, writer);
-        }
-        catch (IOException ioe)
-        {
-            String msg = "Velocity.invokeVelocimacro("+vmName+") failed";
-            getLog().error(msg, ioe);
-            throw new VelocityException(msg, ioe);
-        }
+        return RuntimeSingleton.getRuntimeServices()
+            .invokeVelocimacro(vmName, logTag, params, context, writer);
     }
 
     /**

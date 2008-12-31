@@ -19,7 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
-import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Properties;
@@ -210,7 +209,7 @@ public interface RuntimeServices extends RuntimeLogger
      * @since Velocity 1.6
      */
     public boolean evaluate(Context context, Writer out,
-                            String logTag, String instring) throws IOException;
+                            String logTag, String instring);
 
     /**
      * Renders the input reader using the context into the output writer.
@@ -228,12 +227,10 @@ public interface RuntimeServices extends RuntimeLogger
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While reading from the reader or rendering to the writer,
-     *                     an I/O problem occured.
      * @since Velocity 1.6
      */
     public boolean evaluate(Context context, Writer writer,
-                            String logTag, Reader reader) throws IOException;
+                            String logTag, Reader reader);
 
     /**
      * Invokes a currently registered Velocimacro with the params provided
@@ -249,12 +246,11 @@ public interface RuntimeServices extends RuntimeLogger
      * @param context Context object containing data/objects used for rendering.
      * @param writer  Writer for output stream
      * @return true if Velocimacro exists and successfully invoked, false otherwise.
-     * @throws IOException While rendering to the writer, an I/O problem occured.
      * @since 1.6
      */
     public boolean invokeVelocimacro(final String vmName, String logTag,
                                      String[] params, final Context context,
-                                     final Writer writer) throws IOException;
+                                     final Writer writer);
 
     /**
      * Returns a <code>Template</code> from the resource manager.
@@ -268,10 +264,9 @@ public interface RuntimeServices extends RuntimeLogger
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
      */
     public Template getTemplate(String name)
-        throws ResourceNotFoundException, ParseErrorException, Exception;
+        throws ResourceNotFoundException, ParseErrorException;
 
     /**
      * Returns a <code>Template</code> from the resource manager
@@ -283,10 +278,9 @@ public interface RuntimeServices extends RuntimeLogger
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
      */
     public Template getTemplate(String name, String  encoding)
-        throws ResourceNotFoundException, ParseErrorException, Exception;
+        throws ResourceNotFoundException, ParseErrorException;
 
     /**
      * Returns a static content resource from the
@@ -301,7 +295,7 @@ public interface RuntimeServices extends RuntimeLogger
      * @throws Exception
      */
     public ContentResource getContent(String name)
-        throws ResourceNotFoundException, ParseErrorException, Exception;
+        throws ResourceNotFoundException, ParseErrorException;
 
     /**
      * Returns a static content resource from the
@@ -316,7 +310,7 @@ public interface RuntimeServices extends RuntimeLogger
      * @throws Exception
      */
     public ContentResource getContent( String name, String encoding )
-        throws ResourceNotFoundException, ParseErrorException, Exception;
+        throws ResourceNotFoundException, ParseErrorException;
 
     /**
      *  Determines is a template exists, and returns name of the loader that
