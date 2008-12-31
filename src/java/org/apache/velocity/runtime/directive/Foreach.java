@@ -22,11 +22,8 @@ package org.apache.velocity.runtime.directive;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
-import java.util.List;
 
-import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.context.ChainedInternalContextAdapter;
-import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -35,12 +32,11 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.Info;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
  * Foreach directive used for moving through arrays,
@@ -218,6 +214,17 @@ public class Foreach extends Directive
         skipInvalidIterator =
             rsvc.getBoolean(RuntimeConstants.SKIP_INVALID_ITERATOR, true);
 
+        if (rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false))
+        {
+          // If we are in strict mode then the default for skipInvalidItarator
+          // is true.  However, if the property is explicitly set, then honor the setting.
+          if (rsvc.getString(RuntimeConstants.SKIP_INVALID_ITERATOR) == null)
+          {
+            skipInvalidIterator = false;
+          }
+        }
+        
+        
         /*
          *  this is really the only thing we can do here as everything
          *  else is context sensitive
@@ -312,8 +319,7 @@ public class Foreach extends Directive
             {
                 Node pnode = node.jjtGetChild(2);
                 String msg = "#foreach parameter " + pnode.literal() + " at "
-                    + rsvc.getLog().formatFileString(uberInfo.getTemplateName(),
-                       pnode.getLine(), pnode.getColumn()) 
+                    + Log.formatFileString(pnode)
                     + " is of type " + listObject.getClass().getName()
                     + " and is either of wrong type or cannot be iterated.";
                 rsvc.getLog().error(msg);
