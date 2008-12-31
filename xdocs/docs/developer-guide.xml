@@ -1874,15 +1874,17 @@ templates written before this feature became available.
 <p>
 <code>runtime.references.strict = false</code><br/>
 
-New in Velocity 1.6, when true Velocity will throw a
+New in Velocity 1.6, when set to true Velocity will throw a
 <code>MethodInvocationException</code> for references that are not
 defined in the context, or have not been defined with a #set
 directive.  This setting will also throw an exception if an attempt is
 made to call a non-existing property on an object or if the object is
 null.  When this property is true then property
-'directive.set.null.allowed' is also set to true. For a complete
-discussion see <a href="user-guide.html#strictreferences">Strict
-References Setting</a>.
+'directive.set.null.allowed' is also set to true. Also,
+'directive.foreach.skip.invalid' defaults to true when this property
+is true, but explicitly setting 'directive.foreach.skip.invalid' will
+override this default. For a complete discussion see <a
+href="user-guide.html#strictreferences">Strict References Setting</a>.
 </p>
 
 <p>

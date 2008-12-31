@@ -702,39 +702,45 @@ Jack is a ${vice}maniac.
 </section>
 <section name="Strict References Setting" href="strictreferences">
    <p>
-    Velocity 1.6 introduces the concept of strict references which is
-    activated by setting the velocity configuration property
-    'runtime.references.strict' to true.  With this setting references
-    are required to be either placed explicitly into the context or
-    defined with a #set directive, or Velocity will throw an
-    exception.  References that are in the context with a value of
-    null will not produce an exception.  Additionally, if an attempt
-    is made to call a method or a property on an object within a
-    reference that does not define the specified method or property
-    then Velocity will throw an exception.  This is also true if there
-    is an attempt to call a method or property on a null value.
+    Velocity 1.6 introduces the concept of strict reference mode which
+    is activated by setting the velocity configuration property
+    'runtime.references.strict' to true.  The general intent of this
+    setting is to make Velocity behave more strictly in cases that are
+    undefined or ambiguous, similar to a programming language, which
+    may be more appropriate for some uses of Velocity. In such
+    undefined or ambiguous cases Velocity will throw an exception.  The
+    following discussion outlines the cases that strict behavior is
+    different from traditional behavior.
+   </p>
+   <p>
+    With this setting references are required to be either placed
+    explicitly into the context or defined with a #set directive, or
+    Velocity will throw an exception.  References that are in the
+    context with a value of null will not produce an exception.
+    Additionally, if an attempt is made to call a method or a property
+    on an object within a reference that does not define the specified
+    method or property then Velocity will throw an exception.  This is
+    also true if there is an attempt to call a method or property on a
+    null value.
   </p>
   <p>
     In the following examples $bar is defined but $foo is not, and all
     these statements will throw an exception:
   </p>
-    <source><![CDATA[$foo                         ## Exception
+  <source><![CDATA[$foo                         ## Exception
 #set($bar = $foo)            ## Exception
 #if($foo == $bar)#end        ## Exception
-#foreach($item in $foo)#end  ## Exception]]></source>
-    
+#foreach($item in $foo)#end  ## Exception]]></source>    
   <p>
     Also, The following statements show examples in which Velocity will
     throw an exception when attempting to call methods or properties
     that do not exist. In these examples $bar contains an object that
     defines a property 'foo' which returns a string, and 'retnull' which
     returns null.
-  </p>
-    
-    <source><![CDATA[$bar.bogus          ## $bar does not provide property bogus, Exception
+  </p>    
+  <source><![CDATA[$bar.bogus          ## $bar does not provide property bogus, Exception
 $bar.foo.bogus      ## $bar.foo does not provide property bogus, Exception
 $bar.retnull.bogus  ## cannot call a property on null, Exception]]></source>
-
   <p>
     In general strict reference behavior is true for all situations
     in which references are used except for a special case within the
@@ -750,12 +756,13 @@ $bar.retnull.bogus  ## cannot call a property on null, Exception]]></source>
 #if ($foo && $foo.bar)#end      ## False and $foo.bar will not be evaluated
 #if ($foo && $foo == "bar")#end ## False and $foo == "bar" wil not be evaluated
 #if ($foo1 || $foo2)#end        ## False $foo1 and $foo2 are not defined]]></source>
-  
   <p>
-    One additional note, undefined macro references will also throw an
-    exception with the strict reference setting.
+    Strict mode requires that comparisons of >, <, >= or <= within an
+    #if directive make sense. Also, the argument to #foreach must be
+    iterable (this behavior can be modified with the property
+    directive.foreach.skip.invalid). Finally, undefined macro
+    references will also throw an exception in strict mode.
   </p>
-        
 </section>
 
 <section name="Case Substitution" href="case_substitution">
