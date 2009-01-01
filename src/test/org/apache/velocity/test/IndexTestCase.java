@@ -35,18 +35,18 @@ public class IndexTestCase extends BaseEvalTestCase
     {
         super.setUp();
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
-        engine.setProperty(RuntimeConstants.COUNTER_INITIAL_VALUE, 0);
+        engine.setProperty(RuntimeConstants.COUNTER_INITIAL_VALUE, new Integer(0));
 
         context.put("NULL", null);
-        Integer[] a = {1, 2, 3};
+        int[] a = {1, 2, 3};
         context.put("a", a);        
         String[] str = {"a", "ab", "abc"};
         context.put("str", str);
 
         ArrayList alist = new ArrayList();
-        alist.add(Integer.valueOf(1));
-        alist.add(Integer.valueOf(2));
-        alist.add(Integer.valueOf(3));
+        alist.add(new Integer(1));
+        alist.add(new Integer(2));
+        alist.add(new Integer(3));
         alist.add(a);
         alist.add(null);
         context.put("alist", alist);
