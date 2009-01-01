@@ -28,13 +28,22 @@
     <release version="1.7" date="In Subversion">
 
       <action type="add" dev="byron" issue="VELOCITY-659">
-	  Removed java.lang.Exception from throws clause of Velocity
-	  and VelocityEngine API. Also removed IOException so that all
-	  method calls use unchecked exceptions.
+          Removed java.lang.Exception from throws clause of Velocity
+          and VelocityEngine API. Also removed IOException so that all
+          method calls use unchecked exceptions.
       </action>
-      
+
+      <action type="add" dev="nbubna">
+          Removed obsolete WebMacro conversion tool and experimental Veltag
+          (which has been replaced by VelocityViewTag from VelocityTools).
+      </action>
+
+    </release>
+
+    <release version="1.6.2" date="In Subversion">
+
       <action type="fix" dev="byron" issue="VELOCITY-658" due-to="Jarkko Viinamäki">
-	  Fix $hasNext so that it works in nested foreach blocks.
+          Fix $velocityHasNext so that it works in nested foreach blocks.
       </action>
 
       <action type="fix" dev="byron" issue="VELOCITY-645">
@@ -44,11 +53,6 @@
       
       <action type="fix" dev="cbrisson" issue="VELOCITY-657">
           Fix $velocityHasNext so it is not always true.
-      </action>
-
-      <action type="add" dev="nbubna">
-          Removed obsolete WebMacro conversion tool and experimental Veltag
-          (which has been replaced by VelocityViewTag from VelocityTools).
       </action>
 
     </release>
