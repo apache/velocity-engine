@@ -878,8 +878,12 @@
       later when you make the tag for this release (post-vote).
 
     * Go to ${build.dir} and sign all the jar, zip, tar.gz and pom files
-      with your personal PGP key. If using gpg, you'll probably do this:
-        gpg --armor --output ${final.name}.zip.asc --detach-sig ${final.name}.zip
+      with your personal PGP key using a script like this:
+        #! /bin/bash
+        for i in *.tar.gz *.zip *jar; do
+          gpg --armor --output $i.asc --detach-sig $i
+        done
+
 
     * SSH into people.apache.org and make sure that this directory exists:
         ${publish.dir}
@@ -889,6 +893,8 @@
       Some instructions for that are at the top of that file.
 
     * Call "ant publish"
+    
+    * Review http://wiki.apache.org/velocity/ReleaseProcess for more details.
     </echo>        
   </target>
 
