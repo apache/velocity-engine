@@ -47,6 +47,7 @@
         <li><a href="#methods">Methods</a></li>
         <li><a href="#propertylookuprules">Property Lookup Rules</a></li>
         <li><a href="#rendering">Rendering</a></li>
+        <li><a href="#index">Index Notation</a></li>
     </ol>
 </li>
 <li><a href="#formalreferencenotation">Formal Reference Notation</a></li>
@@ -606,6 +607,45 @@ $sun.setPlanets()
     into the final output. If there is an object that represents <em>$foo</em>
     (such as an Integer object), then Velocity will call its
     <code>.toString()</code> method to resolve the object into a String.
+ </p>
+
+ <p>
+    <a name="index"><strong>Index Notation</strong></a>    
+    <br/>
+    Using the notation of the form <code>$foo[0]</code> can be used to access a
+    given index of an object.  This form is synonymous with calling
+    the get(Object) method on a given object i.e, <code>$foo.get(0)</code>, and
+    provides essentially a syntactic shorthand for such
+    operations. Since this simply calls the get method all of the
+    following are valid uses:
+ </p>
+    <source>$foo[0]       ## $foo takes in an Integer look up
+$foo[$i]      ## Using another reference as the index   
+$foo["bar"]   ## Passing a string where $foo may be a Map</source>
+ <p>
+    The bracketed syntax also works with Java arrays since Velocity
+    wraps arrays in an access object that provides a
+    <code>get(Integer)</code> method which returns the specified
+    element.
+ </p>
+ <p>
+   The bracketed syntax is valid anywhere <code>.get</code> is valid,
+   for example:
+ </p>   
+   <source>$foo.bar[1].junk
+$foo.callMethod()[1]
+$foo["apple"][4]</source>
+ <p>
+   A reference can also be set using index notation, for example:
+ </p>
+   <source>#set($foo[0] = 1)
+#set($foo.bar[1] = 3)
+#set($map["apple"] = "orange")</source>
+ <p>
+   The specified element is set with the given value.  If the index
+   value is of type Integer then Velocity calls <code>.set(Integer,
+   &lt;val>)</code> which works with arrays, otherwise it calls
+   <code>.put(&lt;val>, &lt;val>)</code> which works with Maps.
  </p>
 
  <p>
