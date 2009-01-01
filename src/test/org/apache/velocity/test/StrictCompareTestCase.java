@@ -72,7 +72,6 @@ public class StrictCompareTestCase extends BaseEvalTestCase
      */
     public void assertVelocityEx(String template)
     {
-      System.out.println(template);
         assertEvalException(template, VelocityException.class);
     }
 }

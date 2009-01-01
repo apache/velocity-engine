@@ -504,6 +504,27 @@ TOKEN_MGR_DECLS:
  *
  * ------------------------------------------------------------------------- */
 
+<REFERENCE, REFMODIFIER>
+TOKEN:
+{
+   <INDEX_LBRACKET: "[">
+   {
+     stateStackPush();
+     SwitchTo(REFINDEX);
+   }
+  
+}
+
+<REFINDEX>
+TOKEN:
+{
+   <INDEX_RBRACKET: "]">
+   {
+     stateStackPop();
+   }  
+}
+
+
 <DIRECTIVE,REFMOD2>
 TOKEN:
 {
@@ -845,13 +866,13 @@ SKIP :
  *
  * ---------------------------------------------------------------------- */
 
-<DIRECTIVE,REFMOD2>
+<DIRECTIVE,REFMOD2,REFINDEX>
 TOKEN:
 {
     <WHITESPACE : ([" ","\t", "\n", "\r"])+ >
 }
 
-<DIRECTIVE,REFMOD2>
+<DIRECTIVE,REFMOD2,REFINDEX>
 TOKEN :
 {
 //   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
@@ -890,7 +911,7 @@ TOKEN :
     }
 }
 
-<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2>
+<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2,REFINDEX>
 TOKEN:
 {
    <TRUE: "true">
@@ -971,7 +992,7 @@ TOKEN :
     }
 }
 
-<PRE_DIRECTIVE,DIRECTIVE,REFMOD2>
+<PRE_DIRECTIVE,DIRECTIVE,REFMOD2,REFINDEX>
 TOKEN:
 {
    <#DIGIT: [ "0"-"9" ] >
@@ -1001,7 +1022,7 @@ TOKEN:
          *  because we want to handle the \n after
          */
 
-        if ( lparen == 0 && !inSet && curLexState != REFMOD2)
+        if ( lparen == 0 && !inSet && curLexState != REFMOD2 && curLexState != REFINDEX)
         {
             stateStackPop();
         }
@@ -1060,7 +1081,10 @@ TOKEN:
  *          |       re stateStack.
  *          |-- >  REFMOD2 : state switch to when the LPAREN is encountered.
  *                  again, this is a switch, not a push.
- *
+ * 
+ *  During the REFERENCE or REFMODIFIER lex states we will switch to
+ *  REFINDEX if a bracket is encountered '['.  for example:  $foo[1]
+ *  or $foo.bar[1], $foo.bar( "arg" )[1]
  * ---------------------------------------------------------------------------- */
 
 <REFERENCE,REFMODIFIER,REFMOD2>
@@ -1555,6 +1579,23 @@ void IntegerRange() : {}
 
 
 /**
+ * A Simplified parameter more suitable for an index position: $foo[$index]
+ */
+void IndexParameter() #void: {}
+{
+    [<WHITESPACE>]
+    (
+        StringLiteral()
+        | IntegerLiteral()
+        | True()
+        | False()
+        | Reference()
+        )
+    [ <WHITESPACE>]
+}
+
+
+/**
  * This method has yet to be fully implemented
  * but will allow arbitrarily nested method
  * calls
@@ -1586,6 +1627,12 @@ void Method() : {}
    Identifier() <LPAREN> [ Parameter() ( <COMMA> Parameter() )* ] <REFMOD2_RPAREN>
 }
 
+
+void Index() : {}
+{
+   <INDEX_LBRACKET> IndexParameter() <INDEX_RBRACKET>
+}
+
 void Reference() : {}
 {
     /*
@@ -1593,14 +1640,14 @@ void Reference() : {}
      */
 
       (
-         <IDENTIFIER>
-         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))*
+         <IDENTIFIER> (Index())*
+         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
       )
       |
       (
          <LCURLY>
-         <IDENTIFIER>
-         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ))*
+         <IDENTIFIER> (Index())*
+         (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
          <RCURLY>
       )
 }

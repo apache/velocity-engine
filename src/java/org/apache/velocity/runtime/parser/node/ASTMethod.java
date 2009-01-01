@@ -30,6 +30,7 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.VelMethod;
@@ -136,125 +137,27 @@ public class ASTMethod extends SimpleNode
          *  at execution time.  There can be no in-node caching,
          *  but if we are careful, we can do it in the context.
          */
-
-        VelMethod method = null;
-
         Object [] params = new Object[paramCount];
 
-        try
+          /*
+           * sadly, we do need recalc the values of the args, as this can
+           * change from visit to visit
+           */
+        final Class[] paramClasses =       
+            paramCount > 0 ? new Class[paramCount] : ArrayUtils.EMPTY_CLASS_ARRAY;
+
+        for (int j = 0; j < paramCount; j++)
         {
-            /*
-             * sadly, we do need recalc the values of the args, as this can
-             * change from visit to visit
-             */
-
-            final Class[] paramClasses = paramCount > 0 ? new Class[paramCount] : ArrayUtils.EMPTY_CLASS_ARRAY;
-
-            for (int j = 0; j < paramCount; j++)
+            params[j] = jjtGetChild(j + 1).value(context);
+            if (params[j] != null)
             {
-                params[j] = jjtGetChild(j + 1).value(context);
-
-                if (params[j] != null)
-                {
-                    paramClasses[j] = params[j].getClass();
-                }
-            }
-
-            /*
-             *   check the cache
-             */
-
-            MethodCacheKey mck = new MethodCacheKey(methodName, paramClasses);
-            IntrospectionCacheData icd =  context.icacheGet( mck );
-
-            /*
-             *  like ASTIdentifier, if we have cache information, and the
-             *  Class of Object o is the same as that in the cache, we are
-             *  safe.
-             */
-
-            if ( icd != null && (o != null && icd.contextData == o.getClass()) )
-            {
-
-                /*
-                 * get the method from the cache
-                 */
-
-                method = (VelMethod) icd.thingy;
-            }
-            else
-            {
-                /*
-                 *  otherwise, do the introspection, and then
-                 *  cache it
-                 */
-
-                method = rsvc.getUberspect().getMethod(o, methodName, params, new Info(getTemplateName(), getLine(), getColumn()));
-
-                if ((method != null) && (o != null))
-                {
-                    icd = new IntrospectionCacheData();
-                    icd.contextData = o.getClass();
-                    icd.thingy = method;
-
-                    context.icachePut( mck, icd );
-                }
-            }
-
-            /*
-             *  if we still haven't gotten the method, either we are calling
-             *  a method that doesn't exist (which is fine...)  or I screwed
-             *  it up.
-             */
-
-            if (method == null)
-            {
-                if (strictRef)                  
-                {
-                    // Create a parameter list for the exception error message
-                    StringBuffer plist = new StringBuffer();
-                    for (int i=0; i<params.length; i++)
-                    {
-                      Class param = paramClasses[i];
-                      plist.append(param == null ? "null" : param.getName());
-                      if (i < params.length -1) plist.append(", ");
-                    }
-                    throw new MethodInvocationException("Object '" + o.getClass().getName() +
-                      "' does not contain method " + methodName + "(" + plist + ")", 
-                      null, methodName, uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
-                }
-                else
-                {
-                    return null;
-                }
+                paramClasses[j] = params[j].getClass();
             }
         }
-        catch( MethodInvocationException mie )
-        {
-            /*
-             *  this can come from the doIntrospection(), as the arg values
-             *  are evaluated to find the right method signature.  We just
-             *  want to propogate it here, not do anything fancy
-             */
-
-            throw mie;
-        }
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch( RuntimeException e )
-        {
-            throw e;
-        }
-        catch( Exception e )
-        {
-            /*
-             *  can come from the doIntropection() also, from Introspector
-             */
-            String msg = "ASTMethod.execute() : exception from introspection";
-            log.error(msg, e);
-            throw new VelocityException(msg, e);
-        }
+            
+        VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses, 
+            o, context, this, rsvc, strictRef);
+        if (method == null) return null;
 
         try
         {

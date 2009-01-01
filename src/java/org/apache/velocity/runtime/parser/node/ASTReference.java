@@ -34,7 +34,9 @@ import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.introspection.VelMethod;
 import org.apache.velocity.util.introspection.VelPropertySet;
 
 /**
@@ -74,6 +76,12 @@ public class ASTReference extends SimpleNode
      * Indicates if we are running in strict reference mode.
      */
     public boolean strictRef = false;
+    
+    /**
+     * non null Indicates if we are setting an index reference e.g, $foo[2], which basically
+     * means that the last syntax of the reference are brackets.
+     */
+    private ASTIndex astIndex = null;
     
     private int numChildren = 0;
 
@@ -125,14 +133,18 @@ public class ASTReference extends SimpleNode
         rootString = getRoot();
 
         numChildren = jjtGetNumChildren();
-
+        
         /*
          * and if appropriate...
          */
 
         if (numChildren > 0 )
         {
-            identifier = jjtGetChild(numChildren - 1).getFirstToken().image;
+            Node lastNode = jjtGetChild(numChildren-1);
+            if (lastNode instanceof ASTIndex)
+                astIndex = (ASTIndex)lastNode;
+            else
+                identifier = lastNode.getFirstToken().image;            
         }
 
         /*
@@ -549,6 +561,61 @@ public class ASTReference extends SimpleNode
             }
         }
 
+        if (astIndex != null)
+        {
+            // If astIndex is not null then we are actually setting an index reference,
+            // something of the form $foo[1] =, or in general any reference that ends with
+            // the brackets.  This means that we need to call a more general method
+            // of the form set(Integer, <something>), or put(Object, <something), where
+            // the first parameter is the index value and the second is the LHS of the set.
+          
+            String methodName = "put";
+            Object [] params = {astIndex.jjtGetChild(0).value(context), value};
+            Class[] paramClasses = {params[0] == null ? null : params[0].getClass(), 
+                                    params[1] == null ? null : params[1].getClass()};
+            if (params[0] instanceof Integer)
+            {
+                // If the index parameter is of type Integer, then it is more approiate
+                // to call set(Integer, <whatever>) since the user is probabbly attempting
+                // to set an array.
+                methodName = "set";
+            }
+                   
+            VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses, 
+                result, context, astIndex, rsvc, strictRef);
+          
+            if (method == null) return false;
+            try
+            { 
+                method.invoke(result, params);
+            }
+            catch(RuntimeException e)
+            {
+                // Kludge since invoke throws Exception, pass up Runtimes
+                throw e;
+            }
+            catch(Exception e)
+            {
+                // Create a parameter list for the exception error message
+                StringBuffer plist = new StringBuffer();
+                for (int i = 0; i < params.length; i++)
+                {
+                    Class param = paramClasses[i];
+                    plist.append(param == null ? "null" : param.getName());
+                    if (i < params.length - 1)
+                        plist.append(", ");
+                }
+                throw new MethodInvocationException(
+                  "Exception calling of method '"
+                  + methodName + "(" + plist + ")' in  " + result.getClass(),
+                  e.getCause(), identifier, astIndex.getTemplateName(), astIndex.getLine(), 
+                    astIndex.getColumn());
+            }
+            
+            return true;
+        }
+        
+        
         /*
          *  We support two ways of setting the value in a #set($ref.foo = $value ) :
          *  1) ref.setFoo( value )

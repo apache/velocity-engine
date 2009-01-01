@@ -147,6 +147,7 @@ public class BaseEvalTestCase extends TestCase
             engine.getLog().info("Expectation: Exception at "+loc);
         }
         Exception e = assertEvalException(evil, null);
+
         if (e.getMessage().indexOf(loc) < 1)
         {
             fail("Was expecting exception at "+loc+" instead of "+e.getMessage());
