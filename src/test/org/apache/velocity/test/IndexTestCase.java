@@ -88,7 +88,8 @@ public class IndexTestCase extends BaseEvalTestCase
         assertEvalEquals("junk foobar ", "$foo[\"junk\"]");
         assertEvalEquals("GOT NULL", "#set($i=$NULL)$boo[$i]");
         
-        assertEvalEquals("3", "$a[-1]");
+        assertEvalEquals("321", "$a[-1]$a[ -2]$a[-3 ]");
+        assertEvalEquals("67xx", "#set($hash={1:11, 5:67, 23:2})$hash[5]$!hash[6]#if(!$hash[1000])xx#end");
     }
 
     public void testIndexSetting()
@@ -100,6 +101,7 @@ public class IndexTestCase extends BaseEvalTestCase
         assertEvalEquals("null","#set($str[0] = $NULL)#if($str[0] == $NULL)null#end");
         assertEvalEquals("null","#set($blaa = {\"apple\":\"grape\"})#set($blaa[\"apple\"] = $NULL)#if($blaa[\"apple\"] == $NULL)null#end");
         assertEvalEquals("2112", "#set($a[-1] = 2112)$a[2]");
+        assertEvalEquals("3344","#set($hash = {1:11, 2:22, 5:66})#set($hash[2]=33)#set($hash[3]=44)$hash[2]$hash[3]");
     }
     
     
