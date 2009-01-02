@@ -36,8 +36,10 @@ public class IndexTestCase extends BaseEvalTestCase
         super.setUp();
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
         engine.setProperty(RuntimeConstants.COUNTER_INITIAL_VALUE, new Integer(0));
-
+        
         context.put("NULL", null);
+        context.put("red", "blue");
+        
         int[] a = {1, 2, 3};
         context.put("a", a);        
         String[] str = {"a", "ab", "abc"};
@@ -84,12 +86,27 @@ public class IndexTestCase extends BaseEvalTestCase
 
         assertEvalEquals("xx ", "#if($alist[4] == $NULL)xx#end #if($alist[4])yy#end");
 
-        assertEvalEquals("BIG TRUE BIG FALSE", "$foo[true] $foo[false]");
+        assertEvalEquals("BIG TRUEaBIG FALSE", "$foo[true]a$foo[false]");
         assertEvalEquals("junk foobar ", "$foo[\"junk\"]");
         assertEvalEquals("GOT NULL", "#set($i=$NULL)$boo[$i]");
         
         assertEvalEquals("321", "$a[-1]$a[ -2]$a[-3 ]");
         assertEvalEquals("67xx", "#set($hash={1:11, 5:67, 23:2})$hash[5]$!hash[6]#if(!$hash[1000])xx#end");
+        
+        // Some cases that should be evaluated as text
+        assertEvalEquals("[]", "[]");
+        assertEvalEquals("$[]", "$[]");
+        assertEvalEquals("$.[]", "$.[]");
+        assertEvalEquals("$[1]", "$[1]");
+        assertEvalEquals("$[1]1", "$[1]1");
+        assertEvalEquals("$1[1]1", "$1[1]1");
+        assertEvalEquals("blue.[]", "$red.[]");
+        assertEvalEquals("blue[]", "${red}[]");
+        assertEvalEquals("blue][", "$red][");
+        assertEvalEquals("1[]", "${a[0]}[]");
+        assertEvalEquals("1a$[]", "$a[0]a$[]");
+        assertEvalEquals("$![]", "$![]");
+        assertEvalEquals("$\\![]", "$\\![]");
     }
 
     public void testIndexSetting()

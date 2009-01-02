@@ -70,6 +70,7 @@ public interface ParserConstants {
   int RCURLY = 67;
   int REFERENCE_TERMINATOR = 68;
   int DIRECTIVE_TERMINATOR = 69;
+  int EMPTY_INDEX = 70;
 
   int REFERENCE = 0;
   int REFMODIFIER = 1;
@@ -77,10 +78,11 @@ public interface ParserConstants {
   int DIRECTIVE = 3;
   int REFMOD2 = 4;
   int DEFAULT = 5;
-  int PRE_DIRECTIVE = 6;
-  int IN_MULTI_LINE_COMMENT = 7;
-  int IN_FORMAL_COMMENT = 8;
-  int IN_SINGLE_LINE_COMMENT = 9;
+  int REFMOD = 6;
+  int PRE_DIRECTIVE = 7;
+  int IN_MULTI_LINE_COMMENT = 8;
+  int IN_FORMAL_COMMENT = 9;
+  int IN_SINGLE_LINE_COMMENT = 10;
 
   String[] tokenImage = {
     "<EOF>",
@@ -153,6 +155,7 @@ public interface ParserConstants {
     "\"}\"",
     "<REFERENCE_TERMINATOR>",
     "<DIRECTIVE_TERMINATOR>",
+    "<EMPTY_INDEX>",
   };
 
 }

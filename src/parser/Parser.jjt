@@ -818,6 +818,7 @@ TOKEN :
 |   <TEXT: (~["$", "#", "\\"])+ >
 }
 
+
 /* -----------------------------------------------------------------------
  *
  *   *_COMMENT Lexical tokens
@@ -1128,7 +1129,7 @@ TOKEN :
     }
 }
 
-<REFERENCE,REFMODIFIER,REFMOD2>
+<REFERENCE,REFMODIFIER,REFMOD>
 SPECIAL_TOKEN :
 {
     <REFERENCE_TERMINATOR: ~[] >
@@ -1640,7 +1641,7 @@ void Reference() : {}
      */
 
       (
-         <IDENTIFIER> (Index())*
+       <IDENTIFIER> (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
       )
       |
@@ -1662,6 +1663,21 @@ void False() : {}
     <FALSE>
 }
 
+
+/**
+ * This is somewhat of a kludge, the problem is that the parser picks
+ * up on '$[' , or '$![' as being a Reference, and does not dismiss it even though
+ * there is no <Identifier> between $ and [,  This has something to do
+ * with the LOOKAHEAD in Reference, but I never found a way to resolve
+ * it in a more fashionable way..
+ */
+<DEFAULT,REFERENCE>
+TOKEN :
+{
+  <EMPTY_INDEX : ("$[" | "$![" | "$\\![")>
+}
+
+
 /**
  * This method is responsible for allowing
  * all non-grammar text to pass through
@@ -1679,6 +1695,7 @@ void Text() : {}
 |   <ESCAPE>
 |   <LCURLY>
 |   <RCURLY>
+|   <EMPTY_INDEX>    
 }
 
 /* -----------------------------------------------------------------------

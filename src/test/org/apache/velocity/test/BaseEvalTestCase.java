@@ -37,7 +37,7 @@ public class BaseEvalTestCase extends TestCase
 {
     protected VelocityEngine engine;
     protected VelocityContext context;
-    protected boolean DEBUG = true;
+    protected boolean DEBUG = false;
     protected TestLogChute log;
 
     public BaseEvalTestCase(String name)
