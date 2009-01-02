@@ -797,6 +797,7 @@ TOKEN :
 |   <TEXT: (~["$", "#", "\\"])+ >
 }
 
+
 /* -----------------------------------------------------------------------
  *
  *   *_COMMENT Lexical tokens
@@ -1060,7 +1061,10 @@ TOKEN:
  *          |       re stateStack.
  *          |-- >  REFMOD2 : state switch to when the LPAREN is encountered.
  *                  again, this is a switch, not a push.
- *
+ * 
+ *  During the REFERENCE or REFMODIFIER lex states we will switch to
+ *  REFINDEX if a bracket is encountered '['.  for example:  $foo[1]
+ *  or $foo.bar[1], $foo.bar( "arg" )[1]
  * ---------------------------------------------------------------------------- */
 
 <REFERENCE,REFMODIFIER,REFMOD2>
@@ -1104,7 +1108,7 @@ TOKEN :
     }
 }
 
-<REFERENCE,REFMODIFIER,REFMOD2>
+<REFERENCE,REFMODIFIER,REFMOD>
 SPECIAL_TOKEN :
 {
     <REFERENCE_TERMINATOR: ~[] >
@@ -1947,7 +1951,7 @@ void Reference() : {/*@bgen(jjtree) Reference */
      */
 
       (
-         <IDENTIFIER> (Index())*
+       <IDENTIFIER> (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
       )
       |
@@ -2013,6 +2017,21 @@ void False() : {/*@bgen(jjtree) False */
 /*@egen*/
 }
 
+
+/**
+ * This is somewhat of a kludge, the problem is that the parser picks
+ * up on '$[' , or '$![' as being a Reference, and does not dismiss it even though
+ * there is no <Identifier> between $ and [,  This has something to do
+ * with the LOOKAHEAD in Reference, but I never found a way to resolve
+ * it in a more fashionable way..
+ */
+<DEFAULT,REFERENCE>
+TOKEN :
+{
+  <EMPTY_INDEX : ("$[" | "$![" | "$\\![")>
+}
+
+
 /**
  * This method is responsible for allowing
  * all non-grammar text to pass through
@@ -2035,13 +2054,14 @@ void Text() : {/*@bgen(jjtree) Text */
 |   <STRING_LITERAL>
 |   <ESCAPE>
 |   <LCURLY>
-|   <RCURLY>/*@bgen(jjtree)*/
+|   <RCURLY>
+|   <EMPTY_INDEX>/*@bgen(jjtree)*/
     } finally {
       if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
       }
     }
-/*@egen*/
+/*@egen*/    
 }
 
 /* -----------------------------------------------------------------------
