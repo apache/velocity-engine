@@ -499,6 +499,16 @@ public class ASTReference extends SimpleNode
         return (computableReference ? execute(null, context) : null);
     }
 
+    
+    /**
+     * Utility class to handle nulls when printing a class type
+     */
+    public static String printClass(Class clazz)
+    {
+      return clazz == null ? "null" : clazz.getName();
+    }
+    
+    
     /**
      *  Sets the value of a complex reference (something like $foo.bar)
      *  Currently used by ASTSetReference()
@@ -569,25 +579,43 @@ public class ASTReference extends SimpleNode
             // of the form set(Integer, <something>), or put(Object, <something), where
             // the first parameter is the index value and the second is the LHS of the set.
           
-            String methodName = "put";
             Object argument = astIndex.jjtGetChild(0).value(context);
             // If negative, turn -1 into (size - 1)
             argument = ASTIndex.adjMinusIndexArg(argument, result, context, astIndex);            
             Object [] params = {argument, value};
             Class[] paramClasses = {params[0] == null ? null : params[0].getClass(), 
                                     params[1] == null ? null : params[1].getClass()};
-            if (params[0] instanceof Integer)
-            {
-                // If the index parameter is of type Integer, then it is more approiate
-                // to call set(Integer, <whatever>) since the user is probabbly attempting
-                // to set an array.
-                methodName = "set";
-            }
-                   
+
+            String methodName = "set";
             VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses, 
-                result, context, astIndex, strictRef);
+                result, context, astIndex, false);
+            
+            if (method == null)
+            {
+                // If we can't find a 'set' method, lets try 'put',  This warrents a little
+                // investigation performance wise... if the user is using the hash 
+                // form $foo["blaa"], then it may be expensive to first try and fail on 'set'
+                // then go to 'put'?  The problem is that getMethod will try the cache, then
+                // perform introspection on 'result' for 'set'
+                methodName = "put";
+                method = ClassUtils.getMethod(methodName, params, paramClasses, 
+                      result, context, astIndex, false);
+            }   
+            
+            if (method == null)
+            {
+                // couldn't find set or put method, so bail
+                if (strictRef)
+                {
+                    throw new VelocityException(
+                        "Found neither a 'set' or 'put' method with param types '("
+                        + printClass(paramClasses[0]) + "," + printClass(paramClasses[1])
+                        + ")' on class '" + result.getClass().getName() 
+                        + "' at " + Log.formatFileString(astIndex));
+                }
+                return false;
+            }
           
-            if (method == null) return false;
             try
             { 
                 method.invoke(result, params);
@@ -599,18 +627,11 @@ public class ASTReference extends SimpleNode
             }
             catch(Exception e)
             {
-                // Create a parameter list for the exception error message
-                StringBuffer plist = new StringBuffer();
-                for (int i = 0; i < params.length; i++)
-                {
-                    Class param = paramClasses[i];
-                    plist.append(param == null ? "null" : param.getName());
-                    if (i < params.length - 1)
-                        plist.append(", ");
-                }
                 throw new MethodInvocationException(
-                  "Exception calling of method '"
-                  + methodName + "(" + plist + ")' in  " + result.getClass(),
+                  "Exception calling method '"
+                  + methodName + "(" 
+                  + printClass(paramClasses[0]) + "," + printClass(paramClasses[1])
+                  + ")' in  " + result.getClass(),
                   e.getCause(), identifier, astIndex.getTemplateName(), astIndex.getLine(), 
                     astIndex.getColumn());
             }

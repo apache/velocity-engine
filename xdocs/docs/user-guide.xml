@@ -642,10 +642,8 @@ $foo["apple"][4]</source>
 #set($foo.bar[1] = 3)
 #set($map["apple"] = "orange")</source>
  <p>
-   The specified element is set with the given value.  If the index
-   value is of type Integer then Velocity calls <code>.set(Integer,
-   &lt;val>)</code> which works with arrays, otherwise it calls
-   <code>.put(&lt;val>, &lt;val>)</code> which works with Maps.
+   The specified element is set with the given value.  Velocity tries
+   first the 'set' method on the element, then 'put' to make the assignment.
  </p>
 
  <p>
