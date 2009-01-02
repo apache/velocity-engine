@@ -87,6 +87,8 @@ public class IndexTestCase extends BaseEvalTestCase
         assertEvalEquals("BIG TRUE BIG FALSE", "$foo[true] $foo[false]");
         assertEvalEquals("junk foobar ", "$foo[\"junk\"]");
         assertEvalEquals("GOT NULL", "#set($i=$NULL)$boo[$i]");
+        
+        assertEvalEquals("3", "$a[-1]");
     }
 
     public void testIndexSetting()
@@ -97,6 +99,7 @@ public class IndexTestCase extends BaseEvalTestCase
         assertEvalEquals("orange","#set($blaa = {\"apple\":\"grape\"})#set($blaa[\"apple\"] = \"orange\")$blaa[\"apple\"]");
         assertEvalEquals("null","#set($str[0] = $NULL)#if($str[0] == $NULL)null#end");
         assertEvalEquals("null","#set($blaa = {\"apple\":\"grape\"})#set($blaa[\"apple\"] = $NULL)#if($blaa[\"apple\"] == $NULL)null#end");
+        assertEvalEquals("2112", "#set($a[-1] = 2112)$a[2]");
     }
     
     
@@ -107,6 +110,7 @@ public class IndexTestCase extends BaseEvalTestCase
         // Need to fix parse error reporting
         // assertEvalExceptionAt("$boo[blaa]", 1, 6);
         assertEvalExceptionAt("#set($foo[1] = 3)", 1, 10);
+        assertEvalExceptionAt("$a[500]", 1, 3);
     }
     
     
