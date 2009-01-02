@@ -76,6 +76,12 @@ public class SimpleNode implements Node
     
     protected String templateName;
 
+    
+    public RuntimeServices getRuntimeServices()
+    {
+      return rsvc;
+    }
+    
     /**
      * @param i
      */

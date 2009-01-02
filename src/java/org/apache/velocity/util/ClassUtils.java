@@ -167,16 +167,14 @@ public class ClassUtils {
    * @param o Object to introspect for the given method.
    * @param context Context from which the method cache is aquirred
    * @param node ASTNode, used for error reporting.
-   * @param rsvc RuntimeServices used to retrieve the current Uberspector.
    * @param strictRef If no method is found, throw an exception, never return null in this case
    * @return VelMethod object if the object is found, null if not matching method is found
    */    
   public static VelMethod getMethod(String methodName, Object[] params,
                                     Class[] paramClasses, Object o, InternalContextAdapter context,
-                                    SimpleNode node, RuntimeServices rsvc, boolean strictRef)
+                                    SimpleNode node, boolean strictRef)
   {
     VelMethod method = null;
-
     try
     {
       /*
@@ -202,7 +200,7 @@ public class ClassUtils {
         /*
          * otherwise, do the introspection, and then cache it
          */
-        method = rsvc.getUberspect().getMethod(o, methodName, params,
+        method = node.getRuntimeServices().getUberspect().getMethod(o, methodName, params,
            new Info(node.getTemplateName(), node.getLine(), node.getColumn()));
 
         if ((method != null) && (o != null))

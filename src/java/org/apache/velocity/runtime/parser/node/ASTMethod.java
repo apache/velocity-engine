@@ -156,7 +156,7 @@ public class ASTMethod extends SimpleNode
         }
             
         VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses, 
-            o, context, this, rsvc, strictRef);
+            o, context, this, strictRef);
         if (method == null) return null;
 
         try

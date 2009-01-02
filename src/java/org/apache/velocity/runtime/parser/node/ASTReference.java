@@ -570,7 +570,10 @@ public class ASTReference extends SimpleNode
             // the first parameter is the index value and the second is the LHS of the set.
           
             String methodName = "put";
-            Object [] params = {astIndex.jjtGetChild(0).value(context), value};
+            Object argument = astIndex.jjtGetChild(0).value(context);
+            // If negative, turn -1 into (size - 1)
+            argument = ASTIndex.adjMinusIndexArg(argument, result, context, astIndex);            
+            Object [] params = {argument, value};
             Class[] paramClasses = {params[0] == null ? null : params[0].getClass(), 
                                     params[1] == null ? null : params[1].getClass()};
             if (params[0] instanceof Integer)
@@ -582,7 +585,7 @@ public class ASTReference extends SimpleNode
             }
                    
             VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses, 
-                result, context, astIndex, rsvc, strictRef);
+                result, context, astIndex, strictRef);
           
             if (method == null) return false;
             try
