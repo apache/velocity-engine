@@ -1,3 +1,4 @@
+ls
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
@@ -27,6 +28,10 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="byron" issue="VELOCITY-406">
+ 	  Added bracketed index syntax, $foo[0], or #set($foo[0] = 1)
+      </action>
+      
       <action type="add" dev="byron" issue="VELOCITY-659">
           Removed java.lang.Exception from throws clause of Velocity
           and VelocityEngine API. Also removed IOException so that all
