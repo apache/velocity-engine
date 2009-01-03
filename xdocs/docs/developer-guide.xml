@@ -1716,18 +1716,18 @@ runtime log.
 <br/>
 Declares the class to be used
 for resource caching.  The current default is
-<code>org.apache.velocity.runtime.resource.ResourceCacheImpl</code>
-which uses a LRU Map to prevent data from being held forever.  You can
-set the size of the LRU Map using the parameter
-<code>resource.manager.defaultcache.size</code>.  The dafault value
-of the default cache size is currently 89.
+<code>org.apache.velocity.runtime.resource.ResourceCacheImpl</code>.
+When <code>resource.manager.defaultcache.size</code> is set to 0, then
+the default implementation is the standard java ConcurrentHashMap.
+Otherwise, a non-zero cache size  uses an LRU Map.  The default cache size
+is 89.  Note that the ConcurrentHashMap may be better at thread concurrency.
 </p>
 
 <p>
 <code>resource.manager.defaultcache.size</code> 
     <br/>
-    Sets the size of the
-    default implementation of the resource manager resource cache.
+    Sets the size of the default implementation of the resource
+    manager cache size.  The default is 89.
 </p>
 
 <p>
@@ -2735,3 +2735,6 @@ Please submit all detailed, thoughtful and constructive feedback through our
 
 </body>
 </document>
+
+<!-- LocalWords:  ConcurrentHashMap
+-->
