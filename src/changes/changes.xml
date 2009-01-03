@@ -28,6 +28,11 @@
 
     <release version="1.6.2-dev" date="In Subversion">
 
+      <action type="add" dev="byron" issue="VELOCITY-656">
+	 Better error reporting when toString() throw an exception
+	 when testing an #if conditional. For example #if($foo)
+      </action>
+      
       <action type="fix" dev="byron" issue="VELOCITY-658" due-to="Jarkko Viinamäki">
           Fix $velocityHasNext so that it works in nested foreach blocks.
       </action>
