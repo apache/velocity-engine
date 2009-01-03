@@ -481,13 +481,19 @@ public class ASTReference extends SimpleNode
                 return true;
             else
                 return false;
-        }
-        else if (value.toString() == null)
-        {
-            return false;
-        }
+        }        
         else
-            return true;
+        {
+            try
+            {
+                return value.toString() != null;
+            }
+            catch(Exception e)
+            {
+                throw new VelocityException("Reference evaluation threw an exception at " 
+                    + Log.formatFileString(this), e);
+            }
+        }
     }
 
     /**

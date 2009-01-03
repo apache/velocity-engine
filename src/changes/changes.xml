@@ -1,4 +1,3 @@
-ls
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
@@ -28,6 +27,11 @@ ls
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="byron" issue="VELOCITY-656">
+	Better error reporting when toString() throw an exception when testing
+	an #if conditional. For example #if($foo)
+      </action>
+      
       <action type="add" dev="byron" issue="VELOCITY-406">
  	  Added bracketed index syntax, $foo[0], or #set($foo[0] = 1)
       </action>
