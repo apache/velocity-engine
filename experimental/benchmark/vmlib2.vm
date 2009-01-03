@@ -1,0 +1,10 @@
+
+
+#macro(vm_inner2 $a $b)
+   <td>$a</td><td>#if($b)$b#end<td>
+#end
+
+#macro(vm_macro2 $a $b)
+   Some lines of $a.name text $b.name asdfsad asdsdf fsdff
+   #vm_inner2($a.name $b.name)
+#end

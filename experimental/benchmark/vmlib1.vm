@@ -1,0 +1,8 @@
+
+#macro(vm_macro1 $x $y)
+  Some macro2 lines of text $x.name $y.name
+  #if ($x.name == "bogus") xyz #end
+  #if ($x.name == "test4")
+    This is a line of text $y.name
+  #end
+#end

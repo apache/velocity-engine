@@ -1,0 +1,59 @@
+
+These are some lines of text 1 
+These are some lines of text 1
+These are some lines of text 1
+These are some lines of text 1
+These are some lines of text 1
+These are some lines of text 1
+
+#foreach($i in $outerList) ## iterate 10 times
+
+  #set($tests = [$test1, $test2, $test3, $test4, $test5])
+  #foreach($test in $tests)
+    #parse("parse1.vm")
+  #end
+
+
+  #foreach($j in $innerList) ## iterate 10 times
+
+    #vm_macro1($test4 $test5)
+    #vm_macro2($test8 $test9)
+
+    #if($i < 5)
+      This is some lines of text 
+      This is some lines of text  
+      This is some lines of text  
+      This is some lines of text  
+      This is some lines of text
+    #end
+	     
+    #set($v1 = "some text 1")
+    #set($v2 = "some text 1")
+    #set($v3 = "some text 1")
+    #set($v4 = "some text 1")
+    #set($v5 = "some text 1")
+    #set($v6 = $test1.name)
+    #set($v7 = $test2.name)
+    #set($v8 = $test3.name)
+    #set($v9 = $test4.name)
+    #set($v10 = $test5.name)
+
+	     
+    #if ($i > 5)	     
+      This is some lines of text, blaa blaa
+      This is some lines of text, blaa blaa
+      This is some lines of text, blaa blaa
+      This is some lines of text, blaa blaa
+      This is some lines of text, blaa blaa
+      This is some lines of text, blaa blaa
+    #end	     
+
+    more lines of text  $test4.name
+    more lines of text  $test5.name
+    more lines of text  $test6.name
+    more lines of text  $test7.name
+    more lines of text  $test8.name	     
+	     
+  #end
+
+#end
