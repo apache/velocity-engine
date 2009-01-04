@@ -27,6 +27,10 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="byron" issue="VELOCITY-662">
+	Reduce performance bottleneck with the referenceInsert event handler call
+      </action>
+      
       <action type="add" dev="byron" issue="VELOCITY-656">
 	Better error reporting when toString() throw an exception when testing
 	an #if conditional. For example #if($foo)

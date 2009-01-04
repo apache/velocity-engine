@@ -134,6 +134,9 @@ public class ASTReference extends SimpleNode
 
         numChildren = jjtGetNumChildren();
         
+        // This is an expensive call, so get it now.
+        literal = literal();
+        
         /*
          * and if appropriate...
          */
@@ -381,7 +384,7 @@ public class ASTReference extends SimpleNode
          * if we have an event cartridge, get a new value object
          */
 
-        value = EventHandlerUtil.referenceInsert(rsvc, context, literal(), value);
+        value = EventHandlerUtil.referenceInsert(rsvc, context, literal, value);
 
         String toString = null;
         if (value != null)
@@ -938,44 +941,5 @@ public class ASTReference extends SimpleNode
           }
         }
         return obj;        
-    }
-
-
-    /**
-     *  Routine to allow the literal representation to be
-     *  externally overridden.  Used now in the VM system
-     *  to override a reference in a VM tree with the
-     *  literal of the calling arg to make it work nicely
-     *  when calling arg is null.  It seems a bit much, but
-     *  does keep things consistant.
-     *
-     *  Note, you can only set the literal once...
-     *
-     *  @param literal String to render to when null
-     */
-    public void setLiteral(String literal)
-    {
-        /*
-         * do only once
-         */
-
-        if( this.literal == null)
-            this.literal = literal;
-    }
-
-    /**
-     *  Override of the SimpleNode method literal()
-     *  Returns the literal representation of the
-     *  node.  Should be something like
-     *  $<token>.
-     * @return A literal string.
-     */
-    public String literal()
-    {
-        if (literal != null)
-            return literal;
-        
-        // this value could be cached in this.literal but it increases memory usage
-        return super.literal();
     }
 }
