@@ -27,6 +27,12 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="byron" issue="VELOCITY-663">
+	Re-implement #stop so that it stops template execution and rendering.  This
+	Also addresses a performance bottleneck detected in the old implementation.
+	#stop is a general use directive now, and not just for debugging.
+      </action>
+      
       <action type="add" dev="byron" issue="VELOCITY-662">
 	Reduce performance bottleneck with the referenceInsert event handler call
       </action>

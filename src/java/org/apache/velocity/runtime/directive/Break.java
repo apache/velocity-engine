@@ -107,6 +107,12 @@ public class Break extends Directive
     
     public static class BreakException extends RuntimeException 
     {
-        
+        public BreakException()
+        {
+          // If a break is thrown threw a macro or parse call, then this exception
+          // will be logged because this method calls catch
+          // RuntimeException, so provide the user with some info.
+          super("Break");
+        }
     }
 }

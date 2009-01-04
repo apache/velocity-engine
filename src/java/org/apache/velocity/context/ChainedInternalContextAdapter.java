@@ -223,22 +223,6 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     }
 
     /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getAllowRendering()
-     */
-    public boolean getAllowRendering()
-    {
-       return innerContext.getAllowRendering();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#setAllowRendering(boolean)
-     */
-    public void setAllowRendering(boolean v)
-    {
-        innerContext.setAllowRendering(v);
-    }
-
-    /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      */
     public void setMacroLibraries(List macroLibraries)

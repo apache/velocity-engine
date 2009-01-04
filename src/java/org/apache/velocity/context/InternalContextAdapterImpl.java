@@ -222,25 +222,6 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
         return icb.getCurrentResource();
     }
 
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getAllowRendering()
-     * @since 1.5
-     */
-    public boolean getAllowRendering()
-    {
-       return icb.getAllowRendering();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#setAllowRendering(boolean)
-     * @since 1.5
-     */
-    public void setAllowRendering(boolean v)
-    {
-        icb.setAllowRendering(v);
-    }
-
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      * @since 1.6

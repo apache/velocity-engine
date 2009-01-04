@@ -37,7 +37,7 @@ public class BaseEvalTestCase extends TestCase
 {
     protected VelocityEngine engine;
     protected VelocityContext context;
-    protected boolean DEBUG = false;
+    protected boolean DEBUG = true;
     protected TestLogChute log;
 
     public BaseEvalTestCase(String name)
@@ -70,7 +70,7 @@ public class BaseEvalTestCase extends TestCase
         assertEvalEquals("","");
         assertEvalEquals("abc\n123","abc\n123");
     }
-
+  
     protected void setProperties(VelocityEngine engine)
     {
         // extension hook
@@ -81,6 +81,41 @@ public class BaseEvalTestCase extends TestCase
         // extension hook
     }
 
+    /**
+     *  Compare an expected string with the given loaded template
+     */
+    protected void assertTmplEquals(String expected, String template)
+    {        
+        StringWriter writer = new StringWriter();
+        try
+        {          
+            engine.mergeTemplate(template, "utf-8", context, writer);
+        }
+        catch (RuntimeException re)
+        {
+            if (DEBUG)
+            {
+                engine.getLog().info("RuntimeException!", re);
+            }
+            throw re;
+        }
+        catch (Exception e)
+        {
+            if (DEBUG)
+            {
+                engine.getLog().info("Exception!", e);
+            }
+            throw new RuntimeException(e);
+        }        
+
+        if (DEBUG)
+        {
+            engine.getLog().info("Expected:  '" + expected + "'");
+            engine.getLog().info("Result:  '" + writer.toString() + "'");
+        }        
+        assertEquals(expected, writer.toString());  
+    }
+    
     protected void assertContextValue(String key, Object expected)
     {
         if (DEBUG)

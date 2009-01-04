@@ -1535,9 +1535,12 @@ $count
 <section name="Stop" href="stop">
 
     <p>
-    The <em>#stop</em> script element prevents any further text or references
-    in the page from being rendered.  This is useful
-    for debugging purposes.
+    The <em>#stop</em> directive stops any further rendering and execution
+    of the template.  This is true even when the directive is nested within
+    another template accessed through #parse or located in a velocity macro.
+    The resulting merged output will contain all the content up to the point
+    the #stop directive was encountered.  This is handy as an early exit from
+    a template.
     </p>
 
  </section>

@@ -34,6 +34,7 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.parser.node.ASTStop.StopThrowable;
 import org.apache.velocity.util.introspection.Info;
 
 /**
@@ -201,6 +202,14 @@ public class Evaluate extends Directive
                      *  now render, and let any exceptions fly
                      */
                     nodeTree.render( ica, writer );
+                }
+                catch (StopThrowable st)
+                {
+                    // The stop throwable is thrown by ASTStop (the #stop directive)
+                    // The intent of the stop directive is to halt processing of the
+                    // the template, so we throw a Throwable that will short circuit
+                    // everthing between this node, and ASTStop. We just needed to 
+                    // Catch the exception, nothing else to do.
                 }
                 catch (ParseErrorException pex)
                 {
