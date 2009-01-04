@@ -19,7 +19,9 @@
  * under the License.
  */
 
+import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -51,8 +53,8 @@ public class Benchmark
     Properties props = new Properties();
     props.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, "true");
     props.setProperty(RuntimeConstants.VM_LIBRARY, "vmlib1.vm,vmlib2.vm");
-    props.setProperty(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, "0");
-    //props.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
+    props.setProperty(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, "20");
+    props.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
            
     VelocityEngine vengine = new VelocityEngine();
     vengine.init(props);
@@ -105,7 +107,7 @@ class VelocityThread extends Thread
   {
     for (int i = 0; i < runCnt; i++)
     {
-      StringWriter writer = new StringWriter(10000);
+      Writer writer = new FastWriter();
       
       // We do the setup inside the loop so we can be a little realistic
       // Since this type of setup would be done in a real application,
@@ -130,13 +132,15 @@ class VelocityThread extends Thread
       catch(Exception e)
       {
         System.out.println(e);
+        e.printStackTrace();
         runError = true;
         System.out.println("Errors during run");
         System.exit(1);
       }      
     }
   }
-
+  
+  
   /**
    * Test Object to be referenced from the template
    */
@@ -147,5 +151,81 @@ class VelocityThread extends Thread
     {
       return name;
     }
+    
+    public void setName(String name)
+    {
+      this.name = name;
+    } 
   }  
+  
 }
+
+
+
+class FastWriter extends Writer
+{
+
+  @Override
+  public Writer append(char c) throws IOException
+  {
+    throw new AssertionError("Bad method call");
+  }
+
+  @Override
+  public Writer append(CharSequence csq, int start, int end)
+      throws IOException
+  {
+    throw new AssertionError("Bad method call");
+  }
+
+  @Override
+  public Writer append(CharSequence csq) throws IOException
+  {
+    throw new AssertionError("Bad method call");
+  }
+
+  @Override
+  public void close() throws IOException
+  {
+    throw new AssertionError("Bad method call");
+  }
+
+  @Override
+  public void flush() throws IOException
+  {
+    throw new AssertionError("Bad method call");
+  }
+
+  @Override
+  public void write(char[] cbuf, int off, int len) throws IOException
+  {
+    throw new AssertionError("Bad method call");
+  }
+
+  @Override
+  public void write(char[] cbuf) throws IOException
+  {
+  }
+
+  @Override
+  public void write(int c) throws IOException
+  {
+    throw new AssertionError("Bad method call");
+  }
+
+  @Override
+  public void write(String str, int off, int len) throws IOException
+  {
+    throw new AssertionError("Bad method call");
+  }
+
+  @Override
+  public void write(String str) throws IOException
+  {
+  }
+  
+}
+
+
+
+

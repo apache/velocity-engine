@@ -26,17 +26,24 @@ These are some lines of text 1
       This is some lines of text  
       This is some lines of text
     #end
+    
+    #vm_macro1($test4 $test5)
+    #vm_macro2($test8 $test9)
+    #vm_macro1($test4 $test5)
+    #vm_macro2($test8 $test9)
+    #vm_macro1($test4 $test5)
+    #vm_macro2($test8 $test9)
 	     
     #set($v1 = "some text 1")
     #set($v2 = "some text 1")
     #set($v3 = "some text 1")
     #set($v4 = "some text 1")
     #set($v5 = "some text 1")
-    #set($v6 = $test1.name)
-    #set($v7 = $test2.name)
-    #set($v8 = $test3.name)
-    #set($v9 = $test4.name)
-    #set($v10 = $test5.name)
+    #set($test1.name = $test1.name)
+    #set($test2.name = $test2.name)
+    #set($test3.name = $test3.name)
+    #set($test4.name = $test4.name)
+    #set($test5.name = $test5.name)
 
 	     
     #if ($i > 5)	     

@@ -23,13 +23,27 @@ COMMON_LANG=$LIBDIR/commons-lang-2.4.jar
 VELOCITY_PATH=velocity.jar
 if [[ ! -f $VELOCITY_PATH ]]; then
   VELOCITY_PATH=$ROOT/bin/classes
-  echo velocity.jar was not found in this directory, so we are using the classes in:
+  echo velocity.jar was not found in this directory, so we are using classes in:
   echo $VELOCITY_PATH
 else
   echo Found $VELOCITY_PATH in the current directory, so we are going to use it!  
 fi
 
+JRAT_JAR=shiftone-jrat.jar
+if [[ -f $JRAT_JAR ]]; then
+  echo Found $JRAT_JAR, We are going to use it!
+  echo Adding -javaagent:shiftone-jrat.jar to the java command line
+  JRAT_SWITCH=-javaagent:shiftone-jrat.jar
+fi
+
 CP=$COMMON_LANG:$COMMON_COLL:$VELOCITY_PATH:.
 
-javac -cp $CP Benchmark.java
-time java -server -Xmx50M -cp $CP Benchmark
+COMPILE="javac -cp $CP Benchmark.java"
+
+if ! $COMPILE ; then
+  echo Ooops, failed to compile, comand line:
+  echo $COMPILE
+  exit 1
+fi
+
+time java -server -Xmx50M $JRAT_SWITCH -cp $CP Benchmark
