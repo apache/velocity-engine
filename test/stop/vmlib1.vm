@@ -1,0 +1,3 @@
+#macro(test1)
+stuff1#{stop}stuff2
+#end

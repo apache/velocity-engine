@@ -76,11 +76,6 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     private Resource currentResource = null;
 
     /**
-     *  Is rendering allowed?  Defaults to true, can be changed by #stop directive.
-     */
-    private boolean allowRendering = true;
-
-    /**
      *  List for holding the macro libraries. Contains the macro library
      *  template name as strings.
      */
@@ -220,23 +215,6 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     public Resource getCurrentResource()
     {
         return currentResource;
-    }
-
-
-     /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getAllowRendering()
-     */
-    public boolean getAllowRendering()
-     {
-        return allowRendering;
-     }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#setAllowRendering(boolean)
-     */
-    public void setAllowRendering(boolean v)
-    {
-        allowRendering = v;
     }
 
     /**

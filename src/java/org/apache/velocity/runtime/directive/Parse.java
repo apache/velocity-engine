@@ -116,15 +116,6 @@ public class Parse extends InputBase
         throws IOException, ResourceNotFoundException, ParseErrorException,
                MethodInvocationException
     {
-    	/*
-    	 * if rendering is no longer allowed (after a stop), we can safely
-    	 * skip execution of all the parse directives.
-    	 */
-    	if(!context.getAllowRendering())
-        {
-    		return true;
-    	}
-
         /*
          *  did we get an argument?
          */

@@ -336,11 +336,7 @@ public class ASTReference extends SimpleNode
     {
         if (referenceType == RUNT)
         {
-            if (context.getAllowRendering())
-            {
-                writer.write(rootString);
-            }
-
+            writer.write(rootString);
             return true;
         }
 
@@ -360,20 +356,14 @@ public class ASTReference extends SimpleNode
             
             if (value == null)
             {
-                if (context.getAllowRendering())
-                {
-                    writer.write(escPrefix);
-                    writer.write("\\");
-                    writer.write(localNullString);
-                }
+                writer.write(escPrefix);
+                writer.write("\\");
+                writer.write(localNullString);
             }
             else
             {
-                if (context.getAllowRendering())
-                {
-                    writer.write(escPrefix);
-                    writer.write(localNullString);
-                }
+                writer.write(escPrefix);
+                writer.write(localNullString);
             }
             return true;
         }
@@ -401,18 +391,14 @@ public class ASTReference extends SimpleNode
         if (value == null || toString == null)
         {
             /*
-             * write prefix twice, because it's schmoo, so the \ don't escape each other...
+             * write prefix twice, because it's schmoo, so the \ don't escape each
+             * other...
              */
-
-            if (context.getAllowRendering())
-            {
-                localNullString = getNullString(context);
-
-                writer.write(escPrefix);
-                writer.write(escPrefix);
-                writer.write(morePrefix);
-                writer.write(localNullString);
-            }
+            localNullString = getNullString(context);
+            writer.write(escPrefix);
+            writer.write(escPrefix);
+            writer.write(morePrefix);
+            writer.write(localNullString);
 
             if (logOnNull && referenceType != QUIET_REFERENCE && log.isDebugEnabled())
             {
@@ -427,13 +413,9 @@ public class ASTReference extends SimpleNode
             /*
              * non-null processing
              */
-
-            if (context.getAllowRendering())
-            {
-                writer.write(escPrefix);
-                writer.write(morePrefix);
-                writer.write(toString);
-            }
+            writer.write(escPrefix);
+            writer.write(morePrefix);
+            writer.write(toString);
 
             return true;
         }

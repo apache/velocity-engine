@@ -80,10 +80,7 @@ public class ASTText extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException
     {
-        if (context.getAllowRendering())
-        {
-            writer.write(ctext);
-        }
+        writer.write(ctext);
         return true;
     }
 }

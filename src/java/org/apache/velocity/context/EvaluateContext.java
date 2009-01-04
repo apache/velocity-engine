@@ -51,7 +51,6 @@ public class EvaluateContext extends ChainedInternalContextAdapter
 {
     /** container for any local items */
     Context localContext;
-    boolean allowRendering = true;
     
      /**
      *  CTOR, wraps an ICA
@@ -201,22 +200,6 @@ public class EvaluateContext extends ChainedInternalContextAdapter
     public Object localPut(final String key, final Object value)
     {
         return localContext.put(key, value);
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#getAllowRendering()
-     */
-    public boolean getAllowRendering()
-    {
-       return allowRendering && innerContext.getAllowRendering();
-    }
-
-    /**
-     * @see org.apache.velocity.context.InternalHousekeepingContext#setAllowRendering(boolean)
-     */
-    public void setAllowRendering(boolean v)
-    {
-        allowRendering = false;
     }
 
 }

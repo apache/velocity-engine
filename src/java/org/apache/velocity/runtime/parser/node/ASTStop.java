@@ -78,9 +78,19 @@ public class ASTStop extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException
     {
-        context.setAllowRendering(false);
-
-        return true;
+        // The top level calls that render an AST node tree catch this Throwable.  By throwing
+        // Here we terminate rendering of this node tree.
+        throw new StopThrowable();        
+    }
+    
+    /**
+     * We select to overide Error here intead of RuntimeInstance because there are
+     * certain nodes that catch RuntimeException when rendering there children, and log
+     * the event to error.  But of course in the case that the template renders an ASTStop
+     * node we don't want this to happen.
+     */
+    public static class StopThrowable extends Error
+    {      
     }
 }
 

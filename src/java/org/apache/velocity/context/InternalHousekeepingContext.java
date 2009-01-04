@@ -131,22 +131,6 @@ interface InternalHousekeepingContext
      */
     void setCurrentResource( Resource r );
 
-
-    /**
-     * Checks to see if rendering should be allowed.  Defaults to true but will
-     * return false after a #stop directive.
-     *
-     * @return true if rendering is allowed, false if no rendering should occur
-     */
-     boolean getAllowRendering();
-
-    /**
-     * Set whether rendering is allowed.  Defaults to true but is set to
-     * false after a #stop directive.
-     * @param v
-     */
-     void setAllowRendering(boolean v);
-
     /**
      * Set the macro library list for the current template.
      *

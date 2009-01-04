@@ -97,12 +97,7 @@ public class ASTComment extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException
     {
-
-        if (context.getAllowRendering())
-        {
-            writer.write(carr);
-        }
-
+        writer.write(carr);
         return true;
     }
 
