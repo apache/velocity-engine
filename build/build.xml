@@ -370,6 +370,9 @@
     <javacc target="${parserjj.file}"
             outputdirectory="${build.parser}"
             javacchome="${javacc.home}" />
+    <replace file="${src.java.dir}/org/apache/velocity/runtime/parser/ParserTokenManager.java" 
+             token="StringBuffer" 
+             value="StrBuilder"/>        
   </target>
 
    <target name="javacc-cleanup" depends="parser-check">   
@@ -1173,7 +1176,7 @@
   <!-- =================================================================== -->
   <!-- JUnit Tests for Velocity                                            -->
   <!-- =================================================================== -->
-  <target name="test" depends="build-prepare,compile-test"
+  <target name="test-main" depends="build-prepare,compile-test"
           description="Run the Velocity testcases">
 
     <mkdir dir="${build.test.reports}"/>
@@ -1193,7 +1196,10 @@
         <pathelement path="${build.test.dest}"/>
       </classpath>
 
-      <batchtest todir="${build.test.reports}">
+      <formatter type="plain"/>
+
+      <test name="${testcase}" if="testcase" todir="${build.test.reports}"/>
+      <batchtest todir="${build.test.reports}" unless="testcase">
         <fileset dir="${build.test.src}">
           <include name="**/*TestCase.java"></include>
 
@@ -1206,9 +1212,12 @@
           <exclude name="**/ClasspathResourceTestCase.java"></exclude>
         </fileset>
       </batchtest>
-      <formatter type="plain"/>
     </junit>
-
+  </target>
+  
+  <target name="test" depends="test-main, test-legacy"/>
+  
+  <target name="test-legacy" unless="testcase">
     <!-- Run the legacy tests for anakia, texen... -->
     <ant antfile="${velocity.build.dir}/testcases.xml"
          target="test-all"/>
