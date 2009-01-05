@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.parser.Token;
  */
 public class ASTText extends SimpleNode
 {
-    private char[] ctext = null;
+    private char[] ctext;
 
     /**
      * @param id
@@ -65,15 +65,13 @@ public class ASTText extends SimpleNode
     public Object init( InternalContextAdapter context, Object data)
     throws TemplateInitException
     {
-        // In case init gets called more then once.
-        if (ctext == null)
-        {
-            Token t = getFirstToken();
-            // In most cases tokenLiteral() will return back t.image, we want to use t.image directly
-            // and not a copy because otherwise this would mean all text nodes are stored twice.
-            ctext = NodeUtils.tokenLiteral(getFirstToken()).toCharArray();
-        }
-        return data;        
+        Token t = getFirstToken();
+
+        String text = NodeUtils.tokenLiteral( t );
+
+        ctext = text.toCharArray();
+
+        return data;
     }
 
     /**
