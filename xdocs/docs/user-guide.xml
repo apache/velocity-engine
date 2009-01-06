@@ -1100,18 +1100,20 @@ $blargh
  </p>
 
  <p>
-    Alternately, the <em>#literal</em> script element allows the
+    Alternately, the <em>#[[</em>don't parse me!<em>]]#</em> syntax allows the
     template designer to easily use large chunks of uninterpreted
-    content in VTL code.  This can be especially useful in place of <a
-    href="#EscapingVTLDirectives">escaping</a> multiple directives.
+    and unparsed content in VTL code.  This can be especially useful in place of <a
+    href="#EscapingVTLDirectives">escaping</a> multiple directives or escaping
+    sections which have content that would otherwise be invalid (and thus unparseable)
+    VTL.
  </p>
 
 <source><![CDATA[
-#literal()
+#[[
 #foreach ($woogie in $boogie)
   nothing will happen to $woogie
 #end
-#end
+]]#
 ]]></source>
 
     <p>

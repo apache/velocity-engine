@@ -31,10 +31,13 @@ import org.apache.velocity.runtime.parser.node.Node;
  * A very simple directive that leverages the Node.literal()
  * to grab the literal rendition of a node. We basically
  * grab the literal value on init(), then repeatedly use
- * that during render().
+ * that during render().  <em>This is deprecated and will be
+ * removed in Velocity 2.0; please use #[[unparsed content]]#
+ * instead.</em>
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @version $Id$
+ * @deprecated Use the #[[unparsed content]]# syntax instead.
  */
 public class Literal extends Directive
 {

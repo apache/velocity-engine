@@ -86,6 +86,7 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.MacroParseException;
 import org.apache.velocity.util.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 
 /**
  * This class is responsible for parsing a Velocity
@@ -104,9 +105,9 @@ import org.apache.velocity.util.StringUtils;
 public class Parser
 {
     /**
-     *  This Hashtable contains a list of all of the dynamic directives.
+     *  This Map contains a list of all of the dynamic directives.
      */
-    private Hashtable directives = new Hashtable(0);
+    private Map directives = new HashMap();
 
     /**
      *  Name of current template we are parsing.  Passed to us in parse()
@@ -217,7 +218,7 @@ public class Parser
      */
     public void setDirectives(Hashtable directives)
     {
-        this.directives = directives;
+        this.directives = new HashMap(directives);
     }
 
     /**
@@ -350,7 +351,8 @@ TOKEN_MGR_DECLS:
     private int lparen = 0;
     private int rparen = 0;
 
-    Stack stateStack = new Stack();
+    List stateStack = new ArrayList(50);
+    
     public boolean debugPrint = false;
 
     private boolean inReference;
@@ -368,14 +370,14 @@ TOKEN_MGR_DECLS:
      */
     public boolean stateStackPop()
     {
-        Hashtable h;
-
+        ParserState s;
         try
         {
-            h = (Hashtable) stateStack.pop();
+            s = (ParserState) stateStack.remove(stateStack.size() - 1); // stack.pop
         }
-        catch( EmptyStackException e)
+        catch(IndexOutOfBoundsException e)
         {
+            // empty stack
             lparen=0;
             SwitchTo(DEFAULT);
             return false;
@@ -384,13 +386,13 @@ TOKEN_MGR_DECLS:
         if( debugPrint )
             System.out.println(
                 " stack pop (" + stateStack.size() + ") : lparen=" +
-                    ( (Integer) h.get("lparen")).intValue() +
-                        " newstate=" + ( (Integer) h.get("lexstate")).intValue() );
+                    s.lparen +
+                        " newstate=" + s.lexstate );
 
-        lparen = ( (Integer) h.get("lparen")).intValue();
-        rparen = ( (Integer) h.get("rparen")).intValue();
+        lparen = s.lparen;
+        rparen = s.rparen;
 
-        SwitchTo( ( (Integer) h.get("lexstate")).intValue() );
+        SwitchTo(s.lexstate);
 
         return true;
     }
@@ -405,16 +407,14 @@ TOKEN_MGR_DECLS:
         if( debugPrint )
             System.out.println(" (" + stateStack.size() + ") pushing cur state : " +
                 curLexState );
-
-        Hashtable h = new Hashtable();
-
-        h.put("lexstate", new Integer( curLexState ) );
-        h.put("lparen", new Integer( lparen ));
-        h.put("rparen", new Integer( rparen ));
+        
+        ParserState s = new ParserState();
+        s.lparen = lparen;
+        s.rparen = rparen;
+        s.lexstate = curLexState;
 
         lparen = 0;
-
-        stateStack.push( h );
+        stateStack.add(s); // stack.push
 
         return true;
     }
@@ -423,7 +423,6 @@ TOKEN_MGR_DECLS:
      *  Clears all state variables, resets to
      *  start values, clears stateStack.  Call
      *  before parsing.
-     *  @return void
      */
     public void clearStateVars()
     {
@@ -439,6 +438,16 @@ TOKEN_MGR_DECLS:
         return;
     }
 
+    /**
+     * Holds the state of the parsing process.
+     */
+    private class ParserState
+    {
+        int lparen;
+        int rparen;
+        int lexstate;
+    }
+    
     /**
      *  handles the dropdown logic when encountering a RPAREN
      */
@@ -739,6 +748,16 @@ MORE :
         }
     }
 
+|   "#[["
+    {
+       if (!inComment)
+       {
+           inComment = true;
+           stateStackPush();
+           SwitchTo( IN_TEXTBLOCK );
+       }
+    }
+    
 |   <"#**" ~["#"]>
     {
     	if (!inComment)
@@ -759,7 +778,7 @@ MORE :
 	        SwitchTo( IN_MULTI_LINE_COMMENT );
     	}
     }
-
+    
 |   <HASH : "#" >
     {
         if (! inComment)
@@ -855,8 +874,24 @@ TOKEN :
   }
 }
 
+<IN_TEXTBLOCK>
+TOKEN :
+{
+  <TEXTBLOCK: "]]#" >
+  {
+    inComment = false;
+    stateStackPop();
+  }
+}
+
 <IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
 SKIP :
+{
+  < ~[] >
+}
+
+<IN_TEXTBLOCK>
+MORE :
 {
   < ~[] >
 }
@@ -1188,6 +1223,7 @@ void Statement() #void : {}
 |   StopStatement()
 |   LOOKAHEAD(2) Reference()
 |   Comment()
+|   Textblock()
 |   SetDirective()
 |   EscapedDirective()
 |   Escape()
@@ -1274,6 +1310,11 @@ void Comment() : {}
 	<SINGLE_LINE_COMMENT_START> ( <SINGLE_LINE_COMMENT> ) ?
 |   <MULTI_LINE_COMMENT>
 |   <FORMAL_COMMENT>
+}
+
+void Textblock() : {}
+{
+   <TEXTBLOCK>
 }
 
 void FloatingPointLiteral() : {}

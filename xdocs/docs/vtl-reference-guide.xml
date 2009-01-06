@@ -570,6 +570,28 @@ directive.foreach.maxloops = -1
     </subsection>
 </section>
 
+<section name="Unparsed Content" href="Unparsed">
+    <p>
+    Unparsed content is rendered at runtime, but is not parsed or interpreted.
+    </p>
+    <p>
+    Example:
+    </p>
+
+    <p>
+    <strong>
+    #[[<br/>
+    This has invalid syntax that would normally need 
+    "poor man's escaping" like:
+    <ul>
+     <li>#define()</li>
+     <li>${blah</li>
+    </ul>
+    ]]#
+    </strong>
+    </p>
+</section>
+
 </body>
 </document>
 
