@@ -724,14 +724,14 @@ $blargh
     de Velocity. Ce comportement peut être changé en éditant le fichier <code>velocity.properties</code> et en y écrivant
     l'entrée: <code>stringliterals.interpolate=false</code>.
   </p>
-<p>Également, la directive <em>#litteral</em> permet au concepteur de gabarits de facilement utiliser de gros morceaux de contenu
+<p>Également, la directive <em>#[[ ]]#</em> permet au concepteur de gabarits de facilement utiliser de gros morceaux de contenu
 non interprété de code VTL. Ceci peut être particulièrement utile en remplacement de multiples <a href="#EchappementdesdirectivesVTL">échappements de directives</a>.</p>
 <source><![CDATA[
-#literal()
+#[[
 #foreach ($woogie in $boogie)
   nothing will happen to $woogie
 #end
-#end 
+]]# 
 ]]></source>
 <p>Sera rendu comme :</p>
 <source><![CDATA[
