@@ -161,7 +161,7 @@ public abstract class AbstractContext extends InternalContextBase
             return null;
         }
         
-        return internalPut(key, value);
+        return internalPut(key.intern(), value);
     }
 
     /**

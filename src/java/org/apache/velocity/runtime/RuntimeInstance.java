@@ -1622,7 +1622,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                                           String argArray[],
                                           String sourceTemplate )
     {
-        return vmFactory.addVelocimacro(name, macro,  argArray,  sourceTemplate);
+        return vmFactory.addVelocimacro(name.intern(), macro,  argArray,  sourceTemplate);
     }
 
     /**
@@ -1646,7 +1646,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                                           String argArray[],
                                           String sourceTemplate )
     {
-        return vmFactory.addVelocimacro(name, macro,  argArray,  sourceTemplate);
+        return vmFactory.addVelocimacro(name.intern(), macro,  argArray,  sourceTemplate);
     }
     
     
@@ -1659,7 +1659,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public boolean isVelocimacro( String vmName, String templateName )
     {
-        return vmFactory.isVelocimacro(vmName, templateName);
+        return vmFactory.isVelocimacro(vmName.intern(), templateName);
     }
 
     /**
