@@ -257,23 +257,6 @@ public class VelocimacroProxy extends Directive
         // Throw exception for invalid number of arguments?
         if (getNumArgs() != i)
         {
-            // If we have a not-yet defined macro, we do get no arguments because
-            // the syntax tree looks different than with a already defined macro.
-            // But we do know that we must be in a macro definition context somewhere up the
-            // syntax tree.
-            // Check for that, if it is true, suppress the error message.
-            // Fixes VELOCITY-71.
-
-            for (Node parent = node.jjtGetParent(); parent != null;)
-            {
-                if ((parent instanceof ASTDirective)
-                        && StringUtils.equals(((ASTDirective) parent).getDirectiveName(), "macro"))
-                {
-                    return;
-                }
-                parent = parent.jjtGetParent();
-            }
-
             String msg = "VM #" + macroName + ": too "
                     + ((getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted "
                     + getNumArgs() + " got " + i;
