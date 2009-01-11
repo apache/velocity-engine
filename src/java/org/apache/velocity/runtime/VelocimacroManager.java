@@ -58,6 +58,8 @@ public class VelocimacroManager
 
     /** set of names of library tempates/namespaces */
     private final Set libraries = Collections.synchronizedSet(new HashSet());
+    
+    private RuntimeServices rsvc = null;
 
     /*
      * big switch for namespaces.  If true, then properties control
@@ -77,6 +79,7 @@ public class VelocimacroManager
          */
 
         globalNamespace = addNamespace(GLOBAL_NAMESPACE);
+        this.rsvc = rsvc;
     }
 
     /**
@@ -100,7 +103,7 @@ public class VelocimacroManager
             throw new RuntimeException("Null AST for "+vmName+" in "+namespace);
         }
 
-        MacroEntry me = new MacroEntry(vmName, macroBody, argArray, namespace);
+        MacroEntry me = new MacroEntry(vmName, macroBody, argArray, namespace, rsvc);
 
         me.setFromLibrary(registerFromLib);
         
@@ -451,7 +454,8 @@ public class VelocimacroManager
         private VelocimacroProxy vp;
 
         private MacroEntry(final String vmName, final Node macro,
-                   final String argArray[], final String sourceTemplate)
+                   final String argArray[], final String sourceTemplate,
+                   RuntimeServices rsvc)
         {
             this.vmName = vmName;
             this.argArray = argArray;
@@ -462,6 +466,7 @@ public class VelocimacroManager
             vp.setName(this.vmName);
             vp.setArgArray(this.argArray);
             vp.setNodeTree(this.nodeTree);
+            vp.init(rsvc);
         }
         
         /**

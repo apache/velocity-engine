@@ -226,7 +226,7 @@ public class RuntimeMacro extends Directive
             try
             {
             	// mainly check the number of arguments
-                vmProxy.init(rsvc, context, node);
+                vmProxy.checkArgs(context, node);
             }
             catch (TemplateInitException die)
             {
