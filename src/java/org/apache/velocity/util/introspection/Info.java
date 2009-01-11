@@ -20,6 +20,7 @@ package org.apache.velocity.util.introspection;
  */
 
 import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  *  Little class to carry in info such as template name, line and column
@@ -46,13 +47,18 @@ public class Info
         this.column = column;
     }
 
+    public Info(Node node)
+    {
+      this(node.getTemplateName(), node.getLine(), node.getColumn());
+    }
+    
     /**
      * Force callers to set the location information.
      */
     private Info()
     {
     }
-
+    
     /**
      * @return The template name.
      */

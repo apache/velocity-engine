@@ -53,11 +53,6 @@ public class RuntimeMacro extends Directive
     private String macroName;
 
     /**
-     * source template name
-     */
-    private String sourceTemplate;
-
-    /**
      * Literal text of the macro
      */
     private String literal = null;
@@ -77,17 +72,15 @@ public class RuntimeMacro extends Directive
      * template stored for later use.
      *
      * @param macroName name of the macro
-     * @param sourceTemplate template where macro call is made
-     */
-    public RuntimeMacro(String macroName, String sourceTemplate)
+\     */
+    public RuntimeMacro(String macroName)
     {
-        if (macroName == null || sourceTemplate == null)
+        if (macroName == null)
         {
             throw new IllegalArgumentException("Null arguments");
         }
         
         this.macroName = macroName.intern();
-        this.sourceTemplate = sourceTemplate.intern();
     }
 
     /**
@@ -196,7 +189,7 @@ public class RuntimeMacro extends Directive
         /**
          * first look in the source template
          */
-        Object o = rsvc.getVelocimacro(macroName, sourceTemplate, renderingTemplate);
+        Object o = rsvc.getVelocimacro(macroName, getTemplateName(), renderingTemplate);
 
         if( o != null )
         {
@@ -237,9 +230,8 @@ public class RuntimeMacro extends Directive
             }
             catch (TemplateInitException die)
             {
-                Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
                 throw new ParseErrorException(die.getMessage() + " at "
-                    + Log.formatFileString(info), info);
+                    + Log.formatFileString(node), new Info(node));
             }
 
             try
@@ -256,21 +248,20 @@ public class RuntimeMacro extends Directive
                  * this is also true for the following catch blocks.
                  */
                 rsvc.getLog().error("Exception in macro #" + macroName + " at " +
-                  Log.formatFileString(sourceTemplate, getLine(), getColumn()));
+                  Log.formatFileString(node));
                 throw e;
             }
             catch (IOException e)
             {
                 rsvc.getLog().error("Exception in macro #" + macroName + " at " +
-                  Log.formatFileString(sourceTemplate, getLine(), getColumn()));
+                  Log.formatFileString(node));
                 throw e;
             }
         }
         else if (strictRef)
         {
-            Info info = new Info(sourceTemplate, node.getLine(), node.getColumn());
             throw new ParseErrorException("Macro '#" + macroName + "' is not defined at "
-                + Log.formatFileString(info), info);
+                + Log.formatFileString(node), new Info(node));
         }
         
         /**
