@@ -247,7 +247,7 @@ public class VelocimacroProxy extends Directive
     /**
      * check if we are calling this macro with the right number of arguments.  If 
      * we are not, and strictArguments is active, then throw TemplateInitException.
-     * This method must be thread safe.
+     * This method is called during macro render, so it must be thread safe.
      */
     public void checkArgs(InternalContextAdapter context, Node node)
     {
@@ -272,20 +272,6 @@ public class VelocimacroProxy extends Directive
             {
                 rsvc.getLog().debug(msg);
                 return;
-            }
-        }
-
-        /* now validate that none of the arguments are plain words, (VELOCITY-614)
-         * they should be string literals, references, inline maps, or inline lists */
-        for (int n=0; n < i; n++)
-        {
-            Node child = node.jjtGetChild(n);
-            if (child.getType() == ParserTreeConstants.JJTWORD)
-            {
-                /* indicate col/line assuming it starts at 0
-                 * this will be corrected one call up  */
-                throw new TemplateInitException("Invalid arg #"
-                    + n + " in VM #" + macroName, context.getCurrentTemplateName(), 0, 0);
             }
         }
     }

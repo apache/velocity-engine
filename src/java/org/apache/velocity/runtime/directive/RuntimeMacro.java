@@ -24,6 +24,7 @@ import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -66,6 +67,14 @@ public class RuntimeMacro extends Directive
      * Indicates if we are running in strict reference mode.
      */
     protected boolean strictRef = false;
+        
+    /**
+     * badArgsErrorMsg will be non null if the arguments to this macro
+     * are deamed bad at init time, see the init method.  If his is non null, then this macro 
+     * cannot be rendered, and if there is an attempt to render we throw an exception
+     * with this as the message.
+     */
+    private String badArgsErrorMsg = null;
     
     /**
      * Create a RuntimeMacro instance. Macro name and source
@@ -129,6 +138,26 @@ public class RuntimeMacro extends Directive
         {
             strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
         }
+                
+        // Validate that none of the arguments are plain words, (VELOCITY-614)
+        // they should be string literals, references, inline maps, or inline lists
+        for (int n=0; n < node.jjtGetNumChildren(); n++)
+        {
+            Node child = node.jjtGetChild(n);
+            if (child.getType() == ParserTreeConstants.JJTWORD)
+            {
+                badArgsErrorMsg = "Invalid arg '" + child.getFirstToken().image 
+                + "' in macro #" + macroName + " at " + Log.formatFileString(child);
+              
+                if (strictRef)  // If strict, throw now
+                {
+                    /* indicate col/line assuming it starts at 0
+                     * this will be corrected one call up  */
+                    throw new TemplateInitException(badArgsErrorMsg,
+                        context.getCurrentTemplateName(), 0, 0);
+                }
+            }
+        }               
     }
 
     /**
@@ -232,6 +261,12 @@ public class RuntimeMacro extends Directive
             {
                 throw new ParseErrorException(die.getMessage() + " at "
                     + Log.formatFileString(node), new Info(node));
+            }
+
+            if (badArgsErrorMsg != null)
+            {
+                throw new TemplateInitException(badArgsErrorMsg,
+                  context.getCurrentTemplateName(), 0, 0);
             }
 
             try
