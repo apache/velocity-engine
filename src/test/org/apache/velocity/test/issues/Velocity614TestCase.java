@@ -20,6 +20,7 @@ package org.apache.velocity.test.issues;
  */
 
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.test.BaseEvalTestCase;
 
 /**
@@ -83,7 +84,7 @@ public class Velocity614TestCase extends BaseEvalTestCase
     public void testLateDefinedMacroWithBadArg()
     {
         String evil = "#evil(bar) #macro( evil $arg )$arg#end";
-        assertEvalException(evil, ParseErrorException.class);
+        assertEvalException(evil, TemplateInitException.class);
     }
 
 }
