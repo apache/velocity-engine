@@ -226,43 +226,31 @@ public class VelocimacroProxy extends Directive
     }
 
     /**
-     * The major meat of VelocimacroProxy, init() checks the # of arguments.
-     * 
-     * @param rs
-     * @param context
-     * @param node
-     * @throws TemplateInitException
+     * Initialize members of VelocimacroProxy.  called from MacroEntry
      */
-    public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
-            throws TemplateInitException
+    public void init(RuntimeServices rs)
     {
-        // there can be multiple threads here so avoid double inits
-        synchronized (this)
-        {
-            if (!preInit)
-            {
-                super.init(rs, context, node);
+        rsvc = rs;
+      
+        // this is a very expensive call (ExtendedProperties is very slow)
+        strictArguments = rs.getConfiguration().getBoolean(
+            RuntimeConstants.VM_ARGUMENTS_STRICT, false);
 
-                // this is a very expensive call (ExtendedProperties is very slow)
-                strictArguments = rs.getConfiguration().getBoolean(
-                        RuntimeConstants.VM_ARGUMENTS_STRICT, false);
+        // support for local context scope feature, where all references are local
+        // we do not have to check this at every invocation of ProxyVMContext
+        localContextScope = rsvc.getBoolean(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false);
 
-                // support for local context scope feature, where all references are local
-                // we do not have to check this at every invocation of ProxyVMContext
-                localContextScope = rsvc.getBoolean(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false);
-
-                // get the macro call depth limit
-                maxCallDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
-
-                // initialize the parsed AST
-                // since this is context independent we need to do this only once so
-                // do it here instead of the render method
-                nodeTree.init(context, rs);
-
-                preInit = true;
-            }
-        }
-
+        // get the macro call depth limit
+        maxCallDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
+    }
+    
+    /**
+     * check if we are calling this macro with the right number of arguments.  If 
+     * we are not, and strictArguments is active, then throw TemplateInitException.
+     * This method must be thread safe.
+     */
+    public void checkArgs(InternalContextAdapter context, Node node)
+    {
         // check how many arguments we got
         int i = node.jjtGetNumChildren();
 
