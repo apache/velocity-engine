@@ -151,7 +151,7 @@ public class Macro extends Directive
                               "argument to #macro(). #args = " + numArgs);
 
             throw new MacroParseException("First argument to #macro() must be " +
-                    " macro name.", sourceTemplate, t);
+                    " macro name", sourceTemplate, t);
         }
 
         /*

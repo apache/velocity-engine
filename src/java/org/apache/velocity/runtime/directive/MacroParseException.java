@@ -51,7 +51,7 @@ public class MacroParseException
      */
     public MacroParseException(final String msg, final String templateName, final Token currentToken)
     {
-        super(msg);
+        super(msg + " at ");
         this.currentToken = currentToken;
         this.templateName = templateName;
     }
