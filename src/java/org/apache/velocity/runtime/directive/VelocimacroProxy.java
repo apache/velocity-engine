@@ -244,6 +244,19 @@ public class VelocimacroProxy extends Directive
         maxCallDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
     }
     
+
+    /**
+     * Build an error message for not providing the correct number of arguments
+     */
+    private String buildErrorMsg(Node node)
+    {
+      int i = node.jjtGetNumChildren();  // the number of arguments this call provided
+      String msg = "VM #" + macroName + ": too "
+        + ((getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted "
+        + getNumArgs() + " got " + i;      
+      return msg;
+    }
+    
     /**
      * check if we are calling this macro with the right number of arguments.  If 
      * we are not, and strictArguments is active, then throw TemplateInitException.
@@ -251,26 +264,23 @@ public class VelocimacroProxy extends Directive
      */
     public void checkArgs(InternalContextAdapter context, Node node)
     {
-        // check how many arguments we got
+        // check how many arguments we have
         int i = node.jjtGetNumChildren();
 
         // Throw exception for invalid number of arguments?
         if (getNumArgs() != i)
         {
-            String msg = "VM #" + macroName + ": too "
-                    + ((getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted "
-                    + getNumArgs() + " got " + i;
-
             if (strictArguments)
             {
                 /**
                  * indicate col/line assuming it starts at 0 - this will be corrected one call up
                  */
-                throw new TemplateInitException(msg, context.getCurrentTemplateName(), 0, 0);
+                throw new TemplateInitException(buildErrorMsg(node), 
+                    context.getCurrentTemplateName(), 0, 0);
             }
-            else
+            else if (rsvc.getLog().isDebugEnabled())
             {
-                rsvc.getLog().debug(msg);
+                rsvc.getLog().debug(buildErrorMsg(node));
                 return;
             }
         }
