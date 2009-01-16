@@ -281,7 +281,7 @@ public interface RuntimeConstants
     String VM_MAX_DEPTH = "velocimacro.max.depth";
 
     /**
-     * Defines name of the reference that can be used to get the AST block passed to block marco call.
+     * Defines name of the reference that can be used to get the AST block passed to block macro calls.
      * @since 1.7
      */
     String VM_BODY_REFERENCE = "velocimacro.body.reference";

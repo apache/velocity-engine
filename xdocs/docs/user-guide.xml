@@ -1615,11 +1615,35 @@ $block
 
     <p>
     When this template is called, Velocity would replace <em>#d()</em>
-    with a row containing a single, empty data cell.
+    with a row containing a single, empty data cell.  If we want to
+    put something in that cell, we can alter the macro to allow for
+    a body:
+    </p>
+
+<source><![CDATA[
+#macro( d )
+<tr><td>$!bodyContent</td></tr>
+#end
+]]></source>
+
+    <p>
+    Now, if we call the macro just a bit differently, using #@ before the
+    name and providing a body and #end to the call, then Velocity will
+    render the body when it gets to the $!bodyContent:
+    </p>
+
+<source><![CDATA[
+#@d()Hello!#end
+]]></source>
+
+    <p>
+    You can still call the macro as you did before, and since we used the
+    silent reference notation for the body reference ($!bodyContent instead
+    of $bodyContent), it will still render a row with a single, empty data cell.
     </p>
 
     <p>
-    A Velocimacro could take any number of arguments -- even zero
+    A Velocimacro can also take any number of arguments -- even zero
     arguments, as demonstrated in the first example, is an option -- but
     when the Velocimacro is invoked, it must be called with the same
     number of arguments with which it was defined. Many Velocimacros are

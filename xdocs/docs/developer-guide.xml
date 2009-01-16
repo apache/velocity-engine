@@ -1868,6 +1868,14 @@ templates written before this feature became available.
 </p>
 
 <p>
+<code>velocimacro.body.reference = false</code><br/>
+Defines name of the reference that can be used to get the body content
+(an AST block) given for a block macro call (e.g. #@myMacro() has a body #end).
+The default reference name is "bodyContent" (e.g. $bodyContent).  This block
+macro feature was introduced in Velocity 1.7.
+</p>
+
+<p>
 <strong>Strict Reference Setting</strong>
 </p>
 
