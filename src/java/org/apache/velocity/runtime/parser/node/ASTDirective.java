@@ -30,6 +30,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.RuntimeMacro;
+import org.apache.velocity.runtime.directive.BlockMacro;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.ExceptionUtils;
@@ -123,6 +124,28 @@ public class ASTDirective extends SimpleNode
                         
                 directive.setLocation(getLine(), getColumn(), getTemplateName());
                 directive.init(rsvc, context,this);
+            }
+            else if( directiveName.startsWith("@") )
+            {
+                // block macro call (normal macro call but has AST body)
+                directiveName = directiveName.substring(1);
+
+                directive = new BlockMacro(directiveName);
+                directive.setLocation(getLine(), getColumn(), getTemplateName());
+
+                try
+                {
+                    directive.init( rsvc, context, this );
+                }
+                catch (TemplateInitException die)
+                {
+                    throw new TemplateInitException(die.getMessage(),
+                            (ParseException) die.getWrappedThrowable(),
+                            die.getTemplateName(),
+                            die.getColumnNumber() + getColumn(),
+                            die.getLineNumber() + getLine());
+                }
+                isDirective = true;
             }
             else
             {

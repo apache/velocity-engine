@@ -201,7 +201,7 @@ public class RuntimeMacro extends Directive
      * @param context
      * @param writer
      * @param node
-     * @return true if the rendering is successfull
+     * @return true if the rendering is successful
      * @throws IOException
      * @throws ResourceNotFoundException
      * @throws ParseErrorException
@@ -209,6 +209,27 @@ public class RuntimeMacro extends Directive
      */
     public boolean render(InternalContextAdapter context, Writer writer,
                           Node node)
+            throws IOException, ResourceNotFoundException,
+            ParseErrorException, MethodInvocationException
+    {
+        return render(context, writer, node, null);
+    }
+    
+    /**
+     * This method is used with BlockMacro when we want to render a macro with a body AST.
+     *
+     * @param context
+     * @param writer
+     * @param node
+     * @param body AST block that was enclosed in the macro body.
+     * @return true if the rendering is successful
+     * @throws IOException
+     * @throws ResourceNotFoundException
+     * @throws ParseErrorException
+     * @throws MethodInvocationException
+     */
+    public boolean render(InternalContextAdapter context, Writer writer,
+                          Node node, Node body)
             throws IOException, ResourceNotFoundException,
             ParseErrorException, MethodInvocationException
     {
@@ -271,7 +292,7 @@ public class RuntimeMacro extends Directive
 
             try
             {
-                return vmProxy.render(context, writer, node);
+                return vmProxy.render(context, writer, node, body);
             }
             catch (RuntimeException e)
             {

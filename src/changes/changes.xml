@@ -27,6 +27,15 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      
+      <action type="add" dev="byron" issue="VELOCITY-666" due-to="Jarkko Viinamaki">
+        Add support for calling velocimacros with body content by prefixing the macro
+        name with @.
+        (e.g. #macro( bold )<strong>$bodyContent</strong>#end #@bold()any valid VTL here#end)
+        The $bodyContent reference may be renamed via a velocimacro.body.reference
+        setting in your velocity.properties.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-661" due-to="Jarkko Viinamaki">
         Added #[[this is included in output but not parsed]]# syntax to replace
         and deprecate the much more limited #literal directive

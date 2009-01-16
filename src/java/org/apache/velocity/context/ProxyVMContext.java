@@ -32,6 +32,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.ASTBlock;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
@@ -56,7 +57,7 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     Map vmproxyhash = new HashMap(8, 0.8f);
 
     /** container for any local or constant macro arguments. Size must be power of 2. */
-    Map localcontext = new HashMap(8, 0.8f);;
+    Map localcontext = new HashMap(8, 0.8f);
 
     /** support for local context scope feature, where all references are local */
     private boolean localContextScope;
@@ -123,6 +124,7 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
             case ParserTreeConstants.JJTMAP:
             case ParserTreeConstants.JJTSTRINGLITERAL:
             case ParserTreeConstants.JJTTEXT:
+            case ParserTreeConstants.JJTBLOCK:
                 return (false);
             default:
                 return (true);
@@ -216,6 +218,28 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
                         }
                     }
                     return obj;
+                }
+            }
+            else if (type == ParserTreeConstants.JJTBLOCK)
+            {
+                // this happens for #@someMacro($arg1 $arg2) bodyAST #end calls
+                try
+                {
+                    // astNode is actually BlockMacro.BlockMacroContainer which contains a Writer internally although
+                    // we seem to pass null here
+                    astNode.render(innerContext, null);
+                    // return an empty string because the Node already rendered all content
+                    return "";
+                }
+                catch (RuntimeException e)
+                {
+                    throw e;
+                }
+                catch (Exception e)
+                {
+                    String msg = "ProxyVMContext.get() : error rendering reference";
+                    rsvc.getLog().error(msg, e);
+                    throw new VelocityException(msg, e);
                 }
             }
             else if (type == ParserTreeConstants.JJTTEXT)
