@@ -499,7 +499,7 @@ directive.foreach.maxloops = -1
 
     <p>
     <strong>#</strong> [ <strong>{</strong> ] <strong>macro</strong> [ <strong>}</strong> ] <strong>(</strong> vmname $arg1 [ $arg2 $arg3 ... $argn ]
-    <strong>)</strong> [ VM VTL code... ] <strong>#</strong> [ <strong>{</strong> ] <strong>#end</strong> [ <strong>}</strong> ]
+    <strong>)</strong> [ VM VTL code... ] <strong>#</strong> [ <strong>{</strong> ] <strong>end</strong> [ <strong>}</strong> ]
     </p>
 
     <ul>
@@ -519,6 +519,17 @@ directive.foreach.maxloops = -1
 
 <source><![CDATA[
 #vmname( $arg1 $arg2 )
+]]></source>
+
+    <p>
+    <strong>Except</strong>, that when you wish to call a VM with a body, then
+    you must prefix the name of the VM with @.  The content of that body
+    may be referenced in the macro definition via $!bodyContent as many or
+    few times as you like.
+    </p>
+
+<source><![CDATA[
+#@vmname( $arg1 $arg2 ) here is the body#end
 ]]></source>
 
     <p>
