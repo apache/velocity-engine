@@ -164,7 +164,6 @@ public interface RuntimeConstants
      */
     String EVALUATE_CONTEXT_CLASS = "directive.evaluate.context.class";
 
-
     /*
      * ----------------------------------------------------------------------
      *  R E S O U R C E   M A N A G E R   C O N F I G U R A T I O N
@@ -280,6 +279,12 @@ public interface RuntimeConstants
      * @since 1.6
      */
     String VM_MAX_DEPTH = "velocimacro.max.depth";
+
+    /**
+     * Defines name of the reference that can be used to get the AST block passed to block marco call.
+     * @since 1.7
+     */
+    String VM_BODY_REFERENCE = "velocimacro.body.reference";
     
     /*
      * ----------------------------------------------------------------------

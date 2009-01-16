@@ -1090,8 +1090,8 @@ TOKEN:
 TOKEN:
 {
     <#LETTER: [ "a"-"z", "A" - "Z" ] >
-|   <#DIRECTIVE_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
-|   <WORD:  ( <LETTER> | ["_"]) (<DIRECTIVE_CHAR>)* >
+|   <#DIRECTIVE_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_", "@" ] >
+|   <WORD:  ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* >
 |   <BRACKETED_WORD:  "{" ( <LETTER> | ["_"]) (<DIRECTIVE_CHAR>)* "}" >
 
 }
@@ -1456,20 +1456,27 @@ SimpleNode Directive() :
          */
 
         jjtThis.setDirectiveName(directiveName);
-
+        
         if ( d == null)
         {
-            /*
-             *  if null, then not a real directive, but maybe a Velocimacro
-             */
+            if( directiveName.startsWith("@") )
+            {
+                // block macro call of type: #@foobar($arg1 $arg2) astBody #end
+                directiveType = Directive.BLOCK;
+            }
+            else
+            {
+                /*
+                 *  if null, then not a real directive, but maybe a Velocimacro
+                 */
 
-            isVM = rsvc.isVelocimacro(directiveName, currentTemplateName);
+                isVM = rsvc.isVelocimacro(directiveName, currentTemplateName);
 
-            /*
-             *  Currently, all VMs are LINE directives
-             */
-
-            directiveType = Directive.LINE;
+                /*
+                 * Currently, all VMs are LINE directives
+                 */
+                directiveType = Directive.LINE;
+            }
         }
         else
         {

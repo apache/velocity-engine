@@ -55,6 +55,7 @@ public class VelocimacroProxy extends Directive
     private boolean strictArguments;
     private boolean localContextScope = false;
     private int maxCallDepth;
+    private String bodyReference;
 
     /**
      * Return name of this Velocimacro.
@@ -127,6 +128,12 @@ public class VelocimacroProxy extends Directive
         return numMacroArgs;
     }
 
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+            throws IOException, MethodInvocationException, MacroOverflowException
+    {
+        return render(context, writer, node, null);
+    }
+    
     /**
      * Renders the macro using the context.
      * 
@@ -138,7 +145,7 @@ public class VelocimacroProxy extends Directive
      * @throws MethodInvocationException
      * @throws MacroOverflowException
      */
-    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+    public boolean render(InternalContextAdapter context, Writer writer, Node node, Node body)
             throws IOException, MethodInvocationException, MacroOverflowException
     {
         // wrap the current context and add the macro arguments
@@ -153,8 +160,6 @@ public class VelocimacroProxy extends Directive
             // the 0th element is the macro name
             for (int i = 1; i < argArray.length && i <= callArguments; i++)
             {
-                Node macroCallArgument = node.jjtGetChild(i - 1);
-
                 /*
                  * literalArgArray[i] is needed for "render literal if null" functionality.
                  * The value is used in ASTReference render-method.
@@ -164,8 +169,14 @@ public class VelocimacroProxy extends Directive
                  * This makes VMReferenceMungeVisitor obsolete and it would not work anyway 
                  * when the macro AST is shared
                  */
-                vmc.addVMProxyArg(context, argArray[i], literalArgArray[i], macroCallArgument);
+                vmc.addVMProxyArg(context, argArray[i], literalArgArray[i], node.jjtGetChild(i - 1));
             }
+        }
+        
+        // if this macro was invoked by a call directive, we might have a body AST here. Put it into context.
+        if( body != null )
+        {
+            vmc.addVMProxyArg(context, bodyReference, "", body);
         }
 
         /*
@@ -242,6 +253,9 @@ public class VelocimacroProxy extends Directive
 
         // get the macro call depth limit
         maxCallDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
+
+        // get name of the reference that refers to AST block passed to block macro call
+        bodyReference = rsvc.getString(RuntimeConstants.VM_BODY_REFERENCE, "bodyContent");
     }
     
 
