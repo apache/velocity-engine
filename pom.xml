@@ -33,10 +33,10 @@
 
   <groupId>org.apache.velocity</groupId>
   <artifactId>velocity</artifactId>
-  <version>1.6.2-dev</version>
+  <version>1.6.2</version>
 
   <name>Apache Velocity</name>
-  <url>http://velocity.apache.org/engine/releases/velocity-1.6.1/</url>
+  <url>http://velocity.apache.org/engine/releases/velocity-1.6.2/</url>
   <description>Apache Velocity is a general purpose template engine.</description>
   <inceptionYear>2000</inceptionYear>
   <packaging>jar</packaging>
@@ -73,7 +73,7 @@
   <distributionManagement>
     <site>
       <id>velocity.apache.org</id>
-      <url>scpexe://people.apache.org/www/velocity.apache.org/engine/releases/velocity-1.6.1/</url>
+      <url>scpexe://people.apache.org/www/velocity.apache.org/engine/releases/velocity-1.6.2/</url>
     </site>
     <repository>
       <id>apache.releases</id>
