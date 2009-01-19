@@ -1552,6 +1552,14 @@ SimpleNode Directive() :
     }
     |
     {
+	if (doItNow)  // doItNow is true if the directive is "macro"
+	{
+            // VELOCITY-667 We get here if we have a "#macro" construct
+	    // without parenthesis which is a parse error
+            throw new MacroParseException("A macro declaration requires at least a name argument"
+              , currentTemplateName, t);
+	}
+	
         /**
          * Not a directive
          */
