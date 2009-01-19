@@ -441,7 +441,7 @@ TOKEN_MGR_DECLS:
     /**
      * Holds the state of the parsing process.
      */
-    private class ParserState
+    private static class ParserState
     {
         int lparen;
         int rparen;

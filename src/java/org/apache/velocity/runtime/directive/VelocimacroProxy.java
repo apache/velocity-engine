@@ -51,7 +51,6 @@ public class VelocimacroProxy extends Directive
     private String[] literalArgArray = null;
     private SimpleNode nodeTree = null;
     private int numMacroArgs = 0;
-    private boolean preInit = false;
     private boolean strictArguments;
     private boolean localContextScope = false;
     private int maxCallDepth;

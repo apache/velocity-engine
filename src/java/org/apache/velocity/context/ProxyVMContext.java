@@ -307,8 +307,10 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     public Object remove(Object key)
     {
         Object loc = localcontext.remove(key);
-        Object arg = vmproxyhash.remove(key);
         Object glo = null;
+        
+        vmproxyhash.remove(key);
+        
         if (!localContextScope)
         {
             glo = super.remove(key);

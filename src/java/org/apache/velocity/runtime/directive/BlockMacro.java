@@ -134,7 +134,7 @@ public class BlockMacro extends Directive
      * With this we can have reference to the output Writer in ProxyVMContext.get call.
      * This approach lets us write directly to the output instead of using costly StringWriter.
      */
-    public class BlockMacroContainer extends SimpleNode
+    public static class BlockMacroContainer extends SimpleNode
     {
         private Node node;
         private Writer w;
