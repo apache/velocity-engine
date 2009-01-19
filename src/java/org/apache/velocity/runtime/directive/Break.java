@@ -48,6 +48,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  */
 public class Break extends Directive
 {
+    private static final RuntimeException BREAK = new BreakException();
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -102,14 +103,14 @@ public class Break extends Directive
         throws IOException,  MethodInvocationException, ResourceNotFoundException,
         	ParseErrorException
     {
-        throw new BreakException();
+        throw BREAK;
     }
     
     public static class BreakException extends RuntimeException 
     {
         public BreakException()
         {
-          // If a break is thrown threw a macro or parse call, then this exception
+          // If a break is thrown during a macro or parse call, then this exception
           // will be logged because this method calls catch
           // RuntimeException, so provide the user with some info.
           super("Break");
