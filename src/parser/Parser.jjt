@@ -271,7 +271,7 @@ public class Parser
         {
            bRecognizedDirective = true;
         }
-        else if (macroNames.containsKey(dirTag))
+        else if (macroNames.containsKey(dirTag) || rsvc.isVelocimacro(dirTag, currentTemplateName))
         {
             bRecognizedDirective = true;
         }
