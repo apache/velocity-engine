@@ -27,6 +27,11 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="fix" dev="byron" issue="VELOCITY-667">
+	Pre 1.6 behavior of specifying #macro without parenthesis
+	would throw a VelocityException has been restored.
+      </action>
+      
       <action type="add" dev="nbubna" issue="VELOCITY-666" due-to="Jarkko Viinamaki">
         Add support for calling velocimacros with body content by prefixing the macro
         name with @.
@@ -41,11 +46,6 @@
         (which required parse-able content).
       </action>
 
-      <action type="fix" dev="byron" issue="VELOCITY-664">
-	Reduce memory usage of cached templates by preventing text from being stored
-	twice.
-      </action>
-      
       <action type="add" dev="byron" issue="VELOCITY-663">
 	Re-implement #stop so that it stops template execution and rendering.  This
 	Also addresses a performance bottleneck detected in the old implementation.
