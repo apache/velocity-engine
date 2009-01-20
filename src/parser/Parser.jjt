@@ -108,6 +108,11 @@ public class Parser
      *  This Map contains a list of all of the dynamic directives.
      */
     private Map directives = new HashMap();
+    
+    /**
+     * Keep track of defined macros, used for escape processing
+     */
+    private Map macroNames = new HashMap();
 
     /**
      *  Name of current template we are parsing.  Passed to us in parse()
@@ -266,7 +271,7 @@ public class Parser
         {
            bRecognizedDirective = true;
         }
-        else if ( rsvc.isVelocimacro(dirTag, currentTemplateName))
+        else if (macroNames.containsKey(dirTag))
         {
             bRecognizedDirective = true;
         }
@@ -1585,7 +1590,13 @@ SimpleNode Directive() :
 
         if (doItNow)
         {
-            Macro.processAndRegister(rsvc, t, jjtThis, currentTemplateName);
+            // Further checking of macro arguments
+            Macro.checkArgs(rsvc, t, jjtThis, currentTemplateName);
+            
+            // Add the macro name so that we can peform escape processing
+            // on defined macros
+            String macroName = jjtThis.jjtGetChild(0).getFirstToken().image;
+            macroNames.put(macroName, macroName);
         }
 
         /*

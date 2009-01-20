@@ -36,7 +36,7 @@ if [[ -f $JRAT_JAR ]]; then
   JRAT_SWITCH=-javaagent:shiftone-jrat.jar
 fi
 
-CP=$COMMON_LANG:$COMMON_COLL:$VELOCITY_PATH:.
+CP=.:$COMMON_LANG:$COMMON_COLL:$VELOCITY_PATH
 
 COMPILE="javac -cp $CP Benchmark.java"
 

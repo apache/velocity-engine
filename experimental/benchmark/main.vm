@@ -6,6 +6,8 @@ These are some lines of text 1
 These are some lines of text 1
 These are some lines of text 1
 
+#macro(stuck)this is text#end
+
 #foreach($i in $outerList) ## iterate 10 times
 
   #set($tests = [$test1, $test2, $test3, $test4, $test5])
@@ -15,6 +17,8 @@ These are some lines of text 1
 
 
   #foreach($j in $innerList) ## iterate 10 times
+
+    #stuck()
 
     #vm_macro1($test4 $test5)
     #vm_macro2($test8 $test9)

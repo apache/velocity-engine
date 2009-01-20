@@ -99,30 +99,17 @@ public class Macro extends Directive
     {
         super.init(rs, context, node);
 
-        /*
-         * again, don't do squat.  We want the AST of the macro
-         * block to hang off of this but we don't want to
-         * init it... it's useless...
-         */
+        
+        // Add this macro to the VelocimacroManager now that it has been initialized.        
+        String argArray[] = getArgArray(node, rs);
+        int numArgs = node.jjtGetNumChildren();
+        rs.addVelocimacro(argArray[0], node.jjtGetChild(numArgs - 1), argArray, node.getTemplateName());
     }
-
+    
     /**
-     *  Used by Parser.java to process VMs during the parsing process.
-     *
-     *  This method does not render the macro to the output stream,
-     *  but rather <i>processes the macro body</i> into the internal
-     *  representation used by {#link
-     *  org.apache.velocity.runtime.directive.VelocimacroProxy}
-     *  objects, and if not currently used, adds it to the macro
-     *  Factory.
-     * @param rs
-     * @param t
-     * @param node
-     * @param sourceTemplate
-     * @throws IOException
-     * @throws ParseException
+     *  Used by Parser.java to do further parameter checking for macro arguments.
      */
-    public static void processAndRegister(RuntimeServices rs,  Token t, Node node,
+    public static void checkArgs(RuntimeServices rs,  Token t, Node node,
                                           String sourceTemplate)
         throws IOException, ParseException
     {
@@ -131,14 +118,12 @@ public class Macro extends Directive
          *  the name of the VM.  Note that 0 following
          *  args is ok for naming blocks of HTML
          */
-
         int numArgs = node.jjtGetNumChildren();
 
         /*
          *  this number is the # of args + 1.  The + 1
          *  is for the block tree
          */
-
         if (numArgs < 2)
         {
 
@@ -146,7 +131,6 @@ public class Macro extends Directive
              *  error - they didn't name the macro or
              *  define a block
              */
-
             rs.getLog().error("#macro error : Velocimacro must have name as 1st " +
                               "argument to #macro(). #args = " + numArgs);
 
@@ -157,33 +141,15 @@ public class Macro extends Directive
         /*
          *  lets make sure that the first arg is an ASTWord
          */
-
         int firstType = node.jjtGetChild(0).getType();
-
         if(firstType != ParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("First argument to #macro() must be a"
                     + " token without surrounding \' or \", which specifies"
                     + " the macro name.  Currently it is a "
                     + ParserTreeConstants.jjtNodeName[firstType], sourceTemplate, t);
-        }
-
-        // get the arguments to the use of the VM - element 0 contains the macro name
-        String argArray[] = getArgArray(node, rs);
-
-        /* 
-         * we already have the macro parsed as AST so there is no point to
-         * transform it into a String again
-         */ 
-        rs.addVelocimacro(argArray[0], node.jjtGetChild(numArgs - 1), argArray, sourceTemplate);
-        
-        /*
-         * Even if the add attempt failed, we don't log anything here.
-         * Logging must be done at VelocimacroFactory or VelocimacroManager because
-         * those classes know the real reason.
-         */ 
+        }                
     }
-
 
     /**
      * Creates an array containing the literal text from the macro

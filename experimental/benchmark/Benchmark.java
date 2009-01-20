@@ -33,8 +33,8 @@ import org.apache.velocity.runtime.RuntimeConstants;
 
 public class Benchmark
 {
-  int threadCnt = 25;
-  int runCnt = 1000;
+  int threadCnt = 10;
+  int runCnt = 500;
   
   public static final void main(String[] argv) throws Exception
   {
@@ -55,9 +55,9 @@ public class Benchmark
     props.setProperty(RuntimeConstants.VM_LIBRARY, "vmlib1.vm,vmlib2.vm");
     props.setProperty(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, "20");
     props.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
-           
-    VelocityEngine vengine = new VelocityEngine();
-    vengine.init(props);
+    VelocityEngine vengine = new VelocityEngine(props);
+    vengine.init();
+    System.out.println("blaa:  " + vengine.getProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT));
 
     log("Starting " + threadCnt + " threads which will run " + runCnt + " times");
     ArrayList list = new ArrayList(threadCnt);    
@@ -164,65 +164,23 @@ class VelocityThread extends Thread
 
 class FastWriter extends Writer
 {
+  char[] buffer = new char[20000];
 
-  @Override
-  public Writer append(char c) throws IOException
+  public FastWriter()
   {
-    throw new AssertionError("Bad method call");
+    super();
   }
 
-  @Override
-  public Writer append(CharSequence csq, int start, int end)
-      throws IOException
+  public void write(char[] buf, int off, int len)
   {
-    throw new AssertionError("Bad method call");
-  }
+    for (int i=0; i < len; i++)
+    {
+      buffer[i] = buf[i+off];
+    }    
+  }  
 
-  @Override
-  public Writer append(CharSequence csq) throws IOException
-  {
-    throw new AssertionError("Bad method call");
-  }
-
-  @Override
-  public void close() throws IOException
-  {
-    throw new AssertionError("Bad method call");
-  }
-
-  @Override
-  public void flush() throws IOException
-  {
-    throw new AssertionError("Bad method call");
-  }
-
-  @Override
-  public void write(char[] cbuf, int off, int len) throws IOException
-  {
-    throw new AssertionError("Bad method call");
-  }
-
-  @Override
-  public void write(char[] cbuf) throws IOException
-  {
-  }
-
-  @Override
-  public void write(int c) throws IOException
-  {
-    throw new AssertionError("Bad method call");
-  }
-
-  @Override
-  public void write(String str, int off, int len) throws IOException
-  {
-    throw new AssertionError("Bad method call");
-  }
-
-  @Override
-  public void write(String str) throws IOException
-  {
-  }
+  public void close() {}
+  public void flush() {}
   
 }
 
