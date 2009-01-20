@@ -27,11 +27,15 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="byron" issue="VELOCITY-668" due-to="Jarkko Viinamäki">
+	Minor performance tweaks based on Findbugs findings
+      </action>
+      
       <action type="fix" dev="byron" issue="VELOCITY-667">
 	Pre 1.6 behavior of specifying #macro without parenthesis
 	would throw a VelocityException has been restored.
       </action>
-      
+
       <action type="add" dev="nbubna" issue="VELOCITY-666" due-to="Jarkko Viinamaki">
         Add support for calling velocimacros with body content by prefixing the macro
         name with @.
