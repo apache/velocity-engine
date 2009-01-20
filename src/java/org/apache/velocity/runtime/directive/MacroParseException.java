@@ -77,6 +77,10 @@ public class MacroParseException
         {
             return currentToken.next.beginLine;
         }
+        else if (currentToken != null)
+        {
+            return currentToken.beginLine;
+        }
         else
         {
             return -1;
@@ -93,6 +97,10 @@ public class MacroParseException
         if ((currentToken != null) && (currentToken.next != null))
         {
             return currentToken.next.beginColumn;
+        }
+        else if (currentToken != null)
+        {
+            return currentToken.beginColumn;
         }
         else
         {
