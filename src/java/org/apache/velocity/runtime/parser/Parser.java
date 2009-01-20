@@ -194,7 +194,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
         {
            bRecognizedDirective = true;
         }
-        else if (macroNames.containsKey(dirTag))
+        else if (macroNames.containsKey(dirTag) || rsvc.isVelocimacro(dirTag, currentTemplateName))
         {
             bRecognizedDirective = true;
         }
