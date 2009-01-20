@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -100,7 +102,7 @@ public class VelocimacroManager
         {
             // happens only if someone uses this class without the Macro directive
             // and provides a null value as an argument
-            throw new RuntimeException("Null AST for "+vmName+" in "+namespace);
+            throw new VelocityException("Null AST for "+vmName+" in "+namespace);
         }
 
         MacroEntry me = new MacroEntry(vmName, macroBody, argArray, namespace, rsvc);

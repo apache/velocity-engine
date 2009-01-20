@@ -230,11 +230,11 @@ public class ParseExceptionTestCase extends BaseTestCase
             ve.evaluate(context,writer,"testMacroInvoke", "#macro(   foo $a) $a #end #foo(woogie)");
             fail("Should have thown a ParseErrorException");
         }
-        catch (ParseErrorException e)
+        catch (org.apache.velocity.exception.TemplateInitException e)
         {
             assertEquals("testMacroInvoke",e.getTemplateName());
             assertEquals(1,e.getLineNumber());
-            assertEquals(31,e.getColumnNumber());
+            assertEquals(27,e.getColumnNumber());
         }
         finally
         {

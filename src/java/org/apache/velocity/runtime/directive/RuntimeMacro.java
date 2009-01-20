@@ -81,7 +81,7 @@ public class RuntimeMacro extends Directive
      * template stored for later use.
      *
      * @param macroName name of the macro
-\     */
+     */
     public RuntimeMacro(String macroName)
     {
         if (macroName == null)
@@ -287,7 +287,7 @@ public class RuntimeMacro extends Directive
             if (badArgsErrorMsg != null)
             {
                 throw new TemplateInitException(badArgsErrorMsg,
-                  context.getCurrentTemplateName(), 0, 0);
+                  context.getCurrentTemplateName(), node.getColumn(), node.getLine());
             }
 
             try
