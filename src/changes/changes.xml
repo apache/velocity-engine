@@ -84,6 +84,20 @@
 
     <release version="1.6.2" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-554" due-to="Adrian Tarau">
+        Fix name of sources jar for maven deployment.
+      </action>
+
+      <action type="fix" dev="byron" issue="VELOCITY-667">
+         Pre 1.6 behavior of specifying #macro without parenthesis
+         would throw a VelocityException has been restored.
+      </action>
+      
+      <action type="add" dev="byron" issue="VELOCITY-656">
+     Better error reporting when toString() throw an exception
+     when testing an #if conditional. For example #if($foo)
+      </action>
+
       <action type="fix" dev="byron" issue="VELOCITY-658" due-to="Jarkko Viinamäki">
           Fix $velocityHasNext so that it works in nested foreach blocks.
       </action>
