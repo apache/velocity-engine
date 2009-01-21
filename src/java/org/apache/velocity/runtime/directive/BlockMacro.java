@@ -107,6 +107,7 @@ public class BlockMacro extends Directive
         macroBody = node.jjtGetChild(node.jjtGetNumChildren() - 1);
 
         macro = new RuntimeMacro(name);
+        macro.setLocation(getLine(), getColumn(), getTemplateName());
         macro.init(rs, context, node);
     }
 
