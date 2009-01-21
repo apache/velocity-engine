@@ -480,7 +480,7 @@
   <target name="jar-src"
           depends="prepare"
           description="Builds the Velocity Source Jar File">
-    <jar jarfile="${build.dir}/${final.name}-src.jar">
+    <jar jarfile="${build.dir}/${final.name}-sources.jar">
       <metainf dir="${velocity.dir}">
         <include name="LICENSE"/>
         <include name="NOTICE"/>
@@ -497,10 +497,10 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
-    <checksum file="${build.dir}/${final.name}-src.jar" algorithm="md5" property="checksum.jar-src.md5"/>
-    <checksum file="${build.dir}/${final.name}-src.jar" algorithm="sha1" property="checksum.jar-src.sha1"/>
-    <echo message="${checksum.jar-src.md5} *${final.name}-src.jar" file="${build.dir}/${final.name}-src.jar.md5" />
-    <echo message="${checksum.jar-src.sha1} *${final.name}-src.jar" file="${build.dir}/${final.name}-src.jar.sha1" />
+    <checksum file="${build.dir}/${final.name}-sources.jar" algorithm="md5" property="checksum.jar-src.md5"/>
+    <checksum file="${build.dir}/${final.name}-sources.jar" algorithm="sha1" property="checksum.jar-src.sha1"/>
+    <echo message="${checksum.jar-src.md5} *${final.name}-sources.jar" file="${build.dir}/${final.name}-sources.jar.md5" />
+    <echo message="${checksum.jar-src.sha1} *${final.name}-sources.jar" file="${build.dir}/${final.name}-sources.jar.sha1" />
   </target>
 
   <!-- =================================================================== -->
@@ -638,7 +638,7 @@
 
     <artifact:install file="${build.dir}/${project}-${version}.jar" >
       <pom refid="maven.project"/>
-      <attach file="${build.dir}/${project}-${version}-src.jar" type="jar" classifier="sources"/>
+      <attach file="${build.dir}/${project}-${version}-sources.jar" type="jar" classifier="sources"/>
       <attach file="${build.dir}/${project}-${version}-dep.jar" type="jar" classifier="dep"/>
       <attach file="${build.dir}/${project}-${version}-javadoc.jar" type="jar" classifier="javadoc"/>
     </artifact:install>
@@ -647,7 +647,7 @@
   <!-- =================================================================== -->
   <!-- Deploy Maven artifacts  - custom repository                        -->
   <!-- =================================================================== -->
-  <target name="maven-deploy-custom-repository" if="maven.remote.repository"
+  <target name="maven-deploy-custom-repository" depends="maven-prepare" if="maven.remote.repository"
     description="Deploys the Maven artifacts in local repository">
 
     <echo>Deploying to ${maven.remote.repository}</echo>
@@ -655,7 +655,7 @@
     <artifact:deploy file="${build.dir}/${project}-${version}.jar" >
         <remoteRepository id="velocity.custom.repository" url="${maven.remote.repository}"/>
         <pom refid="maven.project"/>
-        <attach file="${build.dir}/${project}-${version}-src.jar" type="jar" classifier="sources"/>
+        <attach file="${build.dir}/${project}-${version}-sources.jar" type="jar" classifier="sources"/>
         <attach file="${build.dir}/${project}-${version}-dep.jar" type="jar" classifier="dep"/>
         <attach file="${build.dir}/${project}-${version}-javadoc.jar" type="jar" classifier="javadoc"/>
     </artifact:deploy>
@@ -664,14 +664,14 @@
   <!-- =================================================================== -->
   <!-- Deploy Maven artifacts - Apache Maven repository                   -->
   <!-- =================================================================== -->
-  <target name="maven-deploy-apache-repository" unless="maven.remote.repository"
+  <target name="maven-deploy-apache-repository" depends="maven-prepare" unless="maven.remote.repository"
     description="Deploys the Maven artifacts in apache repository">
 
     <echo>Deploying to Apache Maven repository</echo>
 
     <artifact:deploy file="${build.dir}/${project}-${version}.jar" >
         <pom refid="maven.project"/>
-        <attach file="${build.dir}/${project}-${version}-src.jar" type="jar" classifier="sources"/>
+        <attach file="${build.dir}/${project}-${version}-sources.jar" type="jar" classifier="sources"/>
         <attach file="${build.dir}/${project}-${version}-dep.jar" type="jar" classifier="dep"/>
         <attach file="${build.dir}/${project}-${version}-javadoc.jar" type="jar" classifier="javadoc"/>
     </artifact:deploy>
@@ -1035,7 +1035,7 @@
         <available file="${build.dir}/${final.name}.jar.asc"/>
         <available file="${build.dir}/${final.name}.pom.asc"/>
         <available file="${build.dir}/${project}-${version}-dep.jar.asc"/>
-        <available file="${build.dir}/${final.name}-src.jar.asc"/>
+        <available file="${build.dir}/${final.name}-sources.jar.asc"/>
         <available file="${build.dir}/${final.name}-javadoc.jar.asc"/>
       </and>
     </condition>
