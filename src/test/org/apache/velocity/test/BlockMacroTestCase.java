@@ -43,12 +43,6 @@ public class BlockMacroTestCase extends BaseEvalTestCase
         // DEBUG = true;
     }
 
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        //engine.setProperty(RuntimeConstants.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
-    }
-    
     public void testMultipleBodyContentIncludes() throws Exception
     {
         String template = "#macro(foo $txt) Yeah, $txt! $bodyContent $bodyContent#end #@foo(\"woohoo\")jee#end";
@@ -89,5 +83,13 @@ public class BlockMacroTestCase extends BaseEvalTestCase
     
         assertEvalEquals(result, template);
     }
-  
+
+    public void testVelocity671() throws Exception
+    {
+        engine.setProperty(RuntimeConstants.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
+        String template = "#macro(echo)$bodyContent#end #@echo()Yeah!#end";
+        String result = " Yeah!";
+        assertEvalEquals(result, template);
+    }
+
 }
