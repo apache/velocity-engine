@@ -59,6 +59,11 @@ public interface RuntimeConstants
     String RUNTIME_REFERENCES_STRICT = "runtime.references.strict";
     
     /**
+     * Indicates we are going to use modifed escape behavior in strict mode
+     */
+    String RUNTIME_REFERENCES_STRICT_ESCAPE = "runtime.references.strict.escape";
+       
+    /**
      * @deprecated  This appears to have always been meaningless.
      */
     String RUNTIME_LOG_ERROR_STACKTRACE = "runtime.log.error.stacktrace";

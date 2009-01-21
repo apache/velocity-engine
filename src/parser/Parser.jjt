@@ -87,6 +87,7 @@ import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.MacroParseException;
 import org.apache.velocity.util.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class is responsible for parsing a Velocity
@@ -105,7 +106,7 @@ import org.apache.commons.lang.text.StrBuilder;
 public class Parser
 {
     /**
-     *  This Map contains a list of all of the dynamic directives.
+     * This Map contains a list of all of the dynamic directives.
      */
     private Map directives = new HashMap();
     
@@ -115,10 +116,16 @@ public class Parser
     private Map macroNames = new HashMap();
 
     /**
-     *  Name of current template we are parsing.  Passed to us in parse()
+     * Name of current template we are parsing.  Passed to us in parse()
      */
     public String currentTemplateName = "";
-
+    
+    /**
+     * Set to true if the property 
+     * RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE is set to true
+     */
+    public boolean strictEscape = false; 
+     
     VelocityCharStream velcharstream = null;
 
     private RuntimeServices rsvc = null;
@@ -144,6 +151,10 @@ public class Parser
          */
         velcharstream = new VelocityCharStream(
                 new ByteArrayInputStream("\n".getBytes()), 1, 1 );
+                
+                
+        strictEscape = 
+            rs.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, false);                
 
         /*
          *  and save the RuntimeServices
@@ -264,14 +275,17 @@ public class Parser
         }
 
         /*
-         *  is this a PD or a control directive?
+         *  If this is a predefined derective or if we detect
+         *  a macro definition (this is aproximate at best) then
+         *  we absorb the forward slash.  If in strict reference
+         *  mode then we always absord the forward slash regardless
+         *  if the derective is defined or not.
          */
 
-        if ( isDirective(dirTag) )
-        {
-           bRecognizedDirective = true;
-        }
-        else if (macroNames.containsKey(dirTag) || rsvc.isVelocimacro(dirTag, currentTemplateName))
+        if (strictEscape 
+             || isDirective(dirTag) 
+             || macroNames.containsKey(dirTag) 
+             || rsvc.isVelocimacro(dirTag, currentTemplateName))
         {
             bRecognizedDirective = true;
         }
@@ -1296,11 +1310,13 @@ void Escape() : {}
          * if that failed, lets lookahead to see if we matched a PD or a VM
          */
         String nTag = t.next.image.substring(1);
-
-        if ( isDirective(nTag) )
+        if (strictEscape
+            || isDirective(nTag)
+            || macroNames.containsKey(nTag)
+            || rsvc.isVelocimacro(nTag, currentTemplateName))
+        {
             control = true;
-        else if ( rsvc.isVelocimacro(nTag, currentTemplateName))
-            control = true;
+        }
 
         jjtThis.val = "";
 

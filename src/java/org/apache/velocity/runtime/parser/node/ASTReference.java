@@ -83,6 +83,12 @@ public class ASTReference extends SimpleNode
      */
     private ASTIndex astIndex = null;
     
+    /**
+     * Indicates if we are using modified escape behavior in strict mode.
+     * mainly we allow \$abc -> to render as $abc
+     */
+    public boolean strictEscape = false;
+    
     private int numChildren = 0;
 
     protected Info uberInfo;
@@ -118,12 +124,11 @@ public class ASTReference extends SimpleNode
     public Object init(InternalContextAdapter context, Object data)
     throws TemplateInitException
     {
-        /*
-         *  init our children
-         */
-
         super.init(context, data);
-
+        
+        strictEscape = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, false);
+        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+            
         /*
          *  the only thing we can do in init() is getRoot()
          *  as that is template based, not context based,
@@ -153,7 +158,6 @@ public class ASTReference extends SimpleNode
         /*
          * make an uberinfo - saves new's later on
          */
-
         uberInfo = new Info(getTemplateName(), getLine(),getColumn());
 
         /*
@@ -161,9 +165,7 @@ public class ASTReference extends SimpleNode
          */
         logOnNull =
             rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
-
-        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
- 
+         
         /**
          * In the case we are referencing a variable with #if($foo) or
          * #if( ! $foo) then we allow variables to be undefined and we 
@@ -340,7 +342,21 @@ public class ASTReference extends SimpleNode
             return true;
         }
 
-        Object value = execute(null, context);
+        Object value = null;
+        if (escaped && strictEscape)
+        {
+          /**
+           * If we are in strict mode and the variable is escaped, then don't bother to
+           * retreive the value since we won't use it. And if the var is not defined 
+           * it will throw an exception.  Set value to TRUE to fall through below with
+           * simply printing $foo, and not \$foo
+           */
+          value = Boolean.TRUE;
+        }
+        else
+        {
+          value = execute(null, context);
+        }
 
         String localNullString = null;
 
@@ -395,7 +411,12 @@ public class ASTReference extends SimpleNode
              * other...
              */
             localNullString = getNullString(context);
-            writer.write(escPrefix);
+            if (!strictEscape)
+            {
+                // If in strict escape mode then we only print escape once.
+                // Yea, I know.. brittle stuff
+                writer.write(escPrefix);
+            }            
             writer.write(escPrefix);
             writer.write(morePrefix);
             writer.write(localNullString);
@@ -710,6 +731,15 @@ public class ASTReference extends SimpleNode
 
         if (slashbang != -1)
         {
+            if (strictEscape)
+            {
+                // If we are in strict escape mode, then we consider this type of 
+                // pattern a non-reference, and we print it out as schmoo...
+                nullString = literal();
+                escaped = true;
+                return literal();
+            }
+          
             /*
              *  lets do all the work here.  I would argue that if this occurrs,
              *  it's not a reference at all, so preceeding \ characters in front
