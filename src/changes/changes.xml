@@ -28,6 +28,10 @@
 
     <release version="1.6.2" date="2009-01-24">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-554" due-to="Adrian Tarau">
+        Fix name of sources jar for maven deployment.
+      </action>
+
       <action type="fix" dev="byron" issue="VELOCITY-667">
          Pre 1.6 behavior of specifying #macro without parenthesis
          would throw a VelocityException has been restored.
