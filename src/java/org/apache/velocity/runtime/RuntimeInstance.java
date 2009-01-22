@@ -1234,11 +1234,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         catch (ParseException pex)
         {
-            throw new ParseErrorException(pex);
+            throw new ParseErrorException(pex, null);
         }
         catch (TemplateInitException pex)
         {
-            throw new ParseErrorException(pex);
+            throw new ParseErrorException(pex, null);
         }
 
         if (nodeTree == null)
@@ -1288,7 +1288,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch (TemplateInitException pex)
             {
-                throw new ParseErrorException(pex);
+                throw new ParseErrorException(pex, null);
             }
             /**
              * pass through application level runtime exceptions

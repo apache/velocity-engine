@@ -102,8 +102,8 @@ public class VelocimacroTestCase extends TestCase
         }
         catch (MacroOverflowException e)
         {
-            assertEquals("Max calling depth of 5 was exceeded in Template:vm_chain2"+
-                            " and Macro:bar with Call Stack:bar->bar->bar->bar->bar",
+            assertEquals("Max calling depth of 5 was exceeded in macro 'bar'"+
+                            " with Call Stack:bar->bar->bar->bar->bar at vm_chain2[line 1, column 15]",
                          e.getMessage());
         }
 
@@ -114,8 +114,8 @@ public class VelocimacroTestCase extends TestCase
         }
         catch (MacroOverflowException e)
         {
-            assertEquals("Max calling depth of 5 was exceeded in Template:vm_chain3"+
-                            " and Macro:inner with Call Stack:baz->inner->baz->inner->baz",
+            assertEquals("Max calling depth of 5 was exceeded in macro 'inner'"+
+                            " with Call Stack:baz->inner->baz->inner->baz at vm_chain3[line 1, column 64]",
                          e.getMessage());
         }
 
@@ -126,8 +126,8 @@ public class VelocimacroTestCase extends TestCase
         }
         catch (MacroOverflowException e)
         {
-            assertEquals("Max calling depth of 5 was exceeded in Template:vm_chain4"+
-                            " and Macro:loop with Call Stack:bad->inside->loop->bad->inside",
+            assertEquals("Max calling depth of 5 was exceeded in macro 'loop'"+
+                            " with Call Stack:bad->inside->loop->bad->inside at vm_chain4[line 1, column 94]",
                          e.getMessage());
         }
     }

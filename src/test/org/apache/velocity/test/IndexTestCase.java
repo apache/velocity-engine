@@ -59,6 +59,8 @@ public class IndexTestCase extends BaseEvalTestCase
 
         Boo boo = new Boo();
         context.put("boo", boo);
+        
+        DEBUG=true;
     }
 
     public void testCallingIndex()
@@ -126,8 +128,7 @@ public class IndexTestCase extends BaseEvalTestCase
     {
         assertEvalExceptionAt("$boo['throwex']", 1, 5);
         assertEvalExceptionAt("$boo[]", 1, 6);
-        // Need to fix parse error reporting
-        // assertEvalExceptionAt("$boo[blaa]", 1, 6);
+        assertEvalExceptionAt("$boo[blaa]", 1, 6);
         assertEvalExceptionAt("#set($foo[1] = 3)", 1, 10);
         assertEvalExceptionAt("$a[500]", 1, 3);
     }

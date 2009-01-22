@@ -139,12 +139,12 @@ public class Template extends Resource
                 /*
                  *  remember the error and convert
                  */
-                errorCondition =  new ParseErrorException( pex );
+                errorCondition =  new ParseErrorException(pex, name);
                 throw errorCondition;
             }
             catch ( TemplateInitException pex )
             {
-                errorCondition = new ParseErrorException( pex );
+                errorCondition = new ParseErrorException( pex, name);
                 throw errorCondition;
             }
             /**

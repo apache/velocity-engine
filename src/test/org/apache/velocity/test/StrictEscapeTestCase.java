@@ -37,7 +37,6 @@ public class StrictEscapeTestCase extends BaseEvalTestCase
   {
       super.setUp();
       engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, Boolean.TRUE);
-      DEBUG=true;
       context.put("pow", "bang");
   }
   
