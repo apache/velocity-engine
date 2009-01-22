@@ -829,7 +829,7 @@ MORE :
 
 // treat the single line comment case separately
 // to avoid ##<EOF> errors
-<*>
+<DEFAULT,PRE_DIRECTIVE,DIRECTIVE,REFERENCE>
 TOKEN :
 {
    <SINGLE_LINE_COMMENT_START: "##">

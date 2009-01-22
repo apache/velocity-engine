@@ -27,6 +27,11 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-676" due-to="Jarkko Viinamäki">
+        Fix StringIndexOutOfBoundsException caused by #[[##x]]# (line comment on
+        same line as end of textblock).
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-675" due-to="Jarkko Viinamäki">
         Fix NPE caused by #@foo (w/o #end) in template.
       </action>
