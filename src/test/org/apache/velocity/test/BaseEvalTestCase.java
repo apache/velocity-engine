@@ -139,6 +139,11 @@ public class BaseEvalTestCase extends TestCase
         assertEquals(expected, evaluate(template));
     }
 
+    protected void assertSchmoo(String templateIsExpected)
+    {
+        assertEvalEquals(templateIsExpected, templateIsExpected);
+    }
+
     protected Exception assertEvalException(String evil)
     {
         return assertEvalException(evil, null);
