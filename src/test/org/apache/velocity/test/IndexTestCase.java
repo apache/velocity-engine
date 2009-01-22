@@ -29,6 +29,7 @@ public class IndexTestCase extends BaseEvalTestCase
     public IndexTestCase(String name)
     {
         super(name);
+        //DEBUG = true;
     }
 
     public void setUp() throws Exception
@@ -59,8 +60,6 @@ public class IndexTestCase extends BaseEvalTestCase
 
         Boo boo = new Boo();
         context.put("boo", boo);
-        
-        DEBUG=true;
     }
 
     public void testCallingIndex()
