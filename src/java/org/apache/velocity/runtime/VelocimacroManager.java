@@ -468,6 +468,7 @@ public class VelocimacroManager
             vp.setName(this.vmName);
             vp.setArgArray(this.argArray);
             vp.setNodeTree(this.nodeTree);
+            vp.setLocation(macro.getLine(), macro.getColumn(), macro.getTemplateName());
             vp.init(rsvc);
         }
         
