@@ -189,9 +189,8 @@ public class VelocimacroProxy extends Directive
 
             StringBuffer out = new StringBuffer(100)
                 .append("Max calling depth of ").append(maxCallDepth)
-                .append(" was exceeded in Template:").append(templateName)
-                .append(" and Macro:").append(macroName)
-                .append(" with Call Stack:");
+                .append(" was exceeded in macro '").append(macroName)
+                .append("' with Call Stack:");
             for (int i = 0; i < stack.length; i++)
             {
                 if (i != 0)

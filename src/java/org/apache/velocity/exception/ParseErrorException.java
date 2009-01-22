@@ -19,6 +19,10 @@ package org.apache.velocity.exception;
  * under the License.    
  */
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.util.introspection.Info;
 
@@ -60,6 +64,11 @@ public class ParseErrorException extends VelocityException
      * If applicable, contains the invalid syntax or reference that triggered this exception
      */
     private String invalidSyntax;
+    
+    /**
+     * If we modify the message, then we set this
+     */
+    private String msg = null;
 
     /**
      * Create a ParseErrorException with the given message.
@@ -67,19 +76,23 @@ public class ParseErrorException extends VelocityException
      * @param exceptionMessage the error exception message
      */
     public ParseErrorException(String exceptionMessage)
-      {
+    {
           super(exceptionMessage);
     }
 
+    private static final Pattern lexError = Pattern.compile("Lexical error.*TokenMgrError.*line (\\d+),.*column (\\d+)\\.(.*)");
+    
     /**
      * Create a ParseErrorException with the given ParseException.
      *
      * @param pex the parsing exception
      * @since 1.5
      */
-    public ParseErrorException(ParseException pex)
+    public ParseErrorException(ParseException pex, String templName)
     {
         super(pex.getMessage());
+        
+        if (templName != null) templateName = templName;
 
         // Don't use a second C'tor, TemplateParseException is a subclass of
         // ParseException...
@@ -92,7 +105,20 @@ public class ParseErrorException extends VelocityException
             templateName = xpex.getTemplateName();
         }
         else
-        {
+        { 
+            // We get here if the the Parser has thrown an exception. Unfortunately,
+            // the error message created is hard coded by javacc, so here we alter
+            // the error message, so that it is in our standard format.          
+            Matcher match =  lexError.matcher(pex.getMessage());
+            if (match.matches())
+            {
+               lineNumber = Integer.parseInt(match.group(1));
+               columnNumber = Integer.parseInt(match.group(2));
+               String restOfMsg = match.group(3);
+               msg = "Lexical error, " + restOfMsg + " at " 
+                 + Log.formatFileString(templateName, lineNumber, columnNumber);
+            }
+          
             //  ugly, ugly, ugly...
 
             if (pex.currentToken != null && pex.currentToken.next != null)
@@ -109,9 +135,11 @@ public class ParseErrorException extends VelocityException
      * @param pex the parsing exception
      * @since 1.5
      */
-    public ParseErrorException(VelocityException pex)
+    public ParseErrorException(VelocityException pex, String templName)
     {
         super(pex.getMessage());
+        
+        if (templName != null) templateName = templName;
 
         // Don't use a second C'tor, TemplateParseException is a subclass of
         // ParseException...
@@ -218,4 +246,12 @@ public class ParseErrorException extends VelocityException
         return invalidSyntax;
     }
 
+    /**
+     * Return our custum message if we have one, else return the default message
+     */
+    public String getMessage()
+    {
+      if (msg != null) return msg;
+      return super.getMessage();
+    }
 }
