@@ -31,6 +31,7 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -199,20 +200,16 @@ public class VelocimacroProxy extends Directive
                 }
                 out.append(stack[i]);
             }
+            out.append(" at " + Log.formatFileString(this));
             rsvc.getLog().error(out.toString());
+            
+            // clean out the macro stack, since we just broke it
+            while (vmc.getCurrentMacroCallDepth() > 0)
+            {
+                vmc.popCurrentMacroName();
+            }
 
-            try
-            {
-                throw new MacroOverflowException(out.toString());
-            }
-            finally
-            {
-                // clean out the macro stack, since we just broke it
-                while (vmc.getCurrentMacroCallDepth() > 0)
-                {
-                    vmc.popCurrentMacroName();
-                }
-            }
+            throw new MacroOverflowException(out.toString());
         }
 
         try
