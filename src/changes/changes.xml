@@ -27,6 +27,10 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-675" due-to="Jarkko Viinamäki">
+        Fix NPE caused by #@foo (w/o #end) in template.
+      </action>
+
       <action type="add" dev="byron" issue="VELOCITY-668" due-to="Jarkko Viinamäki">
 	Minor performance tweaks based on Findbugs findings
       </action>

@@ -127,25 +127,34 @@ public class ASTDirective extends SimpleNode
             }
             else if( directiveName.startsWith("@") )
             {
-                // block macro call (normal macro call but has AST body)
-                directiveName = directiveName.substring(1);
-
-                directive = new BlockMacro(directiveName);
-                directive.setLocation(getLine(), getColumn(), getTemplateName());
-
-                try
+                if( this.jjtGetNumChildren() > 0 )
                 {
-                    directive.init( rsvc, context, this );
-                }
-                catch (TemplateInitException die)
-                {
-                    throw new TemplateInitException(die.getMessage(),
+                    // block macro call (normal macro call but has AST body)
+                    directiveName = directiveName.substring(1);
+
+                    directive = new BlockMacro(directiveName);
+                    directive.setLocation(getLine(), getColumn(), getTemplateName());
+
+                    try
+                    {
+                        directive.init( rsvc, context, this );
+                    }
+                    catch (TemplateInitException die)
+                    {
+                        throw new TemplateInitException(die.getMessage(),
                             (ParseException) die.getWrappedThrowable(),
                             die.getTemplateName(),
                             die.getColumnNumber() + getColumn(),
                             die.getLineNumber() + getLine());
+                    }
+                    isDirective = true;
                 }
-                isDirective = true;
+                else
+                {
+                    // this is a fake block macro call without a body. e.g. #@foo
+                    // just render as it is
+                    isDirective = false;
+                }
             }
             else
             {

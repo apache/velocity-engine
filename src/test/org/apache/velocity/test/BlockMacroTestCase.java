@@ -92,4 +92,9 @@ public class BlockMacroTestCase extends BaseEvalTestCase
         assertEvalEquals(result, template);
     }
 
+    public void testVelocity675() throws Exception
+    {
+        assertEvalEquals("#@foo", "#@foo"); 
+    }
+
 }
