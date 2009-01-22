@@ -37,17 +37,16 @@ public class StrictEscapeTestCase extends BaseEvalTestCase
   {
       super.setUp();
       engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, Boolean.TRUE);
+      DEBUG=true;
       context.put("pow", "bang");
   }
   
-  /**
-   * Test that escaping works in strict mode
-   */
   public void testVarEscape()
   {
-      assertEvalEquals("\\$bogus", "\\\\$bogus");
-      assertEvalEquals("\\\\$bogus", "\\\\\\\\$bogus");
-      assertEvalEquals("\\$bogus", "#set($foo = \"\\\\$bogus\")$foo");
+      engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
+
+      assertEvalException("\\\\$bogus");
+      assertEvalException("\\\\\\\\$bogus");
     
       assertEvalEquals("$bogus", "\\$bogus");
       assertEvalEquals("$bogus.xyz", "\\$bogus.xyz");
@@ -61,14 +60,13 @@ public class StrictEscapeTestCase extends BaseEvalTestCase
       assertEvalEquals("\\bang", "#set($foo = \"\\\\$pow\")$foo");
       assertEvalEquals("\\$pow", "#set($foo = \"\\\\\\$pow\")$foo");
       
-      assertEvalEquals("\\$%", "\\$%");      
+      assertEvalEquals("\\$%", "\\$%");
   } 
-  
-  
+    
   public void testMacroEscape()
   {
-      assertEvalEquals("#bogus()", "\\#bogus()");
-      assertEvalEquals("\\#bogus", "\\\\#bogus");
+      engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
+      assertEvalException("\\\\#bogus()");
 
       // define the foo macro
       assertEvalEquals("", "#macro(foo)bar#end");
@@ -88,6 +86,21 @@ public class StrictEscapeTestCase extends BaseEvalTestCase
       assertEvalEquals("#end #foreach #define() #elseif", "\\#end \\#foreach \\#define() \\#elseif");
       assertEvalEquals("#{end} #{foreach} #{define}() #{elseif}", "\\#{end} \\#{foreach} \\#{define}() \\#{elseif}");
       assertEvalEquals("#macro(foo) #end", "\\#macro(foo) \\#end");
-      
+            
+      assertEvalException("\\\\#end");
+      assertEvalException("\\\\#if()");      
   }
+
+  /**
+   * Tests for non strict-mode
+   */
+  public void testStrictMode()
+  {
+      assertEvalEquals("#bogus()", "\\#bogus()");
+      assertEvalEquals("\\#bogus", "\\\\#bogus");
+      
+      assertEvalEquals("\\$bogus", "\\\\$bogus");
+      assertEvalEquals("\\\\$bogus", "\\\\\\\\$bogus");
+      assertEvalEquals("\\$bogus", "#set($foo = \"\\\\$bogus\")$foo");    
+  }  
 }
