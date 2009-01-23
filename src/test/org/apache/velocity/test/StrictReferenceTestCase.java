@@ -164,10 +164,10 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
      */
     public void testMacros()
     {
-        assertParseEx("#bogus()");
-        assertParseEx("#bogus (  )");
-        assertParseEx("#bogus( $a )");        
-        assertParseEx("abc#bogus ( $a )a ");
+        assertVelocityEx("#bogus()");
+        assertVelocityEx("#bogus (  )");
+        assertVelocityEx("#bogus( $a )");        
+        assertVelocityEx("abc#bogus ( $a )a ");
 
         assertEvalEquals(" true ", "#macro(test1) true #end#test1()");
         assertEvalEquals(" true ", "#macro(test2 $a) $a #end#test2 ( \"true\")");
