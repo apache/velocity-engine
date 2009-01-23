@@ -276,7 +276,7 @@ public class RuntimeMacro extends Directive
             try
             {
             	// mainly check the number of arguments
-                vmProxy.checkArgs(context, node);
+                vmProxy.checkArgs(context, node, body != null);
             }
             catch (TemplateInitException die)
             {

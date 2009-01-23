@@ -26,6 +26,10 @@
 
   <body>
     <release version="1.7" date="In Subversion">
+      
+      <action type="fix" dev="nbubna" issue="VELOCITY-685" due-to="Jarkko Viinamäki">
+        Make velocimacro.arguments.strict=true work with block macros.
+      </action>
 
       <action type="add" dev="byron" issue="VELOCITY-623">
 	Added a property for changing escape behavior such that putting a forward
