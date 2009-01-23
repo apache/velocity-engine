@@ -1896,6 +1896,19 @@ href="user-guide.html#strictreferences">Strict References Setting</a>.
 </p>
 
 <p>
+<code>runtime.references.strict.escape = false</code> Changes escape
+behavior such that putting a forward slash before a reference or
+macro always escapes the reference or macro and absorbs the forward
+slash regardless if the reference or macro is defined. For example
+"\$foo" always renders as "$foo", or "\#foo()" is always rendered as
+"#foo()".  This escape behavior is of use in strict mode since
+unintended strings of characters that look like references or macros
+will throw an exception.  This provides an easy way to escape these
+references.  However, even in non-strict mode the developer may find
+this a more consistent and reliable method for escaping.
+</p>
+
+<p>
 <strong>String Interpolation</strong>
 </p>
 

@@ -27,6 +27,12 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="byron" issue="VELOCITY-623">
+	Added a property for changing escape behavior such that putting a forward
+	slash before a reference or macro always escapes the reference or macro and
+	absorbs the forward slash regardless if the reference or macro is defined.
+      </action>
+      
       <action type="fix" dev="nbubna" issue="VELOCITY-676" due-to="Jarkko Viinamäki">
         Fix StringIndexOutOfBoundsException caused by #[[##x]]# (line comment on
         same line as end of textblock).
