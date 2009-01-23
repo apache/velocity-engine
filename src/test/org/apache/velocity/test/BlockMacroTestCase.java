@@ -96,5 +96,11 @@ public class BlockMacroTestCase extends BaseEvalTestCase
     {
         assertEvalEquals("#@foo", "#@foo"); 
     }
-
+    
+    public void testVelocity685() throws Exception
+    {
+        engine.setProperty(RuntimeConstants.VM_ARGUMENTS_STRICT, Boolean.TRUE);
+        assertEvalEquals(" ", "#macro(foo)#end #@foo() junk #end");
+    }
 }
+

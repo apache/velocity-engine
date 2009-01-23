@@ -271,10 +271,14 @@ public class VelocimacroProxy extends Directive
      * we are not, and strictArguments is active, then throw TemplateInitException.
      * This method is called during macro render, so it must be thread safe.
      */
-    public void checkArgs(InternalContextAdapter context, Node node)
+    public void checkArgs(InternalContextAdapter context, Node node, boolean hasBody)
     {
         // check how many arguments we have
         int i = node.jjtGetNumChildren();
+        
+        // if macro call has a body (BlockMacro) then don't count the body as an argument
+        if( hasBody )
+            i--;
 
         // Throw exception for invalid number of arguments?
         if (getNumArgs() != i)
