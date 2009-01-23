@@ -19,24 +19,24 @@ package org.apache.velocity.runtime.directive;
  * under the License.
  */
 
-import org.apache.commons.lang.text.StrBuilder;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.List;
 
+import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
-import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.util.introspection.Info;
-
-import java.io.Writer;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * This class acts as a proxy for potential macros.  When the AST is built
@@ -316,8 +316,8 @@ public class RuntimeMacro extends Directive
         }
         else if (strictRef)
         {
-            throw new ParseErrorException("Macro '#" + macroName + "' is not defined at "
-                + Log.formatFileString(node), new Info(node));
+            throw new VelocityException("Macro '#" + macroName + "' is not defined at "
+                + Log.formatFileString(node));
         }
         
         /**
