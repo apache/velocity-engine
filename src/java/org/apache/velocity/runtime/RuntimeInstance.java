@@ -142,7 +142,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Indicate whether the Runtime has been fully initialized.
      */
-    private boolean initialized = false;
+    private volatile boolean initialized = false;
 
     /**
      * These are the properties that are laid down over top
@@ -240,6 +240,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         if (!initialized && !initializing)
         {
+            log.debug("Initializing Velocity, Calling init()...");
             initializing = true;
 
             log.trace("*******************************************************************");
@@ -282,9 +283,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void requireInitialization()
     {
-        if (!initialized && !initializing)
+        if (!initialized)
         {
-            log.debug("Velocity was not initialized! Calling init()...");
             try
             {
                 init();
@@ -451,7 +451,46 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         overridingProperties.setProperty(key, value);
     }
+    
 
+    /**
+     * Add all properties contained in the file fileName to the RuntimeInstance properties
+     */
+    public void setProperties(String fileName)
+    {
+        ExtendedProperties props = null;
+        try
+        {
+              props = new ExtendedProperties(fileName);
+        } 
+        catch (IOException e)
+        {
+              throw new VelocityException("Error reading properties from '" 
+                + fileName + "'", e);
+        }
+        
+        Enumeration en = props.keys();
+        while (en.hasMoreElements())
+        {
+            String key = en.nextElement().toString();
+            setProperty(key, props.get(key));
+        }
+    }
+    
+
+    /**
+     * Add all the properties in props to the RuntimeInstance properties
+     */
+    public void setProperties(Properties props)
+    {
+        Enumeration en = props.keys();
+        while (en.hasMoreElements())
+        {
+            String key = en.nextElement().toString();
+            setProperty(key, props.get(key));
+        }
+    }
+        
     /**
      * Allow an external system to set an ExtendedProperties
      * object to use. This is useful where the external
@@ -536,7 +575,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /**
          * Before initialization, check the user-entered properties first.
          */
-        if (!initialized && !initializing && overridingProperties != null) 
+        if (!initialized && overridingProperties != null) 
         {
             o = overridingProperties.get(key);
         }
@@ -632,8 +671,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         /*
          * Which resource manager?
-         */
-
+         */      
         String rm = getString(RuntimeConstants.RESOURCE_MANAGER_CLASS);
 
         if (rm != null && rm.length() > 0)

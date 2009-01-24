@@ -59,7 +59,6 @@ public class VelocityEngine implements RuntimeConstants
 {
     private RuntimeInstance ri = new RuntimeInstance();
 
-
     /**
      *  Init-less CTOR
      */
@@ -69,27 +68,20 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     *  CTOR that invokes an init(String), initializing
-     *  the engine using the properties file specified
-     *
-     * @param propsFilename name of properties file to init with
-     * @since 1.5
+     * Construct a VelocityEngine with the initial properties defined in the file
+     * propsFilename
      */
     public VelocityEngine(String propsFilename)
     {
-        ri.init(propsFilename);
+        ri.setProperties(propsFilename);
     }
 
     /**
-     *  CTOR that invokes an init(String), initializing
-     *  the engine using the Properties specified
-     *
-     * @param p name of properties  to init with
-     * @since 1.5
+     * Construct a VelocityEngine instance with the specified initial properties.
      */
     public VelocityEngine(Properties p)
     {
-        ri.init(p);
+        ri.setProperties(p);
     }
 
     /**
