@@ -33,7 +33,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 
 public class Benchmark
 {
-  int threadCnt = 10;
+  int threadCnt = 2;
   int runCnt = 500;
   
   public static final void main(String[] argv) throws Exception
@@ -52,13 +52,10 @@ public class Benchmark
     
     Properties props = new Properties();
     props.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, "true");
-    props.setProperty(RuntimeConstants.VM_LIBRARY, "vmlib1.vm,vmlib2.vm");
     props.setProperty(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, "20");
     props.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
     VelocityEngine vengine = new VelocityEngine(props);
-    vengine.init();
-    System.out.println("blaa:  " + vengine.getProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT));
-
+    vengine.setProperty(RuntimeConstants.VM_LIBRARY, "vmlib1.vm,vmlib2.vm");
     log("Starting " + threadCnt + " threads which will run " + runCnt + " times");
     ArrayList list = new ArrayList(threadCnt);    
     for (int i = 0; i < threadCnt; i++)
