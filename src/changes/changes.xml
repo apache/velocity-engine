@@ -27,10 +27,6 @@
   <body>
     <release version="1.7" date="In Subversion">
 
-      <action type="fix" dev="nbubna" issue="VELOCITY-682">
-        Fix loss of inline macros when #evaluate is used.
-      </action>
-
       <action type="add" dev="byron"  issue="VELOCITY-673">
 	The non default VelocityEngine construtors now do not initialize the runtime
 	system so that properties may be set after constrution.  Also fixes an
@@ -112,6 +108,10 @@
     </release>
 
     <release version="1.6.2" date="In Subversion">
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-682">
+        Fix loss of inline macros when #evaluate is used.
+      </action>
 
       <action type="fix" dev="nbubna" issue="VELOCITY-554" due-to="Adrian Tarau">
         Fix name of sources jar for maven deployment.
