@@ -28,6 +28,10 @@
 
     <release version="1.6.2" date="2009-01-28">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-682">
+        Fix loss of inline macros when #evaluate is used.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-554" due-to="Adrian Tarau">
         Fix name of sources jar for maven deployment.
       </action>
