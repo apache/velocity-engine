@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.ASTReference;
@@ -107,6 +108,24 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     }
 
     /**
+     * Used to put Velocity macro bodyContext arguments into this context. 
+     * 
+     * @param context rendering context
+     * @param macroArgumentName name of the macro argument that we received
+     * @param literalMacroArgumentName ".literal.$"+macroArgumentName
+     * @param argumentValue actual value of the macro body
+     * 
+     * @throws MethodInvocationException
+     */
+    public void addVMProxyArg(InternalContextAdapter context,
+                              String macroArgumentName,
+                              String literalMacroArgumentName,
+                              Renderable argumentValue) throws MethodInvocationException
+    {
+        localcontext.put(macroArgumentName, argumentValue);
+    }
+
+    /**
      * AST nodes that are considered constants can be directly
      * saved into the context. Dynamic values are stored in
      * another argument hashmap.
@@ -124,7 +143,6 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
             case ParserTreeConstants.JJTMAP:
             case ParserTreeConstants.JJTSTRINGLITERAL:
             case ParserTreeConstants.JJTTEXT:
-            case ParserTreeConstants.JJTBLOCK:
                 return (false);
             default:
                 return (true);
@@ -218,28 +236,6 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
                         }
                     }
                     return obj;
-                }
-            }
-            else if (type == ParserTreeConstants.JJTBLOCK)
-            {
-                // this happens for #@someMacro($arg1 $arg2) bodyAST #end calls
-                try
-                {
-                    // astNode is actually BlockMacro.BlockMacroContainer which contains a Writer internally although
-                    // we seem to pass null here
-                    astNode.render(innerContext, null);
-                    // return an empty string because the Node already rendered all content
-                    return "";
-                }
-                catch (RuntimeException e)
-                {
-                    throw e;
-                }
-                catch (Exception e)
-                {
-                    String msg = "ProxyVMContext.get() : error rendering reference";
-                    rsvc.getLog().error(msg, e);
-                    throw new VelocityException(msg, e);
                 }
             }
             else if (type == ParserTreeConstants.JJTTEXT)

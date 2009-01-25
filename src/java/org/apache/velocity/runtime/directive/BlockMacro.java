@@ -21,16 +21,12 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.IOException;
 import java.io.Writer;
-
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.Renderable;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 /**
  * BlockMacro directive is used to invoke Velocity macros with normal parameters and a macro body.
@@ -58,36 +54,23 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
  * bodyContent reference name is configurable (see velocity.properties).
  *
  * @author <a href="mailto:wyla@removethis.sci.fi">Jarkko Viinamaki</a>
- * @since 1.6.2
+ * @since 1.7
  * @version $Id$
  */
-public class BlockMacro extends Directive
+public class BlockMacro extends Block
 {
     private String name;
     private RuntimeMacro macro;
-    private Node macroBody;
 
     public BlockMacro(String name)
     {
         this.name = name;
     }
     
-    /**
-     * Return name of this directive.
-     * @return The name of this directive.
-     */
+    // This is required, but not actually used.
     public String getName()
     {
-        return "blockmacro";
-    }
-
-    /**
-     * Return type of this directive.
-     * @return The type of this directive.
-     */
-    public int getType()
-    {
-        return BLOCK;
+        throw new UnsupportedOperationException("BlockMacro is not actually a named macro.");
     }
 
     /**
@@ -98,13 +81,16 @@ public class BlockMacro extends Directive
      * @param node
      * @throws TemplateInitException
      */
-    public void init(RuntimeServices rs, InternalContextAdapter context,
-                     Node node)
+    public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
         throws TemplateInitException
     {
         super.init(rs, context, node);
         
-        macroBody = node.jjtGetChild(node.jjtGetNumChildren() - 1);
+        // get name of the reference that refers to AST block passed to block macro call
+        key = rsvc.getString(RuntimeConstants.VM_BODY_REFERENCE, "bodyContent");
+
+        // use the macro max depth for bodyContent max depth as well
+        maxDepth = rs.getInt(RuntimeConstants.VM_MAX_DEPTH);
 
         macro = new RuntimeMacro(name);
         macro.setLocation(getLine(), getColumn(), getTemplateName());
@@ -123,35 +109,7 @@ public class BlockMacro extends Directive
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
-        return macro.render(context, 
-                            writer, 
-                            node,
-                            new BlockMacroContainer(macroBody, ParserTreeConstants.JJTBLOCK, writer));
+        return macro.render(context, writer, node, new Reference(context, this));
     }
 
-    /**
-     * BlockMacro body is wrapped in this container. 
-     *
-     * With this we can have reference to the output Writer in ProxyVMContext.get call.
-     * This approach lets us write directly to the output instead of using costly StringWriter.
-     */
-    public static class BlockMacroContainer extends SimpleNode
-    {
-        private Node node;
-        private Writer w;
-    
-        public BlockMacroContainer(Node node, int type, Writer writer)
-        {
-            super(type);
-            this.node = node;
-            this.w = writer;
-        }
-        
-        public boolean render( InternalContextAdapter context, Writer writer)
-            throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException
-        {
-            return node.render(context, writer != null ? writer : w);
-        }
-    }
 }
-
