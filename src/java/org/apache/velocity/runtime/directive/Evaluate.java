@@ -20,6 +20,7 @@ package org.apache.velocity.runtime.directive;
  */
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.Writer;
 
 import org.apache.velocity.context.EvaluateContext;
@@ -37,7 +38,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.introspection.Info;
 
 /**
- * Evaluates the macro argument as a Velocity string, using the existing
+ * Evaluates the directive argument as a VTL string, using the existing
  * context.
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
@@ -157,7 +158,7 @@ public class Evaluate extends Directive
 
         try
         {
-            nodeTree = rsvc.parse(sourceText, templateName);
+            nodeTree = rsvc.parse(new StringReader(sourceText), templateName, false);
         }
         catch (ParseException pex)
         {
@@ -178,8 +179,7 @@ public class Evaluate extends Directive
 
         if (nodeTree != null)
         {
-            InternalContextAdapterImpl ica =
-                new InternalContextAdapterImpl( new EvaluateContext(context, rsvc) );
+            InternalContextAdapter ica = new EvaluateContext(context, rsvc);
 
             ica.pushCurrentTemplateName( templateName );
 
