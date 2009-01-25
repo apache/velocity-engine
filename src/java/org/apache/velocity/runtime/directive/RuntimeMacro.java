@@ -30,6 +30,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
@@ -229,7 +230,7 @@ public class RuntimeMacro extends Directive
      * @throws MethodInvocationException
      */
     public boolean render(InternalContextAdapter context, Writer writer,
-                          Node node, Node body)
+                          Node node, Renderable body)
             throws IOException, ResourceNotFoundException,
             ParseErrorException, MethodInvocationException
     {

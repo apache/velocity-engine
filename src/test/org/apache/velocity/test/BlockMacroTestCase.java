@@ -19,18 +19,7 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import junit.framework.TestCase;
-
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.test.misc.TestLogChute;
-import org.apache.velocity.test.provider.ForeachMethodCallHelper;
 
 /**
  * This class tests the BlockMacro functionality.
@@ -101,6 +90,29 @@ public class BlockMacroTestCase extends BaseEvalTestCase
     {
         engine.setProperty(RuntimeConstants.VM_ARGUMENTS_STRICT, Boolean.TRUE);
         assertEvalEquals(" ", "#macro(foo)#end #@foo() junk #end");
+    }
+
+    public void testVelocity686() throws Exception
+    {
+        String template = "#macro(foo)#set( $x = $bodyContent )#end"+
+                          "#@foo()b#end a $x ";
+        assertEvalEquals(" a b ", template);
+    }
+
+    public void testNestedBlockMacro()
+    {
+        String template = "#macro(foo)foo:$bodyContent#end"+
+                          "#macro(bar)bar:$bodyContent#end"+
+                          "#@foo()foo,#@bar()bar#end#end";
+        assertEvalEquals("foo:foo,bar:bar", template);
+    }
+
+    public void testRecursiveBlockMacro()
+    {
+        engine.setProperty(RuntimeConstants.VM_MAX_DEPTH, 3);
+        String template = "#macro(foo)start:$bodyContent#end"+
+                          "#@foo()call:$bodyContent#end";
+        assertEvalEquals("start:call:call:call:$bodyContent", template);
     }
 }
 

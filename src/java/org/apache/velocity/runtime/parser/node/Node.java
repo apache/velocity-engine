@@ -27,6 +27,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.parser.Token;
 
 /**
@@ -37,7 +38,7 @@ import org.apache.velocity.runtime.parser.Token;
  * @version $Id$
  */
 
-public interface Node
+public interface Node extends Renderable
 {
     /** This method is called after the node has been made the current
      * node.  It indicates that child nodes can now be added to it. */

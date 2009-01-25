@@ -29,6 +29,7 @@ import org.apache.velocity.exception.MacroOverflowException;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
@@ -145,7 +146,8 @@ public class VelocimacroProxy extends Directive
      * @throws MethodInvocationException
      * @throws MacroOverflowException
      */
-    public boolean render(InternalContextAdapter context, Writer writer, Node node, Node body)
+    public boolean render(InternalContextAdapter context, Writer writer,
+                          Node node, Renderable body)
             throws IOException, MethodInvocationException, MacroOverflowException
     {
         // wrap the current context and add the macro arguments
