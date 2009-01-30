@@ -307,13 +307,13 @@ public class RuntimeMacro extends Directive
                  * especially important for multiple macro call levels.
                  * this is also true for the following catch blocks.
                  */
-                rsvc.getLog().error("Exception in macro #" + macroName + " at " +
+                rsvc.getLog().error("Exception in macro #" + macroName + " called at " +
                   Log.formatFileString(node));
                 throw e;
             }
             catch (IOException e)
             {
-                rsvc.getLog().error("Exception in macro #" + macroName + " at " +
+                rsvc.getLog().error("Exception in macro #" + macroName + " called at " +
                   Log.formatFileString(node));
                 throw e;
             }
