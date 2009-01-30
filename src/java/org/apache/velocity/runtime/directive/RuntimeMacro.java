@@ -131,11 +131,14 @@ public class RuntimeMacro extends Directive
         this.node = node;
         
         /**
-         * Only check for strictRef setting if this really looks like a macro,
+         * Apply strictRef setting only if this really looks like a macro,
          * so strict mode doesn't balk at things like #E0E0E0 in a template.
+         * compare with ")" is a simple #foo() style macro, comparing to
+         * "#end" is a block style macro. We use starts with because the token
+         * may end with '\n'
          */
         Token t = node.getLastToken();
-        if (t.image.charAt(0) == ')')
+        if (t.image.startsWith(")") || t.image.startsWith("#end"))
         {
             strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
         }
