@@ -48,7 +48,6 @@ public abstract class Block extends Directive
     protected Node block;
     protected Log log;
     protected int maxDepth;
-    protected String definingTemplate;
     protected String key;
 
     /**
@@ -74,11 +73,6 @@ public abstract class Block extends Directive
          * that it's the block!
          */
         block = node.jjtGetChild(node.jjtGetNumChildren() - 1);
-
-        /**
-         * keep tabs on the template this came from
-         */
-        definingTemplate = context.getCurrentTemplateName();
     }
 
     /**
@@ -89,12 +83,8 @@ public abstract class Block extends Directive
     protected String id(InternalContextAdapter context)
     {
         StrBuilder str = new StrBuilder(100)
-            .append("block $").append(key)
-            .append(" (defined in ").append(definingTemplate)
-            .append(" [line ").append(getLine())
-            .append(", column ").append(getColumn()).append("])");
-
-        if (!context.getCurrentTemplateName().equals(definingTemplate))
+            .append("block $").append(key);
+        if (!context.getCurrentTemplateName().equals(getTemplateName()))
         {
             str.append(" used in ").append(context.getCurrentTemplateName());
         }
@@ -135,7 +125,8 @@ public abstract class Block extends Directive
                      * use recursive block definitions and having problems
                      * pulling it off properly.
                      */
-                    parent.log.debug("Max recursion depth reached for "+parent.id(context));
+                    parent.log.debug("Max recursion depth reached for " + parent.id(context)
+                        + " at " + Log.formatFileString(parent));
                     depth--;
                     return false;
                 }
@@ -148,15 +139,11 @@ public abstract class Block extends Directive
             }
             catch (IOException e)
             {
-                String msg = "Failed to render "+parent.id(context)+" to writer";
+                String msg = "Failed to render " + parent.id(context) + " to writer "
+                  + " at " + Log.formatFileString(parent);
+                
                 parent.log.error(msg, e);
                 throw new RuntimeException(msg, e);
-            }
-            catch (VelocityException ve)
-            {
-                String msg = "Failed to render "+parent.id(context)+" due to "+ve;
-                parent.log.error(msg, ve);
-                throw ve;
             }
         }
 

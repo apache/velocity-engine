@@ -29,8 +29,9 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.Renderable;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.directive.Block.Reference;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
@@ -394,11 +395,26 @@ public class ASTReference extends SimpleNode
 
         String toString = null;
         if (value != null)
-        {
-
-            if(value instanceof Renderable && ((Renderable)value).render(context,writer))
+        {          
+            if (value instanceof Renderable)
             {
-                return true;
+                Renderable renderable = (Renderable)value;
+                try
+                {
+                    if (renderable.render(context,writer))
+                      return true;
+                }
+                catch(RuntimeException e)
+                {
+                    // We commonly get here when an error occurs within a block reference.
+                    // We want to log where the reference is at so that a developer can easily
+                    // know where the offending call is located.  This can be seen
+                    // as another element of the error stack we report to log.
+                    log.error("Exception rendering "
+                        + ((renderable instanceof Reference)? "block ":"Renderable ")
+                        + rootString + " at " + Log.formatFileString(this));
+                    throw e;
+                }
             }
 
             toString = value.toString();
