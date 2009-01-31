@@ -27,6 +27,13 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="byron"  issue="VELOCITY-688">
+	In strict mode attempts to render references that evaluate to
+	null will throw an exception.  In the user wishes to suppress
+	the exception and render nothing then the reference can be
+	proceeded with '$!' as in $!foo.
+      </action>
+      
       <action type="add" dev="byron"  issue="VELOCITY-673">
 	The non default VelocityEngine construtors now do not initialize the runtime
 	system so that properties may be set after constrution.  Also fixes an

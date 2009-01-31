@@ -44,7 +44,6 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
         context.put("TRUE", Boolean.TRUE);
     }
     
-
     /**
      * Test the modified behavior of #if in strict mode.  Mainly, that
      * single variables references in #if statements use non strict rules
@@ -77,7 +76,7 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
     public void testAllowNullValues()
         throws Exception
     {
-        evaluate("$bar");
+        evaluate("$!bar");
         assertEvalEquals("true", "#if($bar == $NULL)true#end");
         assertEvalEquals("true", "#set($foobar = $NULL)#if($foobar == $NULL)true#end");
         assertEvalEquals("13", "#set($list = [1, $NULL, 3])#foreach($item in $list)#if($item != $NULL)$item#end#end");
@@ -120,7 +119,6 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
 
         // Mainly want to make sure no exceptions are thrown here
         assertEvalEquals("propiness", "$fargo.prop");
-        assertEvalEquals("$fargo.nullVal", "$fargo.nullVal");
         assertEvalEquals("", "$!fargo.nullVal");
         assertEvalEquals("propiness", "$fargo.next.prop");
 
@@ -154,8 +152,8 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
         assertVelocityEx("#set($fargo.prop = $NULL)$fargo.prop.next");
 
         // make sure no exceptions are thrown here
-        evaluate("$fargo.next.next");
-        evaluate("$fargo.next.nullVal");
+        evaluate("$!fargo.next.next");
+        evaluate("$!fargo.next.nullVal");
         evaluate("#foreach($item in $fargo.nullVal)#end");
     }
 
@@ -176,6 +174,22 @@ public class StrictReferenceTestCase extends BaseEvalTestCase
         assertEvalEquals("#F{}", "#F{}");
     }
     
+    
+    public void testRenderingNull()
+    {
+        Fargo fargo = new Fargo();
+        fargo.next = new Fargo();
+        context.put("fargo", fargo);      
+      
+        assertVelocityEx("#set($foo = $NULL)$foo");
+        assertEvalEquals("", "#set($foo = $NULL)$!foo");
+        assertVelocityEx("$fargo.nullVal");
+        assertEvalEquals("", "$!fargo.nullVal");
+        assertVelocityEx("$fargo.next.next");
+        assertEvalEquals("", "$!fargo.next.next");
+        assertVelocityEx("$fargo.next.nullVal");
+        assertEvalEquals("", "$!fargo.next.nullVal");
+    }
     
     /**
      * Assert that we get a MethodInvocationException when calling evaluate
