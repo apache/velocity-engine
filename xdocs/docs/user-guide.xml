@@ -801,6 +801,18 @@ $bar.retnull.bogus  ## cannot call a property on null, Exception]]></source>
     directive.foreach.skip.invalid). Finally, undefined macro
     references will also throw an exception in strict mode.
   </p>
+  <p>
+    References that Velocity attempts to render but evaluate to null
+    will cause an Exception.  To simply render nothing in this case
+    the reference can be preceded by '$!' instead of '$', similar to
+    non strict mode.  Keep in mind this is different from the
+    reference not existing in the context which will always throw an
+    exception when attempting to render it in strict mode.  For
+    example, below $foo has a value of null in the context
+  </p>
+    <source><![CDATA[this is $foo    ## throws an exception because $foo is null
+this is $!foo   ## renders to "this is " without an exception
+this is $!bogus ## bogus is not in the context so throws an exception]]></source>
 </section>
 
 <section name="Case Substitution" href="case_substitution">

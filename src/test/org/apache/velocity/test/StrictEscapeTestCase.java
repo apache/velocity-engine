@@ -38,9 +38,12 @@ public class StrictEscapeTestCase extends BaseEvalTestCase
       super.setUp();
       engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, Boolean.TRUE);
       context.put("pow", "bang");
+      context.put("NULL", null);
+      context.put("animal", new Animal());
+      DEBUG = true;
   }
   
-  public void testVarEscape()
+  public void testReferenceEscape()
   {
       engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
 
@@ -60,6 +63,14 @@ public class StrictEscapeTestCase extends BaseEvalTestCase
       assertEvalEquals("\\$pow", "#set($foo = \"\\\\\\$pow\")$foo");
       
       assertEvalEquals("\\$%", "\\$%");
+      
+      // This should work but does not... may be related to VELOCITY-679
+      // This is broken from existing escape behavior
+      // assertEvalEquals("\\$bang", "\\$$pow");
+      
+      assertEvalEquals("$!foo", "#set($foo = $NULL)\\$!foo");
+      assertEvalEquals("$!animal.null", "\\$!animal.null");
+      assertEvalEquals("$!animal", "\\$!animal");
   } 
     
   public void testMacroEscape()
@@ -87,7 +98,11 @@ public class StrictEscapeTestCase extends BaseEvalTestCase
       assertEvalEquals("#macro(foo) #end", "\\#macro(foo) \\#end");
             
       assertEvalException("\\\\#end");
-      assertEvalException("\\\\#if()");      
+      assertEvalException("\\\\#if()");
+      
+      // This should work but does not, probably related to VELOCITY-678
+      // this is broken from existing behavior
+      //assertEvalEquals("\\$bar", "\\$#foo()");
   }
 
   /**
@@ -101,5 +116,21 @@ public class StrictEscapeTestCase extends BaseEvalTestCase
       assertEvalEquals("\\$bogus", "\\\\$bogus");
       assertEvalEquals("\\\\$bogus", "\\\\\\\\$bogus");
       assertEvalEquals("\\$bogus", "#set($foo = \"\\\\$bogus\")$foo");    
-  }  
+  }
+
+  /**
+   * Test object for escaping
+   */
+  public static class Animal
+  {      
+      public Object getNull()
+      {
+          return null;
+      }
+      
+      public String toString()
+      {
+          return null;
+      }
+  }
 }

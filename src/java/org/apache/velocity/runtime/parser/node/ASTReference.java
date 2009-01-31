@@ -421,7 +421,33 @@ public class ASTReference extends SimpleNode
         }
 
         if (value == null || toString == null)
-        {
+        {          
+            if (strictRef)
+            {
+                if (referenceType != QUIET_REFERENCE)
+                {
+                  log.error("Prepend the reference with '$!' e.g., $!" + literal().substring(1)
+                      + " if you want Velocity to ignore the reference when it evaluates to null");
+                  if (value == null)
+                  {
+                    throw new VelocityException("Reference " + literal() 
+                        + " evaluated to null when attempting to render at " 
+                        + Log.formatFileString(this));
+                  }
+                  else  // toString == null
+                  {
+                    // This will probably rarely happen, but when it does we want to
+                    // inform the user that toString == null so they don't pull there
+                    // hair out wondering why Velocity thinks the value is null.                    
+                    throw new VelocityException("Reference " + literal()
+                        + " evaluated to object " + value.getClass().getName()
+                        + " whose toString() method returned null at "
+                        + Log.formatFileString(this));
+                  }
+                }              
+                return true;
+            }
+          
             /*
              * write prefix twice, because it's schmoo, so the \ don't escape each
              * other...
