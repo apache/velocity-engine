@@ -33,8 +33,8 @@ import org.apache.velocity.runtime.RuntimeConstants;
 
 public class Benchmark
 {
-  int threadCnt = 2;
-  int runCnt = 500;
+  int threadCnt = 10;
+  int runCnt = 1000;
   
   public static final void main(String[] argv) throws Exception
   {
@@ -49,12 +49,13 @@ public class Benchmark
   
   public void go() throws Exception
   {
-    
-    Properties props = new Properties();
-    props.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, "true");
-    props.setProperty(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, "20");
-    props.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
-    VelocityEngine vengine = new VelocityEngine(props);
+    VelocityEngine vengine = new VelocityEngine();
+    vengine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, "true");
+    //vengine.setProperty(RuntimeConstants.VM_ARGUMENTS_PASSBYVALUE, "true");
+    vengine.setProperty(RuntimeConstants.VM_LIBRARY_AUTORELOAD, "false");
+    vengine.setProperty(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, "0");
+    vengine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
+    vengine.setProperty("file.resource.loader.modificationCheckInterval", "0");
     vengine.setProperty(RuntimeConstants.VM_LIBRARY, "vmlib1.vm,vmlib2.vm");
     log("Starting " + threadCnt + " threads which will run " + runCnt + " times");
     ArrayList list = new ArrayList(threadCnt);    
