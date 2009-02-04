@@ -35,3 +35,6 @@
 #test3("foo", "bar")
 #test4("foo", "bar")
 
+#@test1("foo", "bar")#end
+#@test1("foo")#end
+#@test1()#end

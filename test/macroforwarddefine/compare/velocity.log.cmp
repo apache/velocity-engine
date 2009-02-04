@@ -6,3 +6,5 @@
  [debug] VM #test2: too many arguments to macro. Wanted 1 got 2
  [debug] VM #test3: too many arguments to macro. Wanted 1 got 2
  [debug] VM #test4: too many arguments to macro. Wanted 1 got 2
+ [debug] VM #test1: too many arguments to macro. Wanted 1 got 2
+ [debug] VM #test1: too few arguments to macro. Wanted 1 got 0

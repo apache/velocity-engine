@@ -259,13 +259,12 @@ public class VelocimacroProxy extends Directive
     /**
      * Build an error message for not providing the correct number of arguments
      */
-    private String buildErrorMsg(Node node)
+    private String buildErrorMsg(Node node, int numArgsProvided)
     {
-      int i = node.jjtGetNumChildren() - 1; // the number of arguments this call provided
-      String msg = "VM #" + macroName + ": too "
-        + ((getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted "
-        + getNumArgs() + " got " + i;      
-      return msg;
+        String msg = "VM #" + macroName + ": too "
+          + ((getNumArgs() > numArgsProvided) ? "few" : "many") + " arguments to macro. Wanted "
+          + getNumArgs() + " got " + numArgsProvided;      
+        return msg;
     }
     
     /**
@@ -290,12 +289,12 @@ public class VelocimacroProxy extends Directive
                 /**
                  * indicate col/line assuming it starts at 0 - this will be corrected one call up
                  */
-                throw new TemplateInitException(buildErrorMsg(node), 
+                throw new TemplateInitException(buildErrorMsg(node, i), 
                     context.getCurrentTemplateName(), 0, 0);
             }
             else if (rsvc.getLog().isDebugEnabled())
             {
-                rsvc.getLog().debug(buildErrorMsg(node));
+                rsvc.getLog().debug(buildErrorMsg(node, i));
                 return;
             }
         }
