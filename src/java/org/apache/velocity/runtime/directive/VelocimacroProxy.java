@@ -261,7 +261,7 @@ public class VelocimacroProxy extends Directive
      */
     private String buildErrorMsg(Node node)
     {
-      int i = node.jjtGetNumChildren();  // the number of arguments this call provided
+      int i = node.jjtGetNumChildren() - 1; // the number of arguments this call provided
       String msg = "VM #" + macroName + ": too "
         + ((getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted "
         + getNumArgs() + " got " + i;      
