@@ -57,6 +57,12 @@ public class VelocimacroProxy extends Directive
     private boolean localContextScope = false;
     private int maxCallDepth;
     private String bodyReference;
+    
+    /**
+     * Set to true when the configuration indicates we are following pass by value
+     * Symentics for macro parameter passing.
+     */
+    private boolean passByValue = false;
 
     /**
      * Return name of this Velocimacro.
@@ -171,7 +177,15 @@ public class VelocimacroProxy extends Directive
                  * This makes VMReferenceMungeVisitor obsolete and it would not work anyway 
                  * when the macro AST is shared
                  */
-                vmc.addVMProxyArg(context, argArray[i], literalArgArray[i], node.jjtGetChild(i - 1));
+                if (passByValue)
+                {
+                    vmc.addVMProxyArg(context, argArray[i], node.jjtGetChild(i - 1));
+                }
+                else
+                {
+                    vmc.addVMProxyArg(context, argArray[i], 
+                        literalArgArray[i], node.jjtGetChild(i - 1));
+                }
             }
         }
         
@@ -253,6 +267,9 @@ public class VelocimacroProxy extends Directive
 
         // get name of the reference that refers to AST block passed to block macro call
         bodyReference = rsvc.getString(RuntimeConstants.VM_BODY_REFERENCE, "bodyContent");
+
+        // Are we configured for pass by value semantics when passing parameters
+        passByValue = rs.getBoolean(RuntimeConstants.VM_ARGUMENTS_PASSBYVALUE, false); 
     }
     
 
@@ -261,7 +278,7 @@ public class VelocimacroProxy extends Directive
      */
     private String buildErrorMsg(Node node)
     {
-      int i = node.jjtGetNumChildren();  // the number of arguments this call provided
+      int i = node.jjtGetNumChildren() - 1;  // the number of arguments this call provided
       String msg = "VM #" + macroName + ": too "
         + ((getNumArgs() > i) ? "few" : "many") + " arguments to macro. Wanted "
         + getNumArgs() + " got " + i;      
