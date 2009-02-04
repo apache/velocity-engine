@@ -26,7 +26,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 /**
  * This class tests support for string concatenation.
  */
-public class StringConcatenationTestCase extends BaseEvalTestCase
+public class StringConcatenationTestCase extends BaseTestCase
 {
     public StringConcatenationTestCase(String name)
     {

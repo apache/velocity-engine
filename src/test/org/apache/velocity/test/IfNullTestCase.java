@@ -24,14 +24,14 @@ import org.apache.velocity.VelocityContext;
 /**
  * Used to check that nulls are properly handled in #if statements
  */
-public class IfNullTestCase extends BaseEvalTestCase
+public class IfNullTestCase extends BaseTestCase
 {
     public IfNullTestCase(final String name)
     {
         super(name);
     }
 
-    protected void setContext(VelocityContext context)
+    protected void setUpContext(VelocityContext context)
     {
         context.put("nullToString", new NullToString());
         context.put("notnull", new Object());

@@ -1199,6 +1199,7 @@
       <formatter type="plain"/>
 
       <test name="${testcase}" if="testcase" todir="${build.test.reports}"/>
+      <sysproperty key="testcase" value="${testcase}"/>
       <batchtest todir="${build.test.reports}" unless="testcase">
         <fileset dir="${build.test.src}">
           <include name="**/*TestCase.java"></include>

@@ -26,7 +26,7 @@ import org.apache.velocity.VelocityContext;
  * like java.lang.Math directly into the context in order to
  * use their methods.
  */
-public class StaticUtilityMethodsTestCase extends BaseEvalTestCase
+public class StaticUtilityMethodsTestCase extends BaseTestCase
 {
     public StaticUtilityMethodsTestCase(String name)
     {

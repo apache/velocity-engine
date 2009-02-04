@@ -28,7 +28,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * Make sure exceptions are thrown for strict comparisons that
  * cannot be compared.
  */
-public class StrictCompareTestCase extends BaseEvalTestCase
+public class StrictCompareTestCase extends BaseTestCase
 {
     public StrictCompareTestCase(String name)
     {

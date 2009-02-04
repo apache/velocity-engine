@@ -19,12 +19,12 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 
 /**
  * This class tests VELOCITY-616.
  */
-public class Velocity616TestCase extends BaseEvalTestCase
+public class Velocity616TestCase extends BaseTestCase
 {
     public Velocity616TestCase(String name)
     {

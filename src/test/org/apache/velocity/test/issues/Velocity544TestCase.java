@@ -22,13 +22,13 @@ package org.apache.velocity.test.issues;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 
 /**
  * @see https://issues.apache.org/jira/browse/VELOCITY-544
  */
 public class Velocity544TestCase
-        extends BaseEvalTestCase
+        extends BaseTestCase
 {
     public Velocity544TestCase(final String name)
             throws Exception

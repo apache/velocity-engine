@@ -38,7 +38,7 @@ import org.apache.velocity.test.provider.ForeachMethodCallHelper;
  * @author Daniel Rall
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  */
-public class ForeachTestCase extends BaseEvalTestCase
+public class ForeachTestCase extends BaseTestCase
 {
     public ForeachTestCase(String name)
     {

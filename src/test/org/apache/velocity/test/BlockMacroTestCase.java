@@ -24,7 +24,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 /**
  * This class tests the BlockMacro functionality.
  */
-public class BlockMacroTestCase extends BaseEvalTestCase
+public class BlockMacroTestCase extends BaseTestCase
 {
     public BlockMacroTestCase(String name)
     {

@@ -22,7 +22,7 @@ package org.apache.velocity.test;
 /**
  * This class tests the break directive within Foreach loop.
  */
-public class ForeachBreakTestCase extends BaseEvalTestCase
+public class ForeachBreakTestCase extends BaseTestCase
 {
     public ForeachBreakTestCase(String name)
     {

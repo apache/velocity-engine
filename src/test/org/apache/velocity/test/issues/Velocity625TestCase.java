@@ -19,14 +19,14 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class tests VELOCITY-625.
  */
-public class Velocity625TestCase extends BaseEvalTestCase
+public class Velocity625TestCase extends BaseTestCase
 {
     public Velocity625TestCase(String name)
     {

@@ -19,14 +19,14 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class tests VELOCITY-615.
  */
-public class Velocity615TestCase extends BaseEvalTestCase
+public class Velocity615TestCase extends BaseTestCase
 {
     public Velocity615TestCase(String name)
     {
@@ -110,6 +110,16 @@ public class Velocity615TestCase extends BaseEvalTestCase
                           "#end"+
                           "#test( 'a' )$i";
         assertEvalEquals("012", template);
+    }
+
+    public void testVelocity681()
+    {
+        String template = "#macro(myMacro $result)"+
+                          "  #set($result = 'some value')"+
+                          "#end"+
+                          "#myMacro($x)"+
+                          "$x";
+        assertEvalEquals("$x", template);
     }
 
     public static class Inc

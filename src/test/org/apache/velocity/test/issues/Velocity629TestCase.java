@@ -19,14 +19,14 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class tests VELOCITY-629.  Make sure string literals
  * Error message reports correct line and column numbers.
  */
-public class Velocity629TestCase extends BaseEvalTestCase
+public class Velocity629TestCase extends BaseTestCase
 {
     public Velocity629TestCase(String name)
     {

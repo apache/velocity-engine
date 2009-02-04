@@ -25,14 +25,14 @@ import org.apache.velocity.VelocityContext;
 /**
  * Used to check that vararg method calls on references work properly
  */
-public class VarargMethodsTestCase extends BaseEvalTestCase
+public class VarargMethodsTestCase extends BaseTestCase
 {
     public VarargMethodsTestCase(final String name)
     {
         super(name);
     }
 
-    protected void setContext(VelocityContext context)
+    protected void setUpContext(VelocityContext context)
     {
         context.put("nice", new NiceTool());
         context.put("nasty", new NastyTool());

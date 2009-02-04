@@ -28,7 +28,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * Test strict reference mode turned on by the velocity property
  * runtime.references.strict
  */
-public class StrictReferenceTestCase extends BaseEvalTestCase
+public class StrictReferenceTestCase extends BaseTestCase
 {
     public StrictReferenceTestCase(String name)
     {

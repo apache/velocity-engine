@@ -24,7 +24,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 /**
  * Test index syntax e.g, $foo[1]
  */
-public class IndexTestCase extends BaseEvalTestCase
+public class IndexTestCase extends BaseTestCase
 {
     public IndexTestCase(String name)
     {
