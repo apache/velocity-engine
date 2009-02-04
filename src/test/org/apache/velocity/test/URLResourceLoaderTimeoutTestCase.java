@@ -26,7 +26,7 @@ import org.apache.velocity.test.misc.TestLogChute;
 /**
  * This class tests support for custom timeouts in URLResourceLoader.
  */
-public class URLResourceLoaderTimeoutTestCase extends BaseEvalTestCase
+public class URLResourceLoaderTimeoutTestCase extends BaseTestCase
 {
     private static boolean isJava5plus;
     static

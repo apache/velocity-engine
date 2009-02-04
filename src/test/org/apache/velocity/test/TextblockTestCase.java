@@ -25,7 +25,7 @@ import org.apache.velocity.runtime.parser.node.ASTTextblock;
 /**
  * This class tests the Textblock directive.
  */
-public class TextblockTestCase extends BaseEvalTestCase
+public class TextblockTestCase extends BaseTestCase
 {
     // these are all here so that the test case adapts instantly
     // to changes in the textblock start/end sequences

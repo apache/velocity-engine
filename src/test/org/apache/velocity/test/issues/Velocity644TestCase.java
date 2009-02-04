@@ -19,14 +19,14 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class tests VELOCITY-644.  Make sure the reported filename
  * is correct in exceptions when an error occurs in another template file.
  */
-public class Velocity644TestCase extends BaseEvalTestCase
+public class Velocity644TestCase extends BaseTestCase
 {
     public Velocity644TestCase(String name)
     {

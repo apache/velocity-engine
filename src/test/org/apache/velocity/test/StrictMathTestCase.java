@@ -26,7 +26,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 /**
  * This class tests support for strict math mode.
  */
-public class StrictMathTestCase extends BaseEvalTestCase
+public class StrictMathTestCase extends BaseTestCase
 {
     public StrictMathTestCase(String name)
     {

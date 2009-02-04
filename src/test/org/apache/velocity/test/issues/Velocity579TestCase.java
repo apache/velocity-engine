@@ -19,13 +19,13 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 
 /**
  * This class tests VELOCITY-579 and with some related stuff
  * from VELOCITY-70 thrown in.
  */
-public class Velocity579TestCase extends BaseEvalTestCase
+public class Velocity579TestCase extends BaseTestCase
 {
     public Velocity579TestCase(String name)
     {

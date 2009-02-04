@@ -19,7 +19,7 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
@@ -27,7 +27,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * Error message reports correct line numbers.
  */
 
-public class Velocity627TestCase extends BaseEvalTestCase
+public class Velocity627TestCase extends BaseTestCase
 {
     public Velocity627TestCase(String name)
     {

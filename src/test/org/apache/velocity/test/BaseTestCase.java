@@ -21,35 +21,272 @@ package org.apache.velocity.test;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import junit.framework.TestCase;
-
 import org.apache.oro.text.perl.Perl5Util;
-import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.util.StringUtils;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /**
- * Base test case that provides a few utility methods for
+ * Base test case that provides utility methods for
  * the rest of the tests.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @author Nathan Bubna
  * @version $Id$
  */
-public abstract class BaseTestCase
-        extends TestCase
-        implements TemplateTestBase
+public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 {
-    /**
-     *  used for nomalization of output and compare data
-     */
-    private Perl5Util perl = new Perl5Util();
+    protected VelocityEngine engine;
+    protected VelocityContext context;
+    protected boolean DEBUG = false;
+    protected TestLogChute log;
 
-    /**
-     * Default constructor.
-     */
     public BaseTestCase(String name)
     {
         super(name);
+
+        // if we're just running one case, then have DEBUG
+        // automatically set to true
+        String testcase = System.getProperty("testcase");
+        if (testcase != null)
+        {
+            DEBUG = testcase.equals(getClass().getName());
+        }
+    }
+
+    protected void setUp() throws Exception
+    {
+        engine = new VelocityEngine();
+
+        //by default, make the engine's log output go to the test-report
+        log = new TestLogChute(false, false);
+        log.setEnabledLevel(TestLogChute.INFO_ID);
+        log.setSystemErrLevel(TestLogChute.WARN_ID);
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, log);
+        setUpEngine(engine);
+
+        context = new VelocityContext();
+        setUpContext(context);
+    }
+
+    protected void setUpEngine(VelocityEngine engine)
+    {
+        // extension hook
+    }
+
+    protected void setUpContext(VelocityContext context)
+    {
+        // extension hook
+    }
+
+    public void tearDown()
+    {
+        engine = null;
+        context = null;
+    }
+
+    protected void info(String msg)
+    {
+        if (DEBUG)
+        {
+            if (engine == null)
+            {
+                Velocity.getLog().info(msg);
+            }
+            else
+            {
+                engine.getLog().info(msg);
+            }
+        }
+    }
+
+    protected void info(String msg, Throwable t)
+    {
+        if (DEBUG)
+        {
+            if (engine == null)
+            {
+                Velocity.getLog().info(msg);
+            }
+            else
+            {
+                engine.getLog().info(msg, t);
+            }
+        }
+    }
+
+    public void testBase()
+    {
+        if (DEBUG)
+        {
+            assertSchmoo("");
+            assertSchmoo("abc\n123");
+        }
+    }
+
+    /**
+     * Compare an expected string with the given loaded template
+     */
+    protected void assertTmplEquals(String expected, String template)
+    {        
+        info("Expected:  '" + expected + "'");
+
+        StringWriter writer = new StringWriter();
+        try
+        {          
+            engine.mergeTemplate(template, "utf-8", context, writer);
+        }
+        catch (RuntimeException re)
+        {
+            info("RuntimeException!", re);
+            throw re;
+        }
+        catch (Exception e)
+        {
+            info("Exception!", e);
+            throw new RuntimeException(e);
+        }        
+
+        info("Result:  '" + writer.toString() + "'");
+        assertEquals(expected, writer.toString());  
+    }
+    
+    /**
+     * Ensure that a context value is as expected.
+     */
+    protected void assertContextValue(String key, Object expected)
+    {
+        info("Expected value of '"+key+"': "+expected);
+        Object value = context.get(key);
+        info("Result: "+value);
+        assertEquals(expected, value);
+    }
+
+    /**
+     * Ensure that a template renders as expected.
+     */
+    protected void assertEvalEquals(String expected, String template)
+    {
+        info("Expectation: "+expected);
+        assertEquals(expected, evaluate(template));
+    }
+
+    /**
+     * Ensure that the given string renders as itself when evaluated.
+     */
+    protected void assertSchmoo(String templateIsExpected)
+    {
+        assertEvalEquals(templateIsExpected, templateIsExpected);
+    }
+
+    /**
+     * Ensure that an exception occurs when the string is evaluated.
+     */
+    protected Exception assertEvalException(String evil)
+    {
+        return assertEvalException(evil, null);
+    }
+
+    /**
+     * Ensure that a specified type of exception occurs when evaluating the string.
+     */
+    protected Exception assertEvalException(String evil, Class exceptionType)
+    {
+        try
+        {
+            if (!DEBUG)
+            {
+                log.off();
+            }
+            if (exceptionType != null)
+            {
+                info("Expectation: "+exceptionType.getName());
+            }
+            evaluate(evil);
+            fail("Template '"+evil+"' should have thrown an exception.");
+        }
+        catch (Exception e)
+        {
+            if (exceptionType != null && !exceptionType.isAssignableFrom(e.getClass()))
+            {
+                fail("Was expecting template '"+evil+"' to throw "+exceptionType+" not "+e);
+            }
+            return e;
+        }
+        finally
+        {
+            if (!DEBUG)
+            {
+                log.on();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Ensure that the error message of the expected exception has the proper location info.
+     */
+    protected Exception assertEvalExceptionAt(String evil, String template,
+                                              int line, int col)
+    {
+        String loc = template+"[line "+line+", column "+col+"]";
+        info("Expectation: Exception at "+loc);
+        Exception e = assertEvalException(evil);
+
+        info("Result: "+e.getClass().getName()+" - "+e.getMessage());
+        if (e.getMessage().indexOf(loc) < 1)
+        {
+            fail("Was expecting exception at "+loc+" instead of "+e.getMessage());
+        }
+        return e;
+    }
+
+    /**
+     * Only ensure that the error message of the expected exception
+     * has the proper line and column info.
+     */
+    protected Exception assertEvalExceptionAt(String evil, int line, int col)
+    {
+         return assertEvalExceptionAt(evil, "", line, col);
+    }
+
+    /**
+     * Evaluate the specified String as a template and return the result as a String.
+     */
+    protected String evaluate(String template)
+    {
+        StringWriter writer = new StringWriter();
+        try
+        {
+            info("Template: "+template);
+
+            // use template as its own name, since our templates are short
+            // unless it's not that short, then shorten it...
+            String name = (template.length() <= 15) ? template : template.substring(0,15);
+            engine.evaluate(context, writer, name, template);
+
+            String result = writer.toString();
+            info("Result: "+result);
+            return result;
+        }
+        catch (RuntimeException re)
+        {
+            info("RuntimeException!", re);
+            throw re;
+        }
+        catch (Exception e)
+        {
+            info("Exception!", e);
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -57,19 +294,17 @@ public abstract class BaseTestCase
      *
      * @return The full path to the file.
      */
-    protected static String getFileName (final String dir, final String base, final String ext)
+    protected String getFileName(final String dir, final String base, final String ext)
     {
         return getFileName(dir, base, ext, false);
     }
 
-    protected static String getFileName (final String dir, final String base, final String ext, final boolean mustExist)
+    protected String getFileName(final String dir, final String base, final String ext, final boolean mustExist)
     {
         StringBuffer buf = new StringBuffer();
-
         try
         {
             File baseFile = new File(base);
-
             if (dir != null)
             {
                 if (!baseFile.isAbsolute())
@@ -95,12 +330,16 @@ public abstract class BaseTestCase
 
                 if (!testFile.exists())
                 {
-                    fail("getFileName() result " + testFile.getPath() + " does not exist!");
+                    String msg = "getFileName() result " + testFile.getPath() + " does not exist!";
+                    info(msg);
+                    fail(msg);
                 }
 
                 if (!testFile.isFile())
                 {
-                    fail("getFileName() result " + testFile.getPath() + " is not a file!");
+                    String msg = "getFileName() result " + testFile.getPath() + " is not a file!";
+                    info(msg);
+                    fail(msg);
                 }
             }
         }
@@ -116,31 +355,32 @@ public abstract class BaseTestCase
      * Assures that the results directory exists.  If the results directory
      * cannot be created, fails the test.
      */
-    protected static void assureResultsDirectoryExists (String resultsDirectory)
+    protected void assureResultsDirectoryExists(String resultsDirectory)
     {
         File dir = new File(resultsDirectory);
         if (!dir.exists())
         {
-            String msg = "Template results directory ("+resultsDirectory+")does not exist";
-            RuntimeSingleton.getLog().info(msg);
+            info("Template results directory ("+resultsDirectory+") does not exist");
             if (dir.mkdirs())
             {
-                RuntimeSingleton.getLog().info("Created template results directory");
-//caveman hack to get gump to give more info
-System.out.println("Created template results directory: "+resultsDirectory);
+                info("Created template results directory");
+                if (DEBUG)
+                {
+                    info("Created template results directory: "+resultsDirectory);
+                }
             }
             else
             {
-                String errMsg = "Unable to create template results directory";
-                RuntimeSingleton.getLog().warn(errMsg);
-//caveman hack to get gump to give more info
-System.out.println(errMsg);
+                String errMsg = "Unable to create '"+resultsDirectory+"'";
+                info(errMsg);
                 fail(errMsg);
             }
         }
     }
 
 
+    //TODO: drop this for JDK regex once we move to JDK 1.5
+    private static Perl5Util perl = new Perl5Util();
     /**
      * Normalizes lines to account for platform differences.  Macs use
      * a single \r, DOS derived operating systems use \r\n, and Unix
@@ -167,20 +407,17 @@ System.out.println(errMsg);
                                String compareDir,
                                String baseFileName,
                                String resultExt,
-                               String compareExt)
-        throws Exception
+                               String compareExt) throws Exception
     {
-        String result = StringUtils.fileContentsToString
-                (getFileName(resultsDir, baseFileName, resultExt, true));
-
+        String result = getFileContents(resultsDir, baseFileName, resultExt);
         return isMatch(result,compareDir,baseFileName,compareExt);
     }
 
 
     protected String getFileContents(String dir, String baseFileName, String ext)
     {
-        return StringUtils
-            .fileContentsToString(getFileName(dir, baseFileName, ext, true));
+        String fileName = getFileName(dir, baseFileName, ext, true);
+        return StringUtils.fileContentsToString(fileName);
     }
 
     /**
@@ -192,31 +429,31 @@ System.out.println(errMsg);
      *
      * @exception Exception Test failure condition.
      */
-    protected boolean isMatch (
-                               String result,
+    protected boolean isMatch (String result,
                                String compareDir,
                                String baseFileName,
-                               String compareExt)
-        throws Exception
+                               String compareExt) throws Exception
     {
-        String compare = StringUtils.fileContentsToString
-                (getFileName(compareDir, baseFileName, compareExt, true));
+        String compare = getFileContents(compareDir, baseFileName, compareExt);
 
-        /*
-         *  normalize each wrt newline
-         */
-
-        return normalizeNewlines(result).equals(
-                           normalizeNewlines( compare ) );
+        // normalize each wrt newline
+        result = normalizeNewlines(result);
+        compare = normalizeNewlines(compare);
+        if (DEBUG)
+        {
+            info("Expection: "+compare);
+            info("Result: "+result);
+        }
+        return result.equals(compare);
     }
 
-        /**
+    /**
      * Turns a base file name into a test case name.
      *
      * @param s The base file name.
      * @return  The test case name.
      */
-    protected  static final String getTestCaseName (String s)
+    protected static final String getTestCaseName(String s)
     {
         StringBuffer name = new StringBuffer();
         name.append(Character.toTitleCase(s.charAt(0)));

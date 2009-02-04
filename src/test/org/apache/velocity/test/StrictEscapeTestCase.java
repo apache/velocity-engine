@@ -26,7 +26,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
  * Test Strict escape mode
  * property: RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE set to true
  */
-public class StrictEscapeTestCase extends BaseEvalTestCase
+public class StrictEscapeTestCase extends BaseTestCase
 {
   public StrictEscapeTestCase(String name)
   {
@@ -40,7 +40,7 @@ public class StrictEscapeTestCase extends BaseEvalTestCase
       context.put("pow", "bang");
       context.put("NULL", null);
       context.put("animal", new Animal());
-      DEBUG = true;
+      // DEBUG = true;
   }
   
   public void testReferenceEscape()

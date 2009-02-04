@@ -24,14 +24,15 @@ import org.apache.velocity.VelocityContext;
 /**
  * Used to check that vararg method calls on references work properly
  */
-public class PropertyMethodPrecedenceTestCase extends BaseEvalTestCase
+public class PropertyMethodPrecedenceTestCase extends BaseTestCase
 {
     public PropertyMethodPrecedenceTestCase(final String name)
     {
         super(name);
+        // DEBUG = true;
     }
 
-    protected void setContext(VelocityContext context)
+    protected void setUpContext(VelocityContext context)
     {
         context.put("geta", new getGetgetisTool());
         context.put("getA", new GetgetisTool());

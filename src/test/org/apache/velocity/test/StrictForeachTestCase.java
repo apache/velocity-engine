@@ -28,7 +28,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 /**
  * This class tests support for strict foreach mode.
  */
-public class StrictForeachTestCase extends BaseEvalTestCase
+public class StrictForeachTestCase extends BaseTestCase
 {
     public StrictForeachTestCase(String name)
     {

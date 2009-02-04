@@ -19,11 +19,6 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import java.io.StringWriter;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.runtime.parser.node.ASTStringLiteral;
 
@@ -32,41 +27,14 @@ import org.apache.velocity.runtime.parser.node.ASTStringLiteral;
  */
 public class UnicodeEscapeTestCase extends BaseTestCase
 {
-    private VelocityEngine engine;
-    private VelocityContext context;
-
     public UnicodeEscapeTestCase(final String name) throws Exception
     {
         super(name);
     }
 
-    public static Test suite()
-    {
-        return new TestSuite(UnicodeEscapeTestCase.class);
-    }
-
-    public void setUp() throws Exception
-    {
-        engine = new VelocityEngine();
-        context = new VelocityContext();
-    }
-
-    public void tearDown()
-    {
-        engine = null;
-        context = null;
-    }
-
-    private String evaluate(String template) throws Exception
-    {
-        StringWriter writer = new StringWriter();
-        engine.evaluate(context, writer, "test", template);
-        return writer.toString();
-    }
-
     public void testUnicodeEscape() throws Exception
     {
-        assertEquals("a", evaluate("#set($v = \"\\u0061\")$v"));
+        assertEvalEquals("a", "#set($v = \"\\u0061\")$v");
     }
 
     private void assertUnescape(String expected, String escaped)

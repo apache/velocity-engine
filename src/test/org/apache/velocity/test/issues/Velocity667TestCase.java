@@ -19,13 +19,13 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class tests VELOCITY-667.  Make "#macro" throws a parse exception
  */
-public class Velocity667TestCase extends BaseEvalTestCase
+public class Velocity667TestCase extends BaseTestCase
 {
     public Velocity667TestCase(String name)
     {

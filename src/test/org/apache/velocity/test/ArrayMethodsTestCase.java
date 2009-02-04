@@ -29,10 +29,8 @@ import java.util.List;
  * and that they produce the same results as the same methods would on
  * a fixed-size {@link List}.
  */
-public class ArrayMethodsTestCase extends BaseEvalTestCase
+public class ArrayMethodsTestCase extends BaseTestCase
 {
-    private final static boolean PRINT_RESULTS = false;
-
     public ArrayMethodsTestCase(final String name)
     {
         super(name);
@@ -105,11 +103,8 @@ public class ArrayMethodsTestCase extends BaseEvalTestCase
             context.remove("setme");
         }
 
-        if (PRINT_RESULTS)
-        {
-            System.out.println("Changing to an array of: " + array.getClass().getComponentType());
-            System.out.println("Changing setme to: " + setme);
-        }
+        info("Changing to an array of: " + array.getClass().getComponentType());
+        info("Changing setme to: " + setme);
 
         int size = Array.getLength(array);
         checkResult("size()", String.valueOf(size), compareToList);
@@ -180,13 +175,10 @@ public class ArrayMethodsTestCase extends BaseEvalTestCase
             assertEquals(result, listResult);
         }
 
-        if (PRINT_RESULTS)
+        info("    <$!array."+method+"> resolved to <"+result+">");
+        if (compareToList)
         {
-            System.out.println("    <$!array."+method+"> resolved to <"+result+">");
-            if (compareToList)
-            {
-                System.out.println("    <$!list."+method+"> resolved to "+listResult+">");
-            }
+            info("    <$!list."+method+"> resolved to "+listResult+">");
         }
     }
 

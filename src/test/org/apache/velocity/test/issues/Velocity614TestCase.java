@@ -21,12 +21,12 @@ package org.apache.velocity.test.issues;
 
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.TemplateInitException;
-import org.apache.velocity.test.BaseEvalTestCase;
+import org.apache.velocity.test.BaseTestCase;
 
 /**
  * This class tests VELOCITY-614.
  */
-public class Velocity614TestCase extends BaseEvalTestCase
+public class Velocity614TestCase extends BaseTestCase
 {
     public Velocity614TestCase(String name)
     {

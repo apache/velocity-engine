@@ -24,7 +24,7 @@ import org.apache.velocity.VelocityContext;
 /**
  * This class tests the #define directive
  */
-public class DefineTestCase extends BaseEvalTestCase
+public class DefineTestCase extends BaseTestCase
 {
     public DefineTestCase(String name)
     {
