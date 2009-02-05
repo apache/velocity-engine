@@ -45,20 +45,20 @@ public class Velocity62TestCase extends BaseTestCase
         String template = "#macro( outer )#set( $foo = 'bar' )#inner()#end"+
                           "#macro( inner )$foo#end"+
                           "#inner()#outer()#inner()";
-        assertEvalEquals("foobarfoo", template);
+        assertEvalEquals("foofoofoo", template);
     }
 
     public void testRecursive()
     {
         context.put("i", new Integer(1));
-        String template = "#macro( recurse )"+
+        String template = "#macro(recurse $i)"+
                             "$i"+
                             "#if( $i < 5 )"+
                               "#set( $i = $i + 1 )"+
-                              "#recurse()"+
+                              "#recurse($i)"+
                             "#end"+
                           "#end"+
-                          "#recurse()";
+                          "#recurse(1)";
         assertEvalEquals("12345", template);
     }
 

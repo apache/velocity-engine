@@ -63,7 +63,7 @@ public class Velocity615TestCase extends BaseTestCase
                             "$a"+
                           "#end"+
                           "#test( \"$i\" )$i";
-        assertEvalEquals("012", template);
+        assertEvalEquals("001", template);
     }
 
     public void testForIrrationallyFearedRelatedPossibleProblem2()
@@ -75,7 +75,7 @@ public class Velocity615TestCase extends BaseTestCase
                             "$a"+
                           "#end"+
                           "#test( \"$i\" )$i";
-        assertEvalEquals("aa0", template);
+        assertEvalEquals("aa1", template);
     }
 
     public void testForIrrationallyFearedRelatedPossibleProblem3()
@@ -97,7 +97,7 @@ public class Velocity615TestCase extends BaseTestCase
                             "$a"+
                           "#end"+
                           "#test( $i.plus() )$i";
-        assertEvalEquals("012", template);
+        assertEvalEquals("001", template);
     }
 
     public void testForIrrationallyFearedRelatedPossibleProblem5()

@@ -22,7 +22,6 @@ package org.apache.velocity.runtime.directive;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.ProxyVMContext;
 import org.apache.velocity.exception.MacroOverflowException;
@@ -33,8 +32,6 @@ import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
-import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
@@ -153,7 +150,7 @@ public class VelocimacroProxy extends Directive
         // wrap the current context and add the macro arguments
 
         // the creation of this context is a major bottleneck (incl 2x HashMap)
-        final ProxyVMContext vmc = new ProxyVMContext(context, rsvc, localContextScope);
+        final ProxyVMContext vmc = new ProxyVMContext(context, localContextScope);
 
         int callArguments = node.jjtGetNumChildren();
 
@@ -162,23 +159,16 @@ public class VelocimacroProxy extends Directive
             // the 0th element is the macro name
             for (int i = 1; i < argArray.length && i <= callArguments; i++)
             {
-                /*
-                 * literalArgArray[i] is needed for "render literal if null" functionality.
-                 * The value is used in ASTReference render-method.
-                 * 
-                 * The idea is to avoid generating the literal until absolutely necessary.
-                 * 
-                 * This makes VMReferenceMungeVisitor obsolete and it would not work anyway 
-                 * when the macro AST is shared
-                 */
-                vmc.addVMProxyArg(context, argArray[i], literalArgArray[i], node.jjtGetChild(i - 1));
+                // Add argument name and value to the new macro context
+                vmc.put(argArray[i], node.jjtGetChild(i - 1).value(context));
             }
         }
         
-        // if this macro was invoked by a call directive, we might have a body AST here. Put it into context.
+        // if this macro was invoked by a call directive, we might have a body AST here. 
+        // Put it into context.
         if( body != null )
         {
-            vmc.addVMProxyArg(context, bodyReference, "", body);
+            vmc.put(bodyReference, body);
         }
 
         /*
