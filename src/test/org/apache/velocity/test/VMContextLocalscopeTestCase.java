@@ -48,7 +48,7 @@ public class VMContextLocalscopeTestCase extends TestCase {
         VelocityContext base = new VelocityContext();
         base.put("outsideVar", "value1");
 
-        ProxyVMContext vm = new ProxyVMContext(new InternalContextAdapterImpl(base), this.instance, true);
+        ProxyVMContext vm = new ProxyVMContext(new InternalContextAdapterImpl(base), true);
         vm.put("newLocalVar", "value2");
 
         // New variable put doesn't leak
