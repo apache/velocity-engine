@@ -19,7 +19,6 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
-import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
 
 /**
@@ -43,9 +42,4 @@ public interface UberspectLoggable
      */
     public void setLog(Log log);
 
-    /**
-     * @param logger
-     * @deprecated Use setLog(Log log) instead.
-     */
-    public void setRuntimeLogger(RuntimeLogger logger);
 }

@@ -23,9 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
@@ -55,19 +53,6 @@ public class PropertyExecutor extends AbstractExecutor
         {
             discover(clazz, property);
         }
-    }
-
-    /**
-     * @param r
-     * @param introspector
-     * @param clazz
-     * @param property
-     * @deprecated RuntimeLogger is deprecated. Use the other constructor.
-     */
-    public PropertyExecutor(final RuntimeLogger r, final Introspector introspector,
-            final Class clazz, final String property)
-    {
-        this(new RuntimeLoggerLog(r), introspector, clazz, property);
     }
 
     /**

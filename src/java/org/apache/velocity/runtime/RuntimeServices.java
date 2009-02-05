@@ -51,7 +51,7 @@ import org.apache.velocity.util.introspection.Uberspect;
  * @author <a href="mailto:geirm@optonline.net">Geir Magusson Jr.</a>
  * @version $Id$
  */
-public interface RuntimeServices extends RuntimeLogger
+public interface RuntimeServices
 {
 
    /**
@@ -359,25 +359,6 @@ public interface RuntimeServices extends RuntimeLogger
      * @return VelocimacroProxy
      */
     public Directive getVelocimacro( String vmName, String templateName, String renderingTemplate  );
-
-   /**
-     * Adds a new Velocimacro. Usually called by Macro only while parsing.
-     *
-     * @param name  Name of velocimacro
-     * @param macro  String form of macro body
-     * @param argArray  Array of strings, containing the
-     *                         #macro() arguments.  the 0th is the name.
-     * @param sourceTemplate
-     * 
-     * @deprecated Use addVelocimacro(String, Node, String[], String) instead
-     *                   
-     * @return boolean  True if added, false if rejected for some
-     *                  reason (either parameters or permission settings)
-     */
-    public boolean addVelocimacro( String name,
-                                          String macro,
-                                          String argArray[],
-                                          String sourceTemplate );
 
     /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.

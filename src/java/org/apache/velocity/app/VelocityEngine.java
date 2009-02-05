@@ -200,53 +200,6 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     *  Renders the input stream using the context into the output writer.
-     *  To be used when a template is dynamically constructed, or want to
-     *  use Velocity as a token replacer.
-     *
-     *  @param context context to use in rendering input string
-     *  @param writer  Writer in which to render the output
-     *  @param logTag  string to be used as the template name for log messages
-     *                 in case of error
-     *  @param instream input stream containing the VTL to be rendered
-     *
-     *  @return true if successful, false otherwise.  If false, see
-     *               Velocity runtime log
-     * @throws ParseErrorException
-     * @throws MethodInvocationException
-     * @throws ResourceNotFoundException
-     * @throws IOException
-     *  @deprecated Use
-     *  {@link #evaluate( Context context, Writer writer,
-     *      String logTag, Reader reader ) }
-     */
-    public boolean evaluate( Context context, Writer writer,
-                                    String logTag, InputStream instream )
-        throws ParseErrorException, MethodInvocationException,
-            ResourceNotFoundException, IOException
-    {
-        /*
-         *  first, parse - convert ParseException if thrown
-         */
-        BufferedReader br  = null;
-        String encoding = null;
-
-        try
-        {
-            encoding = ri.getString(INPUT_ENCODING,ENCODING_DEFAULT);
-            br = new BufferedReader(  new InputStreamReader( instream, encoding));
-        }
-        catch( UnsupportedEncodingException  uce )
-        {
-            String msg = "Unsupported input encoding : " + encoding
-                + " for template " + logTag;
-            throw new ParseErrorException( msg );
-        }
-
-        return evaluate( context, writer, logTag, br );
-    }
-
-    /**
      *  Renders the input reader using the context into the output writer.
      *  To be used when a template is dynamically constructed, or want to
      *  use Velocity as a token replacer.
@@ -293,32 +246,6 @@ public class VelocityEngine implements RuntimeConstants
                                               Writer writer )
     {
         return ri.invokeVelocimacro(vmName, logTag, params, context, writer);
-    }
-
-    /**
-     *  Merges a template and puts the rendered stream into the writer.
-     *  The default encoding that Velocity uses to read template files is defined in
-     *  the property input.encoding and defaults to ISO-8859-1.
-     *
-     *  @param templateName name of template to be used in merge
-     *  @param context  filled context to be used in merge
-     *  @param  writer  writer to write template into
-     *
-     *  @return true if successful, false otherwise.  Errors
-     *           logged to velocity log.
-     * @throws ResourceNotFoundException
-     * @throws ParseErrorException
-     * @throws MethodInvocationException
-     * @deprecated Use
-     *  {@link #mergeTemplate( String templateName, String encoding,
-     *                Context context, Writer writer )}
-     */
-    public boolean mergeTemplate( String templateName,
-                                         Context context, Writer writer )
-        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
-    {
-        return mergeTemplate( templateName, ri.getString(INPUT_ENCODING,ENCODING_DEFAULT),
-                               context, writer );
     }
 
     /**
@@ -414,18 +341,6 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     * @param resourceName
-     * @return True if the template exists.
-     * @see #resourceExists(String)
-     * @deprecated Use resourceExists(String) instead.
-     */
-    public boolean templateExists(String resourceName)
-    {
-        return resourceExists(resourceName);
-    }
-
-
-    /**
      * Returns a convenient Log instance that wraps the current LogChute.
      * Use this to log error messages. It has the usual methods you'd expect.
      * @return A log object.
@@ -434,42 +349,6 @@ public class VelocityEngine implements RuntimeConstants
     public Log getLog()
     {
         return ri.getLog();
-    }
-
-    /**
-     * @param message
-     * @deprecated Use getLog() and call warn() on it.
-     */
-    public void warn(Object message)
-    {
-        getLog().warn(message);
-    }
-
-    /**
-     * @param message
-     * @deprecated Use getLog() and call warn() on it.
-     */
-    public void info(Object message)
-    {
-        getLog().info(message);
-    }
-
-    /**
-     * @param message
-     * @deprecated Use getLog() and call warn() on it.
-     */
-    public void error(Object message)
-    {
-        getLog().error(message);
-    }
-
-    /**
-     * @param message
-     * @deprecated Use getLog() and call warn() on it.
-     */
-    public void debug(Object message)
-    {
-        getLog().debug(message);
     }
 
     /**

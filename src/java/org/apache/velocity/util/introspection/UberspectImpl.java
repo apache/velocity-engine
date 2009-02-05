@@ -28,9 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 import org.apache.velocity.runtime.parser.node.AbstractExecutor;
 import org.apache.velocity.runtime.parser.node.BooleanPropertyExecutor;
 import org.apache.velocity.runtime.parser.node.GetExecutor;
@@ -84,17 +82,6 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     public void setLog(Log log)
     {
         this.log = log;
-    }
-
-    /**
-     * @param runtimeLogger
-     * @deprecated Use setLog(Log log) instead.
-     */
-    public void setRuntimeLogger(RuntimeLogger runtimeLogger)
-    {
-        // in the off chance anyone still uses this method
-        // directly, use this hack to keep it working
-        setLog(new RuntimeLoggerLog(runtimeLogger));
     }
 
     /**

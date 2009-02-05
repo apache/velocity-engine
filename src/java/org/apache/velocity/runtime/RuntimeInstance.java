@@ -244,7 +244,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             initializing = true;
 
             log.trace("*******************************************************************");
-            log.debug("Starting Apache Velocity v@build.version@ (compiled: @build.time@)");
+            log.debug("Starting Apache Velocity v2.0-dev (compiled: 2009-02-05 07:40:05)");
             log.trace("RuntimeInstance initializing.");
 
             initializeProperties();
@@ -1554,46 +1554,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     * @deprecated Use getLog() and call warn() on it.
-     * @see Log#warn(Object)
-     * @param message The message to log.
-     */
-    public void warn(Object message)
-    {
-        getLog().warn(message);
-    }
-
-    /**
-     * @deprecated Use getLog() and call info() on it.
-     * @see Log#info(Object)
-     * @param message The message to log.
-     */
-    public void info(Object message)
-    {
-        getLog().info(message);
-    }
-
-    /**
-     * @deprecated Use getLog() and call error() on it.
-     * @see Log#error(Object)
-     * @param message The message to log.
-     */
-    public void error(Object message)
-    {
-        getLog().error(message);
-    }
-
-    /**
-     * @deprecated Use getLog() and call debug() on it.
-     * @see Log#debug(Object)
-     * @param message The message to log.
-     */
-    public void debug(Object message)
-    {
-        getLog().debug(message);
-    }
-
-    /**
      * String property accessor method with default to hide the
      * configuration implementation.
      *
@@ -1638,29 +1598,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Directive getVelocimacro(String vmName, String templateName, String renderingTemplate)
     {
         return vmFactory.getVelocimacro( vmName, templateName, renderingTemplate );
-    }
-    
-    
-   /**
-    * Adds a new Velocimacro. Usually called by Macro only while parsing.
-    *
-    * @param name Name of velocimacro
-    * @param macro String form of macro body
-    * @param argArray Array of strings, containing the
-    *                         #macro() arguments.  the 0th is the name.
-    * @param sourceTemplate Name of the template that contains the velocimacro.
-    * 
-    * @deprecated Use addVelocimacro(String, Node, String[], String) instead
-    * 
-    * @return True if added, false if rejected for some
-    *                  reason (either parameters or permission settings)
-    */
-    public boolean addVelocimacro( String name,
-                                          String macro,
-                                          String argArray[],
-                                          String sourceTemplate )
-    {
-        return vmFactory.addVelocimacro(name.intern(), macro,  argArray,  sourceTemplate);
     }
 
     /**

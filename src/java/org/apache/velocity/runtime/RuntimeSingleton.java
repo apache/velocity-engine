@@ -385,46 +385,6 @@ public class RuntimeSingleton implements RuntimeConstants
     }
 
     /**
-     * @deprecated Use getLog() and call warn() on it.
-     * @see Log#warn(Object)
-     * @param message The message to log.
-     */
-    public static void warn(Object message)
-    {
-        getLog().warn(message);
-    }
-
-    /**
-     * @deprecated Use getLog() and call info() on it.
-     * @see Log#info(Object)
-     * @param message The message to log.
-     */
-    public static void info(Object message)
-    {
-        getLog().info(message);
-    }
-
-    /**
-     * @deprecated Use getLog() and call error() on it.
-     * @see Log#error(Object)
-     * @param message The message to log.
-     */
-    public static void error(Object message)
-    {
-        getLog().error(message);
-    }
-
-    /**
-     * @deprecated Use getLog() and call debug() on it.
-     * @see Log#debug(Object)
-     * @param message The message to log.
-     */
-    public static void debug(Object message)
-    {
-        getLog().debug(message);
-    }
-
-    /**
      * String property accessor method with default to hide the
      * configuration implementation.
      *
@@ -470,29 +430,6 @@ public class RuntimeSingleton implements RuntimeConstants
                                          String argArray[], String sourceTemplate)
     {
         return ri.addVelocimacro(name, macro, argArray, sourceTemplate);
-    }
-
-   /**
-    * Adds a new Velocimacro. Usually called by Macro only while parsing.
-    *
-    * @param name Name of velocimacro
-    * @param macro String form of macro body
-    * @param argArray Array of strings, containing the
-    *                         #macro() arguments.  the 0th is the name.
-    * @param sourceTemplate Name of the template that contains the velocimacro.
-    * @return True if added, false if rejected for some
-    *                  reason (either parameters or permission settings)
-    *                  
-    * @deprecated Use addVelocimacro(String, Node, String[], String) instead                  
-    *                  
-    * @see RuntimeInstance#addVelocimacro(String, String, String[], String)
-    */
-    public static boolean addVelocimacro( String name,
-                                          String macro,
-                                          String argArray[],
-                                          String sourceTemplate )
-    {
-        return ri.addVelocimacro( name, macro, argArray, sourceTemplate );
     }
 
     /**
@@ -640,12 +577,4 @@ public class RuntimeSingleton implements RuntimeConstants
         return ri.getUberspect();
     }
 
-    /**
-     * @deprecated Use getRuntimeServices() instead.
-     * @return The RuntimeInstance used by this Singleton.
-     */
-    public static RuntimeInstance getRuntimeInstance()
-    {
-        return ri;
-    }
 }

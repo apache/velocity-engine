@@ -563,29 +563,6 @@ public class ResourceManagerImpl
     }
 
     /**
-     * Gets the named resource. Returned class type corresponds to specified type (i.e. <code>Template</code> to <code>
-     * RESOURCE_TEMPLATE</code>).
-     *
-     * @param  resourceName  The name of the resource to retrieve.
-     * @param  resourceType  The type of resource (<code>RESOURCE_TEMPLATE</code>, <code>RESOURCE_CONTENT</code>, etc.).
-     *
-     * @return  Resource with the template parsed and ready.
-     *
-     * @throws  ResourceNotFoundException  if template not found from any available source.
-     * @throws  ParseErrorException  if template cannot be parsed due to syntax (or other) error.
-     * @throws  Exception  if a problem in parse
-     *
-     * @deprecated  Use {@link #getResource(String resourceName, int resourceType, String encoding )}
-     */
-    public Resource getResource(String resourceName, int resourceType)
-        throws ResourceNotFoundException,
-            ParseErrorException,
-            Exception
-    {
-        return getResource(resourceName, resourceType, RuntimeConstants.ENCODING_DEFAULT);
-    }
-
-    /**
      * Determines if a template exists, and returns name of the loader that provides it. This is a slightly less hokey way to
      * support the Velocity.templateExists() utility method, which was broken when per-template encoding was introduced. We can
      * revisit this.

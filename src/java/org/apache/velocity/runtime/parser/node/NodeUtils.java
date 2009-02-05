@@ -35,18 +35,6 @@ import org.apache.velocity.runtime.parser.Token;
 public class NodeUtils
 {
     /**
-     * @deprecated use getSpecialText(Token t)
-     */
-    public static String specialText(Token t)
-    {
-        if (t.specialToken == null || t.specialToken.image.startsWith("##") )
-        {
-            return "";
-        }
-        return getSpecialText(t).toString();
-    }
-
-    /**
      * Collect all the <SPECIAL_TOKEN>s that
      * are carried along with a token. Special
      * tokens do not participate in parsing but
@@ -161,71 +149,4 @@ public class NodeUtils
             return t.image;
         }
     } 
-    
-    /**
-     * Utility method to interpolate context variables
-     * into string literals. So that the following will
-     * work:
-     *
-     * #set $name = "candy"
-     * $image.getURI("${name}.jpg")
-     *
-     * And the string literal argument will
-     * be transformed into "candy.jpg" before
-     * the method is executed.
-     * 
-     * @deprecated this method isn't called by any class
-     * 
-     * @param argStr
-     * @param vars
-     * @return Interpoliation result.
-     * @throws MethodInvocationException
-     */
-    public static String interpolate(String argStr, Context vars) throws MethodInvocationException
-    {
-        // if there's nothing to replace, skip this (saves buffer allocation)
-        if( argStr.indexOf('$') == -1 )
-            return argStr;
-        
-        StrBuilder argBuf = new StrBuilder();
-
-        for (int cIdx = 0, is = argStr.length(); cIdx < is;)
-        {
-            char ch = argStr.charAt(cIdx);
-            
-            if( ch == '$' )
-            {
-                StrBuilder nameBuf = new StrBuilder();
-                for (++cIdx ; cIdx < is; ++cIdx)
-                {
-                    ch = argStr.charAt(cIdx);
-                    if (ch == '_' || ch == '-'
-                        || Character.isLetterOrDigit(ch))
-                        nameBuf.append(ch);
-                    else if (ch == '{' || ch == '}')
-                        continue;
-                    else
-                        break;
-                }
-
-                if (nameBuf.length() > 0)
-                {
-                    Object value = vars.get(nameBuf.toString());
-
-                    if (value == null)
-                        argBuf.append("$").append(nameBuf.toString());
-                    else
-                        argBuf.append(value.toString());
-                }
-                
-            }
-            else
-            {
-                argBuf.append(ch);
-                ++cIdx;
-            }
-        }
-
-        return argBuf.toString();
-    }
 }
