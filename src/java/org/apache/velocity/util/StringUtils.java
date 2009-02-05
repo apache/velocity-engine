@@ -79,40 +79,6 @@ public class StringUtils
 
     /**
      * <p>
-     * Remove underscores from a string and replaces first
-     * letters with capitals.  Other letters are changed to lower case.
-     * </p>
-     *
-     * <p>
-     * For example <code>foo_bar</code> becomes <code>FooBar</code>
-     * but <code>foo_barBar</code> becomes <code>FooBarbar</code>.
-     * </p>
-     *
-     * @param data string to remove underscores from.
-     * @return String
-     * @deprecated Use the org.apache.commons.util.StringUtils class
-     * instead.  Using its firstLetterCaps() method in conjunction
-     * with a StringTokenizer will achieve the same result.
-     */
-    static public String removeUnderScores (String data)
-    {
-        String temp = null;
-        StringBuffer out = new StringBuffer();
-        temp = data;
-
-        StringTokenizer st = new StringTokenizer(temp, "_");
-
-        while (st.hasMoreTokens())
-        {
-            String element = (String) st.nextElement();
-            out.append ( firstLetterCaps(element));
-        }
-
-        return out.toString();
-    }
-
-    /**
-     * <p>
      *  'Camels Hump' replacement of underscores.
      * </p>
      *

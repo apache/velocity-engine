@@ -256,24 +256,6 @@ implements CharStream
     }
 
     /**
-     * @see org.apache.velocity.runtime.parser.CharStream#getColumn()
-     * @deprecated
-     */
-    public final int getColumn() 
-    {
-        return bufcolumn[bufpos];
-    }
-
-    /**
-     * @see org.apache.velocity.runtime.parser.CharStream#getLine()
-     * @deprecated
-     */
-    public final int getLine() 
-    {
-        return bufline[bufpos];
-    }
-
-    /**
      * @see org.apache.velocity.runtime.parser.CharStream#getEndColumn()
      */
     public final int getEndColumn() 

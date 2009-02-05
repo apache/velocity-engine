@@ -121,21 +121,6 @@ public class AvalonLogChute implements LogChute
     }
 
     /**
-     * @param file
-     * @throws Exception
-     * @deprecated This method should not be used. It is here only to provide
-     *             backwards compatibility for the deprecated AvalonLogSystem
-     *             class, in case anyone used it and this method directly.
-     */
-    public void init(String file) throws Exception
-    {
-        logger = Hierarchy.getDefaultHierarchy().getLoggerFor(rsvc.toString());
-        initTarget(file, null);
-        // nag the theoretical user
-        log(DEBUG_ID, "You shouldn't be using the init(String file) method!");
-    }
-
-    /**
      *  logs messages
      *
      *  @param level severity level

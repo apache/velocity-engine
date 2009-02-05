@@ -184,53 +184,6 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     *  Renders the input stream using the context into the output writer.
-     *  To be used when a template is dynamically constructed, or want to
-     *  use Velocity as a token replacer.
-     *
-     *  @param context context to use in rendering input string
-     *  @param writer  Writer in which to render the output
-     *  @param logTag  string to be used as the template name for log messages
-     *                 in case of error
-     *  @param instream input stream containing the VTL to be rendered
-     *
-     *  @return true if successful, false otherwise.  If false, see
-     *               Velocity runtime log
-     *  @deprecated Use
-     *  {@link #evaluate( Context context, Writer writer,
-     *      String logTag, Reader reader ) }
-     * @throws ParseErrorException The template could not be parsed.
-     * @throws MethodInvocationException A method on a context object could not be invoked.
-     * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws IOException While loading a reference, an I/O problem occured.
-     */
-    public static boolean evaluate( Context context, Writer writer,
-                                    String logTag, InputStream instream )
-        throws ParseErrorException, MethodInvocationException,
-            ResourceNotFoundException
-    {
-        /*
-         *  first, parse - convert ParseException if thrown
-         */
-        BufferedReader br  = null;
-        String encoding = null;
-
-        try
-        {
-            encoding = RuntimeSingleton.getString(INPUT_ENCODING,ENCODING_DEFAULT);
-            br = new BufferedReader(  new InputStreamReader( instream, encoding));
-        }
-        catch( UnsupportedEncodingException  uce )
-        {
-            String msg = "Unsupported input encoding : " + encoding
-                + " for template " + logTag;
-            throw new ParseErrorException( msg );
-        }
-
-        return evaluate( context, writer, logTag, br );
-    }
-
-    /**
      *  Renders the input reader using the context into the output writer.
      *  To be used when a template is dynamically constructed, or want to
      *  use Velocity as a token replacer.
@@ -278,33 +231,6 @@ public class Velocity implements RuntimeConstants
     {
         return RuntimeSingleton.getRuntimeServices()
             .invokeVelocimacro(vmName, logTag, params, context, writer);
-    }
-
-    /**
-     *  Merges a template and puts the rendered stream into the writer.
-     *  The default encoding that Velocity uses to read template files is defined in
-     *  the property input.encoding and defaults to ISO-8859-1.
-     *
-     *  @param templateName name of template to be used in merge
-     *  @param context  filled context to be used in merge
-     *  @param  writer  writer to write template into
-     *
-     *  @return true if successful, false otherwise.  Errors
-     *           logged to velocity log.
-     *  @deprecated Use
-     *  {@link #mergeTemplate( String templateName, String encoding,
-     *                Context context, Writer writer )}
-     * @throws ParseErrorException The template could not be parsed.
-     * @throws MethodInvocationException A method on a context object could not be invoked.
-     * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws Exception Any other exception.
-     */
-    public static boolean mergeTemplate( String templateName,
-                                         Context context, Writer writer )
-        throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
-    {
-        return mergeTemplate( templateName, RuntimeSingleton.getString(INPUT_ENCODING,ENCODING_DEFAULT),
-                               context, writer );
     }
 
     /**
@@ -416,46 +342,6 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     * @deprecated Use getLog() and call warn() on it.
-     * @see Log#warn(Object)
-     * @param message The message to log.
-     */
-    public static void warn(Object message)
-    {
-        getLog().warn( message );
-    }
-
-    /**
-     * @deprecated Use getLog() and call info() on it.
-     * @see Log#info(Object)
-     * @param message The message to log.
-     */
-    public static void info(Object message)
-    {
-        getLog().info( message );
-    }
-
-    /**
-     * @deprecated Use getLog() and call error() on it.
-     * @see Log#error(Object)
-     * @param message The message to log.
-     */
-    public static void error(Object message)
-    {
-        getLog().error( message );
-    }
-
-    /**
-     * @deprecated Use getLog() and call debug() on it.
-     * @see Log#debug(Object)
-     * @param message The message to log.
-     */
-    public static void debug(Object message)
-    {
-        getLog().debug( message );
-    }
-
-    /**
      *  <p>
      *  Set the an ApplicationAttribue, which is an Object
      *  set by the application which is accessable from
@@ -478,17 +364,7 @@ public class Velocity implements RuntimeConstants
      */
      public static void setApplicationAttribute( Object key, Object value )
      {
-        RuntimeSingleton.getRuntimeInstance().setApplicationAttribute( key, value);
+        RuntimeSingleton.getRuntimeServices().setApplicationAttribute( key, value);
      }
 
-    /**
-     * @param resourceName Name of the Template to check.
-     * @return True if the template exists.
-     * @see #resourceExists(String)
-     * @deprecated Use resourceExists(String) instead.
-     */
-    public static boolean templateExists(String resourceName)
-    {
-        return resourceExists(resourceName);
-    }
 }

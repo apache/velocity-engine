@@ -20,9 +20,7 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.RuntimeLogger;
 import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.log.RuntimeLoggerLog;
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
@@ -51,19 +49,6 @@ public class BooleanPropertyExecutor extends PropertyExecutor
             final Class clazz, final String property)
     {
         super(log, introspector, clazz, property);
-    }
-
-    /**
-     * @param rlog
-     * @param introspector
-     * @param clazz
-     * @param property
-     * @deprecated RuntimeLogger is deprecated. Use the other constructor.
-     */
-    public BooleanPropertyExecutor(final RuntimeLogger rlog, final Introspector introspector,
-            final Class clazz, final String property)
-    {
-        super(new RuntimeLoggerLog(rlog), introspector, clazz, property);
     }
 
     protected void discover(final Class clazz, final String property)

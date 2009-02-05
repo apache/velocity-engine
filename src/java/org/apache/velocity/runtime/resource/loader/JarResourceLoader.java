@@ -92,23 +92,6 @@ public class JarResourceLoader extends ResourceLoader
         Vector paths = configuration.getVector("path");
         StringUtils.trimStrings(paths);
 
-        /*
-         *  support the old version but deprecate with a log message
-         */
-
-        if( paths == null || paths.size() == 0)
-        {
-            paths = configuration.getVector("resource.path");
-            StringUtils.trimStrings(paths);
-
-            if (paths != null && paths.size() > 0)
-            {
-                log.debug("JarResourceLoader : you are using a deprecated configuration"
-                          + " property for the JarResourceLoader -> '<name>.resource.loader.resource.path'."
-                          + " Please change to the conventional '<name>.resource.loader.path'.");
-            }
-        }
-
         if (paths != null)
         {
             log.debug("JarResourceLoader # of paths : " + paths.size() );
