@@ -27,6 +27,14 @@
   <body>
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="nbubna" issue="VELOCITY-681">
+    Calling #set on a macro argument (for which a #set-able reference
+    was passed) will no longer propagate the new value to the original
+    reference, but merely set the value of the macro argument reference.
+    This was an obscure, infrequently used feature and was decided to be
+    more problematic and unpredictable than useful.
+      </action>
+
       <action type="add" dev="byron"  issue="VELOCITY-688">
 	In strict mode attempts to render references that evaluate to
 	null will throw an exception.  In the user wishes to suppress
@@ -115,6 +123,20 @@
     </release>
 
     <release version="1.6.2" date="In Subversion">
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-689">
+        Fix ClassMap introspection bug introduced in 1.5,
+        where public super-interface methods implemented in
+        protected or private classes were unreachable.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-681">
+        Fix regression in proxying of macro argument #set calls.
+        Note that in 1.7, calling #set on a macro argument (for
+        which a #set-able reference was passed) will not propagate
+        the new value to the original reference, but merely set the
+        value of the macro argument reference.
+      </action>
 
       <action type="fix" dev="nbubna" issue="VELOCITY-682">
         Fix loss of inline macros when #evaluate is used.
