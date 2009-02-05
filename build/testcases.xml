@@ -51,15 +51,12 @@
   <!-- =================================================================== -->
   <target name="test-clean">
     <!-- Delete the results directories -->
-    <delete dir="${build.test}/anakia" quiet="true"/>
     <delete dir="${build.test}/cpload" quiet="true"/>
     <delete dir="${build.test}/multiloader" quiet="true"/>
-    <delete dir="${build.test}/texen" quiet="true"/>
   </target>
 
   <target name="test-all"
-          depends="test-cpload,test-anakia,test-texen,
-                   test-texen-classpath,test-multiloader"/>
+          depends="test-cpload,test-multiloader"/>
 
   <target name="test-cpload">
     <echo message="Running Classpath Resource tests..."/>
@@ -72,96 +69,6 @@
         <pathelement location="${test.dir}/cpload/test2.jar"/>
       </classpath>
     </java>
-  </target>
-
-  <target name="test-anakia">
-    <echo message="Running Anakia tests..."/>
-
-    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask"
-             classpathref="velocity.test.classpath"/>
-
-    <anakia basedir="${test.dir}/anakia/xdocs" destdir="${build.test}/anakia"
-            extension=".html" style="./site.vsl"
-            projectFile="./stylesheets/project.xml"
-            excludes="**/stylesheets/**"
-            includes="**/*.xml"
-            templatePath="${test.dir}/anakia/xdocs/stylesheets"
-            velocityPropertiesFile="${test.dir}/anakia/velocity.properties"
-            lastModifiedCheck="false">
-    </anakia>
-
-    <anakia basedir="${test.dir}/anakia/xdocs"
-            destdir="${build.test}/anakia"
-        extension=".context.html" style="./site_contexts.vsl"
-        projectFile="./stylesheets/project.xml"
-        excludes="**/stylesheets/**"
-        includes="**/*.xml"
-        templatePath="${test.dir}/anakia/xdocs/stylesheets"
-        lastModifiedCheck="false">
-
-        <context name="customContext" file="./stylesheets/customContext.xml"/>
-    </anakia>
-
-    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}"
-          classpathref="velocity.test.classpath">
-      <arg value="org.apache.velocity.test.AnakiaTestCase"/>
-    </java>
-  </target>
-
-  <!-- ================================================================ -->
-  <!-- T E X E N  T E S T                                               -->
-  <!-- ================================================================ -->
-  <!-- Generate turbine service code via Texen                          -->
-  <!-- ================================================================ -->
-
-  <target name="test-texen">
-
-    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask"
-             classpathref="velocity.test.classpath"/>
-
-    <texen
-      contextProperties="${test.dir}/texen/service.props,${test.dir}/texen/additional.props"
-      controlTemplate="Control.vm"
-      outputDirectory="${build.test}/texen"
-      templatePath="${test.dir}/texen/templates"
-      outputFile="report"
-    />
-
-    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}"
-          classpathref="velocity.test.classpath">
-      <arg value="org.apache.velocity.test.TexenTestCase"/>
-    </java>
-
-  </target>
-
-  <!-- ================================================================ -->
-  <!-- T E X E N  C L A S S P A T H                                     -->
-  <!-- ================================================================ -->
-  <!-- Generate turbine service code via Texen with all the templates   -->
-  <!-- and ancillary files in a JAR.                                    -->
-  <!-- ================================================================ -->
-
-  <target name="test-texen-classpath">
-    <taskdef name="texen" classname="org.apache.velocity.texen.ant.TexenTask">
-      <classpath>
-        <pathelement location="${test.dir}/texen-classpath/test.jar"/>
-        <path refid="velocity.test.classpath"/>
-      </classpath>
-    </taskdef>
-
-    <texen
-      useClassPath="true"
-      contextProperties="service.props"
-      controlTemplate="Control.vm"
-      outputDirectory="${build.test}/texen-classpath"
-      outputFile="report"
-    />
-
-    <java classname="${test.runner}" fork="yes" dir="${velocity.dir}" failonerror="${test.haltonerror}"
-          classpathref="velocity.test.classpath">
-      <arg value="org.apache.velocity.test.TexenClasspathTestCase"/>
-    </java>
-
   </target>
 
   <target name="test-multiloader">
