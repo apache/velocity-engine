@@ -164,6 +164,24 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
      */
     protected Object put(final String key, final Object value, final boolean forceLocal)
     {
+        Node astNode = (Node)vmproxyhash.get(key);
+        if (astNode != null)
+        {
+            if (astNode.getType() == ParserTreeConstants.JJTREFERENCE)
+            {
+                ASTReference ref = (ASTReference)astNode;
+                if (ref.jjtGetNumChildren() > 0)
+                {
+                    ref.setValue(innerContext, value);
+                    return null;
+                }
+                else
+                {
+                    return innerContext.put(ref.getRootString(), value);
+                }
+            }
+        }
+
         Object old = localcontext.put(key, value);
         if (!forceLocal)
         {
