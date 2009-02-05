@@ -94,7 +94,9 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
         }
         catch (Exception e)
         {
-            fail("Cannot setup AbsoluteFileResourceLoaderTest!");
+            String msg = "Cannot setup AbsoluteFileResourceLoaderTest!";
+            info(msg, e);
+            fail(msg);
         }
     }
 

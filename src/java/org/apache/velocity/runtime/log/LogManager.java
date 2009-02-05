@@ -67,7 +67,7 @@ public class LogManager
     {
         Log log = rsvc.getLog();
 
-        /* If a LogChute or LogSystem instance was set as a configuration
+        /* If a LogChute instance was set as a configuration
          * value, use that.  This is any class the user specifies.
          */
         Object o = rsvc.getProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM);
@@ -80,25 +80,6 @@ public class LogManager
                 {
                     ((LogChute)o).init(rsvc);
                     return (LogChute)o;
-                }
-                catch (Exception e)
-                {
-                    String msg = "Could not init runtime.log.logsystem " + o;
-                    log.error(msg, e);
-                    throw new VelocityException(msg, e);
-                }
-            }
-            // then check for a LogSystem
-            else if (o instanceof LogSystem)
-            {
-                // inform the user about the deprecation
-                log.debug("LogSystem has been deprecated. Please use a LogChute implementation.");
-                try
-                {
-                    // wrap the LogSystem into a chute.
-                    LogChute chute = new LogChuteSystem((LogSystem)o);
-                    chute.init(rsvc);
-                    return chute;
                 }
                 catch (Exception e)
                 {
@@ -157,14 +138,6 @@ public class LogManager
                         ((LogChute)o).init(rsvc);
                         log.debug("Using logger class " + claz);
                         return (LogChute)o;
-                    }
-                    else if (o instanceof LogSystem)
-                    {
-                        // inform the user about the deprecation
-                        log.debug("LogSystem has been deprecated. Please use a LogChute implementation.");
-                        LogChute chute = new LogChuteSystem((LogSystem)o);
-                        chute.init(rsvc);
-                        return chute;
                     }
                     else
                     {
