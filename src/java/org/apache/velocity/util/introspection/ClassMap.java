@@ -133,14 +133,25 @@ public class ClassMap
             Class [] interfaces = classToReflect.getInterfaces();
             for (int i = 0; i < interfaces.length; i++)
             {
-                if (Modifier.isPublic(interfaces[i].getModifiers()))
-                {
-                    populateMethodCacheWith(methodCache, interfaces[i]);
-                }
+                populateMethodCacheWithInterface(methodCache, interfaces[i]);
             }
         }
         // return the already initialized cache
         return methodCache;
+    }
+
+    /* recurses up interface heirarchy to get all super interfaces (VELOCITY-689) */
+    private void populateMethodCacheWithInterface(MethodCache methodCache, Class iface)
+    {
+        if (Modifier.isPublic(iface.getModifiers()))
+        {
+            populateMethodCacheWith(methodCache, iface);
+        }
+        Class[] supers = iface.getInterfaces();
+        for (int i=0; i < supers.length; i++)
+        {
+            populateMethodCacheWithInterface(methodCache, supers[i]);
+        }
     }
 
     private void populateMethodCacheWith(MethodCache methodCache, Class classToReflect)
