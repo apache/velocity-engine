@@ -19,16 +19,10 @@ package org.apache.velocity.context;
  * under the License.    
  */
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
 
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
@@ -207,14 +201,6 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     }
 
     /**
-     * @see org.apache.velocity.context.InternalWrapperContext#localPut(java.lang.String,java.lang.Object)
-     */
-    public Object localPut(final String key, final Object value)
-    {
-        return innerContext.put(key, value);
-    }
-
-    /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#icachePut(java.lang.Object, org.apache.velocity.util.introspection.IntrospectionCacheData)
      */
     public void icachePut(Object key, IntrospectionCacheData o)
@@ -269,5 +255,33 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     public Resource getCurrentResource()
     {
         return innerContext.getCurrentResource();
+    }
+    
+    /**
+     * Associated the value with the given key from the given scope, the default implementation
+     * is to ignore the scope and simply place the value into the innerContext.
+     */
+    public Object put(String key, Object value, Scope scope)
+    {
+        return innerContext.put(key, value);
+    }
+    
+    /**
+     * Retrieve the value associated with the given key from the specified scope. 
+     * The default implementation is to ignore the scope and retrieve the value
+     * from the innerContext.
+     */
+    public Object get(String key, Scope scope)
+    {
+        return innerContext.get(key);
+    }
+
+    /**
+     * Return true if the context of the specifed scope contains key.  The default
+     * implementation ignores scope.
+     */
+    public boolean containsKey(String key, Scope scope)
+    {
+        return innerContext.containsKey(key);
     }
 }

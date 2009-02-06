@@ -21,15 +21,11 @@ package org.apache.velocity.context;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ClassUtils;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
  *  This is a special, internal-use-only context implementation to be
@@ -141,7 +137,6 @@ public class EvaluateContext extends ChainedInternalContextAdapter
         /*
          *  always try the local context then innerContext
          */
-
         Object o = localContext.get( key );
 
         if ( o == null)
@@ -189,17 +184,41 @@ public class EvaluateContext extends ChainedInternalContextAdapter
     }
 
     /**
-     * Allows callers to explicitly put objects in the local context.
-     * Objects added to the context through this method always end up
-     * in the top-level context of possible wrapped contexts.
-     *
-     *  @param key name of item to set.
-     *  @param value object to set to key.
-     *  @return old stored object
-     */
-    public Object localPut(final String key, final Object value)
+     * Put a value into the appropriate context specified by 'scope'
+     */    
+    public Object put(String key, Object value, Scope scope)
     {
-        return localContext.put(key, value);
+      switch (scope)
+      {
+          case GLOBAL: return super.put(key, value);
+          case LOCAL: return localContext.put(key, value);
+          default: return put(key, value);  // DEFAULT scope
+      }      
     }
 
+    /**
+     * Returns a value associated with 'key' from the specified 'scope'
+     */    
+    public Object get(String key, Scope scope)
+    {
+      switch (scope)
+      {
+          case GLOBAL: return super.get(key);
+          case LOCAL: return localContext.get(key);
+          default: return get(key);  // DEFAULT scope
+      }      
+    }
+    
+    /**
+     * Returns true if the specified scope contains 'key'
+     */
+    public boolean containsKey(String key, Scope scope)
+    {
+        switch (scope)
+        {
+            case GLOBAL: return super.containsKey(key);
+            case LOCAL: return localContext.containsKey(key);
+            default: return containsKey(key);  // DEFAULT scope
+        }            
+    }    
 }

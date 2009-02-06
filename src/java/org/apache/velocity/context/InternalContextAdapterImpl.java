@@ -251,15 +251,6 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     }
 
     /**
-     * @see InternalWrapperContext#localPut(String, Object)
-     * @since 1.5
-     */
-    public Object localPut(final String key, final Object value)
-    {
-        return put(key, value);
-    }
-
-    /**
      * @see org.apache.velocity.context.Context#get(java.lang.String)
      */
     public Object get(String key)
@@ -343,6 +334,35 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
 
         return null;
     }
+
+    /**
+     * Retrieve the value associated with key.
+     * This class will always be used as the global context, so we ignore 
+     * scope and retrieve the value from Context.
+     */
+    public Object get(String key, Scope scope)
+    {
+        return context.get(key);
+    }    
+
+    /**
+     * Put the value assocated with key into the context.
+     * @see #get(String, org.apache.velocity.context.Context.Scope) for notes about scope
+     */
+    public Object put(String key, Object value, Scope scope)
+    {
+        return context.put(key, value);
+    }
+
+    /**
+     * Returns true if key is in the context.
+     * @see #get(String, org.apache.velocity.context.Context.Scope) for notes about scope
+     */
+    public boolean containsKey(String key, Scope scope)
+    {
+        return context.containsKey(key);
+    }
+
 }
 
 
