@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 
-import org.apache.velocity.context.ChainedInternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -49,82 +48,6 @@ import org.apache.velocity.util.introspection.Info;
  */
 public class Foreach extends Directive
 {
-    /**
-     * A special context to use when the foreach iterator returns a null.  This
-     * is required since the standard context may not support nulls.
-     * All puts and gets are passed through, except for the foreach iterator key.
-     * @since 1.5
-     */
-    protected static class NullHolderContext extends ChainedInternalContextAdapter
-    {
-        private String   loopVariableKey = "";
-        private boolean  active = true;
-
-        /**
-         * Create the context as a wrapper to be used within the foreach
-         * @param key the reference used in the foreach
-         * @param context the parent context
-         */
-        private NullHolderContext( String key, InternalContextAdapter context )
-        {
-           super(context);
-           if( key != null )
-               loopVariableKey = key;
-        }
-
-        /**
-         * Get an object from the context, or null if the key is equal to the loop variable
-         * @see org.apache.velocity.context.InternalContextAdapter#get(java.lang.String)
-         * @exception MethodInvocationException passes on potential exception from reference method call
-         */
-        public Object get( String key ) throws MethodInvocationException
-        {
-            return ( active && loopVariableKey.equals(key) )
-                ? null
-                : super.get(key);
-        }
-
-        /**
-         * @see org.apache.velocity.context.InternalContextAdapter#put(java.lang.String key, java.lang.Object value)
-         */
-        public Object put( String key, Object value )
-        {
-            if( loopVariableKey.equals(key) && (value == null) )
-            {
-                active = true;
-            }
-
-            return super.put( key, value );
-        }
-
-        /**
-         * Allows callers to explicitly put objects in the local context.
-         * Objects added to the context through this method always end up
-         * in the top-level context of possible wrapped contexts.
-         *
-         * @param key name of item to set.
-         * @param value object to set to key.
-         * @see org.apache.velocity.context.InternalWrapperContext#localPut(String, Object)
-         */        
-        public Object localPut(final String key, final Object value)
-        {
-            return put(key, value);
-        }
-
-        /**
-         * Remove an object from the context
-         * @see org.apache.velocity.context.InternalContextAdapter#remove(java.lang.Object key)
-         */
-        public Object remove(Object key)
-        {
-           if( loopVariableKey.equals(key) )
-           {
-             active = false;
-           }
-           return super.remove(key);
-        }
-    }
-
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -332,13 +255,6 @@ public class Foreach extends Directive
         Object savedCounter = context.get(counterName);
         Object nextFlag = context.get(hasNextName);
         
-        /*
-         * Instantiate the null holder context if a null value
-         * is returned by the foreach iterator.  Only one instance is
-         * created - it's reused for every null value.
-         */
-        NullHolderContext nullHolderContext = null;
-
         while (!maxNbrLoopsExceeded && i.hasNext())
         {
             put(context, counterName , Integer.valueOf(counter));
@@ -348,22 +264,7 @@ public class Foreach extends Directive
 
             try
             {
-                /*
-                 * If the value is null, use the special null holder context
-                 */
-                if (value == null)
-                {
-                    if (nullHolderContext == null)
-                    {
-                        // lazy instantiation
-                        nullHolderContext = new NullHolderContext(elementKey, context);
-                    }
-                    node.jjtGetChild(3).render(nullHolderContext, writer);
-                }
-                else
-                {
-                    node.jjtGetChild(3).render(context, writer);
-                }
+                node.jjtGetChild(3).render(context, writer);
             }
             catch (Break.BreakException ex)
             {
