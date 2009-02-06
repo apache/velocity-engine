@@ -1,5 +1,7 @@
 package org.apache.velocity.context;
 
+import org.apache.velocity.context.Context.Scope;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -27,6 +29,7 @@ package org.apache.velocity.context;
  */
 public interface InternalWrapperContext
 {
+    
     /**
      * Returns the wrapped user context.
      * @return The wrapped user context.
@@ -41,13 +44,18 @@ public interface InternalWrapperContext
     InternalContextAdapter getBaseContext();
 
     /**
-     * Allows callers to explicitly put objects in the local context.
-     * Objects added to the context through this method always end up
-     * in the top-level context of possible wrapped contexts.
-     *
-     *  @param key name of item to set.
-     *  @param value object to set to key.
-     *  @return old stored object
+     * Retrieve the specified key value pair from the given scope.
      */
-    Object localPut(final String key, final Object value);
+    Object put(String key, Object value, Scope scope);
+    
+    /**
+     * Place key value pair into the context of the specified scope.
+     */
+    Object get(String key, Scope scope);
+    
+    /**
+     * Tests if the key exists in the specified scope
+     */
+    boolean containsKey(String key, Scope scope);
+        
 }

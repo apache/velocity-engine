@@ -24,6 +24,7 @@ import java.io.Writer;
 
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.context.Context.Scope;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -183,44 +184,21 @@ public class ASTSetDirective extends SimpleNode
                 rightReference = ((ASTExpression) right).getLastToken().image;
             }
             EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
-
-            /*
-             * if RHS is null, remove simple LHS from context
-             * or call setValue() with a null value for complex LHS
-             */
-            if (left.jjtGetNumChildren() == 0)
-            {
-                context.remove( leftReference );
-            }
-            else
-            {
-                left.setValue(context, null);
-            }
-
-            return false;
-
         }
-        else
-        {
-            /*
-             *  if the LHS is simple, just punch the value into the context
-             *  otherwise, use the setValue() method do to it.
-             *  Maybe we should always use setValue()
-             */
-
-            if (left.jjtGetNumChildren() == 0)
-            {
-                context.put( leftReference, value);
-            }
-            else
-            {
-                left.setValue(context, value);
-            }
-        }
-
-        return true;
+        
+        return left.setValue(context, value, getScope());
     }
 
+    /**
+     * Return the scope this set directive will operate under.  We override this method
+     * with the #global and #local directives to specify the appropriate scope.
+     */
+    public Scope getScope()
+    {
+      return Scope.DEFAULT;
+    }
+    
+    
     /**
      *  returns the ASTReference that is the LHS of the set statememt
      *  

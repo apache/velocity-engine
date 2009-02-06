@@ -23,40 +23,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Context for Velocity macro arguments.
- * 
- * This special context combines ideas of earlier VMContext and VMProxyArgs
- * by implementing routing functionality internally. This significantly
- * reduces memory allocation upon macro invocations.
- * Since the macro AST is now shared and RuntimeMacro directive is used,
- * the earlier implementation of precalculating VMProxyArgs would not work.
+ * ProxyVMContext provides a context for a macro call frame and basically manages both
+ * the local and global contexts. The local context is created for every call into a 
+ * macro and destroyed when the macro exits.  The global context consists of the original 
+ * users data and any variables defined in the global scope. The macro call
+ * does not afffect the global context lifecycle.
  */
 public class ProxyVMContext extends ChainedInternalContextAdapter
 {
     /** container for any local or constant macro arguments. Size must be power of 2. */
-    Map localcontext = new HashMap(8, 0.8f);
+    protected Map<String, Object> localcontext = new HashMap<String, Object>(8, 0.8f);
     
     /** If we are operating in global or localscope */
     boolean localscope = true;
     
     /**
-     * @param inner Velocity context for processing
-     * @param rsvc RuntimeServices provides logging reference
-     * @param localContextScope if true, all references are set to be local
+     * @param context the parent context
+     * @param localScopeContext if true, all references are set to be local
      */
-    public ProxyVMContext(InternalContextAdapter global, boolean localScopeContext)
+    public ProxyVMContext(InternalContextAdapter context, boolean localScopeContext)
     {
-        super(global instanceof ProxyVMContext ? ((ProxyVMContext)global).getGlobal() : global);        
+        // By always constructing with the base then calling super methods will always
+        // access the global context.
+        super(context.getBaseContext());        
         localscope = localScopeContext;
-    }
-
-    /**
-     * Get the global context from this ProxyVMContext
-     * @return
-     */
-    private InternalContextAdapter getGlobal()
-    {
-      return innerContext;
     }
     
     /**
@@ -66,7 +56,7 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
      * @param value object to set to key
      * @return old stored object
      */
-    public Object put(final String key, final Object value)
+    public Object put(String key, Object value)
     {
         if (localscope)    
           return localcontext.put(key, value);
@@ -75,22 +65,47 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     }
 
     /**
-     * Allows callers to explicitly put objects in the local context, no matter what the
-     * velocimacro.context.local setting says. Needed e.g. for loop variables in foreach.
-     * 
-     * @param key name of item to set.
-     * @param value object to set to key.
-     * @return old stored object
+     * Put a value into the appropriate context specified by 'scope'
      */
-    public Object localPut(final String key, final Object value)
+    public Object put(String key, Object value, Scope scope)
     {
-        return put(key, value);
+        switch (scope)
+        {
+            case GLOBAL: return super.put(key, value);
+            case LOCAL: return localcontext.put(key, value);
+            default: return put(key, value);  // DEFAULT scope
+        }
     }
 
     /**
+     * Returns a value associated with 'key' from the specified 'scope'
+     */
+    public Object get(String key, Scope scope)
+    {
+        switch (scope)
+        {
+            case GLOBAL: return super.get(key);
+            case LOCAL: return localcontext.get(key);
+            default: return get(key);  // DEFAULT scope
+        }      
+    }
+    
+    /**
+     * Returns true if the specified scope contains 'key'
+     */
+    public boolean containsKey(String key, Scope scope)
+    {
+        switch (scope)
+        {
+            case GLOBAL: return super.containsKey(key);
+            case LOCAL: return localcontext.containsKey(key);
+            default: return containsKey(key);  // DEFAULT scope
+        }            
+    }
+    
+    /**
      * Implementation of the Context.get() method.  First checks
      * localcontext, then global context.
-     * 
      * @param key name of item to get
      * @return stored object or null
      */

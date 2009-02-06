@@ -710,6 +710,79 @@ TOKEN:
    }
 }
 
+
+<DEFAULT, REFERENCE, REFMODIFIER, REFMOD2>
+TOKEN:
+{
+  <LOCAL_DIRECTIVE: (" "|"\t")*  ("#local" | "#{local}")  (" ")* "(">
+    {
+        if (! inComment)
+        {
+            inDirective = true;
+
+            if ( debugPrint )
+                System.out.print("#local :  going to " + DIRECTIVE );
+
+            stateStackPush();
+            inSet = true;
+            SwitchTo(DIRECTIVE);
+        }
+
+        /*
+         *  need the LPAREN action
+         */
+
+        if (!inComment)
+        {
+            lparen++;
+
+            /*
+             * If in REFERENCE and we have seen the dot, then move
+             * to REFMOD2 -> Modifier()
+             */
+
+            if (curLexState == REFMODIFIER )
+                SwitchTo( REFMOD2 );
+        }
+   }
+}
+
+<DEFAULT, REFERENCE, REFMODIFIER, REFMOD2>
+TOKEN:
+{
+  <GLOBAL_DIRECTIVE: (" "|"\t")*  ("#global" | "#{global}")  (" ")* "(">
+    {
+        if (! inComment)
+        {
+            inDirective = true;
+
+            if ( debugPrint )
+                System.out.print("#global :  going to " + DIRECTIVE );
+
+            stateStackPush();
+            inSet = true;
+            SwitchTo(DIRECTIVE);
+        }
+
+        /*
+         *  need the LPAREN action
+         */
+
+        if (!inComment)
+        {
+            lparen++;
+
+            /*
+             * If in REFERENCE and we have seen the dot, then move
+             * to REFMOD2 -> Modifier()
+             */
+
+            if (curLexState == REFMODIFIER )
+                SwitchTo( REFMOD2 );
+        }
+   }
+}
+
 <*>
 MORE :
 {
@@ -1244,6 +1317,8 @@ void Statement() #void : {}
 |   Comment()
 |   Textblock()
 |   SetDirective()
+|   LocalDirective()
+|   GlobalDirective()
 |   EscapedDirective()
 |   Escape()
 |   Directive()
@@ -1826,6 +1901,39 @@ void SetDirective() : {}
     }
     [<NEWLINE>] )
 }
+
+/**
+ * Meant to shadow the behavior of Set but only affect local contexts
+ */
+void LocalDirective() : {}
+{
+    <LOCAL_DIRECTIVE>([<WHITESPACE>] Reference() [<WHITESPACE>] <EQUALS>  Expression() <RPAREN>
+    {
+        /*
+         * ensure that inSet is false.  Leads to some amusing bugs...
+         */
+
+        token_source.inSet = false;
+    }
+    [<NEWLINE>] )
+}
+
+/**
+ * Meant to shadow the behavior of Set but only affect the global context
+ */
+void GlobalDirective() : {}
+{
+    <GLOBAL_DIRECTIVE>([<WHITESPACE>] Reference() [<WHITESPACE>] <EQUALS>  Expression() <RPAREN>
+    {
+        /*
+         * ensure that inSet is false.  Leads to some amusing bugs...
+         */
+
+        token_source.inSet = false;
+    }
+    [<NEWLINE>] )
+}
+
 
 /**
  * This method corresponds to the #stop
