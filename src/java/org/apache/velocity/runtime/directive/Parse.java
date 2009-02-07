@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.context.ProxyVMContext;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -65,6 +66,11 @@ public class Parse extends InputBase
 {
     private int maxDepth;
 
+    /** 
+     * If the set directive operates on the global or local scope.
+     */
+    boolean localscope = false;    
+    
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -96,6 +102,9 @@ public class Parse extends InputBase
         super.init(rs, context, node);
 
         this.maxDepth = rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 10);
+
+        // support for local context scope feature, where all references are local
+        localscope = rsvc.getBoolean(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false);        
     }
 
     /**
@@ -246,9 +255,15 @@ public class Parse extends InputBase
          */
         try
         {
+            boolean localscope = true;
             if (!blockinput) {
                 context.pushCurrentTemplateName(arg);
-                ((SimpleNode) t.getData()).render( context, writer );
+                
+                // Create a context frame for the parsed resource so that context
+                // changes are local.
+                ProxyVMContext vmc = new ProxyVMContext(context, localscope);
+                
+                ((SimpleNode) t.getData()).render(vmc, writer);
             }
         }
         /**
