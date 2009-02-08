@@ -29,6 +29,7 @@ public class BlockMacroTestCase extends BaseTestCase
     public BlockMacroTestCase(String name)
     {
         super(name);
+        DEBUG=true;
     }
 
     public void testMultipleBodyContentIncludes() throws Exception
@@ -80,9 +81,24 @@ public class BlockMacroTestCase extends BaseTestCase
         assertEvalEquals(result, template);
     }
 
+    public void testStrict()
+    {
+        engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, true);
+        assertEvalException("#@foo#end");
+        assertEvalException("#@foo()#end");
+    }
+    
+    public void testVelocity690()
+    {
+        assertEvalEquals(" output ", "#macro(foo) output #end#@foo #end");
+        assertEvalEquals("#[ output )", "#macro(foo2)#[$bodyContent)#end#@foo2 output #end");
+        assertEvalEquals("#[output)", "#macro(foo2)#[$bodyContent)#end#{@foo2}output#end");
+        assertEvalException("#macro(foo) output #end#@foo");
+    }
+    
     public void testVelocity675() throws Exception
     {
-        assertEvalEquals("#@foo", "#@foo"); 
+      assertEvalEquals("#@foo#end", "#@foo#end"); 
     }
     
     public void testVelocity685() throws Exception
