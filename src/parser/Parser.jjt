@@ -1178,18 +1178,22 @@ TOKEN:
 
 }
 
+/**
+ *  TODO, the "@" symbol for block macros to be correct really should prefix WORD
+ *  and BRACKETED_WORD, e.g., <WORD ["@"] ( <LETTER... etc...
+ *  However, having the conditional character at the beginning screws up
+ *  Macro parse.  As it is now you can have #@1234 defined as a macro 
+ *  Which is not correct.
+ */
+
 <PRE_DIRECTIVE,DIRECTIVE>
 TOKEN:
 {
     <#LETTER: [ "a"-"z", "A" - "Z" ] >
-|   <#DIRECTIVE_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_", "@" ] >
-|   <WORD:  ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* >
-|   <BRACKETED_WORD:  "{" ( <LETTER> | ["_"]) (<DIRECTIVE_CHAR>)* "}" >
-
+|   <#DIRECTIVE_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
+|   <WORD: ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* >
+|   <BRACKETED_WORD: "{" ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* "}" >
 }
-
-
-
 
 /* -----------------------------------------------------------------------
  *
@@ -1512,7 +1516,7 @@ SimpleNode Directive() :
     Directive d;
     int directiveType;
     boolean isVM = false;
-    boolean doItNow = false;
+    boolean isMacro = false;
 }
 {
 
@@ -1520,7 +1524,6 @@ SimpleNode Directive() :
      * note that if we were escaped, that is now handled by
      * EscapedDirective()
      */
-
     ((t = <WORD>) | (t = <BRACKETED_WORD>))
     {
         String directiveName;
@@ -1543,7 +1546,7 @@ SimpleNode Directive() :
 
         if (directiveName.equals("macro"))
         {
-             doItNow = true;
+             isMacro = true;
         }
 
         /*
@@ -1602,7 +1605,7 @@ SimpleNode Directive() :
             {
                 if (argType == ParserTreeConstants.JJTWORD)
                 {
-                    if (doItNow && argPos == 0)
+                    if (isMacro && argPos == 0)
                     {
                         /* if #macro and it's the 0th arg, ok */
                     }
@@ -1625,7 +1628,7 @@ SimpleNode Directive() :
                 }
                 else
                 {
-                    if (doItNow && argPos == 0)
+                    if (isMacro && argPos == 0)
                     {
                         /* if a VM and it's the 0th arg, not ok */
 
@@ -1648,20 +1651,22 @@ SimpleNode Directive() :
     }
     |
     {
-	if (doItNow)  // doItNow is true if the directive is "macro"
-	{
+        if (isMacro)  // isMacro is true if the directive is "macro"
+        {
             // VELOCITY-667 We get here if we have a "#macro" construct
-	    // without parenthesis which is a parse error
+	          // without parenthesis which is a parse error
             throw new MacroParseException("A macro declaration requires at least a name argument"
               , currentTemplateName, t);
-	}
+        }
 	
-        /**
-         * Not a directive
-         */
         token_source.stateStackPop();
         token_source.inDirective = false;
-        return jjtThis;
+
+        if (directiveType != Directive.BLOCK)
+        {
+            // not a directive
+            return jjtThis;
+        }
     }
     )
     /*
@@ -1679,7 +1684,7 @@ SimpleNode Directive() :
          *     we don't have to worry about forward references and such...
          */
 
-        if (doItNow)
+        if (isMacro)
         {
             // Further checking of macro arguments
             Macro.checkArgs(rsvc, t, jjtThis, currentTemplateName);

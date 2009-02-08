@@ -90,8 +90,12 @@ public class StrictEscapeTestCase extends BaseTestCase
       assertEvalEquals("\\bar", "#set($abc = \"\\\\#foo()\")$abc");
       
       assertEvalEquals("#@foo()", "\\#@foo()");
+      assertEvalEquals("#@foo", "\\#@foo");
+      assertEvalEquals("#@bar", "\\#@bar");
       assertEvalEquals("\\bar", "\\\\#@foo()#end");
       assertEvalEquals("#@foo()#end", "\\#@foo()\\#end");
+      assertEvalEquals("#@foo#end", "\\#@foo\\#end");
+      assertEvalEquals("#@bar #end", "\\#@bar \\#end");
       
       assertEvalEquals("#end #foreach #define() #elseif", "\\#end \\#foreach \\#define() \\#elseif");
       assertEvalEquals("#{end} #{foreach} #{define}() #{elseif}", "\\#{end} \\#{foreach} \\#{define}() \\#{elseif}");
