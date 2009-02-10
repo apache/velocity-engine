@@ -424,10 +424,8 @@ public class ASTReference extends SimpleNode
         {          
             if (strictRef)
             {
-                if (referenceType != QUIET_REFERENCE)
+                if (referenceType == QUIET_REFERENCE)
                 {
-                  log.error("Prepend the reference with '$!' e.g., $!" + literal().substring(1)
-                      + " if you want Velocity to ignore the reference when it evaluates to null");
                   if (value == null)
                   {
                     throw new VelocityException("Reference " + literal() 
