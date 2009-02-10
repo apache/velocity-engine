@@ -29,7 +29,6 @@ public class IndexTestCase extends BaseTestCase
     public IndexTestCase(String name)
     {
         super(name);
-        //DEBUG = true;
     }
 
     public void setUp() throws Exception
@@ -92,7 +91,7 @@ public class IndexTestCase extends BaseTestCase
         assertEvalEquals("GOT NULL", "#set($i=$NULL)$boo[$i]");
         
         assertEvalEquals("321", "$a[-1]$a[ -2]$a[-3 ]");
-        assertEvalEquals("67xx", "#set($hash={1:11, 5:67, 23:2})$hash[5]$!hash[6]#if(!$hash[1000])xx#end");
+        assertEvalEquals("67xx", "#set($hash={1:11, 5:67, 23:2})$hash[5]$hash[6]#if(!$hash[1000])xx#end");
         
         // Some cases that should be evaluated as text
         assertEvalEquals("[]", "[]");
