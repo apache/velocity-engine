@@ -30,6 +30,7 @@ import org.apache.velocity.context.Context.Scope;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.io.Filter;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.directive.Block.Reference;
@@ -479,8 +480,15 @@ public class ASTReference extends SimpleNode
              */
             writer.write(escPrefix);
             writer.write(morePrefix);
-            writer.write(toString);
-
+            if (writer instanceof Filter)
+            {
+                ((Filter)writer).writeReference(toString);
+            }
+            else
+            {
+                writer.write(toString);
+            }
+            
             return true;
         }
     }
