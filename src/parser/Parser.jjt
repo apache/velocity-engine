@@ -1568,12 +1568,8 @@ SimpleNode Directive() :
                 /*
                  *  if null, then not a real directive, but maybe a Velocimacro
                  */
-
                 isVM = rsvc.isVelocimacro(directiveName, currentTemplateName);
 
-                /*
-                 * Currently, all VMs are LINE directives
-                 */
                 directiveType = Directive.LINE;
             }
         }
@@ -1603,38 +1599,18 @@ SimpleNode Directive() :
 
             argType = DirectiveArg()
             {
-                if (argType == ParserTreeConstants.JJTWORD)
+                if (d != null)
                 {
-                    if (isMacro && argPos == 0)
-                    {
-                        /* if #macro and it's the 0th arg, ok */
-                    }
-                    else if (isVM)
+                    // If a directive then call the directive check args method
+                    d.checkArg(argType, argPos, t, currentTemplateName);
+                    
+                }
+                else if (argType == ParserTreeConstants.JJTWORD)
+                {
+                    if (isVM)
                     {
                         throw new MacroParseException("Invalid arg #"
                         + argPos + " in VM " + t.image, currentTemplateName, t);
-                    }
-                                          /* if #foreach and it's the 2nd arg, ok */
-                    else if (d != null && (!directiveName.equals("foreach") || argPos != 1))
-                    {
-                        throw new MacroParseException("Invalid arg #"
-                        + argPos + " in directive " + t.image, currentTemplateName, t);
-                    }
-                    else
-                    {
-                        /* either schmoo or a late-defined macro,
-                         * VelocimacroProxy will have to check for latter. */
-                    }
-                }
-                else
-                {
-                    if (isMacro && argPos == 0)
-                    {
-                        /* if a VM and it's the 0th arg, not ok */
-
-                        throw new MacroParseException("Invalid first arg"
-                        + " in #macro() directive - must be a"
-                        + " word token (no \' or \" surrounding)", currentTemplateName, t);
                     }
                 }
 

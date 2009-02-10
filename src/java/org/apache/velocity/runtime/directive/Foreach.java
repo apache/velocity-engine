@@ -32,6 +32,9 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -322,4 +325,19 @@ public class Foreach extends Directive
 
         return true;
     }
+    
+    /**
+     * We do not allow a word token in any other arg position except for the 2nd since
+     * we are looking for the pattern #foreach($foo in $bar).
+     */
+    public void checkArg(int argType, int argPos, Token t, String templateName)
+      throws ParseException
+    {
+        if (argType == ParserTreeConstants.JJTWORD && argPos != 1)
+        {
+          throw new MacroParseException("Invalid arg #"
+              + argPos + " in directive " + t.image, templateName, t);
+        }
+    }    
+    
 }

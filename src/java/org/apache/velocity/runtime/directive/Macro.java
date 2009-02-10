@@ -236,4 +236,20 @@ public class Macro extends Directive
         ret.append(" )");
         return ret;
     }
+    
+    /**
+     * We expect the pattern #macro(foo $bar1 ...) so words are not allowed
+     * in the other argument positions.
+     */
+    public void checkArg(int argType, int argPos, Token t, String templateName)
+      throws ParseException
+  {
+      if (argType == ParserTreeConstants.JJTWORD && argPos > 0)
+      {
+          throw new MacroParseException("Invalid first arg"
+            + " in #macro() directive - must be a"
+            + " word token (no \' or \" surrounding)", templateName, t);
+      }
+  }    
+    
 }
