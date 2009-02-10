@@ -31,7 +31,7 @@ import java.io.Writer;
  * @author Anil K. Vijendran
  * @version $Id$
  */
-public final class VelocityWriter extends Writer
+public final class VelocityWriter extends FilterWriter
 {
     /**
      * constant indicating that the Writer is not buffering output
@@ -52,8 +52,6 @@ public final class VelocityWriter extends Writer
 
     private int     bufferSize;
     private boolean autoFlush;
-
-    private Writer writer;
 
     private char cb[];
     private int nextChar;
