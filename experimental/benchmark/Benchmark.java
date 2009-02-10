@@ -53,8 +53,9 @@ public class Benchmark
     vengine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, "true");
     //vengine.setProperty(RuntimeConstants.VM_ARGUMENTS_PASSBYVALUE, "true");
     vengine.setProperty(RuntimeConstants.VM_LIBRARY_AUTORELOAD, "false");
-    vengine.setProperty(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, "0");
-    vengine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
+    //vengine.setProperty(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, "0");
+    //vengine.setProperty(RuntimeConstants.PARSER_POOL_SIZE, "0");
+    //vengine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
     vengine.setProperty("file.resource.loader.modificationCheckInterval", "0");
     vengine.setProperty(RuntimeConstants.VM_LIBRARY, "vmlib1.vm,vmlib2.vm");
     log("Starting " + threadCnt + " threads which will run " + runCnt + " times");
@@ -63,7 +64,9 @@ public class Benchmark
     {
       VelocityThread vt = new VelocityThread(vengine, runCnt);
       list.add(vt);
+      System.out.println("Started thread:  " + i);
       vt.start();
+      if (i == 0) Thread.sleep(500);
     }
   }  
 }
@@ -174,7 +177,7 @@ class FastWriter extends Writer
     for (int i=0; i < len; i++)
     {
       buffer[i] = buf[i+off];
-    }    
+    }
   }  
 
   public void close() {}
