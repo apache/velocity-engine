@@ -72,6 +72,11 @@ public class Parse extends InputBase
     boolean localscope = false;    
     
     /**
+     * Indicates if we are running in strict reference mode.
+     */
+    public boolean strictRef = false;    
+    
+    /**
      * Return name of this directive.
      * @return The name of this directive.
      */
@@ -104,7 +109,9 @@ public class Parse extends InputBase
         this.maxDepth = rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 10);
 
         // support for local context scope feature, where all references are local
-        localscope = rsvc.getBoolean(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false);        
+        localscope = rsvc.getBoolean(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false);  
+        
+        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);        
     }
 
     /**
@@ -141,6 +148,12 @@ public class Parse extends InputBase
 
         if ( value == null)
         {
+            if (strictRef)
+            {
+                throw new VelocityException("The argument to #parse returned null at "
+                  + Log.formatFileString(this));
+            }
+            
             rsvc.getLog().error("#parse() null argument");
             return  false;
         }
