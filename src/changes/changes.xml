@@ -26,7 +26,15 @@
 
   <body>
 
-    <release version="1.6.2" date="2009-02-02">
+    <release version="1.6.2" date="2009-02-21">
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-681">
+	Fix regression in proxying of macro args
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-689">
+	Fix ClassMap missing super interfaces
+      </action>
 
       <action type="fix" dev="nbubna" issue="VELOCITY-682">
         Fix loss of inline macros when #evaluate is used.
