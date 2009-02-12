@@ -201,7 +201,10 @@ public class FileResourceLoader extends ResourceLoader
             try
             {
                 File file = getFile(path, name);
-                return file.canRead();
+                if (file.canRead())
+                {
+                    return true;
+                }
             }
             catch (Exception ioe)
             {
