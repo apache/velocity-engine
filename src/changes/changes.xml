@@ -136,6 +136,11 @@
 
     <release version="1.6.2" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-693">
+        Fix problem with FileResourceLoader's resourceExists() when
+        configured w/multiple paths.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-689">
         Fix ClassMap introspection bug introduced in 1.5,
         where public super-interface methods implemented in
