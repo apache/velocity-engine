@@ -19,15 +19,13 @@
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 
@@ -51,11 +49,9 @@ public class Benchmark
   {
     VelocityEngine vengine = new VelocityEngine();
     vengine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, "true");
-    //vengine.setProperty(RuntimeConstants.VM_ARGUMENTS_PASSBYVALUE, "true");
     vengine.setProperty(RuntimeConstants.VM_LIBRARY_AUTORELOAD, "false");
     //vengine.setProperty(RuntimeConstants.RESOURCE_MANAGER_DEFAULTCACHE_SIZE, "0");
-    //vengine.setProperty(RuntimeConstants.PARSER_POOL_SIZE, "0");
-    //vengine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
+    vengine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
     vengine.setProperty("file.resource.loader.modificationCheckInterval", "0");
     vengine.setProperty(RuntimeConstants.VM_LIBRARY, "vmlib1.vm,vmlib2.vm");
     log("Starting " + threadCnt + " threads which will run " + runCnt + " times");
@@ -106,6 +102,7 @@ class VelocityThread extends Thread
 
   public void run()
   {
+    EventCartridge ec = new EventCartridge();
     for (int i = 0; i < runCnt; i++)
     {
       Writer writer = new FastWriter();
