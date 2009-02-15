@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -330,13 +331,29 @@ public class Foreach extends Directive
      * We do not allow a word token in any other arg position except for the 2nd since
      * we are looking for the pattern #foreach($foo in $bar).
      */
-    public void checkArg(int argType, int argPos, Token t, String templateName)
+    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
       throws ParseException
     {
-        if (argType == ParserTreeConstants.JJTWORD && argPos != 1)
+        if (argtypes.size() < 3)
         {
-          throw new MacroParseException("Invalid arg #"
-              + argPos + " in directive " + t.image, templateName, t);
+            throw new MacroParseException("Too few arguments to the #foreach directive", 
+              templateName, t);
+        }        
+        else if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
+        {
+            throw new MacroParseException("Argument 1 of #foreach is of the wrong type",
+                templateName, t);
+        }
+      
+        else if (argtypes.get(1) != ParserTreeConstants.JJTWORD)
+        {
+            throw new MacroParseException("Expected word 'in' at argument position 2 in #foreach",
+                templateName, t);
+        }        
+        else if (argtypes.get(2) == ParserTreeConstants.JJTWORD)
+        {
+            throw new MacroParseException("Argument 3 of #foreach is of the wrong type",
+                templateName, t);
         }
     }    
     

@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
@@ -107,48 +108,36 @@ public class Macro extends Directive
     }
     
     /**
-     *  Used by Parser.java to do further parameter checking for macro arguments.
+     * Check the argument types of a macro call, called by the parser to do validation
      */
-    public static void checkArgs(RuntimeServices rs,  Token t, Node node,
-                                          String sourceTemplate)
-        throws IOException, ParseException
-    {
-        /*
-         *  There must be at least one arg to  #macro,
-         *  the name of the VM.  Note that 0 following
-         *  args is ok for naming blocks of HTML
-         */
-        int numArgs = node.jjtGetNumChildren();
-
-        /*
-         *  this number is the # of args + 1.  The + 1
-         *  is for the block tree
-         */
-        if (numArgs < 2)
+    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+        throws ParseException
+    {        
+        if (argtypes.size() < 1)
         {
-
-            /*
-             *  error - they didn't name the macro or
-             *  define a block
-             */
-            rs.getLog().error("#macro error : Velocimacro must have name as 1st " +
-                              "argument to #macro(). #args = " + numArgs);
-
-            throw new MacroParseException("First argument to #macro() must be " +
-                    " macro name", sourceTemplate, t);
+            throw new MacroParseException("A macro definition requires at least a macro name"
+                , templateName, t);
         }
 
         /*
          *  lets make sure that the first arg is an ASTWord
          */
-        int firstType = node.jjtGetChild(0).getType();
-        if(firstType != ParserTreeConstants.JJTWORD)
+        if(argtypes.get(0) != ParserTreeConstants.JJTWORD)
         {
-            throw new MacroParseException("First argument to #macro() must be a"
-                    + " token without surrounding \' or \", which specifies"
-                    + " the macro name.  Currently it is a "
-                    + ParserTreeConstants.jjtNodeName[firstType], sourceTemplate, t);
-        }                
+            throw new MacroParseException("Macro argument 1"
+                    + " must be a token without surrounding \' or \""
+                    , templateName, t);
+        }
+        
+        // All arguments other then the first must be a reference
+        for (int argPos = 1; argPos < argtypes.size(); argPos++)
+        {
+            if (argtypes.get(argPos) != ParserTreeConstants.JJTREFERENCE)
+            {
+                throw new MacroParseException("Macro argument " + (argPos + 1)
+                  + " must be a reference", templateName, t);
+            }
+        }
     }
 
     /**
@@ -235,21 +224,6 @@ public class Macro extends Directive
         }
         ret.append(" )");
         return ret;
-    }
-    
-    /**
-     * We expect the pattern #macro(foo $bar1 ...) so words are not allowed
-     * in the other argument positions.
-     */
-    public void checkArg(int argType, int argPos, Token t, String templateName)
-      throws ParseException
-  {
-      if (argType == ParserTreeConstants.JJTWORD && argPos > 0)
-      {
-          throw new MacroParseException("Invalid first arg"
-            + " in #macro() directive - must be a"
-            + " word token (no \' or \" surrounding)", templateName, t);
-      }
-  }    
+    }    
     
 }

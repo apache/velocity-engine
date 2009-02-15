@@ -21,8 +21,8 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventHandlerUtil;
@@ -31,11 +31,14 @@ import org.apache.velocity.context.ProxyVMContext;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
@@ -132,15 +135,6 @@ public class Parse extends InputBase
         throws IOException, ResourceNotFoundException, ParseErrorException,
                MethodInvocationException
     {
-        /*
-         *  did we get an argument?
-         */
-        if ( node.jjtGetChild(0) == null)
-        {
-            rsvc.getLog().error("#parse() null argument");
-            return false;
-        }
-
         /*
          *  does it have a value?  If you have a null reference, then no.
          */
@@ -311,6 +305,24 @@ public class Parse extends InputBase
 
         return true;
     }
-
+    
+    /**
+     * Called by the parser to validate the argument types
+     */
+    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+      throws ParseException
+    {
+        if (argtypes.size() != 1)
+        {
+            throw new MacroParseException("The #parse directive requires one argument",
+               templateName, t);
+        }
+        
+        if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
+        {
+            throw new MacroParseException("The argument to #parse is of the wrong type",
+                templateName, t);          
+        }
+    }
 }
 

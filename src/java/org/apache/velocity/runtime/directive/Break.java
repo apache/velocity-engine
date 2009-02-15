@@ -21,24 +21,18 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Iterator;
-import java.util.List;
+import java.util.ArrayList;
 
-import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.node.ASTReference;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.introspection.Info;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
  * Break directive used for interrupting foreach loops.
@@ -116,4 +110,18 @@ public class Break extends Directive
           super("Break");
         }
     }
+    
+    /**
+     * Called by the parser to validate the argument types
+     */
+    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+      throws ParseException
+    {
+        if (argtypes.size() != 0)
+        {
+            throw new MacroParseException("The #break directive does not take any arguments",
+               templateName, t);
+        }
+    }    
+    
 }

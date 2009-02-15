@@ -1517,6 +1517,7 @@ SimpleNode Directive() :
     int directiveType;
     boolean isVM = false;
     boolean isMacro = false;
+    ArrayList argtypes = new ArrayList(4);
 }
 {
 
@@ -1599,18 +1600,13 @@ SimpleNode Directive() :
 
             argType = DirectiveArg()
             {
-                if (d != null)
-                {
-                    // If a directive then call the directive check args method
-                    d.checkArg(argType, argPos, t, currentTemplateName);
-                    
-                }
-                else if (argType == ParserTreeConstants.JJTWORD)
+                argtypes.add(argType);
+                if (d == null && argType == ParserTreeConstants.JJTWORD)
                 {
                     if (isVM)
                     {
-                        throw new MacroParseException("Invalid arg #"
-                        + argPos + " in VM " + t.image, currentTemplateName, t);
+                        throw new MacroParseException("Invalid argument "
+                        + (argPos+1) + " in macro call " + t.image, currentTemplateName, t);
                     }
                 }
 
@@ -1618,33 +1614,23 @@ SimpleNode Directive() :
             }
 
     )* [<WHITESPACE>] <RPAREN>)
+    |
     {
-
+        token_source.stateStackPop();
+        token_source.inDirective = false;
+    }
+    )
+    {
+        if (d != null)
+        {
+            d.checkArgs(argtypes, t, currentTemplateName);
+        }
+        
         if (directiveType  == Directive.LINE)
         {
             return jjtThis;
         }
     }
-    |
-    {
-        if (isMacro)  // isMacro is true if the directive is "macro"
-        {
-            // VELOCITY-667 We get here if we have a "#macro" construct
-	          // without parenthesis which is a parse error
-            throw new MacroParseException("A macro declaration requires at least a name argument"
-              , currentTemplateName, t);
-        }
-	
-        token_source.stateStackPop();
-        token_source.inDirective = false;
-
-        if (directiveType != Directive.BLOCK)
-        {
-            // not a directive
-            return jjtThis;
-        }
-    }
-    )
     /*
      *  and the following block if the PD needs it
      */
@@ -1662,13 +1648,15 @@ SimpleNode Directive() :
 
         if (isMacro)
         {
-            // Further checking of macro arguments
-            Macro.checkArgs(rsvc, t, jjtThis, currentTemplateName);
-            
             // Add the macro name so that we can peform escape processing
             // on defined macros
             String macroName = jjtThis.jjtGetChild(0).getFirstToken().image;
             macroNames.put(macroName, macroName);
+        }
+
+        if (d != null)
+        {
+            d.checkArgs(argtypes, t, currentTemplateName);
         }
 
         /*
