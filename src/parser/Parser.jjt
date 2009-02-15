@@ -1596,9 +1596,8 @@ SimpleNode Directive() :
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
-    (([<WHITESPACE>] <LPAREN>) ( LOOKAHEAD(2) [<WHITESPACE>] [<COMMA> [<WHITESPACE>]]
-
-            argType = DirectiveArg()
+    ([<WHITESPACE>] <LPAREN> ( LOOKAHEAD(2) [<WHITESPACE>] [<COMMA> [<WHITESPACE>]]
+       (argType = DirectiveArg()
             {
                 argtypes.add(argType);
                 if (d == null && argType == ParserTreeConstants.JJTWORD)
@@ -1612,7 +1611,16 @@ SimpleNode Directive() :
 
                 argPos++;
             }
-
+        |
+        {
+          if (!isMacro)
+          {
+              // We only allow line comments in macro definitions for now
+              throw new MacroParseException("A Line comment is not allowed in " + t.image
+              + " arguments", currentTemplateName, t);
+          }
+        }
+         <SINGLE_LINE_COMMENT_START> [<SINGLE_LINE_COMMENT>] )
     )* [<WHITESPACE>] <RPAREN>)
     |
     {
