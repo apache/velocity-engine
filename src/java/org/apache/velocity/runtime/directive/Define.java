@@ -20,10 +20,15 @@ package org.apache.velocity.runtime.directive;
  */
 
 import java.io.Writer;
+import java.util.ArrayList;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 
 /**
@@ -80,4 +85,22 @@ public class Define extends Block
         return true;
     }
 
+    /**
+     * Called by the parser to validate the argument types
+     */
+    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+    throws ParseException
+    { 
+      if (argtypes.size() != 1)
+      {
+          throw new MacroParseException("The #define directive requires one argument",
+             templateName, t);
+      }
+      
+      if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
+      {
+          throw new MacroParseException("The argument to #define is of the wrong type",
+              templateName, t);          
+      }
+    }
 }

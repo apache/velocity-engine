@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -29,7 +30,6 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 
@@ -134,21 +134,17 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     /**
      * The Parser calls this method during template parsing to check the arguments
      * types.  Be aware that this method is called pre init, so not all data
-     * is available in this method.  The default implemenation is to throw a 
-     * parse exception if there is a word argument in any of the argument positions.
-     * @param argType type, for example ParserTreeConstants.JJTWORD.
-     * @param argPos argument position, starting with 0
+     * is available in this method.  The default implementation does not peform any
+     * checking.  We do this so that Custom directives do not trigger any parse 
+     * errors in IDEs.
+     * @param argtypes type, Array of argument types of each argument to the directive
+     * for example ParserTreeConstants.JJTWORD
      * @param t, token of directive
      * @param templateName, the name of the template this directive is referenced in.
      */
-    public void checkArg(int argType, int argPos, Token t, String templateName)
-      throws ParseException
+    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+        throws ParseException
     {      
-        if (argType == ParserTreeConstants.JJTWORD)
-        {
-          throw new MacroParseException("Invalid arg #"
-              + argPos + " in directive " + t.image, templateName, t);
-        }
     }
     
     /**
