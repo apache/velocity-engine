@@ -29,7 +29,6 @@ public class BlockMacroTestCase extends BaseTestCase
     public BlockMacroTestCase(String name)
     {
         super(name);
-        DEBUG=true;
     }
 
     public void testMultipleBodyContentIncludes() throws Exception

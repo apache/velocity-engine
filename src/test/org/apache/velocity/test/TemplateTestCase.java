@@ -31,6 +31,7 @@ import java.util.Vector;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.FieldMethodizer;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.provider.BoolObj;
 import org.apache.velocity.test.provider.NullToStringObject;
@@ -100,7 +101,11 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
      * Sets up the test.
      */
     protected void setUp ()
+       throws Exception
     {
+        super.setUp();
+        engine.setProperty(RuntimeConstants.COUNTER_INITIAL_VALUE, 1);
+      
         provider = new TestProvider();
         al = provider.getCustomers();
         h = new Hashtable();

@@ -166,11 +166,21 @@ public class Foreach extends Directive
              */
             elementKey = sn.getFirstToken().image.substring(1);
         }
+        
+        // If we have more then 3 argument then the user has specified an
+        // index value, i.e.; #foreach($a in $b index $c)
+        if (node.jjtGetNumChildren() > 4)
+        {
+            // The index variable name is at position 4
+            counterName = ((ASTReference) node.jjtGetChild(4)).getRootString();
+            // The count value always starts at 0 when using an index.
+            counterInitialValue = 0;
+        }
 
         /*
          * make an uberinfo - saves new's later on
          */
-
+        
         uberInfo = new Info(this.getTemplateName(),
                 getLine(),getColumn());
     }
@@ -252,6 +262,9 @@ public class Foreach extends Directive
         int counter = counterInitialValue;
         boolean maxNbrLoopsExceeded = false;
 
+        // Get the block ast tree which is always the last child
+        Node block = node.jjtGetChild(node.jjtGetNumChildren()-1);
+        
         /*
          *  save the element key if there is one, and the loop counter
          */
@@ -265,10 +278,11 @@ public class Foreach extends Directive
             Object value = i.next();
             put(context, hasNextName, Boolean.valueOf(i.hasNext()));
             put(context, elementKey, value);
+            
 
             try
             {
-                node.jjtGetChild(3).render(context, writer);
+                block.render(context, writer);
             }
             catch (Break.BreakException ex)
             {
@@ -339,12 +353,11 @@ public class Foreach extends Directive
             throw new MacroParseException("Too few arguments to the #foreach directive", 
               templateName, t);
         }        
-        else if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
+        else if (argtypes.get(0) != ParserTreeConstants.JJTREFERENCE)
         {
-            throw new MacroParseException("Argument 1 of #foreach is of the wrong type",
+            throw new MacroParseException("Expected argument 1 of #foreach to be a reference",
                 templateName, t);
-        }
-      
+        }      
         else if (argtypes.get(1) != ParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("Expected word 'in' at argument position 2 in #foreach",
@@ -355,6 +368,20 @@ public class Foreach extends Directive
             throw new MacroParseException("Argument 3 of #foreach is of the wrong type",
                 templateName, t);
         }
-    }    
-    
+        
+        // If #foreach is defining an index variable make sure it has the 'index $var' combo.
+        if (argtypes.size() > 3)
+        {
+            if (argtypes.get(3) != ParserTreeConstants.JJTWORD)
+            {
+                throw new MacroParseException("Expected word 'index' at argument position 4 in #foreach",
+                    templateName, t);
+            }
+            else if (argtypes.size() == 4 || argtypes.get(4) != ParserTreeConstants.JJTREFERENCE)
+            {
+                throw new MacroParseException("Expected a reference after 'index' in #foreach",
+                  templateName, t);          
+            }
+        }                
+    }        
 }
