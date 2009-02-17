@@ -331,7 +331,7 @@ public class VelocimacroFactory
      * @return true if Macro was registered successfully.
      */
     public boolean addVelocimacro(String name, String macroBody,
-            String argArray[], String sourceTemplate)
+            List<Macro.MacroArg> macroArgs, String sourceTemplate)
     {
         /*
          * maybe we should throw an exception, maybe just tell
@@ -341,7 +341,7 @@ public class VelocimacroFactory
          * They definitely would be if this was only called by directly
          * by users, but Velocity calls this internally.
          */
-        if (name == null || macroBody == null || argArray == null ||
+        if (name == null || macroBody == null || macroArgs == null ||
             sourceTemplate == null)
         {
             String msg = "VM '"+name+"' addition rejected : ";
@@ -353,7 +353,7 @@ public class VelocimacroFactory
             {
                 msg += "macroBody";
             }
-            else if (argArray == null)
+            else if (macroArgs == null)
             {
                 msg += "argArray";
             }
@@ -381,7 +381,7 @@ public class VelocimacroFactory
             {
                 Node macroRootNode = rsvc.parse(new StringReader(macroBody), sourceTemplate);
 
-                vmManager.addVM(name, macroRootNode, argArray, sourceTemplate, replaceAllowed);
+                vmManager.addVM(name, macroRootNode, macroArgs, sourceTemplate, replaceAllowed);
             }
             catch (ParseException ex)
             {
@@ -393,7 +393,7 @@ public class VelocimacroFactory
         if (log.isDebugEnabled())
         {
             StringBuffer msg = new StringBuffer("added ");
-            Macro.macroToString(msg, argArray);
+            Macro.macroToString(msg, macroArgs);
             msg.append(" : source = ").append(sourceTemplate);
             log.debug(msg.toString());
         }
@@ -412,7 +412,7 @@ public class VelocimacroFactory
      * @since 1.6
      */
     public boolean addVelocimacro(String name, Node macroBody,
-            String argArray[], String sourceTemplate)
+            List<Macro.MacroArg> macroArgs, String sourceTemplate)
     {
         // Called by RuntimeInstance.addVelocimacro
 
@@ -424,7 +424,7 @@ public class VelocimacroFactory
          * They definitely would be if this was only called by directly
          * by users, but Velocity calls this internally.
          */
-        if (name == null || macroBody == null || argArray == null ||
+        if (name == null || macroBody == null || macroArgs == null ||
             sourceTemplate == null)
         {
             String msg = "VM '"+name+"' addition rejected : ";
@@ -436,9 +436,9 @@ public class VelocimacroFactory
             {
                 msg += "macroBody";
             }
-            else if (argArray == null)
+            else if (macroArgs == null)
             {
-                msg += "argArray";
+                msg += "macroArgs";
             }
             else
             {
@@ -460,7 +460,7 @@ public class VelocimacroFactory
 
         synchronized(this)
         {
-            vmManager.addVM(name, macroBody, argArray, sourceTemplate, replaceAllowed);
+            vmManager.addVM(name, macroBody, macroArgs, sourceTemplate, replaceAllowed);
         }
         return(true);
     }

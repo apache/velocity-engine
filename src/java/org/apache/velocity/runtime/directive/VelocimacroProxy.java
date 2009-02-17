@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.ProxyVMContext;
@@ -31,6 +32,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.directive.Macro.MacroArg;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -46,7 +48,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 public class VelocimacroProxy extends Directive
 {
     private String macroName;
-    private String[] argArray = null;
+    private List<Macro.MacroArg> macroArgs = null;
     private String[] literalArgArray = null;
     private SimpleNode nodeTree = null;
     private int numMacroArgs = 0;
@@ -88,16 +90,16 @@ public class VelocimacroProxy extends Directive
      * 
      * @param arr
      */
-    public void setArgArray(String[] arr)
+    public void setMacroArgs(List<Macro.MacroArg> args)
     {
-        argArray = arr;
+        macroArgs = args;
         
         // for performance reasons we precache these strings - they are needed in
         // "render literal if null" functionality
-        literalArgArray = new String[arr.length];
-        for(int i = 0; i < arr.length; i++)
+        literalArgArray = new String[macroArgs.size()];
+        for(int i = 0; i < macroArgs.size(); i++)
         {
-            literalArgArray[i] = ".literal.$" + argArray[i];
+            literalArgArray[i] = ".literal.$" + macroArgs.get(i);
         }
 
         /*
@@ -105,7 +107,7 @@ public class VelocimacroProxy extends Directive
          * it's 0th element
          */
 
-        numMacroArgs = argArray.length - 1;
+        numMacroArgs = macroArgs.size() - 1;
     }
 
     /**
@@ -152,24 +154,70 @@ public class VelocimacroProxy extends Directive
         // the creation of this context is a major bottleneck (incl 2x HashMap)
         final ProxyVMContext vmc = new ProxyVMContext(context, localContextScope);
 
-        int callArguments = node.jjtGetNumChildren();
-
-        if (callArguments > 0)
-        {
-            // the 0th element is the macro name
-            for (int i = 1; i < argArray.length && i <= callArguments; i++)
-            {
-                // Add argument name and value to the new macro context
-                vmc.put(argArray[i], node.jjtGetChild(i - 1).value(context));
-            }
-        }
+        int callArgNum = node.jjtGetNumChildren();
         
         // if this macro was invoked by a call directive, we might have a body AST here. 
         // Put it into context.
         if( body != null )
         {
             vmc.put(bodyReference, body);
+            callArgNum--;  // Remove the body AST from the arg count
         }
+          
+        // Check if we have more calling arguments then the macro accepts
+        if (callArgNum > macroArgs.size() -1)
+        {
+            if (strictArguments)
+            {
+                throw new VelocityException("Provided " + callArgNum + " arguments but macro #" 
+                    + macroArgs.get(0).name + " accepts at most " + (macroArgs.size()-1)
+                    + " at " + Log.formatFileString(node));
+            }
+            else   // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
+            {
+              rsvc.getLog().debug("VM #" + macroArgs.get(0).name 
+                  + ": too many arguments to macro. Wanted " + (macroArgs.size()-1) 
+                  + " got " + callArgNum);
+            }
+        }
+          
+        // Move arguments into the macro's context. Start at one to skip macro name
+        for (int i = 1; i < macroArgs.size(); i++)
+        {
+            MacroArg macroArg = macroArgs.get(i);
+            if (i - 1 < callArgNum)
+            {
+                // There's a calling value.
+                vmc.put(macroArg.name, node.jjtGetChild(i - 1).value(context));
+            }
+            else if (macroArg.defaultVal != null)
+            {
+                // We don't have a calling value, but the macro defines a default value
+                vmc.put(macroArg.name, macroArg.defaultVal.value(context));
+            }
+            else if (strictArguments)
+            {
+                // We come to this point if we don't have a calling value, and
+                // there is no default value. Not enough arguments defined.
+                int minArgNum = -1; //start at -1 to skip the macro name
+                // Calculate minimum number of args required for macro
+                for (MacroArg marg : macroArgs)
+                {
+                    if (marg.defaultVal == null) minArgNum++;
+                }
+                throw new VelocityException("Need at least " + minArgNum + " argument for macro #"
+                    + macroArgs.get(0).name + " but only " + callArgNum + " where provided at "
+                    + Log.formatFileString(node));
+            }
+            else  // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
+            {
+                rsvc.getLog().debug("VM #" + macroArgs.get(0).name 
+                 + ": too few arguments to macro. Wanted " + (macroArgs.size()-1) 
+                 + " got " + callArgNum);
+                break;
+            }
+        }
+                        
 
         /*
          * check that we aren't already at the max call depth
@@ -257,37 +305,5 @@ public class VelocimacroProxy extends Directive
         return msg;
     }
     
-    /**
-     * check if we are calling this macro with the right number of arguments.  If 
-     * we are not, and strictArguments is active, then throw TemplateInitException.
-     * This method is called during macro render, so it must be thread safe.
-     */
-    public void checkArgs(InternalContextAdapter context, Node node, boolean hasBody)
-    {
-        // check how many arguments we have
-        int i = node.jjtGetNumChildren();
-        
-        // if macro call has a body (BlockMacro) then don't count the body as an argument
-        if( hasBody )
-            i--;
-
-        // Throw exception for invalid number of arguments?
-        if (getNumArgs() != i)
-        {
-            if (strictArguments)
-            {
-                /**
-                 * indicate col/line assuming it starts at 0 - this will be corrected one call up
-                 */
-                throw new TemplateInitException(buildErrorMsg(node, i), 
-                    context.getCurrentTemplateName(), 0, 0);
-            }
-            else if (rsvc.getLog().isDebugEnabled())
-            {
-                rsvc.getLog().debug(buildErrorMsg(node, i));
-                return;
-            }
-        }
-    }
 }
 

@@ -19,8 +19,10 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
+import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.collections.ExtendedProperties;
@@ -31,6 +33,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
@@ -376,7 +379,7 @@ public interface RuntimeServices
      */
     public boolean addVelocimacro( String name,
                                           Node macro,
-                                          String argArray[],
+                                          List<Macro.MacroArg> macroArgs,
                                           String sourceTemplate );
                                           
                                           

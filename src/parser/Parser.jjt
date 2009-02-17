@@ -26,7 +26,7 @@ options
     /** The default package for this parser kit */
     NODE_PACKAGE="org.apache.velocity.runtime.parser";
 
-    /** A source file will be generated for each non-terminal */
+    /** A source file will  be generated for each non-terminal */
     MULTI=true;
 
     /**
@@ -347,7 +347,7 @@ public class Parser
                 }
             }
         }
-        catch (IOException e)
+        catch(IOException e)
         {
         }
         finally
@@ -359,6 +359,41 @@ public class Parser
         }
         return false;
     }
+    
+    /**
+     * We use this method in a lookahead to determine if we are in a macro
+     * default value assignment.  The standard lookahead is not smart enough.
+     * here we look for the equals after the reference.
+     */
+    private boolean isAssignment()
+    {
+       // Basically if the last character read was not '$' then false
+       if (token_source.curLexState != REFERENCE) return false;
+       
+       char c = ' ';
+       int backup = 0;
+       try
+       {
+           // Read through any white space
+           while(Character.isWhitespace(c))
+           {
+                c = velcharstream.readChar();
+                backup++;
+           }
+           
+           // This is what we are ultimately looking for
+           if (c != '=') return false;
+       }
+       catch (IOException e)
+       {
+       }
+       finally
+       {
+           velcharstream.backup(backup);
+       }
+              
+       return true;
+    }    
 }
 
 PARSER_END(Parser)
@@ -1504,6 +1539,12 @@ int DirectiveArg() #void : {}
     }
 }
 
+void DirectiveAssign() : {}
+{
+    Reference()
+}
+
+
 /**
  *   Supports the Pluggable Directives
  *     #foo( arg+ )
@@ -1590,14 +1631,21 @@ SimpleNode Directive() :
 
 
      /**
-      * Look for the patter [WHITESPACE] <LPAREN>
+      * Look for the pattern [WHITESPACE] <LPAREN>
       */
     (LOOKAHEAD( { isLeftParenthesis() } )
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
     ([<WHITESPACE>] <LPAREN> ( LOOKAHEAD(2) [<WHITESPACE>] [<COMMA> [<WHITESPACE>]]
-       (argType = DirectiveArg()
+       (              
+           [LOOKAHEAD( { isMacro && isAssignment() }) 
+              DirectiveAssign() [<WHITESPACE>] <EQUALS> [<WHITESPACE>]
+           {
+               argtypes.add(ParserTreeConstants.JJTDIRECTIVEASSIGN);
+           }
+           ]
+            argType = DirectiveArg() 
             {
                 argtypes.add(argType);
                 if (d == null && argType == ParserTreeConstants.JJTWORD)
@@ -1620,7 +1668,9 @@ SimpleNode Directive() :
               + " arguments", currentTemplateName, t);
           }
         }
-         <SINGLE_LINE_COMMENT_START> [<SINGLE_LINE_COMMENT>] )
+        
+         <SINGLE_LINE_COMMENT_START> [<SINGLE_LINE_COMMENT>] 
+      )
     )* [<WHITESPACE>] <RPAREN>)
     |
     {

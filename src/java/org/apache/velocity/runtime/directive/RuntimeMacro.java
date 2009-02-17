@@ -277,17 +277,6 @@ public class RuntimeMacro extends Directive
 
         if (vmProxy != null)
         {
-            try
-            {
-            	// mainly check the number of arguments
-                vmProxy.checkArgs(context, node, body != null);
-            }
-            catch (TemplateInitException die)
-            {
-                throw new ParseErrorException(die.getMessage() + " at "
-                    + Log.formatFileString(node), new Info(node));
-            }
-
             if (badArgsErrorMsg != null)
             {
                 throw new TemplateInitException(badArgsErrorMsg,

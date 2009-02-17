@@ -28,6 +28,7 @@ import java.io.Writer;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -49,6 +50,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.LogManager;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -1618,10 +1620,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public boolean addVelocimacro( String name,
                                           Node macro,
-                                          String argArray[],
+                                          List<Macro.MacroArg> macroArgs,
                                           String sourceTemplate )
     {
-        return vmFactory.addVelocimacro(name.intern(), macro,  argArray,  sourceTemplate);
+        return vmFactory.addVelocimacro(name.intern(), macro,  macroArgs,  sourceTemplate);
     }
     
     

@@ -45,6 +45,7 @@ public class MacroCommentsTestCase extends BaseTestCase
       assertEvalEquals("","#macro(foo1##\n)#end#foo1()");
       assertEvalEquals("ab","#macro(foo2##\n\t ####\r $bar \n ##\n## Testing  blaa\n $bar2##\n)$bar$bar2#end#foo2(\"a\" \"b\")");
       assertEvalEquals("","#macro(foo4 ## test\n  ## test2  ## test3 \n)#end#foo4()");
+      assertEvalEquals("","#macro(foo4 ## test\n  $x = 5 ## test2  ## test3 \n)#end#foo4()");
     }
     
     public void testErrors()
