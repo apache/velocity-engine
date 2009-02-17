@@ -30,7 +30,6 @@ public class LocalDirectiveTestCase extends BaseTestCase
     public LocalDirectiveTestCase(String name)
     {
         super(name);
-        DEBUG = true;
     }
 
     public void testSimple() throws Exception
