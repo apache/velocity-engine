@@ -29,6 +29,8 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * Test parser exception is generated with appropriate info.
@@ -54,15 +56,9 @@ public class ParseExceptionTestCase extends BaseTestCase
         super(name);
     }
 
-    public void setUp()
-            throws Exception
+    public void setUp() throws Exception
     {
-
-    }
-
-    public static Test suite ()
-    {
-        return new TestSuite(ParseExceptionTestCase.class);
+        super.setUp();
     }
 
     /**
@@ -112,32 +108,7 @@ public class ParseExceptionTestCase extends BaseTestCase
     public void testParseExceptionFromEval ()
             throws Exception
     {
-
-        VelocityEngine ve = new VelocityEngine();
-        ve.init();
-
-        VelocityContext context = new VelocityContext();
-
-        Writer writer = new StringWriter();
-
-        try
-        {
-            ve.evaluate(context,writer,"test","   #set($abc)   ");
-            fail("Should have thown a ParseErrorException");
-        }
-        catch (ParseErrorException e)
-        {
-            assertEquals("test",e.getTemplateName());
-            assertEquals(1,e.getLineNumber());
-            assertEquals(13,e.getColumnNumber());
-        }
-        finally
-        {
-            if (writer != null)
-            {
-                writer.close();
-            }
-        }
+         assertEvalExceptionAt("   #set($abc)   ", 1, 13);
     }
 
     /**
@@ -148,31 +119,7 @@ public class ParseExceptionTestCase extends BaseTestCase
     public void testParseExceptionFromMacroDef ()
             throws Exception
     {
-        VelocityEngine ve = new VelocityEngine();
-        ve.init();
-
-        VelocityContext context = new VelocityContext();
-
-        Writer writer = new StringWriter();
-
-        try
-        {
-            ve.evaluate(context,writer,"testMacro","#macro($blarg) foo #end");
-            fail("Should have thown a ParseErrorException");
-        }
-        catch (ParseErrorException e)
-        {
-            assertEquals("testMacro",e.getTemplateName());
-            assertEquals(1,e.getLineNumber());
-            assertEquals(7,e.getColumnNumber());
-        }
-        finally
-        {
-            if (writer != null)
-            {
-                writer.close();
-            }
-        }
+        assertEvalExceptionAt("#macro($blarg) foo #end", 1, 7);
     }
 
     /**
@@ -183,31 +130,7 @@ public class ParseExceptionTestCase extends BaseTestCase
     public void testParseExceptionFromMacroDefBody ()
             throws Exception
     {
-        VelocityEngine ve = new VelocityEngine();
-        ve.init();
-
-        VelocityContext context = new VelocityContext();
-        
-        Writer writer = new StringWriter();
-
-        try
-        {
-            ve.evaluate(context,writer,"testMacro","#macro(aa $blarg) #set(!! = bb) #end #aa('aa')");
-            fail("Should have thown a ParseErrorException");
-        }
-        catch (ParseErrorException e)
-        {
-            assertEquals("testMacro",e.getTemplateName());
-            assertEquals(1,e.getLineNumber());
-            assertEquals(24,e.getColumnNumber());
-        }
-        finally
-        {
-            if (writer != null)
-            {
-                writer.close();
-            }
-        }
+        assertEvalExceptionAt("#macro(aa $blarg) #set(!! = bb) #end #aa('aa')", 1, 24);
     }
 
     /**
@@ -216,33 +139,8 @@ public class ParseExceptionTestCase extends BaseTestCase
      * @throws Exception
      */
     public void testParseExceptionFromMacroInvoke ()
-            throws Exception
     {
-        VelocityEngine ve = new VelocityEngine();
-        ve.init();
-
-        VelocityContext context = new VelocityContext();
-
-        Writer writer = new StringWriter();
-
-        try
-        {
-            ve.evaluate(context,writer,"testMacroInvoke", "#macro(   foo $a) $a #end #foo(woogie)");
-            fail("Should have thown a ParseErrorException");
-        }
-        catch (org.apache.velocity.exception.TemplateInitException e)
-        {
-            assertEquals("testMacroInvoke",e.getTemplateName());
-            assertEquals(1,e.getLineNumber());
-            assertEquals(27,e.getColumnNumber());
-        }
-        finally
-        {
-            if (writer != null)
-            {
-                writer.close();
-            }
-        }
+        assertEvalExceptionAt("#macro(   foo $a) $a #end #foo(woogie)", 1, 32);
     }
 
 
@@ -254,32 +152,8 @@ public class ParseExceptionTestCase extends BaseTestCase
     public void testParseExceptionMacroInvalidArgumentCount ()
             throws Exception
     {
-        VelocityEngine ve = new VelocityEngine();
-        ve.setProperty("velocimacro.arguments.strict","true");
-        ve.init();
-        
-        VelocityContext context = new VelocityContext();
-        
-        Writer writer = new StringWriter();
-        
-        try 
-        {
-            ve.evaluate(context,writer,"testMacroInvoke", "#macro(foo $a) $a #end #foo('test1' 'test2')");     
-            fail("Should have thown a ParseErrorException");
-        } 
-        catch (ParseErrorException e) 
-        {
-            assertEquals("testMacroInvoke",e.getTemplateName());
-            assertEquals(1,e.getLineNumber());
-            assertEquals(24,e.getColumnNumber());
-        } 
-        finally
-        {
-            if (writer != null)
-            {
-                writer.close();
-            }
-        }
+        engine.setProperty(RuntimeConstants.VM_ARGUMENTS_STRICT,"true");
+        assertEvalExceptionAt("#macro(foo $a) $a #end #foo('test1' 'test2')", 1, 24);     
     }
 
     
@@ -291,25 +165,7 @@ public class ParseExceptionTestCase extends BaseTestCase
     public void testParseExceptionMacroInvalidArgumentCountNoException ()
             throws Exception
     {
-        VelocityEngine ve = new VelocityEngine();
-        ve.init();
-        
-        VelocityContext context = new VelocityContext();
-        
-        Writer writer = new StringWriter();
-
-        // will not throw an exception
-        try 
-        {
-            ve.evaluate(context,writer,"testMacroInvoke", "#macro(foo $a) $a #end #foo('test1' 'test2')");     
-        }
-        finally
-        {
-            if (writer != null)
-            {
-                writer.close();
-            }
-        }
+       assertEvalEquals("test1", "#macro(foo $a)$a#end#foo('test1' 'test2')");     
     }
 
     

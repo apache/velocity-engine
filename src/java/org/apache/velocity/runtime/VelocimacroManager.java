@@ -21,10 +21,12 @@ package org.apache.velocity.runtime;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -95,7 +97,7 @@ public class VelocimacroManager
      * @param namespace The namespace/template from which this macro has been loaded.
      * @return Whether everything went okay.
      */
-    public boolean addVM(final String vmName, final Node macroBody, final String argArray[],
+    public boolean addVM(final String vmName, final Node macroBody, List<Macro.MacroArg> macroArgs,
                          final String namespace, boolean canReplaceGlobalMacro)
     {
         if (macroBody == null)
@@ -105,7 +107,7 @@ public class VelocimacroManager
             throw new VelocityException("Null AST for "+vmName+" in "+namespace);
         }
 
-        MacroEntry me = new MacroEntry(vmName, macroBody, argArray, namespace, rsvc);
+        MacroEntry me = new MacroEntry(vmName, macroBody, macroArgs, namespace, rsvc);
 
         me.setFromLibrary(registerFromLib);
         
@@ -449,24 +451,24 @@ public class VelocimacroManager
     private static class MacroEntry
     {
         private final String vmName;
-        private final String[] argArray;
+        private final List<Macro.MacroArg> macroArgs;
         private final String sourceTemplate;
         private SimpleNode nodeTree = null;
         private boolean fromLibrary = false;
         private VelocimacroProxy vp;
 
         private MacroEntry(final String vmName, final Node macro,
-                   final String argArray[], final String sourceTemplate,
+                   List<Macro.MacroArg> macroArgs, final String sourceTemplate,
                    RuntimeServices rsvc)
         {
             this.vmName = vmName;
-            this.argArray = argArray;
+            this.macroArgs = macroArgs;
             this.nodeTree = (SimpleNode)macro;
             this.sourceTemplate = sourceTemplate;
 
             vp = new VelocimacroProxy();
             vp.setName(this.vmName);
-            vp.setArgArray(this.argArray);
+            vp.setMacroArgs(this.macroArgs);
             vp.setNodeTree(this.nodeTree);
             vp.setLocation(macro.getLine(), macro.getColumn(), macro.getTemplateName());
             vp.init(rsvc);
