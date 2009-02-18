@@ -27,6 +27,12 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+
+        <action type="add" dev="byron" issue="VELOCITY-690">
+	  Block directives no longer require parenthesis so #@foo #end is now allowed.
+	  Also, brackets now work with Block Macros so #{@foo}bar#end works.
+	</action>
+      
         <action type="fix" dev="nbubna">
           Removed all deprecations (Anakia, Texen, VelocityServlet, etc.)
         </action>
