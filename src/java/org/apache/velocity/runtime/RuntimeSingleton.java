@@ -420,12 +420,12 @@ public class RuntimeSingleton implements RuntimeConstants
      *
      * @param name  Name of a new velocimacro.
      * @param macro  root AST node of the parsed macro
-     * @param argArray  Array of strings, containing the
-     *                         #macro() arguments.  the 0th argument is the name.
+     * @param macroArgs  Array of macro arguments, containing the
+     *        #macro() arguments and default values.  the 0th is the name.
      * @param sourceTemplate The template from which the macro is requested.
      * @return boolean  True if added, false if rejected for some
      *                  reason (either parameters or permission settings)
-     * @see RuntimeInstance#addVelocimacro(String, Node, String[], String)
+     * @see RuntimeInstance#addVelocimacro(String, Node, List, String)
      * @since 1.6
      */
     public static boolean addVelocimacro(String name, Node macro,

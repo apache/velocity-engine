@@ -1609,8 +1609,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @param name  Name of velocimacro
      * @param macro  root AST node of the parsed macro
-     * @param argArray  Array of strings, containing the
-     *                         #macro() arguments.  the 0th is the name.
+     * @param macroArgs  Array of macro arguments, containing the
+     *        #macro() arguments and default values.  the 0th is the name.
      * @param sourceTemplate
      * 
      * @since Velocity 1.6

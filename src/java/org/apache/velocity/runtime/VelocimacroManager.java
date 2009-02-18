@@ -93,7 +93,8 @@ public class VelocimacroManager
      * 
      * @param vmName Name of the new VelociMacro.
      * @param macroBody String representation of the macro body.
-     * @param argArray Array of macro parameters, first parameter is the macro name.
+     * @param macroArgs  Array of macro arguments, containing the
+     *        #macro() arguments and default values.  the 0th is the name.
      * @param namespace The namespace/template from which this macro has been loaded.
      * @return Whether everything went okay.
      */

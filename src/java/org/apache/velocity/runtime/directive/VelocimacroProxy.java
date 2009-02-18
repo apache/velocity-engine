@@ -27,7 +27,6 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.ProxyVMContext;
 import org.apache.velocity.exception.MacroOverflowException;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -87,8 +86,8 @@ public class VelocimacroProxy extends Directive
 
     /**
      * sets the array of arguments specified in the macro definition
-     * 
-     * @param arr
+     * @param args  Array of macro arguments, containing the
+     *        #macro() arguments and default values.  the 0th is the name.
      */
     public void setMacroArgs(List<Macro.MacroArg> args)
     {

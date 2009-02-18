@@ -325,7 +325,8 @@ public class VelocimacroFactory
      *
      * @param name Name of the Macro to add.
      * @param macroBody String representation of the macro.
-     * @param argArray Macro arguments. First element is the macro name.
+     * @param macroArgs  Array of macro arguments, containing the
+     *        #macro() arguments and default values.  the 0th is the name.
      * @param sourceTemplate Source template from which the macro gets registered.
      * 
      * @return true if Macro was registered successfully.
@@ -406,7 +407,8 @@ public class VelocimacroFactory
      * 
      * @param name Name of the Macro to add.
      * @param macroBody root node of the parsed macro AST
-     * @param argArray Name of the macro arguments. First element is the macro name.
+     * @param macroArgs  Array of macro arguments, containing the
+     *        #macro() arguments and default values.  the 0th is the name.
      * @param sourceTemplate Source template from which the macro gets registered.
      * @return true if Macro was registered successfully.
      * @since 1.6

@@ -229,14 +229,33 @@ public class Macro extends Directive
 
         return macroArgs;
     }
+    
+    /**
+     * MacroArgs holds the information for a single argument in a 
+     * macro definition.  The arguments for a macro are passed around as a
+     * list of these objects.
+     */
+    public static class MacroArg
+    {
+       /**
+        * Name of the argument with '$' stripped off      
+        */
+        public String name = null;     
+        
+        /**
+         * If the argument was given a default value, then this contains
+         * the base of the AST tree of the value. Otherwise it is null.
+         */
+        public Node defaultVal = null; 
+    }
 
     /**
      * For debugging purposes.  Formats the arguments from
      * <code>argArray</code> and appends them to <code>buf</code>.
      *
      * @param buf A StringBuffer. If null, a new StringBuffer is allocated.
-     * @param argArray The Macro arguments to format
-     *
+     * @param macroArgs  Array of macro arguments, containing the
+     *        #macro() arguments and default values.  the 0th is the name.
      * @return A StringBuffer containing the formatted arguments. If a StringBuffer
      *         has passed in as buf, this method returns it.
      * @since 1.5
@@ -258,13 +277,6 @@ public class Macro extends Directive
         }
         ret.append(" )");
         return ret;
-    }
-    
-    
-    public static class MacroArg
-    {
-        public String name = null;
-        public Node defaultVal = null;
-    }
+    }   
     
 }
