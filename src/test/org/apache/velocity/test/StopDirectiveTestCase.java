@@ -30,6 +30,7 @@ public class StopDirectiveTestCase extends BaseTestCase
     public StopDirectiveTestCase(String name)
     {
         super(name);
+        DEBUG=true;
     }
   
     public void setUp() throws Exception
@@ -37,11 +38,12 @@ public class StopDirectiveTestCase extends BaseTestCase
         super.setUp();
         engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, "test/stop/");
         engine.setProperty(RuntimeConstants.VM_LIBRARY, "vmlib1.vm");
+        engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, true);
     }
 
     public void testStop()
     {
-      // Make it works through the evaluate method call
+      // Make it work through the evaluate method call
       assertEvalEquals("Text1", "Text1#{stop}Text2");
       // Make sure stop works in a template
       assertTmplEquals("Text 1", "stop1.vm");
@@ -49,5 +51,7 @@ public class StopDirectiveTestCase extends BaseTestCase
       assertTmplEquals("Text123stuff1", "stop2.vm");
       // Make sure stop works when called located in another parsed file
       assertTmplEquals("text1blaa1", "stop3.vm");
+      
+      assertEvalEquals("123abcfoo", "123#parse(\"parse2.vm\")foo");
     }
 }

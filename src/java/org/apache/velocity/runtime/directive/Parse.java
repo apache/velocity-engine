@@ -273,6 +273,12 @@ public class Parse extends InputBase
                 ((SimpleNode) t.getData()).render(vmc, writer);
             }
         }
+        catch(Stop.StopParseThrowable spt)
+        {
+           // A #stop(parse) directive call was made in the parsed template
+           // So we simply catch the throwable, and resume.  
+           // See the Stop.java directive for more info.
+        }
         /**
          * pass through application level runtime exceptions
          */

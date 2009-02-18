@@ -27,10 +27,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.TemplateInitException;
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 
@@ -62,35 +59,13 @@ public class Break extends Directive
     }
 
     /**
-     *  simple init - init the tree and get the elementKey from
-     *  the AST
-     * @param rs
-     * @param context
-     * @param node
-     * @throws TemplateInitException
-     */
-    public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
-        throws TemplateInitException
-    {
-        super.init(rs, context, node);
-    }
-
-    /**
      * Break directive does not actually do any rendering. 
      * 
      * This directive throws a BreakException (RuntimeException) which
      * signals foreach directive to break out of the loop. Note that this
      * directive does not verify that it is being called inside a foreach
      * loop.
-     * 
-     * @param context
-     * @param writer
-     * @param node
      * @return true if the directive rendered successfully.
-     * @throws IOException
-     * @throws MethodInvocationException
-     * @throws ResourceNotFoundException
-     * @throws ParseErrorException
      */
     public boolean render(InternalContextAdapter context,
                            Writer writer, Node node)

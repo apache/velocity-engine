@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.visitor;
  * under the License.    
  */
 
+import org.apache.velocity.runtime.directive.Stop;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTAddNode;
 import org.apache.velocity.runtime.parser.node.ASTAndNode;
@@ -52,7 +53,6 @@ import org.apache.velocity.runtime.parser.node.ASTObjectArray;
 import org.apache.velocity.runtime.parser.node.ASTOrNode;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.ASTSetDirective;
-import org.apache.velocity.runtime.parser.node.ASTStop;
 import org.apache.velocity.runtime.parser.node.ASTStringLiteral;
 import org.apache.velocity.runtime.parser.node.ASTSubtractNode;
 import org.apache.velocity.runtime.parser.node.ASTText;
@@ -430,15 +430,6 @@ public class NodeViewMode extends BaseVisitor
      * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTIntegerRange, java.lang.Object)
      */
     public Object visit(ASTIntegerRange node, Object data)
-    {
-        return showNode(node,data);
-    }
-
-    /**
-     * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTStop, java.lang.Object)
-     * @since 1.5
-     */
-    public Object visit(ASTStop node, Object data)
     {
         return showNode(node,data);
     }

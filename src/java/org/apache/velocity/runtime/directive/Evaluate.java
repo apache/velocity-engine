@@ -31,11 +31,11 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.directive.Stop.StopThrowable;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.parser.node.ASTStop.StopThrowable;
 import org.apache.velocity.util.introspection.Info;
 
 /**

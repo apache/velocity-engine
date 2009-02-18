@@ -1,5 +1,7 @@
 package org.apache.velocity.runtime.parser.node;
 
+import org.apache.velocity.runtime.directive.Stop;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -196,13 +198,6 @@ public interface ParserVisitor
    * @return The object rendered by this node.
    */
   public Object visit(ASTSetDirective node, Object data);
-
-  /**
-   * @param node
-   * @param data
-   * @return The object rendered by this node.
-   */
-  public Object visit(ASTStop node, Object data);
 
   /**
    * @param node
