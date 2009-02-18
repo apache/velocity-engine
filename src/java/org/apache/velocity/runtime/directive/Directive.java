@@ -139,8 +139,8 @@ public abstract class Directive implements DirectiveConstants, Cloneable
      * errors in IDEs.
      * @param argtypes type, Array of argument types of each argument to the directive
      * for example ParserTreeConstants.JJTWORD
-     * @param t, token of directive
-     * @param templateName, the name of the template this directive is referenced in.
+     * @param t token of directive
+     * @param templateName the name of the template this directive is referenced in.
      */
     public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
         throws ParseException
