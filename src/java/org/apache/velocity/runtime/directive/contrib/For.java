@@ -13,6 +13,15 @@ import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
 
+
+/**
+ * The #for directive provides the behavior of the #foreach directive but also
+ * provides an 'index' keyword that allows the user to define an optional index variable
+ * that tracks the loop iterations. e.g.; #for($user in $users index $i).
+ * As $user iterates through $users the index reference $i will be equal to
+ * 0, 1, 2, etc..
+ * @see org.apache.velocity.runtime.directive.Foreach 
+ */
 public class For extends Foreach
 {
 
@@ -60,7 +69,8 @@ public class For extends Foreach
             "Expected word 'index' at argument position 4 in #foreach",
             templateName, t);
       } 
-      else if (argtypes.size() == 4 || argtypes.get(4) != ParserTreeConstants.JJTREFERENCE)
+      else if (argtypes.size() == 4 
+          || argtypes.get(4) != ParserTreeConstants.JJTREFERENCE)
       {
         throw new MacroParseException(
             "Expected a reference after 'index' in #foreach", templateName, t);
