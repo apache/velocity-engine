@@ -58,19 +58,6 @@ public class ForeachTestCase extends BaseTestCase
         assertEvalEquals("1 2 3 ", "#foreach ($item in [1..10])$item #end");             
     }
     
-    public void testIndexKeyword()
-    {
-        assertEvalEquals("041526", "#set($b = [4, 5, 6])#foreach($a in $b index $c)$c$a#end");
-        assertEvalEquals("444546545556646566", "#set($b = [4, 5, 6])#foreach($a in $b index $c)#foreach($x in $b index $c)$a$x#end#end");
-    }
-    
-    public void testIndexErrors()
-    {
-      assertEvalException("#foreach($a in b)#end");
-      assertEvalException("#foreach($a in $b index)#end");
-      assertEvalException("#foreach($a in $b index blaa)#end");
-    }
-
     /**
      * Tests proper method execution during a Foreach loop over a Collection
      * with items of varying classes.

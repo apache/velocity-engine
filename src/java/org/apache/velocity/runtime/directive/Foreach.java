@@ -75,7 +75,7 @@ public class Foreach extends Directive
      * the counter value into the context. Right
      * now the default is $velocityCount.
      */
-    private String counterName;
+    protected String counterName;
 
     /**
      * The name of the variable to use when placing
@@ -87,7 +87,7 @@ public class Foreach extends Directive
     /**
      * What value to start the loop counter at.
      */
-    private int counterInitialValue;
+    protected int counterInitialValue;
 
     /**
      * The maximum number of times we're allowed to loop.
@@ -167,16 +167,6 @@ public class Foreach extends Directive
             elementKey = sn.getFirstToken().image.substring(1);
         }
         
-        // If we have more then 3 argument then the user has specified an
-        // index value, i.e.; #foreach($a in $b index $c)
-        if (node.jjtGetNumChildren() > 4)
-        {
-            // The index variable name is at position 4
-            counterName = ((ASTReference) node.jjtGetChild(4)).getRootString();
-            // The count value always starts at 0 when using an index.
-            counterInitialValue = 0;
-        }
-
         /*
          * make an uberinfo - saves new's later on
          */
@@ -368,20 +358,5 @@ public class Foreach extends Directive
             throw new MacroParseException("Argument 3 of #foreach is of the wrong type",
                 templateName, t);
         }
-        
-        // If #foreach is defining an index variable make sure it has the 'index $var' combo.
-        if (argtypes.size() > 3)
-        {
-            if (argtypes.get(3) != ParserTreeConstants.JJTWORD)
-            {
-                throw new MacroParseException("Expected word 'index' at argument position 4 in #foreach",
-                    templateName, t);
-            }
-            else if (argtypes.size() == 4 || argtypes.get(4) != ParserTreeConstants.JJTREFERENCE)
-            {
-                throw new MacroParseException("Expected a reference after 'index' in #foreach",
-                  templateName, t);          
-            }
-        }                
     }        
 }
