@@ -55,25 +55,24 @@ public interface ParserConstants {
   int IF_DIRECTIVE = 54;
   int ELSEIF_DIRECTIVE = 55;
   int ELSE_DIRECTIVE = 56;
-  int STOP_DIRECTIVE = 57;
-  int DIGIT = 58;
-  int INTEGER_LITERAL = 59;
-  int FLOATING_POINT_LITERAL = 60;
-  int EXPONENT = 61;
-  int LETTER = 62;
-  int DIRECTIVE_CHAR = 63;
-  int WORD = 64;
-  int BRACKETED_WORD = 65;
-  int ALPHA_CHAR = 66;
-  int ALPHANUM_CHAR = 67;
-  int IDENTIFIER_CHAR = 68;
-  int IDENTIFIER = 69;
-  int DOT = 70;
-  int LCURLY = 71;
-  int RCURLY = 72;
-  int REFERENCE_TERMINATOR = 73;
-  int DIRECTIVE_TERMINATOR = 74;
-  int EMPTY_INDEX = 75;
+  int DIGIT = 57;
+  int INTEGER_LITERAL = 58;
+  int FLOATING_POINT_LITERAL = 59;
+  int EXPONENT = 60;
+  int LETTER = 61;
+  int DIRECTIVE_CHAR = 62;
+  int WORD = 63;
+  int BRACKETED_WORD = 64;
+  int ALPHA_CHAR = 65;
+  int ALPHANUM_CHAR = 66;
+  int IDENTIFIER_CHAR = 67;
+  int IDENTIFIER = 68;
+  int DOT = 69;
+  int LCURLY = 70;
+  int RCURLY = 71;
+  int REFERENCE_TERMINATOR = 72;
+  int DIRECTIVE_TERMINATOR = 73;
+  int EMPTY_INDEX = 74;
 
   int REFERENCE = 0;
   int REFMODIFIER = 1;
@@ -146,7 +145,6 @@ public interface ParserConstants {
     "<IF_DIRECTIVE>",
     "<ELSEIF_DIRECTIVE>",
     "<ELSE_DIRECTIVE>",
-    "<STOP_DIRECTIVE>",
     "<DIGIT>",
     "<INTEGER_LITERAL>",
     "<FLOATING_POINT_LITERAL>",

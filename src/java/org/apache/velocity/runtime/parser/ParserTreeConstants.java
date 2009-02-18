@@ -33,23 +33,22 @@ public interface ParserTreeConstants
   public int JJTSETDIRECTIVE = 26;
   public int JJTLOCALDIRECTIVE = 27;
   public int JJTGLOBALDIRECTIVE = 28;
-  public int JJTSTOP = 29;
-  public int JJTEXPRESSION = 30;
-  public int JJTASSIGNMENT = 31;
-  public int JJTORNODE = 32;
-  public int JJTANDNODE = 33;
-  public int JJTEQNODE = 34;
-  public int JJTNENODE = 35;
-  public int JJTLTNODE = 36;
-  public int JJTGTNODE = 37;
-  public int JJTLENODE = 38;
-  public int JJTGENODE = 39;
-  public int JJTADDNODE = 40;
-  public int JJTSUBTRACTNODE = 41;
-  public int JJTMULNODE = 42;
-  public int JJTDIVNODE = 43;
-  public int JJTMODNODE = 44;
-  public int JJTNOTNODE = 45;
+  public int JJTEXPRESSION = 29;
+  public int JJTASSIGNMENT = 30;
+  public int JJTORNODE = 31;
+  public int JJTANDNODE = 32;
+  public int JJTEQNODE = 33;
+  public int JJTNENODE = 34;
+  public int JJTLTNODE = 35;
+  public int JJTGTNODE = 36;
+  public int JJTLENODE = 37;
+  public int JJTGENODE = 38;
+  public int JJTADDNODE = 39;
+  public int JJTSUBTRACTNODE = 40;
+  public int JJTMULNODE = 41;
+  public int JJTDIVNODE = 42;
+  public int JJTMODNODE = 43;
+  public int JJTNOTNODE = 44;
 
 
   public String[] jjtNodeName = {
@@ -82,7 +81,6 @@ public interface ParserTreeConstants
     "SetDirective",
     "LocalDirective",
     "GlobalDirective",
-    "Stop",
     "Expression",
     "Assignment",
     "OrNode",

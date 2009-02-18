@@ -30,7 +30,6 @@ public class GlobalTestCase extends BaseTestCase
     public GlobalTestCase(String name)
     {
         super(name);
-        DEBUG = true;       
     }
 
     public void setUp() throws Exception

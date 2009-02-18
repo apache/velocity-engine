@@ -22,6 +22,7 @@ package org.apache.velocity.runtime.visitor;
 import java.io.Writer;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.runtime.directive.Stop;
 import org.apache.velocity.runtime.parser.node.ASTAddNode;
 import org.apache.velocity.runtime.parser.node.ASTAndNode;
 import org.apache.velocity.runtime.parser.node.ASTAssignment;
@@ -55,7 +56,6 @@ import org.apache.velocity.runtime.parser.node.ASTObjectArray;
 import org.apache.velocity.runtime.parser.node.ASTOrNode;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.ASTSetDirective;
-import org.apache.velocity.runtime.parser.node.ASTStop;
 import org.apache.velocity.runtime.parser.node.ASTStringLiteral;
 import org.apache.velocity.runtime.parser.node.ASTSubtractNode;
 import org.apache.velocity.runtime.parser.node.ASTText;
@@ -458,16 +458,6 @@ public abstract class BaseVisitor implements ParserVisitor
      * @since 1.5
      */
     public Object visit(ASTIntegerRange node, Object data)
-    {
-        data = node.childrenAccept(this, data);
-        return data;
-    }
-
-    /**
-     * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTStop, java.lang.Object)
-     * @since 1.5
-     */
-    public Object visit(ASTStop node, Object data)
     {
         data = node.childrenAccept(this, data);
         return data;
