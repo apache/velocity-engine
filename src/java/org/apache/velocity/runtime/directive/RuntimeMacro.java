@@ -33,6 +33,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.directive.contrib.Return;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
@@ -306,6 +307,11 @@ public class RuntimeMacro extends Directive
                   Log.formatFileString(node));
                 throw e;
             }
+            catch (Return.ReturnThrowable r)
+            {
+              return true;  // Simply return and continue rendering.
+            }
+            
         }
         else if (strictRef)
         {
