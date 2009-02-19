@@ -42,7 +42,7 @@ import org.apache.velocity.runtime.log.Log;
 public class ClassMap
 {
     /** Set true if you want to debug the reflection code */
-    private static final boolean debugReflection = false;
+    private static final boolean debugReflection = true;
 
     /** Class logger */
     private final Log log;
@@ -164,22 +164,12 @@ public class ClassMap
         try
         {
             Method[] methods = classToReflect.getDeclaredMethods();
-
             for (int i = 0; i < methods.length; i++)
             {
-                // Strictly spoken that check shouldn't be necessary
-                // because getMethods only returns public methods.
                 int modifiers = methods[i].getModifiers();
-                if (Modifier.isPublic(modifiers)) //  && !)
+                if (Modifier.isPublic(modifiers))
                 {
-                    // Some of the interfaces contain abstract methods. That is fine, because the actual object must 
-                    // implement them anyway (else it wouldn't be implementing the interface). If we find an abstract
-                    // method in a non-interface, we skip it, because we do want to make sure that no abstract methods end up in
-                    // the cache.                       
-                    if (classToReflect.isInterface() || !Modifier.isAbstract(modifiers))
-                    {
-                        methodCache.put(methods[i]);
-                    }
+                    methodCache.put(methods[i]);
                 }
             }
         }
