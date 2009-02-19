@@ -534,16 +534,12 @@
       classpathref="velocity.run.classpath"/>
   </target>
 
-  <target name="examples-clean" depends="examples-clean-anakia">
+  <target name="examples-clean">
     <delete quiet="true">
       <fileset dir="${example.dir}" includes="**/*.class">
         <include name="**/*.log"/>
       </fileset>
     </delete>
-  </target>
-
-  <target name="examples-clean-anakia">
-    <delete dir="${example.dir}/anakia/docs" quiet="true"/>
   </target>
 
   <!-- =================================================================== -->
@@ -1206,9 +1202,6 @@
 
           <exclude name="**/BaseTestCase.java"></exclude>
 
-          <exclude name="**/TexenTestCase.java"></exclude>
-          <exclude name="**/TexenClasspathTestCase.java"></exclude>
-          <exclude name="**/AnakiaTestCase.java"></exclude>
           <exclude name="**/MultiLoaderTestCase.java"></exclude>
           <exclude name="**/ClasspathResourceTestCase.java"></exclude>
         </fileset>
@@ -1216,13 +1209,7 @@
     </junit>
   </target>
   
-  <target name="test" depends="test-main, test-legacy"/>
-  
-  <target name="test-legacy" unless="testcase">
-    <!-- Run the legacy tests for anakia, texen... -->
-    <ant antfile="${velocity.build.dir}/testcases.xml"
-         target="test-all"/>
-  </target>
+  <target name="test" depends="test-main"/>
 
   <target name="test-clean">
     <delete dir="${build.test.dest}" quiet="true"/>
