@@ -26,7 +26,7 @@
 
   <body>
 
-    <release version="1.6.2" date="2009-02-21">
+    <release version="1.6.2" date="2009-03-01">
 
       <action type="fix" dev="nbubna" issue="VELOCITY-702">
         Fix obscure caching problem in multiple resource loader situations
