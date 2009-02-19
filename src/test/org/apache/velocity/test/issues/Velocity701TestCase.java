@@ -20,53 +20,32 @@ package org.apache.velocity.test.issues;
  */
 
 import org.apache.velocity.test.BaseEvalTestCase;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
- * This class tests VELOCITY-689.
+ * This class tests VELOCITY-701.
  */
-public class Velocity689TestCase extends BaseEvalTestCase
+public class Velocity701TestCase extends BaseEvalTestCase
 {
-    public Velocity689TestCase(String name)
+    public Velocity701TestCase(String name)
     {
         super(name);
-        // DEBUG = true;
+        //DEBUG = true;
     }
 
-    public void testIt()
+    public void testAbstractClass()
     {
-        context.put("foo", new Foo());
-        String template = "$foo.baz, $foo.bar";
-        assertEvalEquals("baz, bar", template);
+        context.put("foo", new Foo() {
+            public String getBar() {
+                return "bar";
+            }
+        });
+        assertEvalEquals("bar", "$foo.bar");
     }
 
-    public static interface HasMethod
-    {
-        String getBar();
-    }
-
-    public static interface HasOtherMethod extends HasMethod
-    {
-        String getBaz();
-    }
-
-    public static interface NoMethod extends HasOtherMethod
-    {
-        // nada!
-    }
-
-    private static class Foo implements NoMethod
-    {
-        public String getBar()
-        {
-            return "bar";
-        }
-
-        public String getBaz()
-        {
-            return "baz";
-        }
+    public static abstract class Foo {
+        
+        public abstract String getBar();
+    
     }
 
 }
