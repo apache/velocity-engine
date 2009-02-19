@@ -142,6 +142,11 @@
 
     <release version="1.6.2" date="In Subversion">
 
+      <action type="fix" dev="nbubna" issue="VELOCITY-701">
+        Fix old regression from 1.4 in supporting methods declared as abstract
+        in a public class but implemented in a non-public class.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-693">
         Fix problem with FileResourceLoader's resourceExists() when
         configured w/multiple paths.
