@@ -525,6 +525,19 @@ public class ResourceManagerImpl
          */
         resource.touch();
 
+        /* check whether this can now be found in a higher priority
+         * resource loader.  if so, pass the request off to loadResource.
+         */
+        ResourceLoader loader = resource.getResourceLoader();
+        if (resourceLoaders.size() > 0 && resourceLoaders.indexOf(loader) > 0)
+        {
+            String name = resource.getName();
+            if (loader != getLoaderForResource(name))
+            {
+                return loadResource(name, resource.getType(), encoding);
+            }
+        }
+
         if (resource.isSourceModified())
         {
             /*
@@ -547,7 +560,7 @@ public class ResourceManagerImpl
              *  read how old the resource is _before_
              *  processing (=>reading) it
              */
-            long howOldItWas = resource.getResourceLoader().getLastModified(resource);
+            long howOldItWas = loader.getLastModified(resource);
 
             String resourceKey = resource.getType() + resource.getName();
 
@@ -562,8 +575,8 @@ public class ResourceManagerImpl
             newResource.setRuntimeServices(rsvc);
             newResource.setName(resource.getName());
             newResource.setEncoding(resource.getEncoding());
-            newResource.setResourceLoader(resource.getResourceLoader());
-            newResource.setModificationCheckInterval(resource.getResourceLoader().getModificationCheckInterval());
+            newResource.setResourceLoader(loader);
+            newResource.setModificationCheckInterval(loader.getModificationCheckInterval());
 
             newResource.process();
             newResource.setLastModified(howOldItWas);
@@ -608,17 +621,29 @@ public class ResourceManagerImpl
      */
     public String getLoaderNameForResource(String resourceName)
     {
-        /*
-         *  loop through our loaders...
-         */
-        for (Iterator it = resourceLoaders.iterator(); it.hasNext(); )
+        ResourceLoader loader = getLoaderForResource(resourceName);
+        if (loader == null)
         {
-            ResourceLoader resourceLoader = (ResourceLoader) it.next();
-            if (resourceLoader.resourceExists(resourceName))
+            return null;
+        }
+        return loader.getClass().toString();
+    }
+
+    /**
+     * Returns the first {@link ResourceLoader} in which the specified
+     * resource exists.
+     */
+    private ResourceLoader getLoaderForResource(String resourceName)
+    {
+        for (Iterator i = resourceLoaders.iterator(); i.hasNext(); )
+        {
+            ResourceLoader loader = (ResourceLoader)i.next();
+            if (loader.resourceExists(resourceName))
             {
-                return resourceLoader.getClass().toString();
+                return loader;
             }
         }
         return null;
     }
+
 }

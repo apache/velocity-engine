@@ -200,4 +200,43 @@ public class BaseEvalTestCase extends TestCase
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Compare an expected string with the given loaded template
+     */
+    protected void assertTmplEquals(String expected, String template)
+    {        
+        if (DEBUG)
+        {
+            engine.getLog().info("Expected:  '" + expected + "'");
+        }
+
+        StringWriter writer = new StringWriter();
+        try
+        {          
+            engine.mergeTemplate(template, "utf-8", context, writer);
+        }
+        catch (RuntimeException re)
+        {
+            if (DEBUG)
+            {
+                engine.getLog().info("RuntimeException!", re);
+            }
+            throw re;
+        }
+        catch (Exception e)
+        {
+            if (DEBUG)
+            {
+                engine.getLog().info("Exception!", e);
+            }
+            throw new RuntimeException(e);
+        }        
+
+        if (DEBUG)
+        {
+            engine.getLog().info("Result:  '" + writer.toString() + "'");
+        }
+        assertEquals(expected, writer.toString());  
+    }
 }
