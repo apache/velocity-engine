@@ -109,7 +109,7 @@ public class BlockMacroTestCase extends BaseTestCase
 
     public void testRecursiveBlockMacro()
     {
-        engine.setProperty(RuntimeConstants.VM_MAX_DEPTH, 3);
+        engine.setProperty(RuntimeConstants.VM_MAX_DEPTH, "3");
         String template = "#macro(foo)start:$bodyContent#end"+
                           "#@foo()call:$bodyContent#end";
         assertEvalEquals("start:call:call:call:$bodyContent", template);
