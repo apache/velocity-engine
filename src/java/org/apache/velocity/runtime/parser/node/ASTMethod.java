@@ -29,6 +29,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.Info;
@@ -212,18 +213,21 @@ public class ASTMethod extends SimpleNode
     private Object handleInvocationException(Object o, InternalContextAdapter context, Throwable t)
     {
         /*
+         * We let StopCommands go up to the directive they are for/from
+         */
+        if (t instanceof StopCommand)
+        {
+            throw (StopCommand)t;
+        }
+
+        /*
          *  In the event that the invocation of the method
          *  itself throws an exception, we want to catch that
          *  wrap it, and throw.  We don't log here as we want to figure
          *  out which reference threw the exception, so do that
          *  above
          */
-
-        /*
-         *  let non-Exception Throwables go...
-         */
-
-        if (t instanceof Exception)
+        else if (t instanceof Exception)
         {
             try
             {
@@ -245,6 +249,10 @@ public class ASTMethod extends SimpleNode
                     e, methodName, getTemplateName(), this.getLine(), this.getColumn());
             }
         }
+
+        /*
+         *  let non-Exception Throwables go...
+         */
         else
         {
             /*

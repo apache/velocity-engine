@@ -75,6 +75,16 @@ public class Parse extends InputBase
     }
 
     /**
+     * Overrides the default to use "template", so that all templates
+     * can use the same scope reference, whether rendered via #parse
+     * or direct merge.
+     */
+    public String getScopeName()
+    {
+        return "template";
+    }
+
+    /**
      * Return type of this directive.
      * @return The type of this directive.
      */
@@ -247,8 +257,16 @@ public class Parse extends InputBase
         try
         {
             if (!blockinput) {
+                preRender(context);
                 context.pushCurrentTemplateName(arg);
                 ((SimpleNode) t.getData()).render( context, writer );
+            }
+        }
+        catch( StopCommand stop )
+        {
+            if (!stop.isFor(this))
+            {
+                throw stop;
             }
         }
         /**
@@ -273,7 +291,10 @@ public class Parse extends InputBase
         finally
         {
             if (!blockinput)
+            {
                 context.popCurrentTemplateName();
+                postRender(context);
+            }
         }
 
         /*

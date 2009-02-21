@@ -104,6 +104,17 @@ public class RuntimeMacro extends Directive
     }
 
     /**
+     * Override to always return "macro".  We don't want to use
+     * the macro name here, since when writing VTL that uses the
+     * scope, we are within a #macro call.  The macro name will instead
+     * be used as the scope name when defining the body of a BlockMacro.
+     */
+    public String getScopeName()
+    {
+        return "macro";
+    }
+
+    /**
      * Velocimacros are always LINE
      * type directives.
      *
@@ -296,7 +307,16 @@ public class RuntimeMacro extends Directive
 
             try
             {
+                preRender(context);
                 return vmProxy.render(context, writer, node, body);
+            }
+            catch (StopCommand stop)
+            {
+                if (!stop.isFor(this))
+                {
+                    throw stop;
+                }
+                return true;
             }
             catch (RuntimeException e)
             {
@@ -316,6 +336,10 @@ public class RuntimeMacro extends Directive
                 rsvc.getLog().error("Exception in macro #" + macroName + " called at " +
                   Log.formatFileString(node));
                 throw e;
+            }
+            finally
+            {
+                postRender(context);
             }
         }
         else if (strictRef)

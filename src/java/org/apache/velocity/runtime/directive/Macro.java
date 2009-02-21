@@ -71,6 +71,15 @@ public class Macro extends Directive
     }
 
     /**
+     * Since this class does no processing of content,
+     * there is never a need for an internal scope.
+     */
+    public boolean isScopeProvided()
+    {
+        return false;
+    }
+
+    /**
      *   render() doesn't do anything in the final output rendering.
      *   There is no output from a #macro() directive.
      * @param context

@@ -331,7 +331,18 @@ public class Foreach extends Directive
         Object o = context.get(elementKey);
         Object savedCounter = context.get(counterName);
         Object nextFlag = context.get(hasNextName);
-        
+
+        /*
+         * roll our own scope class instead of using preRender(ctx)'s
+         */
+        ForeachScope foreach = null;
+        if (isScopeProvided())
+        {
+            String name = getScopeName();
+            foreach = new ForeachScope(this, context.get(name));
+            context.put(name, foreach);
+        }
+
         /*
          * Instantiate the null holder context if a null value
          * is returned by the foreach iterator.  Only one instance is
@@ -341,6 +352,13 @@ public class Foreach extends Directive
 
         while (!maxNbrLoopsExceeded && i.hasNext())
         {
+            if (isScopeProvided())
+            {
+                // update the scope control
+                foreach.index++;
+                foreach.hasNext = i.hasNext();
+            }
+
             // TODO: JDK 1.5+ -> Integer.valueOf()
             put(context, counterName , new Integer(counter));
             Object value = i.next();
@@ -366,6 +384,19 @@ public class Foreach extends Directive
                     node.jjtGetChild(3).render(context, writer);
                 }
             }
+            catch (StopCommand stop)
+            {
+                if (stop.isFor(this))
+                {
+                    break;
+                }
+                else
+                {
+                    // clean up first
+                    clean(context, o, savedCounter, nextFlag);
+                    throw stop;
+                }
+            }
             catch (Break.BreakException ex)
             {
                 // encountered #break directive inside #foreach loop
@@ -378,27 +409,17 @@ public class Foreach extends Directive
             // ASSUMPTION: counterInitialValue is not negative!
             maxNbrLoopsExceeded = (counter - counterInitialValue) >= maxNbrLoops;
         }
+        clean(context, o, savedCounter, nextFlag);
+        return true;
+    }
 
-        /*
-         * restores the loop counter (if we were nested)
-         * if we have one, else just removes
-         */
-
-        if (savedCounter != null)
-        {
-            context.put(counterName, savedCounter);
-        }
-        else
-        {
-            context.remove(counterName);
-        }
-
-
+    protected void clean(InternalContextAdapter context,
+                         Object o, Object savedCounter, Object nextFlag)
+    {
         /*
          *  restores element key if exists
          *  otherwise just removes
          */
-
         if (o != null)
         {
             context.put(elementKey, o);
@@ -409,9 +430,22 @@ public class Foreach extends Directive
         }
 
         /*
+         * restores the loop counter (if we were nested)
+         * if we have one, else just removes
+         */
+        if (savedCounter != null)
+        {
+            context.put(counterName, savedCounter);
+        }
+        else
+        {
+            context.remove(counterName);
+        }
+
+        /*
          * restores the "hasNext" boolean flag if it exists
          */         
-        if( nextFlag != null )
+        if (nextFlag != null)
         {
             context.put(hasNextName, nextFlag);
         }
@@ -420,6 +454,7 @@ public class Foreach extends Directive
             context.remove(hasNextName);
         }
 
-        return true;
+        // clean up after the ForeachScope
+        postRender(context);
     }
 }
