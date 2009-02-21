@@ -1,0 +1,250 @@
+package org.apache.velocity.test;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.    
+ */
+
+import java.util.HashMap;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.directive.Scope;
+
+/**
+ * This class tests the directive scope controls
+ */
+public class ScopeTestCase extends BaseTestCase
+{
+    public ScopeTestCase(String name)
+    {
+       super(name);
+    }
+
+    public void testRootTemplateMergeScope()
+    {
+        addTemplate("foo", "foo$template.stop()bar");
+        assertTmplEquals("foo", "foo");
+        assertNull(context.get("template"));
+    }
+
+    public void testParseScope()
+    {
+        addTemplate("test", "$template.depth"+
+                            "$!parse.parent.depth"+
+                            "#set( $template.foo = 'bar' )"+
+                            "$template.foo"+
+                            "$template.stop()"+
+                            "woogie");
+        assertEvalEquals("1bar", "#parse( 'test' )");
+        assertNull(context.get("template"));
+    }
+
+    public void testNestedParseScope()
+    {
+        HashMap grab = new HashMap();
+        context.put("grab", grab);
+
+        addTemplate("inner", "Inner depth: $template.depth"+
+                             "#set( $template.foo = '?' )"+
+                             "$!grab.put('inner',$template)"+
+                             "$template.stop()$template.foo");
+        addTemplate("outer", "#set( $template.foo = '!' )"+
+                             "Outer depth: $template.depth "+
+                             "#parse('inner')"+
+                             "$!grab.put('outer', $template)"+
+                             "$template.foo");
+        assertEvalEquals("Outer depth: 1 Inner depth: 2!", "#parse('outer')");
+        // make extra sure that the outer control was restored after the stop
+        assertFalse(grab.get("inner") == grab.get("outer"));
+        // make sure the outer control was cleaned up
+        assertNull(context.get("template"));
+
+        addTemplate("3", "$template.topmost.foo#set( $template.topmost.foo = 'bar' )");
+        addTemplate("2", "#parse( '3' )$!parse.foo");
+        addTemplate("1", "#set( $template.foo = 'foo' )#parse('2')$template.foo");
+        assertEvalEquals("foobar", "#parse('1')$!parse");
+        // make sure the top control was cleaned up
+        assertNull(context.get("template"));
+    }
+
+    public void testForeachScope()
+    {
+        String template = "#foreach( $i in [0..2] )"+
+                          "#if( $i > 1 )$foreach.stop()#end"+
+                          "$foreach.index:$foreach.count:$foreach.hasNext,"+
+                          "#end";
+        assertEvalEquals("0:1:true,1:2:true,", template);
+        assertNull(context.get("foreach"));
+    }
+
+    public void testNestedForeachScope()
+    {
+        String template = "#foreach( $i in [1..5] )"+
+                            "#foreach( $j in [1..2] )"+
+                              "#if ( $i > $foreach.count + $foreach.index + $foreach.depth )$foreach.topmost.stop()#end"+
+                            "#end"+
+                            "$i"+
+                          "#end";
+        assertEvalEquals("123", template);
+        assertNull(context.get("foreach"));
+    }
+
+    public void testMacroScope()
+    {
+        String template = "#macro( foo $i )"+
+                          "#if($i > 2 )$macro.stop()#end"+
+                          "$i#end"+
+                          "#foo( 0 )#foo( 1 )#foo( 2 )";
+        assertEvalEquals("012", template);
+        assertNull(context.get("macro"));
+    }
+
+    public void testRecursiveMacroScope()
+    {
+        String template = "#macro( foo )$macro.depth"+
+                          "#if($macro.depth > 2 )$macro.topmost.stop()#end"+
+                          "#foo()#end#foo()";
+        assertEvalEquals("123", template);
+        assertNull(context.get("macro"));
+    }
+
+    public void testNestedMacroScope()
+    {
+        String template = "#macro( a )$macro.depth#set($macro.c = 'a')$macro.c#end"+
+                          "#macro( b )#set($macro.c = 'b' )#a()$macro.c#end"+
+                          "#b()";
+        assertEvalEquals("2ab", template);
+        assertNull(context.get("macro"));
+    }
+
+    public void testBodyMacroScope()
+    {
+        String template = "#macro( foo $bar )$bodyContent$macro.bar#end"+
+                          "#@foo( 'bar' )#set( $macro.bar = 'foo'+$bar )"+
+                          "#set( $foo.d = $foo.depth )$foo.d #end";
+        assertEvalEquals("1 foobar", template);
+        assertNull(context.get("foo"));
+        assertNull(context.get("macro"));
+    }
+
+    public void testRecursiveBodyMacroScope()
+    {
+        engine.setProperty(RuntimeConstants.VM_MAX_DEPTH, "5");
+        String template = "#macro( foo )$bodyContent$macro.i#end"+
+                          "#@foo()#set( $macro.i = \"$!macro.i$foo.depth,\" )"+
+                          "$!bodyContent#end";
+        assertEvalEquals("1,2,3,4,5,", template);
+        assertNull(context.get("foo"));
+        assertNull(context.get("macro"));
+    }
+
+    public void testDefineScope()
+    {
+        String template = "#define( $foo )#set( $define.bar = 'bar'+$define.depth )$define.bar#end$foo";
+        assertEvalEquals("bar1", template);
+        assertNull(context.get("define"));
+    }
+
+    public void testNestedDefineScope()
+    {
+        String template = "#define($a)$b c#end"+
+                          "#define($b)$define.depth$define.topmost.stop()#end"+
+                          "$a";
+        assertEvalEquals("2", template);
+        assertNull(context.get("define"));
+    }
+
+    public void testRecursiveDefineScope()
+    {
+        engine.setProperty(RuntimeConstants.DEFINE_DIRECTIVE_MAXDEPTH, "10");
+        String template = "#define($a)$define.depth"+
+                          "#if($define.depth == 5)$define.stop()#end,$a#end$a";
+        assertEvalEquals("1,2,3,4,5", template);
+        assertNull(context.get("define"));
+    }
+
+    public void testRootEvaluateScope()
+    {
+        assertEvalEquals("1", "$evaluate.depth");
+        assertEvalEquals("foo", "foo$evaluate.stop()bar");
+        assertNull(context.get("evaluate"));
+    }
+
+    public void testEvaluateScope()
+    {
+        context.put("h", "#");
+        context.put("d", "$");
+        String template = "${h}set( ${d}evaluate.foo = 'bar' )"+
+                          "${d}evaluate.foo ${d}evaluate.depth";
+        addTemplate("eval", "#evaluate(\""+template+"\")");
+        assertTmplEquals("bar 1", "eval");
+        assertNull(context.get("evaluate"));
+        assertNull(context.get("template"));
+    }
+
+    public void testNestedEvaluateScope()
+    {
+        context.put("h", "#");
+        context.put("d", "$");
+        addTemplate("e", "#evaluate(\"${h}evaluate( '${d}evaluate.depth${d}evaluate.stop() blah' )\")");
+        assertTmplEquals("2", "e");
+        assertNull(context.get("evaluate"));
+        assertNull(context.get("template"));
+    }
+
+    public void testTurningOffTemplateScope()
+    {
+        engine.setProperty("template."+RuntimeConstants.PROVIDE_SCOPE_CONTROL, "false");
+        // root
+        addTemplate("test", "$template.depth");
+        assertTmplEquals("$template.depth", "test");
+        // #parse
+        assertEvalEquals("$template.depth", "#parse('test')");
+    }
+
+    public void testTurningOffEvaluateScope()
+    {
+        engine.setProperty("evaluate."+RuntimeConstants.PROVIDE_SCOPE_CONTROL, "false");
+        // root
+        assertSchmoo("$evaluate.depth");
+        // #evaluate
+        assertEvalEquals("$evaluate.depth", "#evaluate( '$evaluate.depth' )");
+    }
+
+    public void testTurningOffMacroScope()
+    {
+        engine.setProperty("macro."+RuntimeConstants.PROVIDE_SCOPE_CONTROL, "false");
+        engine.setProperty("foo."+RuntimeConstants.PROVIDE_SCOPE_CONTROL, "false");
+        // macro definition
+        assertEvalEquals("$macro", "#macro(a)$macro#end#a()");
+        // macro body
+        assertEvalEquals("$macro $foo", "#macro(foo)$bodyContent#end#@foo()$macro $foo#end");
+    }
+
+    public void testTurningOffDefineScope()
+    {
+        engine.setProperty("define."+RuntimeConstants.PROVIDE_SCOPE_CONTROL, "false");
+        assertEvalEquals("$define", "#define($a)$define#end$a");
+    }
+
+    public void testTurningOffForeachScope()
+    {
+        engine.setProperty("foreach."+RuntimeConstants.PROVIDE_SCOPE_CONTROL, "false");
+        assertEvalEquals("$foreach$foreach", "#foreach($i in [0..1])$foreach#end");
+    }
+
+}
