@@ -31,7 +31,7 @@ import java.io.Writer;
  * @author Anil K. Vijendran
  * @version $Id$
  */
-public final class VelocityWriter extends FilterWriter
+public final class VelocityWriter implements Filter
 {
     /**
      * constant indicating that the Writer is not buffering output
@@ -50,6 +50,8 @@ public final class VelocityWriter extends FilterWriter
      */
     public static final int	UNBOUNDED_BUFFER = -2;
 
+    private Writer writer = null;
+    
     private int     bufferSize;
     private boolean autoFlush;
 
@@ -331,4 +333,15 @@ public final class VelocityWriter extends FilterWriter
         this.writer = writer;
         clear();
     }
+    
+    /**
+     * Send the content of a reference, e.g.; $foo, to the writer.
+     * The default implementation is to call the wrapped Writer's
+     * write(String) method. 
+     */
+    public void writeReference(String ref) throws IOException
+    {
+        write(ref);
+    }
+    
 }
