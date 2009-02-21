@@ -34,6 +34,9 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.directive.Scope;
+import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.parser.node.ASTStop.StopThrowable;
@@ -64,6 +67,13 @@ import org.apache.velocity.runtime.resource.ResourceManager;
  */
 public class Template extends Resource
 {
+    /*
+     * The name of the variable to use when placing
+     * the scope object into the context.
+     */
+    private String scopeName = "template";
+    private boolean provideScope = true;
+
     private VelocityException errorCondition = null;
 
     /** Default constructor */
@@ -216,6 +226,9 @@ public class Template extends Resource
              */
 
             ((SimpleNode)data).init( ica, rsvc);
+
+            String property = scopeName+'.'+RuntimeConstants.PROVIDE_SCOPE_CONTROL;
+            provideScope = rsvc.getBoolean(property, provideScope);
         }
         finally
         {
@@ -332,12 +345,23 @@ public class Template extends Resource
                 }
             }
 
+            if (provideScope)
+            {
+                ica.put(scopeName, new Scope(this, ica.get(scopeName)));
+            }
             try
             {
                 ica.pushCurrentTemplateName( name );
                 ica.setCurrentResource( this );
 
                 ( (SimpleNode) data ).render( ica, writer);
+            }
+            catch (StopCommand stop)
+            {
+                if (!stop.isFor(this))
+                {
+                    throw stop;
+                }
             }
             catch (StopThrowable st)
             {
@@ -358,6 +382,27 @@ public class Template extends Resource
                  */
                 ica.popCurrentTemplateName();
                 ica.setCurrentResource( null );
+
+                if (provideScope)
+                {
+                    Object obj = ica.get(scopeName);
+                    if (obj instanceof Scope)
+                    {
+                        Scope scope = (Scope)obj;
+                        if (scope.getParent() != null)
+                        {
+                            ica.put(scopeName, scope.getParent());
+                        }
+                        else if (scope.getReplaced() != null)
+                        {
+                            ica.put(scopeName, scope.getReplaced());
+                        }
+                        else
+                        {
+                            ica.remove(scopeName);
+                        }
+                    }
+                }
             }
         }
         else

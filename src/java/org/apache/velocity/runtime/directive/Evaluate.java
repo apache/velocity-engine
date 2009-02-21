@@ -198,10 +198,19 @@ public class Evaluate extends Directive
 
                 try 
                 {
+                    preRender(ica);
+
                     /*
                      *  now render, and let any exceptions fly
                      */
                     nodeTree.render( ica, writer );
+                }
+                catch (StopCommand stop)
+                {
+                    if (!stop.isFor(this))
+                    {
+                        throw stop;
+                    }
                 }
                 catch (StopThrowable st)
                 {
@@ -221,12 +230,11 @@ public class Evaluate extends Directive
             finally
             {
                 ica.popCurrentTemplateName();
+                postRender(ica);
             }
-
             return true;
         }
 
-        
         return false;
     }
 

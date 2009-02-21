@@ -169,6 +169,12 @@ public interface RuntimeConstants
      */
     String EVALUATE_CONTEXT_CLASS = "directive.evaluate.context.class";
 
+    /**
+     * Used to suppress various scope control objects.
+     * @since 1.7
+     */
+    String PROVIDE_SCOPE_CONTROL = "provide.scope.control";
+
     /*
      * ----------------------------------------------------------------------
      *  R E S O U R C E   M A N A G E R   C O N F I G U R A T I O N

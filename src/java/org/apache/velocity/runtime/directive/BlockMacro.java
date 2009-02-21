@@ -67,10 +67,19 @@ public class BlockMacro extends Block
         this.name = name;
     }
     
-    // This is required, but not actually used.
     public String getName()
     {
-        throw new UnsupportedOperationException("BlockMacro is not actually a named macro.");
+        return key;
+    }
+
+    /**
+     * Override to use the macro name, since it is within an
+     * #@myMacro() ... #end block that the scope in question
+     * would be used.
+     */
+    public String getScopeName()
+    {
+        return name;
     }
 
     /**

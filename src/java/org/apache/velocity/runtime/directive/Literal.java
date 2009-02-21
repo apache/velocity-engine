@@ -62,6 +62,15 @@ public class Literal extends Directive
     }
 
     /**
+     * Since there is no processing of content,
+     * there is never a need for an internal scope.
+     */
+    public boolean isScopeProvided()
+    {
+        return false;
+    }
+
+    /**
      * Store the literal rendition of a node using
      * the Node.literal().
      * @param rs
