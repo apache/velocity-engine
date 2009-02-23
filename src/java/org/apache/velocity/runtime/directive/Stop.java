@@ -122,7 +122,8 @@ public class Stop extends Directive
         {
             // only stop for the top :)
             return (that instanceof Template ||
-                    that instanceof RuntimeInstance);
+                    that instanceof RuntimeInstance ||
+                    that instanceof Evaluate);
         }
     }
 }
