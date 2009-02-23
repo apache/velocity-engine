@@ -64,11 +64,9 @@ public class Scope extends AbstractMap
     }
 
     /**
-     * TODO: remove or protect this method from template
-     * usage once the #stop directive is retrofitted to
-     * take Scope objects as an optional parameter.
+     * Allows #stop to easily trigger the proper StopCommand for this scope.
      */
-    public void stop()
+    protected void stop()
     {
         throw new StopCommand(owner);
     }
