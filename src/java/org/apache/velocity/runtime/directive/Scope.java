@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public class Scope extends AbstractMap
 {
-    private final Map storage = new HashMap();
+    private Map storage;
     protected final Object replaced;
     protected final Scope parent;
     protected final Object owner;
@@ -53,14 +53,23 @@ public class Scope extends AbstractMap
         }
     }
 
+    private Map getStorage()
+    {
+        if (storage == null)
+        {
+            storage = new HashMap();
+        }
+        return storage;
+    }
+
     public Set entrySet()
     {
-        return storage.entrySet();
+        return getStorage().entrySet();
     }
 
     public Object put(Object key, Object value)
     {
-        return storage.put(key, value);
+        return getStorage().put(key, value);
     }
 
     /**
