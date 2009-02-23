@@ -109,43 +109,41 @@ public interface ParserConstants {
   /** RegularExpression Id. */
   int ELSE_DIRECTIVE = 54;
   /** RegularExpression Id. */
-  int STOP_DIRECTIVE = 55;
+  int DIGIT = 55;
   /** RegularExpression Id. */
-  int DIGIT = 56;
+  int INTEGER_LITERAL = 56;
   /** RegularExpression Id. */
-  int INTEGER_LITERAL = 57;
+  int FLOATING_POINT_LITERAL = 57;
   /** RegularExpression Id. */
-  int FLOATING_POINT_LITERAL = 58;
+  int EXPONENT = 58;
   /** RegularExpression Id. */
-  int EXPONENT = 59;
+  int LETTER = 59;
   /** RegularExpression Id. */
-  int LETTER = 60;
+  int DIRECTIVE_CHAR = 60;
   /** RegularExpression Id. */
-  int DIRECTIVE_CHAR = 61;
+  int WORD = 61;
   /** RegularExpression Id. */
-  int WORD = 62;
+  int BRACKETED_WORD = 62;
   /** RegularExpression Id. */
-  int BRACKETED_WORD = 63;
+  int ALPHA_CHAR = 63;
   /** RegularExpression Id. */
-  int ALPHA_CHAR = 64;
+  int ALPHANUM_CHAR = 64;
   /** RegularExpression Id. */
-  int ALPHANUM_CHAR = 65;
+  int IDENTIFIER_CHAR = 65;
   /** RegularExpression Id. */
-  int IDENTIFIER_CHAR = 66;
+  int IDENTIFIER = 66;
   /** RegularExpression Id. */
-  int IDENTIFIER = 67;
+  int DOT = 67;
   /** RegularExpression Id. */
-  int DOT = 68;
+  int LCURLY = 68;
   /** RegularExpression Id. */
-  int LCURLY = 69;
+  int RCURLY = 69;
   /** RegularExpression Id. */
-  int RCURLY = 70;
+  int REFERENCE_TERMINATOR = 70;
   /** RegularExpression Id. */
-  int REFERENCE_TERMINATOR = 71;
+  int DIRECTIVE_TERMINATOR = 71;
   /** RegularExpression Id. */
-  int DIRECTIVE_TERMINATOR = 72;
-  /** RegularExpression Id. */
-  int EMPTY_INDEX = 73;
+  int EMPTY_INDEX = 72;
 
   /** Lexical state. */
   int REFERENCE = 0;
@@ -229,7 +227,6 @@ public interface ParserConstants {
     "<IF_DIRECTIVE>",
     "<ELSEIF_DIRECTIVE>",
     "<ELSE_DIRECTIVE>",
-    "<STOP_DIRECTIVE>",
     "<DIGIT>",
     "<INTEGER_LITERAL>",
     "<FLOATING_POINT_LITERAL>",

@@ -50,4 +50,79 @@ public class StopDirectiveTestCase extends BaseTestCase
       // Make sure stop works when called located in another parsed file
       assertTmplEquals("text1blaa1", "stop3.vm");
     }
+
+    public void testBadStopArgs()
+    {
+        context.put("foo","foo");
+        assertEvalException("#stop($null)");
+        assertEvalException("#stop($foo)");
+        assertEvalException("#stop(true)");
+        assertEvalException("#stop(1.2)");
+        assertEvalException("#stop([0..1])");
+        assertEvalException("#stop( $too $many )");
+    }
+
+    public void testNestedStopAll()
+    {
+        addTemplate("ns", ",template"+
+                          "#macro(vm),macro${bodyContent}macro#end"+
+                          "#define($define),define"+
+                            "#foreach($i in [1..2]),foreach"+
+                              "#{stop}foreach"+
+                            "#{end}define"+
+                          "#{end}"+
+                          "#@vm(),bodyContent"+
+                            "${define}bodyContent"+
+                          "#{end}template");
+        String expected = "evaluate,template,macro,bodyContent,define,foreach";
+        assertEvalEquals(expected, "#evaluate('evaluate#parse(\"ns\")evaluate')");
+    }
+
+    public void testStopForeach()
+    {
+        String template = "#foreach($i in [1..5])$i#if($i>2)#stop($foreach)#end#end test";
+        assertEvalEquals("123 test", template);
+
+        // only inner should be stopped, not outer
+        String t2 = "#foreach($j in [1..2])"+template+"#end";
+        assertEvalEquals("123 test123 test", t2);
+
+        // stop outer using #stop($foreach.parent)
+        String t3 = "#foreach($i in [1..2])#foreach($j in [2..3])$i$j#if($i+$j==5)#stop($foreach.parent)#end#end test#end";
+        assertEvalEquals("1213 test2223", t3);
+    }
+
+    public void testStopTemplate()
+    {
+        addTemplate("a", "a#stop($template)b");
+        assertTmplEquals("a", "a");
+        assertEvalEquals("ac", "#parse('a')c");
+    }
+
+    public void testStopEvaluate()
+    {
+        assertEvalEquals("a", "a#stop($evaluate)b");
+        assertEvalEquals("a", "#evaluate('a#stop($evaluate)b')");
+        assertEvalEquals("a", "a#evaluate('#stop($evaluate.topmost)')b");
+    }
+
+    public void testStopDefineBlock()
+    {
+        assertEvalEquals("a", "#define($a)a#stop($define)b#end$a");
+        assertEvalEquals("aa", "#define($a)a#stop($define.parent)b#end#define($b)a${a}b#end$b");
+    }
+
+    public void testStopMacro()
+    {
+        assertEvalEquals("a ", "#macro(a)a #stop($macro) b#end#a");
+        assertEvalEquals("b c ", "#macro(c)c #stop($macro.parent) d#end"+
+                               "#macro(b)b #c c#end"+
+                               "#b");
+    }
+
+    public void testStopMacroBodyBlock()
+    {
+        assertEvalEquals(" a ", "#macro(a) $bodyContent #end"+
+                                "#@a()a#stop($a)b#end");
+    }
 }

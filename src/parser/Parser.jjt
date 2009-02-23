@@ -298,7 +298,6 @@ public class Parser
                 || dirTag.equals("set")
                 || dirTag.equals("else")
                 || dirTag.equals("elseif")
-                || dirTag.equals("stop")
             )
             {
                 bRecognizedDirective = true;
@@ -1039,12 +1038,6 @@ TOKEN :
         inDirective = false;
         stateStackPop();
     }
-
-|   <STOP_DIRECTIVE: "stop" | "{stop}" >
-    {
-        inDirective = false;
-        stateStackPop();
-    }
 }
 
 <PRE_DIRECTIVE,DIRECTIVE,REFMOD2,REFINDEX>
@@ -1239,7 +1232,6 @@ SimpleNode process() : {}
 void Statement() #void : {}
 {
     IfStatement()
-|   StopStatement()
 |   LOOKAHEAD(2) Reference()
 |   Comment()
 |   Textblock()
@@ -1301,7 +1293,6 @@ void Escape() : {}
             case ELSE_DIRECTIVE :
             case ELSEIF_DIRECTIVE :
             case END :
-            case STOP_DIRECTIVE :
                 control = true;
                 break;
         }
@@ -1825,18 +1816,6 @@ void SetDirective() : {}
         token_source.inSet = false;
     }
     [<NEWLINE>] )
-}
-
-/**
- * This method corresponds to the #stop
- * directive which just simulates and EOF
- * so that parsing stops. The #stop directive
- * is useful for end-user debugging
- * purposes.
- */
-void StopStatement() #Stop(0): {}
-{
-    <STOP_DIRECTIVE>
 }
 
 /* -----------------------------------------------------------------------
