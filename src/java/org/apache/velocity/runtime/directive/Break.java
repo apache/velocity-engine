@@ -21,24 +21,16 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
-import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.node.ASTReference;
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.introspection.Info;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
  * Break directive used for interrupting foreach loops.
@@ -48,7 +40,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  */
 public class Break extends Directive
 {
-    private static final RuntimeException BREAK = new BreakException();
+    private static final BreakCommand BREAK = new BreakCommand();
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -88,12 +80,26 @@ public class Break extends Directive
         throws TemplateInitException
     {
         super.init(rs, context, node);
+
+        // Make sure the #break directive is within a foreach block.
+        Node check = node;
+        while (!(check instanceof ASTDirective) ||
+               !((ASTDirective)check).getDirectiveName().equals("foreach"))
+        {
+            check = check.jjtGetParent();
+            if (check == null)
+            {
+                // We are not in a macro definition, so throw an exception.
+                throw new VelocityException("#break must be within a #foreach block at " 
+                    + Log.formatFileString(this));
+            }
+        }
     }
 
     /**
      * Break directive does not actually do any rendering. 
      * 
-     * This directive throws a BreakException (RuntimeException) which
+     * This directive throws a BreakCommand which
      * signals foreach directive to break out of the loop. Note that this
      * directive does not verify that it is being called inside a foreach
      * loop.
@@ -115,14 +121,21 @@ public class Break extends Directive
         throw BREAK;
     }
     
-    public static class BreakException extends RuntimeException 
+    /**
+     * Specialized StopCommand that stops the nearest #foreach loop.
+     */
+    public static class BreakCommand extends StopCommand 
     {
-        public BreakException()
+        public BreakCommand()
         {
-          // If a break is thrown during a macro or parse call, then this exception
-          // will be logged because this method calls catch
-          // RuntimeException, so provide the user with some info.
-          super("Break");
+            // If a break is thrown during a macro or parse call, then this exception
+            // will eventually be seen, so provide the user with some info.
+            super("closest #foreach loop");
+        }
+
+        public boolean isFor(Object that)
+        {
+            return (that instanceof Foreach);
         }
     }
 }
