@@ -29,23 +29,22 @@ public interface ParserTreeConstants
   public int JJTELSESTATEMENT = 23;
   public int JJTELSEIFSTATEMENT = 24;
   public int JJTSETDIRECTIVE = 25;
-  public int JJTSTOP = 26;
-  public int JJTEXPRESSION = 27;
-  public int JJTASSIGNMENT = 28;
-  public int JJTORNODE = 29;
-  public int JJTANDNODE = 30;
-  public int JJTEQNODE = 31;
-  public int JJTNENODE = 32;
-  public int JJTLTNODE = 33;
-  public int JJTGTNODE = 34;
-  public int JJTLENODE = 35;
-  public int JJTGENODE = 36;
-  public int JJTADDNODE = 37;
-  public int JJTSUBTRACTNODE = 38;
-  public int JJTMULNODE = 39;
-  public int JJTDIVNODE = 40;
-  public int JJTMODNODE = 41;
-  public int JJTNOTNODE = 42;
+  public int JJTEXPRESSION = 26;
+  public int JJTASSIGNMENT = 27;
+  public int JJTORNODE = 28;
+  public int JJTANDNODE = 29;
+  public int JJTEQNODE = 30;
+  public int JJTNENODE = 31;
+  public int JJTLTNODE = 32;
+  public int JJTGTNODE = 33;
+  public int JJTLENODE = 34;
+  public int JJTGENODE = 35;
+  public int JJTADDNODE = 36;
+  public int JJTSUBTRACTNODE = 37;
+  public int JJTMULNODE = 38;
+  public int JJTDIVNODE = 39;
+  public int JJTMODNODE = 40;
+  public int JJTNOTNODE = 41;
 
 
   public String[] jjtNodeName = {
@@ -75,7 +74,6 @@ public interface ParserTreeConstants
     "ElseStatement",
     "ElseIfStatement",
     "SetDirective",
-    "Stop",
     "Expression",
     "Assignment",
     "OrNode",
@@ -94,4 +92,4 @@ public interface ParserTreeConstants
     "NotNode",
   };
 }
-/* JavaCC - OriginalChecksum=6486d1e0227c52f059ed205018b7b6fa (do not edit this line) */
+/* JavaCC - OriginalChecksum=711f18baf1c477a8c95d1c28eaa4b636 (do not edit this line) */

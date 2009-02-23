@@ -202,13 +202,6 @@ public interface ParserVisitor
    * @param data
    * @return The object rendered by this node.
    */
-  public Object visit(ASTStop node, Object data);
-
-  /**
-   * @param node
-   * @param data
-   * @return The object rendered by this node.
-   */
   public Object visit(ASTExpression node, Object data);
 
   /**
