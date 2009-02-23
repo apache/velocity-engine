@@ -247,4 +247,52 @@ public class ScopeTestCase extends BaseTestCase
         assertEvalEquals("$foreach$foreach", "#foreach($i in [0..1])$foreach#end");
     }
 
+    public void testTemplateReplaced()
+    {
+        context.put("template", "foo");
+        addTemplate("test", "$template.replaced");
+        assertTmplEquals("foo", "test");
+        assertEvalEquals("foo", "#parse('test')");
+        assertContextValue("template", "foo");
+    }
+
+    public void testEvaluateReplaced()
+    {
+        context.put("evaluate","foo");
+        assertEvalEquals("foo", "$evaluate.replaced");
+        assertEvalEquals("foo", "#evaluate('$evaluate.replaced')");
+        assertContextValue("evaluate", "foo");
+    }
+
+    public void testMacroReplaced()
+    {
+        context.put("macro", "foo");
+        assertEvalEquals("foo foo foo", "$macro #macro(a)$macro.replaced#end#a() $macro");
+        assertContextValue("macro", "foo");
+    }
+
+    public void testForeachReplaced()
+    {
+        context.put("foreach", "foo");
+        assertEvalEquals("foofoofoo", "$foreach#foreach($i in [1..1])$foreach.replaced#end$foreach");
+        assertEquals("foo", context.get("foreach"));
+        context.put("foreach", "a");
+        assertEvalEquals("a", "#foreach($i in [1..1])#foreach($j in [1..1])$foreach.replaced#end#end");
+        assertContextValue("foreach", "a");
+    }
+
+    public void testDefineReplaced()
+    {
+        context.put("define", "a");
+        assertEvalEquals("a", "#define($a)$define.replaced#end$a");
+        assertContextValue("define", "a");
+    }
+
+    public void testBodyContentReplaced()
+    {
+        context.put("vm", "a");
+        assertEvalEquals("a", "#macro(vm)$bodyContent#end#@vm()$vm.replaced#end");
+        assertContextValue("vm", "a");
+    }
+
 }
