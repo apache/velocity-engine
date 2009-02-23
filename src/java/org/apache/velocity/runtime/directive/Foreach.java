@@ -397,11 +397,6 @@ public class Foreach extends Directive
                     throw stop;
                 }
             }
-            catch (Break.BreakException ex)
-            {
-                // encountered #break directive inside #foreach loop
-                break;
-            }
             
             counter++;
 

@@ -39,7 +39,6 @@ import org.apache.velocity.runtime.directive.Scope;
 import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.parser.node.ASTStop.StopThrowable;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceManager;
 
@@ -362,14 +361,6 @@ public class Template extends Resource
                 {
                     throw stop;
                 }
-            }
-            catch (StopThrowable st)
-            {
-              // The stop throwable is thrown by ASTStop (the #stop directive)
-              // The intent of the stop directive is to halt processing of the
-              // the template, so we throw a Throwable that will short circuit
-              // everthing between the call to render, and ASTStop. We just needed to 
-              // Catch the exception, nothing else to do.              
             }
             catch (IOException e)
             {

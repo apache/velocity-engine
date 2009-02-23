@@ -21,12 +21,16 @@ package org.apache.velocity.runtime.parser.node;
 
 import java.io.IOException;
 import java.io.Writer;
-
+import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.directive.Evaluate;
+import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.Parser;
+
 
 /**
  * This class is responsible for handling the #stop directive
@@ -40,6 +44,8 @@ import org.apache.velocity.runtime.parser.Parser;
  */
 public class ASTStop extends SimpleNode
 {
+    private static final StopCommand STOP = new StopAllCommand();
+
     /**
      * @param id
      */
@@ -80,17 +86,29 @@ public class ASTStop extends SimpleNode
     {
         // The top level calls that render an AST node tree catch this Throwable.  By throwing
         // Here we terminate rendering of this node tree.
-        throw new StopThrowable();        
+        throw STOP;        
     }
-    
+
     /**
-     * We select to overide Error here intead of RuntimeInstance because there are
-     * certain nodes that catch RuntimeException when rendering there children, and log
-     * the event to error.  But of course in the case that the template renders an ASTStop
-     * node we don't want this to happen.
+     * Specialized StopCommand that stops all merge or evaluate activity.
      */
-    public static class StopThrowable extends Error
-    {      
+    public static class StopAllCommand extends StopCommand
+    {
+        public StopAllCommand()
+        {
+            super("Template.merge or RuntimeInstance.evaluate");
+        }
+
+        public boolean isFor(Object that)
+        {
+            return (that instanceof Template ||
+                    that instanceof RuntimeInstance ||
+                    //FIXME: #evaluate probably shouldn't catch #stop()
+                    //       since it isn't truly top-level, but that's
+                    //       how it was currently designed.
+                    that instanceof Evaluate);
+        }
     }
+
 }
 
