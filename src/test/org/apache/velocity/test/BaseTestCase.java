@@ -112,11 +112,13 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
     protected void addTemplate(String name, String template)
     {
+        info("Template '"+name+"':  "+template);
         getStringRepository().putStringResource(name, template);
     }
 
     protected void removeTemplate(String name)
     {
+        info("Removed: '"+name+"'");
         getStringRepository().removeStringResource(name);
     }
 
@@ -170,7 +172,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      */
     protected void assertTmplEquals(String expected, String template)
     {        
-        info("Expected:  '" + expected + "'");
+        info("Expected:  " + expected + " from '" + template + "'");
 
         StringWriter writer = new StringWriter();
         try
@@ -188,7 +190,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
             throw new RuntimeException(e);
         }        
 
-        info("Result:  '" + writer.toString() + "'");
+        info("Result:  " + writer.toString());
         assertEquals(expected, writer.toString());  
     }
     
