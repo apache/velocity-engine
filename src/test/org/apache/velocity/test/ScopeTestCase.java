@@ -36,7 +36,7 @@ public class ScopeTestCase extends BaseTestCase
 
     public void testRootTemplateMergeScope()
     {
-        addTemplate("foo", "foo$template.stop()bar");
+        addTemplate("foo", "foo#stop($template)bar");
         assertTmplEquals("foo", "foo");
         assertNull(context.get("template"));
     }
@@ -47,7 +47,7 @@ public class ScopeTestCase extends BaseTestCase
                             "$!parse.parent.depth"+
                             "#set( $template.foo = 'bar' )"+
                             "$template.foo"+
-                            "$template.stop()"+
+                            "#stop($template)"+
                             "woogie");
         assertEvalEquals("1bar", "#parse( 'test' )");
         assertNull(context.get("template"));
@@ -61,7 +61,7 @@ public class ScopeTestCase extends BaseTestCase
         addTemplate("inner", "Inner depth: $template.depth"+
                              "#set( $template.foo = '?' )"+
                              "$!grab.put('inner',$template)"+
-                             "$template.stop()$template.foo");
+                             "#stop($template)$template.foo");
         addTemplate("outer", "#set( $template.foo = '!' )"+
                              "Outer depth: $template.depth "+
                              "#parse('inner')"+
@@ -84,7 +84,7 @@ public class ScopeTestCase extends BaseTestCase
     public void testForeachScope()
     {
         String template = "#foreach( $i in [0..2] )"+
-                          "#if( $i > 1 )$foreach.stop()#end"+
+                          "#if( $i > 1 )#stop($foreach)#end"+
                           "$foreach.index:$foreach.count:$foreach.hasNext,"+
                           "#end";
         assertEvalEquals("0:1:true,1:2:true,", template);
@@ -95,7 +95,7 @@ public class ScopeTestCase extends BaseTestCase
     {
         String template = "#foreach( $i in [1..5] )"+
                             "#foreach( $j in [1..2] )"+
-                              "#if ( $i > $foreach.count + $foreach.index + $foreach.depth )$foreach.topmost.stop()#end"+
+                              "#if ( $i > $foreach.count + $foreach.index + $foreach.depth )#stop($foreach.topmost)#end"+
                             "#end"+
                             "$i"+
                           "#end";
@@ -106,7 +106,7 @@ public class ScopeTestCase extends BaseTestCase
     public void testMacroScope()
     {
         String template = "#macro( foo $i )"+
-                          "#if($i > 2 )$macro.stop()#end"+
+                          "#if($i > 2 )#stop($macro)#end"+
                           "$i#end"+
                           "#foo( 0 )#foo( 1 )#foo( 2 )";
         assertEvalEquals("012", template);
@@ -116,7 +116,7 @@ public class ScopeTestCase extends BaseTestCase
     public void testRecursiveMacroScope()
     {
         String template = "#macro( foo )$macro.depth"+
-                          "#if($macro.depth > 2 )$macro.topmost.stop()#end"+
+                          "#if($macro.depth > 2 )#stop($macro.topmost)#end"+
                           "#foo()#end#foo()";
         assertEvalEquals("123", template);
         assertNull(context.get("macro"));
@@ -162,7 +162,7 @@ public class ScopeTestCase extends BaseTestCase
     public void testNestedDefineScope()
     {
         String template = "#define($a)$b c#end"+
-                          "#define($b)$define.depth$define.topmost.stop()#end"+
+                          "#define($b)$define.depth#stop($define.topmost)#end"+
                           "$a";
         assertEvalEquals("2", template);
         assertNull(context.get("define"));
@@ -172,7 +172,7 @@ public class ScopeTestCase extends BaseTestCase
     {
         engine.setProperty(RuntimeConstants.DEFINE_DIRECTIVE_MAXDEPTH, "10");
         String template = "#define($a)$define.depth"+
-                          "#if($define.depth == 5)$define.stop()#end,$a#end$a";
+                          "#if($define.depth == 5)#stop($define)#end,$a#end$a";
         assertEvalEquals("1,2,3,4,5", template);
         assertNull(context.get("define"));
     }
@@ -180,7 +180,7 @@ public class ScopeTestCase extends BaseTestCase
     public void testRootEvaluateScope()
     {
         assertEvalEquals("1", "$evaluate.depth");
-        assertEvalEquals("foo", "foo$evaluate.stop()bar");
+        assertEvalEquals("foo", "foo#stop($evaluate)bar");
         assertNull(context.get("evaluate"));
     }
 
@@ -200,7 +200,7 @@ public class ScopeTestCase extends BaseTestCase
     {
         context.put("h", "#");
         context.put("d", "$");
-        addTemplate("e", "#evaluate(\"${h}evaluate( '${d}evaluate.depth${d}evaluate.stop() blah' )\")");
+        addTemplate("e", "#evaluate(\"${h}evaluate( '${d}evaluate.depth${h}stop(${d}evaluate) blah' )\")");
         assertTmplEquals("2", "e");
         assertNull(context.get("evaluate"));
         assertNull(context.get("template"));
