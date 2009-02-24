@@ -184,6 +184,9 @@ public class Foreach extends Directive
      */
     private String elementKey;
 
+    // track if we've done the deprecation warning thing already
+    private boolean warned = false;
+
     /**
      *  immutable, so create in init
      */
@@ -202,9 +205,42 @@ public class Foreach extends Directive
     {
         super.init(rs, context, node);
 
+        // handle deprecated config settings
         counterName = rsvc.getString(RuntimeConstants.COUNTER_NAME);
         hasNextName = rsvc.getString(RuntimeConstants.HAS_NEXT_NAME);
         counterInitialValue = rsvc.getInt(RuntimeConstants.COUNTER_INITIAL_VALUE);
+        // only warn once per instance...
+        if (!warned && rsvc.getLog().isInfoEnabled())
+        {
+            warned = true;
+            // ...and only if they customize these settings
+            if (!counterName.equals("velocityCount"))
+            {
+                rsvc.getLog().warn("The "+RuntimeConstants.COUNTER_NAME+
+                    " property has been deprecated. It will be removed"+
+                    " (along with $velocityCount itself) in Velocity 2.0. "+
+                    " Instead, please use $foreach.count to access"+
+                    " the loop counter.");
+            }
+            if (!hasNextName.equals("velocityHasNext"))
+            {
+                rsvc.getLog().warn("The "+RuntimeConstants.HAS_NEXT_NAME+
+                    " property has been deprecated. It will be removed"+
+                    " (along with $velocityHasNext itself ) in Velocity 2.0. "+
+                    " Instead, please use $foreach.hasNext to access"+
+                    " this value from now on.");
+            }
+            if (counterInitialValue != 1)
+            {
+                rsvc.getLog().warn("The "+RuntimeConstants.COUNTER_INITIAL_VALUE+
+                    " property has been deprecated. It will be removed"+
+                    " (along with $velocityCount itself) in Velocity 2.0. "+
+                    " Instead, please use $foreach.index to access"+
+                    " the 0-based loop index and $foreach.count"+
+                    " to access the 1-based loop counter.");
+            }
+        }
+
         maxNbrLoops = rsvc.getInt(RuntimeConstants.MAX_NUMBER_LOOPS,
                                   Integer.MAX_VALUE);
         if (maxNbrLoops < 1)

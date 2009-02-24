@@ -36,11 +36,15 @@ import org.apache.velocity.runtime.parser.node.Node;
  * Break directive used for interrupting foreach loops.
  *
  * @author <a href="mailto:wyla@removethis.sci.fi">Jarkko Viinamaki</a>
+ * @deprecated use {@link Stop} with {@link ForeachScope} (e.g. #stop($foreach) )
  * @version $Id$
  */
 public class Break extends Directive
 {
     private static final BreakCommand BREAK = new BreakCommand();
+
+    private boolean warned = false;
+
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -92,6 +96,16 @@ public class Break extends Directive
                 // We are not in a macro definition, so throw an exception.
                 throw new VelocityException("#break must be within a #foreach block at " 
                     + Log.formatFileString(this));
+            }
+        }
+
+        // give deprecation warning once per instance, not on every merge
+        if (!warned)
+        {
+            warned = true;
+            if (rs.getLog().isInfoEnabled())
+            {
+                rs.getLog().info("#break has been deprecated and will be removed in Velocity 2.0; please use #stop($foreach) instead.");
             }
         }
     }
