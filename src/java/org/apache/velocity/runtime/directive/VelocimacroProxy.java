@@ -247,6 +247,24 @@ public class VelocimacroProxy extends Directive
         // support for local context scope feature, where all references are local
         // we do not have to check this at every invocation of ProxyVMContext
         localContextScope = rsvc.getBoolean(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false);
+        if (localContextScope && rsvc.getLog().isWarnEnabled())
+        {
+            // only warn once per runtime, so this isn't obnoxious
+            String key = "velocimacro.context.localscope.warning";
+            Boolean alreadyWarned = (Boolean)rsvc.getApplicationAttribute(key);
+            if (alreadyWarned == null)
+            {
+                rsvc.setApplicationAttribute(key, Boolean.TRUE);
+                rsvc.getLog()
+                .warn("The "+RuntimeConstants.VM_CONTEXT_LOCALSCOPE+
+                      " feature is deprecated and will be removed in Velocity 2.0."+
+                      " Instead, please use the $macro scope to store references"+
+                      " that must be local to your macros (e.g. "+
+                      "#set( $macro.foo = 'bar' ) and $macro.foo).  This $macro"+
+                      " namespace is automatically created and destroyed for you at"+
+                      " the beginning and end of the macro rendering.");
+            }
+        }
 
         // get the macro call depth limit
         maxCallDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
