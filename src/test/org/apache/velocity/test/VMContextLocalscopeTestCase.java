@@ -19,7 +19,6 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import junit.framework.TestCase;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.context.ProxyVMContext;
@@ -32,23 +31,33 @@ import org.apache.velocity.runtime.RuntimeInstance;
  * @author <a href="mailto:stephenh@chase3000.com">Stephen Habermann</a>
  * @version $Id$
  */
-public class VMContextLocalscopeTestCase extends TestCase {
+public class VMContextLocalscopeTestCase extends BaseTestCase {
 
-    private RuntimeInstance instance;
-
-    public void setUp() throws Exception 
+    public VMContextLocalscopeTestCase(String name)
     {
-        this.instance = new RuntimeInstance();
-        this.instance.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, Boolean.TRUE);
-        this.instance.init();
+        super(name);
+    }
+
+    public void testViaEval()
+    {
+        engine.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, Boolean.TRUE);
+        assertEvalEquals("$a", "#macro(a)#set($a = 'b')#end#a$a");
+        context.put("b", "b");
+        assertEvalEquals("b", "#macro(b)$b#set($b = 'c')#end#b");
+        assertContextValue("b", "b");
     }
 
     public void testLocalscopePutDoesntLeakButGetDoes() 
     {
+        RuntimeInstance instance = new RuntimeInstance();
+        instance.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, Boolean.TRUE);
+        instance.init();
+
         VelocityContext base = new VelocityContext();
         base.put("outsideVar", "value1");
 
-        ProxyVMContext vm = new ProxyVMContext(new InternalContextAdapterImpl(base), this.instance, true);
+        ProxyVMContext vm =
+            new ProxyVMContext(new InternalContextAdapterImpl(base), instance, true);
         vm.put("newLocalVar", "value2");
 
         // New variable put doesn't leak
