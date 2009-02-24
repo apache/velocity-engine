@@ -103,9 +103,9 @@ public class Break extends Directive
         if (!warned)
         {
             warned = true;
-            if (rs.getLog().isInfoEnabled())
+            if (rs.getLog().isWarnEnabled())
             {
-                rs.getLog().info("#break has been deprecated and will be removed in Velocity 2.0; please use #stop($foreach) instead.");
+                rs.getLog().warn("#break has been deprecated and will be removed in Velocity 2.0; please use #stop($foreach) instead.");
             }
         }
     }

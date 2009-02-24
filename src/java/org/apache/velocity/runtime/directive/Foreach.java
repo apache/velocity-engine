@@ -210,7 +210,7 @@ public class Foreach extends Directive
         hasNextName = rsvc.getString(RuntimeConstants.HAS_NEXT_NAME);
         counterInitialValue = rsvc.getInt(RuntimeConstants.COUNTER_INITIAL_VALUE);
         // only warn once per instance...
-        if (!warned && rsvc.getLog().isInfoEnabled())
+        if (!warned && rsvc.getLog().isWarnEnabled())
         {
             warned = true;
             // ...and only if they customize these settings
