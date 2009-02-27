@@ -136,13 +136,13 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             Class type = obj.getClass();
             try
             {
-                Method iter = type.getMethod("iterator", null);
+                Method iter = type.getMethod("iterator");
                 Class returns = iter.getReturnType();
                 if (Iterator.class.isAssignableFrom(returns))
                 {
                     try
                     {
-                        return (Iterator)iter.invoke(obj, null);
+                        return (Iterator)iter.invoke(obj);
                     } 
                     catch (Exception e)
                     {
