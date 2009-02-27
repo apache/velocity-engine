@@ -76,14 +76,24 @@ public class Log
         return this.chute;
     }
 
-    protected void log(int level, Object message)
+    protected void log(int level, Object message, Object... args)
     {
-        getLogChute().log(level, String.valueOf(message));
+        if (getLogChute().isLevelEnabled(level))
+        {
+            String msg = String.valueOf(message);
+            msg = String.format(msg, args);
+            getLogChute().log(level, msg);
+        }
     }
 
-    protected void log(int level, Object message, Throwable t)
+    protected void log(int level, Object message, Throwable t, Object... args)
     {
-        getLogChute().log(level, String.valueOf(message), t);
+        if (getLogChute().isLevelEnabled(level))
+        {
+            String msg = String.valueOf(message);
+            msg = String.format(msg, args);
+            getLogChute().log(level, msg, t);
+        }
     }
 
     /**
@@ -99,9 +109,9 @@ public class Log
      * Log a trace message.
      * @param message
      */
-    public void trace(Object message)
+    public void trace(Object message, Object... args)
     {
-        log(LogChute.TRACE_ID, message);
+        log(LogChute.TRACE_ID, message, args);
     }
 
     /**
@@ -109,9 +119,9 @@ public class Log
      * @param message
      * @param t
      */
-    public void trace(Object message, Throwable t)
+    public void trace(Object message, Throwable t, Object... args)
     {
-        log(LogChute.TRACE_ID, message, t);
+        log(LogChute.TRACE_ID, message, t, args);
     }
 
     /**
@@ -127,9 +137,9 @@ public class Log
      * Log a debug message.
      * @param message
      */
-    public void debug(Object message)
+    public void debug(Object message, Object... args)
     {
-        log(LogChute.DEBUG_ID, message);
+        log(LogChute.DEBUG_ID, message, args);
     }
 
     /**
@@ -137,9 +147,9 @@ public class Log
      * @param message
      * @param t
      */
-    public void debug(Object message, Throwable t)
+    public void debug(Object message, Throwable t, Object... args)
     {
-        log(LogChute.DEBUG_ID, message, t);
+        log(LogChute.DEBUG_ID, message, t, args);
     }
 
     /**
@@ -155,9 +165,9 @@ public class Log
      * Log an info message.
      * @param message
      */
-    public void info(Object message)
+    public void info(Object message, Object... args)
     {
-        log(LogChute.INFO_ID, message);
+        log(LogChute.INFO_ID, message, args);
     }
 
     /**
@@ -165,9 +175,9 @@ public class Log
      * @param message
      * @param t
      */
-    public void info(Object message, Throwable t)
+    public void info(Object message, Throwable t, Object... args)
     {
-        log(LogChute.INFO_ID, message, t);
+        log(LogChute.INFO_ID, message, t, args);
     }
 
     /**
@@ -183,9 +193,9 @@ public class Log
      * Log a warning message.
      * @param message
      */
-    public void warn(Object message)
+    public void warn(Object message, Object... args)
     {
-        log(LogChute.WARN_ID, message);
+        log(LogChute.WARN_ID, message, args);
     }
 
     /**
@@ -193,9 +203,9 @@ public class Log
      * @param message
      * @param t
      */
-    public void warn(Object message, Throwable t)
+    public void warn(Object message, Throwable t, Object... args)
     {
-        log(LogChute.WARN_ID, message, t);
+        log(LogChute.WARN_ID, message, t, args);
     }
 
     /**
@@ -211,9 +221,9 @@ public class Log
      * Log an error message.
      * @param message
      */
-    public void error(Object message)
+    public void error(Object message, Object... args)
     {
-        log(LogChute.ERROR_ID, message);
+        log(LogChute.ERROR_ID, message, args);
     }
 
     /**
@@ -221,11 +231,11 @@ public class Log
      * @param message
      * @param t
      */
-    public void error(Object message, Throwable t)
+    public void error(Object message, Throwable t, Object... args)
     {
-        log(LogChute.ERROR_ID, message, t);
+        log(LogChute.ERROR_ID, message, t, args);
     }
-    
+
     /**
      * Creates a string that formats the template filename with line number
      * and column of the given Directive. We use this routine to provide a cosistent format for displaying 
