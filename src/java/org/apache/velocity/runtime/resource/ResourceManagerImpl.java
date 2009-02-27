@@ -106,7 +106,7 @@ public class ResourceManagerImpl
         this.rsvc = rsvc;
         log = rsvc.getLog();
 
-        log.trace("Default ResourceManager initializing. (" + this.getClass() + ")");
+        log.trace("ResourceManager initializing: %s", this.getClass());
 
         assembleResourceLoaderInitializers();
 
@@ -239,8 +239,8 @@ public class ResourceManagerImpl
             if (loaderConfiguration == null)
             {
                 log.debug("ResourceManager : No configuration information found "+
-                          "for resource loader named '" + loaderName +
-                          "' (id is "+loaderID+"). Skipping it...");
+                          "for resource loader named '%s' (id is %s). Skipping it...",
+                          loaderName, loaderID);
                 continue;
             }
 
@@ -447,9 +447,8 @@ public class ResourceManagerImpl
 
                     if (logWhenFound && log.isDebugEnabled())
                     {
-                        log.debug("ResourceManager : found " + resourceName +
-                                  " with loader " +
-                                  resourceLoader.getClassName());
+                        log.debug("ResourceManager: found %s with loader ",
+                                  resourceName, resourceLoader.getClassName());
                     }
 
                     howOldItWas = resourceLoader.getLastModified(resource);
@@ -536,11 +535,8 @@ public class ResourceManagerImpl
 
             if (!org.apache.commons.lang.StringUtils.equals(resource.getEncoding(), encoding))
             {
-                log.warn("Declared encoding for template '" +
-                             resource.getName() +
-                             "' is different on reload. Old = '" +
-                             resource.getEncoding() + "' New = '" + encoding);
-
+                log.warn("Declared encoding for template '%s' is different on reload. Old = '%s' New = '%s'",
+                         resource.getName(), resource.getEncoding(), encoding);
                 resource.setEncoding(encoding);
             }
 
