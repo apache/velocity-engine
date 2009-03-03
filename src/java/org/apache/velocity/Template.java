@@ -361,6 +361,10 @@ public class Template extends Resource
                 {
                     throw stop;
                 }
+                else if (rsvc.getLog().isDebugEnabled())
+                {
+                    rsvc.getLog().debug(stop.getMessage());
+                }
             }
             catch (IOException e)
             {

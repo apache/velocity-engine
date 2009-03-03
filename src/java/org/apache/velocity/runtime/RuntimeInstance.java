@@ -1370,6 +1370,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 {
                     throw stop;
                 }
+                else if (getLog().isDebugEnabled())
+                {
+                    getLog().debug(stop.getMessage());
+                }
             }
             catch (IOException e)
             {

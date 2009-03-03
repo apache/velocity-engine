@@ -20,7 +20,6 @@ package org.apache.velocity.runtime.directive;
  */
 
 import java.io.Writer;
-import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeInstance;
@@ -30,18 +29,15 @@ import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * This class implements the #stop directive which allows
- * a user to stop rendering the current execution context. The #stop directive
- * with no arguments will immediately stop rendering the current Template merge
- * or evaluate(...) call.
- * If the stop directive is called with a Scope argument, e.g.; #stop($foreach),
- * then rendering will end within that particular directive, but resume at 
- * the parent level.
+ * a user to stop the merging and rendering process. The #stop directive
+ * will accept a single message argument with info about the reason for
+ * stopping.
  */
 public class Stop extends Directive
 {  
-    private static final StopCommand STOP_ALL = new StopAllCommand();
+    private static final StopCommand STOP_ALL = new StopCommand("StopCommand to exit merging");
 
-    private boolean scopedStop = false;
+    private boolean hasMessage = false;
 
     /**
      * Return name of this directive.
@@ -77,54 +73,27 @@ public class Stop extends Directive
         int kids = node.jjtGetNumChildren();
         if (kids > 1)
         {  
-            throw new VelocityException("The #stop directive only accepts a single scope object at "
+            throw new VelocityException("The #stop directive only accepts a single message parameter at "
                  + Log.formatFileString(this));
         }
         else
         {
-            this.scopedStop = (kids == 1);
+            hasMessage = (kids == 1);
         }
     }
 
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
     {
-        if (!scopedStop)
+        if (!hasMessage)
         {
-            // Only the top level calls that render an AST node tree catch and keep
-            // this, thereby terminating at Template.merge or RuntimeInstance.evaluate.
             throw STOP_ALL;
         }
 
         Object argument = node.jjtGetChild(0).value(context);
-        if (argument instanceof Scope)
-        {
-            ((Scope)argument).stop();
-        }
-        else
-        {
-            throw new VelocityException(node.jjtGetChild(0).literal()+" is not a valid Scope instance at "
-                + Log.formatFileString(this));
-        }
-        return false;
+
+        // stop all and use specified message
+        throw new StopCommand(String.valueOf(argument));
     }
 
-    /**
-     * Specialized StopCommand that stops all merge or evaluate activity.
-     */
-    public static class StopAllCommand extends StopCommand
-    {
-        public StopAllCommand()
-        {
-            super("Template.merge or RuntimeInstance.evaluate");
-        }
-
-        public boolean isFor(Object that)
-        {
-            // only stop for the top :)
-            return (that instanceof Template ||
-                    that instanceof RuntimeInstance ||
-                    that instanceof Evaluate);
-        }
-    }
 }
 

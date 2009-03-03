@@ -19,6 +19,10 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
+import org.apache.velocity.Template;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.directive.Evaluate;
+
 /**
  * Stop command for directive Control objects.  In an ideal JDK,
  * this would be able to extend a RuntimeThrowable class, but we
@@ -33,6 +37,17 @@ package org.apache.velocity.runtime.directive;
 public class StopCommand extends Error
 {
     private Object stopMe;
+    private boolean nearest = false;
+
+    public StopCommand()
+    {
+        this.nearest = true;
+    }
+
+    public StopCommand(String message)
+    {
+        super(message);
+    }
 
     public StopCommand(Object stopMe)
     {
@@ -41,12 +56,34 @@ public class StopCommand extends Error
 
     public String getMessage()
     {
-        // only create a useful message if requested (which is unlikely)
-        return "StopCommand for "+stopMe;
+        if (stopMe != null)
+        {
+            // only create a useful message if requested (which is unlikely)
+            return "StopCommand: "+stopMe;
+        }
+        else
+        {
+            return "StopCommand: "+super.getMessage();
+        }
     }
 
     public boolean isFor(Object that)
     {
-        return (that == stopMe);
+        if (nearest) // if we're stopping at the first chance
+        {
+            // save that for message
+            stopMe = that;
+            return true;
+        }
+        else if (stopMe != null) // if we have a specified stopping point
+        {
+            return (that == stopMe);
+        }
+        else // only stop for the top :)
+        {
+            return (that instanceof Template ||
+                    that instanceof RuntimeInstance ||
+                    that instanceof Evaluate);
+        }
     }
 }

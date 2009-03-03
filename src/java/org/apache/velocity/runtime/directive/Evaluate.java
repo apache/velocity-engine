@@ -210,6 +210,10 @@ public class Evaluate extends Directive
                     {
                         throw stop;
                     }
+                    else if (rsvc.getLog().isDebugEnabled())
+                    {
+                        rsvc.getLog().debug(stop.getMessage());
+                    }
                 }
                 catch (ParseErrorException pex)
                 {

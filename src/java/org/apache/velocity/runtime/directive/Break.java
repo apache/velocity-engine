@@ -19,31 +19,23 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.IOException;
 import java.io.Writer;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
 
 /**
- * Break directive used for interrupting foreach loops.
+ * Break directive used for interrupting scopes.
  *
  * @author <a href="mailto:wyla@removethis.sci.fi">Jarkko Viinamaki</a>
- * @deprecated use {@link Stop} with {@link ForeachScope} (e.g. #stop($foreach) )
+ * @author Nathan Bubna
  * @version $Id$
  */
 public class Break extends Directive
 {
-    private static final BreakCommand BREAK = new BreakCommand();
-
-    private boolean warned = false;
+    private boolean scoped = false;
 
     /**
      * Return name of this directive.
@@ -81,75 +73,52 @@ public class Break extends Directive
      * @throws TemplateInitException
      */
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
-        throws TemplateInitException
     {
         super.init(rs, context, node);
 
-        // Make sure the #break directive is within a foreach block.
-        Node check = node;
-        while (!(check instanceof ASTDirective) ||
-               !((ASTDirective)check).getDirectiveName().equals("foreach"))
-        {
-            check = check.jjtGetParent();
-            if (check == null)
-            {
-                // We are not in a macro definition, so throw an exception.
-                throw new VelocityException("#break must be within a #foreach block at " 
-                    + Log.formatFileString(this));
-            }
+        int kids = node.jjtGetNumChildren();
+        if (kids > 1)
+        {  
+            throw new VelocityException("The #stop directive only accepts a single scope object at "
+                 + Log.formatFileString(this));
         }
-
-        // give deprecation warning once per instance, not on every merge
-        if (!warned)
+        else
         {
-            warned = true;
-            if (rs.getLog().isWarnEnabled())
-            {
-                rs.getLog().warn("#break has been deprecated and will be removed in Velocity 2.0; please use #stop($foreach) instead.");
-            }
+            this.scoped = (kids == 1);
         }
     }
 
     /**
      * Break directive does not actually do any rendering. 
      * 
-     * This directive throws a BreakCommand which
-     * signals foreach directive to break out of the loop. Note that this
-     * directive does not verify that it is being called inside a foreach
-     * loop.
+     * This directive throws a StopCommand which signals either
+     * the nearest Scope or the specified scope to stop rendering
+     * its content.
      * 
      * @param context
      * @param writer
      * @param node
-     * @return true if the directive rendered successfully.
-     * @throws IOException
-     * @throws MethodInvocationException
-     * @throws ResourceNotFoundException
-     * @throws ParseErrorException
+     * @return never, always throws a StopCommand
      */
-    public boolean render(InternalContextAdapter context,
-                           Writer writer, Node node)
-        throws IOException,  MethodInvocationException, ResourceNotFoundException,
-        	ParseErrorException
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
     {
-        throw BREAK;
-    }
-    
-    /**
-     * Specialized StopCommand that stops the nearest #foreach loop.
-     */
-    public static class BreakCommand extends StopCommand 
-    {
-        public BreakCommand()
+        if (!scoped)
         {
-            // If a break is thrown during a macro or parse call, then this exception
-            // will eventually be seen, so provide the user with some info.
-            super("closest #foreach loop");
+            throw new StopCommand();
         }
 
-        public boolean isFor(Object that)
+        Object argument = node.jjtGetChild(0).value(context);
+        if (argument instanceof Scope)
         {
-            return (that instanceof Foreach);
+            ((Scope)argument).stop();
         }
+        else
+        {
+            throw new VelocityException(node.jjtGetChild(0).literal()+
+                " is not a valid " + Scope.class.getName() + " instance at "
+                + Log.formatFileString(this));
+        }
+        return false;
     }
+
 }
