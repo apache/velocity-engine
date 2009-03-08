@@ -45,7 +45,7 @@ public class Velocity62TestCase extends BaseTestCase
         String template = "#macro( outer )#set( $foo = 'bar' )#inner()#end"+
                           "#macro( inner )$foo#end"+
                           "#inner()#outer()#inner()";
-        assertEvalEquals("foofoofoo", template);
+        assertEvalEquals("foobarfoo", template);
     }
 
     public void testRecursive()

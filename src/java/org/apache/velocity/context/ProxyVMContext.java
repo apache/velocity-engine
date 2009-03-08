@@ -36,6 +36,8 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     
     /** If we are operating in global or localscope */
     boolean localscope = true;
+        
+    private Context globalContext = null;
     
     /**
      * @param context the parent context
@@ -43,10 +45,9 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
      */
     public ProxyVMContext(InternalContextAdapter context, boolean localScopeContext)
     {
-        // By always constructing with the base then calling super methods will always
-        // access the global context.
-        super(context.getBaseContext());        
+        super(context);
         localscope = localScopeContext;
+        globalContext = context.getBaseContext();
     }
     
     /**
@@ -61,7 +62,7 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
         if (localscope)    
           return localcontext.put(key, value);
         else
-          return super.put(key, value);
+          return globalContext.put(key, value);
     }
 
     /**
@@ -71,7 +72,7 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     {
         switch (scope)
         {
-            case GLOBAL: return super.put(key, value);
+            case GLOBAL: return globalContext.put(key, value);
             case LOCAL: return localcontext.put(key, value);
             default: return put(key, value);  // DEFAULT scope
         }
@@ -84,7 +85,7 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     {
         switch (scope)
         {
-            case GLOBAL: return super.get(key);
+            case GLOBAL: return globalContext.get(key);
             case LOCAL: return localcontext.get(key);
             default: return get(key);  // DEFAULT scope
         }      
@@ -97,7 +98,7 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     {
         switch (scope)
         {
-            case GLOBAL: return super.containsKey(key);
+            case GLOBAL: return globalContext.containsKey(key);
             case LOCAL: return localcontext.containsKey(key);
             default: return containsKey(key);  // DEFAULT scope
         }            
