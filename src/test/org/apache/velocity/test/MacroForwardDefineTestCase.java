@@ -81,12 +81,10 @@ public class MacroForwardDefineTestCase
         Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,"true");
 
         // actual instance of logger
-        logger = new TestLogChute();
-        logger.off();
+        logger = new TestLogChute(true, false);
         Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM,logger);
         Velocity.setProperty(TestLogChute.TEST_LOGGER_LEVEL, "debug");
         Velocity.init();
-        // DEBUG = true;
     }
 
     public static Test suite()
@@ -101,9 +99,9 @@ public class MacroForwardDefineTestCase
         Template template = Velocity.getTemplate("macros.vm");
 
         // try to get only messages during merge
-        logger.on();
+        logger.startCapture();
         template.merge(context, new StringWriter());
-        logger.off();
+        logger.stopCapture();
 
         String resultLog = logger.getLog();
         if ( !isMatch(resultLog, COMPARE_DIR, "velocity.log", "cmp"))
