@@ -49,14 +49,13 @@ public class VMContextLocalscopeTestCase extends BaseTestCase {
 
     public void testLocalscopePutDoesntLeakButGetDoes() 
     {
-        RuntimeInstance instance = new RuntimeInstance();
-        instance.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, Boolean.TRUE);
-        instance.init();
+        engine.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, Boolean.TRUE);
 
         VelocityContext base = new VelocityContext();
         base.put("outsideVar", "value1");
 
         ProxyVMContext vm = new ProxyVMContext(new InternalContextAdapterImpl(base), true);
+        vm.put("newLocalVar", "value2");
 
         // New variable put doesn't leak
         assertNull(base.get("newLocalVar"));
