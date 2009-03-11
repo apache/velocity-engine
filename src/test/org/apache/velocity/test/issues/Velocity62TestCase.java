@@ -36,7 +36,6 @@ public class Velocity62TestCase extends BaseTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        engine.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, Boolean.TRUE);
         context.put("foo", "foo");
     }
 
@@ -45,7 +44,7 @@ public class Velocity62TestCase extends BaseTestCase
         String template = "#macro( outer )#set( $foo = 'bar' )#inner()#end"+
                           "#macro( inner )$foo#end"+
                           "#inner()#outer()#inner()";
-        assertEvalEquals("foobarfoo", template);
+        assertEvalEquals("foobarbar", template);
     }
 
     public void testRecursive()

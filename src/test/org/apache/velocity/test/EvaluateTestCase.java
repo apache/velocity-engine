@@ -117,11 +117,6 @@ public class EvaluateTestCase extends BaseTestCase
     {
         Map properties = new HashMap();
         properties.clear();
-        properties.put(RuntimeConstants.VM_CONTEXT_LOCALSCOPE,"false");
-        testFile("eval2", properties);
-
-        properties.clear();
-        properties.put(RuntimeConstants.VM_CONTEXT_LOCALSCOPE,"true");
         testFile("eval2", properties);
 
         properties.clear();

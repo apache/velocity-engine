@@ -222,9 +222,6 @@ public interface RuntimeConstants
     /** Switch for VM blather : default true. */
     String VM_MESSAGES_ON = "velocimacro.messages.on";
 
-    /** switch for local context in VM : default false. */
-    String VM_CONTEXT_LOCALSCOPE = "velocimacro.context.localscope";
-
     /** if true, throw an exception for wrong number of arguments **/
     String VM_ARGUMENTS_STRICT = "velocimacro.arguments.strict";
 

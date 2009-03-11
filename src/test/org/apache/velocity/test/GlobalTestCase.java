@@ -35,14 +35,13 @@ public class GlobalTestCase extends BaseTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        engine.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, true);
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, true);
     }
     
     public void testSimple()
     {
         // define a macro for testing
-        assertEvalEquals("","#macro(foo)#set($bar = \"a\")#global($bar = \"b\")$bar#end");
+        assertEvalEquals("","#macro(foo)#set($macro.bar = \"a\")#global($bar = \"b\")$macro.bar#end");
         assertEvalEquals("ab", "#foo()$bar");
         assertEvalEquals("ab", "#set($bar=\"c\")#foo()$bar");
         assertEvalEquals("ab", "#global($bar=\"c\")#foo()$bar");
@@ -51,9 +50,9 @@ public class GlobalTestCase extends BaseTestCase
     public void testNested()
     {
         // define inner macro
-        assertEvalEquals("","#macro(inner)#set($bar = \"x\")$bar#global($bar = \"y\")$bar#end");
+        assertEvalEquals("","#macro(inner)#set($macro.bar = \"x\")$macro.bar#global($bar = \"y\")$macro.bar#end");
         // define outer macro
-        assertEvalEquals("","#macro(outer)#set($bar = \"a\")$bar#inner()$bar#global($bar = \"b\")$bar#end");
+        assertEvalEquals("","#macro(outer)#set($macro.bar = \"a\")$macro.bar#inner()$macro.bar#global($bar = \"b\")$macro.bar#end");
         assertEvalEquals("axxaab","#outer()$bar");
         assertEvalEquals("axxaab","#set($bar = \"z\")#outer()$bar");
     }
@@ -65,16 +64,16 @@ public class GlobalTestCase extends BaseTestCase
 
     public void testExistance2()
     {
-        assertEvalEquals("no","#macro(foo)#set($bar = \"b\")#end#foo()#if($bar)yes#{else}no#end");      
+        assertEvalEquals("no","#macro(foo)#set($macro.bar = \"b\")#end#foo()#if($bar)yes#{else}no#end");      
     }
     
     public void testProperties()
     {
-        assertEvalEquals("1223", "#set($bar = {\"a\":1})$bar.a#macro(foo)#set($bar = {\"a\":2})$bar.a#global($bar.a = 3)$bar.a#end#foo()$bar.a");
+        assertEvalEquals("1223", "#set($bar = {\"a\":1})$bar.a#macro(foo)#set($macro.bar = {\"a\":2})$macro.bar.a#global($bar.a = 3)$macro.bar.a#end#foo()$bar.a");
     }
     
     public void testProperties2()
     {
-        assertEvalException("#macro(foo)#set($bar = {\"a\":2})$bar.a#global($bar.a = 3)$bar.a#end#foo()");        
+        assertEvalException("#macro(foo)#set($macro.bar = {\"a\":2})$macro.bar.a#global($bar.a = 3)$macro.bar.a#end#foo()");        
     }
 }

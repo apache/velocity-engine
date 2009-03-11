@@ -42,7 +42,6 @@ public class EvaluateContextTestCase extends TestCase
         RuntimeInstance instance;
         
         instance = new RuntimeInstance();
-        instance.setProperty(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, Boolean.TRUE);
         instance.init();
 
         VelocityContext base = new VelocityContext();
