@@ -94,6 +94,15 @@ public class Include extends InputBase
     }
 
     /**
+     * Since there is no processing of content,
+     * there is never a need for an internal scope.
+     */
+    public boolean isScopeProvided()
+    {
+        return false;
+    }
+
+    /**
      *  simple init - init the tree and get the elementKey from
      *  the AST
      * @param rs

@@ -75,6 +75,35 @@ public abstract class Block extends Directive
         block = node.jjtGetChild(node.jjtGetNumChildren() - 1);
     }
 
+    public boolean render(InternalContextAdapter context, Writer writer)
+    {
+        preRender(context);
+        try
+        {
+            return block.render(context, writer);
+        }
+        catch (IOException e)
+        {
+            String msg = "Failed to render " + id(context) + " to writer "
+              + " at " + Log.formatFileString(this);
+
+            log.error(msg, e);
+            throw new RuntimeException(msg, e);
+        }
+        catch (StopCommand stop)
+        {
+            if (!stop.isFor(this))
+            {
+                throw stop;
+            }
+            return true;
+        }
+        finally
+        {
+            postRender(context);
+        }
+    }
+
     /**
      * Creates a string identifying the source and location of the block
      * definition, and the current template being rendered if that is
@@ -113,37 +142,26 @@ public abstract class Block extends Directive
          */
         public boolean render(InternalContextAdapter context, Writer writer)
         {
-            try
+            depth++;
+            if (depth > parent.maxDepth)
             {
-                depth++;
-                if (depth > parent.maxDepth)
-                {
-                    /* this is only a debug message, as recursion can
-                     * happen in quasi-innocent situations and is relatively
-                     * harmless due to how we handle it here.
-                     * this is more to help anyone nuts enough to intentionally
-                     * use recursive block definitions and having problems
-                     * pulling it off properly.
-                     */
-                    parent.log.debug("Max recursion depth reached for " + parent.id(context)
-                        + " at " + Log.formatFileString(parent));
-                    depth--;
-                    return false;
-                }
-                else
-                {
-                    parent.block.render(context, writer);
-                    depth--;
-                    return true;
-                }
+                /* this is only a debug message, as recursion can
+                 * happen in quasi-innocent situations and is relatively
+                 * harmless due to how we handle it here.
+                 * this is more to help anyone nuts enough to intentionally
+                 * use recursive block definitions and having problems
+                 * pulling it off properly.
+                 */
+                parent.log.debug("Max recursion depth reached for " + parent.id(context)
+                    + " at " + Log.formatFileString(parent));
+                depth--;
+                return false;
             }
-            catch (IOException e)
+            else
             {
-                String msg = "Failed to render " + parent.id(context) + " to writer "
-                  + " at " + Log.formatFileString(parent);
-                
-                parent.log.error(msg, e);
-                throw new RuntimeException(msg, e);
+                parent.render(context, writer);
+                depth--;
+                return true;
             }
         }
 

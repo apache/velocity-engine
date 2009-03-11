@@ -19,27 +19,27 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 
 /**
- * Break directive used for interrupting foreach loops.
+ * Break directive used for interrupting scopes.
  *
  * @author <a href="mailto:wyla@removethis.sci.fi">Jarkko Viinamaki</a>
+ * @author Nathan Bubna
  * @version $Id$
  */
 public class Break extends Directive
 {
-    private static final RuntimeException BREAK = new BreakException();
+    private boolean scoped = false;
+
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -59,30 +59,46 @@ public class Break extends Directive
     }
 
     /**
-     * Break directive does not actually do any rendering. 
-     * 
-     * This directive throws a BreakException (RuntimeException) which
-     * signals foreach directive to break out of the loop. Note that this
-     * directive does not verify that it is being called inside a foreach
-     * loop.
-     * @return true if the directive rendered successfully.
+     * Since there is no processing of content,
+     * there is never a need for an internal scope.
      */
-    public boolean render(InternalContextAdapter context,
-                           Writer writer, Node node)
-        throws IOException,  MethodInvocationException, ResourceNotFoundException,
-        	ParseErrorException
+    public boolean isScopeProvided()
     {
-        throw BREAK;
+        return false;
     }
-    
-    public static class BreakException extends RuntimeException 
+
+    @Override
+    public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
     {
-        public BreakException()
+        super.init(rs, context, node);
+
+        this.scoped = (node.jjtGetNumChildren() == 1);
+    }
+
+    /**
+     * This directive throws a StopCommand which signals either
+     * the nearest Scope or the specified scope to stop rendering
+     * its content.
+     * @return never, always throws a StopCommand or Exception
+     */
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+    {
+        if (!scoped)
         {
-          // If a break is thrown during a macro or parse call, then this exception
-          // will be logged because this method calls catch
-          // RuntimeException, so provide the user with some info.
-          super("Break");
+            throw new StopCommand();
+        }
+
+        Object argument = node.jjtGetChild(0).value(context);
+        if (argument instanceof Scope)
+        {
+            ((Scope)argument).stop();
+            throw new IllegalStateException("Scope.stop() failed to throw a StopCommand");
+        }
+        else
+        {
+            throw new VelocityException(node.jjtGetChild(0).literal()+
+                " is not a valid " + Scope.class.getName() + " instance at "
+                + Log.formatFileString(this));
         }
     }
     
@@ -90,11 +106,11 @@ public class Break extends Directive
      * Called by the parser to validate the argument types
      */
     public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
-      throws ParseException
+        throws ParseException
     {
-        if (argtypes.size() != 0)
+        if (argtypes.size() > 1)
         {
-            throw new MacroParseException("The #break directive does not take any arguments",
+            throw new MacroParseException("The #break directive takes only a single, optional Scope argument",
                templateName, t);
         }
     }    

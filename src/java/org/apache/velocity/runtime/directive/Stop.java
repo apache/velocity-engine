@@ -21,12 +21,8 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.Writer;
 import java.util.ArrayList;
-
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.TemplateInitException;
-import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
@@ -34,20 +30,15 @@ import org.apache.velocity.runtime.parser.node.Node;
 
 /**
  * This class implements the #stop directive which allows
- * a user to stop rendering the current template.  the #stop directive
- * with no arguments will immediately stop rendering the current template
- * If the stop directive is called with the 'parse' argument, e.g.; #stop(parse),
- * then rendering will end within the current parsing unit, but resume at 
- * the #parse directive call.  If not within a parsing unit, then #stop will
- * behave as if called with no parameters.
+ * a user to stop the merging and rendering process. The #stop directive
+ * will accept a single message argument with info about the reason for
+ * stopping.
  */
 public class Stop extends Directive
 {  
-  
-    /**
-     * Set to true if called like #stop(parse)
-     */
-    private boolean parseStop = false;
+    private static final StopCommand STOP_ALL = new StopCommand("StopCommand to exit merging");
+
+    private boolean hasMessage = false;
 
     /**
      * Return name of this directive.
@@ -66,74 +57,49 @@ public class Stop extends Directive
     {
         return LINE;
     }
-  
-    @Override
-    public void init(RuntimeServices rs, InternalContextAdapter context,
-        Node node) throws TemplateInitException
+
+    /**
+     * Since there is no processing of content,
+     * there is never a need for an internal scope.
+     */
+    public boolean isScopeProvided()
+    {
+        return false;
+    }
+
+    public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
     {
         super.init(rs, context, node);
-        if (node.jjtGetNumChildren() == 1)  // first child is "parse"
-        {  
-            String keyword = node.jjtGetChild(0).getFirstToken().image;
-            if (!keyword.equals("parse"))
-            {
-              throw new VelocityException("The #stop directive only accepts the 'parse' keyword at "
-                 + Log.formatFileString(this));
-            }
-            
-            parseStop = true;
-        }
+
+        hasMessage = (node.jjtGetNumChildren() == 1);
     }
     
     @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
     {
-        if (parseStop)
+        if (!hasMessage)
         {
-            // if called like #stop(parse) then throw this throwable that will be
-            // caught by the Parse.java directive.
-            throw new StopParseThrowable();            
+            throw STOP_ALL;
         }
-        else
-        {
-            // This stop directive was called without arguments, so throw a throwable
-            // that will be caught the Template.
-            throw new StopThrowable();          
-        }
-    }
-        
-    /**
-     * We select to overide Error here intead of RuntimeInstance because there are
-     * certain nodes that catch RuntimeException when rendering their children, and log
-     * the event to error.  But of course in the case that the template renders a Stop
-     * node we don't want this to happen.
-     */
-    public static class StopThrowable extends Error
-    {      
-    }
-  
-    /**
-     * Exception caught by <code>Parse.java</code> parse directive so that rendering
-     * will stop within a given parsing unit.  Extend StopThrowable so that if the
-     * This is not caught by <code>Parse.java</code> then it will be caught at the 
-     * templat level.
-     */
-    public static class StopParseThrowable extends StopThrowable
-    {      
+
+        Object argument = node.jjtGetChild(0).value(context);
+
+        // stop all and use specified message
+        throw new StopCommand(String.valueOf(argument));
     }
     
     /**
-     * Called by the parser to validate the argument types
+     * Called by the parser to check the argument types
      */
     public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
       throws ParseException
     {
-        if (argtypes.size() > 1 ||
-            (argtypes.size() == 1 && argtypes.get(0) != ParserTreeConstants.JJTWORD))
+        int kids = argtypes.size();
+        if (kids > 1)
         {
-            throw new MacroParseException("Only the 'parse' keyword allowed as an argument",
+            throw new MacroParseException("The #stop directive only accepts a single message parameter",
                templateName, t);
         }
     }    
-}
 
+}

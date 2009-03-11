@@ -51,7 +51,8 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
-import org.apache.velocity.runtime.directive.Stop.StopThrowable;
+import org.apache.velocity.runtime.directive.Scope;
+import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.log.LogManager;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -191,6 +192,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private Introspector introspector = null;
 
+    /*
+     * Settings for provision of root scope for evaluate(...) calls.
+     */
+    private String evaluateScopeName = "evaluate";
+    private boolean provideEvaluateScope = true;
 
     /*
      *  Opaque reference to something specificed by the
@@ -257,6 +263,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             initializeParserPool();
 
             initializeIntrospection();
+            initializeEvaluateScopeSettings();
             /*
              *  initialize the VM Factory.  It will use the properties
              * accessable from Runtime, so keep this here at the end.
@@ -1217,6 +1224,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
     }
 
+    private void initializeEvaluateScopeSettings()
+    {
+        String property = evaluateScopeName+'.'+PROVIDE_SCOPE_CONTROL;
+        provideEvaluateScope = getBoolean(property, provideEvaluateScope);
+    }
+
     /**
      * Renders the input string using the context into the output writer.
      * To be used when a template is dynamically constructed, or want to use
@@ -1346,15 +1359,23 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             try
             {
+                if (provideEvaluateScope)
+                {
+                    Object previous = ica.get(evaluateScopeName);
+                    context.put(evaluateScopeName, new Scope(this, previous));
+                }
                 nodeTree.render(ica, writer);
-            } 
-            catch (StopThrowable st)
+            }
+            catch (StopCommand stop)
             {
-                // The stop throwable is thrown by ASTStop (the #stop directive)
-                // The intent of the stop directive is to halt processing of the
-                // the template, so we throw a Throwable that will short circuit
-                // everthing between this call to render, and ASTStop. We just needed to 
-                // Catch the exception, nothing else to do.              
+                if (!stop.isFor(this))
+                {
+                    throw stop;
+                }
+                else if (getLog().isDebugEnabled())
+                {
+                    getLog().debug(stop.getMessage());
+                }
             }
             catch (IOException e)
             {
@@ -1364,6 +1385,26 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         finally
         {
             ica.popCurrentTemplateName();
+            if (provideEvaluateScope)
+            {
+                Object obj = ica.get(evaluateScopeName);
+                if (obj instanceof Scope)
+                {
+                    Scope scope = (Scope)obj;
+                    if (scope.getParent() != null)
+                    {
+                        ica.put(evaluateScopeName, scope.getParent());
+                    }
+                    else if (scope.getReplaced() != null)
+                    {
+                        ica.put(evaluateScopeName, scope.getReplaced());
+                    }
+                    else
+                    {
+                        ica.remove(evaluateScopeName);
+                    }
+                }
+            }
         }
 
         return true;
