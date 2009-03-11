@@ -68,11 +68,6 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 public class Parse extends InputBase
 {
     private int maxDepth;
-
-    /** 
-     * If the set directive operates on the global or local scope.
-     */
-    boolean localscope = false;    
     
     /**
      * Indicates if we are running in strict reference mode.
@@ -86,6 +81,16 @@ public class Parse extends InputBase
     public String getName()
     {
         return "parse";
+    }
+
+    /**
+     * Overrides the default to use "template", so that all templates
+     * can use the same scope reference, whether rendered via #parse
+     * or direct merge.
+     */
+    public String getScopeName()
+    {
+        return "template";
     }
 
     /**
@@ -110,9 +115,6 @@ public class Parse extends InputBase
         super.init(rs, context, node);
 
         this.maxDepth = rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 10);
-
-        // support for local context scope feature, where all references are local
-        localscope = rsvc.getBoolean(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false);  
         
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);        
     }
@@ -262,22 +264,19 @@ public class Parse extends InputBase
          */
         try
         {
-            boolean localscope = true;
             if (!blockinput) {
+                preRender(context);
                 context.pushCurrentTemplateName(arg);
                 
-                // Create a context frame for the parsed resource so that context
-                // changes are local.
-                ProxyVMContext vmc = new ProxyVMContext(context, localscope);
-                
-                ((SimpleNode) t.getData()).render(vmc, writer);
+                ((SimpleNode) t.getData()).render(context, writer);
             }
         }
-        catch(Stop.StopParseThrowable spt)
+        catch( StopCommand stop )
         {
-           // A #stop(parse) directive call was made in the parsed template
-           // So we simply catch the throwable, and resume.  
-           // See the Stop.java directive for more info.
+            if (!stop.isFor(this))
+            {
+                throw stop;
+            }
         }
         /**
          * pass through application level runtime exceptions
@@ -301,7 +300,10 @@ public class Parse extends InputBase
         finally
         {
             if (!blockinput)
+            {
                 context.popCurrentTemplateName();
+                postRender(context);
+            }
         }
 
         /*

@@ -7,6 +7,7 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -16,6 +17,7 @@ import org.apache.velocity.runtime.parser.node.Node;
  * a #macro.  Specifying the #return directive inside a macro will end rendering
  * within the macro and resume rendering at the point of the macro call.
  */
+@Deprecated
 public class Return extends Directive
 {
   @Override
@@ -52,16 +54,7 @@ public class Return extends Directive
   
   public boolean render(InternalContextAdapter context, Writer writer, Node node)
   {
-      // Throw the ReturnThrowable to be caught at the macro call level.
-      throw new ReturnThrowable();
+      throw new StopCommand();
   }
 
-  /**
-   * Implements a Throwable we can pass up the stack without disturbing
-   * other catches of other throwables.
-   * @see org.apache.velocity.runtime.directive.Stop
-   */
-  public static class ReturnThrowable extends Error
-  {
-  }
 }

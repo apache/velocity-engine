@@ -31,7 +31,6 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.directive.Stop.StopThrowable;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -198,18 +197,23 @@ public class Evaluate extends Directive
 
                 try 
                 {
+                    preRender(ica);
+
                     /*
                      *  now render, and let any exceptions fly
                      */
                     nodeTree.render( ica, writer );
                 }
-                catch (StopThrowable st)
+                catch (StopCommand stop)
                 {
-                    // The stop throwable is thrown by ASTStop (the #stop directive)
-                    // The intent of the stop directive is to halt processing of the
-                    // the template, so we throw a Throwable that will short circuit
-                    // everthing between this node, and ASTStop. We just needed to 
-                    // Catch the exception, nothing else to do.
+                    if (!stop.isFor(this))
+                    {
+                        throw stop;
+                    }
+                    else if (rsvc.getLog().isDebugEnabled())
+                    {
+                        rsvc.getLog().debug(stop.getMessage());
+                    }
                 }
                 catch (ParseErrorException pex)
                 {
@@ -221,12 +225,11 @@ public class Evaluate extends Directive
             finally
             {
                 ica.popCurrentTemplateName();
+                postRender(ica);
             }
-
             return true;
         }
 
-        
         return false;
     }
 
