@@ -90,7 +90,7 @@ public class TestLogChute extends SystemLogChute
 
     public boolean isLevelEnabled(int level)
     {
-        return !suppress && super.isLevelEnabled(level);
+        return (!suppress || capture) && super.isLevelEnabled(level);
     }
             
 

@@ -33,6 +33,8 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
+import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 
 /**
  * Base test case that provides utility methods for
@@ -87,6 +89,31 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         // extension hook
     }
 
+    protected StringResourceRepository getStringRepository()
+    {
+        StringResourceRepository repo =
+            (StringResourceRepository)engine.getApplicationAttribute(stringRepoName);
+        if (repo == null)
+        {
+            engine.init();
+            repo =
+                (StringResourceRepository)engine.getApplicationAttribute(stringRepoName);
+        }
+        return repo;
+    }
+
+    protected void addTemplate(String name, String template)
+    {
+        info("Template '"+name+"':  "+template);
+        getStringRepository().putStringResource(name, template);
+    }
+
+    protected void removeTemplate(String name)
+    {
+        info("Removed: '"+name+"'");
+        getStringRepository().removeStringResource(name);
+    }
+
     public void tearDown()
     {
         engine = null;
@@ -137,7 +164,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      */
     protected void assertTmplEquals(String expected, String template)
     {        
-        info("Expected:  '" + expected + "'");
+        info("Expected:  " + expected + " from '" + template + "'");
 
         StringWriter writer = new StringWriter();
         try
@@ -155,7 +182,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
             throw new RuntimeException(e);
         }        
 
-        info("Result:  '" + writer.toString() + "'");
+        info("Result:  " + writer.toString());
         assertEquals(expected, writer.toString());  
     }
     
