@@ -42,7 +42,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
 public abstract class ChainedInternalContextAdapter implements InternalContextAdapter
 {
     /** the parent context */
-    protected InternalContextAdapter innerContext = null;
+    protected InternalContextAdapter wrappedContext = null;
     
     /**
      * CTOR, wraps an ICA
@@ -50,7 +50,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public ChainedInternalContextAdapter(InternalContextAdapter inner)
     {
-        innerContext = inner;
+        wrappedContext = inner;
     }
     
     /**
@@ -59,7 +59,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public Context getInternalUserContext()
     {
-        return innerContext.getInternalUserContext();
+        return wrappedContext.getInternalUserContext();
     }
 
     /**
@@ -67,7 +67,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public InternalContextAdapter getBaseContext()
     {
-        return innerContext.getBaseContext();
+        return wrappedContext.getBaseContext();
     }
 
     /**
@@ -78,7 +78,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public Object get(String key)
     {
-        return innerContext.get(key);
+        return wrappedContext.get(key);
     }
 
     /**
@@ -93,7 +93,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
         /*
          * just put in the local context
          */
-        return innerContext.put(key, value);
+        return wrappedContext.put(key, value);
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public boolean containsKey(Object key)
     {
-        return innerContext.containsKey(key);
+        return wrappedContext.containsKey(key);
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public Object[] getKeys()
     {
-        return innerContext.getKeys();
+        return wrappedContext.getKeys();
     }
 
     /**
@@ -117,7 +117,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public Object remove(Object key)
     {
-        return innerContext.remove(key);
+        return wrappedContext.remove(key);
     }
 
     /**
@@ -125,7 +125,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public void pushCurrentTemplateName(String s)
     {
-        innerContext.pushCurrentTemplateName(s);
+        wrappedContext.pushCurrentTemplateName(s);
     }
 
     /**
@@ -133,7 +133,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public void popCurrentTemplateName()
     {
-        innerContext.popCurrentTemplateName();
+        wrappedContext.popCurrentTemplateName();
     }
 
     /**
@@ -141,7 +141,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public String getCurrentTemplateName()
     {
-        return innerContext.getCurrentTemplateName();
+        return wrappedContext.getCurrentTemplateName();
     }
 
     /**
@@ -149,7 +149,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public Object[] getTemplateNameStack()
     {
-        return innerContext.getTemplateNameStack();
+        return wrappedContext.getTemplateNameStack();
     }
 
     /**
@@ -157,7 +157,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public void pushCurrentMacroName(String s)
     {
-        innerContext.pushCurrentMacroName(s);
+        wrappedContext.pushCurrentMacroName(s);
     }
 
     /**
@@ -165,7 +165,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public void popCurrentMacroName()
     {
-        innerContext.popCurrentMacroName();
+        wrappedContext.popCurrentMacroName();
     }
 
     /**
@@ -173,7 +173,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public String getCurrentMacroName()
     {
-        return innerContext.getCurrentMacroName();
+        return wrappedContext.getCurrentMacroName();
     }
 
     /**
@@ -181,7 +181,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public int getCurrentMacroCallDepth()
     {
-        return innerContext.getCurrentMacroCallDepth();
+        return wrappedContext.getCurrentMacroCallDepth();
     }
 
     /**
@@ -189,7 +189,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public Object[] getMacroNameStack()
     {
-        return innerContext.getMacroNameStack();
+        return wrappedContext.getMacroNameStack();
     }
 
     /**
@@ -197,7 +197,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public IntrospectionCacheData icacheGet(Object key)
     {
-        return innerContext.icacheGet(key);
+        return wrappedContext.icacheGet(key);
     }
 
     /**
@@ -205,7 +205,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public void icachePut(Object key, IntrospectionCacheData o)
     {
-        innerContext.icachePut(key, o);
+        wrappedContext.icachePut(key, o);
     }
 
     /**
@@ -213,7 +213,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public void setMacroLibraries(List macroLibraries)
     {
-        innerContext.setMacroLibraries(macroLibraries);
+        wrappedContext.setMacroLibraries(macroLibraries);
     }
     
     /**
@@ -221,7 +221,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public List getMacroLibraries()
     {
-        return innerContext.getMacroLibraries();
+        return wrappedContext.getMacroLibraries();
     }
 
     /**
@@ -229,7 +229,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public EventCartridge attachEventCartridge(EventCartridge ec)
     {
-        return innerContext.attachEventCartridge(ec);
+        return wrappedContext.attachEventCartridge(ec);
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public EventCartridge getEventCartridge()
     {
-        return innerContext.getEventCartridge();
+        return wrappedContext.getEventCartridge();
     }
 
 
@@ -246,7 +246,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public void setCurrentResource(Resource r)
     {
-        innerContext.setCurrentResource(r);
+        wrappedContext.setCurrentResource(r);
     }
 
     /**
@@ -254,26 +254,26 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public Resource getCurrentResource()
     {
-        return innerContext.getCurrentResource();
+        return wrappedContext.getCurrentResource();
     }
     
     /**
      * Associated the value with the given key from the given scope, the default implementation
-     * is to ignore the scope and simply place the value into the innerContext.
+     * is to ignore the scope and simply place the value into the wrappedContext.
      */
     public Object put(String key, Object value, Scope scope)
     {
-        return innerContext.put(key, value);
+        return wrappedContext.put(key, value);
     }
     
     /**
      * Retrieve the value associated with the given key from the specified scope. 
      * The default implementation is to ignore the scope and retrieve the value
-     * from the innerContext.
+     * from the wrappedContext.
      */
     public Object get(String key, Scope scope)
     {
-        return innerContext.get(key);
+        return wrappedContext.get(key);
     }
 
     /**
@@ -282,6 +282,6 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      */
     public boolean containsKey(String key, Scope scope)
     {
-        return innerContext.containsKey(key);
+        return wrappedContext.containsKey(key);
     }
 }
