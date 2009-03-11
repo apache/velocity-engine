@@ -1,5 +1,7 @@
 package org.apache.velocity.runtime.directive.contrib;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -13,7 +15,6 @@ import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
 
-
 /**
  * The #for directive provides the behavior of the #foreach directive but also
  * provides an 'index' keyword that allows the user to define an optional index variable
@@ -24,6 +25,8 @@ import org.apache.velocity.runtime.parser.node.Node;
  */
 public class For extends Foreach
 {
+  protected String counterName;
+  protected int counterInitialValue;
 
   public String getName()
   {
@@ -49,7 +52,42 @@ public class For extends Foreach
         counterInitialValue = 0;
     }
   }
-    
+
+  @Override
+  public boolean render(InternalContextAdapter context, Writer writer, Node node)
+    throws IOException
+  {
+    Object c = context.get(counterName);
+    context.put(counterName, counterInitialValue);
+    try
+    {
+      return super.render(context, writer, node);
+    }
+    finally
+    {
+      if (c != null)
+      {
+        context.put(counterName, c);
+      }
+      else
+      {
+        context.remove(counterName);
+      }
+    }
+  }
+
+  @Override
+  protected void renderBlock(InternalContextAdapter context, Writer writer, Node node)
+    throws IOException
+  {
+    Object count = context.get(counterName);
+    if (count instanceof Number)
+    {
+      context.put(counterName, ((Number)count).intValue() + 1);
+    }
+    super.renderBlock(context, writer, node);
+  }
+
   /**
    * We do not allow a word token in any other arg position except for the 2nd
    * since we are looking for the pattern #foreach($foo in $bar).

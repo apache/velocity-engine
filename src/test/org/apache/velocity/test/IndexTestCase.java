@@ -36,7 +36,6 @@ public class IndexTestCase extends BaseTestCase
     {
         super.setUp();
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
-        engine.setProperty(RuntimeConstants.COUNTER_INITIAL_VALUE, new Integer(0));
         
         context.put("NULL", null);
         context.put("red", "blue");
@@ -81,7 +80,7 @@ public class IndexTestCase extends BaseTestCase
         assertEvalEquals("2", "$foo.getBar()[1]");
         assertEvalEquals("2", "$foo.getBar()[3][1]");
 
-        assertEvalEquals(" a  ab  abc ", "#foreach($i in $foo.bar[3]) $str[$velocityCount] #end");
+        assertEvalEquals(" a  ab  abc ", "#foreach($i in $foo.bar[3]) $str[$foreach.index] #end");
 
         assertEvalEquals("apple", "#set($hash = {'a':'apple', 'b':'orange'})$hash['a']");
 

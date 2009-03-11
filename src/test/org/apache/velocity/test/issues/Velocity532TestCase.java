@@ -33,7 +33,7 @@ public class Velocity532TestCase extends BaseTestCase
 
     public void test532()
     {
-        String template = "#macro( test )$velocityCount#end"+
+        String template = "#macro( test )$foreach.count#end"+
                           "#foreach( $i in [1..5] )#test()#end";
         assertEvalEquals("12345", template);
     }
@@ -43,7 +43,7 @@ public class Velocity532TestCase extends BaseTestCase
         // try something a little more like Matt's example
         String template = "#macro( test $baz )"+
                             "#if( $foo == $null )"+
-                              "#if( $velocityCount == 3 )bar#end"+
+                              "#if( $foreach.count == 3 )bar#end"+
                             "#end#end"+
                           "#foreach( $i in [1..5] )#test($i)#end";
         assertEvalEquals("bar", template);

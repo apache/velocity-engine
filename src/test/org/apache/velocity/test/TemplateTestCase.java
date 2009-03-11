@@ -104,7 +104,6 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
        throws Exception
     {
         super.setUp();
-        engine.setProperty(RuntimeConstants.COUNTER_INITIAL_VALUE, 1);
       
         provider = new TestProvider();
         al = provider.getCustomers();

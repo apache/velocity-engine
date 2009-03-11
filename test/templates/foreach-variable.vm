@@ -13,20 +13,20 @@ Foreach with a variable.
 
 #foreach ($element in $list)
     This is $element.
-    $velocityCount
+    $foreach.count
 #end
 
 #foreach ($element in $list)
     -- inner foreach --
     #foreach ($element in $list)
         This is $element.
-        $velocityCount
+        $foreach.count
     #end
     -- inner foreach --
 
     -- outer foreach --
     This is $element.
-    $velocityCount
+    $foreach.count
     -- outer foreach --
 #end
 
