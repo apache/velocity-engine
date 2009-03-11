@@ -245,14 +245,22 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
             {
                 info("Expectation: "+exceptionType.getName());
             }
+            else
+            {
+                info("Expectation: "+Exception.class.getName());
+            }
             evaluate(evil);
-            fail("Template '"+evil+"' should have thrown an exception.");
+            String msg = "Template '"+evil+"' should have thrown an exception.";
+            info("Fail: "+msg);
+            fail(msg);
         }
         catch (Exception e)
         {
             if (exceptionType != null && !exceptionType.isAssignableFrom(e.getClass()))
             {
-                fail("Was expecting template '"+evil+"' to throw "+exceptionType+" not "+e);
+                String msg = "Was expecting template '"+evil+"' to throw "+exceptionType+" not "+e;
+                info("Fail: "+msg);
+                fail(msg);
             }
             return e;
         }
