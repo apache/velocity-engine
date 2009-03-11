@@ -50,6 +50,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
     protected VelocityContext context;
     protected boolean DEBUG = false;
     protected TestLogChute log;
+    protected String stringRepoName = "string.repo";
 
     public BaseTestCase(String name)
     {
@@ -73,6 +74,13 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         log.setEnabledLevel(TestLogChute.INFO_ID);
         log.setSystemErrLevel(TestLogChute.WARN_ID);
         engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, log);
+
+        // use string resource loader by default, instead of file
+        engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,string");
+        engine.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
+        engine.addProperty("string.resource.loader.repository.name", stringRepoName);
+        engine.addProperty("string.resource.loader.repository.static", "false");
+
         setUpEngine(engine);
 
         context = new VelocityContext();
@@ -152,7 +160,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
     public void testBase()
     {
-        if (DEBUG)
+        if (DEBUG && engine != null)
         {
             assertSchmoo("");
             assertSchmoo("abc\n123");
