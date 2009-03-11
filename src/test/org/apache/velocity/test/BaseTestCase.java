@@ -130,30 +130,29 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
     protected void info(String msg)
     {
-        if (DEBUG)
-        {
-            if (engine == null)
-            {
-                Velocity.getLog().info(msg);
-            }
-            else
-            {
-                engine.getLog().info(msg);
-            }
-        }
+        info(msg, null);
     }
 
     protected void info(String msg, Throwable t)
     {
         if (DEBUG)
         {
-            if (engine == null)
+            try
             {
-                Velocity.getLog().info(msg);
+                if (engine == null)
+                {
+                    Velocity.getLog().info(msg, t);
+                }
+                else
+                {
+                    engine.getLog().info(msg, t);
+                }
             }
-            else
+            catch (Throwable t2)
             {
-                engine.getLog().info(msg, t);
+                System.out.println("Failed to log: "+msg+(t!=null?" - "+t: ""));
+                System.out.println("Cause: "+t2);
+                t2.printStackTrace();
             }
         }
     }
@@ -452,6 +451,10 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
                                String resultExt,
                                String compareExt) throws Exception
     {
+        if (DEBUG)
+        {
+            info("Result: "+resultsDir+baseFileName+resultExt);
+        }
         String result = getFileContents(resultsDir, baseFileName, resultExt);
         return isMatch(result,compareDir,baseFileName,compareExt);
     }
@@ -484,8 +487,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         compare = normalizeNewlines(compare);
         if (DEBUG)
         {
-            info("Expection: "+compare);
-            info("Result: "+result);
+            info("Expection: "+compareDir+baseFileName+compareExt);
         }
         return result.equals(compare);
     }
