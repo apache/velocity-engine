@@ -76,18 +76,6 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /** Counter reference name in #foreach directives. */
-    String COUNTER_NAME = "directive.foreach.counter.name";
-
-    /**
-     * Iterator.hasNext() reference name in #foreach directives.
-     * @since 1.6
-     */
-    String HAS_NEXT_NAME = "directive.foreach.iterator.name";
-
-    /** Initial counter value in #foreach directives. */
-    String COUNTER_INITIAL_VALUE = "directive.foreach.counter.initial.value";
-
     /** Maximum allowed number of loops. */
     String MAX_NUMBER_LOOPS = "directive.foreach.maxloops";
 

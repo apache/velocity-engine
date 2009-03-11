@@ -25,9 +25,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -71,25 +68,6 @@ public class Foreach extends Directive
     }
 
     /**
-     * The name of the variable to use when placing
-     * the counter value into the context. Right
-     * now the default is $velocityCount.
-     */
-    protected String counterName;
-
-    /**
-     * The name of the variable to use when placing
-     * iterator hasNext() value into the context.Right
-     * now the defailt is $velocityHasNext
-     */
-    private String hasNextName;
-
-    /**
-     * What value to start the loop counter at.
-     */
-    protected int counterInitialValue;
-
-    /**
      * The maximum number of times we're allowed to loop.
      */
     private int maxNbrLoops;
@@ -129,9 +107,6 @@ public class Foreach extends Directive
     {
         super.init(rs, context, node);
 
-        counterName = rsvc.getString(RuntimeConstants.COUNTER_NAME);
-        hasNextName = rsvc.getString(RuntimeConstants.HAS_NEXT_NAME);
-        counterInitialValue = rsvc.getInt(RuntimeConstants.COUNTER_INITIAL_VALUE);
         maxNbrLoops = rsvc.getInt(RuntimeConstants.MAX_NUMBER_LOOPS,
                                   Integer.MAX_VALUE);
         if (maxNbrLoops < 1)
@@ -187,80 +162,72 @@ public class Foreach extends Directive
     }
 
     /**
+     * Retrieve the contextual iterator.
+     */
+    protected Iterator getIterator(InternalContextAdapter context, Node node)
+    {
+        Iterator i = null;
+        /*
+         * do our introspection to see what our collection is
+         */
+        Object iterable = node.value(context);
+        if (iterable != null)
+        {
+            try
+            {
+                i = rsvc.getUberspect().getIterator(iterable, uberInfo);
+            }
+            /*
+             * pass through application level runtime exceptions
+             */
+            catch (RuntimeException e)
+            {
+                throw e;
+            }
+            catch (Exception ee)
+            {
+                String msg = "Error getting iterator for #foreach parameter "
+                    + node.literal() + " at " + Log.formatFileString(node);
+                rsvc.getLog().error(msg, ee);
+                throw new VelocityException(msg, ee);
+            }
+
+            if (i == null && !skipInvalidIterator)
+            {
+                String msg = "#foreach parameter " + node.literal() + " at "
+                    + Log.formatFileString(node) + " is of type " + iterable.getClass().getName()
+                    + " and cannot be iterated by " + rsvc.getUberspect().getClass().getName();
+                rsvc.getLog().error(msg);
+                throw new VelocityException(msg);
+            }
+        }
+        return i;
+    }
+
+    /**
      *  renders the #foreach() block
      * @param context
      * @param writer
      * @param node
      * @return True if the directive rendered successfully.
      * @throws IOException
-     * @throws MethodInvocationException
-     * @throws ResourceNotFoundException
-     * @throws ParseErrorException
      */
-    public boolean render(InternalContextAdapter context,
-                           Writer writer, Node node)
-        throws IOException,  MethodInvocationException, ResourceNotFoundException,
-        	ParseErrorException
+    public boolean render(InternalContextAdapter context, Writer writer, Node node)
+        throws IOException
     {
-        /*
-         *  do our introspection to see what our collection is
-         */
-
-        Object listObject = node.jjtGetChild(2).value(context);
-
-        if (listObject == null)
-             return false;
-
-        Iterator i = null;
-
-        try
-        {
-            i = rsvc.getUberspect().getIterator(listObject, uberInfo);
-        }
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch( RuntimeException e )
-        {
-            throw e;
-        }
-        catch(Exception ee)
-        {
-            String msg = "Error getting iterator for #foreach at "+uberInfo;
-            rsvc.getLog().error(msg, ee);
-            throw new VelocityException(msg, ee);
-        }
-
+        Iterator i = getIterator(context, node.jjtGetChild(2));
         if (i == null)
         {
-            if (skipInvalidIterator)
-            {
-                return false;
-            }
-            else
-            {
-                Node pnode = node.jjtGetChild(2);
-                String msg = "#foreach parameter " + pnode.literal() + " at "
-                    + Log.formatFileString(pnode)
-                    + " is of type " + listObject.getClass().getName()
-                    + " and is either of wrong type or cannot be iterated.";
-                rsvc.getLog().error(msg);
-                throw new VelocityException(msg);
-            }
+            return false;
         }
-
-        int counter = counterInitialValue;
-        boolean maxNbrLoopsExceeded = false;
 
         // Get the block ast tree which is always the last child
         Node block = node.jjtGetChild(node.jjtGetNumChildren()-1);
         
         /*
-         *  save the element key if there is one, and the loop counter
+         * save the element key if there is one
          */
         Object o = context.get(elementKey);
-        Object savedCounter = context.get(counterName);
-        Object nextFlag = context.get(hasNextName);
 
         /*
          * roll our own scope class instead of using preRender(ctx)'s
@@ -273,23 +240,22 @@ public class Foreach extends Directive
             context.put(name, foreach);
         }
 
-        while (!maxNbrLoopsExceeded && i.hasNext())
+        int count = 1;
+        while (count <= maxNbrLoops && i.hasNext())
         {
+            count++;
+
+            put(context, elementKey, i.next());
             if (isScopeProvided())
             {
                 // update the scope control
                 foreach.index++;
                 foreach.hasNext = i.hasNext();
             }
-            put(context, counterName , Integer.valueOf(counter));
-            Object value = i.next();
-            put(context, hasNextName, Boolean.valueOf(i.hasNext()));
-            put(context, elementKey, value);
-            
 
             try
             {
-                block.render(context, writer);
+                renderBlock(context, writer, block);
             }
             catch (StopCommand stop)
             {
@@ -300,23 +266,22 @@ public class Foreach extends Directive
                 else
                 {
                     // clean up first
-                    clean(context, o, savedCounter, nextFlag);
+                    clean(context, o);
                     throw stop;
                 }
             }
-            
-            counter++;
-
-            // Determine whether we're allowed to continue looping.
-            // ASSUMPTION: counterInitialValue is not negative!
-            maxNbrLoopsExceeded = (counter - counterInitialValue) >= maxNbrLoops;
         }
-        clean(context, o, savedCounter, nextFlag);
+        clean(context, o);
         return true;
     }
 
-    protected void clean(InternalContextAdapter context,
-                         Object o, Object savedCounter, Object nextFlag)
+    protected void renderBlock(InternalContextAdapter context, Writer writer, Node block)
+        throws IOException
+    {
+        block.render(context, writer);
+    }
+
+    protected void clean(InternalContextAdapter context, Object o)
     {
         /*
          *  restores element key if exists
@@ -329,31 +294,6 @@ public class Foreach extends Directive
         else
         {
             context.remove(elementKey);
-        }
-
-        /*
-         * restores the loop counter (if we were nested)
-         * if we have one, else just removes
-         */
-        if (savedCounter != null)
-        {
-            context.put(counterName, savedCounter);
-        }
-        else
-        {
-            context.remove(counterName);
-        }
-
-        /*
-         * restores the "hasNext" boolean flag if it exists
-         */         
-        if (nextFlag != null)
-        {
-            context.put(hasNextName, nextFlag);
-        }
-        else
-        {
-            context.remove(hasNextName);
         }
 
         // clean up after the ForeachScope

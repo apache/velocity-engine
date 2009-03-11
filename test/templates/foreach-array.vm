@@ -16,7 +16,7 @@ test doesn't fail incorrectly.
 <table>
 #foreach ($element in $stringarray)
     <tr>
-        <td>This is $element and it is the $velocityCount item</td>
+        <td>This is $element and it is the $foreach.count item</td>
     </tr>        
 #end
 </table>
@@ -26,7 +26,7 @@ test doesn't fail incorrectly.
 <table>
 #foreach ($element in $woogiefoogie)
     <tr>
-        <td>This is $element and it is the $velocityCount item</td>
+        <td>This is $element and it is the $foreach.count item</td>
     </tr>        
 #end
 </table>

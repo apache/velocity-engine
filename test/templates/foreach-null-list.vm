@@ -13,5 +13,5 @@ Foreach with a list that contains null.
 
 #foreach ($element in $nullList)
     This is $element.
-    $velocityCount
+    $foreach.count
 #end

@@ -103,7 +103,7 @@ public class ForeachTestCase extends BaseTestCase
         list.add("test2");
         list.add("test3");
         context.put("list", list);
-        assertEvalEquals("test1 SEPARATOR test2 SEPARATOR test3 ", "#foreach ($value in $list)$value #if( $velocityHasNext )SEPARATOR #end#end");             
+        assertEvalEquals("test1 SEPARATOR test2 SEPARATOR test3 ", "#foreach ($value in $list)$value #if( $foreach.hasNext )SEPARATOR #end#end");             
     }    
 
     public void testNestedVelocityHasNextProperty()
@@ -121,7 +121,7 @@ public class ForeachTestCase extends BaseTestCase
         list2.add("a3");
         context.put("list2", list2);
 
-        assertEvalEquals("test1 (a1;a2;a3)-test2 (a1;a2;a3)-test3 (a1;a2;a3)-test4 (a1;a2;a3)", "#foreach ($value in $list)$value (#foreach ($val in $list2)$val#if( $velocityHasNext );#end#end)#if( $velocityHasNext )-#end#end");             
+        assertEvalEquals("test1 (a1;a2;a3)-test2 (a1;a2;a3)-test3 (a1;a2;a3)-test4 (a1;a2;a3)", "#foreach ($value in $list)$value (#foreach ($val in $list2)$val#if( $foreach.hasNext );#end#end)#if( $foreach.hasNext )-#end#end");             
     }    
     
     public static class MyIterable
