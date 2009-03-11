@@ -38,7 +38,12 @@ public class ProxyVMContext extends ChainedInternalContextAdapter
     boolean localscope = true;
         
     private Context globalContext = null;
-    
+
+    public ProxyVMContext(InternalContextAdapter context)
+    {
+        this(context, false);
+    }
+
     /**
      * @param context the parent context
      * @param localScopeContext if true, all references are set to be local

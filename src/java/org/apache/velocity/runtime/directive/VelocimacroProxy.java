@@ -52,7 +52,6 @@ public class VelocimacroProxy extends Directive
     private SimpleNode nodeTree = null;
     private int numMacroArgs = 0;
     private boolean strictArguments;
-    private boolean localContextScope = false;
     private int maxCallDepth;
     private String bodyReference;
 
@@ -151,7 +150,7 @@ public class VelocimacroProxy extends Directive
         // wrap the current context and add the macro arguments
 
         // the creation of this context is a major bottleneck (incl 2x HashMap)
-        final ProxyVMContext vmc = new ProxyVMContext(context, localContextScope);
+        final ProxyVMContext vmc = new ProxyVMContext(context);
 
         int callArgNum = node.jjtGetNumChildren();
         
@@ -280,10 +279,6 @@ public class VelocimacroProxy extends Directive
         // this is a very expensive call (ExtendedProperties is very slow)
         strictArguments = rs.getConfiguration().getBoolean(
             RuntimeConstants.VM_ARGUMENTS_STRICT, false);
-
-        // support for local context scope feature, where all references are local
-        // we do not have to check this at every invocation of ProxyVMContext
-        localContextScope = rsvc.getBoolean(RuntimeConstants.VM_CONTEXT_LOCALSCOPE, false);
 
         // get the macro call depth limit
         maxCallDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
