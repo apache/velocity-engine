@@ -37,9 +37,6 @@ package org.apache.velocity.context;
  */
 public interface Context
 {
-    public enum Scope {DEFAULT, LOCAL, GLOBAL}
-  
-  
     /**
      * Adds a name/value pair to the context.
      *

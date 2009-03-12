@@ -67,6 +67,18 @@ public class Scope extends AbstractMap
         return getStorage().entrySet();
     }
 
+    @Override
+    public Object get(Object key)
+    {
+        Object o = super.get(key);
+        if (o == null && parent != null && !containsKey(key))
+        {
+            return parent.get(key);
+        }
+        return o;
+    }
+
+    @Override
     public Object put(Object key, Object value)
     {
         return getStorage().put(key, value);

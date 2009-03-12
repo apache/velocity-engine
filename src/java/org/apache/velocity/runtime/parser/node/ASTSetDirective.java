@@ -24,7 +24,6 @@ import java.io.Writer;
 
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.context.Context.Scope;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -186,16 +185,7 @@ public class ASTSetDirective extends SimpleNode
             EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
         }
         
-        return left.setValue(context, value, getScope());
-    }
-
-    /**
-     * Return the scope this set directive will operate under.  We override this method
-     * with the #global and #local directives to specify the appropriate scope.
-     */
-    public Scope getScope()
-    {
-      return Scope.DEFAULT;
+        return left.setValue(context, value);
     }
     
     

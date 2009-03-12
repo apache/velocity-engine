@@ -26,7 +26,6 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.context.Context.Scope;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
@@ -229,7 +228,7 @@ public class ASTReference extends SimpleNode
          *  get the root object from the context
          */
 
-        Object result = getVariableValue(context, rootString, Scope.DEFAULT);
+        Object result = getVariableValue(context, rootString);
 
         if (result == null && !strictRef)
         {
@@ -583,12 +582,12 @@ public class ASTReference extends SimpleNode
      *  @return true if successful, false otherwise
      * @throws MethodInvocationException
      */
-    public boolean setValue(InternalContextAdapter context, Object value, Scope scope)
+    public boolean setValue(InternalContextAdapter context, Object value)
       throws MethodInvocationException
     {
         if (jjtGetNumChildren() == 0)
         {
-            context.put(rootString, value, scope);
+            context.put(rootString, value);
             return true;
         }
 
@@ -598,7 +597,7 @@ public class ASTReference extends SimpleNode
          *  object we will apply reflection to.
          */
 
-        Object result = getVariableValue(context, rootString, scope);
+        Object result = getVariableValue(context, rootString);
 
         if (result == null)
         {
@@ -978,12 +977,12 @@ public class ASTReference extends SimpleNode
      * @return The evaluated value of the variable.
      * @throws MethodInvocationException
      */
-    public Object getVariableValue(InternalContextAdapter context, String variable, Scope scope) 
+    public Object getVariableValue(InternalContextAdapter context, String variable) 
     {
         Object obj = null;
         try
         {
-            obj = context.get(variable, scope);
+            obj = context.get(variable);
         }
         catch(RuntimeException e)
         {
@@ -994,7 +993,7 @@ public class ASTReference extends SimpleNode
         
         if (obj == null && strictRef)
         {
-          if (!context.containsKey(variable, scope))
+          if (!context.containsKey(variable))
           {
               log.error("Variable $" + variable + " has not been set at "
                         + Log.formatFileString(uberInfo));

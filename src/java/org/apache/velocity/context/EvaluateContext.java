@@ -183,42 +183,4 @@ public class EvaluateContext extends ChainedInternalContextAdapter
         return localContext.remove( key );
     }
 
-    /**
-     * Put a value into the appropriate context specified by 'scope'
-     */    
-    public Object put(String key, Object value, Scope scope)
-    {
-      switch (scope)
-      {
-          case GLOBAL: return super.put(key, value);
-          case LOCAL: return localContext.put(key, value);
-          default: return put(key, value);  // DEFAULT scope
-      }      
-    }
-
-    /**
-     * Returns a value associated with 'key' from the specified 'scope'
-     */    
-    public Object get(String key, Scope scope)
-    {
-      switch (scope)
-      {
-          case GLOBAL: return super.get(key);
-          case LOCAL: return localContext.get(key);
-          default: return get(key);  // DEFAULT scope
-      }      
-    }
-    
-    /**
-     * Returns true if the specified scope contains 'key'
-     */
-    public boolean containsKey(String key, Scope scope)
-    {
-        switch (scope)
-        {
-            case GLOBAL: return super.containsKey(key);
-            case LOCAL: return localContext.containsKey(key);
-            default: return containsKey(key);  // DEFAULT scope
-        }            
-    }    
 }
