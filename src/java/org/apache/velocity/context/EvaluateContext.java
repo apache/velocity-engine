@@ -46,6 +46,7 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  *  @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  *  @version $Id$
  *  @since 1.6
+ *  @deprecated Will be removed in 2.0
  */
 public class EvaluateContext extends ChainedInternalContextAdapter
 {
@@ -73,6 +74,12 @@ public class EvaluateContext extends ChainedInternalContextAdapter
 
         if (contextClass != null && contextClass.length() > 0)
         {
+            rsvc.getLog().warn("The "+RuntimeConstants.EVALUATE_CONTEXT_CLASS+
+                " property has been deprecated. It will be removed in Velocity 2.0. "+
+                " Instead, please use the automatically provided $evaluate"+
+                " namespace to get and set local references"+
+                " (e.g. #set($evaluate.foo = 'bar') and $evaluate.foo).");
+            
             Object o = null;
 
             try
@@ -107,9 +114,15 @@ public class EvaluateContext extends ChainedInternalContextAdapter
         }
         else
         {
-            String err = "No class specified for #evaluate() context.";
-            rsvc.getLog().error(err);
-            throw new RuntimeException(err);
+            if (rsvc.getLog().isDebugEnabled())
+            {
+                rsvc.getLog().debug("No class specified for #evaluate() context, "+
+                    "so #set calls will now alter the global context and no longer be local.  "+
+                    "This is a change from earlier versions due to VELOCITY-704.  "+
+                    "If you need references within #evaluate to stay local, "+
+                    "please use the automatically provided $evaluate namespace instead "+
+                    "(e.g. #set($evaluate.foo = 'bar') and $evaluate.foo).");
+            }
         }
         
     }
@@ -123,11 +136,11 @@ public class EvaluateContext extends ChainedInternalContextAdapter
      */
     public Object put(String key, Object value)
     {
-        /*
-         *  just put in the local context
-         */
-        return localContext.put(key, value);
-
+        if (localContext != null)
+        {
+            return localContext.put(key, value);
+        }
+        return super.put(key, value);
     }
 
     /**
@@ -141,14 +154,15 @@ public class EvaluateContext extends ChainedInternalContextAdapter
         /*
          *  always try the local context then innerContext
          */
-
-        Object o = localContext.get( key );
-
-        if ( o == null)
+        Object o = null;
+        if (localContext != null)
+        {
+            o = localContext.get(key);
+        }
+        if (o == null)
         {
             o = super.get( key );
         }
-
         return o;
     }
 
@@ -157,7 +171,8 @@ public class EvaluateContext extends ChainedInternalContextAdapter
      */
     public boolean containsKey(Object key)
     {
-        return localContext.containsKey(key) || super.containsKey(key);
+        return (localContext != null && localContext.containsKey(key)) ||
+               super.containsKey(key);
     }
 
     /**
@@ -165,19 +180,23 @@ public class EvaluateContext extends ChainedInternalContextAdapter
      */
     public Object[] getKeys()
     {
-        Set keys = new HashSet();
-        Object[] localKeys = localContext.getKeys();
-        for (int i=0; i < localKeys.length; i++)
+        if (localContext != null)
         {
-            keys.add(localKeys[i]);
+            Set keys = new HashSet();
+            Object[] localKeys = localContext.getKeys();
+            for (int i=0; i < localKeys.length; i++)
+            {
+                keys.add(localKeys[i]);
+            }
+
+            Object[] innerKeys = super.getKeys();
+            for (int i=0; i < innerKeys.length; i++)
+            {
+                keys.add(innerKeys[i]);
+            }
+            return keys.toArray();
         }
-        
-        Object[] innerKeys = super.getKeys();
-        for (int i=0; i < innerKeys.length; i++)
-        {
-            keys.add(innerKeys[i]);
-        }
-        return keys.toArray();
+        return super.getKeys();
     }
 
     /**
@@ -185,7 +204,11 @@ public class EvaluateContext extends ChainedInternalContextAdapter
      */
     public Object remove(Object key)
     {
-        return localContext.remove( key );
+        if (localContext != null)
+        {
+            return localContext.remove(key);
+        }
+        return super.remove(key);
     }
 
     /**
@@ -199,7 +222,11 @@ public class EvaluateContext extends ChainedInternalContextAdapter
      */
     public Object localPut(final String key, final Object value)
     {
-        return localContext.put(key, value);
+        if (localContext != null)
+        {
+            return localContext.put(key, value);
+        }
+        return super.localPut(key, value);
     }
 
 }
