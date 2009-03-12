@@ -21,7 +21,6 @@ package org.apache.velocity.runtime.directive;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.directive.Evaluate;
 
 /**
  * Stop command for directive Control objects.  In an ideal JDK,
@@ -82,8 +81,7 @@ public class StopCommand extends Error
         else // only stop for the top :)
         {
             return (that instanceof Template ||
-                    that instanceof RuntimeInstance ||
-                    that instanceof Evaluate);
+                    that instanceof RuntimeInstance);
         }
     }
 }

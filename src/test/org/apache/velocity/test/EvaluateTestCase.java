@@ -27,10 +27,6 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -88,14 +84,10 @@ public class EvaluateTestCase extends BaseTestCase
         super(name);
     }
 
-    public void setUp()
+    public void setUp() throws Exception
     {
+        super.setUp();
         assureResultsDirectoryExists(RESULTS_DIR);
-    }
-
-    public static Test suite()
-    {
-       return new TestSuite(EvaluateTestCase.class);
     }
 
     /**
@@ -105,7 +97,8 @@ public class EvaluateTestCase extends BaseTestCase
     public void testEvaluate()
     throws Exception
     {
-        testFile("eval1", new HashMap());
+        Map props = new HashMap();
+        testFile("eval1", props);
     }
 
     /**
@@ -116,14 +109,10 @@ public class EvaluateTestCase extends BaseTestCase
     throws Exception
     {
         Map properties = new HashMap();
-        properties.clear();
         testFile("eval2", properties);
 
-        properties.clear();
         properties.put(RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL,"false");
         testFile("eval2", properties);
-
-
     }
 
     /**
@@ -137,25 +126,16 @@ public class EvaluateTestCase extends BaseTestCase
     }
 
     /**
-     * Test #stop (since it is attached to context).
+     * Test #stop and #break
      * @throws Exception
      */
-    public void testStop()
-    throws Exception
+    public void testStopAndBreak()
     {
-        VelocityEngine ve = new VelocityEngine();
-        ve.init();
-        
-        Context context = new VelocityContext();        
-        StringWriter writer = new StringWriter();
-        ve.evaluate(context, writer, "test","test #stop test2 #evaluate('test3')");
-        assertEquals("test ", writer.toString());
-        
-        context = new VelocityContext();        
-        writer = new StringWriter();
-        ve.evaluate(context, writer, "test","test test2 #evaluate('test3 #stop test4') test5");
-        assertEquals("test test2 test3  test5", writer.toString());
-        
+        assertEvalEquals("t ", "t #stop t2 #evaluate('t3')");
+        assertEvalEquals("t ", "t #break t2 #evaluate('t3')");
+        assertEvalEquals("t t2 t3 ", "t t2 #evaluate('t3 #stop t4') t5");
+        assertEvalEquals("t t2 t3  t5", "t t2 #evaluate('t3 #break t4') t5");
+        assertEvalEquals("t t2 t3 ", "t t2 #evaluate('t3 #break($evaluate.topmost) t4') t5");
     }
 
     /**
@@ -265,7 +245,8 @@ public class EvaluateTestCase extends BaseTestCase
     private void testFile(String basefilename, Map properties)
     throws Exception
     {
-        VelocityEngine ve = new VelocityEngine();
+        info("Test file: "+basefilename);
+        VelocityEngine ve = engine;
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
      
         for (Iterator i = properties.keySet().iterator(); i.hasNext();)
@@ -273,6 +254,7 @@ public class EvaluateTestCase extends BaseTestCase
             String key = (String) i.next();
             String value = (String) properties.get(key);
             ve.addProperty(key, value);
+            info("Add property: "+key+" = "+value);
         }
         
         ve.init();
@@ -280,7 +262,6 @@ public class EvaluateTestCase extends BaseTestCase
         Template template;
         FileOutputStream fos;
         Writer fwriter;
-        Context context;
         
         template = ve.getTemplate( getFileName(null, basefilename, TMPL_FILE_EXT) );
         
@@ -289,8 +270,6 @@ public class EvaluateTestCase extends BaseTestCase
         
         fwriter = new BufferedWriter( new OutputStreamWriter(fos) );
         
-        context = new VelocityContext();
-        setupContext(context);
         template.merge(context, fwriter);
         fwriter.flush();
         fwriter.close();
@@ -308,10 +287,5 @@ public class EvaluateTestCase extends BaseTestCase
             fail(msg);
         }
     }
-        
-    public void setupContext(Context context)
-    {
-    } 
-    
-    
+
 }
