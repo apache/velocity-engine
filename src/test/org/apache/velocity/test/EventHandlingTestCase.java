@@ -21,11 +21,6 @@ package org.apache.velocity.test;
 
 import java.io.StringWriter;
 import java.io.Writer;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.app.event.EventCartridge;
@@ -36,9 +31,9 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
 import org.apache.velocity.util.ContextAware;
 import org.apache.velocity.util.RuntimeServicesAware;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * Tests event handling for all event handlers except IncludeEventHandler.  This is tested
@@ -47,26 +42,20 @@ import org.apache.velocity.util.RuntimeServicesAware;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class EventHandlingTestCase
-        extends TestCase
-        implements LogChute
+public class EventHandlingTestCase extends BaseTestCase
 {
     private static String NO_REFERENCE_VALUE =  "<no reference value>";
     private static String REFERENCE_VALUE =  "<reference value>";
 
-    private static String logString = null;
-
-    /**
-     * Default constructor.
-     */
     public EventHandlingTestCase(String name)
     {
         super(name);
     }
 
-    public static Test suite ()
+    public void setUp() throws Exception
     {
-        return new TestSuite(EventHandlingTestCase.class);
+        super.setUp();
+        engine.setProperty(RuntimeConstants.SET_NULL_ALLOWED, false);
     }
 
     public void testManualEventHandlers()
@@ -74,159 +63,148 @@ public class EventHandlingTestCase
     {
         TestEventCartridge te = new TestEventCartridge();
         /**
-         * Test attaching the event cartridge to the context
-         */
-        VelocityEngine ve = new VelocityEngine();
-        ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, this);
-        ve.init();
-
-        /*
-         *  lets make a Context and add the event cartridge
-         */
-
-        VelocityContext inner = new VelocityContext();
-
-        /*
-         *  Now make an event cartridge, register all the
+         * Test attaching the event cartridge to the context.
+         *  Make an event cartridge, register all the
          *  event handlers (at once) and attach it to the
          *  Context
          */
 
         EventCartridge ec = new EventCartridge();
         ec.addEventHandler(te);
-        ec.attachToContext( inner );
+        ec.attachToContext(context);
 
         /*
          *  now wrap the event cartridge - we want to make sure that
          *  we can do this w/o harm
          */
-
-        doTestReferenceInsertionEventHandler1(ve, inner);
-        doTestReferenceInsertionEventHandler2(ve, inner);
-        doTestNullValueEventHandler(ve, inner);
-        doTestSetNullValueEventHandler(ve, inner);
-        doTestMethodExceptionEventHandler1(ve, inner);
-        doTestMethodExceptionEventHandler2(ve, inner);
+        doTestReferenceInsertionEventHandler1();
+        doTestReferenceInsertionEventHandler2();
+        doTestNullValueEventHandler();
+        doTestSetNullValueEventHandler();
+        doTestMethodExceptionEventHandler1();
+        doTestMethodExceptionEventHandler2();
     }
 
     /**
      * Test assigning the event handlers via properties
      */
-
     public void testConfigurationEventHandlers()
             throws Exception
     {
-        VelocityEngine ve = new VelocityEngine();
-        ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, this);
-        ve.setProperty(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION, TestEventCartridge.class.getName());
-        ve.setProperty(RuntimeConstants.EVENTHANDLER_NULLSET, TestEventCartridge.class.getName());
-        ve.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, TestEventCartridge.class.getName());
+        engine.setProperty(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION, TestEventCartridge.class.getName());
+        engine.setProperty(RuntimeConstants.EVENTHANDLER_NULLSET, TestEventCartridge.class.getName());
+        engine.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, TestEventCartridge.class.getName());
 
-        ve.init();
-
-        doTestReferenceInsertionEventHandler1(ve, null);
-        doTestReferenceInsertionEventHandler2(ve, null);
-        doTestNullValueEventHandler(ve, null);
-        doTestSetNullValueEventHandler(ve, null);
-        doTestMethodExceptionEventHandler1(ve, null);
-        doTestMethodExceptionEventHandler2(ve, null);
+        doTestReferenceInsertionEventHandler1();
+        doTestReferenceInsertionEventHandler2();
+        doTestNullValueEventHandler();
+        doTestSetNullValueEventHandler();
+        doTestMethodExceptionEventHandler1();
+        doTestMethodExceptionEventHandler2();
     }
 
     /**
      * Test all the event handlers using the given engine.
-     * @param ve
-     * @param vcontext
      */
-    private void doTestReferenceInsertionEventHandler1(VelocityEngine ve, VelocityContext vc)
+    private void doTestReferenceInsertionEventHandler1()
             throws Exception
     {
-        VelocityContext context = new VelocityContext(vc);
-
+        VelocityContext outer = context;
+        context = new VelocityContext(context);
         context.put("name", "Velocity");
 
         /*
          *  First, the reference insertion handler
          */
+        String expected = REFERENCE_VALUE + REFERENCE_VALUE + REFERENCE_VALUE;
+        assertEvalEquals(expected, "$name$name$name");
 
-        String s = "$name$name$name";
-
-        StringWriter w = new StringWriter();
-        ve.evaluate( context, w, "mystring", s );
-
-        if ( !w.toString().equals( REFERENCE_VALUE + REFERENCE_VALUE + REFERENCE_VALUE ))
-        {
-            fail( "Reference insertion test 1");
-        }
+        context = outer;
     }
 
-    private void doTestReferenceInsertionEventHandler2(VelocityEngine ve, VelocityContext vc)
+    private void doTestReferenceInsertionEventHandler2()
             throws Exception
     {
-        VelocityContext context = new VelocityContext(vc);
+        VelocityContext outer = context;
+        context = new VelocityContext(context);
         context.put("name", "Velocity");
 
         /*
          *  using the same handler, we can deal with
          *  null references as well
          */
+        assertEvalEquals(NO_REFERENCE_VALUE, "$floobie");
 
-        String s = "$floobie";
-
-        Writer w = new StringWriter();
-        ve.evaluate( context, w, "mystring", s );
-
-        if ( !w.toString().equals( NO_REFERENCE_VALUE ))
-        {
-            fail( "Reference insertion test 2");
-        }
+        context = outer;
     }
 
-    private void doTestNullValueEventHandler(VelocityEngine ve, VelocityContext vc)
+    private void doTestNullValueEventHandler()
             throws Exception
     {
-        VelocityContext context = new VelocityContext(vc);
+        VelocityContext outer = context;
+        context = new VelocityContext(context);
+        context.put("log", log);
 
         /*
          *  now lets test setting a null value - this test
          *  should result in *no* log output.
          */
+        boolean debug = DEBUG;
+        DEBUG = false;
+        log.startCapture();
+        log.setEnabledLevel(TestLogChute.DEBUG_ID);
+        evaluate("#set($settest = $NotAReference)");
+        log.setEnabledLevel(TestLogChute.INFO_ID);
+        log.stopCapture();
+        DEBUG = debug;
 
-        String s = "#set($settest = $NotAReference)";
-        Writer w = new StringWriter();
-        clearLogString();
-        ve.evaluate( context, w, "mystring", s );
-
-        if( getLogString() != null)
+        String output = log.getLog();
+        info("Logged: \""+output+"\"");
+        if (!(output == null || output.length() == 0))
         {
+            info("Log should have been empty!");
             fail( "NullSetEventHandler test 1");
         }
+
+        context = outer;
     }
 
-    private void doTestSetNullValueEventHandler(VelocityEngine ve, VelocityContext vc)
+    private void doTestSetNullValueEventHandler()
             throws Exception
     {
-        VelocityContext context = new VelocityContext(vc);
+        VelocityContext outer = context;
+        context = new VelocityContext(context);
+        context.put("log", log);
 
         /*
          *  now lets test setting a null value - this test
          *  should result in log output.
          */
+        boolean debug = DEBUG;
+        DEBUG = false;
+        log.startCapture();
+        log.setEnabledLevel(TestLogChute.DEBUG_ID);
+        evaluate("#set($logthis = $NotAReference)");
+        log.setEnabledLevel(TestLogChute.INFO_ID);
+        log.stopCapture();
+        DEBUG = debug;
 
-        String s = "#set($logthis = $NotAReference)";
-        Writer w = new StringWriter();
-        clearLogString();
-        ve.evaluate( context, w, "mystring", s );
-
-        if( getLogString() == null)
+        String output = log.getLog();
+        info("Logged: \""+output+"\"");
+        if (output == null || output.length() == 0)
         {
+            info("Log should not have been empty!");
             fail( "NullSetEventHandler test 2");
         }
+
+        context = outer;
     }
 
-    private void doTestMethodExceptionEventHandler1(VelocityEngine ve, VelocityContext vc)
+    private void doTestMethodExceptionEventHandler1()
             throws Exception
     {
-        VelocityContext context = new VelocityContext(vc);
+        VelocityContext outer = context;
+        context = new VelocityContext(context);
 
         /*
          *  finally, we test a method exception event - we do this
@@ -238,22 +216,19 @@ public class EventHandlingTestCase
          *  Note also how the reference insertion process
          *  happens as well
          */
-
         context.put("allow_exception",Boolean.TRUE);
-
         context.put("this", this );
 
-        String s = " $this.throwException()";
-        Writer w = new StringWriter();
+        evaluate(" $this.throwException()");
 
-        ve.evaluate( context, w, "mystring", s );
+        context = outer;
     }
 
-
-    private void doTestMethodExceptionEventHandler2(VelocityEngine ve, VelocityContext vc)
+    private void doTestMethodExceptionEventHandler2()
             throws Exception
     {
-        VelocityContext context = new VelocityContext(vc);
+        VelocityContext outer = context;
+        context = new VelocityContext(context);
         context.put("this", this );
 
         /*
@@ -261,19 +236,9 @@ public class EventHandlingTestCase
          *  exception will propgate all the way up here, and
          *  wil be caught by the catch() block below
          */
+        assertEvalException("$this.throwException()", MethodInvocationException.class);
 
-        String s = " $this.throwException()";
-        Writer w = new StringWriter();
-
-        try
-        {
-            ve.evaluate( context, w, "mystring", s );
-            fail("No MethodExceptionEvent received!");
-        }
-        catch( MethodInvocationException mee )
-        {
-            // Do nothing
-        }
+        context = outer;
     }
 
     /**
@@ -286,46 +251,7 @@ public class EventHandlingTestCase
         throw new Exception("Hello from throwException()");
     }
 
-    /**
-     * Required by LogChute
-     */
-    public void init( RuntimeServices rs )
-    {
-        /* don't need it...*/
-    }
 
-    /**
-     * handler for LogChute interface
-     */
-    public void log(int level, String message)
-    {
-        setLogString(message);
-    }
-
-    public void log(int level, String message, Throwable t)
-    {
-        setLogString(message);
-    }
-
-    public boolean isLevelEnabled(int level)
-    {
-        return true;
-    }
-
-    public static void clearLogString()
-    {
-        logString = null;
-    }
-
-    public static void setLogString(String message)
-    {
-        logString = message;
-    }
-
-    public static String getLogString()
-    {
-        return logString;
-    }
 
     public static class TestEventCartridge
             implements ReferenceInsertionEventHandler,
@@ -333,10 +259,6 @@ public class EventHandlingTestCase
                        RuntimeServicesAware,ContextAware
     {
         private RuntimeServices rs;
-
-        public TestEventCartridge()
-        {
-        }
 
         /**
          * Required by EventHandler
