@@ -34,11 +34,34 @@ public class ScopeTestCase extends BaseTestCase
        super(name);
     }
 
+    @Override
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        engine.setProperty(RuntimeConstants.SET_NULL_ALLOWED, true);
+    }
+
     public void testRootTemplateMergeScope()
     {
         addTemplate("foo", "foo#break($template)bar");
         assertTmplEquals("foo", "foo");
         assertNull(context.get("template"));
+    }
+
+    public void testScopeGetLeakIntoInner()
+    {
+        addTemplate("foo", "#foreach($i in [1..1])#set($foreach.a=$i)"+
+                           "#foreach($j in [2..2])$foreach.a#set($foreach.a=$j)"+
+                           "#foreach($k in [3..3])$foreach.a#end#end#end");
+        assertTmplEquals("12", "foo");
+    }
+
+    public void testScopeGetLeakDoesntHideNullset()
+    {
+        addTemplate("a", "#macro(a)#set($macro.a='a')#b()$macro.a#end"+
+                         "#macro(b)$macro.a#set($macro.a=$null)$!macro.a#end"+
+                         "#a()");
+        assertTmplEquals("aa", "a");
     }
 
     public void testParseScope()
