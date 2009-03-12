@@ -256,32 +256,4 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     {
         return wrappedContext.getCurrentResource();
     }
-    
-    /**
-     * Associated the value with the given key from the given scope, the default implementation
-     * is to ignore the scope and simply place the value into the wrappedContext.
-     */
-    public Object put(String key, Object value, Scope scope)
-    {
-        return wrappedContext.put(key, value);
-    }
-    
-    /**
-     * Retrieve the value associated with the given key from the specified scope. 
-     * The default implementation is to ignore the scope and retrieve the value
-     * from the wrappedContext.
-     */
-    public Object get(String key, Scope scope)
-    {
-        return wrappedContext.get(key);
-    }
-
-    /**
-     * Return true if the context of the specifed scope contains key.  The default
-     * implementation ignores scope.
-     */
-    public boolean containsKey(String key, Scope scope)
-    {
-        return wrappedContext.containsKey(key);
-    }
 }

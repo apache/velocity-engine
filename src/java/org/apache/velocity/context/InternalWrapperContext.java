@@ -1,7 +1,5 @@
 package org.apache.velocity.context;
 
-import org.apache.velocity.context.Context.Scope;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -46,16 +44,16 @@ public interface InternalWrapperContext
     /**
      * Retrieve the specified key value pair from the given scope.
      */
-    Object put(String key, Object value, Scope scope);
+    Object put(String key, Object value);
     
     /**
      * Place key value pair into the context of the specified scope.
      */
-    Object get(String key, Scope scope);
+    Object get(String key);
     
     /**
      * Tests if the key exists in the specified scope
      */
-    boolean containsKey(String key, Scope scope);
+    boolean containsKey(Object key);
         
 }

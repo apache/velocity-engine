@@ -27,7 +27,6 @@ import java.util.List;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.context.ProxyVMContext;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
