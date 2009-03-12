@@ -22,8 +22,6 @@ package org.apache.velocity.runtime.directive;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
-
-import org.apache.velocity.context.EvaluateContext;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -179,15 +177,13 @@ public class Evaluate extends Directive
 
         if (nodeTree != null)
         {
-            InternalContextAdapter ica = new EvaluateContext(context, rsvc);
-
-            ica.pushCurrentTemplateName( templateName );
+            context.pushCurrentTemplateName(templateName);
 
             try
             {
                 try
                 {
-                    nodeTree.init( ica, rsvc );
+                    nodeTree.init(context, rsvc);
                 }
                 catch (TemplateInitException pex)
                 {
@@ -197,22 +193,18 @@ public class Evaluate extends Directive
 
                 try 
                 {
-                    preRender(ica);
+                    preRender(context);
 
                     /*
                      *  now render, and let any exceptions fly
                      */
-                    nodeTree.render( ica, writer );
+                    nodeTree.render(context, writer);
                 }
                 catch (StopCommand stop)
                 {
                     if (!stop.isFor(this))
                     {
                         throw stop;
-                    }
-                    else if (rsvc.getLog().isDebugEnabled())
-                    {
-                        rsvc.getLog().debug(stop.getMessage());
                     }
                 }
                 catch (ParseErrorException pex)
@@ -224,8 +216,8 @@ public class Evaluate extends Directive
             }
             finally
             {
-                ica.popCurrentTemplateName();
-                postRender(ica);
+                context.popCurrentTemplateName();
+                postRender(context);
             }
             return true;
         }
