@@ -901,7 +901,7 @@ peuvent être délimitées avec des accolades, même si c'est principalement uti
   <source><![CDATA[
 <table>
 #foreach( $customer in $customerList )
-    <tr><td>$velocityCount</td><td>$customer.Name</td></tr>
+    <tr><td>$foreach.count</td><td>$customer.Name</td></tr>
 #end
 </table>
 ]]></source>
@@ -910,24 +910,6 @@ peuvent être délimitées avec des accolades, même si c'est principalement uti
 #foreach( $customer in $customerList )
   $customer.Name #if( $velocityHasNext ),#end
 #end   
-]]></source>
-  <p>
-    Le nom de la référence du compteur de bouche est spécifié dans le fichier
-    <code>velocity.properties</code>, sa valeur par défaut est <em>$velocityCount</em>. De même pour le nom de  la
-    référence indiquant si l'on est sur la dernière itération, dont la valeur par défaut est <em>$velocityHasNext</em>.
-    Par défaut le compteur démarre à 1, mais ceci aussi peut être paramétré (à 0 ou 1)
-    dans le fichier <code>velocity.properties</code>. Voici à quoi ressemble la section Propriétés du compteur de boucle
-    dans le fichier <code>velocity.properties</code>:
-  </p>
-  <source><![CDATA[
-# Default name of the loop counter
-# variable reference.
-directive.foreach.counter.name = velocityCount
-directive.foreach.iterator.name = velocityHasNext 
-
-# Default starting value of the loop
-# counter variable reference.
-directive.foreach.counter.initial.value = 1
 ]]></source>
 <p>Il est possible de définir le maximum autorisé du nombre de fois qu'une boucle peut être exécutée. Par défaut il
 n'y a pas de maximum (c'est indiqué par la valeur 0 ou moins), mais on peut le fixer à un nombre arbitraire dans le
@@ -941,7 +923,7 @@ directive.foreach.maxloops = -1
 <source><![CDATA[
 ## list first 5 customers only
 #foreach( $customer in $customerList )
-  #if( $velocityCount > 5 )
+  #if( $foreach.count > 5 )
     #break
   #end
   $customer.Name
@@ -1224,11 +1206,6 @@ $block
     cette possibilité pour concocter quelques artifices amusants: si une VM globale appelle une autre VM globale,
     définie <i>inline</i>, un gabarit peut définir une implémentation "privée" de la seconde VM, qui sera appellée
     par la première VM quand celle-ci est appelée elle-même dans le gabarit. Aucun autre gabarit n'est affecté.
-  </p>
-  <p>
-    <code>velocimacro.context.localscope</code> - Cette propriété peut valoir true ou false, la valeur par défaut est
-    false. Quand elle vaut true, toute modification du contexte via #set() à l'intérieur d'une Velocimacro est considérée
-    'locale' à cette Velocimacro et n'affectera pas le contexte de façon permanente.
   </p>
   <p>
     <code>velocimacro.library.autoreload</code> - Cette propriété contrôle le chargement automatique de la bibliothèque
