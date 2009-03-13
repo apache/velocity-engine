@@ -1249,30 +1249,9 @@ $blarg
 <source><![CDATA[
 <table>
     #foreach( $cliente in $listaClientes )
-    <tr><td>$velocityCount</td><td>$cliente.Nombre</td></tr>
+    <tr><td>$foreach.count</td><td>$cliente.Nombre</td></tr>
 #end
 </table>
-]]></source>
-
-<p>
-    El nombre por defecto para la referencia de la variable contador del
-    ciclo, que se especifica en el archivo
-    <code>velocity.properties</code>, es
-    $velocityCount. Por defecto el contador comienza en 1, pero esto se
-    puede hacer 0 o 1 en el archivo <code>velocity.properties</code>. A
-    continuación se muestra el fragmento de este archivo que corresponde
-    al contador de ciclo (en inglés, tal como aparece en el archivo
-    original):
-    </p>
-
-<source><![CDATA[
-# Default name of the loop counter
-# variable reference.
-directive.foreach.counter.nombre = velocityCount
-
-# Default starting value of the loop
-# counter variable reference.
-directive.foreach.counter.initial.value = 1
 ]]></source>
 
  </section>
@@ -1655,15 +1634,6 @@ siguientes elementos de VTL:
     plantilla puede definir una implementación privada del segundo VM,
     que será llamada por el primer VM cuando sea invocado en esa
     plantilla. Ninguna de las otras templates es afectada.
-    </p>
-
-    <p>
-    <code>velocimacro.context.localscope</code> -
-    Con valores posibles verdadero y falso (true y false), valor por
-    defecto falso. Cuando es verdadera cualquier modificación al
-    contexto por medio de un #set() dentro de un Velocimacro se
-    considera local a ese Velocimacro y no afecta permanentemente al
-    contexto.
     </p>
 
     <p>

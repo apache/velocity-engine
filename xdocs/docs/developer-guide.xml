@@ -1610,13 +1610,25 @@ Character encoding for output streams from the VelocityServlet and Anakia.
 </p>
 
 <p>
+<strong>#define() Directive</strong>
+</p>
+
+<p>
+<code>define.provide.scope.control = true</code><br/>
+Used to control the automatic provision of the $define scope control
+during #define() calls. The default is true.
+Set it to false if unused and you want a tiny performance boost.
+</p>
+
+<p>
 <strong>#evaluate() Directive</strong>
 </p>
 
 <p>
-<code>directive.evaluate.context.class = org.apache.velocity.VelocityContext</code><br/>
-Used in the #evaluate() directive, defines the class that is used for the
-context local to the argument for #evaluate().
+<code>evaluate.provide.scope.control = true</code><br/>
+Used to control the automatic provision of the $evaluate scope
+during #evaluate() or Velocity[Engine].evaluate(...) calls. The default
+is true.  Set it to false if unused and you want a tiny performance boost.
 </p>
 
 <p>
@@ -1624,22 +1636,10 @@ context local to the argument for #evaluate().
 </p>
 
 <p>
-<code>directive.foreach.counter.name = velocityCount</code><br/>
-Used in the #foreach() directive, defines the string to be used as the
-context key for the loop count. A template would access
-the loop count as $velocityCount.
-</p>
-
-<p>
-<code>directive.foreach.iterator.name = velocityHasNext</code><br/>
-Used in the #foreach() directive, defines the string to be used as the
-context key for the "has next" value. A template would access
-this as $velocityHasNext.
-</p>
-
-<p>
-<code>directive.foreach.counter.initial.value = 1</code><br/>
-Default starting value for the loop counter reference in a #foreach() loop.
+<code>foreach.provide.scope.control = true</code><br/>
+Used to control the automatic provision of the $foreach scope
+during #foreach calls. The default is true.
+Set it to false if unused and you want a tiny performance boost.
 </p>
 
 <p>
@@ -1686,18 +1686,13 @@ Defines the allowable parse depth for a template. A template may #parse()
 another template which itself may have a #parse() directive.  This value
 prevents runaway #parse() recursion.
 </p>
-
 <p>
-<strong>Math</strong>
+<code>template.provide.scope.control = true</code><br/>
+Used to control the automatic provision of the $template scope control
+during #parse calls (and template.merge(...) calls). The default is true.
+Set it to false if unused and you want a tiny performance boost.
 </p>
 
-<p>
-<code>resource.manager.logwhenfound = true</code><br/>
-Switch to control logging of 'found' messages from resource manager.
-When a resource is found for the first time, the resource name
-and classname of the loader that found it will be noted in the
-runtime log.
-</p>
 
 <p>
 <strong>Resource Management</strong>
@@ -1843,10 +1838,11 @@ the override mechanism.
 <p>
 <code>velocimacro.context.localscope = false</code><br/>
 Controls whether reference access (set/get) within a Velocimacro will change
-the context, or be of local scope in that
-Velocimacro.
+the context, or be of local scope in that Velocimacro. This feature is deprecated
+and has been removed in Velocity 2.0.  Instead, please use the $macro namespace
+for storage of references local to your Velocimacro.
+(e.g. #set( $macro.foo = 'bar') and $macro.foo)
 </p>
-
 <p>
 <code>velocimacro.library.autoreload = false</code><br/>
 Controls Velocimacro library autoloading.  When set to <code>true</code>
@@ -1873,6 +1869,19 @@ Defines name of the reference that can be used to get the body content
 (an AST block) given for a block macro call (e.g. #@myMacro() has a body #end).
 The default reference name is "bodyContent" (e.g. $bodyContent).  This block
 macro feature was introduced in Velocity 1.7.
+</p>
+<p>
+<code>macro.provide.scope.control = true</code><br/>
+Used to control the automatic provision of the $macro scope control
+during #macro calls. The default is true.
+Set it to false if unused and you want a tiny performance boost.
+</p>
+<p>
+<code>&lt;somebodymacro&gt;.provide.scope.control = true</code><br/>
+Used to control the automatic provision of the $&lt;nameofthemacro&gt; scope control
+during a call to a macro with a body (e.g. #@foo #set($foo.a=$b) ... $foo.a #end).
+The default is true. Set it to false if you heavily use that body macro without
+using the scope control and you want a tiny performance boost.
 </p>
 
 <p>
