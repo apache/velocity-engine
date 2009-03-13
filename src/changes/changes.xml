@@ -27,6 +27,12 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="add" dev="nbubna">
+    Remove directive.set.null.allowed and instead always allow null to be
+    #set to references.  This also means removing all NullSetEventHandler
+    code, since it was only in play when nulls were not allowed to be #set.
+      </action>
+
       <action type="add" dev="nbubna" issue="VELOCITY-704">
     Remove features deprecated in 1.7 ($velocityCount, $velocityHasNext,
     velocimacro.context.localscope, directive.evaluate.context.class and

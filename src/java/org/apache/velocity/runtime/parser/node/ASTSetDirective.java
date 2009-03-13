@@ -43,8 +43,6 @@ public class ASTSetDirective extends SimpleNode
     private String leftReference = "";
     private Node right = null;
     private ASTReference left = null;
-    boolean logOnNull = false;
-    private boolean allowNull = false;
     private boolean isInitialized;
 
     /**
@@ -108,10 +106,7 @@ public class ASTSetDirective extends SimpleNode
             right = getRightHandSide();
             left = getLeftHandSide();
     
-            logOnNull = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
-            allowNull = rsvc.getBoolean(RuntimeConstants.SET_NULL_ALLOWED, false);
             strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
-            if (strictRef) allowNull = true;  // strictRef implies allowNull
             
             /*
              *  grab this now.  No need to redo each time
@@ -140,40 +135,6 @@ public class ASTSetDirective extends SimpleNode
          */
 
         Object value = right.value(context);
-
-        /*
-         * it's an error if we don't have a value of some sort AND
-         * it is not allowed by configuration
-         */
-
-        if( !allowNull )
-        {
-            if ( value == null )
-            {                
-                /*
-                 *  first, are we supposed to say anything anyway?
-                 */
-                if(logOnNull)
-                {
-                    boolean doit = EventHandlerUtil.shouldLogOnNullSet( rsvc, context, left.literal(), right.literal() );
-
-                    if (doit && rsvc.getLog().isDebugEnabled())
-                    {
-                        rsvc.getLog().debug("RHS of #set statement is null. Context will not be modified. "
-                                      + Log.formatFileString(this));
-                    }
-                }
-                
-                String rightReference = null;
-                if (right instanceof ASTExpression)
-                {
-                    rightReference = ((ASTExpression) right).getLastToken().image;
-                }
-                EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
-                
-                return false;
-            }
-        }
 
         if ( value == null && !strictRef)
         {

@@ -21,7 +21,6 @@ package org.apache.velocity.test.eventhandler;
 
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
-import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 
 /**
@@ -31,15 +30,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @version $Id$
  */
 public class Handler1
-    implements NullSetEventHandler, ReferenceInsertionEventHandler, MethodExceptionEventHandler, IncludeEventHandler {
-
-        /**
-         * never log
-         */
-        public boolean shouldLogOnNullSet(String lhs, String rhs)
-        {
-            return false;
-        }
+    implements ReferenceInsertionEventHandler, MethodExceptionEventHandler, IncludeEventHandler {
 
         /**
          * display output twice, once uppercase and once lowercase

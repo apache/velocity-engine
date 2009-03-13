@@ -25,7 +25,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
-import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -52,12 +51,6 @@ public class EventHandlingTestCase extends BaseTestCase
         super(name);
     }
 
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        engine.setProperty(RuntimeConstants.SET_NULL_ALLOWED, false);
-    }
-
     public void testManualEventHandlers()
             throws Exception
     {
@@ -79,8 +72,6 @@ public class EventHandlingTestCase extends BaseTestCase
          */
         doTestReferenceInsertionEventHandler1();
         doTestReferenceInsertionEventHandler2();
-        doTestNullValueEventHandler();
-        doTestSetNullValueEventHandler();
         doTestMethodExceptionEventHandler1();
         doTestMethodExceptionEventHandler2();
     }
@@ -92,13 +83,10 @@ public class EventHandlingTestCase extends BaseTestCase
             throws Exception
     {
         engine.setProperty(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION, TestEventCartridge.class.getName());
-        engine.setProperty(RuntimeConstants.EVENTHANDLER_NULLSET, TestEventCartridge.class.getName());
         engine.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, TestEventCartridge.class.getName());
 
         doTestReferenceInsertionEventHandler1();
         doTestReferenceInsertionEventHandler2();
-        doTestNullValueEventHandler();
-        doTestSetNullValueEventHandler();
         doTestMethodExceptionEventHandler1();
         doTestMethodExceptionEventHandler2();
     }
@@ -134,68 +122,6 @@ public class EventHandlingTestCase extends BaseTestCase
          *  null references as well
          */
         assertEvalEquals(NO_REFERENCE_VALUE, "$floobie");
-
-        context = outer;
-    }
-
-    private void doTestNullValueEventHandler()
-            throws Exception
-    {
-        VelocityContext outer = context;
-        context = new VelocityContext(context);
-        context.put("log", log);
-
-        /*
-         *  now lets test setting a null value - this test
-         *  should result in *no* log output.
-         */
-        boolean debug = DEBUG;
-        DEBUG = false;
-        log.startCapture();
-        log.setEnabledLevel(TestLogChute.DEBUG_ID);
-        evaluate("#set($settest = $NotAReference)");
-        log.setEnabledLevel(TestLogChute.INFO_ID);
-        log.stopCapture();
-        DEBUG = debug;
-
-        String output = log.getLog();
-        info("Logged: \""+output+"\"");
-        if (!(output == null || output.length() == 0))
-        {
-            info("Log should have been empty!");
-            fail( "NullSetEventHandler test 1");
-        }
-
-        context = outer;
-    }
-
-    private void doTestSetNullValueEventHandler()
-            throws Exception
-    {
-        VelocityContext outer = context;
-        context = new VelocityContext(context);
-        context.put("log", log);
-
-        /*
-         *  now lets test setting a null value - this test
-         *  should result in log output.
-         */
-        boolean debug = DEBUG;
-        DEBUG = false;
-        log.startCapture();
-        log.setEnabledLevel(TestLogChute.DEBUG_ID);
-        evaluate("#set($logthis = $NotAReference)");
-        log.setEnabledLevel(TestLogChute.INFO_ID);
-        log.stopCapture();
-        DEBUG = debug;
-
-        String output = log.getLog();
-        info("Logged: \""+output+"\"");
-        if (output == null || output.length() == 0)
-        {
-            info("Log should not have been empty!");
-            fail( "NullSetEventHandler test 2");
-        }
 
         context = outer;
     }
@@ -255,7 +181,7 @@ public class EventHandlingTestCase extends BaseTestCase
 
     public static class TestEventCartridge
             implements ReferenceInsertionEventHandler,
-                       NullSetEventHandler, MethodExceptionEventHandler,
+                       MethodExceptionEventHandler,
                        RuntimeServicesAware,ContextAware
     {
         private RuntimeServices rs;
@@ -305,24 +231,6 @@ public class EventHandlingTestCase extends BaseTestCase
                 }
             }
             return s;
-        }
-
-        /**
-         *  Event handler for when the right hand side of
-         *  a #set() directive is null, which results in
-         *  a log message.  This method gives the application
-         *  a chance to 'vote' on msg generation
-         */
-        public boolean shouldLogOnNullSet( String lhs, String rhs )
-        {
-            // as a test, make sure this EventHandler is initialized
-            if (rs == null)
-                fail ("Event handler not initialized!");
-
-            if (lhs.equals("$settest"))
-                return false;
-
-            return true;
         }
 
         /**

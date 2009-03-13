@@ -84,15 +84,6 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
         assertMethodInvocationException(ve,context,"$test.throw");
     }
 
-    public void testNullSetEventHandlerException()
-    throws Exception
-    {
-        ve = new VelocityEngine();
-        ve.setProperty(RuntimeConstants.EVENTHANDLER_NULLSET,ExceptionGeneratingEventHandler.class.getName());
-        ve.init();
-        assertException(ve,"#set($test = $abc)");
-    }
-
     public void testIncludeEventHandlerException()
     throws Exception
     {
