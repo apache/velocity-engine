@@ -21,7 +21,6 @@ package org.apache.velocity.test.misc;
 
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
-import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 
 /**
@@ -32,7 +31,7 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
  * @version $Id$
  */
 public class ExceptionGeneratingEventHandler implements IncludeEventHandler,
-        MethodExceptionEventHandler, NullSetEventHandler, ReferenceInsertionEventHandler
+        MethodExceptionEventHandler, ReferenceInsertionEventHandler
 {
 
     public String includeEvent(String includeResourcePath, String currentResourcePath,
@@ -42,11 +41,6 @@ public class ExceptionGeneratingEventHandler implements IncludeEventHandler,
     }
 
     public Object methodException(Class claz, String method, Exception e) throws Exception
-    {
-        throw new RuntimeException("exception");
-    }
-
-    public boolean shouldLogOnNullSet(String lhs, String rhs)
     {
         throw new RuntimeException("exception");
     }

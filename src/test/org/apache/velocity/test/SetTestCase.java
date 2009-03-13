@@ -23,14 +23,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
@@ -80,15 +73,11 @@ public class SetTestCase extends BaseTestCase
         super(name);
     }
 
-    public void setUp()
-            throws Exception
+    public void setUp() throws Exception
     {
+        super.setUp();
+        engine.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
         assureResultsDirectoryExists(RESULTS_DIR);
-    }
-
-    public static Test suite ()
-    {
-        return new TestSuite(SetTestCase.class);
     }
 
     /**
@@ -98,52 +87,29 @@ public class SetTestCase extends BaseTestCase
             throws Exception
     {
         /**
-         * Check that #set does not accept nulls
+         * Check that #set does accept nulls
          */
-
-        VelocityEngine ve = new VelocityEngine();
-        ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-        ve.init();
-
-        checkTemplate(ve,"set1");
-
-        /**
-         * Check that setting the property is the same as the default
-         */
-        ve = new VelocityEngine();
-        ve.addProperty(RuntimeConstants.SET_NULL_ALLOWED, "false");
-        ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-        ve.init();
-
-        checkTemplate(ve,"set1");
+        checkTemplate("set1");
 
         /**
          * Check that #set can accept nulls, and has the correct behaviour for complex LHS
          */
-        ve = new VelocityEngine();
-        ve.addProperty(RuntimeConstants.SET_NULL_ALLOWED, "true");
-        ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-        ve.init();
-
-        checkTemplate(ve,"set2");
+        checkTemplate("set2");
     }
 
-    public void checkTemplate(VelocityEngine ve, String templateName)
-    throws Exception
+    public void checkTemplate(String templateName) throws Exception
     {
         Template template;
         FileOutputStream fos;
         Writer fwriter;
-        Context context;
 
-        template = ve.getTemplate( getFileName(null, templateName, TMPL_FILE_EXT) );
+        template = engine.getTemplate(getFileName(null, templateName, TMPL_FILE_EXT));
 
         fos = new FileOutputStream (
                 getFileName(RESULTS_DIR, templateName, RESULT_FILE_EXT));
 
         fwriter = new BufferedWriter( new OutputStreamWriter(fos) );
 
-        context = new VelocityContext();
         template.merge(context, fwriter);
         fwriter.flush();
         fwriter.close();

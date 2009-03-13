@@ -54,7 +54,6 @@ import org.apache.velocity.util.RuntimeServicesAware;
 public class EventCartridge
   {
     private List referenceHandlers = new ArrayList();
-    private List nullSetHandlers = new ArrayList();
     private List methodExceptionHandlers = new ArrayList();
     private List includeHandlers = new ArrayList();
     private List invalidReferenceHandlers = new ArrayList();
@@ -84,12 +83,6 @@ public class EventCartridge
         if ( ev instanceof ReferenceInsertionEventHandler)
         {
             addReferenceInsertionEventHandler( (ReferenceInsertionEventHandler) ev );
-            found = true;
-        }
-
-        if ( ev instanceof NullSetEventHandler )
-        {
-            addNullSetEventHandler( (NullSetEventHandler) ev );
             found = true;
         }
 
@@ -123,17 +116,6 @@ public class EventCartridge
      public void addReferenceInsertionEventHandler( ReferenceInsertionEventHandler ev )
      {
          referenceHandlers.add( ev );
-     }
-
-    /**
-      *  Add a null set event handler to the Cartridge.
-      *
-      *  @param ev NullSetEventHandler
-      * @since 1.5
-      */
-     public void addNullSetEventHandler( NullSetEventHandler ev )
-     {
-         nullSetHandlers.add( ev );
      }
 
     /**
@@ -191,9 +173,6 @@ public class EventCartridge
         if ( ev instanceof ReferenceInsertionEventHandler )
             return referenceHandlers.remove( ev );
 
-        if ( ev instanceof NullSetEventHandler )
-            return nullSetHandlers.remove( ev );
-
         if ( ev instanceof MethodExceptionEventHandler )
             return methodExceptionHandlers.remove(ev );
 
@@ -215,17 +194,6 @@ public class EventCartridge
     public Iterator getReferenceInsertionEventHandlers()
     {
         return referenceHandlers.size() == 0 ? null : referenceHandlers.iterator();
-    }
-
-    /**
-     * Iterate through all the stored NullSetEventHandler objects
-     * 
-     * @return iterator of handler objects
-     * @since 1.5
-     */
-    public Iterator getNullSetEventHandlers()
-    {
-        return nullSetHandlers.iterator();
     }
 
     /**
@@ -304,17 +272,6 @@ public class EventCartridge
     {
 
         for ( Iterator i = referenceHandlers.iterator(); i.hasNext(); )
-        {
-            EventHandler eh = ( EventHandler ) i.next();
-            if ( (eh instanceof RuntimeServicesAware) &&
-                    !initializedHandlers.contains(eh) )
-            {
-                ((RuntimeServicesAware) eh).setRuntimeServices ( rs );
-                initializedHandlers.add( eh );
-            }
-        }
-
-        for ( Iterator i = nullSetHandlers.iterator(); i.hasNext(); )
         {
             EventHandler eh = ( EventHandler ) i.next();
             if ( (eh instanceof RuntimeServicesAware) &&

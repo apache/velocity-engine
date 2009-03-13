@@ -109,51 +109,6 @@ public class EventHandlerUtil {
             throw ExceptionUtils.createRuntimeException("Exception in event handler.",e);
         }
     }
-
-    /**
-     * Called when a null is evaluated during a #set. All event handlers are
-     * called in sequence until a false is returned. The default implementation
-     * always returns true.
-     *
-     * @param lhs Left hand side of the expression.
-     * @param rhs Right hand side of the expression.
-     * @param rsvc current instance of RuntimeServices
-     * @param context The internal context adapter.
-     * @return true if to be logged, false otherwise
-     */
-    public static boolean shouldLogOnNullSet(RuntimeServices rsvc,
-            InternalContextAdapter context, String lhs, String rhs)
-    {
-        // app level cartridges have already been initialized
-        EventCartridge ev1 = rsvc.getApplicationEventCartridge();
-        Iterator applicationEventHandlerIterator = 
-            (ev1 == null) ? null: ev1.getNullSetEventHandlers();              
-        
-        EventCartridge ev2 = context.getEventCartridge();
-        initializeEventCartridge(rsvc, ev2);
-        Iterator contextEventHandlerIterator = 
-            (ev2 == null) ? null: ev2.getNullSetEventHandlers();              
-                
-        try 
-        {
-            EventHandlerMethodExecutor methodExecutor = 
-                new NullSetEventHandler.ShouldLogOnNullSetExecutor(context, lhs, rhs);
-
-            callEventHandlers(
-                    applicationEventHandlerIterator, 
-                    contextEventHandlerIterator, methodExecutor);
-            
-            return ((Boolean) methodExecutor.getReturnValue()).booleanValue();    
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
-        }
-        catch (Exception e)
-        {
-            throw ExceptionUtils.createRuntimeException("Exception in event handler.",e);
-        }
-    }
     
     /**
      * Called when a method exception is generated during Velocity merge. Only

@@ -85,9 +85,6 @@ public interface RuntimeConstants
      */
     String SKIP_INVALID_ITERATOR = "directive.foreach.skip.invalid";
 
-    /** if set to true then allows #set to accept null values in the right hand side. */
-    String SET_NULL_ALLOWED = "directive.set.null.allowed";
-
     /**
      * Starting tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
      * and references are allowed.
@@ -105,12 +102,6 @@ public interface RuntimeConstants
 
     /** Maximum recursion depth allowed for the #define directive. */
     String DEFINE_DIRECTIVE_MAXDEPTH = "directive.define.max.depth";
-
-    /**
-     * class to use for local context with #evaluate()
-     * @since 1.6
-     */
-    String EVALUATE_CONTEXT_CLASS = "directive.evaluate.context.class";
 
     /**
      * Used to suppress various scope control objects.
@@ -169,12 +160,6 @@ public interface RuntimeConstants
      * {@link org.apache.velocity.app.event.ReferenceInsertionEventHandler} implementations to use.
      */
     String EVENTHANDLER_REFERENCEINSERTION = "eventhandler.referenceinsertion.class";
-
-    /**
-     * The <code>eventhandler.nullset.class</code> property specifies a list of the
-     * {@link org.apache.velocity.app.event.NullSetEventHandler} implementations to use.
-     */
-    String EVENTHANDLER_NULLSET = "eventhandler.nullset.class";
 
     /**
      * The <code>eventhandler.methodexception.class</code> property specifies a list of the

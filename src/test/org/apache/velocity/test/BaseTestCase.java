@@ -453,7 +453,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
     {
         if (DEBUG)
         {
-            info("Result: "+resultsDir+baseFileName+resultExt);
+            info("Result: "+resultsDir+'/'+baseFileName+'.'+resultExt);
         }
         String result = getFileContents(resultsDir, baseFileName, resultExt);
         return isMatch(result,compareDir,baseFileName,compareExt);
@@ -487,7 +487,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         compare = normalizeNewlines(compare);
         if (DEBUG)
         {
-            info("Expection: "+compareDir+baseFileName+compareExt);
+            info("Expection: "+compareDir+'/'+baseFileName+'.'+compareExt);
         }
         return result.equals(compare);
     }

@@ -34,13 +34,6 @@ public class ScopeTestCase extends BaseTestCase
        super(name);
     }
 
-    @Override
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        engine.setProperty(RuntimeConstants.SET_NULL_ALLOWED, true);
-    }
-
     public void testRootTemplateMergeScope()
     {
         addTemplate("foo", "foo#break($template)bar");

@@ -1,9 +1,9 @@
 set1
 
 123
-123
+$abc
 
 foo
 bar
 foo
-bar
+$map.bar

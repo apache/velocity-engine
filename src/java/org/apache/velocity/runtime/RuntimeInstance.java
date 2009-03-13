@@ -40,7 +40,6 @@ import org.apache.velocity.app.event.EventHandler;
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.app.event.InvalidReferenceEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
-import org.apache.velocity.app.event.NullSetEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapterImpl;
@@ -759,17 +758,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 EventHandler ev = initializeSpecificEventHandler(referenceinsertion[i],RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION,ReferenceInsertionEventHandler.class);
                 if (ev != null)
                     eventCartridge.addReferenceInsertionEventHandler((ReferenceInsertionEventHandler) ev);
-            }
-        }
-
-        String[] nullset = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_NULLSET);
-        if ( nullset != null )
-        {
-            for ( int i=0; i < nullset.length; i++ )
-            {
-                EventHandler ev = initializeSpecificEventHandler(nullset[i],RuntimeConstants.EVENTHANDLER_NULLSET,NullSetEventHandler.class);
-                if (ev != null)
-                    eventCartridge.addNullSetEventHandler((NullSetEventHandler) ev);
             }
         }
 

@@ -542,8 +542,8 @@ public Object get(String key);
 ]]></source>
 
 <p>
-Please note that like a Hashtable, the value must be derived from
-java.lang.Object, and must not be null. Fundamental types like int or float must
+Please note that the value must be derived from
+java.lang.Object. Fundamental types like int or float must
 be wrapped in the appropriate wrapper classes.
 </p>
 <p>
@@ -1387,29 +1387,6 @@ Available implementations include:
 </dl>
 </blockquote>
 
-<i><code>org.apache.velocity.app.event.NullSetEventHandler</code></i>
-
-<blockquote>
-When a #set() rejects an assignment due to the right hand side being an invalid
-or null reference, this is normally
-logged.  The <code>NullSetEventHandler</code> allows you to 'veto' the
-logging of this condition.  Multiple <code>NullSetEventHandler</code>'s can
-be chained; each event handler is called in sequence until a false is returned.
-<br/>
-<pre>
-public interface NullSetEventHandler extends EventHandler
-{
-    public boolean shouldLogOnNullSet( String lhs, 
-                                       String rhs );
-}
-</pre>
-<br/>
-Available implementations include:
-<dl>
-<li><i>none provided</i></li>
-</dl>
-</blockquote>
-
 <i><code>org.apache.velocity.app.event.ReferenceInsertionEventHandler</code></i>
 <blockquote>
 A <code>ReferenceInsertionEventHandler</code> allows the
@@ -1654,17 +1631,6 @@ iterating over is not or cannot produce a valid Iterator.
 </p>
 
 <p>
-<strong>#set() Directive</strong>
-</p>
-
-<p>
-<code>directive.set.null.allowed = false</code><br/>
-If true, having a right hand side of a #set() statement with
-an invalid reference or null value will set the left hand side to null.
-If false, the left hand side will stay the same.
-</p>
-
-<p>
 <strong>#include() and #parse() Directive</strong>
 </p>
 
@@ -1888,10 +1854,9 @@ New in Velocity 1.6, when set to true Velocity will throw a
 defined in the context, or have not been defined with a #set
 directive.  This setting will also throw an exception if an attempt is
 made to call a non-existing property on an object or if the object is
-null.  When this property is true then property
-'directive.set.null.allowed' is also set to true. Also,
-'directive.foreach.skip.invalid' defaults to true when this property
-is true, but explicitly setting 'directive.foreach.skip.invalid' will
+null.  When this property is true then 
+'directive.foreach.skip.invalid' defaults to true,
+but explicitly setting 'directive.foreach.skip.invalid' will
 override this default. For a complete discussion see <a
 href="user-guide.html#strictreferences">Strict References Setting</a>.
 </p>
