@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import junit.framework.TestCase;
-import org.apache.oro.text.perl.Perl5Util;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
@@ -421,19 +420,16 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
     }
 
 
-    //TODO: drop this for JDK regex once we move to JDK 1.5
-    private static Perl5Util perl = new Perl5Util();
     /**
      * Normalizes lines to account for platform differences.  Macs use
      * a single \r, DOS derived operating systems use \r\n, and Unix
      * uses \n.  Replace each with a single \n.
      *
-     * @author <a href="mailto:rubys@us.ibm.com">Sam Ruby</a>
      * @return source with all line terminations changed to Unix style
      */
     protected String normalizeNewlines (String source)
     {
-        return perl.substitute("s/\r[\r]?[\n]/\n/g", source);
+        return source.replaceAll("\r\n?", "\n");
     }
 
     /**
