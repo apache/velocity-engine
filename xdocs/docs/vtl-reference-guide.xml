@@ -335,28 +335,9 @@
 <source><![CDATA[
 <table>
 #foreach( $customer in $customerList )
-    <tr><td>$velocityCount</td><td>$customer.Name</td></tr>
+    <tr><td>$foreach.count</td><td>$customer.Name</td></tr>
 #end
 </table>
-]]></source>
-
-    <p>
-    The default name for the loop counter variable reference, which is
-    specified in the velocity.properties file, is $velocityCount. By
-    default the counter starts at 1, but this can be set to either 0 or
-    1 in the <code>velocity.properties</code> file. Here's what the loop
-    counter properties section of the <code>velocity.properties</code>
-    file appears:
-    </p>
-
-<source><![CDATA[
-# Default name of the loop counter
-# variable reference.
-directive.foreach.counter.name = velocityCount
-
-# Default starting value of the loop
-# counter variable reference.
-directive.foreach.counter.initial.value = 1
 ]]></source>
 
     <p>
@@ -440,6 +421,27 @@ directive.foreach.maxloops = -1
     <p>
     This will stop execution of the current template. This is good for
     debugging a template.
+    </p>
+  </subsection>
+
+  <subsection name="#break - Stops the current directive" href="break-Stopsthecurrentdirective">
+    <p>
+    Format:
+    </p>
+
+    <p>
+    <strong>#</strong> [ <strong>{</strong> ] <strong>break</strong> [ <strong>}</strong> ]
+    </p>
+
+    <p>
+    Usage:
+    </p>
+
+    <p>
+    This will break execution of the current content directive. This is good for
+    exiting a #foreach loop early, but also works in other scopes. You can even
+    pass the scope control reference for a specific outer scope to break execution
+    of all scopes outward to the specified one.
     </p>
   </subsection>
 

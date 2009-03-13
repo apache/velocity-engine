@@ -67,6 +67,7 @@
         <li><a href="#Loops">Foreach Loops</a></li>
         <li><a href="#Include">Include</a></li>
         <li><a href="#Parse">Parse</a></li>
+        <li><a href="#Break">Break</a></li>
         <li><a href="#Stop">Stop</a></li>
         <li><a href="#Evaluate">Evaluate</a></li>
         <li><a href="#Define">Define</a></li>
@@ -1376,7 +1377,7 @@ $blargh
 <source><![CDATA[
 <table>
 #foreach( $customer in $customerList )
-    <tr><td>$velocityCount</td><td>$customer.Name</td></tr>
+    <tr><td>$foreach.count</td><td>$customer.Name</td></tr>
 #end
 </table>
 ]]></source>
@@ -1388,31 +1389,18 @@ $blargh
 
 <source><![CDATA[
 #foreach( $customer in $customerList )
-    $customer.Name#if( $velocityHasNext ),#end
+    $customer.Name#if( $foreach.hasNext ),#end
 #end
 ]]></source>
 
     <p>
-    The default name for the "has next" variable reference, which is
-    specified in the velocity.properties file, is $velocityHasNext. 
-    The default name for the loop counter variable reference, which is
-    specified in the velocity.properties file, is $velocityCount. By
-    default the counter starts at 1, but this can be set to either 0 or
-    1 in the <code>velocity.properties</code> file. Here's what the loop
-    counter properties section of the <code>velocity.properties</code>
-    file appears:
+    If you want a zero-based index of the #foreach loop, you can just
+    use $foreach.index instead of $foreach.count.  Likewise, $foreach.first
+    and $foreach.last are provided to compliment $foreach.hasNext.
+    If you want to access these properties for an outer #foreach loop, you
+    can reference them directly through the $foreach.parent or $foreach.topmost
+    properties (e.g. $foreach.parent.index or $foreach.topmost.hasNext).
     </p>
-
-<source><![CDATA[
-# Default name of the loop counter
-# variable reference.
-directive.foreach.counter.name = velocityCount
-directive.foreach.iterator.name = velocityHasNext
-
-# Default starting value of the loop
-# counter variable reference.
-directive.foreach.counter.initial.value = 1
-]]></source>
 
     <p>
     It's possible to set a maximum allowed number of times that a loop
@@ -1434,7 +1422,7 @@ directive.foreach.maxloops = -1
 <source><![CDATA[
 ## list first 5 customers only
 #foreach( $customer in $customerList )
-    #if( $velocityCount > 5 )
+    #if( $foreach.count > 5 )
         #break
     #end
     $customer.Name
@@ -1545,6 +1533,28 @@ $count
 
  </section>
 
+<section name="Break" href="break">
+
+    <p>
+    The <em>#break</em> directive stops any further rendering of the current
+    execution scope.  An "execution scope" is essentially any directive with
+    content (i.e. #foreach, #parse, #evaluate, #define, #macro, or #@somebodymacro)
+    or any "root" scope (i.e. template.merge(...), Velocity.evaluate(...) or
+    velocityEngine.evaluate(...)). Unlike #stop, #break will only stop the
+    innermost, immediate scope, not all of them.
+    </p>
+
+    <p>If you wish to break out of a specific execution scope that is not
+    necessarily the most immediate one, then you can pass the scope control
+    reference (i.e. $foreach, $template, $evaluate, $define, $macro, or
+    $somebodymacro) as an argument to #break. (e.g. #break($macro)). This
+    will stop rendering of all scopes up to the specified one.  When within
+    nested scopes of the same type, remember that you can always access the
+    parent(s) via $&lt;scope&gt;.parent or $&lt;scope&gt;.topmost and pass those
+    to #break instead (e.g. #break($foreach.parent) or #break($macro.topmost)).
+    </p>
+
+</section>
 
 <section name="Stop" href="stop">
 
@@ -1554,7 +1564,9 @@ $count
     another template accessed through #parse or located in a velocity macro.
     The resulting merged output will contain all the content up to the point
     the #stop directive was encountered.  This is handy as an early exit from
-    a template.
+    a template. For debugging purposes, you may provide a message argument
+    (e.g. #stop('$foo was not in context') ) that will be written to the logs
+    (DEBUG level, of course) upon completion of the stop command.
     </p>
 
  </section>
@@ -1876,14 +1888,6 @@ $block
     private implementation of the second VM that will be called by the
     first VM when invoked by that template.  All other templates
     are unaffected.
-    </p>
-
-    <p>
-    <code>velocimacro.context.localscope</code> - This property has the
-    possible values true or false, and the default is false.  When true,
-    any modifications to the context via #set() within a Velocimacro
-    are considered 'local' to the Velocimacro, and will not
-    permanently affect the context.
     </p>
 
     <p>

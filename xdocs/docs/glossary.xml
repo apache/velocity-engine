@@ -39,11 +39,24 @@
     <code><a href="#macro">#macro</a></code> and ends with the 
     <code><a href="#end">#end</a></code> directive.</dd>
 
+    <dt><a name="break">#break</a></dt>
+    <dd>A <a href="#directive">directive</a> that stops the rendering
+    of the current (innermost) <a href="#contentdirective">content directive</a>
+    or a specified content directive if the <a href="#scopecontrol">scope control</a>
+    provided for that content directive is passed to #break as an argument:
+    (e.g. #break($foreach.parent)).</dd>
+
     <dt><a name="comment">Comment</a></dt>
     <dd>Allow descriptive text to be included in the template that will
     not be placed into the output of the template engine. Single line
     comments begin with <code>##</code>. Multi-line comments begin with
     <code>#*</code> and end with <code>*#</code></dd>
+
+    <dt><a name="contentdirective">Content Directive</a></dt>
+    <dd>A <a href="#directive">directive</a> that outputs content when rendering
+    a <a href="#template">template</a>. The default ones automatically have
+    a <a href="#scopecontrol">scope control</a> made available in the
+    <a href="#context">during their rendering</a>.</dd>
 
     <dt><a name="context">Context</a></dt>
     <dd>A means to import Java objects into a <a href="#velocity">Velocity</a>
@@ -187,6 +200,14 @@
 
     <dt><a name="rhs">RHS</a></dt>
     <dd>Right Hand Side of an assignment</dd>
+
+    <dt><a name="scopecontrol">Scope Control</a></dt>
+    <dd>The <a href="#reference">reference</a> automatically provided
+    as a way of scoping/namespacing <a href="#reference">references</a>
+    (to avoid polluting the global <a href="#context">context</a>) within
+    the given content directive and also providing a "label" for
+    <a href="#break">#break</a> to use when breaking out of multiple
+    <a href="#contentdirective">content directives</a> at once.</dd>
 
     <dt><a name="set">#set</a></dt>
     <dd>The <a href="#directive">directive</a> that is used for setting
