@@ -1269,26 +1269,9 @@ $blargh
 <source><![CDATA[
 <table>
 #foreach( $asiakas in $asiakasLista )
-    <tr><td>$velocityCount</td><td>$asiakas.Nimi</td></tr>
+    <tr><td>$foreach.count</td><td>$asiakas.Nimi</td></tr>
 #end
 </table>
-]]></source>
-
-    <p>
-    Silmukkalaskurin oletusnimi on $velocityCount ja se määritetään
-    velocity.properties tiedostossa. Oletuksena laskuri alkaa arvosta
-    1, mutta aloitusarvo voidaan määrittää olemaan joko 1 tai 0
-    <code>velocity.properties</code>
-    tiedostossa. <code>velocity.properties</code> tiedoston
-    silmukkalaskuriosio näyttää tältä:
-    </p>
-
-<source><![CDATA[
-# Silmukkalaskurin oletusnimi
-counter.name = velocityCount
-
-# Silmukkalaskurin aloitusarvo
-counter.initial.value = 1
 ]]></source>
 
  </section>
@@ -1673,13 +1656,6 @@ $laskuri
     ensimmäinen makro kutsuu. Sivupohjan paikallista makroa käytetään
     vain kun ensimmäistä makroa kutsutaan ko. sivupohjasta. Uusi makro
     ei vaikuta muihin sivupohjiin.
-    </p>
-
-    <p>
-    <code>velocimacro.context.localscope</code> - Mahdolliset arvot
-    ovat true tai false, oletuksena false. Kun ominaisuuden arvoksi on
-    asetettu tosi, Velocimakroissa #set() ohjeella tehdyt muutokset
-    ovat 'paikallisia' eivätkä vaikuta pysyvästi muuttujien sisältöön.
     </p>
 
     <p>

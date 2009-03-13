@@ -26,7 +26,13 @@
 
   <body>
     <release version="2.0" date="In Subversion">
-      
+
+      <action type="add" dev="nbubna" issue="VELOCITY-704">
+    Remove features deprecated in 1.7 ($velocityCount, $velocityHasNext,
+    velocimacro.context.localscope, directive.evaluate.context.class and
+    all internal supporting code (ProxyVMContext, EvaluateContext, etc).
+      </action>
+
         <action type="add" dev="byron" issue="VELOCITY-697">
 	  Add ability to specify default values for macro parameters, e.g.;
 	  #macro(foo bar=1)
@@ -53,6 +59,52 @@
 
     <release version="1.7" date="In Subversion">
 
+      <action type="add" dev="nbubna" issue="VELOCITY-704">
+    Changed #stop to a directive implementation (get it out of the parser)
+    and allow it to accept a message as an argument to be written to the logs
+    for debugging purposes.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-704">
+    Change the scoping behavior of Velocity, keeping it optional (everything global
+    scoped by default) but now providing an explicit namespace in content-containing
+    directives (like macros, #foreach, #parse, etc.) in which references that should
+    stay local may be kept.  This is accompanied by numerous related changes, including:
+    &lt;ul&gt;
+    &lt;li&gt;A Scope reference is now available within each content directive:
+        &lt;ul&gt;
+        &lt;li&gt;$template in Template.merge and #parse content&lt;li&gt;
+        &lt;li&gt;$macro in #macro&lt;/li&gt;
+        &lt;li&gt;$foreach in #foreach&lt;/li&gt;
+        &lt;li&gt;$evaluate in #evaluate or Velocity.evaluate(...) content&lt;/li&gt;
+        &lt;li&gt;$define in #define&lt;/li&gt;
+        &lt;li&gt;$&amp;lt;amacro&amp;gt; in #@&amp;lt;amacro&amp;gt;
+              (where &amp;lt;amacro&amp;gt; is the name of a macro being called with a body)&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Allowing the above to be suppressed by setting a velocity property like:
+        &lt;br/&gt;&lt;code&gt;foreach.provide.scope.control = false&lt;/code&gt;&lt;/li&gt;
+    &lt;li&gt;When scopes of the same type are nested make the parent Scope available
+        through the child (e.g. $foreach.parent or $foreach.topmost).&lt;/li&gt;
+    &lt;li&gt;When a Scope reference overrides an existing reference that is not a Scope,
+        make it available through the Scope (e.g. $foreach.replaced).&lt;/li&gt;
+    &lt;li&gt;Made #break work in any of the above scopes to exit the most immediate one,
+        unless a different scope is provided as an argument
+        (e.g. #break($macro) or #break($foreach.topmost)).&lt;/li&gt;
+    &lt;li&gt;Deprecated $velocityCount;
+        please use $foreach.count or $foreach.index.&lt;/li&gt;
+    &lt;li&gt;Deprecated $velocityHasNext;
+        please use $foreach.hasNext, $foreach.first or $foreach.last&lt;/li&gt;
+    &lt;li&gt;Deprecated velocimacro.context.localscope setting;
+        please get/set local #macro references as members of the provided $macro
+        scope control instead. (e.g. #set( $macro.foo = 'bar' ) and $macro.foo ).&lt;/li&gt;
+    &lt;li&gt;Deprecated directive.evaluate.context.class setting;
+        please get/set local #evaluate references as members of the provided $evaluate
+        scope control instead. (e.g. #set( $evaluate.foo = 'bar' ) and $evaluate.foo ).&lt;/li&gt;
+    &lt;/ul&gt;
+    All of the deprecated features will be removed in Velocity 2.0.
+      </action>
+
       <action type="add" dev="nbubna" issue="VELOCITY-681">
     Calling #set on a macro argument (for which a #set-able reference
     was passed) will no longer propagate the new value to the original
@@ -70,7 +122,7 @@
       
       <action type="add" dev="byron"  issue="VELOCITY-673">
 	The non default VelocityEngine construtors now do not initialize the runtime
-	system so that properties may be set after constrution.  Also fixes an
+	system so that properties may be set after construction.  Also fixes an
 	Initialization race condition.
       </action>
 
