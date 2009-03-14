@@ -107,6 +107,14 @@ public class VelocimacroProxy extends Directive
     }
 
     /**
+     * Return the list of macro arguments associated with this macro
+     */
+    public List<Macro.MacroArg> getMacroArgs()
+    {
+      return macroArgs;
+    }
+    
+    /**
      * @param tree
      */
     public void setNodeTree(SimpleNode tree)

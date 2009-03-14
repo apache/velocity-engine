@@ -19,6 +19,7 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -86,6 +87,26 @@ public class VelocimacroManager
         this.rsvc = rsvc;
     }
 
+    /**
+     * Return a list of VelocimacroProxies that are defined by the given
+     * template name.
+     */
+    public List<VelocimacroProxy> getVelocimacros(String templateName)
+    {
+      Map local = getNamespace(templateName, false);
+      ArrayList<VelocimacroProxy> macros = new ArrayList<VelocimacroProxy>(16);
+      if (local != null)
+      {
+        for (Object mo : local.values())
+        {
+          MacroEntry me = (MacroEntry)mo;
+          macros.add(me.vp);          
+        }
+      }
+      
+      return macros;      
+    }
+    
     /**
      * Adds a VM definition to the cache.
      * 

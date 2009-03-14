@@ -50,6 +50,7 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
+import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.directive.Scope;
 import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.log.Log;
@@ -1631,6 +1632,16 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         return vmFactory.getVelocimacro( vmName, templateName, renderingTemplate );
     }
 
+    /**
+     * Return a list of VelocimacroProxies that are defined by the given
+     * template name.
+     */    
+    public List<VelocimacroProxy> getVelocimacros(String templateName)
+    {
+        return vmFactory.getVelocimacros(templateName);
+    }
+    
+    
     /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.
      * 
