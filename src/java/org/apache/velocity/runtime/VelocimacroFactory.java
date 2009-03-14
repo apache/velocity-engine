@@ -556,6 +556,15 @@ public class VelocimacroFactory
      }
 
      /**
+      * Return a list of VelocimacroProxies that are defined by the given
+      * template name.
+      */     
+     public List<VelocimacroProxy> getVelocimacros(String sourceTemplate)
+     {
+       return vmManager.getVelocimacros(sourceTemplate);
+     }
+     
+     /**
       * @since 1.6
       */
      public Directive getVelocimacro(String vmName, String sourceTemplate, String renderingTemplate)
