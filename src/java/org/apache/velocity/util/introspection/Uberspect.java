@@ -41,7 +41,7 @@ public interface Uberspect
      * @param info
      * @return An Iterator.
      */
-    public Iterator getIterator(Object obj, Info info);
+    public Iterator getIterator(Object obj, Info info) throws Exception;
 
     /**
      *  Returns a general method, corresponding to $foo.bar( $woogie )
@@ -51,7 +51,7 @@ public interface Uberspect
      * @param info
      * @return A Velocity Method.
      */
-    public VelMethod getMethod(Object obj, String method, Object[] args, Info info);
+    public VelMethod getMethod(Object obj, String method, Object[] args, Info info) throws Exception;
 
     /**
      * Property getter - returns VelPropertyGet appropos for #set($foo = $bar.woogie)
@@ -60,7 +60,7 @@ public interface Uberspect
      * @param info
      * @return A Velocity Getter.
      */
-    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info info);
+    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info info) throws Exception;
 
     /**
      * Property setter - returns VelPropertySet appropos for #set($foo.bar = "geir")
@@ -70,5 +70,5 @@ public interface Uberspect
      * @param info
      * @return A Velocity Setter.
      */
-    public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info info);
+    public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info info) throws Exception;
 }

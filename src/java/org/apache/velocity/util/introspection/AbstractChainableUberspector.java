@@ -66,7 +66,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      */
     //@SuppressWarnings("unchecked")
     //@Override
-    public Iterator getIterator(Object obj, Info i)
+    public Iterator getIterator(Object obj, Info i) throws Exception
     {
         return (this.inner != null) ? this.inner.getIterator(obj, i) : null;
     }
@@ -79,6 +79,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      */
     //@Override
     public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
+        throws Exception
     {
         return (this.inner != null) ? this.inner.getMethod(obj, methodName, args, i) : null;
     }
@@ -91,6 +92,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      */
     //@Override
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
+        throws Exception
     {
         return (this.inner != null) ? this.inner.getPropertyGet(obj, identifier, i) : null;
     }
@@ -103,6 +105,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      */
     //@Override
     public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
+        throws Exception
     {
         return (this.inner != null) ? this.inner.getPropertySet(obj, identifier, arg, i) : null;
     }

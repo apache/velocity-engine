@@ -106,6 +106,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @return An {@link Iterator} object.
      */
     public Iterator getIterator(Object obj, Info i)
+        throws Exception
     {
         if (obj.getClass().isArray())
         {
@@ -190,6 +191,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @return A Velocity Method.
      */
     public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
+        throws Exception
     {
         if (obj == null)
         {
@@ -236,6 +238,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @throws Exception
      */
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
+        throws Exception
     {
         if (obj == null)
         {
@@ -290,7 +293,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @throws Exception
      */
     public VelPropertySet getPropertySet(Object obj, String identifier,
-                                         Object arg, Info i)
+                                         Object arg, Info i) throws Exception
     {
         if (obj == null)
         {
