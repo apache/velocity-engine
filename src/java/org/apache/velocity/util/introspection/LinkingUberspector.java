@@ -73,7 +73,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      */
     //@SuppressWarnings("unchecked")
     //@Override
-    public Iterator getIterator(Object obj, Info i)
+    public Iterator getIterator(Object obj, Info i) throws Exception
     {
         Iterator it = leftUberspect.getIterator(obj,i);
         return it != null ? it : rightUberspect.getIterator(obj,i);
@@ -87,6 +87,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      */
     //@Override
     public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
+        throws Exception
     {
         VelMethod method = leftUberspect.getMethod(obj,methodName,args,i);
         return method != null ? method : rightUberspect.getMethod(obj,methodName,args,i);
@@ -100,6 +101,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      */
     //@Override
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
+        throws Exception
     {
         VelPropertyGet getter = leftUberspect.getPropertyGet(obj,identifier,i);
         return getter != null ? getter : rightUberspect.getPropertyGet(obj,identifier,i);
@@ -113,6 +115,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      */
     //@Override
     public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
+        throws Exception
     {
         VelPropertySet setter = leftUberspect.getPropertySet(obj,identifier,arg,i);
         return setter != null ? setter : rightUberspect.getPropertySet(obj,identifier,arg,i);
