@@ -37,7 +37,7 @@ public class ScopeTestCase extends BaseTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        engine.setProperty(RuntimeConstants.SET_NULL_ALLOWED, true);
+        engine.setProperty(RuntimeConstants.SET_NULL_ALLOWED, Boolean.TRUE);
     }
 
     public void testScopeGetLeakIntoInner()
