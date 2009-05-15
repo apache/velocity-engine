@@ -77,7 +77,7 @@ public class StopDirectiveTestCase extends BaseTestCase
         assertEvalEquals("a", "a$!log.startCapture()#stop('woogie!')b");
 
         info("Log: "+log.getLog());
-        assertTrue(log.getLog().contains("StopCommand: woogie!"));
+        assertTrue(log.getLog().indexOf("StopCommand: woogie!") >= 0);
     }
 
 }
