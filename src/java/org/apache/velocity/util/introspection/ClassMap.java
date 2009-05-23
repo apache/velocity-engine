@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.util.MapFactory;
 
 /**
  * A cache of introspection information for a specific class instance.
@@ -215,7 +216,7 @@ public class ClassMap
          * Cache of Methods, or CACHE_MISS, keyed by method
          * name and actual arguments used to find it.
          */
-        private final Map cache = new HashMap();
+        private final Map cache = MapFactory.create(false);
 
         /** Map of methods that are searchable according to method parameters to find a match */
         private final MethodMap methodMap = new MethodMap();

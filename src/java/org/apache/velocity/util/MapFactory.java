@@ -53,7 +53,22 @@ public class MapFactory
             // not running under JRE 1.5+
         }
     }
-    
+
+    /**
+     * Creates a new instance of a class that implements Map interface
+     * using the JDK defaults for initial size, load factor, etc.
+     * 
+     * Note that there is a small performance penalty because concurrent
+     * maps are created using reflection.
+     * 
+     * @param allowNullKeys if true, the returned Map instance supports null keys         
+     * @return one of ConcurrentHashMap, HashMap, Hashtable
+     */
+    public static Map create(boolean allowNullKeys)
+    {
+        return create(16, 0.75f, 16, allowNullKeys);
+    }
+
     /**
      * Creates a new instance of a class that implements Map interface.
      * 

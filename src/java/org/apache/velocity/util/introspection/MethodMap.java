@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.apache.velocity.util.MapFactory;
 
 /**
  *
@@ -45,7 +46,7 @@ public class MethodMap
     /**
      * Keep track of all methods with the same name.
      */
-    Map methodByNameMap = new HashMap();
+    Map methodByNameMap = MapFactory.create(false);
 
     /**
      * Add a method to a list of methods by name.
