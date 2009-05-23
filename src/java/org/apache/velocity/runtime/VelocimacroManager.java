@@ -31,7 +31,7 @@ import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.util.MapFactory;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Manages VMs in namespaces.  Currently, two namespace modes are
@@ -56,7 +56,7 @@ public class VelocimacroManager
     private boolean registerFromLib = false;
 
     /** Hash of namespace hashes. */
-    private final Map namespaceHash = MapFactory.create(17, 0.5f, 20, false);
+    private final Map namespaceHash = new ConcurrentHashMap(17, 0.5f, 20);
 
     /** reference to global namespace hash */
     private final Map globalNamespace;
@@ -362,7 +362,7 @@ public class VelocimacroManager
      */
     private Map addNamespace(final String namespace)
     {
-        Map h = MapFactory.create(17, 0.5f, 20, false);
+        Map h = new ConcurrentHashMap(17, 0.5f, 20);
         Object oh;
 
         if ((oh = namespaceHash.put(namespace, h)) != null)
