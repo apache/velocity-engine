@@ -21,6 +21,8 @@ package org.apache.velocity.app.event.implement;
 
 import org.apache.oro.text.perl.MalformedPerl5PatternException;
 import org.apache.oro.text.perl.Perl5Util;
+//import java.util.regex.Pattern;
+//import java.util.regex.Matcher;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
@@ -57,12 +59,13 @@ import org.apache.velocity.util.StringUtils;
  */
 public abstract class EscapeReference implements ReferenceInsertionEventHandler,RuntimeServicesAware {
 
-
+//
     private Perl5Util perl = new Perl5Util();
 
     private RuntimeServices rs;
 
     private String matchRegExp = null;
+    //private Pattern pattern = null;
 
     /**
      * Escape the given text.  Override this in a subclass to do the actual
@@ -98,11 +101,13 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
         }
 
         if (matchRegExp == null)
+        //if (pattern == null)
         {
             return escape(value);
         }
 
         else if (perl.match(matchRegExp,reference))
+        //else if (pattern.matcher(reference).matches())
         {
             return escape(value);
         }

@@ -21,6 +21,7 @@ package org.apache.velocity.test;
 
 import java.util.HashMap;
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.directive.Scope;
 
@@ -32,6 +33,17 @@ public class ScopeTestCase extends BaseTestCase
     public ScopeTestCase(String name)
     {
        super(name);
+    }
+
+    protected void setUpEngine(VelocityEngine engine)
+    {
+        engine.setProperty("a.provide.scope.control", "true");
+        engine.setProperty("define.provide.scope.control", "true");
+        engine.setProperty("evaluate.provide.scope.control", "true");
+        engine.setProperty("foo.provide.scope.control", "true");
+        engine.setProperty("macro.provide.scope.control", "true");
+        engine.setProperty("template.provide.scope.control", "true");
+        engine.setProperty("vm.provide.scope.control", "true");
     }
 
     public void testRootTemplateMergeScope()

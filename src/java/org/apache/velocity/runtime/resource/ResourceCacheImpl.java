@@ -28,7 +28,7 @@ import java.util.Iterator;
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.util.MapFactory;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Default implementation of the resource cache for the default
@@ -49,7 +49,7 @@ public class ResourceCacheImpl implements ResourceCache
     /**
      * Cache storage, assumed to be thread-safe.
      */
-    protected Map cache = MapFactory.create(512, 0.5f, 30, false);
+    protected Map cache = new ConcurrentHashMap(512, 0.5f, 30);
 
     /**
      * Runtime services, generally initialized by the

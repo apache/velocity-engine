@@ -33,23 +33,23 @@ import java.util.Set;
 public class Scope extends AbstractMap
 {
     private Map storage;
-    protected final Object replaced;
-    protected final Scope parent;
+    private Object replaced;
+    private Scope parent;
     protected final Object owner;
 
     public Scope(Object owner, Object previous)
     {
         this.owner = owner;
-        if (previous instanceof Scope)
+        if (previous != null)
         {
-            this.parent = (Scope)previous;
-            // keep easy access to the user's object
-            this.replaced = this.parent.replaced;
-        }
-        else
-        {
-            this.parent = null;
-            this.replaced = previous;
+            try
+            {
+                this.parent = (Scope)previous;
+            }
+            catch (ClassCastException cce)
+            {
+                this.replaced = previous;
+            }
         }
     }
 
@@ -137,6 +137,10 @@ public class Scope extends AbstractMap
      */
     public Object getReplaced()
     {
+        if (replaced == null && parent != null)
+        {
+            return parent.getReplaced();
+        }
         return replaced;
     }
 

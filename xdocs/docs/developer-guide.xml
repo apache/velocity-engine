@@ -1591,10 +1591,12 @@ Character encoding for output streams from the VelocityServlet and Anakia.
 </p>
 
 <p>
-<code>define.provide.scope.control = true</code><br/>
-Used to control the automatic provision of the $define scope control
-during #define() calls. The default is true.
-Set it to false if unused and you want a tiny performance boost.
+<code>define.provide.scope.control = false</code><br/>
+Used to turn on the automatic provision of the $define scope control
+during #define() calls. The default is false.
+Set it to true if you want a local, managed namespace
+you can put references in when within a #define block or if you want it for
+more advanced #break usage.
 </p>
 
 <p>
@@ -1602,10 +1604,12 @@ Set it to false if unused and you want a tiny performance boost.
 </p>
 
 <p>
-<code>evaluate.provide.scope.control = true</code><br/>
-Used to control the automatic provision of the $evaluate scope
+<code>evaluate.provide.scope.control = false</code><br/>
+Used to turn on the automatic provision of the $evaluate scope
 during #evaluate() or Velocity[Engine].evaluate(...) calls. The default
-is true.  Set it to false if unused and you want a tiny performance boost.
+is false.  Set it to true if you want a local, managed namespace
+you can put references in during an evaluation or if you want it for
+more advanced #break usage.
 </p>
 
 <p>
@@ -1615,7 +1619,8 @@ is true.  Set it to false if unused and you want a tiny performance boost.
 <p>
 <code>foreach.provide.scope.control = true</code><br/>
 Used to control the automatic provision of the $foreach scope
-during #foreach calls. The default is true.
+during #foreach calls.  This gives access to the foreach status information
+(e.g. $foreach.index or $foreach.hasNext). The default is true.
 Set it to false if unused and you want a tiny performance boost.
 </p>
 
@@ -1653,10 +1658,11 @@ another template which itself may have a #parse() directive.  This value
 prevents runaway #parse() recursion.
 </p>
 <p>
-<code>template.provide.scope.control = true</code><br/>
-Used to control the automatic provision of the $template scope control
-during #parse calls (and template.merge(...) calls). The default is true.
-Set it to false if unused and you want a tiny performance boost.
+<code>template.provide.scope.control = false</code><br/>
+Used to turn on the automatic provision of the $template scope control
+during #parse calls and template.merge(...) calls. The default is false.
+Set it to true if you want a secure namespace for your template variables
+or more advanced #break control.
 </p>
 
 
@@ -1829,17 +1835,18 @@ The default reference name is "bodyContent" (e.g. $bodyContent).  This block
 macro feature was introduced in Velocity 1.7.
 </p>
 <p>
-<code>macro.provide.scope.control = true</code><br/>
-Used to control the automatic provision of the $macro scope control
-during #macro calls. The default is true.
-Set it to false if unused and you want a tiny performance boost.
+<code>macro.provide.scope.control = false</code><br/>
+Used to turn on the automatic provision of the $macro scope control
+during #macro calls. The default is false.
+Set it to true if you need a local namespace in macros or more
+advanced #break controls.
 </p>
 <p>
-<code>&lt;somebodymacro&gt;.provide.scope.control = true</code><br/>
-Used to control the automatic provision of the $&lt;nameofthemacro&gt; scope control
+<code>&lt;somebodymacro&gt;.provide.scope.control = false</code><br/>
+Used to turn on the automatic provision of the $&lt;nameofthemacro&gt; scope control
 during a call to a macro with a body (e.g. #@foo #set($foo.a=$b) ... $foo.a #end).
-The default is true. Set it to false if you heavily use that body macro without
-using the scope control and you want a tiny performance boost.
+The default is false. Set it to true if you happen to need a namespace just
+for your macro's body content or more advanced #break controls.
 </p>
 
 <p>

@@ -131,6 +131,7 @@ public class EvaluateTestCase extends BaseTestCase
      */
     public void testStopAndBreak()
     {
+        engine.setProperty("evaluate.provide.scope.control", "true");
         assertEvalEquals("t ", "t #stop t2 #evaluate('t3')");
         assertEvalEquals("t ", "t #break t2 #evaluate('t3')");
         assertEvalEquals("t t2 t3 ", "t t2 #evaluate('t3 #stop t4') t5");
