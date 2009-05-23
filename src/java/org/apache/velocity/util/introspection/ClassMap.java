@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.runtime.log.Log;
 
@@ -215,7 +216,7 @@ public class ClassMap
          * Cache of Methods, or CACHE_MISS, keyed by method
          * name and actual arguments used to find it.
          */
-        private final Map cache = new HashMap();
+        private final Map cache = new ConcurrentHashMap();
 
         /** Map of methods that are searchable according to method parameters to find a match */
         private final MethodMap methodMap = new MethodMap();
