@@ -19,6 +19,8 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
+import org.apache.velocity.app.VelocityEngine;
+
 /**
  * This class tests the break directive.
  */
@@ -27,6 +29,15 @@ public class BreakDirectiveTestCase extends BaseTestCase
     public BreakDirectiveTestCase(String name)
     {
         super(name);
+    }
+
+    protected void setUpEngine(VelocityEngine engine)
+    {
+        engine.setProperty("a.provide.scope.control", "true");
+        engine.setProperty("define.provide.scope.control", "true");
+        engine.setProperty("evaluate.provide.scope.control", "true");
+        engine.setProperty("macro.provide.scope.control", "true");
+        engine.setProperty("template.provide.scope.control", "true");
     }
 
     public void testBadArgs()
