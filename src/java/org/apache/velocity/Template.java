@@ -71,7 +71,7 @@ public class Template extends Resource
      * the scope object into the context.
      */
     private String scopeName = "template";
-    private boolean provideScope = true;
+    private boolean provideScope = false;
 
     private VelocityException errorCondition = null;
 

@@ -196,7 +196,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Settings for provision of root scope for evaluate(...) calls.
      */
     private String evaluateScopeName = "evaluate";
-    private boolean provideEvaluateScope = true;
+    private boolean provideEvaluateScope = false;
 
     /*
      *  Opaque reference to something specificed by the

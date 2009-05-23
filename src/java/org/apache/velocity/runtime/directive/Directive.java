@@ -46,7 +46,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
 {
     private int line = 0;
     private int column = 0;
-    private boolean provideScope = true;
+    private boolean provideScope = false;
     private String templateName;
 
     /**
@@ -147,7 +147,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
         rsvc = rs;
 
         String property = getScopeName()+'.'+RuntimeConstants.PROVIDE_SCOPE_CONTROL;
-        this.provideScope = rsvc.getBoolean(property, true);
+        this.provideScope = rsvc.getBoolean(property, provideScope);
     }
 
     /**
@@ -193,8 +193,13 @@ public abstract class Directive implements DirectiveConstants, Cloneable
         {
             String name = getScopeName();
             Object previous = context.get(name);
-            context.put(name, new Scope(this, previous));
+            context.put(name, makeScope(previous));
         }
+    }
+
+    protected Scope makeScope(Object prev)
+    {
+        return new Scope(this, prev);
     }
 
     /**
@@ -208,13 +213,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
             String name = getScopeName();
             Object obj = context.get(name);
             
-            // the user can override the scope with a #set,
-            // since that means they don't care about a replaced value
-            // and obviously aren't too keen on their scope control,
-            // and especially since #set is meant to be handled globally,
-            // we'll assume they know what they're doing and not worry
-            // about replacing anything superseded by this directive's scope
-            if (obj instanceof Scope)
+            try
             {
                 Scope scope = (Scope)obj;
                 if (scope.getParent() != null)
@@ -229,6 +228,15 @@ public abstract class Directive implements DirectiveConstants, Cloneable
                 {
                     context.remove(name);
                 }
+            }
+            catch (ClassCastException cce)
+            {
+                // the user can override the scope with a #set,
+                // since that means they don't care about a replaced value
+                // and obviously aren't too keen on their scope control,
+                // and especially since #set is meant to be handled globally,
+                // we'll assume they know what they're doing and not worry
+                // about replacing anything superseded by this directive's scope
             }
         }
     }
