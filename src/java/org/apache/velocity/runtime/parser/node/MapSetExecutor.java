@@ -45,32 +45,24 @@ public class MapSetExecutor
 
     protected void discover (final Class clazz)
     {
-        Class [] interfaces = clazz.getInterfaces();
-        for (int i = 0 ; i < interfaces.length; i++)
+        if (property != null && Map.class.isAssignableFrom(clazz))
         {
-            if (interfaces[i].equals(Map.class))
+            try
             {
-                try
-                {
-                    if (property != null)
-                    {
-                        setMethod(Map.class.getMethod("put", new Class [] { Object.class, Object.class }));
-                    }
-                }
-                /**
-                 * pass through application level runtime exceptions
-                 */
-                catch( RuntimeException e )
-                {
-                    throw e;
-                }
-                catch(Exception e)
-                {
-                    String msg = "Exception while looking for put('" + property + "') method";
-                    log.error(msg, e);
-                    throw new VelocityException(msg, e);
-                }
-                break;
+                setMethod(Map.class.getMethod("put", new Class [] { Object.class, Object.class }));
+            }
+            /**
+             * pass through application level runtime exceptions
+             */
+            catch( RuntimeException e )
+            {
+                throw e;
+            }
+            catch(Exception e)
+            {
+                String msg = "Exception while looking for put('" + property + "') method";
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
             }
         }
     }
