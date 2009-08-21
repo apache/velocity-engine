@@ -90,6 +90,15 @@ public class ASTReference extends SimpleNode
      */
     public boolean strictEscape = false;
     
+    /**
+     * Indicates if toString() should be called during condition evaluation just
+     * to ensure it does not return null. Check is unnecessary if all toString()
+     * implementations are known to have non-null return values. Disabling the
+     * check will give a performance improval since toString() may be a complex
+     * operation on large objects.
+     */
+    public boolean toStringNullCheck = true;
+    
     private int numChildren = 0;
 
     protected Info uberInfo;
@@ -129,6 +138,7 @@ public class ASTReference extends SimpleNode
         
         strictEscape = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, false);
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+        toStringNullCheck = rsvc.getBoolean(RuntimeConstants.DIRECTIVE_IF_TOSTRING_NULLCHECK, true); 
             
         /*
          *  the only thing we can do in init() is getRoot()
@@ -166,7 +176,7 @@ public class ASTReference extends SimpleNode
          */
         logOnNull =
             rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
-         
+
         /**
          * In the case we are referencing a variable with #if($foo) or
          * #if( ! $foo) then we allow variables to be undefined and we 
@@ -530,7 +540,7 @@ public class ASTReference extends SimpleNode
             else
                 return false;
         }        
-        else
+        else if (toStringNullCheck)
         {
             try
             {
@@ -541,6 +551,10 @@ public class ASTReference extends SimpleNode
                 throw new VelocityException("Reference evaluation threw an exception at " 
                     + Log.formatFileString(this), e);
             }
+        }
+        else
+        {
+            return true;
         }
     }
 
