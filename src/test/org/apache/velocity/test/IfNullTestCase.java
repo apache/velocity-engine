@@ -20,6 +20,7 @@ package org.apache.velocity.test;
  */
 
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * Used to check that nulls are properly handled in #if statements
@@ -87,6 +88,13 @@ public class IfNullTestCase extends BaseEvalTestCase
         assertEvalEquals("bar", "#if( $nullToString || $null )foo#{else}bar#end");
         assertEvalEquals("foo", "#if( $null || $notnull )foo#{else}bar#end");
         assertEvalEquals("foo", "#if( $notnull || $nullToString )foo#{else}bar#end");
+    }
+
+    public void testToStringNullCheckConfig()
+    {
+        engine.setProperty(RuntimeConstants.DIRECTIVE_IF_TOSTRING_NULLCHECK, Boolean.FALSE);
+        assertEvalEquals("bar", "#if( $null )foo#{else}bar#end");
+        assertEvalEquals("foo", "#if( $nullToString )foo#{else}bar#end");
     }
 
     public static class NullToString
