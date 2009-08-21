@@ -757,7 +757,7 @@ $bar.retnull.bogus  ## cannot call a property on null, Exception]]></source>
 #if ($foo && $foo == "bar")#end ## False and $foo == "bar" wil not be evaluated
 #if ($foo1 || $foo2)#end        ## False $foo1 and $foo2 are not defined]]></source>
   <p>
-    Strict mode requires that comparisons of >, <, >= or <= within an
+    Strict mode requires that comparisons of &gt;, &lt;, &gt;= or &lt;= within an
     #if directive make sense. Also, the argument to #foreach must be
     iterable (this behavior can be modified with the property
     directive.foreach.skip.invalid). Finally, undefined macro
