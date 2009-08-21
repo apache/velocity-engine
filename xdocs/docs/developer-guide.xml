@@ -1659,6 +1659,19 @@ iterating over is not or cannot produce a valid Iterator.
 </p>
 
 <p>
+<strong>#if() Directive</strong>
+</p>
+
+<p>
+<code>directive.if.tostring.nullcheck = true</code><br/>
+Default behavior is to check return value of toString() and treat an
+object with toString() that returns null as null. If all objects have
+toString() methods that never return null, this check is unnecessary
+and can be disabled to gain performance. In Velocity 1.5, no such null
+check was performed.
+</p>
+
+<p>
 <strong>#set() Directive</strong>
 </p>
 
