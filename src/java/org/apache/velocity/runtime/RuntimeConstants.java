@@ -141,6 +141,16 @@ public interface RuntimeConstants
     String SET_NULL_ALLOWED = "directive.set.null.allowed";
 
     /**
+     * Indicates if toString() should be called during #if condition evaluation
+     * just to ensure it does not return null. Check is unnecessary if all
+     * toString() implementations are known to have non-null return values.
+     * Disabling the check (like Velocity 1.5 did) will can boost performance
+     * since toString() may be a complex operation on large objects.
+     * @since 1.6
+     */
+    String DIRECTIVE_IF_TOSTRING_NULLCHECK = "directive.if.tostring.nullcheck";
+
+    /**
      * Starting tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
      * and references are allowed.
      */
