@@ -93,9 +93,10 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         super(name);
     }
 
-    public void setUp()
+    public void setUp() throws Exception
     {
         assureResultsDirectoryExists(RESULTS_DIR);
+        super.setUp();
     }
 
     public static Test suite()
@@ -389,6 +390,14 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
 
         log("IncludeNotFound handler successful.");
 
+    }
+
+    public void testIncludeNotFoundMissingResourceName() throws Exception
+    {
+        // uses base test support
+        engine.setProperty(RuntimeConstants.EVENTHANDLER_INCLUDE, "org.apache.velocity.app.event.implement.IncludeNotFound");
+        addTemplate("notfound.vm", "$missingResource");
+        assertEvalEquals("foo", "#parse('foo')");
     }
 
     public void testIncludeRelativePath() throws Exception
