@@ -20,7 +20,9 @@ package org.apache.velocity.app.event.implement;
  */
 
 import org.apache.velocity.app.event.IncludeEventHandler;
+import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.ContextAware;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
 
@@ -36,17 +38,24 @@ import org.apache.velocity.util.StringUtils;
  * eventhandler.include.notfound = error.vm
  * </PRE>
  * </code>
+ * </p><p>
+ * The name of the missing resource is put into the Velocity context, under the 
+ * key "missingResource", so that the "notfound" template can report the missing 
+ * resource with a Velocity reference, like: 
+ * <code>$missingResource</code>
+ * </p>
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  * @since 1.5
  */
-public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware {
+public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware,ContextAware {
 
     private static final String DEFAULT_NOT_FOUND = "notfound.vm";
     private static final String PROPERTY_NOT_FOUND = "eventhandler.include.notfound";
     private RuntimeServices rs = null;
     String notfound;
+    Context context;
 
     /**
      * Chseck to see if included file exists, and display "not found" page if it
@@ -70,10 +79,10 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
         boolean exists = (rs.getLoaderNameForResource(includeResourcePath) != null);
         if (!exists)
         {
+            context.put("missingResource", includeResourcePath);
             if (rs.getLoaderNameForResource(notfound) != null)
             {
                 return notfound;
-
             }
             else
             {
@@ -83,7 +92,6 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
                 rs.getLog().error("Can't find include not found page: " + notfound);
                 return null;
             }
-
         }
         else
             return includeResourcePath;
@@ -97,6 +105,13 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
     {
          this.rs = rs;
          notfound = StringUtils.nullTrim(rs.getString(PROPERTY_NOT_FOUND, DEFAULT_NOT_FOUND));
-     }
+    }
 
+    /** 
+     * @see org.apache.velocity.util.ContextAware#setContext(org.apache.velocity.context.Context)
+     */ 
+    public void setContext(Context context)
+    {
+        this.context = context;
+    }
 }
