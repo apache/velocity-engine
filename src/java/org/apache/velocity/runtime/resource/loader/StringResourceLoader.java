@@ -47,7 +47,7 @@ import org.apache.velocity.util.ClassUtils;
  * resource.loader = string
  * string.resource.loader.description = Velocity StringResource loader
  * string.resource.loader.class = org.apache.velocity.runtime.resource.loader.StringResourceLoader
- * string.resource.loader.repository.class = org.apache.velocity.runtime.resource.loader.StringResourceRepositoryImpl
+ * string.resource.loader.repository.class = org.apache.velocity.runtime.resource.util.StringResourceRepositoryImpl
  * </pre>
  * Resources can be added to the repository like this:
  * <pre><code>
