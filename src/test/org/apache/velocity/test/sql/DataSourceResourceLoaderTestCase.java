@@ -33,9 +33,11 @@ import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader;
+import org.apache.velocity.test.misc.TestLogChute;
 
 
 public class DataSourceResourceLoaderTestCase
@@ -77,6 +79,8 @@ public class DataSourceResourceLoaderTestCase
      */
     private String UNICODE_TEMPLATE_NAME = "testUnicode";
 
+    VelocityEngine engine;
+    
     public DataSourceResourceLoaderTestCase(final String name)
     	throws Exception
     {
@@ -100,19 +104,21 @@ public class DataSourceResourceLoaderTestCase
         DataSourceResourceLoader rl = new DataSourceResourceLoader();
         rl.setDataSource(ds);
 
+        engine = new VelocityEngine();
+        
         // pass in an instance to Velocity
-        Velocity.addProperty( "resource.loader", "ds" );
-        Velocity.setProperty( "ds.resource.loader.instance", rl );
+        engine.addProperty( "resource.loader", "ds" );
+        engine.setProperty( "ds.resource.loader.instance", rl );
 
-        Velocity.setProperty( "ds.resource.loader.resource.table",           "velocity_template");
-        Velocity.setProperty( "ds.resource.loader.resource.keycolumn",       "id");
-        Velocity.setProperty( "ds.resource.loader.resource.templatecolumn",  "def");
-        Velocity.setProperty( "ds.resource.loader.resource.timestampcolumn", "timestamp");
+        engine.setProperty( "ds.resource.loader.resource.table",           "velocity_template");
+        engine.setProperty( "ds.resource.loader.resource.keycolumn",       "id");
+        engine.setProperty( "ds.resource.loader.resource.templatecolumn",  "def");
+        engine.setProperty( "ds.resource.loader.resource.timestampcolumn", "timestamp");
 
         Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+                RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
-        Velocity.init();
+        engine.init();
     }
     
     public void setUpUnicode()
@@ -137,7 +143,7 @@ public class DataSourceResourceLoaderTestCase
     public void testUnicode()
     throws Exception
     {
-        Template template = RuntimeSingleton.getTemplate(UNICODE_TEMPLATE_NAME);
+        Template template = engine.getTemplate(UNICODE_TEMPLATE_NAME);
 
         Writer writer = new StringWriter();
         VelocityContext context = new VelocityContext();
@@ -188,7 +194,7 @@ public class DataSourceResourceLoaderTestCase
     protected Template executeTest(final String templateName)
     	throws Exception
     {
-        Template template = RuntimeSingleton.getTemplate(templateName);
+        Template template = engine.getTemplate(templateName);
 
         FileOutputStream fos =
                 new FileOutputStream (

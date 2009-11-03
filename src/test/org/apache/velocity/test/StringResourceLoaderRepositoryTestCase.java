@@ -57,8 +57,14 @@ public class StringResourceLoaderRepositoryTestCase extends TestCase
         Velocity.init();
 
         StringResourceRepository repo = getRepo(null, null);
-        repo.putStringResource("foo", "This is $foo");
-        repo.putStringResource("bar", "This is $bar");
+
+        // this will fail when run as part of suite of tests in one process
+        // but it's only required for several tests
+        if (repo != null)
+        {
+            repo.putStringResource("foo", "This is $foo");
+            repo.putStringResource("bar", "This is $bar");
+        }
 
         context = new VelocityContext();
         context.put("foo", "wonderful!");

@@ -29,8 +29,8 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.misc.TestLogChute;
 
 /**
@@ -64,6 +64,8 @@ public class MultipleFileResourcePathTestCase extends BaseTestCase
      */
     private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/multi/compare";
 
+    VelocityEngine engine;
+    
     /**
      * Default constructor.
      */
@@ -82,16 +84,18 @@ public class MultipleFileResourcePathTestCase extends BaseTestCase
     {
         assureResultsDirectoryExists(RESULTS_DIR);
 
-        Velocity.addProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
+        engine = new VelocityEngine();
+        
+        engine.addProperty(
+                RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH1);
 
-        Velocity.addProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH2);
+        engine.addProperty(
+                RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH2);
 
-        Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+        engine.setProperty(
+                RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
-        Velocity.init();
+        engine.init();
     }
 
     /**
@@ -100,10 +104,10 @@ public class MultipleFileResourcePathTestCase extends BaseTestCase
     public void  testMultipleFileResources ()
             throws Exception
     {
-        Template template1 = RuntimeSingleton.getTemplate(
+        Template template1 = engine.getTemplate(
             getFileName(null, "path1", TMPL_FILE_EXT));
 
-        Template template2 = RuntimeSingleton.getTemplate(
+        Template template2 = engine.getTemplate(
             getFileName(null, "path2", TMPL_FILE_EXT));
 
         FileOutputStream fos1 =

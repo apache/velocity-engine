@@ -29,8 +29,8 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.misc.TestLogChute;
 
 /**
@@ -42,6 +42,7 @@ import org.apache.velocity.test.misc.TestLogChute;
  */
 public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestBase
 {
+    VelocityEngine engine;
     public InlineScopeVMTestCase(String name)
     {
         super(name);
@@ -50,24 +51,21 @@ public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestB
     public void setUp()
             throws Exception
     {
-        /*
-         *  do our properties locally, and just override the ones we want
-         *  changed
-         */
-
-        Velocity.setProperty(
-            Velocity.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
-
-        Velocity.setProperty(
-            Velocity.VM_PERM_INLINE_LOCAL, "true");
-
-        Velocity.setProperty(
-            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+        engine = new VelocityEngine();
         
-        Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+        engine.setProperty(
+                RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
 
-        Velocity.init();
+        engine.setProperty(
+                RuntimeConstants.VM_PERM_INLINE_LOCAL, "true");
+
+        engine.setProperty(
+                RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+        
+        engine.setProperty(
+                RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+
+        engine.init();
     }
 
     public static Test suite ()
@@ -88,10 +86,10 @@ public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestB
          * vm_test2 uses a local VM and vm_test1 doesn't
          */
 
-        Template template2 = RuntimeSingleton.getTemplate(
+        Template template2 = engine.getTemplate(
             getFileName(null, "vm_test2", TMPL_FILE_EXT));
 
-        Template template1 = RuntimeSingleton.getTemplate(
+        Template template1 = engine.getTemplate(
             getFileName(null, "vm_test1", TMPL_FILE_EXT));
 
         FileOutputStream fos1 =

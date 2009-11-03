@@ -29,12 +29,12 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.util.RuntimeServicesAware;
 
@@ -85,6 +85,8 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
 
     private int EventHandlerBehavior = PASS_THROUGH;
 
+    VelocityEngine engine;
+    
     /**
      * Default constructor.
      */
@@ -98,13 +100,15 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
     {
         assureResultsDirectoryExists(RESULTS_DIR);
 
-        Velocity.addProperty(
-            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+        engine = new VelocityEngine();
+        
+        engine.addProperty(
+                RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
 
-        Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+        engine.setProperty(
+                RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
-        Velocity.init();
+        engine.init();
 
 
     }
@@ -121,13 +125,13 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
     public void testIncludeEventHandling ()
             throws Exception
     {
-        Template template1 = RuntimeSingleton.getTemplate(
+        Template template1 = engine.getTemplate(
             getFileName(null, "test1", TMPL_FILE_EXT));
 
-        Template template2 = RuntimeSingleton.getTemplate(
+        Template template2 = engine.getTemplate(
             getFileName(null, "subdir/test2", TMPL_FILE_EXT));
 
-        Template template3 = RuntimeSingleton.getTemplate(
+        Template template3 = engine.getTemplate(
             getFileName(null, "test3", TMPL_FILE_EXT));
 
         FileOutputStream fos1 =

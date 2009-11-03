@@ -29,10 +29,10 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * Multiple paths in the file resource loader.
@@ -52,6 +52,8 @@ public class StringResourceLoaderTestCase extends BaseTestCase
      */
     private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/stringloader/compare";
 
+    VelocityEngine engine;
+    
     /**
      * Default constructor.
      */
@@ -70,14 +72,16 @@ public class StringResourceLoaderTestCase extends BaseTestCase
     {
         assureResultsDirectoryExists(RESULTS_DIR);
 
-        Velocity.setProperty(Velocity.RESOURCE_LOADER, "string");
-        Velocity.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
-        Velocity.addProperty("string.resource.loader.modificationCheckInterval", "1");
+        engine = new VelocityEngine();
+        
+        engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "string");
+        engine.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
+        engine.addProperty("string.resource.loader.modificationCheckInterval", "1");
 
         // Silence the logger.
-        Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
-        Velocity.init();
+        engine.init();
     }
 
     public void  testSimpleTemplate()
@@ -85,7 +89,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
     {
         StringResourceLoader.getRepository().putStringResource("simpletemplate.vm", "This is a test for ${foo}");
 
-        Template template = RuntimeSingleton.getTemplate(getFileName(null, "simpletemplate", TMPL_FILE_EXT));
+        Template template = engine.getTemplate(getFileName(null, "simpletemplate", TMPL_FILE_EXT));
 
         FileOutputStream fos =
             new FileOutputStream (
@@ -113,7 +117,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
         StringResourceLoader.getRepository().putStringResource("multi1.vm", "I am the $first template.");
         StringResourceLoader.getRepository().putStringResource("multi2.vm", "I am the $second template.");
 
-        Template template1 = RuntimeSingleton.getTemplate(getFileName(null, "multi1", TMPL_FILE_EXT));
+        Template template1 = engine.getTemplate(getFileName(null, "multi1", TMPL_FILE_EXT));
 
         FileOutputStream fos =
             new FileOutputStream (
@@ -129,7 +133,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
         writer.flush();
         writer.close();
 
-        Template template2 = RuntimeSingleton.getTemplate(getFileName(null, "multi2", TMPL_FILE_EXT));
+        Template template2 = engine.getTemplate(getFileName(null, "multi2", TMPL_FILE_EXT));
 
         fos = new FileOutputStream (
                 getFileName(RESULTS_DIR, "multi2", RESULT_FILE_EXT));
@@ -160,7 +164,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
     {
         StringResourceLoader.getRepository().putStringResource("change.vm", "I am the $first template.");
 
-        Template template = RuntimeSingleton.getTemplate(getFileName(null, "change", TMPL_FILE_EXT));
+        Template template = engine.getTemplate(getFileName(null, "change", TMPL_FILE_EXT));
 
         FileOutputStream fos =
             new FileOutputStream (
@@ -178,7 +182,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
 
         StringResourceLoader.getRepository().putStringResource("change.vm", "I am the $second template.");
         Thread.sleep(2000L);
-        template = RuntimeSingleton.getTemplate(getFileName(null, "change", TMPL_FILE_EXT));
+        template = engine.getTemplate(getFileName(null, "change", TMPL_FILE_EXT));
 
         fos = new FileOutputStream (
                 getFileName(RESULTS_DIR, "change2", RESULT_FILE_EXT));

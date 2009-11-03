@@ -19,21 +19,30 @@ package org.apache.velocity.test.util.introspection;
  * under the License.    
  */
 
+import java.io.StringWriter;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.test.misc.TestLogChute;
-import org.apache.velocity.util.introspection.*;
-import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.VelocityContext;
 
-import java.io.StringWriter;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.BaseTestCase;
+import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.util.introspection.AbstractChainableUberspector;
+import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.introspection.UberspectImpl;
+import org.apache.velocity.util.introspection.VelPropertyGet;
+import org.apache.velocity.util.introspection.VelPropertySet;
 
 /**
  * Tests uberspectors chaining
  */
-public class ChainedUberspectorsTestCase extends BaseTestCase {
+public class ChainedUberspectorsTestCase extends BaseTestCase 
+{
 
+    VelocityEngine engine;
+    
     public ChainedUberspectorsTestCase(String name)
     	throws Exception
     {
@@ -48,11 +57,13 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
     public void setUp()
             throws Exception
     {
-        Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
-        Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.util.introspection.UberspectImpl");
-        Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.test.util.introspection.ChainedUberspectorsTestCase$ChainedUberspector");
-        Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.test.util.introspection.ChainedUberspectorsTestCase$LinkedUberspector");
-	    Velocity.init();
+        engine = new VelocityEngine();
+        
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+        engine.addProperty(RuntimeConstants.UBERSPECT_CLASSNAME,"org.apache.velocity.util.introspection.UberspectImpl");
+        engine.addProperty(RuntimeConstants.UBERSPECT_CLASSNAME,"org.apache.velocity.test.util.introspection.ChainedUberspectorsTestCase$ChainedUberspector");
+        engine.addProperty(RuntimeConstants.UBERSPECT_CLASSNAME,"org.apache.velocity.test.util.introspection.ChainedUberspectorsTestCase$LinkedUberspector");
+	    engine.init();
     }
 
     public void tearDown()
@@ -66,17 +77,17 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
         context.put("foo",new Foo());
         StringWriter writer = new StringWriter();
 
-        Velocity.evaluate(context,writer,"test","$foo.zeMethod()");
+        engine.evaluate(context,writer,"test","$foo.zeMethod()");
         assertEquals(writer.toString(),"ok");
 
-        Velocity.evaluate(context,writer,"test","#set($foo.foo = 'someValue')");
+        engine.evaluate(context,writer,"test","#set($foo.foo = 'someValue')");
 
         writer = new StringWriter();
-        Velocity.evaluate(context,writer,"test","$foo.bar");
+        engine.evaluate(context,writer,"test","$foo.bar");
         assertEquals(writer.toString(),"someValue");
 
         writer = new StringWriter();
-        Velocity.evaluate(context,writer,"test","$foo.foo");
+        engine.evaluate(context,writer,"test","$foo.foo");
         assertEquals(writer.toString(),"someValue");
     }
 
