@@ -187,14 +187,24 @@ extends TestCase
     {
         VelocityContext context = new VelocityContext(vc);
         context.put("a1",new Integer(5));
+        context.put("b1",new Integer(5));
         context.put("a4",new Integer(5));
-        context.put("b1","abc");
+        context.put("b4",new Integer(5));
+        context.put("z1","abc");
         
         String s;
         Writer w;
         
         // good object, bad method
         s = "$a1.afternoon()";
+        w = new StringWriter();
+        try {
+            ve.evaluate( context, w, "mystring", s );
+            fail("Expected exception.");
+        } catch (RuntimeException e) {}
+        
+        // good object, bad method
+        s = "$!b1.afternoon()";
         w = new StringWriter();
         try {
             ve.evaluate( context, w, "mystring", s );
@@ -210,7 +220,7 @@ extends TestCase
         } catch (RuntimeException e) {}
 
         // change result
-        s = "$b1.baby()";
+        s = "$z1.baby()";
         w = new StringWriter();
         ve.evaluate( context, w, "mystring", s );
         assertEquals("www",w.toString());        
@@ -229,16 +239,26 @@ extends TestCase
         
         VelocityContext context = new VelocityContext(vc);
         context.put("a1",new Integer(5));
+        context.put("b1",new Integer(5));
         context.put("a4",new Integer(5));
-        context.put("b1","abc");
+        context.put("b4",new Integer(5));
+        context.put("z1","abc");
         
         // normal - should be no calls to handler
-        String s = "$a1 $a1.intValue() $b1 $b1.length() #set($c1 = '5')";
+        String s = "$a1 $a1.intValue() $z1 $z1.length() #set($c1 = '5')";
         Writer w = new StringWriter();
         ve.evaluate( context, w, "mystring", s );
         
         // good object, bad property
         s = "$a1.foobar";
+        w = new StringWriter();
+        try {
+            ve.evaluate( context, w, "mystring", s );
+            fail("Expected exception.");
+        } catch (RuntimeException e) {}
+        
+        // good object, bad property / silent
+        s = "$!b1.foobar";
         w = new StringWriter();
         try {
             ve.evaluate( context, w, "mystring", s );
@@ -253,8 +273,24 @@ extends TestCase
             fail("Expected exception.");
         } catch (RuntimeException e) {}
         
+        // bad object, bad property / silent            
+        s = "$!b2.foobar";
+        w = new StringWriter();
+        try {
+            ve.evaluate( context, w, "mystring", s );
+            fail("Expected exception.");
+        } catch (RuntimeException e) {}
+        
         // bad object, no property            
         s = "$a3";
+        w = new StringWriter();
+        try {
+            ve.evaluate( context, w, "mystring", s );
+            fail("Expected exception.");
+        } catch (RuntimeException e) {}
+        
+        // bad object, no property / silent            
+        s = "$!b3";
         w = new StringWriter();
         try {
             ve.evaluate( context, w, "mystring", s );
@@ -267,7 +303,7 @@ extends TestCase
         ve.evaluate( context, w, "mystring", s );
         result = w.toString();
         assertEquals("zzz", result);
-        
+
     }
     
     
@@ -314,6 +350,30 @@ extends TestCase
                 throw new RuntimeException("expected exception");
             }
             
+            // good object, bad property
+            else if (reference.equals("$!b1.foobar"))
+            {
+                assertEquals(new Integer(5),object);
+                assertEquals("foobar",property);
+                throw new RuntimeException("expected exception");
+            }
+            
+            // good object, bad property
+            else if (reference.equals("$a1.foobar"))
+            {
+                assertEquals(new Integer(5),object);
+                assertEquals("foobar",property);
+                throw new RuntimeException("expected exception");
+            }
+            
+            // good object, bad property
+            else if (reference.equals("$!b1.foobar"))
+            {
+                assertEquals(new Integer(5),object);
+                assertEquals("foobar",property);
+                throw new RuntimeException("expected exception");
+            }
+            
             // bad object, bad property            
             else if (reference.equals("$a2"))
             {
@@ -321,9 +381,25 @@ extends TestCase
                 assertNull(property);
                 throw new RuntimeException("expected exception");
             }
-            
+
+            // bad object, bad property            
+            else if (reference.equals("$!b2"))
+            {
+                assertNull(object);
+                assertNull(property);
+                throw new RuntimeException("expected exception");
+            }
+
             // bad object, no property            
             else if (reference.equals("$a3"))
+            {
+                assertNull(object);
+                assertNull(property);
+                throw new RuntimeException("expected exception");
+            }
+            
+            // bad object, no property            
+            else if (reference.equals("$!b3"))
             {
                 assertNull(object);
                 assertNull(property);
@@ -389,10 +465,23 @@ extends TestCase
             // good reference, bad method
             if (object.getClass().equals(Integer.class))
             {
-                assertEquals("$a1.afternoon()",reference);
-                assertEquals("afternoon",method);
-                throw new RuntimeException("expected exception");
+                if (reference.equals("$a1.afternoon()"))
+                {
+                    assertEquals("afternoon",method);
+                    throw new RuntimeException("expected exception");                    
+                }
+                else if (reference.equals("$!b1.afternoon()"))
+                {
+                    assertEquals("afternoon",method);
+                    throw new RuntimeException("expected exception");                    
+                }
+                else
+                {
+                    fail("Unexpected invalid method.  " + method);
+                    
+                }
             }
+
 
             else if (object.getClass().equals(String.class) && "baby".equals(method))
             {

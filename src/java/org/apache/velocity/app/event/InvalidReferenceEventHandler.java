@@ -44,7 +44,7 @@ public interface InvalidReferenceEventHandler extends EventHandler
      * returned.
      * 
      * @param context the context when the reference was found invalid
-     * @param reference string with complete invalid reference
+     * @param reference string with complete invalid reference. If silent reference, will start with $!
      * @param object the object referred to, or null if not found
      * @param property the property name from the reference
      * @param info contains template, line, column details
@@ -77,7 +77,7 @@ public interface InvalidReferenceEventHandler extends EventHandler
      * the chain until the first non-null value is returned. 
      * 
      * @param context the context when the reference was found invalid
-     * @param reference string with complete invalid reference
+     * @param reference string with complete invalid reference.  . If silent reference, will start with $!
      * @param object the object referred to, or null if not found
      * @param method the name of the (non-existent) method
      * @param info contains template, line, column details
