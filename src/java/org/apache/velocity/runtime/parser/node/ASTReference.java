@@ -242,7 +242,7 @@ public class ASTReference extends SimpleNode
         if (result == null && !strictRef)
         {
             return EventHandlerUtil.invalidGetMethod(rsvc, context, 
-                    "$" + rootString, null, null, uberInfo);
+                    getDollarBang() + rootString, null, null, uberInfo);
         }
 
         /*
@@ -291,11 +291,11 @@ public class ASTReference extends SimpleNode
                 if (failedChild == -1)
                 {
                     result = EventHandlerUtil.invalidGetMethod(rsvc, context, 
-                            "$" + rootString, previousResult, null, uberInfo);                    
+                            getDollarBang() + rootString, previousResult, null, uberInfo);                    
                 }
                 else
                 {
-                    StringBuffer name = new StringBuffer("$").append(rootString);
+                    StringBuffer name = new StringBuffer(getDollarBang()).append(rootString);
                     for (int i = 0; i <= failedChild; i++)
                     {
                         Node node = jjtGetChild(i);
@@ -1009,5 +1009,10 @@ public class ASTReference extends SimpleNode
           }
         }
         return obj;        
+    }
+
+    public String getDollarBang()
+    {
+        return (referenceType == QUIET_REFERENCE) ? "$!" : "$";
     }
 }
