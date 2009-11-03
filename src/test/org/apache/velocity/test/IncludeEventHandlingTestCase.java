@@ -23,6 +23,8 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -212,6 +214,36 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
         writer3.close();
 
         assertTrue("Output incorrect.", isMatch(RESULTS_DIR, COMPARE_DIR, "test3",
+                RESULT_FILE_EXT, CMP_FILE_EXT));
+    }
+
+    /**
+     * Check bug VELOCITY-717.
+     */
+    public void testIncludeEventHandlingBlockMacros()
+            throws Exception
+    {
+        Template template = engine.getTemplate(
+            getFileName(null, "test7", TMPL_FILE_EXT));
+
+        FileOutputStream fos =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "test7", RESULT_FILE_EXT));
+
+        Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+        // set up handler
+        Context context = new VelocityContext();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(this);
+        ec.attachToContext( context );
+        
+        EventHandlerBehavior = BLOCK;
+        template.merge(context, writer);
+        writer.flush();
+        writer.close();
+
+        assertTrue("Output incorrect.", isMatch(RESULTS_DIR, COMPARE_DIR, "test7",
                 RESULT_FILE_EXT, CMP_FILE_EXT));
     }
 
