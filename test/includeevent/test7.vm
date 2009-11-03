@@ -1,0 +1,4 @@
+Test File 7
+#parse("macros.vm")
+
+#sample("boo")
