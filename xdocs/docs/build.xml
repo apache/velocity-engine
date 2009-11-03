@@ -45,7 +45,7 @@ snapshots</a>.  However, you will need to install Ant to build the Velocity sour
 
 
 <p>Ant is also an Apache project, and can be
-found <a href="http://ant.apache.org/">here</a>. To build Apache Velocity, you need at least Version 1.6 of Apache Ant.
+found <a href="http://ant.apache.org/">here</a>. To build Apache Velocity, you need at least Version 1.7 of Apache Ant.
 </p>
 
 <p>
@@ -73,7 +73,7 @@ xdocs/      Here are the .xml files for building the .html files
 
 <p>
 To make building Velocity easy and consistent, we require an Apache project
-called <a href="http://ant.apache.org/">Ant</a> version 1.6 or
+called <a href="http://ant.apache.org/">Ant</a> version 1.7 or
 higher to perform the build process. We assume that you have followed
 Ant's installation instructions and have it properly installed.
 </p>
@@ -305,11 +305,6 @@ href="http://velocity.apache.org/contact.html">here</a>.
 The Velocity developers use an automated test facility, and it is
 included in the distribution. You can use it to make sure that all is
 well with your build of Velocity.
-</p>
-
-<p>The tests are run with the ant task &lt;junit&gt;.  For ant 1.6, this task requires that 
-<code>junit.jar</code> be copied into the <code>lib</code> subdirectory of your 
-ant directory.  For ant 1.7 this is not required.
 </p>
 
 <p>
