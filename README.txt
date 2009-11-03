@@ -108,7 +108,7 @@ Velocity online at:
 
 http://velocity.apache.org/engine/devel/build.html
 
-Note that you must use Ant version 1.6 or later.
+Note that you must use Ant version 1.7 or later.
 
 *IMPORTANT* As the Apache Velocity build process wants to download a
  number of jars from the internet, you must be online when you are

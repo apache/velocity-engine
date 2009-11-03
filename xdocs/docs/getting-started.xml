@@ -107,7 +107,7 @@ The docs will be found in the <code>/bin/apidocs/</code> directory.
 <p>
 <b>Note:</b> Velocity uses the <a href="http://ant.apache.org/">Apache Ant</a>
 build tool for all code and documentation generation, so you will need to have it
-installed. Velocity requires at least Apache Ant 1.6.
+installed. Velocity requires at least Apache Ant 1.7.
    </p>
 
 </section>
