@@ -29,6 +29,8 @@ import junit.framework.Test;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.misc.TestLogChute;
 
@@ -71,6 +73,8 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
      */
     private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/absolute/compare";
 
+    VelocityEngine engine;
+    
     /**
      * Default constructor.
      */
@@ -82,15 +86,16 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
         {
             assureResultsDirectoryExists(RESULTS_DIR);
 
-
+            engine = new VelocityEngine();
+            
             // signify we want to use an absolute path
-            Velocity.addProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, "");
+            engine.addProperty(
+                RuntimeConstants.FILE_RESOURCE_LOADER_PATH, "");
 
-            Velocity.setProperty(
-                    Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+            engine.setProperty(
+                    RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
-            Velocity.init();
+            engine.init();
         }
         catch (Exception e)
         {
@@ -116,7 +121,7 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
 
             System.out.println("Retrieving template at absolute path: " + f);
 
-            Template template1 = RuntimeSingleton.getTemplate(f);
+            Template template1 = engine.getTemplate(f);
 
             FileOutputStream fos1 =
                 new FileOutputStream (

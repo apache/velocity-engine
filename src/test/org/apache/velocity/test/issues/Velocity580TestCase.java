@@ -21,10 +21,10 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.BaseTestCase;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * Test Case for <a href="https://issues.apache.org/jira/browse/VELOCITY-580">Velocity Issue 580</a>.
@@ -56,6 +56,8 @@ public class Velocity580TestCase extends BaseTestCase
      */
     private static final String COMPARE_DIR     = TEST_COMPARE_DIR + "/issues/velocity-580/compare";
 
+    VelocityEngine engine;
+    
     public Velocity580TestCase(final String name) throws Exception
     {
         super(name);
@@ -71,11 +73,13 @@ public class Velocity580TestCase extends BaseTestCase
 
         assureResultsDirectoryExists(RESULTS_DIR);
 
-        Velocity.addProperty(Velocity.FILE_RESOURCE_LOADER_PATH, TEMPLATE_DIR);
+        engine = new VelocityEngine();
+        
+        engine.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, TEMPLATE_DIR);
 
-        Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
-        Velocity.init();
+        engine.init();
     }
 
     public void testVelocity580() throws Exception
@@ -85,7 +89,7 @@ public class Velocity580TestCase extends BaseTestCase
 
     protected Template executeTest(final String templateName) throws Exception
     {
-        Template template = RuntimeSingleton.getTemplate(templateName);
+        Template template = engine.getTemplate(templateName);
 
         FileOutputStream fos = new FileOutputStream(getFileName(RESULTS_DIR, templateName, RESULT_FILE_EXT));
 

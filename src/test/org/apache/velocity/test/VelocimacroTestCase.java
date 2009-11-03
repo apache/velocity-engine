@@ -26,8 +26,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MacroOverflowException;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.misc.TestLogChute;
 
 /**
@@ -44,6 +45,8 @@ public class VelocimacroTestCase extends TestCase
     private String template3 = "#macro(baz $a)#set($a = $a + 1)$a#inner($a)#end#macro(inner $b)#baz($b)#end#baz(0)";
     private String template4 = "#macro(bad $a)#set($a = $a + 1)$a#inside($a)#end#macro(inside $b)#loop($b)#end#macro(loop $c)#bad($c)#end#bad(0)";
 
+    VelocityEngine engine = new VelocityEngine();
+    
     public VelocimacroTestCase(String name)
     {
         super(name);
@@ -55,11 +58,11 @@ public class VelocimacroTestCase extends TestCase
         /*
          *  setup local scope for templates
          */
-        Velocity.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
-        Velocity.setProperty( Velocity.VM_MAX_DEPTH, new Integer(5));
-        Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
-        Velocity.init();
+        engine.setProperty( RuntimeConstants.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
+        engine.setProperty( RuntimeConstants.VM_MAX_DEPTH, new Integer(5));
+        engine.setProperty(
+                RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+        engine.init();
     }
 
     public static Test suite()
@@ -76,7 +79,7 @@ public class VelocimacroTestCase extends TestCase
         VelocityContext context = new VelocityContext();
 
         StringWriter writer = new StringWriter();
-        Velocity.evaluate(context, writer, "vm_chain1", template1);
+        engine.evaluate(context, writer, "vm_chain1", template1);
 
         String out = writer.toString();
 
@@ -97,7 +100,7 @@ public class VelocimacroTestCase extends TestCase
 
         try
         {
-            Velocity.evaluate(context, writer, "vm_chain2", template2);
+            engine.evaluate(context, writer, "vm_chain2", template2);
             fail("Did not exceed max macro call depth as expected");
         }
         catch (MacroOverflowException e)
@@ -109,7 +112,7 @@ public class VelocimacroTestCase extends TestCase
 
         try
         {
-            Velocity.evaluate(context, writer, "vm_chain3", template3);
+            engine.evaluate(context, writer, "vm_chain3", template3);
             fail("Did not exceed max macro call depth as expected");
         }
         catch (MacroOverflowException e)
@@ -121,7 +124,7 @@ public class VelocimacroTestCase extends TestCase
 
         try
         {
-            Velocity.evaluate(context, writer, "vm_chain4", template4);
+            engine.evaluate(context, writer, "vm_chain4", template4);
             fail("Did not exceed max macro call depth as expected");
         }
         catch (MacroOverflowException e)

@@ -19,16 +19,16 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
+import java.io.StringWriter;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-
-import java.io.*;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * Make sure that a forward referenced macro inside another macro definition does
@@ -62,6 +62,8 @@ public class MacroForwardDefineTestCase
      */
     private TestLogChute logger = new TestLogChute();
 
+    VelocityEngine engine;
+    
     /**
      * Default constructor.
      */
@@ -75,16 +77,18 @@ public class MacroForwardDefineTestCase
     {
         assureResultsDirectoryExists(RESULTS_DIR);
 
+        engine = new VelocityEngine();
+        
         // use Velocity.setProperty (instead of properties file) so that we can use actual instance of log
-        Velocity.setProperty(RuntimeConstants.RESOURCE_LOADER,"file");
-        Velocity.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH );
-        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,"true");
+        engine.setProperty(RuntimeConstants.RESOURCE_LOADER,"file");
+        engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH );
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,"true");
 
         // actual instance of logger
         logger = new TestLogChute(true, false);
-        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM,logger);
-        Velocity.setProperty(TestLogChute.TEST_LOGGER_LEVEL, "debug");
-        Velocity.init();
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM,logger);
+        engine.setProperty(TestLogChute.TEST_LOGGER_LEVEL, "debug");
+        engine.init();
     }
 
     public static Test suite()
@@ -96,7 +100,7 @@ public class MacroForwardDefineTestCase
         throws Exception
     {
         VelocityContext context = new VelocityContext();
-        Template template = Velocity.getTemplate("macros.vm");
+        Template template = engine.getTemplate("macros.vm");
 
         // try to get only messages during merge
         logger.startCapture();

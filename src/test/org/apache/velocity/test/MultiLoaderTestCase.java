@@ -29,7 +29,8 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.misc.TestLogChute;
 
 /**
@@ -72,6 +73,8 @@ public class MultiLoaderTestCase extends BaseTestCase
      */
     private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/multiloader/compare";
 
+    VelocityEngine engine;
+    
     /**
      * Default constructor.
      */
@@ -83,52 +86,54 @@ public class MultiLoaderTestCase extends BaseTestCase
     public void setUp()
             throws Exception
     {
+        engine = new VelocityEngine();
+        
         assureResultsDirectoryExists(RESULTS_DIR);
 
         /*
          * Set up the file loader.
          */
 
-        Velocity.setProperty(Velocity.RESOURCE_LOADER, "file");
+        engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
 
-        Velocity.setProperty(
-            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+        engine.setProperty(
+                RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
 
-        Velocity.addProperty(Velocity.RESOURCE_LOADER, "classpath");
+        engine.addProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 
-        Velocity.addProperty(Velocity.RESOURCE_LOADER, "jar");
+        engine.addProperty(RuntimeConstants.RESOURCE_LOADER, "jar");
 
         /*
          *  Set up the classpath loader.
          */
 
-        Velocity.setProperty(
-            "classpath." + Velocity.RESOURCE_LOADER + ".class",
+        engine.setProperty(
+            "classpath." + RuntimeConstants.RESOURCE_LOADER + ".class",
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
-        Velocity.setProperty(
-            "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
+        engine.setProperty(
+            "classpath." + RuntimeConstants.RESOURCE_LOADER + ".cache", "false");
 
-        Velocity.setProperty(
-            "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
+        engine.setProperty(
+            "classpath." + RuntimeConstants.RESOURCE_LOADER + ".modificationCheckInterval",
                 "2");
 
         /*
          *  setup the Jar loader
          */
 
-        Velocity.setProperty(
-                             "jar." + Velocity.RESOURCE_LOADER + ".class",
+        engine.setProperty(
+                             "jar." + RuntimeConstants.RESOURCE_LOADER + ".class",
                              "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
 
-        Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER + ".path",
+        engine.setProperty( "jar." + RuntimeConstants.RESOURCE_LOADER + ".path",
                               "jar:file:" + FILE_RESOURCE_LOADER_PATH + "/test2.jar" );
 
 
-        Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+        engine.setProperty(
+                RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
 
-        Velocity.init();
+        engine.init();
     }
 
     public static Test suite ()
@@ -150,18 +155,18 @@ public class MultiLoaderTestCase extends BaseTestCase
         /*
          * Template to find with the file loader.
          */
-        Template template1 = Velocity.getTemplate(
+        Template template1 = engine.getTemplate(
             getFileName(null, "path1", TMPL_FILE_EXT));
 
         /*
          * Template to find with the classpath loader.
          */
-        Template template2 = Velocity.getTemplate("template/test1." + TMPL_FILE_EXT);
+        Template template2 = engine.getTemplate("template/test1." + TMPL_FILE_EXT);
 
         /*
          * Template to find with the jar loader
          */
-        Template template3 = Velocity.getTemplate("template/test2." + TMPL_FILE_EXT);
+        Template template3 = engine.getTemplate("template/test2." + TMPL_FILE_EXT);
 
         /*
          * and the results files
