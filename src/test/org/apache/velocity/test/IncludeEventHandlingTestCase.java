@@ -122,50 +122,23 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
     /**
      * Runs the test.
      */
-    public void testIncludeEventHandling ()
+    public void testIncludeEventHandlingPassThrough ()
             throws Exception
     {
         Template template1 = engine.getTemplate(
             getFileName(null, "test1", TMPL_FILE_EXT));
 
-        Template template2 = engine.getTemplate(
-            getFileName(null, "subdir/test2", TMPL_FILE_EXT));
-
-        Template template3 = engine.getTemplate(
-            getFileName(null, "test3", TMPL_FILE_EXT));
-
         FileOutputStream fos1 =
             new FileOutputStream (
                 getFileName(RESULTS_DIR, "test1", RESULT_FILE_EXT));
 
-        FileOutputStream fos2 =
-            new FileOutputStream (
-                getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
-
-        FileOutputStream fos3 =
-            new FileOutputStream (
-                getFileName(RESULTS_DIR, "test3", RESULT_FILE_EXT));
-
         Writer writer1 = new BufferedWriter(new OutputStreamWriter(fos1));
-        Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
-        Writer writer3 = new BufferedWriter(new OutputStreamWriter(fos3));
 
-        /*
-         *  lets make a Context and add the event cartridge
-         */
-
+        // set up handler
         Context context = new VelocityContext();
-
-        /*
-         *  Now make an event cartridge, register the
-         *  input event handler and attach it to the
-         *  Context
-         */
-
         EventCartridge ec = new EventCartridge();
         ec.addEventHandler(this);
         ec.attachToContext( context );
-
 
         // BEHAVIOR A: pass through #input and #parse with no change
         EventHandlerBehavior = PASS_THROUGH;
@@ -174,12 +147,62 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
         writer1.flush();
         writer1.close();
 
+        assertTrue("Output incorrect.", isMatch(RESULTS_DIR, COMPARE_DIR, "test1",
+                RESULT_FILE_EXT, CMP_FILE_EXT));
+    }
+
+    /**
+     * Runs the test.
+     */
+    public void testIncludeEventHandlingRelative()
+            throws Exception
+    {
+        Template template2 = engine.getTemplate(
+            getFileName(null, "subdir/test2", TMPL_FILE_EXT));
+
+        FileOutputStream fos2 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "test2", RESULT_FILE_EXT));
+
+        Writer writer2 = new BufferedWriter(new OutputStreamWriter(fos2));
+
+        // set up handler
+        Context context = new VelocityContext();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(this);
+        ec.attachToContext( context );
+
         // BEHAVIOR B: pass through #input and #parse with using a relative path
         EventHandlerBehavior = RELATIVE_PATH;
 
         template2.merge(context, writer2);
         writer2.flush();
         writer2.close();
+
+        assertTrue("Output incorrect.", isMatch(RESULTS_DIR, COMPARE_DIR, "test2",
+                RESULT_FILE_EXT, CMP_FILE_EXT));
+    }
+
+    /**
+     * Runs the test.
+     */
+    public void testIncludeEventHandlingBlock()
+            throws Exception
+    {
+        Template template3 = engine.getTemplate(
+            getFileName(null, "test3", TMPL_FILE_EXT));
+
+        FileOutputStream fos3 =
+            new FileOutputStream (
+                getFileName(RESULTS_DIR, "test3", RESULT_FILE_EXT));
+
+        Writer writer3 = new BufferedWriter(new OutputStreamWriter(fos3));
+
+        // set up handler
+        Context context = new VelocityContext();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(this);
+        ec.attachToContext( context );
 
         // BEHAVIOR C: refuse to pass through #input and #parse
         EventHandlerBehavior = BLOCK;
@@ -188,22 +211,14 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
         writer3.flush();
         writer3.close();
 
-        if (!isMatch(RESULTS_DIR, COMPARE_DIR, "test1",
-                RESULT_FILE_EXT, CMP_FILE_EXT) ||
-            !isMatch(RESULTS_DIR, COMPARE_DIR, "test2",
-                RESULT_FILE_EXT, CMP_FILE_EXT) ||
-            !isMatch(RESULTS_DIR, COMPARE_DIR, "test3",
-                RESULT_FILE_EXT, CMP_FILE_EXT)
-                )
-        {
-            fail("Output incorrect.");
-        }
+        assertTrue("Output incorrect.", isMatch(RESULTS_DIR, COMPARE_DIR, "test3",
+                RESULT_FILE_EXT, CMP_FILE_EXT));
     }
 
 
     public void setRuntimeServices( RuntimeServices rs )
-     {
-     }
+    {
+    }
 
     /**
      * Sample handler with different behaviors for the different tests.
