@@ -229,7 +229,7 @@ public abstract class ResourceLoader
             {
                 log.debug("Could not load resource '" + resourceName 
                         + "' from ResourceLoader " + this.getClass().getName() 
-                        + ": ", e);
+                        + ": " + e.getMessage());
             }
         }
         finally
