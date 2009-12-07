@@ -25,6 +25,13 @@
   </properties>
 
   <body>
+    <release version="1.6.3" date="2009-12-16">
+        <action type="fix" dev="nbubna" issue="VELOCITY-731" due-to="Jorgen Rydenius">
+            Add directive.if.tostring.nullcheck config switch to match
+            past performance for those who do not need to check whether
+            $foo.toString() returns null when doing #if( $foo ).
+        </action>
+    </release>
 
     <release version="1.6.2" date="2009-03-01">
 
