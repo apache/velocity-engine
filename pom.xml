@@ -33,7 +33,7 @@
 
   <groupId>org.apache.velocity</groupId>
   <artifactId>velocity</artifactId>
-  <version>1.6.3</version>
+  <version>1.6.4</version>
 
   <name>Apache Velocity</name>
   <url>http://velocity.apache.org/engine/releases/velocity-1.6.2/</url>
@@ -73,7 +73,7 @@
   <distributionManagement>
     <site>
       <id>velocity.apache.org</id>
-      <url>scpexe://people.apache.org/www/velocity.apache.org/engine/releases/velocity-1.6.3/</url>
+      <url>scpexe://people.apache.org/www/velocity.apache.org/engine/releases/velocity-1.6.4/</url>
     </site>
     <repository>
       <id>apache.releases</id>
