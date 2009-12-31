@@ -491,4 +491,24 @@ public class Velocity implements RuntimeConstants
     {
         return resourceExists(resourceName);
     }
+    
+    /**
+     * Remove a directive.
+     * 
+     * @param name name of the directive.
+     */
+    public void removeDirective(String name)
+    {
+        RuntimeSingleton.removeDirective(name);
+    }
+
+    /**
+     * Instantiates and loads the directive with some basic checks.
+     *
+     * @param directiveClass classname of directive to load
+     */
+    public void loadDirective(String directiveClass)
+    {
+        RuntimeSingleton.loadDirective(directiveClass);
+    }
 }

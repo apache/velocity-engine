@@ -155,10 +155,16 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * This is a hashtable of initialized directives.
      * The directives that populate this hashtable are
      * taken from the RUNTIME_DEFAULT_DIRECTIVES
-     * property file. This hashtable is passed
-     * to each parser that is created.
+     * property file. 
      */
-    private Hashtable runtimeDirectives;
+    private Map runtimeDirectives = new Hashtable();
+    /**
+     * Copy of the actual runtimeDirectives that is shared between
+     * parsers. Whenever directives are updated, the synchronized 
+     * runtimeDirectives is first updated and then an unsynchronized
+     * copy of it is passed to parsers.
+     */
+    private Map runtimeDirectivesShared;
 
     /**
      * Object that houses the configuration options for
@@ -882,12 +888,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void initializeDirectives()
     {
-        /*
-         * Initialize the runtime directive table.
-         * This will be used for creating parsers.
-         */
-        runtimeDirectives = new Hashtable();
-
         Properties directiveProperties = new Properties();
 
         /*
@@ -973,9 +973,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Programatically add a directive.
      * @param directive
      */
-    public void addDirective(Directive directive) 
+    public synchronized void addDirective(Directive directive) 
     {
         runtimeDirectives.put(directive.getName(), directive);
+        updateSharedDirectivesMap();
     }
 
     /**
@@ -985,16 +986,31 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public Directive getDirective(String name) 
     {
-        return (Directive) runtimeDirectives.get(name);
+        return (Directive) runtimeDirectivesShared.get(name);
     }
 
     /**
      * Remove a directive.
      * @param name name of the directive.
      */
-    public void removeDirective(String name) 
+    public synchronized void removeDirective(String name) 
     {
         runtimeDirectives.remove(name);
+        updateSharedDirectivesMap();
+    }
+    
+    /**
+     * Makes an unsynchronized copy of the directives map
+     * that is used for Directive lookups by all parsers.
+     * 
+     * This follows Copy-on-Write pattern. The cost of creating
+     * a new map is acceptable since directives are typically
+     * set and modified only during Velocity setup phase.
+     */
+    private void updateSharedDirectivesMap()
+    {
+        Map tmp = new HashMap(runtimeDirectives);
+        runtimeDirectivesShared = tmp;
     }
 
     /**
@@ -1002,7 +1018,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      *  @param directiveClass classname of directive to load
      */
-    private void loadDirective(String directiveClass)
+    public void loadDirective(String directiveClass)
     {
         try
         {
@@ -1114,7 +1130,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         requireInitialization();
 
         Parser parser = new Parser(this);
-        parser.setDirectives(runtimeDirectives);
         return parser;
     }
 
