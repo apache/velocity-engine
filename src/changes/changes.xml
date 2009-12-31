@@ -26,6 +26,14 @@
 
   <body>
     <release version="1.7" date="In Subversion">
+      <action type="add" dev="nbubna" issue="VELOCITY-744">
+    Log Velocimacro additions at debug level, as in pre-1.6 versions.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-742" due-to="Jarkko Viinamäki">
+    Add removeDirective(name) and loadDirective(classname) methods to allow runtime changes to the directive set.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-727" due-to="Jarkko Viinamäki">
     Throw an informative VelocityException when #define is given no parameter (instead of an ArrayIndexOutOfBoundsException).
       </action>

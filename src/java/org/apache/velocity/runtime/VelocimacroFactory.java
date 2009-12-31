@@ -462,7 +462,11 @@ public class VelocimacroFactory
         {
             vmManager.addVM(name, macroBody, argArray, sourceTemplate, replaceAllowed);
         }
-        return(true);
+        if (log.isDebugEnabled())
+        {
+            log.debug("added VM "+name+": source="+sourceTemplate);
+        }
+        return true;
     }
     
     
