@@ -129,10 +129,10 @@ public class Parse extends InputBase
         /*
          *  did we get an argument?
          */
-        if ( node.jjtGetChild(0) == null)
+        if ( node.jjtGetNumChildren() == 0 )
         {
-            rsvc.getLog().error("#parse() null argument");
-            return false;
+            throw new VelocityException("parameter missing: template name at "
+                 + Log.formatFileString(this));
         }
 
         /*

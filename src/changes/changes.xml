@@ -26,6 +26,15 @@
 
   <body>
     <release version="1.7" date="In Subversion">
+      <action type="fix" dev="nbubna" issue="VELOCITY-728" due-to="Jarkko Viinamäki">
+    Throw an informative VelocityException when #parse is given no args (instead of an NPE).
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-731" due-to="Jorgen Rydenius">
+    Add directive.if.tostring.nullcheck config switch to allow
+    improved performance for those who do not need to check whether
+    $foo.toString() returns null when doing #if( $foo ).
+      </action>
 
       <action type="add" dev="nbubna" issue="VELOCITY-704">
     Changed #stop to a directive implementation (get it out of the parser)
