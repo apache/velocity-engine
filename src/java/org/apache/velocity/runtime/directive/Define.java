@@ -22,6 +22,8 @@ package org.apache.velocity.runtime.directive;
 import java.io.Writer;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -53,6 +55,13 @@ public class Define extends Block
     {
         super.init(rs, context, node);
 
+        // the first child is the block name (key), the second child is the block AST body
+        if ( node.jjtGetNumChildren() != 2 )
+        {
+            throw new VelocityException("parameter missing: block name at "
+                 + Log.formatFileString(this));
+        }
+        
         /*
          * first token is the name of the block. We don't even check the format,
          * just assume it looks like this: $block_name. Should we check if it has

@@ -26,6 +26,10 @@
 
   <body>
     <release version="1.7" date="In Subversion">
+      <action type="fix" dev="nbubna" issue="VELOCITY-727" due-to="Jarkko Viinamäki">
+    Throw an informative VelocityException when #define is given no parameter (instead of an ArrayIndexOutOfBoundsException).
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-728" due-to="Jarkko Viinamäki">
     Throw an informative VelocityException when #parse is given no args (instead of an NPE).
       </action>
