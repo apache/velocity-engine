@@ -26,6 +26,11 @@
 
   <body>
     <release version="2.0" date="In Subversion">
+      <action type="add" dev="nbubna" issue="VELOCITY-731">
+    Remove directive.if.tostring.nullcheck crutch with intent
+    to replace testing of toString() null status with support for
+    toBoolean() (or similar) method on objects being "#if'd".
+      </action>
 
       <action type="add" dev="nbubna">
     Remove directive.set.null.allowed and instead always allow null to be
@@ -64,6 +69,21 @@
     </release>
 
     <release version="1.7" date="In Subversion">
+      <action type="add" dev="nbubna" issue="VELOCITY-744">
+    Log Velocimacro additions at debug level, as in pre-1.6 versions.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-742" due-to="Jarkko Viinamäki">
+    Add removeDirective(name) and loadDirective(classname) methods to allow runtime changes to the directive set.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-727" due-to="Jarkko Viinamäki">
+    Throw an informative VelocityException when #define is given no parameter (instead of an ArrayIndexOutOfBoundsException).
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-728" due-to="Jarkko Viinamäki">
+    Throw an informative VelocityException when #parse is given no args (instead of an NPE).
+      </action>
 
       <action type="add" dev="nbubna" issue="VELOCITY-704">
     Changed #stop to a directive implementation (get it out of the parser)
