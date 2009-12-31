@@ -167,7 +167,7 @@ public class ASTReference extends SimpleNode
          */
         logOnNull =
             rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
-         
+
         /**
          * In the case we are referencing a variable with #if($foo) or
          * #if( ! $foo) then we allow variables to be undefined and we 

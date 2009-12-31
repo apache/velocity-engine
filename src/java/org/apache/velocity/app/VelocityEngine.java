@@ -395,4 +395,22 @@ public class VelocityEngine implements RuntimeConstants
         return ri.getApplicationAttribute(key);
      }
 
+     /**
+      * Remove a directive.
+      * @param name name of the directive.
+      */
+     public void removeDirective(String name)
+     {
+        ri.removeDirective(name);
+     }
+
+     /**
+      * Instantiates and loads the directive with some basic checks.
+      *
+      * @param directiveClass classname of directive to load
+      */
+     public void loadDirective(String directiveClass)
+     {
+        ri.loadDirective(directiveClass);
+     }
 }

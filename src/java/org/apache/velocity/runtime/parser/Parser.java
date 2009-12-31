@@ -29,11 +29,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 */
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();/**
-     * This Map contains a list of all of the dynamic directives.
-     */
-    private Map directives = new HashMap();
-
-    /**
      * Keep track of defined macros, used for escape processing
      */
     private Map macroNames = new HashMap();
@@ -153,28 +148,19 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     }
 
     /**
-     *  This method sets the directives Hashtable
-     */
-    public void setDirectives(Hashtable directives)
-    {
-        this.directives = new HashMap(directives);
-    }
-
-    /**
      *  This method gets a Directive from the directives Hashtable
      */
     public Directive getDirective(String directive)
     {
-        return (Directive) directives.get(directive);
+        return (Directive) rsvc.getDirective(directive);
     }
 
     /**
-     *  This method finds out of the directive exists in the directives
-     *  Hashtable.
+     *  This method finds out of the directive exists in the directives Map.
      */
     public boolean isDirective(String directive)
     {
-        return directives.containsKey(directive);
+        return rsvc.getDirective(directive) != null;
     }
 
 
@@ -797,7 +783,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
             directiveName = t.image.substring(1);
         }
 
-        d = (Directive) directives.get(directiveName);
+        d = getDirective(directiveName);
 
         /*
          *  Velocimacro support : if the directive is macro directive
@@ -2840,6 +2826,46 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     finally { jj_save(12, xla); }
   }
 
+  private boolean jj_3R_62() {
+    if (jj_3R_70()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_61() {
+    if (jj_3R_24()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_60() {
+    if (jj_3R_74()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_59() {
+    if (jj_3R_73()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_58() {
+    if (jj_3R_72()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_57() {
+    if (jj_3R_71()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_56() {
+    if (jj_3R_69()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_55() {
+    if (jj_3R_42()) return true;
+    return false;
+  }
+
   private boolean jj_3R_54() {
     if (jj_3R_68()) return true;
     return false;
@@ -3551,46 +3577,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     xsp = jj_scanpos;
     if (jj_3R_64()) jj_scanpos = xsp;
     if (jj_scan_token(REFMOD2_RPAREN)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_62() {
-    if (jj_3R_70()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_61() {
-    if (jj_3R_24()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_60() {
-    if (jj_3R_74()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_59() {
-    if (jj_3R_73()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_58() {
-    if (jj_3R_72()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_57() {
-    if (jj_3R_71()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_56() {
-    if (jj_3R_69()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_55() {
-    if (jj_3R_42()) return true;
     return false;
   }
 

@@ -579,4 +579,24 @@ public class RuntimeSingleton implements RuntimeConstants
         return ri.getUberspect();
     }
 
+    
+    /**
+     * Remove a directive.
+     * 
+     * @param name name of the directive.
+     */
+    public static void removeDirective(String name)
+    {
+        ri.removeDirective(name);
+    }
+
+    /**
+     * Instantiates and loads the directive with some basic checks.
+     *
+     * @param directiveClass classname of directive to load
+     */
+    public static void loadDirective(String directiveClass)
+    {
+        ri.loadDirective(directiveClass);
+    }
 }

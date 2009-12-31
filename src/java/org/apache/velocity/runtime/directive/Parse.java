@@ -137,6 +137,15 @@ public class Parse extends InputBase
                MethodInvocationException
     {
         /*
+         *  did we get an argument?
+         */
+        if ( node.jjtGetNumChildren() == 0 )
+        {
+            throw new VelocityException("parameter missing: template name at "
+                 + Log.formatFileString(this));
+        }
+
+        /*
          *  does it have a value?  If you have a null reference, then no.
          */
         Object value =  node.jjtGetChild(0).value( context );
