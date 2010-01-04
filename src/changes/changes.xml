@@ -25,6 +25,21 @@
   </properties>
 
   <body>
+    <release version="1.6.4" date="In Subversion">
+        <action type="fix" dev="nbubna" issue="VELOCITY-750">
+            Fix double-checked locking in RuntimeInstance's optional lazy-init
+            for Java 1.5+.  Users of older JREs in multi-threaded environments
+            MUST manually call init() on any thread-shared Velocity singleton or
+            VelocityEngine instances to avoid race conditions. New auto-init
+            feature is only supported on Java 1.5+.
+        </action>
+        <action type="fix" dev="nbubna" issue="VELOCITY-718">
+            Fix 100% CPU loop hang under simultaneous HashMap calls in ClassMap
+            due to classic bug in Sun's implementation.  Now uses
+            ConcurrentHashMap when available and Hashtable otherwise.
+        </action>
+    </release>
+
     <release version="1.6.3" date="2009-12-16">
         <action type="fix" dev="nbubna" issue="VELOCITY-731" due-to="Jorgen Rydenius">
             Add directive.if.tostring.nullcheck config switch to match
