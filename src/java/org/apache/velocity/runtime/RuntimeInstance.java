@@ -141,7 +141,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Indicate whether the Runtime has been fully initialized.
      */
-    private boolean initialized = false;
+    private volatile boolean initialized = false;
 
     /**
      * These are the properties that are laid down over top
