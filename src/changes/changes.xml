@@ -230,11 +230,7 @@
 
     <release version="1.6.4" date="In Subversion">
         <action type="fix" dev="nbubna" issue="VELOCITY-750">
-            Fix double-checked locking in RuntimeInstance's optional lazy-init
-            for Java 1.5+.  Users of older JREs in multi-threaded environments
-            MUST manually call init() on any thread-shared Velocity singleton or
-            VelocityEngine instances to avoid race conditions. New auto-init
-            feature is only supported on Java 1.5+.
+            Fix double-checked locking in RuntimeInstance's optional lazy-init.
         </action>
         <action type="fix" dev="nbubna" issue="VELOCITY-718">
             Fix 100% CPU loop hang under simultaneous HashMap calls in ClassMap
