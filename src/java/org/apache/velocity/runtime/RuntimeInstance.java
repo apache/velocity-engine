@@ -282,7 +282,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void requireInitialization()
     {
-        if (!initialized && !initializing)
+        if (!initialized)
         {
             log.debug("Velocity was not initialized! Calling init()...");
             try
