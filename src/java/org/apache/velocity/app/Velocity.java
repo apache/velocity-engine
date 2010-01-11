@@ -91,8 +91,6 @@ public class Velocity implements RuntimeConstants
      *  plus the properties in the passed in java.util.Properties object
      *
      *  @param p  Properties object containing initialization properties
-     * @throws Exception When an error during initialization occurs.
-     *
      */
     public static void init( Properties p )
     {
@@ -297,7 +295,6 @@ public class Velocity implements RuntimeConstants
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws Exception Any other exception.
      */
     public static boolean mergeTemplate( String templateName,
                                          Context context, Writer writer )
@@ -321,7 +318,6 @@ public class Velocity implements RuntimeConstants
      * @throws ParseErrorException The template could not be parsed.
      * @throws MethodInvocationException A method on a context object could not be invoked.
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
-     * @throws Exception Any other exception.
      *
      * @since Velocity v1.1
      */
@@ -355,7 +351,6 @@ public class Velocity implements RuntimeConstants
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
      */
     public static Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException
@@ -374,7 +369,6 @@ public class Velocity implements RuntimeConstants
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
      *
      *  @since Velocity v1.1
      */
