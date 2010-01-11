@@ -22,7 +22,6 @@ package org.apache.velocity.runtime.resource.loader;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.ClassUtils;
-import org.apache.velocity.util.StringUtils;
 
 /**
  * Factory to grab a template loader.

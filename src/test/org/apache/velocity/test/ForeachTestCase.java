@@ -19,17 +19,11 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.test.provider.ForeachMethodCallHelper;
 
 /**

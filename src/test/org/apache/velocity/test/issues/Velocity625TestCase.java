@@ -20,8 +20,6 @@ package org.apache.velocity.test.issues;
  */
 
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class tests VELOCITY-625.

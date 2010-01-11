@@ -21,9 +21,6 @@ package org.apache.velocity.util.introspection;
 
 import java.util.Iterator;
 
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.util.RuntimeServicesAware;
-
 /**
  * <p>
  * When the runtime.introspection.uberspect configuration property contains several

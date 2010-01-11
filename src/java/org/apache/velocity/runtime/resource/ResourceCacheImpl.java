@@ -20,10 +20,8 @@ package org.apache.velocity.runtime.resource;
  */
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.velocity.runtime.RuntimeConstants;

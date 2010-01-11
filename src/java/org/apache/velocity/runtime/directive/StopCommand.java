@@ -35,6 +35,7 @@ import org.apache.velocity.runtime.RuntimeInstance;
  */
 public class StopCommand extends Error
 {
+    private static final long serialVersionUID = 2577683435802825964L;
     private Object stopMe;
     private boolean nearest = false;
 

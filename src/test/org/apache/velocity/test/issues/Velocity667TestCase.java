@@ -20,7 +20,6 @@ package org.apache.velocity.test.issues;
  */
 
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class tests VELOCITY-667.  Make "#macro" throws a parse exception

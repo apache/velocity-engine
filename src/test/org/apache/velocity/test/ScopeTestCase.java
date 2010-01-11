@@ -20,10 +20,9 @@ package org.apache.velocity.test;
  */
 
 import java.util.HashMap;
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.directive.Scope;
+
 
 /**
  * This class tests the directive scope controls

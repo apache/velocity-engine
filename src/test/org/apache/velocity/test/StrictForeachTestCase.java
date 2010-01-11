@@ -21,7 +21,7 @@ package org.apache.velocity.test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import org.apache.velocity.VelocityContext;
+
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 

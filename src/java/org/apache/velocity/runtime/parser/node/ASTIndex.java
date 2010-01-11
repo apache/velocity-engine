@@ -7,10 +7,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.node.ASTMethod.MethodCacheKey;
 import org.apache.velocity.util.ClassUtils;
-import org.apache.velocity.util.introspection.Info;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.VelMethod;
 
 /*

@@ -17,8 +17,6 @@ package org.apache.velocity.test;
  * specific language governing permissions and limitations
  * under the License.    
  */
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 

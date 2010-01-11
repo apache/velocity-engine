@@ -19,7 +19,6 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.util.Arrays;
 import org.apache.velocity.VelocityContext;
 
 /**

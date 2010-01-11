@@ -19,10 +19,7 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import java.lang.reflect.Modifier;
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * This class tests VELOCITY-701.

@@ -19,14 +19,13 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.Writer;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
-import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;

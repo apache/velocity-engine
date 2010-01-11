@@ -20,7 +20,6 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Enumeration;
