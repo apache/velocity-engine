@@ -248,7 +248,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *   <li>Static Content Include System</li>
      *   <li>Velocimacro System</li>
      * </ul>
-     * @throws Exception When an error occured during initialization.
      */
     public synchronized void init()
     {
@@ -641,8 +640,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Initialize the Velocity Runtime with a Properties
      * object.
      *
-     * @param p
-     * @throws Exception When an error occurs during initialization.
+     * @param p Velocity properties for initialization
      */
     public void init(Properties p)
     {
