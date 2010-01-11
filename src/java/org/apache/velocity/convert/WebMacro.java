@@ -28,16 +28,12 @@ import org.apache.velocity.util.StringUtils;
 import org.apache.tools.ant.DirectoryScanner;
 
 /**
- * This class will convert a WebMacro template to
- * a Velocity template. Uses the ORO Regexp package to do the
- * rewrites. Note, it isn't 100% perfect, but will definitely get
- * you about 99.99% of the way to a converted system. Please
- * see the website documentation for more information on how to use
- * this class.
+ * This is deprecated without replacement.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @version $Id$
+ * @deprecated Obsolete and outdated.
  */
 public class WebMacro
 {
