@@ -311,8 +311,6 @@ public class RuntimeSingleton implements RuntimeConstants
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if an error occurs in template initialization
-     * @throws ParseErrorException When the template could not be parsed.
      * @see RuntimeInstance#getTemplate(String, String)
      */
     public static Template getTemplate(String name, String  encoding)

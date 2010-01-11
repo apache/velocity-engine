@@ -70,9 +70,8 @@ public interface RuntimeServices
      *   <li>Static Content Include System</li>
      *   <li>Velocimacro System</li>
      * </ul>
-     * @throws Exception
      */
-    public void init() throws Exception;
+    public void init();
 
     /**
      * Allows an external system to set a property in
@@ -139,18 +138,16 @@ public interface RuntimeServices
      * object.
      *
      * @param p
-     * @throws Exception
      */
-    public void init(Properties p) throws Exception;
+    public void init(Properties p);
 
     /**
      * Initialize the Velocity Runtime with the name of
      * ExtendedProperties object.
      *
      * @param configurationFile
-     * @throws Exception
      */
-    public void init(String configurationFile) throws Exception;
+    public void init(String configurationFile);
 
     /**
      * Wraps the String in a StringReader and passes it off to
@@ -295,7 +292,6 @@ public interface RuntimeServices
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
      * @throws ParseErrorException
-     * @throws Exception
      */
     public ContentResource getContent(String name)
         throws ResourceNotFoundException, ParseErrorException;
@@ -310,7 +306,6 @@ public interface RuntimeServices
      * @throws ResourceNotFoundException if template not found
      *          from any available source.
      * @throws ParseErrorException
-     * @throws Exception
      */
     public ContentResource getContent( String name, String encoding )
         throws ResourceNotFoundException, ParseErrorException;
