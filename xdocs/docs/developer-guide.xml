@@ -213,7 +213,8 @@ default build target, you must add the dependencies to your classpath.
   <a href="http://jakarta.apache.org/oro/index.html"><b>Jakarta ORO</b></a>
    - optional.  Needed when using the
    <code>org.apache.velocity.convert.WebMacro</code> template conversion
-   utility.
+   utility or <code>org.apache.velocity.app.event.implement.EscapeReference</code>
+   ReferenceInsertionEventHandler.
  </li>
 </ul>
 
