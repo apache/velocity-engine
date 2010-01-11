@@ -20,12 +20,10 @@ package org.apache.velocity;
  */
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.velocity.context.AbstractContext;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  *  General purpose implemention of the application Context

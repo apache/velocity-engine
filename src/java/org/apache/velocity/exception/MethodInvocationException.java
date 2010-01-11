@@ -1,6 +1,5 @@
 package org.apache.velocity.exception;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.runtime.log.Log;
 
 /*

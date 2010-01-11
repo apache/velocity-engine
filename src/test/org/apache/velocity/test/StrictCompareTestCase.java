@@ -19,9 +19,7 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**

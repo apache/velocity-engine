@@ -28,6 +28,8 @@ package org.apache.velocity.exception;
  */
 public class MathException extends VelocityException
 {
+    private static final long serialVersionUID = -7966507088645215583L;
+
     public MathException(final String exceptionMessage)
     {
         super(exceptionMessage);
