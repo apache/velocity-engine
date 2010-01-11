@@ -64,7 +64,6 @@ public interface ResourceManager
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws Exception if a problem in parse
      */
     public Resource getResource(String resourceName, int resourceType, String encoding )
         throws ResourceNotFoundException, ParseErrorException;
