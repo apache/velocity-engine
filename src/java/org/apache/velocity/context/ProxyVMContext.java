@@ -22,10 +22,8 @@ package org.apache.velocity.context;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.Renderable;
@@ -33,9 +31,6 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ASTBlock;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**
  * Context for Velocity macro arguments.

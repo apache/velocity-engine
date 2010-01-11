@@ -228,7 +228,7 @@ public class StrictReferenceTestCase extends BaseTestCase
 
         public void setProp(String val)
         {
-            this.prop = prop;
+            this.prop = val;
         }
 
         public String getNullVal()

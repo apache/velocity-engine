@@ -24,7 +24,6 @@ import java.io.InputStream;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.parser.node.ASTMethod.MethodCacheKey;
 import org.apache.velocity.util.introspection.Info;

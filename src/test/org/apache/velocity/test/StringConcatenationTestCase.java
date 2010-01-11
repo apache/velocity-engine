@@ -19,9 +19,6 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.exception.MathException;
-import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class tests support for string concatenation.

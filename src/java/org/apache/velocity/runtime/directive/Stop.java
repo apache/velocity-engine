@@ -20,9 +20,9 @@ package org.apache.velocity.runtime.directive;
  */
 
 import java.io.Writer;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;

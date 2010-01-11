@@ -19,8 +19,7 @@ package org.apache.velocity.test;
  * under the License.    
  */
  
-import org.apache.velocity.runtime.RuntimeConstants; 
-import org.apache.velocity.runtime.parser.node.ASTTextblock; 
+import org.apache.velocity.runtime.parser.node.ASTTextblock;
 
 /**
  * This class tests the Textblock directive.

@@ -19,16 +19,10 @@ package org.apache.velocity.context;
  * under the License.    
  */
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
 
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 /**

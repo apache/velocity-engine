@@ -33,7 +33,6 @@ import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.Info;
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.VelMethod;
 
 /**
