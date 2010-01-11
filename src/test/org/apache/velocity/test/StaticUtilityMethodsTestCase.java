@@ -19,7 +19,6 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import org.apache.velocity.VelocityContext;
 
 /**
  * This class tests support for putting static utility classes

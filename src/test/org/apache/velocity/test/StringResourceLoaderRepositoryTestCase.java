@@ -20,9 +20,9 @@ package org.apache.velocity.test;
  */
 
 import java.io.StringWriter;
-import junit.framework.Test;
-import junit.framework.TestSuite;
+
 import junit.framework.TestCase;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
