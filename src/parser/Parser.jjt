@@ -1761,7 +1761,7 @@ void False() : {}
 <DEFAULT,REFERENCE>
 TOKEN :
 {
-  <EMPTY_INDEX : ("$[" | "$![" | "$\\![")>
+  <EMPTY_INDEX : ("$[" | "$![" | "$\\![" | "$.")>
 }
 
 

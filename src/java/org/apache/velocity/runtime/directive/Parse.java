@@ -141,38 +141,38 @@ public class Parse extends InputBase
          */
         if ( node.jjtGetNumChildren() == 0 )
         {
-            throw new VelocityException("parameter missing: template name at "
-                 + Log.formatFileString(this));
+            throw new VelocityException("#parse(): argument missing at " +
+                                        Log.formatFileString(this));
         }
 
         /*
          *  does it have a value?  If you have a null reference, then no.
          */
         Object value =  node.jjtGetChild(0).value( context );
-
-        if ( value == null)
+        if (value == null && rsvc.getLog().isDebugEnabled())
         {
-            if (strictRef)
-            {
-                throw new VelocityException("The argument to #parse returned null at "
-                  + Log.formatFileString(this));
-            }
-            
-            rsvc.getLog().error("#parse() null argument");
-            return  false;
+            rsvc.getLog().debug("#parse(): null argument at " +
+                                Log.formatFileString(this));
         }
 
         /*
          *  get the path
          */
-        String sourcearg = value.toString();
+        String sourcearg = value == null ? null : value.toString();
 
         /*
          *  check to see if the argument will be changed by the event cartridge
          */
-
-
         String arg = EventHandlerUtil.includeEvent( rsvc, context, sourcearg, context.getCurrentTemplateName(), getName());
+
+        /*
+         * if strict mode and arg was not fixed by event handler, then complain
+         */
+        if (strictRef && value == null && arg == null)
+        {
+            throw new VelocityException("The argument to #parse returned null at "
+              + Log.formatFileString(this));
+        }
 
         /*
          *   a null return value from the event cartridge indicates we should not
