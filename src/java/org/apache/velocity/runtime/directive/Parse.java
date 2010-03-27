@@ -178,9 +178,11 @@ public class Parse extends InputBase
          *   a null return value from the event cartridge indicates we should not
          *   input a resource.
          */
-        boolean blockinput = false;
         if (arg == null)
-            blockinput = true;
+        {
+            // abort early, but still consider it a successful rendering
+            return true;
+        }
 
 
         if (maxDepth > 0)
@@ -211,8 +213,7 @@ public class Parse extends InputBase
 
         try
         {
-            if (!blockinput)
-                t = rsvc.getTemplate( arg, getInputEncoding(context) );
+            t = rsvc.getTemplate( arg, getInputEncoding(context) );
         }
         catch ( ResourceNotFoundException rnfe )
         {
@@ -272,12 +273,10 @@ public class Parse extends InputBase
          */
         try
         {
-            if (!blockinput) {
-                preRender(context);
-                context.pushCurrentTemplateName(arg);
-                
-                ((SimpleNode) t.getData()).render(context, writer);
-            }
+            preRender(context);
+            context.pushCurrentTemplateName(arg);
+
+            ((SimpleNode) t.getData()).render(context, writer);
         }
         catch( StopCommand stop )
         {
@@ -307,11 +306,8 @@ public class Parse extends InputBase
         }
         finally
         {
-            if (!blockinput)
-            {
-                context.popCurrentTemplateName();
-                postRender(context);
-            }
+            context.popCurrentTemplateName();
+            postRender(context);
         }
 
         /*
