@@ -69,6 +69,26 @@
     </release>
 
     <release version="1.7" date="In Subversion">
+      <action type="add" dev="nbubna" issue="VELOCITY-755">
+    Use LinkedHashMap to maintain order of VTL-created maps.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-555" due-to="Jarkko Viinamäki">
+    Treat \ as non-special in string literals, except when specifying unicode sequences.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-555" due-to="Jarkko Viinamäki">
+    Allow escaping of quotes (single or double) within string literals by doubling them ("" or '').
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-758" due-to="Jarkko Viinamäki">
+    Give #parse better log/exception messages and give IncludeEventHandler a chance to handle null #parse args.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-754,VELOCITY-729" due-to="Jarkko Viinamäki">
+    Fix $.x parsing failures (particularly helpful for jQuery users).
+      </action>
+
       <action type="add" dev="nbubna" issue="VELOCITY-744">
     Log Velocimacro additions at debug level, as in pre-1.6 versions.
       </action>
