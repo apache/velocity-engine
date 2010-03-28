@@ -26,6 +26,10 @@
 
   <body>
     <release version="1.7" date="In Subversion">
+      <action type="add" dev="nbubna" issue="VELOCITY-759" due-to="Rachid">
+    Avoid NPEs in case of bad #foreach config.
+      </action>
+
       <action type="add" dev="nbubna" issue="VELOCITY-755">
     Use LinkedHashMap to maintain order of VTL-created maps.
       </action>

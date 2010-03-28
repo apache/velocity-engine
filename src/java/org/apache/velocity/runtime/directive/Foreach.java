@@ -214,7 +214,7 @@ public class Foreach extends Directive
         {
             warned = true;
             // ...and only if they customize these settings
-            if (!counterName.equals("velocityCount"))
+            if (!"velocityCount".equals(counterName))
             {
                 rsvc.getLog().warn("The "+RuntimeConstants.COUNTER_NAME+
                     " property has been deprecated. It will be removed"+
@@ -222,7 +222,7 @@ public class Foreach extends Directive
                     " Instead, please use $foreach.count to access"+
                     " the loop counter.");
             }
-            if (!hasNextName.equals("velocityHasNext"))
+            if (!"velocityHasNext".equals(hasNextName))
             {
                 rsvc.getLog().warn("The "+RuntimeConstants.HAS_NEXT_NAME+
                     " property has been deprecated. It will be removed"+
