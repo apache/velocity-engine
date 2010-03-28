@@ -106,12 +106,19 @@ public class ASTStringLiteral extends SimpleNode
         /*
          * get the contents of the string, minus the '/" at each end
          */
-
-        image = getFirstToken().image.substring(1, getFirstToken().image
-                .length() - 1);
-        if (getFirstToken().image.startsWith("\""))
+        String img = getFirstToken().image;
+        
+        image = img.substring(1, img.length() - 1);
+        
+        if (img.startsWith("\""))
         {
             image = unescape(image);
+        }
+        if (img.charAt(0) == '"' || img.charAt(0) == '\'' )
+        {
+            // replace double-double quotes like "" with a single double quote "
+            // replace double single quotes '' with a single quote '
+            image = replaceQuotes(image);
         }
 
         /**
@@ -210,7 +217,34 @@ public class ASTStringLiteral extends SimpleNode
             tok = tok.next;
         }
     }
+
+    /**
+     * Replaces double double-quotes with a single double quote ("" to ")
+     * Replaces double single quotes with a single quote ('' to ')
+     */     
+    private String replaceQuotes(String s)
+    {
+        if( s.indexOf("\"") == -1 && s.indexOf("'") == -1 )
+            return s;
     
+        StrBuilder result = new StrBuilder();
+        char prev = ' ';
+        for(int i = 0, is = s.length(); i < is; i++)
+        {
+            char c = s.charAt(i);
+            result.append(c);
+          
+            if( i + 1 < is )
+            {
+                char next =  s.charAt(i + 1);
+                if( (next == '"' && c == '"') || (next == '\'' && c == '\'') )
+                {
+                    i++;
+                }
+           }    
+        }
+        return result.toString();
+    }
     
     /**
      * @since 1.6
