@@ -19,7 +19,7 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -69,7 +69,7 @@ public class ASTMap extends SimpleNode
     {
         int size = jjtGetNumChildren();
 
-        Map objectMap = new HashMap();
+        Map objectMap = new LinkedHashMap();
 
         for (int i = 0; i < size; i += 2)
         {
