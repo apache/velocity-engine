@@ -26,7 +26,11 @@
 
   <body>
     <release version="1.7" date="In Subversion">
-      <action type="add" dev="nbubna" issue="VELOCITY-759" due-to="Rachid">
+      <action type="fix" dev="nbubna" issue="VELOCITY-753">
+    When comparing parameter types during method mapping, make Object always less specific than other types.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-759" due-to="Rachid">
     Avoid NPEs in case of bad #foreach config.
       </action>
 
@@ -34,7 +38,7 @@
     Use LinkedHashMap to maintain order of VTL-created maps.
       </action>
 
-      <action type="add" dev="nbubna" issue="VELOCITY-555" due-to="Jarkko Viinamäki">
+      <action type="fix" dev="nbubna" issue="VELOCITY-555" due-to="Jarkko Viinamäki">
     Treat \ as non-special in string literals, except when specifying unicode sequences.
       </action>
 
@@ -42,11 +46,11 @@
     Allow escaping of quotes (single or double) within string literals by doubling them ("" or '').
       </action>
 
-      <action type="add" dev="nbubna" issue="VELOCITY-758" due-to="Jarkko Viinamäki">
+      <action type="fix" dev="nbubna" issue="VELOCITY-758" due-to="Jarkko Viinamäki">
     Give #parse better log/exception messages and give IncludeEventHandler a chance to handle null #parse args.
       </action>
 
-      <action type="add" dev="nbubna" issue="VELOCITY-754,VELOCITY-729" due-to="Jarkko Viinamäki">
+      <action type="fix" dev="nbubna" issue="VELOCITY-754,VELOCITY-729" due-to="Jarkko Viinamäki">
     Fix $.x parsing failures (particularly helpful for jQuery users).
       </action>
 
