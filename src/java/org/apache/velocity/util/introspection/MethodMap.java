@@ -209,6 +209,7 @@ public class MethodMap
                 
         if (equivalentMatches != null)
         {
+            System.out.println("ambiguous: "+equivalentMatches);
             throw new AmbiguousException();
         }
         return bestMatch;
@@ -260,10 +261,12 @@ public class MethodMap
                 boolean last = (i == c1.length - 1);
                 c1MoreSpecific =
                     c1MoreSpecific ||
-                    isStrictConvertible(c2[i], c1[i], last);
+                    isStrictConvertible(c2[i], c1[i], last) ||
+                    c2[i] == Object.class;//Object is always least-specific
                 c2MoreSpecific =
                     c2MoreSpecific ||
-                    isStrictConvertible(c1[i], c2[i], last);
+                    isStrictConvertible(c1[i], c2[i], last) ||
+                    c1[i] == Object.class;//Object is always least-specific
             }
         }
 
