@@ -28,7 +28,9 @@
 <!-- the ant based build and the maven based build.           -->
 <!-- *** DO NOT CHANGE THIS SETTING LIGHTLY! ***              -->
 
-<project name="Velocity" default="world" basedir=".." xmlns:artifact="urn:maven-artifact-ant">
+<project name="Apache Velocity" default="world" basedir=".."
+  xmlns:artifact="urn:maven-artifact-ant"
+  xmlns:bundlor="antlib:com.springsource.bundlor.ant">
 
   <path id="basedir-os">
     <pathelement location="${basedir}" />
@@ -429,6 +431,7 @@
   <target name="jar-dep" depends="compile-src,build-dependency-classes"
           description="Builds the Velocity Jar file including all dependencies">
     <property name="jarname" value="${project}-${version}-dep" />
+    <property name="bundlename" value="${project}-dep" />
     <antcall target="build-jar" />
   </target>
 
@@ -438,6 +441,7 @@
   <target name="jar" depends="compile-src,clean-dependency-classes"
           description="Builds the Velocity Jar file">
     <property name="jarname" value="${final.name}" />
+    <property name="bundlename" value="${project}" />
     <antcall target="build-jar" />
   </target>
 
@@ -468,10 +472,56 @@
         <attribute name="Implementation-Version" value="${version}"/>
       </manifest>
     </jar>
+    <antcall target="bundlor"/>
+    <antcall target="if-no-osgi"/>
     <checksum file="${build.dir}/${jarname}.jar" algorithm="md5" property="checksum.jar.md5"/>
     <checksum file="${build.dir}/${jarname}.jar" algorithm="sha1" property="checksum.jar.sha1"/>
     <echo message="${checksum.jar.md5} *${jarname}.jar" file="${build.dir}/${jarname}.jar.md5" />
     <echo message="${checksum.jar.sha1} *${jarname}.jar" file="${build.dir}/${jarname}.jar.sha1" />
+  </target>
+
+  <target name="bundlor" if="build.osgi">
+    <echo>
+    This build will be made ready for use with OSGi,
+    so long as you configure the "bundlor.home" property.
+    You can download Bundlor from: http://www.springsource.org/bundlor
+    Or you can disable this part of the build by
+    setting "no.osgi" to true in your properties. (Do not do this for releases!)
+    </echo>
+    <taskdef resource="com/springsource/bundlor/ant/antlib.xml"
+        uri="antlib:com.springsource.bundlor.ant">
+      <classpath id="bundlor.classpath">
+        <fileset dir="${bundlor.home}/dist"/>
+        <fileset dir="${bundlor.home}/lib"/>
+      </classpath>
+    </taskdef>
+    <bundlor:bundlor
+        inputPath="${build.dir}/${jarname}.jar"
+        outputPath="${build.dir}/${jarname}.jar"
+        bundleVersion="${version}">
+      <property name="name" value="${ant.project.name}" />
+      <property name="bundlename" value="${bundlename}" />
+      <manifestTemplate>
+Bundle-ManifestVersion: 2
+Bundle-Name: Apache Velocity
+Bundle-Vendor: Apache Software Foundation
+Bundle-SymbolicName: org.apache.${bundlename}
+Bundle-Version: ${version}
+      </manifestTemplate>
+    </bundlor:bundlor>
+  </target>
+
+  <target name="use-osgi" unless="no.osgi">
+    <property name="build.osgi" value="true"/>
+  </target>
+
+  <target name="if-no-osgi" unless="build.osgi">
+    <echo>
+    This build is not be ready for use with OSGi,
+    unless you add the "build.osgi" property and configure
+    the "bundlor.home" property to point to the Bundlor resources.
+    You can download Bundlor from: http://www.springsource.org/bundlor
+    </echo>
   </target>
 
   <!-- ================================================================== -->
@@ -903,7 +953,7 @@
   <!-- ================================================================== -->
   <target name="release"
     description="Build the packages as release manager, does additional checks over the package target"
-    depends="package-java-check, clean, package, pom, release.howto"/>
+    depends="package-java-check, use-osgi, clean, package, pom, release.howto"/>
 
   <!-- ================================================================== -->
   <!-- Packages the distribution with ZIP and TAR-GZIP                    -->
