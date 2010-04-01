@@ -94,6 +94,12 @@ Upgrading from Velocity 1.5
     * Maven Ant 2.0.9 is required for the Maven Ant tasks.
     * Java CC 4.1 is recommended to compile the parser files.
 
+Upgrading from Velocity 1.6
+
+    Optional:
+
+    * SpringSource Bundlor 1.0 is required for building releases
+
 
 BUILDING APACHE VELOCITY
 ------------------------
