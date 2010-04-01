@@ -25,7 +25,11 @@
   </properties>
 
   <body>
-    <release version="1.7" date="In Subversion">
+    <release version="1.7" date="2010-04-10">
+      <action type="add" dev="nbubna" issue="VELOCITY-694">
+    Add support for OSGi-ready manifests in build/release tasks.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-753">
     When comparing parameter types during method mapping, make Object always less specific than other types.
       </action>
