@@ -432,6 +432,8 @@
           description="Builds the Velocity Jar file including all dependencies">
     <property name="jarname" value="${project}-${version}-dep" />
     <property name="bundlename" value="${project}-dep" />
+    <property name="bundleimport" value="${dep.import}" />
+    <property name="bundleexport" value="${dep.export}" />
     <antcall target="build-jar" />
   </target>
 
@@ -442,6 +444,8 @@
           description="Builds the Velocity Jar file">
     <property name="jarname" value="${final.name}" />
     <property name="bundlename" value="${project}" />
+    <property name="bundleimport" value="${import}" />
+    <property name="bundleexport" value="${export}" />
     <antcall target="build-jar" />
   </target>
 
@@ -470,10 +474,16 @@
         <attribute name="Implementation-Vendor-Id" value="org.apache"/>
         <attribute name="Implementation-Vendor" value="Apache Software Foundation"/>
         <attribute name="Implementation-Version" value="${version}"/>
+        <attribute name="Bundle-ManifestVersion" value="2"/>
+        <attribute name="Bundle-Name" value="${ant.project.name}"/>
+        <attribute name="Bundle-Vendor" value="Apache Software Foundation"/>
+        <attribute name="Bundle-SymbolicName" value="org.apache.${bundlename}"/>
+        <attribute name="Bundle-Version" value="${version}"/>
+        <attribute name="Import-Package" value="${bundleimport}"/>
+        <attribute name="Export-Package" value="${bundleexport}"/>
       </manifest>
     </jar>
     <antcall target="bundlor"/>
-    <antcall target="if-no-osgi"/>
     <checksum file="${build.dir}/${jarname}.jar" algorithm="md5" property="checksum.jar.md5"/>
     <checksum file="${build.dir}/${jarname}.jar" algorithm="sha1" property="checksum.jar.sha1"/>
     <echo message="${checksum.jar.md5} *${jarname}.jar" file="${build.dir}/${jarname}.jar.md5" />
@@ -500,13 +510,8 @@
         outputPath="${build.dir}/${jarname}.jar"
         bundleVersion="${version}">
       <property name="name" value="${ant.project.name}" />
-      <property name="bundlename" value="${bundlename}" />
+      <property name="bundlename" value="org.apache.${bundlename}" />
       <manifestTemplate>
-Bundle-ManifestVersion: 2
-Bundle-Name: Apache Velocity
-Bundle-Vendor: Apache Software Foundation
-Bundle-SymbolicName: org.apache.${bundlename}
-Bundle-Version: ${version}
       </manifestTemplate>
     </bundlor:bundlor>
   </target>
@@ -957,7 +962,7 @@ Bundle-Version: ${version}
   <!-- ================================================================== -->
   <target name="release"
     description="Build the packages as release manager, does additional checks over the package target"
-    depends="package-java-check, use-osgi, clean, package, pom, release.howto"/>
+    depends="package-java-check, clean, package, pom, release.howto"/>
 
   <!-- ================================================================== -->
   <!-- Packages the distribution with ZIP and TAR-GZIP                    -->
