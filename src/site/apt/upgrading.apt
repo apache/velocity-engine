@@ -22,6 +22,14 @@ Upgrading from earlier versions
 
     * Deprecated directive.evaluate.context.class setting; please get/set local #evaluate references as members of the provided $evaluate scope control instead. (e.g. #set( $evaluate.foo = 'bar' ) and $evaluate.foo )
 
+    * Deprecated #literal directive; please use #[[this syntax]]# instead.
+
+    * Changed #stop to end template rendering rather than template parsing.
+
+    * Removed obsolete Veltag (use VelocityViewTag in VelocityTools project)
+
+    * Removed obsolete WebMacro conversion code.
+
 * Upgrading from Velocity 1.5
 
     * {{{http://commons.apache.org/collections/}Commons Collections}} has been upgraded to version 3.2.1.
