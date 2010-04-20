@@ -209,7 +209,7 @@ public class MethodMap
                 
         if (equivalentMatches != null)
         {
-            System.out.println("ambiguous: "+equivalentMatches);
+            //System.out.println("ambiguous: "+equivalentMatches);//for debugging only
             throw new AmbiguousException();
         }
         return bestMatch;
