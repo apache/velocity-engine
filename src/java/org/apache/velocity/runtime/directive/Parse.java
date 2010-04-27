@@ -233,22 +233,25 @@ public class Parse extends InputBase
             throw new VelocityException(msg, e);
         }
 
-        /**
-         * Add the template name to the macro libraries list
-         */
-        List macroLibraries = context.getMacroLibraries();
-
-        /**
-         * if macroLibraries are not set create a new one
-         */
-        if (macroLibraries == null)
+        if (!blockinput)
         {
-            macroLibraries = new ArrayList();
+            /**
+             * Add the template name to the macro libraries list
+             */
+            List macroLibraries = context.getMacroLibraries();
+
+            /**
+             * if macroLibraries are not set create a new one
+             */
+            if (macroLibraries == null)
+            {
+                macroLibraries = new ArrayList();
+            }
+
+            context.setMacroLibraries(macroLibraries);
+
+            macroLibraries.add(arg);
         }
-
-        context.setMacroLibraries(macroLibraries);
-
-        macroLibraries.add(arg);
 
         /*
          *  and render it
