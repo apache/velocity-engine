@@ -227,6 +227,10 @@
     </release>
 
     <release version="1.6.4" date="In Subversion">
+        <action type="fix" dev="nbubna" issue="VELOCITY-717" due-to="Jarkko Viinamaki">
+            Fix bug in #parse that threw an NPE when IncludeEventHandler returned null
+            and inline macros are kept local.
+        </action>
         <action type="fix" dev="nbubna" issue="VELOCITY-750">
             Fix double-checked locking in RuntimeInstance's optional lazy-init
             for Java 1.5+.  Users of older JREs in multi-threaded environments
