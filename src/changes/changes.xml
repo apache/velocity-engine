@@ -25,7 +25,10 @@
   </properties>
 
   <body>
-    <release version="1.7" date="2010-04-10">
+    <release version="1.7" date="In Subversion">
+    </release>
+
+    <release version="1.7-beta1" date="2010-04-10">
       <action type="add" dev="nbubna" issue="VELOCITY-694">
     Add support for OSGi-ready manifests in build/release tasks.
       </action>
@@ -95,7 +98,7 @@
     &lt;li&gt;A Scope reference can now be automatically made
               available within each content directive:
         &lt;ul&gt;
-        &lt;li&gt;$template in Template.merge and #parse content&lt;li&gt;
+        &lt;li&gt;$template in Template.merge and #parse content&lt;/li&gt;
         &lt;li&gt;$macro in #macro&lt;/li&gt;
         &lt;li&gt;$foreach in #foreach&lt;/li&gt;
         &lt;li&gt;$evaluate in #evaluate or Velocity.evaluate(...) content&lt;/li&gt;
@@ -180,7 +183,7 @@
       <action type="add" dev="nbubna" issue="VELOCITY-666" due-to="Jarkko Viinamaki">
         Add support for calling velocimacros with body content by prefixing the macro
         name with @.
-        (e.g. #macro( bold )<strong>$bodyContent</strong>#end #@bold()any valid VTL here#end)
+        (e.g. #macro( foo )Here is $bodyContent#end #@foo()any valid VTL here#end)
         The $bodyContent reference may be renamed via a velocimacro.body.reference
         setting in your velocity.properties.
       </action>
