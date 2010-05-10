@@ -226,7 +226,7 @@
 
     </release>
 
-    <release version="1.6.4" date="In Subversion">
+    <release version="1.6.4" date="2010-05-10">
         <action type="fix" dev="nbubna" issue="VELOCITY-717" due-to="Jarkko Viinamaki">
             Fix bug in #parse that threw an NPE when IncludeEventHandler returned null
             and inline macros are kept local.
