@@ -388,18 +388,18 @@ public class Foreach extends Directive
 
         while (!maxNbrLoopsExceeded && i.hasNext())
         {
+            // TODO: JDK 1.5+ -> Integer.valueOf()
+            put(context, counterName , new Integer(counter));
+            Object value = i.next();
+            put(context, hasNextName, Boolean.valueOf(i.hasNext()));
+            put(context, elementKey, value);
+
             if (isScopeProvided())
             {
                 // update the scope control
                 foreach.index++;
                 foreach.hasNext = i.hasNext();
             }
-
-            // TODO: JDK 1.5+ -> Integer.valueOf()
-            put(context, counterName , new Integer(counter));
-            Object value = i.next();
-            put(context, hasNextName, Boolean.valueOf(i.hasNext()));
-            put(context, elementKey, value);
 
             try
             {
