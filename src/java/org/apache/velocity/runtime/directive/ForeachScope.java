@@ -61,9 +61,19 @@ public class ForeachScope extends Scope
         return index < 1;
     }
 
+    public boolean getFirst()
+    {
+        return isFirst();
+    }
+
     public boolean isLast()
     {
         return !hasNext;
+    }
+
+    public boolean getLast()
+    {
+        return isLast();
     }
 
 }
