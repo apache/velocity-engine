@@ -16,7 +16,7 @@
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  KIND, either express or implied.  See the License for the
  specific language governing permissions and limitations
- under the License.    
+ under the License.
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -26,29 +26,23 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>4</version>
+  	<artifactId>velocity-master</artifactId>
+  	<groupId>org.apache.velocity</groupId>
+  	<version>1-SNAPSHOT</version>
   </parent>
 
   <groupId>org.apache.velocity</groupId>
-  <artifactId>velocity</artifactId>
-  <version>2.0-dev</version>
+  <artifactId>velocity-engine-parent</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
 
   <name>Apache Velocity</name>
   <url>http://velocity.apache.org/engine/devel/</url>
   <description>Apache Velocity is a general purpose template engine.</description>
   <inceptionYear>2000</inceptionYear>
-  <packaging>jar</packaging>
-  
-  <prerequisites>
-      <maven>2.0.9</maven>
-  </prerequisites>
+  <packaging>pom</packaging>
 
   <build>
     <defaultGoal>install</defaultGoal>
-    <sourceDirectory>src/java</sourceDirectory>
-    <testSourceDirectory>src/test</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -56,7 +50,6 @@
         <configuration>
           <inputEncoding>UTF-8</inputEncoding>
           <outputEncoding>UTF-8</outputEncoding>
-          <xdocDirectory>${basedir}/xdocs/docs</xdocDirectory>
         </configuration>
       </plugin>
       <plugin>
@@ -68,14 +61,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <resources>
-      <resource>
-        <directory>src/java</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
   </build>
 
   <distributionManagement>
@@ -83,71 +68,7 @@
       <id>velocity.apache.org</id>
       <url>scpexe://people.apache.org/www/velocity.apache.org/engine/devel/</url>
     </site>
-    <repository>
-      <id>apache.releases</id>
-      <name>Apache Release Distribution Repository</name>
-      <url>scp://people.apache.org/www/people.apache.org/repo/m2-ibiblio-rsync-repository</url>
-    </repository>
-    <snapshotRepository>
-      <id>apache.snapshots</id>
-      <name>Apache Development Snapshot Repository</name>
-      <url>scp://people.apache.org/www/people.apache.org/repo/m2-snapshot-repository</url>
-    </snapshotRepository>
   </distributionManagement>
-
-  <developers>
-    <developer>
-      <name>Will Glass-Husain</name>
-      <id>wglass</id>
-      <email>wglass@forio.com</email>
-      <organization>Forio Business Simulations</organization>
-      <roles>
-        <role>Java Developer</role>
-      </roles>
-    </developer>
-
-   <developer>
-      <name>Geir Magnusson Jr.</name>
-      <id>geirm</id>
-      <email>geirm@optonline.net</email>
-      <organization>Independent (DVSL Maven)</organization>
-      <roles>
-        <role>Java Developer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <name>Daniel Rall</name>
-      <id>dlr</id>
-      <email>dlr@finemaltcoding.com</email>
-      <organization>CollabNet, Inc.</organization>
-      <roles>
-        <role>Java Developer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <name>Henning P. Schmiedehausen</name>
-      <id>henning</id>
-      <email>hps@intermeta.de</email>
-      <organization>INTERMETA - Gesellschaft für Mehrwertdienste mbH</organization>
-      <roles>
-        <role>Java Developer</role>
-      </roles>
-      <timezone>2</timezone>
-    </developer>
-
-    <developer>
-      <name>Nathan Bubna</name>
-      <id>nbubna</id>
-      <email>nathan@esha.com</email>
-      <organization>ESHA Research</organization>
-      <roles>
-        <role>Java Developer</role>
-      </roles>
-    </developer>
-
-  </developers>
 
   <dependencies>
     <dependency>
@@ -322,7 +243,7 @@
           <threshold>Low</threshold>
           <effort>Max</effort>
           <excludeFilterFile>build/findbugs-exclude.xml</excludeFilterFile>
-          <findbugsXmlOutputDirectory>xdocs</findbugsXmlOutputDirectory> 
+          <findbugsXmlOutputDirectory>xdocs</findbugsXmlOutputDirectory>
         </configuration>
       </plugin>
     </plugins>
@@ -343,4 +264,7 @@
     <system>JIRA</system>
     <url>${jira.browse.url}/VELOCITY</url>
   </issueManagement>
+  <modules>
+  	<module>velocity-engine</module>
+  </modules>
 </project>
