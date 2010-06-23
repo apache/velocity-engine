@@ -1,0 +1,17 @@
+#*
+
+@test foreach-null-list.vm
+
+This template is used for Velocity regression testing.
+If you alter this template make sure you change the
+corresponding comparison file so that the regression 
+test doesn't fail incorrectly.
+
+*#
+
+Foreach with a list that contains null.
+
+#foreach ($element in $nullList)
+    This is $element.
+    $foreach.count
+#end
