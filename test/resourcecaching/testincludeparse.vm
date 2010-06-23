@@ -1,5 +1,0 @@
-line 1
-#include("include/include1.vm")
-line 2
-#parse("include/include1.vm")
-line 3

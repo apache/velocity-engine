@@ -1,2 +1,0 @@
-## is the correct method cached after null parameter
-$test.overloadedMethod2( $param )

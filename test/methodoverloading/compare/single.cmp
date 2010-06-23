@@ -1,5 +1,0 @@
-$test.overloadedMethod($nullValue)
-
-$test.overloadedMethod2( $nullValue )
-String
-Integer
