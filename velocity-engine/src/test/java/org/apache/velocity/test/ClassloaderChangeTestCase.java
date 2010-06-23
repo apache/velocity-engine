@@ -16,17 +16,18 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.StringWriter;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -89,7 +90,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogChute
          */
 
         TestClassloader cl = new TestClassloader();
-        Class fooclass = cl.loadClass("Foo");
+        Class<?> fooclass = cl.loadClass("Foo");
         foo = fooclass.newInstance();
 
         /*
@@ -163,37 +164,37 @@ public class ClassloaderChangeTestCase extends TestCase implements LogChute
     {
         return true;
     }
-}
 
-/**
- *  Simple (real simple...) classloader that depends
- *  on a Foo.class being located in the classloader
- *  directory under test
- */
-class TestClassloader extends ClassLoader
-{
-    private final static String testclass =
-        "test/classloader/Foo.class";
-
-    private Class fooClass = null;
-
-    public TestClassloader()
-            throws Exception
+    /**
+     *  Simple (real simple...) classloader that depends
+     *  on a Foo.class being located in the classloader
+     *  directory under test
+     */
+    public static class TestClassloader extends ClassLoader
     {
-        File f = new File( testclass );
+        private final static String testclass =
+            "classloader/Foo.class";
 
-        byte[] barr = new byte[ (int) f.length() ];
+        private Class<?> fooClass = null;
 
-        FileInputStream fis = new FileInputStream( f );
-        fis.read( barr );
-        fis.close();
+        public TestClassloader()
+                throws Exception
+        {
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            InputStream fis = getClass().getResourceAsStream("/" + testclass);
+            IOUtils.copy(fis, os);
+            fis.close();
+            os.close();
 
-        fooClass = defineClass("Foo", barr, 0, barr.length);
-    }
+            byte[] barr = os.toByteArray();
+
+            fooClass = defineClass("Foo", barr, 0, barr.length);
+        }
 
 
-    public Class findClass(String name)
-    {
-        return fooClass;
+        public Class<?> findClass(String name)
+        {
+            return fooClass;
+        }
     }
 }
