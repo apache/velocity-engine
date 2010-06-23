@@ -1,0 +1,5 @@
+#parse("vm_library1.vm")
+#parse("vm_library2.vm")
+#foo(1) #bar(2)
+
+

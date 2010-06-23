@@ -1,0 +1,40 @@
+#macro(test1 $p)
+ #test2($p)
+#end
+
+#macro(test1b $p)
+  #foreach($i in $foo)
+   #test2($p)
+  #end
+#end
+
+#macro(test2 $p)
+ $!p
+#end
+
+#macro(test3 $p)
+  #test1($p)
+#end
+
+#macro(test4 $p)
+ #test2($p)
+#end
+
+#test1("foo")
+#test2("foo")
+#test3("foo")
+#test4("foo")
+
+#test1()
+#test2()
+#test3()
+#test4()
+
+#test1("foo", "bar")
+#test2("foo", "bar")
+#test3("foo", "bar")
+#test4("foo", "bar")
+
+#@test1("foo", "bar")#end
+#@test1("foo")#end
+#@test1()#end
