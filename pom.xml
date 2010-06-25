@@ -179,5 +179,6 @@
   </issueManagement>
   <modules>
   	<module>velocity-engine</module>
+  	<module>velocity-engine-examples</module>
   </modules>
 </project>
