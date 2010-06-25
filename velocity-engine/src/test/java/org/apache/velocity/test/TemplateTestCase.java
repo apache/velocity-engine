@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedWriter;
@@ -31,8 +31,10 @@ import java.util.Vector;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.FieldMethodizer;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.test.provider.BoolObj;
 import org.apache.velocity.test.provider.NullToStringObject;
 import org.apache.velocity.test.provider.TestNumber;
@@ -104,7 +106,15 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
        throws Exception
     {
         super.setUp();
-      
+        Velocity.reset();
+        Velocity.setProperty(
+            Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+
+        Velocity.setProperty(
+                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+
+        Velocity.init();
+
         provider = new TestProvider();
         al = provider.getCustomers();
         h = new Hashtable();

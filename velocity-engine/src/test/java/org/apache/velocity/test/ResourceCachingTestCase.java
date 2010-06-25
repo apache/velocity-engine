@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.StringWriter;
@@ -28,6 +28,7 @@ import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.test.TemplateTestBase;
 
 /**
  * Test resource caching related issues.
@@ -41,7 +42,7 @@ public class ResourceCachingTestCase extends BaseTestCase
      * Path for templates. This property will override the
      * value in the default velocity properties file.
      */
-    private final static String FILE_RESOURCE_LOADER_PATH = "test/resourcecaching";
+    private final static String FILE_RESOURCE_LOADER_PATH = "/resourcecaching";
 
 
     /**
@@ -75,7 +76,7 @@ public class ResourceCachingTestCase extends BaseTestCase
         VelocityEngine ve = new VelocityEngine();
 
         ve.setProperty("file.resource.loader.cache", "true");
-        ve.setProperty("file.resource.loader.path", FILE_RESOURCE_LOADER_PATH);
+        ve.setProperty("file.resource.loader.path", TemplateTestBase.TEST_COMPARE_DIR + FILE_RESOURCE_LOADER_PATH);
         ve.init();
 
         Template template = ve.getTemplate("testincludeparse.vm");

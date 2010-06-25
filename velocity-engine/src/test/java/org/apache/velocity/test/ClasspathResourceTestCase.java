@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedWriter;
@@ -80,6 +80,7 @@ public class ClasspathResourceTestCase extends BaseTestCase
     {
         assureResultsDirectoryExists(RESULTS_DIR);
 
+        Velocity.reset();
         Velocity.setProperty(Velocity.RESOURCE_LOADER, "classpath");
 
         /*
@@ -120,7 +121,7 @@ public class ClasspathResourceTestCase extends BaseTestCase
          */
         assureResultsDirectoryExists(RESULTS_DIR);
 
-        Template template1 = RuntimeSingleton.getTemplate("template/test1." + TMPL_FILE_EXT);
+        Template template1 = RuntimeSingleton.getTemplate("/includeevent/test1-cp." + TMPL_FILE_EXT);
 
         // Uncomment when http://jira.codehaus.org/browse/MPTEST-57 has been resolved
         //            Template template2 = RuntimeSingleton.getTemplate(

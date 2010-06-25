@@ -16,7 +16,7 @@ package org.apache.velocity.test.sql;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedWriter;
@@ -71,7 +71,7 @@ public class DataSourceResourceLoaderTestCase
      * String (not containing any VTL) used to test unicode
      */
     private String UNICODE_TEMPLATE = "\\u00a9 test \\u0410 \\u0411";
-    
+
     /**
      * Name of template for testing unicode.
      */
@@ -101,6 +101,7 @@ public class DataSourceResourceLoaderTestCase
         rl.setDataSource(ds);
 
         // pass in an instance to Velocity
+        Velocity.reset();
         Velocity.addProperty( "resource.loader", "ds" );
         Velocity.setProperty( "ds.resource.loader.instance", rl );
 
@@ -114,7 +115,7 @@ public class DataSourceResourceLoaderTestCase
 
         Velocity.init();
     }
-    
+
     public void setUpUnicode()
     throws Exception
     {
@@ -146,7 +147,7 @@ public class DataSourceResourceLoaderTestCase
         writer.close();
 
         String outputText = writer.toString();
-        
+
         if (!normalizeNewlines(UNICODE_TEMPLATE).equals(
                 normalizeNewlines( outputText ) ))
         {

@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.StringWriter;
@@ -31,6 +31,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.test.TemplateTestBase;
 
 
 
@@ -63,7 +64,7 @@ public class IncludeErrorTestCase extends BaseTestCase implements TemplateTestBa
     {
         ve = new VelocityEngine();
         ve.setProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, "test/includeerror");
+                Velocity.FILE_RESOURCE_LOADER_PATH, TemplateTestBase.TEST_COMPARE_DIR + "/includeerror");
 
         ve.init();
     }

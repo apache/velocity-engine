@@ -16,20 +16,17 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.StringWriter;
 import java.io.Writer;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
@@ -44,7 +41,7 @@ public class ParseExceptionTestCase extends BaseTestCase
      * Path for templates. This property will override the
      * value in the default velocity properties file.
      */
-    private final static String FILE_RESOURCE_LOADER_PATH = "test/parseexception";
+    private final static String FILE_RESOURCE_LOADER_PATH = "parseexception";
 
 
     /**
@@ -58,6 +55,7 @@ public class ParseExceptionTestCase extends BaseTestCase
 
     public void setUp() throws Exception
     {
+        Velocity.reset();
         super.setUp();
     }
 
@@ -72,7 +70,7 @@ public class ParseExceptionTestCase extends BaseTestCase
         VelocityEngine ve = new VelocityEngine();
 
         ve.setProperty("file.resource.loader.cache", "true");
-        ve.setProperty("file.resource.loader.path", FILE_RESOURCE_LOADER_PATH);
+        ve.setProperty("file.resource.loader.path", TemplateTestBase.TEST_COMPARE_DIR + "/" + FILE_RESOURCE_LOADER_PATH);
         ve.init();
 
 
@@ -153,10 +151,10 @@ public class ParseExceptionTestCase extends BaseTestCase
             throws Exception
     {
         engine.setProperty(RuntimeConstants.VM_ARGUMENTS_STRICT,"true");
-        assertEvalExceptionAt("#macro(foo $a) $a #end #foo('test1' 'test2')", 1, 24);     
+        assertEvalExceptionAt("#macro(foo $a) $a #end #foo('test1' 'test2')", 1, 24);
     }
 
-    
+
     /**
      * Tests that parseException has useful info with macro calls with
      * invalid number of arguments
@@ -165,8 +163,8 @@ public class ParseExceptionTestCase extends BaseTestCase
     public void testParseExceptionMacroInvalidArgumentCountNoException ()
             throws Exception
     {
-       assertEvalEquals("test1", "#macro(foo $a)$a#end#foo('test1' 'test2')");     
+       assertEvalEquals("test1", "#macro(foo $a)$a#end#foo('test1' 'test2')");
     }
 
-    
+
 }

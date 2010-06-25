@@ -16,7 +16,7 @@ package org.apache.velocity.app;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedReader;
@@ -72,6 +72,16 @@ public class Velocity implements RuntimeConstants
     public static void init()
     {
         RuntimeSingleton.init();
+    }
+
+    /**
+     * Resets the instance, so Velocity can be re-initialized again.
+     *
+     * @since 2.0.0
+     */
+    public static void reset()
+    {
+        RuntimeSingleton.reset();
     }
 
     /**
@@ -362,10 +372,10 @@ public class Velocity implements RuntimeConstants
         RuntimeSingleton.getRuntimeServices().setApplicationAttribute( key, value);
      }
 
-    
+
     /**
      * Remove a directive.
-     * 
+     *
      * @param name name of the directive.
      */
     public void removeDirective(String name)

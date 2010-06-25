@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedWriter;
@@ -92,6 +92,7 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
         ResourceLoader rl = new FileResourceLoader();
 
         // pass in an instance to Velocity
+        Velocity.reset();
         Velocity.setProperty( "resource.loader", "testrl" );
         Velocity.setProperty( "testrl.resource.loader.instance", rl );
         Velocity.setProperty( "testrl.resource.loader.path", FILE_RESOURCE_LOADER_PATH );
@@ -158,7 +159,7 @@ catch (Exception e)
                 "-----Result-----\n"+ result +
                 "----Expected----\n"+ compare +
                 "----------------";
-            
+
 //caveman hack to get gump to give more info
 System.out.println(msg);
 System.out.println("Log was: "+logger.getLog());

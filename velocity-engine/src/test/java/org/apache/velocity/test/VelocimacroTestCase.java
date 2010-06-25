@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.StringWriter;
@@ -55,6 +55,7 @@ public class VelocimacroTestCase extends TestCase
         /*
          *  setup local scope for templates
          */
+        Velocity.reset();
         Velocity.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         Velocity.setProperty( Velocity.VM_MAX_DEPTH, new Integer(5));
         Velocity.setProperty(

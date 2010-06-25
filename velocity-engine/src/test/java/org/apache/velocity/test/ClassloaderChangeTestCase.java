@@ -188,7 +188,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogChute
 
             byte[] barr = os.toByteArray();
 
-            fooClass = defineClass("Foo", barr, 0, barr.length);
+            fooClass = defineClass("classloader.Foo", barr, 0, barr.length);
         }
 
 

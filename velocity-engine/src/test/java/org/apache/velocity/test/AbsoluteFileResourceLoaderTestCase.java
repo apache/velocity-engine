@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedWriter;
@@ -77,11 +77,24 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
     AbsoluteFileResourceLoaderTestCase()
     {
         super("AbsoluteFileResourceLoaderTest");
+    }
+
+    public static Test suite ()
+    {
+        return new AbsoluteFileResourceLoaderTestCase();
+    }
+
+    /**
+     * Runs the test.
+     */
+    public void runTest ()
+    {
 
         try
         {
             assureResultsDirectoryExists(RESULTS_DIR);
 
+            Velocity.reset();
 
             // signify we want to use an absolute path
             Velocity.addProperty(
@@ -98,18 +111,6 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
             info(msg, e);
             fail(msg);
         }
-    }
-
-    public static Test suite ()
-    {
-        return new AbsoluteFileResourceLoaderTestCase();
-    }
-
-    /**
-     * Runs the test.
-     */
-    public void runTest ()
-    {
         try
         {
 

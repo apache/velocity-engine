@@ -16,10 +16,11 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.test.BaseTestCase;
+import org.apache.velocity.test.TemplateTestBase;
 import org.apache.velocity.test.misc.TestLogChute;
 import org.apache.velocity.runtime.RuntimeConstants;
 
@@ -33,11 +34,11 @@ public class StopDirectiveTestCase extends BaseTestCase
         super(name);
         //DEBUG=true;
     }
-  
+
     public void setUp() throws Exception
     {
         super.setUp();
-        engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, "test/stop/");
+        engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, TemplateTestBase.TEST_COMPARE_DIR + "/stop");
         engine.setProperty(RuntimeConstants.VM_LIBRARY, "vmlib1.vm");
     }
 
