@@ -16,7 +16,7 @@ package org.apache.velocity.runtime;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.File;
@@ -157,12 +157,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * This is a hashtable of initialized directives.
      * The directives that populate this hashtable are
      * taken from the RUNTIME_DEFAULT_DIRECTIVES
-     * property file. 
+     * property file.
      */
     private Map runtimeDirectives = new Hashtable();
     /**
      * Copy of the actual runtimeDirectives that is shared between
-     * parsers. Whenever directives are updated, the synchronized 
+     * parsers. Whenever directives are updated, the synchronized
      * runtimeDirectives is first updated and then an unsynchronized
      * copy of it is passed to parsers.
      */
@@ -218,20 +218,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public RuntimeInstance()
     {
-        /*
-         *  create a VM factory, introspector, and application attributes
-         */
-        vmFactory = new VelocimacroFactory( this );
-
-        /*
-         *  make a new introspector and initialize it
-         */
-        introspector = new Introspector(getLog());
-
-        /*
-         * and a store for the application attributes
-         */
-        applicationAttributes = new HashMap();
+        reset();
     }
 
     /**
@@ -280,6 +267,44 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             initialized = true;
             initializing = false;
         }
+    }
+
+    /**
+     * Resets the instance, so Velocity can be re-initialized again.
+     *
+     * @since 2.0.0
+     */
+    public synchronized void reset()
+    {
+        this.configuration = new ExtendedProperties();
+        this.encoding = null;
+        this.evaluateScopeName = "evaluate";
+        this.eventCartridge = null;
+        this.initialized = false;
+        this.initializing = false;
+        this.log = new Log();
+        this.overridingProperties = null;
+        this.parserPool = null;
+        this.provideEvaluateScope = false;
+        this.resourceManager = null;
+        this.runtimeDirectives = new Hashtable();
+        this.runtimeDirectivesShared = null;
+        this.uberSpect = null;
+
+        /*
+         *  create a VM factory, introspector, and application attributes
+         */
+        vmFactory = new VelocimacroFactory( this );
+
+        /*
+         *  make a new introspector and initialize it
+         */
+        introspector = new Introspector(getLog());
+
+        /*
+         * and a store for the application attributes
+         */
+        applicationAttributes = new HashMap();
     }
 
     /**
@@ -465,7 +490,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         overridingProperties.setProperty(key, value);
     }
-    
+
 
     /**
      * Add all properties contained in the file fileName to the RuntimeInstance properties
@@ -476,13 +501,13 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         try
         {
               props = new ExtendedProperties(fileName);
-        } 
+        }
         catch (IOException e)
         {
-              throw new VelocityException("Error reading properties from '" 
+              throw new VelocityException("Error reading properties from '"
                 + fileName + "'", e);
         }
-        
+
         Enumeration en = props.keys();
         while (en.hasMoreElements())
         {
@@ -490,7 +515,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             setProperty(key, props.get(key));
         }
     }
-    
+
 
     /**
      * Add all the properties in props to the RuntimeInstance properties
@@ -504,7 +529,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             setProperty(key, props.get(key));
         }
     }
-        
+
     /**
      * Allow an external system to set an ExtendedProperties
      * object to use. This is useful where the external
@@ -585,19 +610,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Object getProperty(String key)
     {
         Object o = null;
-        
+
         /**
          * Before initialization, check the user-entered properties first.
          */
-        if (!initialized && overridingProperties != null) 
+        if (!initialized && overridingProperties != null)
         {
             o = overridingProperties.get(key);
         }
-        
+
         /**
          * After initialization, configuration will hold all properties.
          */
-        if (o == null) 
+        if (o == null)
         {
             o = configuration.getProperty(key);
         }
@@ -671,10 +696,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         try
         {
             setProperties(new ExtendedProperties(configurationFile));
-        } 
+        }
         catch (IOException e)
         {
-            throw new VelocityException("Error reading properties from '" 
+            throw new VelocityException("Error reading properties from '"
                 + configurationFile + "'", e);
         }
         init();
@@ -684,7 +709,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         /*
          * Which resource manager?
-         */      
+         */
         String rm = getString(RuntimeConstants.RESOURCE_MANAGER_CLASS);
 
         if (rm != null && rm.length() > 0)
@@ -809,7 +834,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if ( classname != null && classname.length() > 0)
         {
             Object o = null;
-            try 
+            try
             {
                 o = ClassUtils.getNewInstance(classname);
             }
@@ -860,7 +885,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         try
         {
             LogManager.updateLog(this.log, this);
-        } 
+        }
         catch (Exception e)
         {
             throw new VelocityException("Error initializing log: " + e.getMessage(), e);
@@ -962,7 +987,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Programatically add a directive.
      * @param directive
      */
-    public synchronized void addDirective(Directive directive) 
+    public synchronized void addDirective(Directive directive)
     {
         runtimeDirectives.put(directive.getName(), directive);
         updateSharedDirectivesMap();
@@ -973,7 +998,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param name name of the directive
      * @return the {@link Directive} for that name
      */
-    public Directive getDirective(String name) 
+    public Directive getDirective(String name)
     {
         return (Directive) runtimeDirectivesShared.get(name);
     }
@@ -982,16 +1007,16 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Remove a directive.
      * @param name name of the directive.
      */
-    public synchronized void removeDirective(String name) 
+    public synchronized void removeDirective(String name)
     {
         runtimeDirectives.remove(name);
         updateSharedDirectivesMap();
     }
-    
+
     /**
      * Makes an unsynchronized copy of the directives map
      * that is used for Directive lookups by all parsers.
-     * 
+     *
      * This follows Copy-on-Write pattern. The cost of creating
      * a new map is acceptable since directives are typically
      * set and modified only during Velocity setup phase.
@@ -1635,9 +1660,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param renderingTemplate Name of the template we are currently rendering. This
      *    information is needed when VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL setting is true
      *    and template contains a macro with the same name as the global macro library.
-     * 
+     *
      * @since Velocity 1.6
-     * 
+     *
      * @return VelocimacroProxy
      */
     public Directive getVelocimacro(String vmName, String templateName, String renderingTemplate)
@@ -1648,16 +1673,16 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Return a list of VelocimacroProxies that are defined by the given
      * template name.
-     */    
+     */
     public List<VelocimacroProxy> getVelocimacros(String templateName)
     {
         return vmFactory.getVelocimacros(templateName);
     }
-    
-    
+
+
     /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.
-     * 
+     *
      * Called by org.apache.velocity.runtime.directive.processAndRegister
      *
      * @param name  Name of velocimacro
@@ -1665,9 +1690,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
      * @param sourceTemplate
-     * 
+     *
      * @since Velocity 1.6
-     *                   
+     *
      * @return boolean  True if added, false if rejected for some
      *                  reason (either parameters or permission settings)
      */
@@ -1678,8 +1703,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         return vmFactory.addVelocimacro(name.intern(), macro,  macroArgs,  sourceTemplate);
     }
-    
-    
+
+
     /**
      *  Checks to see if a VM exists
      *

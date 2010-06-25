@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import junit.framework.Test;
@@ -34,11 +34,11 @@ import java.io.*;
  * Make sure that a forward referenced macro inside another macro definition does
  * not report an error in the log.
  * (VELOCITY-71).
- * 
+ *
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
-public class MacroForwardDefineTestCase 
+public class MacroForwardDefineTestCase
         extends BaseTestCase
 {
    /**
@@ -76,6 +76,7 @@ public class MacroForwardDefineTestCase
         assureResultsDirectoryExists(RESULTS_DIR);
 
         // use Velocity.setProperty (instead of properties file) so that we can use actual instance of log
+        Velocity.reset();
         Velocity.setProperty(RuntimeConstants.RESOURCE_LOADER,"file");
         Velocity.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH );
         Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,"true");

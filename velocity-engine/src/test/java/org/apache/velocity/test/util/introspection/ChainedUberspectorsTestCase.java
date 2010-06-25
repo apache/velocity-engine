@@ -16,7 +16,7 @@ package org.apache.velocity.test.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import junit.framework.Test;
@@ -48,6 +48,7 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
     public void setUp()
             throws Exception
     {
+        Velocity.reset();
         Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
         Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.util.introspection.UberspectImpl");
         Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.test.util.introspection.ChainedUberspectorsTestCase$ChainedUberspector");

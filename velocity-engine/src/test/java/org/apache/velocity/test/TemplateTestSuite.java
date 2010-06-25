@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.FileInputStream;
@@ -47,14 +47,6 @@ public class TemplateTestSuite extends TestSuite implements TemplateTestBase
     {
         try
         {
-            Velocity.setProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-
-            Velocity.setProperty(
-                    Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
-
-            Velocity.init();
-
             testProperties = new Properties();
             testProperties.load(new FileInputStream(TEST_CASE_PROPERTIES));
         }

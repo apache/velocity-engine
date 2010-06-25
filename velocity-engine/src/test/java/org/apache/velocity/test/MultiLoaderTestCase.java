@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedWriter;
@@ -89,6 +89,8 @@ public class MultiLoaderTestCase extends BaseTestCase
          * Set up the file loader.
          */
 
+        Velocity.reset();
+
         Velocity.setProperty(Velocity.RESOURCE_LOADER, "file");
 
         Velocity.setProperty(
@@ -156,7 +158,7 @@ public class MultiLoaderTestCase extends BaseTestCase
         /*
          * Template to find with the classpath loader.
          */
-        Template template2 = Velocity.getTemplate("template/test1." + TMPL_FILE_EXT);
+        Template template2 = Velocity.getTemplate("includeevent/test1-cp." + TMPL_FILE_EXT);
 
         /*
          * Template to find with the jar loader

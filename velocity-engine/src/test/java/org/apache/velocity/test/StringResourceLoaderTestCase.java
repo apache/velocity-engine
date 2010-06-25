@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedWriter;
@@ -69,6 +69,8 @@ public class StringResourceLoaderTestCase extends BaseTestCase
             throws Exception
     {
         assureResultsDirectoryExists(RESULTS_DIR);
+
+        Velocity.reset();
 
         Velocity.setProperty(Velocity.RESOURCE_LOADER, "string");
         Velocity.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
@@ -135,7 +137,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
                 getFileName(RESULTS_DIR, "multi2", RESULT_FILE_EXT));
 
         writer = new BufferedWriter(new OutputStreamWriter(fos));
-        
+
         template2.merge(context, writer);
         writer.flush();
         writer.close();
@@ -184,7 +186,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
                 getFileName(RESULTS_DIR, "change2", RESULT_FILE_EXT));
 
         writer = new BufferedWriter(new OutputStreamWriter(fos));
-        
+
         template.merge(context, writer);
         writer.flush();
         writer.close();

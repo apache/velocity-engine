@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.StringWriter;
@@ -50,6 +50,7 @@ public class StringResourceLoaderRepositoryTestCase extends TestCase
 
     public void setUp() throws Exception
     {
+        Velocity.reset();
         Velocity.setProperty(Velocity.RESOURCE_LOADER, "string");
         Velocity.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
         Velocity.addProperty("string.resource.loader.modificationCheckInterval", "1");

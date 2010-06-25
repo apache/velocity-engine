@@ -16,7 +16,7 @@ package org.apache.velocity.test.issues;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.test.BaseTestCase;
@@ -32,11 +32,11 @@ public class Velocity644TestCase extends BaseTestCase
     {
         super(name);
     }
-  
+
     public void setUp() throws Exception
     {
         super.setUp();
-        engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, "test/templates/");
+        engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
         engine.setProperty(RuntimeConstants.VM_LIBRARY, "testCase644.vm");
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
         context.put("NULL", null);

@@ -71,6 +71,8 @@ public class Velocity580TestCase extends BaseTestCase
 
         assureResultsDirectoryExists(RESULTS_DIR);
 
+        Velocity.reset();
+
         Velocity.addProperty(Velocity.FILE_RESOURCE_LOADER_PATH, TEMPLATE_DIR);
 
         Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());

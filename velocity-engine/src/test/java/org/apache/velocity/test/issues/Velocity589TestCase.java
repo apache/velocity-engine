@@ -16,7 +16,7 @@ package org.apache.velocity.test.issues;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.test.BaseTestCase;
@@ -33,8 +33,8 @@ public class Velocity589TestCase extends BaseTestCase
 
     public void testIt()
     {
-        context.put("id", "test");
-        assertEvalEquals("#test_bg", "#${id}_bg");
+        context.put("myId", "test");
+        assertEvalEquals("#test_bg", "#${myId}_bg");
     }
 
 }

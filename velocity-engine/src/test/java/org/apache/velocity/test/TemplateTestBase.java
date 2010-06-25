@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 /**
@@ -32,13 +32,13 @@ public interface TemplateTestBase
      * Directory relative to the distribution root, where the
      * values to compare test results to are stored.
      */
-    public static final String TEST_COMPARE_DIR = "@test.dir@";
+    public static final String TEST_COMPARE_DIR = "${project.build.testOutputDirectory}";
 
     /**
      * Directory relative to the distribution root, where the
      * test cases should put their output
      */
-    public static final String TEST_RESULT_DIR = "@build.test@";
+    public static final String TEST_RESULT_DIR = "${project.build.directory}/results";
 
 
     /**

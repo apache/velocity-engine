@@ -16,7 +16,7 @@ package org.apache.velocity.runtime;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.Reader;
@@ -112,6 +112,16 @@ public class RuntimeSingleton implements RuntimeConstants
     public synchronized static void init()
     {
         ri.init();
+    }
+
+    /**
+     * Resets the instance, so Velocity can be re-initialized again.
+     *
+     * @since 2.0.0
+     */
+    public synchronized static void reset()
+    {
+        ri.reset();
     }
 
     /**
@@ -577,10 +587,10 @@ public class RuntimeSingleton implements RuntimeConstants
         return ri.getUberspect();
     }
 
-    
+
     /**
      * Remove a directive.
-     * 
+     *
      * @param name name of the directive.
      */
     public static void removeDirective(String name)
