@@ -14,26 +14,20 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.StringWriter;
-import java.util.Properties;
-import org.apache.velocity.app.Velocity;
+
 import org.apache.velocity.VelocityContext;
-
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.MethodInvocationException;
-
-import org.apache.velocity.runtime.log.LogChute;
-import org.apache.velocity.runtime.RuntimeServices;
-
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.event.EventCartridge;
-import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
-import org.apache.velocity.app.event.NullSetEventHandler;
-
-import org.apache.velocity.context.Context;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.LogChute;
 
 /**
  *   This class is a simple demonstration of how the event handling
@@ -46,8 +40,7 @@ import org.apache.velocity.context.Context;
  */
 
 public class EventExample implements ReferenceInsertionEventHandler,
-                                     NullSetEventHandler, MethodExceptionEventHandler,
-                                     LogChute
+        MethodExceptionEventHandler, LogChute
 {
 
     private boolean logOutput = false;
