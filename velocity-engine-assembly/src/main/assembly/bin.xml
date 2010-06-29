@@ -26,12 +26,25 @@
             <outputDirectory>/lib</outputDirectory>
             <excludes>
                 <exclude>org.apache.velocity:*</exclude>
+                <exclude>org.jdom:jdom</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>org.apache.velocity:velocity-engine</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/examples</outputDirectory>
+            <includes>
+                <include>org.apache.velocity:velocity-engine-examples</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/examples/lib</outputDirectory>
+            <includes>
+                <include>org.jdom:jdom</include>
             </includes>
         </dependencySet>
     </dependencySets>
@@ -97,6 +110,83 @@
         <fileSet>
             <directory>../velocity-engine-assembly/target/site</directory>
             <outputDirectory>docs/velocity-engine-assembly</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/etc</directory>
+            <outputDirectory>examples</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/java</directory>
+            <outputDirectory>examples/app_example1</outputDirectory>
+            <includes>
+                <include>Example.java</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/resources</directory>
+            <outputDirectory>examples/app_example1</outputDirectory>
+            <includes>
+                <include>example.vm</include>
+                <include>velocity.properties</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/java</directory>
+            <outputDirectory>examples/app_example2</outputDirectory>
+            <includes>
+                <include>Example2.java</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/resources</directory>
+            <outputDirectory>examples/app_example2</outputDirectory>
+            <includes>
+                <include>example2.vm</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/java</directory>
+            <outputDirectory>examples/context_example</outputDirectory>
+            <includes>
+                <include>DBContext*.java</include>
+                <include>TreeMapContext.java</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/resources</directory>
+            <outputDirectory>examples/context_example</outputDirectory>
+            <includes>
+                <include>dbtest.vm</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/java</directory>
+            <outputDirectory>examples/event_example</outputDirectory>
+            <includes>
+                <include>EventExample.java</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/java</directory>
+            <outputDirectory>examples/logger_example</outputDirectory>
+            <includes>
+                <include>*LoggerExample.java</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/java</directory>
+            <outputDirectory>examples/xmlapp_example</outputDirectory>
+            <includes>
+                <include>XMLTest.java</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-examples/src/main/resources</directory>
+            <outputDirectory>examples/xmlapp_example</outputDirectory>
+            <includes>
+                <include>xml.vm</include>
+                <include>test.xml</include>
+            </includes>
         </fileSet>
     </fileSets>
 </assembly>
