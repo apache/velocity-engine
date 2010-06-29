@@ -140,7 +140,7 @@
                     <threshold>Low</threshold>
                     <effort>Max</effort>
                     <excludeFilterFile>src/etc/build/findbugs-exclude.xml</excludeFilterFile>
-                    <findbugsXmlOutputDirectory>xdocs</findbugsXmlOutputDirectory>
+                    <xmlOutputDirectory>target/site</xmlOutputDirectory>
                 </configuration>
             </plugin>
         </plugins>
