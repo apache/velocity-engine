@@ -168,5 +168,6 @@
   <modules>
   	<module>velocity-engine</module>
   	<module>velocity-engine-examples</module>
+  	<module>velocity-engine-assembly</module>
   </modules>
 </project>
