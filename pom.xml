@@ -76,7 +76,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>2.1</version>
-        <reportSets>
+<!--         <reportSets>
           <reportSet>
             <reports>
               <report>dependencies</report>
@@ -86,7 +86,7 @@
               <report>scm</report>
             </reports>
           </reportSet>
-        </reportSets>
+        </reportSets> -->
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -147,26 +147,14 @@
         <artifactId>maven-changelog-plugin</artifactId>
         <version>2.1</version>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>1.2</version>
-        <configuration>
-          <xmlOutput>true</xmlOutput>
-          <threshold>Low</threshold>
-          <effort>Max</effort>
-          <excludeFilterFile>build/findbugs-exclude.xml</excludeFilterFile>
-          <findbugsXmlOutputDirectory>xdocs</findbugsXmlOutputDirectory>
-        </configuration>
-      </plugin>
     </plugins>
   </reporting>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/trunk</developerConnection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/sandbox/maven-reorg/engine/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/sandbox/maven-reorg/engine/trunk</developerConnection>
     <tag>HEAD</tag>
-    <url>http://svn.apache.org/viewvc/velocity/engine/trunk</url>
+    <url>http://svn.apache.org/viewvc/velocity/sandbox/maven-reorg/engine/trunk</url>
   </scm>
 
     <properties>
