@@ -33,6 +33,7 @@
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>org.apache.velocity:velocity-engine</include>
+                <include>org.apache.velocity:velocity-log-*</include>
             </includes>
         </dependencySet>
         <dependencySet>
