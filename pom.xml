@@ -157,6 +157,7 @@
   <modules>
   	<module>velocity-engine</module>
     <module>velocity-log-log4j</module>
+    <module>velocity-log-commons-logging</module>
   	<module>velocity-engine-examples</module>
   	<module>velocity-engine-assembly</module>
   </modules>
