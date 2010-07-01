@@ -43,7 +43,13 @@
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity-log-commons-logging</artifactId>
+            <artifactId>velocity-engine-commons-logging</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-servlet</artifactId>
             <version>2.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
