@@ -155,9 +155,9 @@
     <url>${jira.browse.url}/VELOCITY</url>
   </issueManagement>
   <modules>
-  	<module>velocity-engine</module>
-    <module>velocity-log-log4j</module>
-    <module>velocity-log-commons-logging</module>
+  	<module>velocity-engine-core</module>
+    <module>velocity-engine-log4j</module>
+    <module>velocity-engine-commons-logging</module>
   	<module>velocity-engine-examples</module>
   	<module>velocity-engine-assembly</module>
   </modules>
