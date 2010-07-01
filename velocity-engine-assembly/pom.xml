@@ -60,4 +60,91 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>apache-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.2-beta-5</version>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <goals>
+                                    <goal>attached</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/bin.xml</descriptor>
+                            </descriptors>
+                            <tarLongFileMode>gnu</tarLongFileMode>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <mkdir
+                                            dir="${project.build.directory}/assemblies" />
+                                        <echo message="Here I am!" />
+                                        <copy
+                                            todir="${project.build.directory}/assemblies">
+                                            <fileset
+                                                dir="${settings.localRepository}/org/apache/velocity/velocity-assembly/${pom.version}">
+                                                <include
+                                                    name="velocity-assembly-${pom.version}-*.zip*" />
+                                                <include
+                                                    name="velocity-assembly-${pom.version}-*.tar.gz*" />
+                                            </fileset>
+                                            <mapper type="glob"
+                                                from="velocity-assembly-*"
+                                                to="velocity-*" />
+                                        </copy>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>wagon-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>upload</goal>
+                                </goals>
+                                <configuration>
+                                    <fromDir>${project.build.directory}/assemblies</fromDir>
+                                    <includes>**</includes>
+                                    <toDir>${pom.version}</toDir>
+                                    <serverId>apache.build</serverId>
+                                    <url>scp://people.apache.org/www/people.apache.org/builds/velocity</url>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
