@@ -34,6 +34,16 @@
             <includes>
                 <include>org.apache.velocity:velocity-engine*</include>
             </includes>
+            <excludes>
+                <exclude>org.apache.velocity:velocity-engine-uberjar</exclude>
+            </excludes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <outputFileNameMapping>velocity-${artifact.version}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.apache.velocity:velocity-engine-uberjar</include>
+            </includes>
         </dependencySet>
         <dependencySet>
             <outputDirectory>/examples</outputDirectory>
