@@ -31,7 +31,7 @@ import java.io.Writer;
  * @author Anil K. Vijendran
  * @version $Id$
  */
-public final class VelocityWriter implements Filter
+public final class VelocityWriter extends Writer implements Filter
 {
     /**
      * constant indicating that the Writer is not buffering output
