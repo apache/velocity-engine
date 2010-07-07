@@ -76,7 +76,8 @@
     <distributionManagement>
         <site>
             <id>velocity.apache.org</id>
-            <url>scpexe://people.apache.org/www/velocity.apache.org/engine/devel/</url>
+            <url>scpexe://people.apache.org/www/velocity.apache.org/engine/devel/
+            </url>
         </site>
     </distributionManagement>
 
@@ -84,7 +85,8 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <artifactId>maven-project-info-reports-plugin
+                </artifactId>
                 <version>2.1</version>
             </plugin>
             <plugin>
@@ -95,7 +97,7 @@
                     <reportSet>
                         <reports>
                             <report>changes-report</report>
-                            <report>jira-report</report>
+                            <!-- <report>jira-report</report> -->
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -126,23 +128,33 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.7</version>
+                <configuration>
+                    <excludePackageNames>org.apache.velocity.example</excludePackageNames>
+                    <links>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api/
+                        </link>
+                        <link>http://jakarta.apache.org/oro/api</link>
+                        <link>http://commons.apache.org/lang/api-release/
+                        </link>
+                        <link>http://commons.apache.org/collections/api-release/
+                        </link>
+                        <link>http://logging.apache.org/log4j/1.2/apidocs/
+                        </link>
+                        <link>http://excalibur.apache.org/apidocs</link>
+                        <link>http://tomcat.apache.org/tomcat-4.1-doc/servletapi/
+                        </link>
+                    </links>
+                </configuration>
                 <reportSets>
                     <reportSet>
+                        <id>non-aggregate</id>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
                         <id>aggregated</id>
-                        <configuration>
-                            <links>
-                                <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-                                <link>http://jakarta.apache.org/oro/api</link>
-                                <link>http://jakarta.apache.org/commons/lang/api-release</link>
-                                <link>http://jakarta.apache.org/commons/collections/api-release</link>
-
-                                <link>http://www.jdom.org/docs/apidocs</link>
-                                <link>http://logging.apache.org/log4j/docs/api</link>
-                                <link>http://excalibur.apache.org/apidocs</link>
-                                <link>http://tomcat.apache.org/tomcat-4.1-doc/servletapi</link>
-                            </links>
-                        </configuration>
                         <reports>
                             <report>aggregate</report>
                         </reports>
@@ -158,14 +170,18 @@
     </reporting>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/sandbox/maven-reorg/engine/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/sandbox/maven-reorg/engine/trunk</developerConnection>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/sandbox/maven-reorg/engine/trunk
+        </connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/sandbox/maven-reorg/engine/trunk
+        </developerConnection>
         <tag>HEAD</tag>
-        <url>http://svn.apache.org/viewvc/velocity/sandbox/maven-reorg/engine/trunk</url>
+        <url>http://svn.apache.org/viewvc/velocity/sandbox/maven-reorg/engine/trunk
+        </url>
     </scm>
 
     <properties>
-        <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
+        <jira.browse.url>https://issues.apache.org/jira/browse
+        </jira.browse.url>
     </properties>
 
     <issueManagement>
