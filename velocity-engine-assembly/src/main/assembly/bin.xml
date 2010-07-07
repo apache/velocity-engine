@@ -177,7 +177,7 @@
             <directory>../velocity-engine-examples/src/main/java</directory>
             <outputDirectory>examples/app_example1</outputDirectory>
             <includes>
-                <include>Example.java</include>
+                <include>**/Example.java</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -192,7 +192,7 @@
             <directory>../velocity-engine-examples/src/main/java</directory>
             <outputDirectory>examples/app_example2</outputDirectory>
             <includes>
-                <include>Example2.java</include>
+                <include>**/Example2.java</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -206,8 +206,8 @@
             <directory>../velocity-engine-examples/src/main/java</directory>
             <outputDirectory>examples/context_example</outputDirectory>
             <includes>
-                <include>DBContext*.java</include>
-                <include>TreeMapContext.java</include>
+                <include>**/DBContext*.java</include>
+                <include>**/TreeMapContext.java</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -221,21 +221,21 @@
             <directory>../velocity-engine-examples/src/main/java</directory>
             <outputDirectory>examples/event_example</outputDirectory>
             <includes>
-                <include>EventExample.java</include>
+                <include>**/EventExample.java</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>../velocity-engine-examples/src/main/java</directory>
             <outputDirectory>examples/logger_example</outputDirectory>
             <includes>
-                <include>*LoggerExample.java</include>
+                <include>**/*LoggerExample.java</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>../velocity-engine-examples/src/main/java</directory>
             <outputDirectory>examples/xmlapp_example</outputDirectory>
             <includes>
-                <include>XMLTest.java</include>
+                <include>**/XMLTest.java</include>
             </includes>
         </fileSet>
         <fileSet>
