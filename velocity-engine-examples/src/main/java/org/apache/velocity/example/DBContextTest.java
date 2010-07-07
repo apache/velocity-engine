@@ -1,3 +1,4 @@
+package org.apache.velocity.example;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,13 +21,10 @@
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
 import java.util.Hashtable;
-import java.util.Vector;
 import java.util.Properties;
 
 import org.apache.velocity.Template;
-
 import org.apache.velocity.runtime.RuntimeSingleton;
 
 /**

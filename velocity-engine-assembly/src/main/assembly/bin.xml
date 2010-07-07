@@ -80,8 +80,32 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../velocity-engine</directory>
-            <outputDirectory>src/velocity-engine</outputDirectory>
+            <directory>../velocity-engine-core</directory>
+            <outputDirectory>src/velocity-engine-core</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-commons-logging</directory>
+            <outputDirectory>src/velocity-engine-commons-logging</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-log4j</directory>
+            <outputDirectory>src/velocity-engine-log4j</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-servlet</directory>
+            <outputDirectory>src/velocity-engine-servlet</outputDirectory>
             <includes>
                 <include>pom.xml</include>
                 <include>src/</include>
@@ -91,6 +115,14 @@
             <directory>../velocity-engine-examples</directory>
             <outputDirectory>src/velocity-engine-examples
             </outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-uberjar</directory>
+            <outputDirectory>src/velocity-engine-uberjar</outputDirectory>
             <includes>
                 <include>pom.xml</include>
                 <include>src/</include>
@@ -110,8 +142,24 @@
             <outputDirectory>docs</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>../velocity-engine/target/site</directory>
-            <outputDirectory>docs/velocity-engine</outputDirectory>
+            <directory>../velocity-engine-core/target/site</directory>
+            <outputDirectory>docs/velocity-engine-core</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-commons-logging/target/site</directory>
+            <outputDirectory>docs/velocity-engine-commons-logging</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-log4j/target/site</directory>
+            <outputDirectory>docs/velocity-engine-log4j</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-servlet/target/site</directory>
+            <outputDirectory>docs/velocity-engine-servlet</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-uberjar/target/site</directory>
+            <outputDirectory>docs/velocity-engine-uberjar</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>../velocity-engine-examples/target/site</directory>
