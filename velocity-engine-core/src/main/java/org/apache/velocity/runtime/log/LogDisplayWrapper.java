@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.log;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 /**
@@ -64,13 +64,13 @@ public class LogDisplayWrapper
     }
 
     /**
-     * @see Log#log(int, Object)
+     * @see Log#log(int, Object, Object...)
      */
     protected void log(final int level, final Object message)
     {
     	log(outputMessages, level, message);
     }
-    
+
     protected void log(final boolean doLogging, final int level, final Object message)
     {
         if (doLogging)
@@ -80,13 +80,13 @@ public class LogDisplayWrapper
     }
 
     /**
-     * @see Log#log(int, Object, Throwable)
+     * @see Log#log(int, Object, Throwable, Object...)
      */
     protected void log(final int level, final Object message, final Throwable t)
     {
     	log(outputMessages, level, message);
     }
-    
+
     protected void log(final boolean doLogging, final int level, final Object message, final Throwable t)
     {
         if (doLogging)
@@ -94,7 +94,7 @@ public class LogDisplayWrapper
             getLogChute().log(level, prefix + String.valueOf(message), t);
         }
     }
-    
+
     /**
      * Log a trace message.
      * @param doLogging Log only if this parameter is true.

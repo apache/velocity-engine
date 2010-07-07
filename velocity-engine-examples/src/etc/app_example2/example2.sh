@@ -15,16 +15,26 @@
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
-# under the License.    
+# under the License.
 
 _VELCP=.
 
-for i in ../../bin/*.jar
+for i in ../lib/*.jar
 do
     _VELCP=$_VELCP:"$i"
 done
 
-for i in ../../build/lib/*.jar
+for i in ../*.jar
+do
+    _VELCP=$_VELCP:"$i"
+done
+
+for i in ../../lib/*.jar
+do
+    _VELCP=$_VELCP:"$i"
+done
+
+for i in ../../*.jar
 do
     _VELCP=$_VELCP:"$i"
 done
@@ -34,5 +44,5 @@ if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
     _VELCP=`cygpath --path --windows "$_VELCP"`
 fi
 
-java -cp $_VELCP Example2
+java -cp $_VELCP org.apache.velocity.example.Example2
 

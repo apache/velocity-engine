@@ -14,14 +14,16 @@ rem software distributed under the License is distributed on an
 rem "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 rem KIND, either express or implied.  See the License for the
 rem specific language governing permissions and limitations
-rem under the License.    
+rem under the License.
 
 set VELCP=.
 
-for %%i in (..\..\bin\*.jar) do call appendVELCP %%i
-for %%i in (..\..\bin\lib\*.jar) do call appendVELCP %%i
+for %%i in (..\lib\*.jar) do call appendVELCP %%i
+for %%i in (..\*.jar) do call appendVELCP %%i
+for %%i in (..\..\lib\*.jar) do call appendVELCP %%i
+for %%i in (..\..\*.jar) do call appendVELCP %%i
 
 echo Using classpath:  %VELCP%
 
-java -cp %VELCP% Example example.vm
+java -cp %VELCP% org.apache.velocity.example.Example example.vm
 

@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.IOException;
@@ -105,9 +105,9 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     {
         return column;
     }
-    
+
     /**
-     * @return The template file name this directive was defined in, or null if not 
+     * @return The template file name this directive was defined in, or null if not
      * defined in a file.
      */
     public String getTemplateName()
@@ -116,7 +116,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     }
 
     /**
-     * @returns the name to be used when a scope control is provided for this
+     * @return the name to be used when a scope control is provided for this
      * directive.
      */
     public String getScopeName()
@@ -154,7 +154,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
      * The Parser calls this method during template parsing to check the arguments
      * types.  Be aware that this method is called pre init, so not all data
      * is available in this method.  The default implementation does not peform any
-     * checking.  We do this so that Custom directives do not trigger any parse 
+     * checking.  We do this so that Custom directives do not trigger any parse
      * errors in IDEs.
      * @param argtypes type, Array of argument types of each argument to the directive
      * for example ParserTreeConstants.JJTWORD
@@ -163,9 +163,9 @@ public abstract class Directive implements DirectiveConstants, Cloneable
      */
     public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
         throws ParseException
-    {      
+    {
     }
-    
+
     /**
      * How this directive is to be rendered
      * @param context
@@ -212,7 +212,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
         {
             String name = getScopeName();
             Object obj = context.get(name);
-            
+
             try
             {
                 Scope scope = (Scope)obj;

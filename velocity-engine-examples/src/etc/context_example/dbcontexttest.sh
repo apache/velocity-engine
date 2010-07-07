@@ -15,10 +15,32 @@
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
-# under the License.    
+# under the License.
 
 echo "DBContextTest : please ensure MySQL is set up and jdbc drivers are in classpath. See DBContextTest.java for clues"
 echo "This is an unsupported demo."
 
-java -cp .:../bin/velocity-0.71.jar:$CLASSPATH DBContextTest dbtest.vm
+_VELCP=.
+
+for i in ../lib/*.jar
+do
+    _VELCP=$_VELCP:"$i"
+done
+
+for i in ../*.jar
+do
+    _VELCP=$_VELCP:"$i"
+done
+
+for i in ../../lib/*.jar
+do
+    _VELCP=$_VELCP:"$i"
+done
+
+for i in ../../*.jar
+do
+    _VELCP=$_VELCP:"$i"
+done
+
+java -cp $_VELCP org.apache.velocity.example.DBContextTest dbtest.vm
 
