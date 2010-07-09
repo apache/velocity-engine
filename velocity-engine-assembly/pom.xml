@@ -125,9 +125,9 @@
                                             <fileset
                                                 dir="${settings.localRepository}/org/apache/velocity/${project.artifactId}/${project.version}">
                                                 <include
-                                                    name="${project.artifactId}-${project.version}-*.zip*" />
+                                                    name="${project.artifactId}-${project.version}-bin.zip*" />
                                                 <include
-                                                    name="${project.artifactId}-${project.version}-*.tar.gz*" />
+                                                    name="${project.artifactId}-${project.version}-bin.tar.gz*" />
                                             </fileset>
                                             <mapper type="glob"
                                                 from="${project.artifactId}-*"
