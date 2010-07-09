@@ -26,6 +26,14 @@
                     <tarLongFileMode>gnu</tarLongFileMode>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <createChecksum>true</createChecksum>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -112,18 +120,17 @@
                                     <tasks>
                                         <mkdir
                                             dir="${project.build.directory}/assemblies" />
-                                        <echo message="Here I am!" />
                                         <copy
                                             todir="${project.build.directory}/assemblies">
                                             <fileset
-                                                dir="${settings.localRepository}/org/apache/velocity/velocity-assembly/${pom.version}">
+                                                dir="${settings.localRepository}/org/apache/velocity/${project.artifactId}/${project.version}">
                                                 <include
-                                                    name="velocity-assembly-${pom.version}-*.zip*" />
+                                                    name="${project.artifactId}-${project.version}-*.zip*" />
                                                 <include
-                                                    name="velocity-assembly-${pom.version}-*.tar.gz*" />
+                                                    name="${project.artifactId}-${project.version}-*.tar.gz*" />
                                             </fileset>
                                             <mapper type="glob"
-                                                from="velocity-assembly-*"
+                                                from="${project.artifactId}-*"
                                                 to="velocity-*" />
                                         </copy>
                                     </tasks>
