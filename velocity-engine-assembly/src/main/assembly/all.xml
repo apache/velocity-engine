@@ -69,7 +69,7 @@
                 <include>NOTICE</include>
                 <include>README.txt</include>
                 <include>CONTRIBUTORS</include>
-                <include>WHY_TWO_JARS.txt</include>
+                <include>WHY_*_JARS.txt</include>
             </includes>
         </fileSet>
         <fileSet>
