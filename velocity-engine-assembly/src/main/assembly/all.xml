@@ -16,7 +16,7 @@
         and limitations under the License.
     -->
 <assembly>
-    <id>bin</id>
+    <id>all</id>
     <formats>
         <format>tar.gz</format>
         <format>zip</format>
@@ -36,6 +36,7 @@
             </includes>
             <excludes>
                 <exclude>org.apache.velocity:velocity-engine-uberjar</exclude>
+                <include>org.apache.velocity:velocity-engine-examples</include>
             </excludes>
         </dependencySet>
         <dependencySet>
