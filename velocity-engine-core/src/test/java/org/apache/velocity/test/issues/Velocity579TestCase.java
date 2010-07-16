@@ -16,7 +16,7 @@ package org.apache.velocity.test.issues;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.test.BaseTestCase;
@@ -43,16 +43,9 @@ public class Velocity579TestCase extends BaseTestCase
     {
         context.put("bar", new MyBar());
         // ugly hack to avoid failed test when running JDK 1.5 or earlier
-        try
-        {
-            Class.forName("java.util.Deque");
+        String javaVersion = System.getProperty("java.version");
+        if (javaVersion.startsWith("1.6"))
             assertEvalEquals("bar", "$bar.bar()");
-        }
-        catch (ClassNotFoundException cnfe)
-        {
-            //ignore this test in jdk 1.5-
-            System.out.println("Skipping testPublicMethodInheritedFromPrivateClass for pre-1.6 JDK");
-        }
     }
 
     public static interface Foo
@@ -78,6 +71,10 @@ public class Velocity579TestCase extends BaseTestCase
 
     public static class MyBar extends Foobar
     {
+        public String bar()
+        {
+            return super.bar();
+        }
     }
 
 }
