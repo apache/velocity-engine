@@ -12,17 +12,6 @@
     <name>Apache Velocity - Engine</name>
 
     <build>
-        <testResources>
-            <testResource>
-                <targetPath>../filtered-testsources/java</targetPath>
-                <filtering>true</filtering>
-                <directory>src/test/java</directory>
-            </testResource>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
-        <testSourceDirectory>target/filtered-testsources/java</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -33,6 +22,22 @@
                     <delimiters>
                         <delimiter>${*}</delimiter>
                     </delimiters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemProperties>
+                        <property>
+                            <name>test.compare.dir</name>
+                            <value>${project.build.testOutputDirectory}</value>
+                        </property>
+                        <property>
+                            <name>test.result.dir</name>
+                            <value>${project.build.directory}/results</value>
+                        </property>
+                    </systemProperties>
                 </configuration>
             </plugin>
         </plugins>

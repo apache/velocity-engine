@@ -32,13 +32,13 @@ public interface TemplateTestBase
      * Directory relative to the distribution root, where the
      * values to compare test results to are stored.
      */
-    public static final String TEST_COMPARE_DIR = "${project.build.testOutputDirectory}";
+    public static final String TEST_COMPARE_DIR = System.getProperty("test.compare.dir");
 
     /**
      * Directory relative to the distribution root, where the
      * test cases should put their output
      */
-    public static final String TEST_RESULT_DIR = "${project.build.directory}/results";
+    public static final String TEST_RESULT_DIR = System.getProperty("test.result.dir");
 
 
     /**
