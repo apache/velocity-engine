@@ -27,9 +27,6 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.test.provider.TestProvider;
-import org.apache.velocity.util.ExceptionUtils;
-
-
 
 /**
  * Test thrown exceptions include a proper cause (under JDK 1.4+).
@@ -80,12 +77,6 @@ public class WrappedExceptionTestCase extends BaseTestCase implements TemplateTe
             assertEquals("From getThrow()",E.getCause().getMessage());
         }
 
-    }
-    public void testExceptionUtils()
-    {
-        Error e = new Error("Inside");
-        RuntimeException re = ExceptionUtils.createRuntimeException("Outside", e);
-        assertEquals("cause was set", e,re.getCause());
     }
 
 }

@@ -44,10 +44,9 @@ public interface MethodExceptionEventHandler extends EventHandler
      * @param method the method
      * @param e the thrown exception
      * @return an object to insert in the page
-     * @throws Exception an exception to be thrown instead inserting an object
+     * @throws RuntimeException an exception to be thrown instead inserting an object
      */
-    public Object methodException( Class claz, String method, Exception e )
-         throws Exception;
+    public Object methodException( Class claz, String method, Exception e );
 
     /**
      * Defines the execution strategy for methodException
@@ -81,7 +80,7 @@ public interface MethodExceptionEventHandler extends EventHandler
          * @param handler call the appropriate method on this handler
          * @exception Exception generic exception thrown by methodException event handler method call
          */
-        public void execute(EventHandler handler) throws Exception
+        public void execute(EventHandler handler)
         {
             MethodExceptionEventHandler eh = (MethodExceptionEventHandler) handler;
             

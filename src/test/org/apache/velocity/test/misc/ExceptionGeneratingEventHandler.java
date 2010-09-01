@@ -40,7 +40,7 @@ public class ExceptionGeneratingEventHandler implements IncludeEventHandler,
         throw new RuntimeException("exception");
     }
 
-    public Object methodException(Class claz, String method, Exception e) throws Exception
+    public Object methodException(Class claz, String method, Exception e)
     {
         throw new RuntimeException("exception");
     }

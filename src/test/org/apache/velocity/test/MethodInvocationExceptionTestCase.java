@@ -106,7 +106,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
             log("  reference = " + mie.getReferenceName() );
             log("  method    = " + mie.getMethodName() );
 
-            Throwable t = mie.getWrappedThrowable();
+            Throwable t = mie.getCause();
             log("  throwable = " + t );
 
             if( t instanceof Exception)
@@ -143,7 +143,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
             log("  reference = " + mie.getReferenceName() );
             log("  method    = " + mie.getMethodName() );
 
-            Throwable t = mie.getWrappedThrowable();
+            Throwable t = mie.getCause();
             log("  throwable = " + t );
 
             if( t instanceof Exception)
@@ -175,7 +175,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
             log("  reference = " + mie.getReferenceName() );
             log("  method    = " + mie.getMethodName() );
 
-            Throwable t = mie.getWrappedThrowable();
+            Throwable t = mie.getCause();
             log("  throwable = " + t );
 
             if( t instanceof Exception)
@@ -206,7 +206,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
             log("  reference = " + mie.getReferenceName() );
             log("  method    = " + mie.getMethodName() );
 
-            Throwable t = mie.getWrappedThrowable();
+            Throwable t = mie.getCause();
             log("  throwable = " + t );
 
             if( t instanceof Exception)
@@ -244,7 +244,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
             log("  reference = " + mie.getReferenceName() );
             log("  method    = " + mie.getMethodName() );
 
-            Throwable t = mie.getWrappedThrowable();
+            Throwable t = mie.getCause();
             log("  throwable = " + t );
 
             if( t instanceof Exception)

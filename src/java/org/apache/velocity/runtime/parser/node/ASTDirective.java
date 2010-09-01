@@ -28,12 +28,12 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.RuntimeMacro;
 import org.apache.velocity.runtime.directive.BlockMacro;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.util.ExceptionUtils;
 
 /**
  * This class is responsible for handling the pluggable
@@ -109,15 +109,15 @@ public class ASTDirective extends SimpleNode
                 } 
                 catch (InstantiationException e)
                 {
-                    throw ExceptionUtils.createRuntimeException("Couldn't initialize " +
-                            "directive of class " +
+                    throw new VelocityException(
+                            "Couldn't initialize directive of class " +
                             parser.getDirective(directiveName).getClass().getName(),
                             e);
                 }
                 catch (IllegalAccessException e)
                 {
-                    throw ExceptionUtils.createRuntimeException("Couldn't initialize " +
-                            "directive of class " +
+                    throw new VelocityException(
+                            "Couldn't initialize directive of class " +
                             parser.getDirective(directiveName).getClass().getName(),
                             e);
                 }
@@ -142,7 +142,7 @@ public class ASTDirective extends SimpleNode
                     catch (TemplateInitException die)
                     {
                         throw new TemplateInitException(die.getMessage(),
-                            (ParseException) die.getWrappedThrowable(),
+                            (ParseException) die.getCause(),
                             die.getTemplateName(),
                             die.getColumnNumber() + getColumn(),
                             die.getLineNumber() + getLine());
@@ -178,7 +178,7 @@ public class ASTDirective extends SimpleNode
                 catch (TemplateInitException die)
                 {
                     throw new TemplateInitException(die.getMessage(),
-                            (ParseException) die.getWrappedThrowable(),
+                            (ParseException) die.getCause(),
                             die.getTemplateName(),
                             die.getColumnNumber() + getColumn(),
                             die.getLineNumber() + getLine());

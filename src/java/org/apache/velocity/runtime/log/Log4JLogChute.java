@@ -25,9 +25,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.util.ExceptionUtils;
 
 /**
  * Implementation of a simple log4j system that will either latch onto
@@ -59,7 +59,7 @@ public class Log4JLogChute implements LogChute
     /**
      * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
      */
-    public void init(RuntimeServices rs) throws Exception
+    public void init(RuntimeServices rs)
     {
         rsvc = rs;
 
@@ -109,7 +109,7 @@ public class Log4JLogChute implements LogChute
     }
 
     // This tries to create a file appender for the specified file name.
-    private void initAppender(String file) throws Exception
+    private void initAppender(String file)
     {
         try
         {
@@ -130,7 +130,7 @@ public class Log4JLogChute implements LogChute
         catch (IOException ioe)
         {
             rsvc.getLog().error("Could not create file appender '"+file+'\'', ioe);
-            throw ExceptionUtils.createRuntimeException("Error configuring Log4JLogChute : ", ioe);
+            throw new VelocityException("Error configuring Log4JLogChute : ", ioe);
         }
     }
 

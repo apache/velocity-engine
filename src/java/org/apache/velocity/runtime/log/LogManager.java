@@ -63,7 +63,7 @@ public class LogManager
 {
     // Creates a new logging system or returns an existing one
     // specified by the application.
-    private static LogChute createLogChute(RuntimeServices rsvc) throws Exception
+    private static LogChute createLogChute(RuntimeServices rsvc)
     {
         Log log = rsvc.getLog();
 
@@ -168,6 +168,20 @@ public class LogManager
                         log.debug("Couldn't find class " + claz +
                                   " or necessary supporting classes in classpath.",
                                   ncdfe);
+                    }
+                }
+                catch(UnsupportedOperationException uoe)
+                {
+                    // note these errors for anyone debugging the app
+                    if (isProbablyProvidedLogChute(claz))
+                    {
+                        log.debug("Target log system for " + claz +
+                                  " is not supported (" + uoe.toString() +
+                                  ").  Falling back to next log system...");
+                    }
+                    else
+                    {
+                        log.debug("Couldn't find necessary resources for "+claz, uoe);
                     }
                 }
                 catch(Exception e)

@@ -33,7 +33,6 @@ import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.ExceptionUtils;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -322,7 +321,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                             + operation + " of '" + name + "': ";
 
                 log.error(msg, sqle);
-                throw ExceptionUtils.createRuntimeException(msg, sqle);
+                throw new VelocityException(msg, sqle);
             }
             catch (NamingException ne)
             {
@@ -330,7 +329,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                              + operation + " of '" + name + "': ";
 
                 log.error(msg, ne);
-                throw ExceptionUtils.createRuntimeException(msg, ne);
+                throw new VelocityException(msg, ne);
             }
             finally
             {
