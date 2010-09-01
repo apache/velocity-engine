@@ -128,5 +128,15 @@ public class BlockMacroTestCase extends BaseTestCase
                           "#@foo()call:$bodyContent#end";
         assertEvalEquals("start:call:call:call:$bodyContent", template);
     }
+
+    public void testBlueJoesProblem()
+    {
+        engine.setProperty("macro."+RuntimeConstants.PROVIDE_SCOPE_CONTROL, Boolean.TRUE);
+        addTemplate("a", "#macro(wrap $layout)$!macro.put($layout,$bodyContent)#parse($layout)#end"+
+                         "#@wrap('b')a#end");
+        addTemplate("b", "#@wrap('c')b$!macro.get('b')b#end");
+        addTemplate("c", "c$!macro.get('c')c");
+        assertTmplEquals("cbabc", "a");
+    }
 }
 
