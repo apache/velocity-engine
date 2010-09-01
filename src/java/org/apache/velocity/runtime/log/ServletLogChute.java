@@ -65,7 +65,7 @@ public class ServletLogChute implements LogChute
      * @throws IllegalStateException if the ServletContext is not available
      *         in the application attributes under the appropriate key.
      */
-    public void init(RuntimeServices rs) throws Exception
+    public void init(RuntimeServices rs)
     {
         Object obj = rs.getApplicationAttribute(ServletContext.class.getName());
         if (obj == null)

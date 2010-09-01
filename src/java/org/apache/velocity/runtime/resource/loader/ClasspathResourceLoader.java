@@ -26,7 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ClassUtils;
-import org.apache.velocity.util.ExceptionUtils;
 
 /**
  *  ClasspathResourceLoader is a simple loader that will load
@@ -120,7 +119,7 @@ public class ClasspathResourceLoader extends ResourceLoader
         }
         catch( Exception fnfe )
         {
-            throw (ResourceNotFoundException) ExceptionUtils.createWithCause(ResourceNotFoundException.class, "problem with template: " + name, fnfe );
+            throw new ResourceNotFoundException("ClasspathResourceLoader problem with template: " + name, fnfe );
         }
 
         if (result == null)
