@@ -197,6 +197,20 @@ public class LogManager
                                   ncdfe);
                     }
                 }
+                catch(UnsupportedOperationException uoe)
+                {
+                    // note these errors for anyone debugging the app
+                    if (isProbablyProvidedLogChute(claz))
+                    {
+                        log.debug("Target log system for " + claz +
+                                  " is not supported (" + uoe.toString() +
+                                  ").  Falling back to next log system...");
+                    }
+                    else
+                    {
+                        log.debug("Couldn't find necessary resources for "+claz, uoe);
+                    }
+                }
                 catch(Exception e)
                 {
                     String msg = "Failed to initialize an instance of " + claz +
