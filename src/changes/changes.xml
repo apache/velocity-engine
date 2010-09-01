@@ -26,6 +26,10 @@
 
   <body>
     <release version="2.0" date="In Subversion">
+      <action type="fix" dev="nbubna" issue="VELOCITY-751">
+    Removed all remaining "throws Exception" clauses and the now useless ExceptionUtils class.
+      </action>
+
       <action type="add" dev="nbubna" issue="VELOCITY-731">
     Remove directive.if.tostring.nullcheck crutch with intent
     to replace testing of toString() null status with support for
@@ -69,6 +73,16 @@
     </release>
 
     <release version="1.7" date="In Subversion">
+      <action type="fix" dev="nbubna" issue="VELOCITY-760" due-to="Jarkko Viinamäki">
+    Ensure that DataSourceResourceLoader closes PreparedStatements.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-753" due-to="Matt Ryall">
+    Mark optional dependencies as such in OSGi bundle manifest.
+      </action>
+    </release>
+
+    <release version="1.7-beta1" date="2010-04-10">
       <action type="add" dev="nbubna" issue="VELOCITY-694">
     Add support for OSGi-ready manifests in build/release tasks.
       </action>
