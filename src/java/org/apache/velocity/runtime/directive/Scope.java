@@ -32,6 +32,7 @@ import java.util.Set;
  */
 public class Scope extends AbstractMap
 {
+    private static final String setReturnValue = "";
     private Map storage;
     private Object replaced;
     private Scope parent;
@@ -82,6 +83,17 @@ public class Scope extends AbstractMap
     public Object put(Object key, Object value)
     {
         return getStorage().put(key, value);
+    }
+
+    /**
+     * Convenience method to call put(key,val) in a template
+     * without worrying about what is returned/rendered by the call.
+     * This should ALWAYS return an empty string.
+     */
+    public String set(Object key, Object value)
+    {
+        put(key, value);
+        return setReturnValue;
     }
 
     /**
