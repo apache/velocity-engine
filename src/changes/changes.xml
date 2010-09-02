@@ -26,6 +26,18 @@
 
   <body>
     <release version="1.7" date="In Subversion">
+      <action type="add" dev="nbubna">
+    Add access to template and directive debugging info via $<scope>.info.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-766">
+    LogManager now catches UnsupportedOperationExceptions during LogChute init.
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-760" due-to="Jarkko Viinamäki">
+    Ensure that DataSourceResourceLoader closes PreparedStatements.
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-753" due-to="Matt Ryall">
     Mark optional dependencies as such in OSGi bundle manifest.
       </action>
