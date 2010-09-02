@@ -23,6 +23,7 @@ import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.apache.velocity.Template;
 
 /**
  * This handles context scoping and metadata for directives.
@@ -36,6 +37,7 @@ public class Scope extends AbstractMap
     private Map storage;
     private Object replaced;
     private Scope parent;
+    private Info info;
     protected final Object owner;
 
     public Scope(Object owner, Object previous)
@@ -110,7 +112,7 @@ public class Scope extends AbstractMap
      * instance and the topmost instance, plus one. This value
      * will never be negative or zero.
      */
-    public int getDepth()
+    protected int getDepth()
     {
         if (parent == null)
         {
@@ -154,6 +156,143 @@ public class Scope extends AbstractMap
             return parent.getReplaced();
         }
         return replaced;
+    }
+
+    /**
+     * Returns info about the current scope for debugging purposes.
+     */
+    public Info getInfo()
+    {
+        if (info == null)
+        {
+            info = new Info(this, owner);
+        }
+        return info;
+    }
+
+    /**
+     * Class to encapsulate and provide access to info about
+     * the current scope for debugging.
+     */
+    public static class Info
+    {
+        private Scope scope;
+        private Directive directive;
+        private Template template;
+
+        public Info(Scope scope, Object owner)
+        {
+            if (owner instanceof Directive)
+            {
+                directive = (Directive)owner;
+            }
+            if (owner instanceof Template)
+            {
+                template = (Template)owner;
+            }
+            this.scope = scope;
+        }
+
+        public String getName()
+        {
+            if (directive != null)
+            {
+                return directive.getName();
+            }
+            if (template != null)
+            {
+                return template.getName();
+            }
+            return null;
+        }
+
+        public String getType()
+        {
+            if (directive != null)
+            {
+                switch (directive.getType())
+                {
+                    case Directive.BLOCK:
+                        return "block";
+                    case Directive.LINE:
+                        return "line";
+                }
+            }
+            if (template != null)
+            {
+                return template.getEncoding();
+            }
+            return null;
+        }
+
+        public int getDepth()
+        {
+            return scope.getDepth();
+        }
+
+        public String getTemplate()
+        {
+            if (directive != null)
+            {
+                return directive.getTemplateName();
+            }
+            if (template != null)
+            {
+                return template.getName();
+            }
+            return null;
+        }
+
+        public int getLine()
+        {
+            if (directive != null)
+            {
+                return directive.getLine();
+            }
+            return 0;
+        }
+
+        public int getColumn()
+        {
+            if (directive != null)
+            {
+                return directive.getColumn();
+            }
+            return 0;
+        }
+
+        public String toString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (directive != null)
+            {
+                sb.append('#');
+            }
+            sb.append(getName());
+            sb.append("[type:").append(getType());
+            int depth = getDepth();
+            if (depth > 1)
+            {
+                sb.append(" depth:").append(depth);
+            }
+            if (template == null)
+            {
+                String vtl = getTemplate();
+                sb.append(" template:");
+                if (vtl.indexOf(" ") < 0)
+                {
+                    sb.append(vtl);
+                }
+                else
+                {
+                    sb.append('"').append(vtl).append('"');
+                }
+                sb.append(" line:").append(getLine());
+                sb.append(" column:").append(getColumn());
+            }
+            sb.append(']');
+            return sb.toString();
+        }
     }
 
 }
