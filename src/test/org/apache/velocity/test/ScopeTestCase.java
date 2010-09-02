@@ -71,8 +71,8 @@ public class ScopeTestCase extends BaseTestCase
 
     public void testParseScope()
     {
-        addTemplate("test", "$template.depth"+
-                            "$!parse.parent.depth"+
+        addTemplate("test", "$template.info.depth"+
+                            "$!parse.parent.info.depth"+
                             "#set( $template.foo = 'bar' )"+
                             "$template.foo"+
                             "#break($template)"+
@@ -86,12 +86,12 @@ public class ScopeTestCase extends BaseTestCase
         HashMap grab = new HashMap();
         context.put("grab", grab);
 
-        addTemplate("inner", "Inner depth: $template.depth"+
+        addTemplate("inner", "Inner depth: $template.info.depth"+
                              "#set( $template.foo = '?' )"+
                              "$!grab.put('inner',$template)"+
                              "#break($template)$template.foo");
         addTemplate("outer", "#set( $template.foo = '!' )"+
-                             "Outer depth: $template.depth "+
+                             "Outer depth: $template.info.depth "+
                              "#parse('inner')"+
                              "$!grab.put('outer', $template)"+
                              "$template.foo");
@@ -123,7 +123,7 @@ public class ScopeTestCase extends BaseTestCase
     {
         String template = "#foreach( $i in [1..5] )"+
                             "#foreach( $j in [1..2] )"+
-                              "#if ( $i > $foreach.count + $foreach.index + $foreach.depth )#break($foreach.topmost)#end"+
+                              "#if ( $i > $foreach.count + $foreach.index + $foreach.info.depth )#break($foreach.topmost)#end"+
                             "#end"+
                             "$i"+
                           "#end";
@@ -143,8 +143,8 @@ public class ScopeTestCase extends BaseTestCase
 
     public void testRecursiveMacroScope()
     {
-        String template = "#macro( foo )$macro.depth"+
-                          "#if($macro.depth > 2 )#break($macro.topmost)#end"+
+        String template = "#macro( foo )$macro.info.depth"+
+                          "#if($macro.info.depth > 2 )#break($macro.topmost)#end"+
                           "#foo()#end#foo()";
         assertEvalEquals("123", template);
         assertNull(context.get("macro"));
@@ -152,7 +152,7 @@ public class ScopeTestCase extends BaseTestCase
 
     public void testNestedMacroScope()
     {
-        String template = "#macro( a )$macro.depth#set($macro.c = 'a')$macro.c#end"+
+        String template = "#macro( a )$macro.info.depth#set($macro.c = 'a')$macro.c#end"+
                           "#macro( b )#set($macro.c = 'b' )#a()$macro.c#end"+
                           "#b()";
         assertEvalEquals("2ab", template);
@@ -163,7 +163,7 @@ public class ScopeTestCase extends BaseTestCase
     {
         String template = "#macro( foo $bar )$bodyContent$macro.bar#end"+
                           "#@foo( 'bar' )#set( $macro.bar = 'foo'+$bar )"+
-                          "#set( $foo.d = $foo.depth )$foo.d #end";
+                          "#set( $foo.d = $foo.info.depth )$foo.d #end";
         assertEvalEquals("1 foobar", template);
         assertNull(context.get("foo"));
         assertNull(context.get("macro"));
@@ -173,7 +173,7 @@ public class ScopeTestCase extends BaseTestCase
     {
         engine.setProperty(RuntimeConstants.VM_MAX_DEPTH, "5");
         String template = "#macro( foo )$bodyContent$macro.i#end"+
-                          "#@foo()#set( $macro.i = \"$!macro.i$foo.depth,\" )"+
+                          "#@foo()#set( $macro.i = \"$!macro.i$foo.info.depth,\" )"+
                           "$!bodyContent#end";
         assertEvalEquals("1,2,3,4,5,", template);
         assertNull(context.get("foo"));
@@ -182,7 +182,7 @@ public class ScopeTestCase extends BaseTestCase
 
     public void testDefineScope()
     {
-        String template = "#define( $foo )#set( $define.bar = 'bar'+$define.depth )$define.bar#end$foo";
+        String template = "#define( $foo )#set( $define.bar = 'bar'+$define.info.depth )$define.bar#end$foo";
         assertEvalEquals("bar1", template);
         assertNull(context.get("define"));
     }
@@ -190,7 +190,7 @@ public class ScopeTestCase extends BaseTestCase
     public void testNestedDefineScope()
     {
         String template = "#define($a)$b c#end"+
-                          "#define($b)$define.depth#break($define.topmost)#end"+
+                          "#define($b)$define.info.depth#break($define.topmost)#end"+
                           "$a";
         assertEvalEquals("2", template);
         assertNull(context.get("define"));
@@ -199,15 +199,15 @@ public class ScopeTestCase extends BaseTestCase
     public void testRecursiveDefineScope()
     {
         engine.setProperty(RuntimeConstants.DEFINE_DIRECTIVE_MAXDEPTH, "10");
-        String template = "#define($a)$define.depth"+
-                          "#if($define.depth == 5)#break($define)#end,$a#end$a";
+        String template = "#define($a)$define.info.depth"+
+                          "#if($define.info.depth == 5)#break($define)#end,$a#end$a";
         assertEvalEquals("1,2,3,4,5", template);
         assertNull(context.get("define"));
     }
 
     public void testRootEvaluateScope()
     {
-        assertEvalEquals("1", "$evaluate.depth");
+        assertEvalEquals("1", "$evaluate.info.depth");
         assertEvalEquals("foo", "foo#break($evaluate)bar");
         assertNull(context.get("evaluate"));
     }
@@ -217,7 +217,7 @@ public class ScopeTestCase extends BaseTestCase
         context.put("h", "#");
         context.put("d", "$");
         String template = "${h}set( ${d}evaluate.foo = 'bar' )"+
-                          "${d}evaluate.foo ${d}evaluate.depth";
+                          "${d}evaluate.foo ${d}evaluate.info.depth";
         addTemplate("eval", "#evaluate(\""+template+"\")");
         assertTmplEquals("bar 1", "eval");
         assertNull(context.get("evaluate"));
@@ -228,7 +228,7 @@ public class ScopeTestCase extends BaseTestCase
     {
         context.put("h", "#");
         context.put("d", "$");
-        addTemplate("e", "#evaluate(\"${h}evaluate( '${d}evaluate.depth${h}stop(${d}evaluate) blah' )\")");
+        addTemplate("e", "#evaluate(\"${h}evaluate( '${d}evaluate.info.depth${h}stop(${d}evaluate) blah' )\")");
         assertTmplEquals("2", "e");
         assertNull(context.get("evaluate"));
         assertNull(context.get("template"));
@@ -238,19 +238,19 @@ public class ScopeTestCase extends BaseTestCase
     {
         engine.setProperty("template."+RuntimeConstants.PROVIDE_SCOPE_CONTROL, "false");
         // root
-        addTemplate("test", "$template.depth");
-        assertTmplEquals("$template.depth", "test");
+        addTemplate("test", "$template.info.depth");
+        assertTmplEquals("$template.info.depth", "test");
         // #parse
-        assertEvalEquals("$template.depth", "#parse('test')");
+        assertEvalEquals("$template.info.depth", "#parse('test')");
     }
 
     public void testTurningOffEvaluateScope()
     {
         engine.setProperty("evaluate."+RuntimeConstants.PROVIDE_SCOPE_CONTROL, "false");
         // root
-        assertSchmoo("$evaluate.depth");
+        assertSchmoo("$evaluate.info.depth");
         // #evaluate
-        assertEvalEquals("$evaluate.depth", "#evaluate( '$evaluate.depth' )");
+        assertEvalEquals("$evaluate.info.depth", "#evaluate( '$evaluate.info.depth' )");
     }
 
     public void testTurningOffMacroScope()
@@ -321,6 +321,48 @@ public class ScopeTestCase extends BaseTestCase
         context.put("vm", "a");
         assertEvalEquals("a", "#macro(vm)$bodyContent#end#@vm()$vm.replaced#end");
         assertContextValue("vm", "a");
+    }
+
+    public void testInfoDepth()
+    {
+        String template = "#foreach($i in [1..1])"+
+                            "#foreach($j in [0..0])"+
+                                "$foreach.info.depth"+
+                            "#end"+
+                          "#end";
+        assertEvalEquals("2", template);
+    }
+
+    public void testInfoName()
+    {
+        String template = "#foreach($i in [1..1])"+
+                            "$foreach.info.name #evaluate('$evaluate.info.name')"+
+                          "#end";
+        assertEvalEquals("foreach evaluate", template);
+    }
+
+    public void testInfoType()
+    {
+        addTemplate("info", "#foreach($i in [1..1])"+
+                                "$foreach.info.type"+
+                            "#end "+
+                            "#evaluate('$evaluate.info.type') "+
+                            "$template.info.type");
+        assertTmplEquals("block line utf-8", "info");
+    }
+
+    public void testInfoLineAndColumn()
+    {
+        String template = " #evaluate('$evaluate.info.line, $evaluate.info.column')";
+        assertEvalEquals(" 1, 2", template);
+        assertEvalEquals("\n\n   3, 4", "\n\n  "+template);
+    }
+
+    public void testInfoTemplate()
+    {
+        addTemplate("test", "#evaluate('$evaluate.info.template')");
+        assertTmplEquals("test", "test");
+        assertEvalEquals("test", "#parse('test')");
     }
 
 }
