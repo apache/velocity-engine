@@ -259,9 +259,9 @@ public class VelocimacroManager
      */
     public boolean dumpNamespace(final String namespace)
     {
-        synchronized(this)
+        if (usingNamespaces(namespace))
         {
-            if (usingNamespaces(namespace))
+            synchronized(this)
             {
                 Map h = (Map) namespaceHash.remove(namespace);
 
@@ -274,9 +274,8 @@ public class VelocimacroManager
 
                 return true;
             }
-
-            return false;
         }
+        return false;
     }
 
     /**
