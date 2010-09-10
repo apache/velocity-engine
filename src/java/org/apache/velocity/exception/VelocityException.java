@@ -60,4 +60,17 @@ public class VelocityException extends RuntimeException
         super(wrapped);
     }
 
+    /**
+     *  returns the wrapped Throwable that caused this
+     *  MethodInvocationException to be thrown
+     *
+     *  @return Throwable thrown by method invocation
+     *  @since 1.5
+     *  @deprecated Use {@link java.lang.RuntimeException#getCause()}
+     */
+    public Throwable getWrappedThrowable()
+    {
+        return getCause();
+    }
+
 }
