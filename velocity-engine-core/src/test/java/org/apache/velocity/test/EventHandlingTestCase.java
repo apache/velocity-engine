@@ -237,7 +237,6 @@ public class EventHandlingTestCase extends BaseTestCase
          *  Handles exceptions thrown during in-template method access
          */
         public Object methodException( Class claz, String method, Exception e )
-                throws Exception
         {
             // as a test, make sure this EventHandler is initialized
             if (rs == null)
@@ -253,11 +252,11 @@ public class EventHandlingTestCase extends BaseTestCase
                     return "handler";
                 }
                 else
-                    throw e;
+                    throw new RuntimeException(e);
 
             } else
 
-                throw e;
+                throw new RuntimeException(e);
         }
 
         Context context;

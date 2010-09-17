@@ -55,9 +55,8 @@ public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServ
      * @param method the method
      * @param e the thrown exception
      * @return an object to insert in the page
-     * @throws Exception an exception to be thrown instead inserting an object
      */
-    public Object methodException(Class claz, String method, Exception e) throws Exception
+    public Object methodException(Class claz, String method, Exception e)
     {
         boolean showMessage = rs.getBoolean(SHOW_MESSAGE,false);
         boolean showStackTrace = rs.getBoolean(SHOW_STACK_TRACE,false);

@@ -68,7 +68,7 @@ public interface LogChute
      * @param rs
      * @throws Exception
      */
-    void init(RuntimeServices rs) throws Exception;
+    void init(RuntimeServices rs);
 
     /**
      * Send a log message from Velocity.

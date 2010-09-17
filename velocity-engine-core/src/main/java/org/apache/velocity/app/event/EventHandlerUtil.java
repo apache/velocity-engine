@@ -22,8 +22,8 @@ package org.apache.velocity.app.event;
 import java.util.Iterator;
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.util.ExceptionUtils;
 import org.apache.velocity.util.introspection.Info;
 
 
@@ -106,7 +106,7 @@ public class EventHandlerUtil {
         }
         catch (Exception e)
         {
-            throw ExceptionUtils.createRuntimeException("Exception in event handler.",e);
+            throw new VelocityException("Exception in event handler.",e);
         }
     }
     
@@ -210,7 +210,7 @@ public class EventHandlerUtil {
         }
         catch (Exception e)
         {
-            throw ExceptionUtils.createRuntimeException("Exception in event handler.",e);
+            throw new VelocityException("Exception in event handler.",e);
         }
     }
    
@@ -323,7 +323,7 @@ public class EventHandlerUtil {
         }
         catch (Exception e)
         {
-            throw ExceptionUtils.createRuntimeException("Exception in event handler.",e);
+            throw new VelocityException("Exception in event handler.",e);
         }
         
     }
@@ -344,7 +344,7 @@ public class EventHandlerUtil {
             }
             catch (Exception e)
             {
-                throw ExceptionUtils.createRuntimeException("Couldn't initialize event cartridge : ", e);
+                throw new VelocityException("Couldn't initialize event cartridge : ", e);
             }
         }
     }
@@ -356,13 +356,11 @@ public class EventHandlerUtil {
      * @param applicationEventHandlerIterator Iterator that loops through all global event handlers declared at application level
      * @param contextEventHandlerIterator Iterator that loops through all global event handlers attached to context
      * @param eventExecutor Strategy object that executes event handler method
-     * @exception Exception generic exception potentially thrown by event handlers
      */
     private static void callEventHandlers(
             Iterator applicationEventHandlerIterator, 
             Iterator contextEventHandlerIterator,
             EventHandlerMethodExecutor eventExecutor)
-    throws Exception
     {
         /**
          * First loop through the event handlers configured at the app level
@@ -381,12 +379,10 @@ public class EventHandlerUtil {
      * 
      * @param handlerIterator Iterator that loops through event handlers
      * @param eventExecutor Strategy object that executes event handler method
-     * @exception Exception generic exception potentially thrown by event handlers
      */
     private static void iterateOverEventHandlers(
             Iterator handlerIterator,
             EventHandlerMethodExecutor eventExecutor)
-    throws Exception
     {
         if (handlerIterator != null)
         {

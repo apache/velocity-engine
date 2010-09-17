@@ -37,9 +37,8 @@ public interface EventHandlerMethodExecutor
      * If appropriate, the returned Object will be the return value.
      *  
      * @param handler call the appropriate method on this handler
-     * @exception Exception generic exception potentially thrown by event handlers
      */
-    public void execute(EventHandler handler) throws Exception;
+    public void execute(EventHandler handler);
 
     /**
      * Called after execute() to see if iterating should stop. Should

@@ -35,7 +35,7 @@ public class NullLogChute implements LogChute
     /**
      * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
      */
-    public void init(RuntimeServices rs) throws Exception
+    public void init(RuntimeServices rs)
     {
     }
 

@@ -279,9 +279,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
         return true;
     }
 
-    public Object methodException( Class claz, String method, Exception e )
-         throws Exception
-    {
+    public Object methodException( Class claz, String method, Exception e )   {
         /*
          *  only do processing if the switch is on
          */
@@ -291,7 +289,7 @@ public class EventExample implements ReferenceInsertionEventHandler,
             return "Hello from the methodException() event handler method.";
         }
 
-        throw e;
+        throw new RuntimeException(e);
     }
 
 	/**

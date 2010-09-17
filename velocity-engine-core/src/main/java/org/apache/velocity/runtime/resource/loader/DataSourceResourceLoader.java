@@ -33,7 +33,6 @@ import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.ExceptionUtils;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -225,10 +224,12 @@ public class DataSourceResourceLoader extends ResourceLoader
 
         Connection conn = null;
         ResultSet rs = null;
+        PreparedStatement ps = null;
         try
         {
             conn = openDbConnection();
-            rs = readData(conn, templateColumn, name);
+            ps = getStatement(conn, templateColumn, name);
+            rs = ps.executeQuery();
 
             if (rs.next())
             {
@@ -269,6 +270,7 @@ public class DataSourceResourceLoader extends ResourceLoader
         finally
         {
             closeResultSet(rs);
+            closeStatement(ps);
             closeDbConnection(conn);
         }
     }
@@ -297,11 +299,13 @@ public class DataSourceResourceLoader extends ResourceLoader
         {
             Connection conn = null;
             ResultSet rs = null;
+            PreparedStatement ps = null;
 
             try
             {
                 conn = openDbConnection();
-                rs = readData(conn, timestampColumn, name);
+                ps = getStatement(conn, timestampColumn, name);
+                rs = ps.executeQuery();
 
                 if (rs.next())
                 {
@@ -322,7 +326,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                             + operation + " of '" + name + "': ";
 
                 log.error(msg, sqle);
-                throw ExceptionUtils.createRuntimeException(msg, sqle);
+                throw new VelocityException(msg, sqle);
             }
             catch (NamingException ne)
             {
@@ -330,11 +334,12 @@ public class DataSourceResourceLoader extends ResourceLoader
                              + operation + " of '" + name + "': ";
 
                 log.error(msg, ne);
-                throw ExceptionUtils.createRuntimeException(msg, ne);
+                throw new VelocityException(msg, ne);
             }
             finally
             {
                 closeResultSet(rs);
+                closeStatement(ps);
                 closeDbConnection(conn);
             }
         }
@@ -411,9 +416,34 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
         }
     }
+    
+    /**
+     * Closes the PreparedStatement.
+     */
+    private void closeStatement(PreparedStatement ps)
+    {
+        if (ps != null)
+        {
+            try
+            {
+                ps.close();
+            }
+            catch (RuntimeException re)
+            {
+                throw re;
+            }
+            catch (Exception e)
+            {
+                String msg = "DataSourceResourceLoader: problem when closing PreparedStatement ";
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
+            }
+        }
+    }
+        
 
     /**
-     * Reads the data from the datasource.  It simply does the following query :
+     * Creates the following PreparedStatement query :
      * <br>
      *  SELECT <i>columnNames</i> FROM <i>tableName</i> WHERE <i>keyColumn</i>
      *     = '<i>templateName</i>'
@@ -423,15 +453,15 @@ public class DataSourceResourceLoader extends ResourceLoader
      * @param conn connection to datasource
      * @param columnNames columns to fetch from datasource
      * @param templateName name of template to fetch
-     * @return result set from query
+     * @return PreparedStatement
      */
-    private ResultSet readData(final Connection conn,
+    private PreparedStatement getStatement(final Connection conn,
                                final String columnNames,
                                final String templateName) throws SQLException
     {
         PreparedStatement ps = conn.prepareStatement("SELECT " + columnNames + " FROM "+ tableName + " WHERE " + keyColumn + " = ?");
         ps.setString(1, templateName);
-        return ps.executeQuery();
+        return ps;
     }
 
 }
