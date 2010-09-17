@@ -46,9 +46,9 @@ public class Handler1
         /**
          * throw the exception
          */
-        public Object methodException(Class claz, String method, Exception e) throws Exception
+        public Object methodException(Class claz, String method, Exception e)
         {
-            throw e;
+            throw new RuntimeException(e);
         }
 
         /*

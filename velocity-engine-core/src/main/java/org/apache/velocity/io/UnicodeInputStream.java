@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
 
-import org.apache.velocity.util.ExceptionUtils;
-
 
 /**
  * This is an input stream that is unicode BOM aware. This allows you to e.g. read
@@ -117,9 +115,7 @@ public class UnicodeInputStream
         }
         catch (IOException ioe)
         {
-            IllegalStateException ex = new IllegalStateException("Could not read BOM from Stream");
-            ExceptionUtils.setCause(ex, ioe);
-            throw ex;
+            throw new IllegalStateException("Could not read BOM from Stream", ioe);
         }
     }
 

@@ -30,6 +30,7 @@ import org.apache.log.LogTarget;
 import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.output.io.FileTarget;
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 
@@ -67,7 +68,7 @@ public class AvalonLogChute implements LogChute
     /**
      * @see org.apache.velocity.runtime.log.LogChute#init(org.apache.velocity.runtime.RuntimeServices)
      */
-    public void init(RuntimeServices rs) throws Exception
+    public void init(RuntimeServices rs)
     {
         this.rsvc = rs;
 
@@ -92,7 +93,7 @@ public class AvalonLogChute implements LogChute
     }
 
     // creates a file target using the specified file name
-    private void initTarget(final String file, final RuntimeServices rsvc) throws Exception
+    private void initTarget(final String file, final RuntimeServices rsvc)
     {
         try
         {
@@ -116,7 +117,7 @@ public class AvalonLogChute implements LogChute
         catch (IOException ioe)
         {
             rsvc.getLog().error("Unable to create log file for AvalonLogChute", ioe);
-            throw new Exception("Error configuring AvalonLogChute : " + ioe);
+            throw new VelocityException("Error configuring AvalonLogChute", ioe);
         }
     }
 

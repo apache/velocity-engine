@@ -20,6 +20,7 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -219,7 +220,6 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param identifier
      * @param i
      * @return A Velocity Getter Method.
-     * @throws Exception
      */
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
     {
@@ -273,7 +273,6 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param arg
      * @param i
      * @return A Velocity Setter method.
-     * @throws Exception
      */
     public VelPropertySet getPropertySet(Object obj, String identifier,
                                          Object arg, Info i)
@@ -345,7 +344,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          * @see VelMethod#invoke(java.lang.Object, java.lang.Object[])
          */
         public Object invoke(Object o, Object[] actual)
-            throws Exception
+            throws IllegalAccessException, InvocationTargetException
         {
             // if we're pretending an array is a list...
             if (wrapArray)
@@ -374,7 +373,8 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          * has already been completed.
          * @since 1.6
          */
-        protected Object doInvoke(Object o, Object[] actual) throws Exception
+        protected Object doInvoke(Object o, Object[] actual)
+            throws IllegalAccessException, InvocationTargetException
         {
             return method.invoke(o, actual);
         }
@@ -518,7 +518,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          * @see org.apache.velocity.util.introspection.VelPropertyGet#invoke(java.lang.Object)
          */
         public Object invoke(Object o)
-            throws Exception
+            throws IllegalAccessException, InvocationTargetException
         {
             return getExecutor.execute(o);
         }
@@ -566,10 +566,9 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          * @param o is the Object to invoke it on.
          * @param value in the Value to set.
          * @return The resulting Object.
-         * @throws Exception
          */
         public Object invoke(final Object o, final Object value)
-            throws Exception
+            throws IllegalAccessException, InvocationTargetException
         {
             return setExecutor.execute(o, value);
         }

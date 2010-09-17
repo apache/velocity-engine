@@ -40,7 +40,7 @@ public class SystemLogChute implements LogChute
     private int enabled = WARN_ID;
     private int errLevel = TRACE_ID;
 
-    public void init(RuntimeServices rs) throws Exception
+    public void init(RuntimeServices rs)
     {
         // look for a level config property
         String level = (String)rs.getProperty(RUNTIME_LOG_LEVEL_KEY);

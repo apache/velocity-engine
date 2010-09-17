@@ -265,10 +265,9 @@ public class EventCartridge
      * is executed.  Handlers will not be initialized more than once.
      * 
      * @param rs
-     * @throws Exception
      * @since 1.5
      */
-    public void initialize (RuntimeServices rs) throws Exception
+    public void initialize (RuntimeServices rs)
     {
 
         for ( Iterator i = referenceHandlers.iterator(); i.hasNext(); )

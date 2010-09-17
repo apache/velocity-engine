@@ -151,9 +151,9 @@ public class ParseErrorException extends VelocityException
             lineNumber = xpex.getLineNumber();
             templateName = xpex.getTemplateName();
         }
-        else if (pex.getWrappedThrowable() instanceof ParseException)
+        else if (pex.getCause() instanceof ParseException)
         {
-            ParseException pex2 = (ParseException) pex.getWrappedThrowable();
+            ParseException pex2 = (ParseException) pex.getCause();
 
             if (pex2.currentToken != null && pex2.currentToken.next != null)
             {

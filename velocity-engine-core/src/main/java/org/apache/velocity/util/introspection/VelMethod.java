@@ -1,5 +1,7 @@
 package org.apache.velocity.util.introspection;
 
+import java.lang.reflect.InvocationTargetException;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -36,10 +38,10 @@ public interface VelMethod
      * @param o
      * @param params
      * @return The resulting object.
-     * @throws Exception
+     * @throws IllegalAccessException, InvocationTargetException
      */
     public Object invoke(Object o, Object[] params)
-        throws Exception;
+        throws IllegalAccessException, InvocationTargetException;
 
     /**
      *  specifies if this VelMethod is cacheable and able to be
