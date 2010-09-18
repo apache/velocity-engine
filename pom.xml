@@ -170,12 +170,12 @@
     </reporting>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/sandbox/maven-reorg/engine/trunk
+        <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/branches/2.0_Exp
         </connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/sandbox/maven-reorg/engine/trunk
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/branches/2.0_Exp
         </developerConnection>
         <tag>HEAD</tag>
-        <url>http://svn.apache.org/viewvc/velocity/sandbox/maven-reorg/engine/trunk
+        <url>http://svn.apache.org/viewvc/velocity/engine/branches/2.0_Exp
         </url>
     </scm>
 
