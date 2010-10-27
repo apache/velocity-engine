@@ -74,7 +74,7 @@
 
     <release version="1.7" date="In Subversion">
       <action type="add" dev="nbubna">
-    Add access to template and directive debugging info via $<scope>.info.
+    Add access to template and directive debugging info via $/scope/.info.
       </action>
 
       <action type="fix" dev="nbubna" issue="VELOCITY-766">
