@@ -26,6 +26,11 @@
 
   <body>
     <release version="2.0" date="In Subversion">
+      <action type="fix" dev="cbrisson" issue="VELOCITY-785" due-to="Jarkko Viinamäki">
+        Fixed quotes escaping so that doubling single quotes only works when enclosing quotes are single quotes
+        (and same behaviour for double quotes)
+      </action>
+
       <action type="fix" dev="nbubna" issue="VELOCITY-751">
     Removed all remaining "throws Exception" clauses and the now useless ExceptionUtils class.
       </action>
@@ -73,6 +78,11 @@
     </release>
 
     <release version="1.7" date="In Subversion">
+      <action type="fix" dev="cbrisson" issue="VELOCITY-785" due-to="Jarkko Viinamäki">
+        Fixed quotes escaping so that doubling single quotes only works when enclosing quotes are single quotes
+        (and same behaviour for double quotes)
+      </action>
+
       <action type="add" dev="nbubna">
     Add access to template and directive debugging info via $/scope/.info.
       </action>
