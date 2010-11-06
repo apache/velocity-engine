@@ -118,7 +118,7 @@ public class ASTStringLiteral extends SimpleNode
         {
             // replace double-double quotes like "" with a single double quote "
             // replace double single quotes '' with a single quote '
-            image = replaceQuotes(image);
+            image = replaceQuotes(image, img.charAt(0));
         }
 
         /**
@@ -219,15 +219,21 @@ public class ASTStringLiteral extends SimpleNode
     }
 
     /**
-     * Replaces double double-quotes with a single double quote ("" to ")
-     * Replaces double single quotes with a single quote ('' to ')
+     * Replaces double double-quotes with a single double quote ("" to ").
+     * Replaces double single quotes with a single quote ('' to ').
+	 *
+	 * @param s StringLiteral without the surrounding quotes
+	 * @param literalQuoteChar char that starts the StringLiteral (" or ')
      */     
-    private String replaceQuotes(String s)
+    private String replaceQuotes(String s, char literalQuoteChar)
     {
-        if( s.indexOf("\"") == -1 && s.indexOf("'") == -1 )
+        if( (literalQuoteChar == '"' && s.indexOf("\"") == -1) ||
+            (literalQuoteChar == '\'' && s.indexOf("'") == -1) )
+        {
             return s;
+        }
     
-        StrBuilder result = new StrBuilder();
+        StrBuilder result = new StrBuilder(s.length());
         char prev = ' ';
         for(int i = 0, is = s.length(); i < is; i++)
         {
@@ -237,7 +243,11 @@ public class ASTStringLiteral extends SimpleNode
             if( i + 1 < is )
             {
                 char next =  s.charAt(i + 1);
-                if( (next == '"' && c == '"') || (next == '\'' && c == '\'') )
+				// '""' -> "", "''" -> '' 
+				// thus it is not necessary to double quotes if the "surrounding" quotes
+				// of the StringLiteral are different. See VELOCITY-785
+                if( (literalQuoteChar == '"' && (next == '"' && c == '"')) || 
+				    (literalQuoteChar == '\'' && (next == '\'' && c == '\'')) )
                 {
                     i++;
                 }
