@@ -33,7 +33,7 @@
 
   <groupId>org.apache.velocity</groupId>
   <artifactId>velocity</artifactId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.7</version>
 
   <name>Apache Velocity</name>
   <url>http://velocity.apache.org/engine/devel/</url>
@@ -73,7 +73,7 @@
   <distributionManagement>
     <site>
       <id>velocity.apache.org</id>
-      <url>scpexe://people.apache.org/www/velocity.apache.org/engine/devel/</url>
+      <url>scpexe://people.apache.org/www/velocity.apache.org/engine/releases/velocity-1.7</url>
     </site>
     <repository>
       <id>apache.releases</id>
