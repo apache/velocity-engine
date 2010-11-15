@@ -25,7 +25,7 @@
   </properties>
 
   <body>
-    <release version="1.7" date="In Subversion">
+    <release version="1.7" date="2010-11-20">
       <action type="fix" dev="cbrisson" issue="VELOCITY-785" due-to="Jarkko Viinamäki">
         Fixed quotes escaping so that doubling single quotes only works when enclosing quotes are single quotes
         (and same behaviour for double quotes)
