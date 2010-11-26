@@ -15,7 +15,7 @@
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  KIND, either express or implied.  See the License for the
  specific language governing permissions and limitations
- under the License.    
+ under the License.
 -->
 
 <document>
@@ -65,8 +65,8 @@ Application Guide is highly recommended!</i>
 <section name="Downloading Velocity" href="DownloadingVelocity">
     <p>
         You can download the latest release version of
-        <a href="http://velocity.apache.org/download.cgi#engine">Velocity</a>
-        or <a href="http://velocity.apache.org/download.cgi#tools">Velocity Tools</a>
+        <a href="http://velocity.apache.org/download.cgi#Engine">Velocity</a>
+        or <a href="http://velocity.apache.org/download.cgi#Tools">Velocity Tools</a>
         from the main Apache Velocity download site.  For Velocity itself, source is included with the binary download.
     </p>
 

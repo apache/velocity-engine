@@ -15,7 +15,7 @@
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  KIND, either express or implied.  See the License for the
  specific language governing permissions and limitations
- under the License.    
+ under the License.
 -->
 
 <document>
@@ -35,6 +35,12 @@
 <li><a href="#What_can_Velocity_do_for_me">What can Velocity do for me?</a>
     <ol>
         <li><a href="#The_Mud_Store_Example">The Mud Store example</a></li>
+    </ol>
+</li>
+<li><a href="#What_jar_should_I_use">What jar should I use?</a>
+    <ol>
+        <li><a href="#Maven_users">Maven users</a></li>
+        <li><a href="#Other_users">Other users</a></li>
     </ol>
 </li>
 <li><a href="#Velocity_Template_Language_VTL:_An_Introduction">Velocity Template Language (VTL): An Introduction</a></li>
@@ -226,6 +232,75 @@ Hello $customer.Name!
 
 </section>
 
+
+<section name="What jar should I use?" href="What_jar_should_I_use">
+ <p>
+   Velocity Engine 2.x distribution has several jars, related to the Maven
+   artifacts that are published to the Maven repository.
+ </p>
+ <subsection name="Maven users" href="Maven_users">
+    <p>
+     Include the following dependency to your POM file:
+    </p>
+    <source><![CDATA[
+<dependency>
+  <groupId>org.apache.velocity</groupId>
+  <artifactId>velocity-engine-core</artifactId>
+  <version>x.x.x</version>
+</dependency>]]>
+    </source>
+    <p>If you want to connect Velocity log facility to Commons Logging, Log4j or the servlet logger,
+    choose the appropriate dependency:</p>
+    <source><![CDATA[
+<dependency>
+  <groupId>org.apache.velocity</groupId>
+  <artifactId>velocity-engine-commons-logging</artifactId>
+  <version>x.x.x</version>
+</dependency>
+
+<dependency>
+  <groupId>org.apache.velocity</groupId>
+  <artifactId>velocity-engine-log4j</artifactId>
+  <version>x.x.x</version>
+</dependency>
+
+<dependency>
+  <groupId>org.apache.velocity</groupId>
+  <artifactId>velocity-engine-servlet</artifactId>
+  <version>x.x.x</version>
+</dependency>
+]]>
+    </source>
+ </subsection>
+ <subsection name="Other users" href="Other_users">
+	 <p>
+	   First of all <a href="http://velocity.apache.org/download.cgi#Engine">download Velocity Engine distribution</a>.
+	 </p>
+	 <p>
+	   If you want to jumpstart your application, simply include <strong>velocity-x.x.x.jar</strong>
+	   in your classpath: it includes all classes of Velocity Engine (with the exclusion of the examples).
+	   Include all the jars in the "lib" subdirectory too.
+	 </p>
+	 <p>
+	   The other jars are finely-grained jars that contain only what you might need.
+	 </p>
+	 <ul>
+	 	<li><strong>velocity-engine-core-x.x.x.jar</strong>: The main Velocity library. It
+	 	must be included at all times.</li>
+	 	<li><strong>velocity-engine-commons-logging-x.x.x.jar</strong>: It contains the binding to
+	 	Commons Logging, so all log messages will be directed to it. To be used in
+	 	conjunction with Commons Logging (included in "lib" directory).</li>
+	 	<li><strong>velocity-engine-log4j-x.x.x.jar</strong>: It contains the binding to
+	 	Log4j, so all log messages will be directed to it. To be used in
+	 	conjunction with Log4j (included in "lib" directory).</li>
+	 	<li><strong>velocity-engine-servlet-x.x.x.jar</strong>: It contains the binding to
+	 	the servlet logger. To be used in a servlet container.</li>
+	 </ul>
+	 <p>The extra jars you will always need always are Commons Collections and Commons Lang,
+     included in "lib" directory.</p>
+ </subsection>
+</section>
+
 <section name="Velocity Template Language (VTL): An Introduction" href="velocity_template_language_vtl:_an_introduction">
 
  <p>
@@ -375,7 +450,7 @@ visible. *# This text is outside the comment, so it is visible.
 
  <p>
     There is a third type of comment, the VTL comment block, which may
-    be used to store any sort of extra information you want to track 
+    be used to store any sort of extra information you want to track
     in the template (e.g. javadoc-style author and versioning information):
  </p>
 
@@ -611,7 +686,7 @@ $sun.setPlanets()
  </p>
 
  <p>
-    <a name="index"><strong>Index Notation</strong></a>    
+    <a name="index"><strong>Index Notation</strong></a>
     <br/>
     Using the notation of the form <code>$foo[0]</code> can be used to access a
     given index of an object.  This form is synonymous with calling
@@ -621,7 +696,7 @@ $sun.setPlanets()
     following are valid uses:
  </p>
     <source>$foo[0]       ## $foo takes in an Integer look up
-$foo[$i]      ## Using another reference as the index   
+$foo[$i]      ## Using another reference as the index
 $foo["bar"]   ## Passing a string where $foo may be a Map</source>
  <p>
     The bracketed syntax also works with Java arrays since Velocity
@@ -632,7 +707,7 @@ $foo["bar"]   ## Passing a string where $foo may be a Map</source>
  <p>
    The bracketed syntax is valid anywhere <code>.get</code> is valid,
    for example:
- </p>   
+ </p>
    <source>$foo.bar[1].junk
 $foo.callMethod()[1]
 $foo["apple"][4]</source>
@@ -769,14 +844,14 @@ Jack is a ${vice}maniac.
   <source><![CDATA[$foo                         ## Exception
 #set($bar = $foo)            ## Exception
 #if($foo == $bar)#end        ## Exception
-#foreach($item in $foo)#end  ## Exception]]></source>    
+#foreach($item in $foo)#end  ## Exception]]></source>
   <p>
     Also, The following statements show examples in which Velocity will
     throw an exception when attempting to call methods or properties
     that do not exist. In these examples $bar contains an object that
     defines a property 'foo' which returns a string, and 'retnull' which
     returns null.
-  </p>    
+  </p>
   <source><![CDATA[$bar.bogus          ## $bar does not provide property bogus, Exception
 $bar.foo.bogus      ## $bar.foo does not provide property bogus, Exception
 $bar.retnull.bogus  ## cannot call a property on null, Exception]]></source>
@@ -1576,10 +1651,10 @@ $count
     <p>
     The <em>#evaluate</em> directive can be used to dynamically evaluate VTL.  This allows
     the template to evaluate a string that is created at render time.  Such a string might be
-    used to internationalize the template or to include parts of a template from a database.    
+    used to internationalize the template or to include parts of a template from a database.
     </p>
 
-    <p>The example below will display <code>abc</code>.  
+    <p>The example below will display <code>abc</code>.
     </p>
 
 <source><![CDATA[
@@ -1590,7 +1665,7 @@ $count
 #evaluate($dynamicsource)
 ]]></source>
 
- 
+
  </section>
 
 <section name="Define" href="define">
@@ -1599,7 +1674,7 @@ $count
     The <em>#define</em> directive lets one assign a block of VTL to a reference.
     </p>
 
-    <p>The example below will display <code>Hello World!</code>.  
+    <p>The example below will display <code>Hello World!</code>.
     </p>
 
 <source><![CDATA[
@@ -1608,7 +1683,7 @@ $count
 $block
 ]]></source>
 
- 
+
  </section>
 
 <section name="Velocimacros" href="velocimacros">
@@ -2054,7 +2129,7 @@ ${D}{my:invalid:non:reference}
     <p>You can, of course, put your <code>$</code> or <code>#</code> string directly
     into the context from your java code (e.g. <code>context.put("D","$");</code>)
     to avoid the extra #set() directive in your template(s).  Or, if you are using
-    <a href="http://velocity.apache.org/tools/devel/">VelocityTools</a>, you can 
+    <a href="http://velocity.apache.org/tools/devel/">VelocityTools</a>, you can
     just use the EscapeTool like this:</p>
 
 <source><![CDATA[

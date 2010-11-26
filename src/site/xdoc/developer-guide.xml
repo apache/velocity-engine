@@ -15,7 +15,7 @@
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  KIND, either express or implied.  See the License for the
  specific language governing permissions and limitations
- under the License.    
+ under the License.
 -->
 
 <document>
@@ -163,8 +163,8 @@ more detail on the various options.
 
 <p>
     You can download the latest release version of
-    <a href="http://velocity.apache.org/download.cgi#engine">Velocity</a>
-    or <a href="http://velocity.apache.org/download.cgi#tools">Velocity Tools</a>
+    <a href="http://velocity.apache.org/download.cgi#Engine">Velocity</a>
+    or <a href="http://velocity.apache.org/download.cgi#Tools">Velocity Tools</a>
     from the main Apache Velocity download site.  For Velocity itself, source is included with the binary download.
 </p>
 
@@ -571,7 +571,7 @@ in the VTL <code>#foreach()</code> directive.
 here. Velocity will internally wrap your array in a class that provides an
 Iterator interface,  but that shouldn't concern you as the programmer, or the
 template author.  Of more interest, is the fact that Velocity will now
-allow template authors to treat arrays as fixed-length lists (as of Velocity 1.6). 
+allow template authors to treat arrays as fixed-length lists (as of Velocity 1.6).
 This means they may call methods like <code>size()</code>,
 <code>isEmpty()</code> and <code>get(int)</code> on both arrays and standard
 java.util.List instances without concerning themselves about the difference.
@@ -1128,10 +1128,10 @@ template content other than template files.
 <a name="exceptions"><strong>Exceptions</strong></a>
 
 <p>
-Velocity may throw one of several exceptions during the parse / merge cycle.  These 
+Velocity may throw one of several exceptions during the parse / merge cycle.  These
 exceptions extend RuntimeException and do not need to explicitly caught,
 although each includes specific properties that may help in presenting
-useful error messages to the end user.  The exceptions 
+useful error messages to the end user.  The exceptions
 are found in the package <code>org.apache.velocity.exception</code> and are:
 </p>
 
@@ -1311,15 +1311,15 @@ Velocity contains a fine-grained event handling system that allows you to custom
 <p>
 <i><code>org.apache.velocity.app.event.IncludeEventHandler</code></i>
 <blockquote>
-The <code>IncludeEventHandler</code> can be used to modify the template that is included 
+The <code>IncludeEventHandler</code> can be used to modify the template that is included
 in a page with <code>#include</code> or <code>#parse</code>.  For example, this may be used to make all includes relative to the current directory or to prevent access to unauthorized resources.
 Multiple <code>IncludeEventHandler</code>'s may be chained, with the return value of the final
 call used as the name of the template to retrieve.
 <pre>
 public IncludeEventHandler extends EventHandler
 {
-    public String includeEvent( String includeResourcePath, 
-                                String currentResourcePath, 
+    public String includeEvent( String includeResourcePath,
+                                String currentResourcePath,
                                 String directiveName );
 }
 </pre>
@@ -1338,21 +1338,21 @@ calls behave will differ per method.  (See the javadoc for the details).
 <pre>
 public InvalidReferenceEventHandler extends EventHandler
 {
-    public Object invalidGetMethod( Context context, 
-                                    String reference, 
-                                    Object object, 
-                                    String property, 
+    public Object invalidGetMethod( Context context,
+                                    String reference,
+                                    Object object,
+                                    String property,
                                     Info info);
 
-    public boolean invalidSetMethod( Context context, 
-                                     String leftreference, 
-                                     String rightreference, 
+    public boolean invalidSetMethod( Context context,
+                                     String leftreference,
+                                     String rightreference,
                                      Info info);
 
-    public Object invalidMethod( Context context, 
-                                 String reference,  
-                                 Object object, 
-                                 String method, 
+    public Object invalidMethod( Context context,
+                                 String reference,
+                                 Object object,
+                                 String method,
                                  Info info);
 }
 </pre>
@@ -1370,13 +1370,13 @@ When a user-supplied method throws an exception, the
 and thrown Exception.  The handler can either return a valid Object to be used
 as the return value of the method call or throw the passed-in or new Exception,
 which will be wrapped and propogated to the user as a
-<code>MethodInvocationException</code>.  While <code>MethodExceptionEventHandler</code>'s can be 
+<code>MethodInvocationException</code>.  While <code>MethodExceptionEventHandler</code>'s can be
 chained only the first handler is actually called -- all others are ignored.
 <pre>
 public interface MethodExceptionEventHandler extends EventHandler
 {
-    public Object methodException( Class claz, 
-                                   String method, 
+    public Object methodException( Class claz,
+                                   String method,
                                    Exception e )
          throws Exception;
 }
@@ -1392,12 +1392,12 @@ Available implementations include:
 <blockquote>
 A <code>ReferenceInsertionEventHandler</code> allows the
 developer to intercept each write of a reference ($foo) value to the output
-stream and modify that output.  Multiple <code>ReferenceInsertionEventHandler</code>'s 
+stream and modify that output.  Multiple <code>ReferenceInsertionEventHandler</code>'s
 may be chained with each step potentially altering the inserted reference.
 <pre>
 public interface  ReferenceInsertionEventHandler extends EventHandler
 {
-    public Object referenceInsert( String reference, 
+    public Object referenceInsert( String reference,
                                    Object value  );
 }
 </pre>
@@ -1460,12 +1460,12 @@ public class Test
     ....
 
     /**
-     * Make a cartridge to hold the event handlers 
+     * Make a cartridge to hold the event handlers
      */
     EventCartridge ec = new EventCartridge();
 
     /*
-     * then register and chain two escape-related handlers 
+     * then register and chain two escape-related handlers
      */
     ec.addEventHandler(new EscapeHtmlReference());
     ec.addEventHandler(new EscapeSqlReference());
@@ -1680,7 +1680,7 @@ runtime log.
 </p>
 
 <p>
-<code>resource.manager.cache.class</code>  
+<code>resource.manager.cache.class</code>
 <br/>
 Declares the class to be used
 for resource caching.  The current default is
@@ -1692,7 +1692,7 @@ is 89.  Note that the ConcurrentHashMap may be better at thread concurrency.
 </p>
 
 <p>
-<code>resource.manager.defaultcache.size</code> 
+<code>resource.manager.defaultcache.size</code>
     <br/>
     Sets the size of the default implementation of the resource
     manager cache size.  The default is 89.
@@ -1824,7 +1824,7 @@ This feature is intended for development, not for production.
 <code>velocimacro.arguments.strict = false</code><br/>
 When set to true, will throw a <code>ParseErrorException</code> when
 parsing a template containing a macro with an invalid number of arguments.
-Is set to false by default to maintain backwards compatibility with 
+Is set to false by default to maintain backwards compatibility with
 templates written before this feature became available.
 </p>
 
@@ -1862,7 +1862,7 @@ New in Velocity 1.6, when set to true Velocity will throw a
 defined in the context, or have not been defined with a #set
 directive.  This setting will also throw an exception if an attempt is
 made to call a non-existing property on an object or if the object is
-null.  When this property is true then 
+null.  When this property is true then
 'directive.foreach.skip.invalid' defaults to true,
 but explicitly setting 'directive.foreach.skip.invalid' will
 override this default. For a complete discussion see <a
