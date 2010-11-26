@@ -87,6 +87,7 @@
         <item name="Dependencies"             href="jar-dependencies.html"/>
         <item name="Source Code Repository"   href="http://svn.apache.org/viewvc/velocity/engine/trunk/"/>
         <item name="Building from Source"     href="build.html"/>
+        <item name="Release Process"          href="release.html"/>
     </menu>
 
     <menu name="Community">

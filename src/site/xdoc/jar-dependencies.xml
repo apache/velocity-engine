@@ -15,7 +15,7 @@
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  KIND, either express or implied.  See the License for the
  specific language governing permissions and limitations
- under the License.    
+ under the License.
 -->
 
 <document>
@@ -75,37 +75,9 @@
         </tr>
         <tr>
           <td>servletapi</td><td>No</td>
-          <td>Only needed when the <a
-              href="apidocs/org/apache/velocity/servlet/VelocityServlet.html">VelocityServlet</a>
-              or <a href="apidocs/org/apache/velocity/runtime/log/ServletLogChute.html">ServletLogChute</a> are used.
-              Should normally be supplied by the servlet container.
-              <b>VelocityServlet is deprecated and should
-              be replaced with VelocityViewServlet from the
-              <a href="http://velocity.apache.org/tools/devel/">velocity-tools</a> distribution.</b></td>
-        </tr>
-        <tr>
-          <td>jdom</td><td>No</td>
-          <td>Only required for the deprecated Anakia tool / ant task</td>
-        </tr>
-        <tr>
-          <td>werken-xpath</td><td>No</td>
-          <td>Only required for the deprecated Anakia tool / ant task</td>
-        </tr>
-        <tr>
-          <td>antlr</td><td>No</td>
-          <td>Only required for the deprecated Anakia tool / ant task</td>
-        </tr>
-        <tr>
-          <td>ant</td><td>No</td>
-          <td>Only needed for compilation.</td>
-        </tr>
-        <tr>
-          <td>junit</td><td>No</td>
-          <td>Only needed for running the tests during compilation.</td>
-        </tr>
-        <tr>
-          <td>hsqldb</td><td>No</td>
-          <td>Only needed for running the tests during compilation.</td>
+          <td>Only needed when the
+              <a href="apidocs/org/apache/velocity/runtime/log/ServletLogChute.html">ServletLogChute</a> is used.
+              Should normally be supplied by the servlet container.</td>
         </tr>
       </table>
 
@@ -117,10 +89,7 @@
         you should check if you need to update their versions.
       </p>
 
-      <p>The <a href="dependencies.html">auto-generated dependency report</a> lists all mandatory
-         dependencies as <b>compile</b> and all optional dependencies as <b>provided</b>, though
-         it fails to properly reflect the optional nature of the Oro and Commons-Logging dependencies.
-      </p>
+      <p>Take a look at each module documentation to see all dependencies in detail</p>
     </section>
   </body>
 </document>
