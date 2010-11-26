@@ -29,9 +29,7 @@ Prerequisites
 
   To create a release you have to install:
 
-  * {{{http://java.sun.com/j2se/1.5.0/}Java 5.0}}. If you are using a newer
-  version of Java, it is suggested to <<change JAVA_HOME environment variable>>
-  when calling Maven, so it points to an instance of Java 5.0;
+  * {{{http://www.oracle.com/technetwork/java/javase/downloads/index.html}Java Development Kit 6}}.
 
   * {{{http://maven.apache.org/}Maven 2}};
 
