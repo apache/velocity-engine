@@ -54,7 +54,7 @@ velocity-engine-log4j-<version>.jar
   This jar contains the Log4J Log Chute, that allows logging using Log4j.
   It needs to be used together with velocity-engine-core-<version>.jar
 
-velocity-engine-servlet-logger-<version>.jar
+velocity-engine-servlet-<version>.jar
 --------------------------
 
   This jar contains the Servlet Logger Log Chute, that allows logging using
