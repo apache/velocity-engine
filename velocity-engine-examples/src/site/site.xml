@@ -80,7 +80,7 @@
 
     <menu name="Developers">
         <item name="License"                  href="../license.html"/>
-        <item name="Javadoc"                  href="../velocity-engine/apidocs/index.html"/>
+        <item name="Javadoc"                  href="../apidocs/index.html"/>
         <item name="Changes"                  href="../changes-report.html"/>
         <item name="Resolved Issues"          href="../jira-report.html"/>
         <item name="Upgrading"                href="../upgrading.html"/>
