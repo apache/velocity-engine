@@ -1,3 +1,0 @@
-#macro(sample $a)
-	do something with $a
-#end

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+-->
+
+<document>
+
+ <properties>
+  <title>Building Velocity from Source</title>
+  <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
+ </properties>
+
+<body>
+
+<section name="Installation">
+
+<p>
+Velocity runs on a variety of platforms that have installed the Java
+Virtual Machine. The Java Development Kit version 1.6 is required for users who want to compile
+Velocity from its source code.
+</p>
+
+<p>
+Everything required to build Velocity comes with the distribution, which
+can be obtained from <a
+href="http://svn.apache.org/repos/asf/velocity/engine/">Subversion</a> or
+from the <a
+href="http://velocity.apache.org/download.cgi#Engine">main distribution</a>.
+However, you will need to install <a href="http://maven.apache.org/">Maven</a> to build the Velocity sources.</p>
+
+
+<p><a href="http://maven.apache.org/">Maven</a> is also an Apache project.
+To build Apache Velocity, you need at least Version 2.2.1 of Apache Maven.
+</p>
+
+</section>
+
+<section name="Required Tools">
+
+<p>
+To build Velocity we require <a href="http://maven.apache.org/">Maven</a>
+version 2.2.1 or higher (Mave 3 can be used too) to perform the build process.
+We assume that you have followed Maven's installation instructions and have it properly installed.
+</p>
+
+<p>
+Velocity requires JDK 1.6 or greater to compile.
+</p>
+
+<p>
+Finally, if you wish to modify Velocity's grammar you will need to a tool
+called <a href="http://javacc.dev.java.net">JavaCC</a>.  We recommend
+version 3.2 or greater (for compatibility with JDK 1.5 syntax changes).
+</p>
+
+</section>
+
+<section name="Building">
+
+<p>
+In each case below, it is assumed that you were successful in getting
+the distribution from Subversion, and with the latter,
+were successful in unpacking.  Also, it is assumed that you are starting
+in the 'velocity' directory, the root of the distribution tree.
+All directory references will be relative to 'velocity'.
+</p>
+
+<p>
+Change to the <b>build</b> directory (<code>cd
+build</code>). Then, to build the jar file, simply type:
+</p>
+
+<source><![CDATA[
+mvn install
+]]></source>
+
+<p>
+Executing this script will create a <b>target</b> directory
+within the Velocity distribution directory. Each subdirectory
+containing a module of Velocity will contain a "target" directory
+too, containing all built jars. In the "velocity-assembly" module
+you will find built distributions.
+</p>
+
+<p>
+Refer to Maven documentation for all phases you can invoke.
+</p>
+
+<p>
+If you find a problem, do not hesitate to ask the Velocity community
+via our mail lists. They can be found <a
+href="http://velocity.apache.org/contact.html">here</a>.
+</p>
+
+</section>
+
+</body>
+</document>
