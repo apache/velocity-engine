@@ -32,7 +32,7 @@
       </action>
 
       <action type="add" dev="nbubna">
-    Add access to template and directive debugging info via $<scope>.info.
+    Add access to template and directive debugging info via $&amp;lt;scope&amp;gt;.info.
       </action>
 
       <action type="fix" dev="nbubna" issue="VELOCITY-766">
