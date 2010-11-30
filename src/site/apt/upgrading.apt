@@ -13,22 +13,6 @@ Upgrading from earlier versions
 * Upgrading from Velocity 1.6
 
   There are no changes in the dependencies since Velocity 1.6
-  
-    * Deprecated $velocityCount; please use $foreach.count or $foreach.index
-
-    * Deprecated $velocityHasNext; please use $foreach.hasNext, $foreach.first or $foreach.last
-
-    * Deprecated velocimacro.context.localscope setting; please get/set local #macro references as members of the provided $macro scope control instead. (e.g. #set( $macro.foo = 'bar' ) and $macro.foo )
-
-    * Deprecated directive.evaluate.context.class setting; please get/set local #evaluate references as members of the provided $evaluate scope control instead. (e.g. #set( $evaluate.foo = 'bar' ) and $evaluate.foo )
-
-    * Deprecated #literal directive; please use #[[this syntax]]# instead.
-
-    * Changed #stop to end template rendering rather than template parsing.
-
-    * Removed obsolete Veltag (use VelocityViewTag in VelocityTools project)
-
-    * Removed obsolete WebMacro conversion code.
 
 * Upgrading from Velocity 1.5
 

@@ -15,7 +15,7 @@
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  KIND, either express or implied.  See the License for the
  specific language governing permissions and limitations
- under the License.    
+ under the License.
 -->
 
 <project name="Apache Velocity">
@@ -32,10 +32,10 @@
   </bannerRight>
 
   <poweredBy>
-    <logo name="Apache Velocity" 
+    <logo name="Apache Velocity"
           href="http://velocity.apache.org/"
           img="/images/pbv90x30.png" />
-    <logo name="Velocity News Feed" 
+    <logo name="Velocity News Feed"
           href="http://velocity.apache.org/rss/news.rss"
           img="/images/feed-icon-24x24.jpg" />
   </poweredBy>
@@ -43,7 +43,7 @@
   <skin>
     <groupId>org.apache.velocity.site</groupId>
     <artifactId>velocity-site-skin</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
   </skin>
 
   <body>
@@ -87,6 +87,7 @@
         <item name="Dependencies"             href="jar-dependencies.html"/>
         <item name="Source Code Repository"   href="http://svn.apache.org/viewvc/velocity/engine/trunk/"/>
         <item name="Building from Source"     href="build.html"/>
+        <item name="Release Process"          href="release.html"/>
     </menu>
 
     <menu name="Community">
@@ -104,7 +105,7 @@
         <item name="Coding Standards"         href="http://wiki.apache.org/velocity/CodeStandards"/>
         <item name="Documentation Guidelines" href="http://wiki.apache.org/velocity/DocumentationGuidelines"/>
         <item name="Issues"                   href="https://issues.apache.org/jira/browse/VELOCITY"/>
-        <item name="Who we are"               href="http://velocity.apache.org/who-we-are.html"/>
+        <item name="Who we are"               href="http://velocity.apache.org/team-list.html"/>
     </menu>
 
     <menu name="Translations">
@@ -114,6 +115,7 @@
         <item name="User's Guide (Spanish)"   href="translations/user-guide_es.html"/>
     </menu>
 
+    <menu ref="modules" />
     <menu ref="reports" />
 
   </body>

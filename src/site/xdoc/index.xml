@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.    
+-->
+
+<document>
+
+  <properties>
+    <title>Velocity</title>
+    <author email="dev@velocity.apache.org">Velocity Documentation Team</author>
+  </properties>
+
+  <body>
+
+    <section name="What is Velocity?" href="WhatisVelocity?">
+
+      <p> Velocity is a Java-based template engine. It permits anyone to use a simple yet
+        powerful template language to reference objects defined in Java code. </p>
+
+      <p> When Velocity is used for web development, Web designers can work in parallel with
+        Java programmers to develop web sites according to the Model-View-Controller (MVC)
+        model, meaning that web page designers can focus solely on creating a site that looks
+        good, and programmers can focus solely on writing top-notch code. Velocity
+        separates Java code from the web pages, making the web site more maintainable over its
+        lifespan and providing a viable alternative to
+        <a href="http://java.sun.com/products/jsp/">Java Server Pages</a> (JSPs) or
+        <a href="http://www.php.net/">PHP</a>. </p>
+
+      <p> Velocity's capabilities reach well beyond the realm of the web; for example, it can
+        be used to generate SQL, PostScript and XML (see
+        <a href="anakia.html">Anakia</a> for more information on XML
+        transformations) from templates. It can be used either as a standalone utility for
+        generating source code and reports, or as an integrated component of other systems.
+        For instance, Velocity provides template services for the
+        <a href="http://jakarta.apache.org/turbine/">Turbine</a> web application
+        framework, together resulting in a view engine facilitating development of web
+        applications according to a true MVC model. </p>
+
+    </section>
+
+    <section name="Where do I get releases?" href="WheredoIgetreleases?">
+
+      <p> The current stable release version is version 1.6.1. </p>
+
+      <p> The release distribution is available as a combined source/binary distribution in
+        <code>tar.gz</code> and
+        <code>zip</code> formats, and can be downloaded through the
+        <a
+          href="http://velocity.apache.org/download.cgi">
+          Apache Mirror system</a>. </p>
+
+      <p> The Velocity jars are also available through the
+        <a href="http://repo1.maven.org/maven2/org/apache/velocity/">central Maven
+          repository</a>. </p>
+
+      <p> Older releases are archived at the
+        <a href="http://archive.apache.org/dist/velocity/engine/"> Apache
+          Velocity archives</a>. </p>
+
+    </section>
+
+    <section name="Where do I get nightly snapshots?"
+      href="WheredoIgetnightlysnapshots?">
+
+      <p> Nightly snapshots of the Velocity subversion source code tree can be found
+        on our <a href="http://vc.apache.org/snapshots/velocity/">nightly snapshot site</a>. </p>
+
+      <p><b>Caveat!</b> These snapshots are generated automatically from the project source code repository. As
+        this is our live development workspace, there are no guarantees as to what you will
+        find there, although we do our best to maintain a buildable source tree. If you are
+        looking for the stable supported release, please use the current release of
+        Velocity. </p>
+
+     <p><b>Please be aware that these snapshots are not official
+     releases of Apache Velocity software. They are provided for
+     developer convenience only!</b></p>
+
+      <p> If you are willing to risk getting dirty, we invite you to try the nightly snapshot to
+        see the current state of affairs. (and help out!)
+        <a href="http://www.apache.org/dev/version-control.html">Public Subversion
+          access</a> is also available. </p>
+
+    </section>
+
+    <section name="How do I contribute, give feedback, fix bugs and so on?"
+      href="HowdoIcontribute,givefeedback,fixbugsandsoon?">
+
+      <p> The Velocity project appreciates any contributions, including documentation
+        help, source code and feedback. Suggested changes should come in the form of source
+        code and/or feedback. </p>
+
+      <ul>
+        <li> Report bugs, ask questions, and help new users on the
+          <a href="http://velocity.apache.org/contact.html"> Velocity
+            mailing lists</a>. </li>
+
+        <li> There's a list of issues waiting to be addressed in
+          <a href="https://issues.apache.org/jira/browse/VELOCITY">our bug tracker</a>. </li>
+
+        <li>
+          <a href="http://wiki.apache.org/velocity/FrontPage"> Our Wiki</a>
+          has a large collection of community written content. Add your own article or
+          contribute to the FAQ! </li>
+        <li> Read-only access to the Subversion repository is available both
+          <a href="http://svn.apache.org/repos/asf/velocity/engine/trunk/">
+            online</a> and with a
+          <a href="http://www.apache.org/dev/version-control.html"> Subversion
+            client</a>. </li>
+      </ul>
+    </section>
+  </body>
+</document>

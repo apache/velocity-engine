@@ -25,14 +25,66 @@
   </properties>
 
   <body>
-    <release version="1.7" date="2010-11-20">
+    <release version="2.0" date="In Subversion">
+      <action type="fix" dev="cbrisson" issue="VELOCITY-785" due-to="Jarkko Viinamäki">
+        Fixed quotes escaping so that doubling single quotes only works when enclosing quotes are single quotes
+        (and same behaviour for double quotes)
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-751">
+    Removed all remaining "throws Exception" clauses and the now useless ExceptionUtils class.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-731">
+    Remove directive.if.tostring.nullcheck crutch with intent
+    to replace testing of toString() null status with support for
+    toBoolean() (or similar) method on objects being "#if'd".
+      </action>
+
+      <action type="add" dev="nbubna">
+    Remove directive.set.null.allowed and instead always allow null to be
+    #set to references.  This also means removing all NullSetEventHandler
+    code, since it was only in play when nulls were not allowed to be #set.
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-704">
+    Remove features deprecated in 1.7 ($velocityCount, $velocityHasNext,
+    velocimacro.context.localscope, directive.evaluate.context.class and
+    all internal supporting code (ProxyVMContext, EvaluateContext, etc).
+      </action>
+
+        <action type="add" dev="byron" issue="VELOCITY-697">
+	  Add ability to specify default values for macro parameters, e.g.;
+	  #macro(foo bar=1)
+	</action>
+      
+        <action type="add" dev="byron" issue="VELOCITY-695">
+	  Add ability to place line comments next to macro parameter definitions.
+	</action>
+      
+        <action type="add" dev="byron" issue="VELOCITY-690">
+	  Block directives no longer require parenthesis so #@foo #end is now allowed.
+	  Also, brackets now work with Block Macros so #{@foo}bar#end works.
+	</action>
+      
+        <action type="fix" dev="nbubna">
+          Removed all deprecations (Anakia, Texen, VelocityServlet, etc.)
+        </action>
+
+        <action type="add" dev="byron" issue="VELOCITY-687">
+          Changed macro arguments to be pass by value.
+        </action>
+
+    </release>
+
+    <release version="1.7" date="In Subversion">
       <action type="fix" dev="cbrisson" issue="VELOCITY-785" due-to="Jarkko Viinamäki">
         Fixed quotes escaping so that doubling single quotes only works when enclosing quotes are single quotes
         (and same behaviour for double quotes)
       </action>
 
       <action type="add" dev="nbubna">
-    Add access to template and directive debugging info via $&amp;lt;scope&amp;gt;.info.
+    Add access to template and directive debugging info via $/scope/.info.
       </action>
 
       <action type="fix" dev="nbubna" issue="VELOCITY-766">
@@ -97,12 +149,6 @@
     Throw an informative VelocityException when #parse is given no args (instead of an NPE).
       </action>
 
-      <action type="fix" dev="nbubna" issue="VELOCITY-731" due-to="Jorgen Rydenius">
-    Add directive.if.tostring.nullcheck config switch to allow
-    improved performance for those who do not need to check whether
-    $foo.toString() returns null when doing #if( $foo ).
-      </action>
-
       <action type="add" dev="nbubna" issue="VELOCITY-704">
     Changed #stop to a directive implementation (get it out of the parser)
     and allow it to accept a message as an argument to be written to the logs
@@ -118,7 +164,7 @@
     &lt;li&gt;A Scope reference can now be automatically made
               available within each content directive:
         &lt;ul&gt;
-        &lt;li&gt;$template in Template.merge and #parse content&lt;/li&gt;
+        &lt;li&gt;$template in Template.merge and #parse content&lt;li&gt;
         &lt;li&gt;$macro in #macro&lt;/li&gt;
         &lt;li&gt;$foreach in #foreach&lt;/li&gt;
         &lt;li&gt;$evaluate in #evaluate or Velocity.evaluate(...) content&lt;/li&gt;
@@ -203,7 +249,7 @@
       <action type="add" dev="nbubna" issue="VELOCITY-666" due-to="Jarkko Viinamaki">
         Add support for calling velocimacros with body content by prefixing the macro
         name with @.
-        (e.g. #macro( foo )Here is $bodyContent#end #@foo()any valid VTL here#end)
+        (e.g. #macro( bold )<strong>$bodyContent</strong>#end #@bold()any valid VTL here#end)
         The $bodyContent reference may be renamed via a velocimacro.body.reference
         setting in your velocity.properties.
       </action>
@@ -246,17 +292,9 @@
 
     </release>
 
-    <release version="1.6.4" date="2010-05-10">
-        <action type="fix" dev="nbubna" issue="VELOCITY-717" due-to="Jarkko Viinamaki">
-            Fix bug in #parse that threw an NPE when IncludeEventHandler returned null
-            and inline macros are kept local.
-        </action>
+    <release version="1.6.4" date="In Subversion">
         <action type="fix" dev="nbubna" issue="VELOCITY-750">
-            Fix double-checked locking in RuntimeInstance's optional lazy-init
-            for Java 1.5+.  Users of older JREs in multi-threaded environments
-            MUST manually call init() on any thread-shared Velocity singleton or
-            VelocityEngine instances to avoid race conditions. New auto-init
-            feature is only supported on Java 1.5+.
+            Fix double-checked locking in RuntimeInstance's optional lazy-init.
         </action>
         <action type="fix" dev="nbubna" issue="VELOCITY-718">
             Fix 100% CPU loop hang under simultaneous HashMap calls in ClassMap

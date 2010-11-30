@@ -1,0 +1,346 @@
+~~ $Id$
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~ http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+~~
+         -----------
+         Release Process
+         -----------
+
+Velocity Engine Release Process
+
+  Here you will find the steps to create releases for Velocity Engine.
+
+Prerequisites
+
+  To create a release you have to install:
+
+  * {{{http://www.oracle.com/technetwork/java/javase/downloads/index.html}Java Development Kit 6}}.
+
+  * {{{http://maven.apache.org/}Maven 2}};
+
+  * {{{http://www.gnupg.org/}GnuPG}};
+
+  * {{{http://www.openssh.com/}OpenSSH}};
+
+One-time operations
+
+  These operations need to be performed only one time.
+
+* Create and publish your GPG key
+
+  To create a GPG key, follow the
+  {{{http://www.apache.org/dev/openpgp.html}guidelines}}.
+  Insert in the file you find on people.apache.org at the directory:
+
+-------------------------------------
+/www/www.apache.org/dist/velocity/
+-------------------------------------
+
+  Publish your GPG key in a PGP key server, such as
+  {{{http://pgp.mit.edu/} MIT Keyserver}}.
+
+* Create and upload yout SSH key
+
+  * Generate your SSH key (in this case we will use RSA encryption):
+
+---------------------------------
+ssh-keygen -t rsa
+---------------------------------
+
+  * Copy your public key to the server:
+
+--------------------------------------
+scp ~/.ssh/id_rsa.pub user@people.apache.org:.ssh/authorized_keys
+--------------------------------------
+
+  * Try to login:
+
+---------------------------------
+ssh user@people.apache.org
+---------------------------------
+
+  If it does not ask you a password, everything is ok.
+
+* Modify <<<settings.xml>>>
+
+  Your <<<settings.xml>>> must be modified to allow deployment.
+
+  This is the minimal configuration, obviously if you already have a <<<settings.xml>>> file,
+  you must edit it:
+
+---------------------------
+<settings xmlns="http://maven.apache.org/POM/4.0.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>apache-site</id>
+            <username>YOUR_APACHE_USERNAME</username>
+            <filePermissions>664</filePermissions>
+            <directoryPermissions>775</directoryPermissions>
+        </server>
+        <server>
+            <id>apache.snapshots.https</id>
+            <username>YOUR_APACHE_USERNAME</username>
+            <password>YOUR_APACHE_PASSWORD</password>
+        </server>
+        <server>
+            <id>apache.releases.https</id>
+            <username>YOUR_APACHE_USERNAME</username>
+            <password>YOUR_APACHE_PASSWORD</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <properties>
+                <gpg.passphrase>YOUR_SECRET_PHRASE</gpg.passphrase>
+            </properties>
+            </profile>
+        </profile>
+    </profiles>
+</settings>
+---------------------------
+
+Repeatable operations
+
+  These steps must be performed <<for each>> release.
+
+* Prepare the release tag
+
+  To prepare the release Subversion tag, check out the branch/trunk from where
+  you are preparing the release and type:
+
+-----------------------------------
+mvn release:prepare -Dusername=YOUR_SVN_USER -Dpassword=YOUR_SVN_PASSWORD
+-----------------------------------
+
+  The plugin interactively will ask you the version to release, the Subversion
+  tag to use and the next snapshot version. It is reccomended to use the tag:
+  <<velocity-engine-parent-X.X.X>> (the default).
+
+* Perform the Release
+
+  To perform the release, i.e. creating and deploying Maven artifacts, use:
+
+-----------------------------------
+mvn release:perform
+-----------------------------------
+
+* Close the staging repository
+
+  Login to {{{https://repository.apache.org using} Nexus repository}} your Apache LDAP credentials.
+  Click on "Staging". Then click on "velocity" in the list of repositories.
+  In the panel below you should see an open repository that is linked to your username and ip.
+  Right click on this repository and select "Close".
+  This will close the repository from future deployments and make it available for others to view.
+  If you are staging multiple releases together, skip this step until you have staged everything.
+  Enter the name and version of the artifact being released in the "Description" field and then click "Close".
+  This will make it easier to identify it later.
+
+* Verify the staged artifacts
+
+  If you click on your repository, a tree view will appear below.
+  You can then browse the contents to ensure the artifacts are as you expect them.
+  Pay particular attention to the existence of *.asc (signature) files.
+  If the you don't like the content of the repository, right click your repository and choose "Drop".
+  You can then rollback your release and repeat the process.
+
+  Note the repository URL, you will need this in your vote email.
+
+* Digest and upload assemblies
+
+  * Go into the release assembly target directory:
+
+-----------------------------------
+cd target/checkout/assembly/target/assembly/out
+-----------------------------------
+
+  * Create MD5 and SHA1 files for each files (including ASC files). You can do
+  it with this simple shell script:
+
+-----------------------------------
+#!/bin/sh
+
+for fileitem in *
+do
+  openssl md5 < $fileitem > $fileitem.md5
+  openssl sha1 < $fileitem > $fileitem.sha1
+done
+-----------------------------------
+
+  * Upload everything to the build site:
+
+-----------------------------------
+scp * user@people.apache.org:/www/people.apache.org/builds/velocity-engine-parent/${version}
+-----------------------------------
+
+* Release the JIRA version
+
+  * In JIRA go to the version that you want to release and release it.
+
+  * Create a new version, if it has not been done before.
+
+  * Create the release notes and <<write down the link>> that it uses.
+
+* Send announcement for the test build
+
+  In <<developers mailing list>> send an announcement for the test build:
+
+-----------------------------------
+Subject: [ANNOUNCE] Velocity Engine ${version} test build available
+
+The test build of Velocity Engine ${version} is available.
+
+
+No determination as to the quality ('alpha,' 'beta,' or 'GA') of Velocity Engine
+${version} has been made, and at this time it is simply a "test build". We
+welcome any comments you may have, and will take all feedback into
+account if a quality vote is called for this build.
+
+Release notes:
+
+* ${jira.release.notes}
+
+Distribution:
+
+ * http://people.apache.org/builds/velocity-engine-parent/${version}/
+
+Maven 2 staging repository:
+
+ * https://repository.apache.org/content/repositories/velocity-[YOUR REPOSITORY ID]/
+
+A vote regarding the quality of this test build will be initiated
+within the next couple of days.
+-----------------------------------
+
+* Call for a vote
+
+  A few days after the test build announcement, call for a vote in
+  <<developers mailing list>>.
+
+-----------------------------------
+Subject: [VOTE] ${version} Release Quality
+
+The Velocity Engine ${version} test build has been available since ${testBuildDate}.
+
+Release notes:
+
+* ${jira.release.notes}
+
+Distribution:
+
+ * http://people.apache.org/builds/velocity-engine-parent/${version}/
+
+Maven 2 staging repository:
+
+ * https://repository.apache.org/content/repositories/velocity-[YOUR REPOSITORY ID]/
+
+If you have had a chance to review the test build, please respond with
+a vote on its quality:
+
+ [ ] Leave at test build
+ [ ] Alpha
+ [ ] Beta
+ [ ] General Availability (GA)
+
+
+Everyone who has tested the build is invited to vote. Votes by PMC
+members are considered binding. A vote passes if there are at least
+three binding +1s and more +1s than -1s.
+-----------------------------------
+
+* Post-vote operations
+
+  After a vote is finished, and it has been decided that is
+  <<at least of alpha quality>>, there is the need of a post-vote process.
+
+** Promote staged artifacts
+
+  Once the release is deemed fit for public consumption it can be transfered to a production repository where it will be available to all users.
+
+  Login to {{{https://repository.apache.org}Nexus repository}} again.
+  Click on "Staging" and then on the repository with id "velocity-staging".
+  Find your closed staging repository, right click on it and choose "Promote".
+  Select the "Releases" repository and click "Promote".
+
+  Next click on "Repositories", select the "Releases" repository
+  and validate that your artifacts exist as you expect them.
+
+** Move assemblies
+
+  * Move assemblies to the Apache distribution mirrors:
+
+-------------------------------------------
+ssh user@people.apache.org
+
+cd /www/people.apache.org/builds/velocity/${version}
+mkdir /www/www.apache.org/dist/velocity/v${version}/
+cp * /www/www.apache.org/dist/velocity/v${version}/
+-------------------------------------------
+
+** Update the site
+
+  * Wait 24 hours to let the mirror sync to the release and then update the
+  site. In particular you have to update the index and the download pages:
+
+------------------------------------------------
+https://svn.apache.org/repos/asf/velocity/site/site/xdoc/download.xml
+https://svn.apache.org/repos/asf/velocity/site/site/news.xml
+------------------------------------------------
+
+  Build and publish the site:
+
+--------------------------------------
+mvn site
+mvn site:deploy
+--------------------------------------
+
+** Send announcement
+
+  Finally, send an an announcement to the <<users>> and <<developers mailing
+  list>>:
+
+--------------------------------------
+Subject: [ANNOUNCE] Velocity Engine ${version} ${quality} released
+
+The Apache Velocity team is pleased to announce the release of Velocity Engine ${version}
+${quality}.
+
+Velocity Engine ${version} is available in a binary and a source distribution.
+
+http://velocity.apache.org/download.html
+
+It is also available in the central Maven repository under Group ID
+"org.apache.velocity".
+
+The 2.0.x series of the Apache Velocity Engine framework has a minimum
+requirement of the following specification versions:
+
+* Java Standard Edition (Java SE) 1.6
+
+The release notes are available online at:
+
+* ${jira.release.notes}
+
+Please feel free to test the distribution and post your comments to
+the user list, or, if appropriate, file a ticket with JIRA.
+--------------------------------------
+
+  <<You have finished!>>
