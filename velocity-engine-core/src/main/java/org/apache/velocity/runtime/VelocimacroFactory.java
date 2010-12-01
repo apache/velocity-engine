@@ -16,7 +16,7 @@ package org.apache.velocity.runtime;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.StringReader;
@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.ArrayList;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
@@ -35,6 +34,7 @@ import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.log.LogDisplayWrapper;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.thirdparty.commons.lang.StringUtils;
 
 /**
  *  VelocimacroFactory.java
@@ -262,7 +262,7 @@ public class VelocimacroFactory
                  RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, false))
             {
                 setReplacementPermission(true);
-                
+
                 log.debug("allowInlineToOverride = true : VMs " +
                     "defined inline may replace previous VM definitions");
             }
@@ -319,7 +319,7 @@ public class VelocimacroFactory
 
     /**
      * Adds a macro to the factory.
-     * 
+     *
      * addVelocimacro(String, Node, String[] argArray, String) should be used internally
      * instead of this.
      *
@@ -328,7 +328,7 @@ public class VelocimacroFactory
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
      * @param sourceTemplate Source template from which the macro gets registered.
-     * 
+     *
      * @return true if Macro was registered successfully.
      */
     public boolean addVelocimacro(String name, String macroBody,
@@ -370,7 +370,7 @@ public class VelocimacroFactory
         /*
          *  see if the current ruleset allows this addition
          */
-        
+
         if (!canAddVelocimacro(name, sourceTemplate))
         {
             return false;
@@ -404,7 +404,7 @@ public class VelocimacroFactory
 
     /**
      * Adds a macro to the factory.
-     * 
+     *
      * @param name Name of the Macro to add.
      * @param macroBody root node of the parsed macro AST
      * @param macroArgs  Array of macro arguments, containing the
@@ -470,8 +470,8 @@ public class VelocimacroFactory
         }
         return true;
     }
-    
-    
+
+
     /**
      *  determines if a given macro/namespace (name, source) combo is allowed
      *  to be added
@@ -486,7 +486,7 @@ public class VelocimacroFactory
          *  short circuit and do it if autoloader is on, and the
          *  template is one of the library templates
          */
-         
+
         if (autoReloadLibrary && (macroLibVec != null))
         {
             if( macroLibVec.contains(sourceTemplate) )
@@ -524,7 +524,7 @@ public class VelocimacroFactory
                  * Concurrency fix: the log entry was changed to debug scope because it
                  * causes false alarms when several concurrent threads simultaneously (re)parse
                  * some macro
-                 */ 
+                 */
                 if (log.isDebugEnabled())
                     log.debug("VM addition rejected : "+name+" : inline not allowed to replace existing VM");
                 return false;
@@ -562,12 +562,12 @@ public class VelocimacroFactory
      /**
       * Return a list of VelocimacroProxies that are defined by the given
       * template name.
-      */     
+      */
      public List<VelocimacroProxy> getVelocimacros(String sourceTemplate)
      {
        return vmManager.getVelocimacros(sourceTemplate);
      }
-     
+
      /**
       * @since 1.6
       */
@@ -663,7 +663,7 @@ public class VelocimacroFactory
 
     /**
      * tells the vmManager to dump the specified namespace
-     * 
+     *
      * @param namespace Namespace to dump.
      * @return True if namespace has been dumped successfully.
      */

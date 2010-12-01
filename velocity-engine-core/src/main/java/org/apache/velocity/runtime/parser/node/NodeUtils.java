@@ -16,12 +16,9 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
-import org.apache.commons.lang.text.StrBuilder;
-import org.apache.velocity.context.Context;
-import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.parser.ParserConstants;
 import org.apache.velocity.runtime.parser.Token;
 
@@ -44,10 +41,11 @@ public class NodeUtils
      * extract them.
      * @param t the Token
      * @return StrBuilder with the special tokens.
+     * @since 2.0.0
      */
-    public static StrBuilder getSpecialText(Token t)
+    public static StringBuilder getSpecialText(Token t)
     {
-        StrBuilder sb = new StrBuilder();
+        StringBuilder sb = new StringBuilder();
 
         Token tmp_t = t.specialToken;
 
@@ -131,22 +129,22 @@ public class NodeUtils
     public static String tokenLiteral( Token t )
     {
         // Look at kind of token and return "" when it's a multiline comment
-        if (t.kind == ParserConstants.MULTI_LINE_COMMENT) 
+        if (t.kind == ParserConstants.MULTI_LINE_COMMENT)
         {
             return "";
-        } 
+        }
         else if (t.specialToken == null || t.specialToken.image.startsWith("##"))
         {
             return t.image;
         }
-        else 
+        else
         {
-            StrBuilder special = getSpecialText(t);
+            StringBuilder special = getSpecialText(t);
             if (special.length() > 0)
             {
                 return special.append(t.image).toString();
             }
             return t.image;
         }
-    } 
+    }
 }

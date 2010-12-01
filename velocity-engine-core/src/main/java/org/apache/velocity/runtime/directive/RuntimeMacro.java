@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -37,7 +36,6 @@ import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.util.introspection.Info;
 
 /**
  * This class acts as a proxy for potential macros.  When the AST is built
@@ -68,15 +66,15 @@ public class RuntimeMacro extends Directive
      * Indicates if we are running in strict reference mode.
      */
     protected boolean strictRef = false;
-        
+
     /**
      * badArgsErrorMsg will be non null if the arguments to this macro
-     * are deamed bad at init time, see the init method.  If his is non null, then this macro 
+     * are deamed bad at init time, see the init method.  If his is non null, then this macro
      * cannot be rendered, and if there is an attempt to render we throw an exception
      * with this as the message.
      */
     private String badArgsErrorMsg = null;
-    
+
     /**
      * Create a RuntimeMacro instance. Macro name and source
      * template stored for later use.
@@ -89,7 +87,7 @@ public class RuntimeMacro extends Directive
         {
             throw new IllegalArgumentException("Null arguments");
         }
-        
+
         this.macroName = macroName.intern();
     }
 
@@ -140,7 +138,7 @@ public class RuntimeMacro extends Directive
         super.init(rs, context, node);
         rsvc = rs;
         this.node = node;
-        
+
         /**
          * Apply strictRef setting only if this really looks like a macro,
          * so strict mode doesn't balk at things like #E0E0E0 in a template.
@@ -153,7 +151,7 @@ public class RuntimeMacro extends Directive
         {
             strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
         }
-                
+
         // Validate that none of the arguments are plain words, (VELOCITY-614)
         // they should be string literals, references, inline maps, or inline lists
         for (int n=0; n < node.jjtGetNumChildren(); n++)
@@ -161,9 +159,9 @@ public class RuntimeMacro extends Directive
             Node child = node.jjtGetChild(n);
             if (child.getType() == ParserTreeConstants.JJTWORD)
             {
-                badArgsErrorMsg = "Invalid arg '" + child.getFirstToken().image 
+                badArgsErrorMsg = "Invalid arg '" + child.getFirstToken().image
                 + "' in macro #" + macroName + " at " + Log.formatFileString(child);
-              
+
                 if (strictRef)  // If strict, throw now
                 {
                     /* indicate col/line assuming it starts at 0
@@ -172,7 +170,7 @@ public class RuntimeMacro extends Directive
                         context.getCurrentTemplateName(), 0, 0);
                 }
             }
-        }               
+        }
     }
 
     /**
@@ -184,7 +182,7 @@ public class RuntimeMacro extends Directive
     {
         if (literal == null)
         {
-            StrBuilder buffer = new StrBuilder();
+            StringBuilder buffer = new StringBuilder();
             Token t = node.getFirstToken();
 
             while (t != null && t != node.getLastToken())
@@ -202,7 +200,7 @@ public class RuntimeMacro extends Directive
         }
         return literal;
     }
-    
+
 
     /**
      * Velocimacro implementation is not known at the init time. So look for
@@ -229,7 +227,7 @@ public class RuntimeMacro extends Directive
     {
         return render(context, writer, node, null);
     }
-    
+
     /**
      * This method is used with BlockMacro when we want to render a macro with a body AST.
      *
@@ -250,7 +248,7 @@ public class RuntimeMacro extends Directive
     {
         VelocimacroProxy vmProxy = null;
         String renderingTemplate = context.getCurrentTemplateName();
-        
+
         /**
          * first look in the source template
          */
@@ -336,7 +334,7 @@ public class RuntimeMacro extends Directive
             throw new VelocityException("Macro '#" + macroName + "' is not defined at "
                 + Log.formatFileString(node));
         }
-        
+
         /**
          * If we cannot find an implementation write the literal text
          */

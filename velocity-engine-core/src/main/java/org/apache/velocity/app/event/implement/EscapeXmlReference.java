@@ -1,5 +1,7 @@
 package org.apache.velocity.app.event.implement;
 
+import org.apache.velocity.thirdparty.commons.lang.StringEscapeUtils;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -16,10 +18,8 @@ package org.apache.velocity.app.event.implement;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
-
-import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * Escape all XML entities.
@@ -32,7 +32,7 @@ public class EscapeXmlReference extends EscapeReference
 
     /**
      * Escape all XML entities.
-     * 
+     *
      * @param text
      * @return An escaped String.
      * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)">StringEscapeUtils</a>

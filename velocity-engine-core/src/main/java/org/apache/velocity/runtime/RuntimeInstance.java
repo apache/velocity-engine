@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.collections.ExtendedProperties;
-import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.EventHandler;
@@ -1485,7 +1484,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
 
         /* now just create the VM call, and use evaluate */
-        StrBuilder template = new StrBuilder("#");
+        StringBuilder template = new StringBuilder("#");
         template.append(vmName);
         template.append("(");
         for( int i = 0; i < params.length; i++)

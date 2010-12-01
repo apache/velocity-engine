@@ -7,9 +7,9 @@ package org.apache.velocity.runtime.parser.node;
  * licenses this file to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
@@ -33,7 +32,7 @@ import org.apache.velocity.runtime.parser.Token;
 
 /**
  * ASTStringLiteral support. Will interpolate!
- * 
+ *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @version $Id$
@@ -72,7 +71,7 @@ public class ASTStringLiteral extends SimpleNode
     /**
      * init : we don't have to do much. Init the tree (there shouldn't be one)
      * and then see if interpolation is turned on.
-     * 
+     *
      * @param context
      * @param data
      * @return Init result.
@@ -91,7 +90,7 @@ public class ASTStringLiteral extends SimpleNode
          * the stringlit is set at template parse time, so we can do this here
          * for now. if things change and we can somehow create stringlits at
          * runtime, this must move to the runtime execution path
-         * 
+         *
          * so, only if interpolation is turned on AND it starts with a " AND it
          * has a directive or reference, then we can interpolate. Otherwise,
          * don't bother.
@@ -107,9 +106,9 @@ public class ASTStringLiteral extends SimpleNode
          * get the contents of the string, minus the '/" at each end
          */
         String img = getFirstToken().image;
-        
+
         image = img.substring(1, img.length() - 1);
-        
+
         if (img.startsWith("\""))
         {
             image = unescape(image);
@@ -126,7 +125,7 @@ public class ASTStringLiteral extends SimpleNode
          * dreaded <MORE> kludge. Basically, the use of the <MORE> token eats
          * the last character of an interpolated string. EXCEPT when a line
          * comment (##) is in the string this isn't an issue.
-         * 
+         *
          * So, to solve this we look for a line comment. If it isn't found we
          * add a space here and remove it later.
          */
@@ -160,7 +159,7 @@ public class ASTStringLiteral extends SimpleNode
             /*
              * it's possible to not have an initialization context - or we don't
              * want to trust the caller - so have a fallback value if so
-             * 
+             *
              * Also, do *not* dump the VM namespace for this template
              */
 
@@ -178,7 +177,7 @@ public class ASTStringLiteral extends SimpleNode
             }
 
             adjTokenLineNums(nodeTree);
-            
+
             /*
              * init with context. It won't modify anything
              */
@@ -188,7 +187,7 @@ public class ASTStringLiteral extends SimpleNode
 
         return data;
     }
-    
+
     /**
      * Adjust all the line and column numbers that comprise a node so that they
      * are corrected for the string literals position within the template file.
@@ -203,15 +202,15 @@ public class ASTStringLiteral extends SimpleNode
         // Test against null is probably not neccessary, but just being safe
         while(tok != null && tok != node.getLastToken())
         {
-            // If tok is on the first line, then the actual column is 
+            // If tok is on the first line, then the actual column is
             // offset by the template column.
-          
+
             if (tok.beginLine == 1)
                 tok.beginColumn += getColumn();
-            
+
             if (tok.endLine == 1)
                 tok.endColumn += getColumn();
-            
+
             tok.beginLine += getLine()- 1;
             tok.endLine += getLine() - 1;
             tok = tok.next;
@@ -224,7 +223,7 @@ public class ASTStringLiteral extends SimpleNode
 	 *
 	 * @param s StringLiteral without the surrounding quotes
 	 * @param literalQuoteChar char that starts the StringLiteral (" or ')
-     */     
+     */
     private String replaceQuotes(String s, char literalQuoteChar)
     {
         if( (literalQuoteChar == '"' && s.indexOf("\"") == -1) ||
@@ -232,30 +231,30 @@ public class ASTStringLiteral extends SimpleNode
         {
             return s;
         }
-    
-        StrBuilder result = new StrBuilder(s.length());
+
+        StringBuilder result = new StringBuilder(s.length());
         char prev = ' ';
         for(int i = 0, is = s.length(); i < is; i++)
         {
             char c = s.charAt(i);
             result.append(c);
-          
+
             if( i + 1 < is )
             {
                 char next =  s.charAt(i + 1);
-				// '""' -> "", "''" -> '' 
+				// '""' -> "", "''" -> ''
 				// thus it is not necessary to double quotes if the "surrounding" quotes
 				// of the StringLiteral are different. See VELOCITY-785
-                if( (literalQuoteChar == '"' && (next == '"' && c == '"')) || 
+                if( (literalQuoteChar == '"' && (next == '"' && c == '"')) ||
 				    (literalQuoteChar == '\'' && (next == '\'' && c == '\'')) )
                 {
                     i++;
                 }
-           }    
+           }
         }
         return result.toString();
     }
-    
+
     /**
      * @since 1.6
      */
@@ -264,8 +263,8 @@ public class ASTStringLiteral extends SimpleNode
         int u = string.indexOf("\\u");
         if (u < 0) return string;
 
-        StrBuilder result = new StrBuilder();
-        
+        StringBuilder result = new StringBuilder();
+
         int lastCopied = 0;
 
         for (;;)
@@ -312,7 +311,7 @@ public class ASTStringLiteral extends SimpleNode
      * renders the value of the string literal If the properties allow, and the
      * string literal contains a $ or a # the literal is rendered against the
      * context Otherwise, the stringlit is returned.
-     * 
+     *
      * @param context
      * @return result of the rendering.
      */

@@ -16,14 +16,16 @@ package org.apache.velocity.runtime.resource;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import org.apache.commons.collections.map.LRUMap;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,10 +46,48 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ResourceCacheImpl implements ResourceCache
 {
+
+	/**
+	 * A simple LRU Map based on {@link LinkedHashSet}.
+	 *
+	 * @param <K> The key type of the map.
+	 * @param <V> The value type of the map.
+	 */
+	private static class LRUMap<K, V> extends LinkedHashMap<K, V>{
+
+		/**
+         * The serial version uid;
+         */
+        private static final long serialVersionUID = 5889225121697975043L;
+
+		/**
+		 * The size of the cache.
+		 */
+		private int cacheSize;
+
+		/**
+		 * Constructor.
+		 *
+		 * @param cacheSize The size of the cache. After reaching this size, the
+		 * eldest-accessed element will be erased.
+		 */
+		public LRUMap(int cacheSize)
+        {
+	        this.cacheSize = cacheSize;
+        }
+
+		/** {@inheritDoc} */
+		@Override
+        protected boolean removeEldestEntry(Entry<K, V> eldest)
+        {
+	        return size() > cacheSize;
+        }
+	}
+
     /**
      * Cache storage, assumed to be thread-safe.
      */
-    protected Map cache = new ConcurrentHashMap(512, 0.5f, 30);
+    protected Map<Object, Resource> cache = new ConcurrentHashMap<Object, Resource>(512, 0.5f, 30);
 
     /**
      * Runtime services, generally initialized by the
@@ -68,7 +108,7 @@ public class ResourceCacheImpl implements ResourceCache
         {
             // Create a whole new Map here to avoid hanging on to a
             // handle to the unsynch'd LRUMap for our lifetime.
-            Map lruCache = Collections.synchronizedMap(new LRUMap(maxSize));
+            Map<Object, Resource> lruCache = Collections.synchronizedMap(new LRUMap<Object, Resource>(maxSize));
             lruCache.putAll(cache);
             cache = lruCache;
         }
@@ -103,7 +143,7 @@ public class ResourceCacheImpl implements ResourceCache
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#enumerateKeys()
      */
-    public Iterator enumerateKeys()
+    public Iterator<Object> enumerateKeys()
     {
         return cache.keySet().iterator();
     }

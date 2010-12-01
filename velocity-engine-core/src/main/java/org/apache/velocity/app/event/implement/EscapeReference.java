@@ -16,13 +16,11 @@ package org.apache.velocity.app.event.implement;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
-import org.apache.oro.text.perl.MalformedPerl5PatternException;
-import org.apache.oro.text.perl.Perl5Util;
-//import java.util.regex.Pattern;
-//import java.util.regex.Matcher;
+import java.util.regex.PatternSyntaxException;
+
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
@@ -59,9 +57,6 @@ import org.apache.velocity.util.StringUtils;
  */
 public abstract class EscapeReference implements ReferenceInsertionEventHandler,RuntimeServicesAware {
 
-//
-    private Perl5Util perl = new Perl5Util();
-
     private RuntimeServices rs;
 
     private String matchRegExp = null;
@@ -88,7 +83,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
 
     /**
      * Escape the provided text if it matches the configured regular expression.
-     * 
+     *
      * @param reference
      * @param value
      * @return Escaped text.
@@ -106,8 +101,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
             return escape(value);
         }
 
-        else if (perl.match(matchRegExp,reference))
-        //else if (pattern.matcher(reference).matches())
+        else if (reference.matches(matchRegExp))
         {
             return escape(value);
         }
@@ -120,7 +114,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
 
     /**
      * Called automatically when event cartridge is initialized.
-     * 
+     *
      * @param rs instance of RuntimeServices
      */
     public void setRuntimeServices(RuntimeServices rs)
@@ -143,9 +137,9 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
         {
             try
             {
-                perl.match(matchRegExp,"");
+                "".matches(matchRegExp);
             }
-            catch (MalformedPerl5PatternException E)
+            catch (PatternSyntaxException E)
             {
                 rs.getLog().error("Invalid regular expression '" + matchRegExp
                                   + "'.  No escaping will be performed.", E);
@@ -158,7 +152,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
     /**
      * Retrieve a reference to RuntimeServices.  Use this for checking additional
      * configuration properties.
-     * 
+     *
      * @return The current runtime services object.
      */
     protected RuntimeServices getRuntimeServices()

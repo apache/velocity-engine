@@ -16,13 +16,11 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -31,6 +29,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.thirdparty.commons.lang.StringUtils;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.VelMethod;
@@ -53,6 +52,11 @@ import org.apache.velocity.util.introspection.VelMethod;
  */
 public class ASTMethod extends SimpleNode
 {
+    /**
+     * An empty immutable <code>Class</code> array.
+     */
+    private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
+
     private String methodName = "";
     private int paramCount = 0;
 
@@ -115,7 +119,7 @@ public class ASTMethod extends SimpleNode
         paramCount = jjtGetNumChildren() - 1;
 
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
-        
+
         return data;
     }
 
@@ -143,8 +147,8 @@ public class ASTMethod extends SimpleNode
            * sadly, we do need recalc the values of the args, as this can
            * change from visit to visit
            */
-        final Class[] paramClasses =       
-            paramCount > 0 ? new Class[paramCount] : ArrayUtils.EMPTY_CLASS_ARRAY;
+        final Class[] paramClasses =
+            paramCount > 0 ? new Class[paramCount] : EMPTY_CLASS_ARRAY;
 
         for (int j = 0; j < paramCount; j++)
         {
@@ -154,8 +158,8 @@ public class ASTMethod extends SimpleNode
                 paramClasses[j] = params[j].getClass();
             }
         }
-            
-        VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses, 
+
+        VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
             o, context, this, strictRef);
         if (method == null) return null;
 
@@ -186,13 +190,13 @@ public class ASTMethod extends SimpleNode
         {
             return handleInvocationException(o, context, ite.getTargetException());
         }
-        
+
         /** Can also be thrown by method invocation **/
         catch( IllegalArgumentException t )
         {
             return handleInvocationException(o, context, t);
         }
-        
+
         /**
          * pass through application level runtime exceptions
          */
@@ -270,23 +274,23 @@ public class ASTMethod extends SimpleNode
     /**
      * Internal class used as key for method cache.  Combines
      * ASTMethod fields with array of parameter classes.  Has
-     * public access (and complete constructor) for unit test 
+     * public access (and complete constructor) for unit test
      * purposes.
      * @since 1.5
      */
     public static class MethodCacheKey
     {
-        private final String methodName;  
+        private final String methodName;
         private final Class[] params;
 
         public MethodCacheKey(String methodName, Class[] params)
         {
-            /** 
-             * Should never be initialized with nulls, but to be safe we refuse 
+            /**
+             * Should never be initialized with nulls, but to be safe we refuse
              * to accept them.
              */
             this.methodName = (methodName != null) ? methodName : StringUtils.EMPTY;
-            this.params = (params != null) ? params : ArrayUtils.EMPTY_CLASS_ARRAY;
+            this.params = (params != null) ? params : EMPTY_CLASS_ARRAY;
         }
 
         /**
@@ -294,17 +298,17 @@ public class ASTMethod extends SimpleNode
          */
         public boolean equals(Object o)
         {
-            /** 
+            /**
              * note we skip the null test for methodName and params
              * due to the earlier test in the constructor
-             */            
-            if (o instanceof MethodCacheKey) 
+             */
+            if (o instanceof MethodCacheKey)
             {
-                final MethodCacheKey other = (MethodCacheKey) o;                
-                if (params.length == other.params.length && 
-                        methodName.equals(other.methodName)) 
-                {              
-                    for (int i = 0; i < params.length; ++i) 
+                final MethodCacheKey other = (MethodCacheKey) o;
+                if (params.length == other.params.length &&
+                        methodName.equals(other.methodName))
+                {
+                    for (int i = 0; i < params.length; ++i)
                     {
                         if (params[i] == null)
                         {
@@ -323,7 +327,7 @@ public class ASTMethod extends SimpleNode
             }
             return false;
         }
-        
+
 
         /**
          * @see java.lang.Object#hashCode()
@@ -332,10 +336,10 @@ public class ASTMethod extends SimpleNode
         {
             int result = 17;
 
-            /** 
+            /**
              * note we skip the null test for methodName and params
              * due to the earlier test in the constructor
-             */            
+             */
             for (int i = 0; i < params.length; ++i)
             {
                 final Class param = params[i];
@@ -344,11 +348,11 @@ public class ASTMethod extends SimpleNode
                     result = result * 37 + param.hashCode();
                 }
             }
-            
+
             result = result * 37 + methodName.hashCode();
 
             return result;
-        } 
+        }
     }
 
     /**
@@ -359,6 +363,6 @@ public class ASTMethod extends SimpleNode
     {
         return methodName;
     }
-    
-    
+
+
 }

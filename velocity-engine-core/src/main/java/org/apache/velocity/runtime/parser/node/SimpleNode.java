@@ -16,14 +16,13 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -55,7 +54,7 @@ public class SimpleNode implements Node
     protected int id;
 
     /** */
-    // TODO - It seems that this field is only valid when parsing, and should not be kept around.    
+    // TODO - It seems that this field is only valid when parsing, and should not be kept around.
     protected Parser parser;
 
     /** */
@@ -72,16 +71,16 @@ public class SimpleNode implements Node
 
     /** */
     protected Token last;
-    
-    
+
+
     protected String templateName;
 
-    
+
     public RuntimeServices getRuntimeServices()
     {
       return rsvc;
     }
-    
+
     /**
      * @param i
      */
@@ -280,7 +279,7 @@ public class SimpleNode implements Node
         }
 
         Token t = first;
-        StrBuilder sb = new StrBuilder(NodeUtils.tokenLiteral(t));
+        StringBuilder sb = new StringBuilder(NodeUtils.tokenLiteral(t));
         while (t != last)
         {
             t = t.next;
@@ -290,7 +289,7 @@ public class SimpleNode implements Node
     }
 
     /**
-     * @throws TemplateInitException 
+     * @throws TemplateInitException
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
     public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
@@ -408,14 +407,14 @@ public class SimpleNode implements Node
     {
         return first.beginColumn;
     }
-    
+
     /**
      * @since 1.5
      */
     public String toString()
     {
-        StrBuilder tokens = new StrBuilder();
-        
+        StringBuilder tokens = new StringBuilder();
+
         for (Token t = getFirstToken(); t != null; )
         {
             tokens.append("[").append(t.image).append("]");
@@ -433,16 +432,12 @@ public class SimpleNode implements Node
             t = t.next;
         }
 
-        return new ToStringBuilder(this)
-            .append("id", getType())
-            .append("info", getInfo())
-            .append("invalid", isInvalid())
-            .append("children", jjtGetNumChildren())
-            .append("tokens", tokens)
-            .toString();
+		return "SimpleNode [id=" + id + ", info=" + info + ", invalid="
+		        + invalid + ", children=" + Arrays.toString(children)
+		        + ", tokens=" + tokens + "]";
     }
 
-    public String getTemplateName()
+	public String getTemplateName()
     {
       return templateName;
     }

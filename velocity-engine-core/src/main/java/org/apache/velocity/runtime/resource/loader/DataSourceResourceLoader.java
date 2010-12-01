@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.resource.loader;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.BufferedInputStream;
@@ -217,7 +217,7 @@ public class DataSourceResourceLoader extends ResourceLoader
     public synchronized InputStream getResourceStream(final String name)
         throws ResourceNotFoundException
     {
-        if (org.apache.commons.lang.StringUtils.isEmpty(name))
+        if (org.apache.velocity.thirdparty.commons.lang.StringUtils.isEmpty(name))
         {
             throw new ResourceNotFoundException("DataSourceResourceLoader: Template name was empty or null");
         }
@@ -416,7 +416,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
         }
     }
-    
+
     /**
      * Closes the PreparedStatement.
      */
@@ -440,7 +440,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
         }
     }
-        
+
 
     /**
      * Creates the following PreparedStatement query :

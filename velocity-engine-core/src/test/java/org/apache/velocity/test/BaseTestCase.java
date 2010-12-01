@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.File;
@@ -167,12 +167,12 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      * Compare an expected string with the given loaded template
      */
     protected void assertTmplEquals(String expected, String template)
-    {        
+    {
         info("Expected:  " + expected + " from '" + template + "'");
 
         StringWriter writer = new StringWriter();
         try
-        {          
+        {
             engine.mergeTemplate(template, "utf-8", context, writer);
         }
         catch (RuntimeException re)
@@ -184,12 +184,12 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         {
             info("Exception!", e);
             throw new RuntimeException(e);
-        }        
+        }
 
         info("Result:  " + writer.toString());
-        assertEquals(expected, writer.toString());  
+        assertEquals(expected, writer.toString());
     }
-    
+
     /**
      * Ensure that a context value is as expected.
      */
@@ -358,7 +358,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
                 buf.append(baseFile.getPath());
             }
 
-            if (org.apache.commons.lang.StringUtils.isNotEmpty(ext))
+            if (org.apache.velocity.thirdparty.commons.lang.StringUtils.isNotEmpty(ext))
             {
                 buf.append('.').append(ext);
             }
