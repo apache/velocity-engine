@@ -16,15 +16,14 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.log.Log;
+import org.apache.velocity.thirdparty.commons.lang.StringUtils;
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
@@ -81,7 +80,7 @@ public class SetPropertyExecutor
 
         try
         {
-            StrBuilder sb = new StrBuilder("set");
+            StringBuilder sb = new StringBuilder("set");
             sb.append(property);
 
             setMethod(introspector.getMethod(clazz, sb.toString(), params));

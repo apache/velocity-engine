@@ -118,7 +118,7 @@ public class FileResourceLoader extends ResourceLoader
         /*
          * Make sure we have a valid templateName.
          */
-        if (org.apache.commons.lang.StringUtils.isEmpty(templateName))
+        if (org.apache.velocity.thirdparty.commons.lang.StringUtils.isEmpty(templateName))
         {
             /*
              * If we don't get a properly formed templateName then

@@ -16,7 +16,7 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.lang.reflect.Method;
@@ -24,7 +24,6 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.runtime.log.Log;
 
 /**
@@ -47,7 +46,7 @@ public class ClassMap
 
     /** Class logger */
     private final Log log;
-    
+
     /**
      * Class passed into the constructor used to as
      * the basis for the Method map.
@@ -64,13 +63,13 @@ public class ClassMap
     {
         this.clazz = clazz;
         this.log = log;
-        
+
         if (debugReflection && log.isDebugEnabled())
         {
             log.debug("=================================================================");
             log.debug("== Class: " + clazz);
         }
-        
+
         methodCache = createMethodCache();
 
         if (debugReflection && log.isDebugEnabled())
@@ -117,14 +116,14 @@ public class ClassMap
 	// hit java.lang.Object. That is important because it will give us the methods of the declaring class
 	// which might in turn be abstract further up the tree.
 	//
-	// We also ignore all SecurityExceptions that might happen due to SecurityManager restrictions (prominently 
+	// We also ignore all SecurityExceptions that might happen due to SecurityManager restrictions (prominently
 	// hit with Tomcat 5.5).
 	//
 	// We can also omit all that complicated getPublic, getAccessible and upcast logic that the class map had up
 	// until Velocity 1.4. As we always reflect all elements of the tree (that's what we have a cache for), we will
 	// hit the public elements sooner or later because we reflect all the public elements anyway.
 	//
-        // Ah, the miracles of Java for(;;) ... 
+        // Ah, the miracles of Java for(;;) ...
         for (Class classToReflect = getCachedClass(); classToReflect != null ; classToReflect = classToReflect.getSuperclass())
         {
             if (Modifier.isPublic(classToReflect.getModifiers()))
@@ -184,8 +183,8 @@ public class ClassMap
     }
 
     /**
-     * This is the cache to store and look up the method information. 
-     * 
+     * This is the cache to store and look up the method information.
+     *
      * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
      * @version $Id$
      */
@@ -250,7 +249,7 @@ public class ClassMap
             Object cacheEntry = cache.get(methodKey);
             if (cacheEntry == CACHE_MISS)
             {
-                // We looked this up before and failed. 
+                // We looked this up before and failed.
                 return null;
             }
 
@@ -270,7 +269,7 @@ public class ClassMap
                     throw ae;
                 }
 
-                cache.put(methodKey, 
+                cache.put(methodKey,
                         (cacheEntry != null) ? cacheEntry : CACHE_MISS);
             }
 
@@ -301,7 +300,7 @@ public class ClassMap
          * Make a methodKey for the given method using
          * the concatenation of the name and the
          * types of the method parameters.
-         * 
+         *
          * @param method to be stored as key
          * @return key for ClassMap
          */
@@ -314,7 +313,7 @@ public class ClassMap
                 return method.getName();
             }
 
-            StrBuilder methodKey = new StrBuilder((args+1)*16).append(method.getName());
+            StringBuilder methodKey = new StringBuilder((args+1)*16).append(method.getName());
 
             for (int j = 0; j < args; j++)
             {
@@ -349,7 +348,7 @@ public class ClassMap
                 return method;
             }
 
-            StrBuilder methodKey = new StrBuilder((args+1)*16).append(method);
+            StringBuilder methodKey = new StringBuilder((args+1)*16).append(method);
 
             for (int j = 0; j < args; j++)
             {

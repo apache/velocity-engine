@@ -26,13 +26,13 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import org.apache.commons.collections.ExtendedProperties;
-import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.util.StringResource;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.apache.velocity.runtime.resource.util.StringResourceRepositoryImpl;
+import org.apache.velocity.thirdparty.commons.lang.StringUtils;
 import org.apache.velocity.util.ClassUtils;
 
 /**
@@ -41,7 +41,7 @@ import org.apache.velocity.util.ClassUtils;
  *
  * Below is an example configuration for this loader.
  * Note that 'repository.class' is not necessary;
- * if not provided, the factory will fall back on using 
+ * if not provided, the factory will fall back on using
  * {@link StringResourceRepositoryImpl} as the default.
  * <pre>
  * resource.loader = string
@@ -80,8 +80,8 @@ import org.apache.velocity.util.ClassUtils;
  *   StringResourceRepository repo = velocityEngine.getApplicationAttribute("foo");
  * </code></pre>
  * If you did not specify a name for the repository, then it will be stored under the
- * class name of the repository implementation class (for which the default is 
- * 'org.apache.velocity.runtime.resource.util.StringResourceRepositoryImpl'). 
+ * class name of the repository implementation class (for which the default is
+ * 'org.apache.velocity.runtime.resource.util.StringResourceRepositoryImpl').
  * Incidentally, this is also true for the default statically stored repository.
  * </p>
  * <p>Whether your repository is stored statically or in Velocity's application
@@ -354,14 +354,14 @@ public class StringResourceLoader extends ResourceLoader
         }
 
         StringResource resource = this.repository.getStringResource(name);
-        
+
         if(resource == null)
         {
             throw new ResourceNotFoundException("Could not locate resource '" + name + "'");
         }
-        
+
         byte [] byteArray = null;
-    	
+
         try
         {
             byteArray = resource.getBody().getBytes(resource.getEncoding());

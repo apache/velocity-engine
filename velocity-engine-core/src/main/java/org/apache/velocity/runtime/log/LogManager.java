@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.log;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.util.List;
@@ -154,21 +154,13 @@ public class LogManager
                         throw new VelocityException(msg);
                     }
                 }
+                catch(ClassNotFoundException e)
+                {
+                    treatMissingClass(log, claz, e);
+                }
                 catch(NoClassDefFoundError ncdfe)
                 {
-                    // note these errors for anyone debugging the app
-                    if (isProbablyProvidedLogChute(claz))
-                    {
-                        log.debug("Target log system for " + claz +
-                                  " is not available (" + ncdfe.toString() +
-                                  ").  Falling back to next log system...");
-                    }
-                    else
-                    {
-                        log.debug("Couldn't find class " + claz +
-                                  " or necessary supporting classes in classpath.",
-                                  ncdfe);
-                    }
+                    treatMissingClass(log, claz, ncdfe);
                 }
                 catch(UnsupportedOperationException uoe)
                 {
@@ -207,6 +199,24 @@ public class LogManager
         slc.init(rsvc);
         log.debug("Using SystemLogChute.");
         return slc;
+    }
+
+	private static void treatMissingClass(Log log, String claz,
+            Throwable e)
+    {
+	    // note these errors for anyone debugging the app
+	    if (isProbablyProvidedLogChute(claz))
+	    {
+	        log.debug("Target log system for " + claz +
+	                  " is not available (" + e.toString() +
+	                  ").  Falling back to next log system...");
+	    }
+	    else
+	    {
+	        log.debug("Couldn't find class " + claz +
+	                  " or necessary supporting classes in classpath.",
+	                  e);
+	    }
     }
 
     /**

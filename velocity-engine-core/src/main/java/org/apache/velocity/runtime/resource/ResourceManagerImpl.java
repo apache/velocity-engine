@@ -100,7 +100,7 @@ public class ResourceManagerImpl
             log.debug("Re-initialization of ResourceLoader attempted and ignored.");
             return;
         }
-	
+
         ResourceLoader resourceLoader = null;
 
         this.rsvc = rsvc;
@@ -158,7 +158,7 @@ public class ResourceManagerImpl
 
         Object cacheObject = null;
 
-        if (org.apache.commons.lang.StringUtils.isNotEmpty(cacheClassName))
+        if (org.apache.velocity.thirdparty.commons.lang.StringUtils.isNotEmpty(cacheClassName))
         {
             try
             {
@@ -173,12 +173,12 @@ public class ResourceManagerImpl
             }
             catch (IllegalAccessException ae)
             {
-                throw new VelocityException("Could not access class '" 
+                throw new VelocityException("Could not access class '"
                     + cacheClassName + "'", ae);
-            } 
+            }
             catch (InstantiationException ie)
             {
-                throw new VelocityException("Could not instantiate class '" 
+                throw new VelocityException("Could not instantiate class '"
                     + cacheClassName + "'", ie);
             }
 
@@ -230,7 +230,7 @@ public class ResourceManagerImpl
             StringBuffer loaderID = new StringBuffer(loaderName);
             loaderID.append(".").append(RuntimeConstants.RESOURCE_LOADER);
 
-            ExtendedProperties loaderConfiguration = 
+            ExtendedProperties loaderConfiguration =
         		rsvc.getConfiguration().subset(loaderID.toString());
 
             /*
@@ -348,7 +348,7 @@ public class ResourceManagerImpl
             {
                 /*
                  *  it's not in the cache, so load it.
-                 */    
+                 */
                 resource = loadResource(resourceName, resourceType, encoding);
 
                 if (resource.getResourceLoader().isCachingOn())
@@ -533,7 +533,7 @@ public class ResourceManagerImpl
              *  this strikes me as bad...
              */
 
-            if (!org.apache.commons.lang.StringUtils.equals(resource.getEncoding(), encoding))
+            if (!org.apache.velocity.thirdparty.commons.lang.StringUtils.equals(resource.getEncoding(), encoding))
             {
                 log.warn("Declared encoding for template '%s' is different on reload. Old = '%s' New = '%s'",
                          resource.getName(), resource.getEncoding(), encoding);
@@ -548,12 +548,12 @@ public class ResourceManagerImpl
 
             String resourceKey = resource.getType() + resource.getName();
 
-            /* 
+            /*
              * we create a copy to avoid partially overwriting a
              * template which may be in use in another thread
-             */ 
+             */
 
-            Resource newResource = 
+            Resource newResource =
                 ResourceFactory.getResource(resource.getName(), resource.getType());
 
             newResource.setRuntimeServices(rsvc);

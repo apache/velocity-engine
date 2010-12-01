@@ -16,14 +16,13 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.Renderable;
@@ -110,7 +109,7 @@ public abstract class Block extends Directive
      */
     protected String id(InternalContextAdapter context)
     {
-        StrBuilder str = new StrBuilder(100)
+        StringBuilder str = new StringBuilder(100)
             .append("block $").append(key);
         if (!context.getCurrentTemplateName().equals(getTemplateName()))
         {
@@ -118,7 +117,7 @@ public abstract class Block extends Directive
         }
         return str.toString();
     }
-    
+
     /**
      * actual class placed in the context, holds the context
      * being used for the render, as well as the parent (which already holds
@@ -129,13 +128,13 @@ public abstract class Block extends Directive
         private InternalContextAdapter context;
         private Block parent;
         private int depth;
-        
+
         public Reference(InternalContextAdapter context, Block parent)
         {
             this.context = context;
             this.parent = parent;
         }
-        
+
         /**
          * Render the AST of this block into the writer using the context.
          */

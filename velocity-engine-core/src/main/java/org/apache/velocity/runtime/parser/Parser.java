@@ -7,10 +7,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.MacroParseException;
-import org.apache.velocity.util.StringUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
@@ -39,7 +36,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
     public String currentTemplateName = "";
 
     /**
-     * Set to true if the property 
+     * Set to true if the property
      * RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE is set to true
      */
     public boolean strictEscape = false;
