@@ -264,12 +264,12 @@
     </reporting>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/branches/2.0_Exp
+        <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/trunk
         </connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/branches/2.0_Exp
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/trunk
         </developerConnection>
         <tag>HEAD</tag>
-        <url>http://svn.apache.org/viewvc/velocity/engine/branches/2.0_Exp
+        <url>http://svn.apache.org/viewvc/velocity/engine/trunk
         </url>
     </scm>
 
