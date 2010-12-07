@@ -36,7 +36,7 @@
             </includes>
             <excludes>
                 <exclude>org.apache.velocity:velocity-engine-uberjar</exclude>
-                <include>org.apache.velocity:velocity-engine-examples</include>
+                <exclude>org.apache.velocity:velocity-engine-examples</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
@@ -97,6 +97,14 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>../velocity-engine-slf4j</directory>
+            <outputDirectory>src/velocity-engine-sl4j</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>../velocity-engine-log4j</directory>
             <outputDirectory>src/velocity-engine-log4j</outputDirectory>
             <includes>
@@ -149,6 +157,10 @@
         <fileSet>
             <directory>../velocity-engine-commons-logging/target/site</directory>
             <outputDirectory>docs/velocity-engine-commons-logging</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-slf4j/target/site</directory>
+            <outputDirectory>docs/velocity-engine-slf4j</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>../velocity-engine-log4j/target/site</directory>
