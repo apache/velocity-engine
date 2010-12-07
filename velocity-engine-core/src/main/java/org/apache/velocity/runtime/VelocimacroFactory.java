@@ -20,12 +20,13 @@ package org.apache.velocity.runtime;
  */
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
@@ -34,7 +35,6 @@ import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.log.LogDisplayWrapper;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.thirdparty.commons.lang.StringUtils;
 
 /**
  *  VelocimacroFactory.java

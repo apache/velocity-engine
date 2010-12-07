@@ -19,7 +19,7 @@ package org.apache.velocity.test.sql;
  * under the License.
  */
 
-import org.apache.velocity.thirdparty.commons.lang.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hsqldb.jdbcDriver;
 
 import java.io.FileReader;

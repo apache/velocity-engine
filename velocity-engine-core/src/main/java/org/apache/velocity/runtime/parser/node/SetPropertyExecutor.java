@@ -21,9 +21,9 @@ package org.apache.velocity.runtime.parser.node;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.thirdparty.commons.lang.StringUtils;
 import org.apache.velocity.util.introspection.Introspector;
 
 /**

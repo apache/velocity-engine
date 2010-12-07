@@ -358,7 +358,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
                 buf.append(baseFile.getPath());
             }
 
-            if (org.apache.velocity.thirdparty.commons.lang.StringUtils.isNotEmpty(ext))
+            if (org.apache.commons.lang.StringUtils.isNotEmpty(ext))
             {
                 buf.append('.').append(ext);
             }
