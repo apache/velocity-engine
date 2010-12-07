@@ -1,7 +1,7 @@
-WHY ARE THERE TWO JARS?  WHAT'S THE DIFFERENCE?
+WHY ARE THERE SIX JARS?  WHAT'S THE DIFFERENCE?
 ===============================================
 
-We are including five jars with the Velocity distribution. This
+We are including six jars with the Velocity distribution. This
 document describes the differences and what they are intended for.
 
 All of the jars are included in the root directory of the Velocity
@@ -52,6 +52,13 @@ velocity-engine-log4j-<version>.jar
 --------------------------
 
   This jar contains the Log4J Log Chute, that allows logging using Log4j.
+  It needs to be used together with velocity-engine-core-<version>.jar
+
+velocity-engine-slf4j-<version>.jar
+--------------------------
+
+  This jar contains the SLF4J Log Chute, that allows logging using
+  Commons Logging.
   It needs to be used together with velocity-engine-core-<version>.jar
 
 velocity-engine-servlet-<version>.jar
