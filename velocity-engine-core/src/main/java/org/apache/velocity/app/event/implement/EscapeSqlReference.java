@@ -1,6 +1,5 @@
 package org.apache.velocity.app.event.implement;
 
-import org.apache.velocity.thirdparty.commons.lang.StringEscapeUtils;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -39,7 +38,7 @@ public class EscapeSqlReference extends EscapeReference
      */
     protected String escape(Object text)
     {
-        return StringEscapeUtils.escapeSql(text.toString());
+        return text.toString().replaceAll("'", "''");
     }
 
     /**

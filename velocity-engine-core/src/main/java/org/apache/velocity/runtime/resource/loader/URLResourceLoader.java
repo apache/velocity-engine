@@ -29,7 +29,7 @@ import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.thirdparty.commons.lang.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * This is a simple URL-based loader.
