@@ -77,7 +77,7 @@
 
     </release>
 
-    <release version="1.7" date="In Subversion">
+    <release version="1.7" date="2010-11-29">
       <action type="fix" dev="cbrisson" issue="VELOCITY-785" due-to="Jarkko Viinamäki">
         Fixed quotes escaping so that doubling single quotes only works when enclosing quotes are single quotes
         (and same behaviour for double quotes)
@@ -292,7 +292,7 @@
 
     </release>
 
-    <release version="1.6.4" date="In Subversion">
+    <release version="1.6.4" date="2010-05-10">
         <action type="fix" dev="nbubna" issue="VELOCITY-750">
             Fix double-checked locking in RuntimeInstance's optional lazy-init.
         </action>
@@ -311,7 +311,7 @@
         </action>
     </release>
 
-    <release version="1.6.2" date="In Subversion">
+    <release version="1.6.2" date="2009-03-19">
 
       <action type="fix" dev="nbubna" issue="VELOCITY-702">
         Fix obscure caching problem in multiple resource loader situations
