@@ -55,10 +55,10 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
         // if we're just running one case, then have DEBUG
         // automatically set to true
-        String testcase = System.getProperty("testcase");
-        if (testcase != null)
+        String test = System.getProperty("test");
+        if (test != null)
         {
-            DEBUG = testcase.equals(getClass().getName());
+            DEBUG = test.equals(getClass().getSimpleName());
         }
     }
 
