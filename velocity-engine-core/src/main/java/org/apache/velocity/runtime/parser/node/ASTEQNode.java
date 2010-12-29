@@ -19,130 +19,65 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.util.TemplateNumber;
+import org.apache.velocity.util.DuckType;
 
 /**
- *  Handles <code>arg1  == arg2</code>
+ *  Handles <code>arg1 == arg2</code>
  *
  *  This operator requires that the LHS and RHS are both of the
- *  same Class OR both are subclasses of java.lang.Number
+ *  same Class, both numbers or both coerce-able to strings.
  *
  *  @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  *  @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
- *  @version $Id$
+ *  @author Nathan Bubna
  */
-public class ASTEQNode extends SimpleNode
+public class ASTEQNode extends ASTComparisonNode
 {
-    /**
-     * @param id
-     */
     public ASTEQNode(int id)
     {
         super(id);
     }
 
-    /**
-     * @param p
-     * @param id
-     */
     public ASTEQNode(Parser p, int id)
     {
         super(p, id);
     }
 
-    /**
-     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
-     */
-    public Object jjtAccept(ParserVisitor visitor, Object data)
+    @Override
+    public boolean compareNull(Object left, Object right)
     {
-        return visitor.visit(this, data);
+        // at least one is null, see if other is null or acts as a null
+        return left == right || DuckType.asNull(left == null ? right : left);
     }
 
-    /**
-     *   Calculates the value of the logical expression
-     *
-     *     arg1 == arg2
-     *
-     *   All class types are supported.   Uses equals() to
-     *   determine equivalence.  This should work as we represent
-     *   with the types we already support, and anything else that
-     *   implements equals() to mean more than identical references.
-     *
-     *
-     *  @param context  internal context used to evaluate the LHS and RHS
-     *  @return true if equivalent, false if not equivalent,
-     *          false if not compatible arguments, or false
-     *          if either LHS or RHS is null
-     * @throws MethodInvocationException
-     */
-    public boolean evaluate(InternalContextAdapter context)
-        throws MethodInvocationException
+    public boolean numberTest(int compareResult)
     {
-        Object left = jjtGetChild(0).value(context);
-        Object right = jjtGetChild(1).value(context);
+        return compareResult == 0;
+    }
 
-        /*
-         *  convert to Number if applicable
-         */
-        if (left instanceof TemplateNumber)
-        {
-           left = ( (TemplateNumber) left).getAsNumber();
-        }
-        if (right instanceof TemplateNumber)
-        {
-           right = ( (TemplateNumber) right).getAsNumber();
-        }
-
-       /*
-        * If comparing Numbers we do not care about the Class.
-        */
-       if (left instanceof Number && right instanceof Number)
-       {
-           return MathUtils.compare( (Number)left, (Number)right) == 0;
-       }
-
+    @Override
+    public boolean compareNonNumber(Object left, Object right)
+    {
         /**
          * if both are not null, then assume that if one class
          * is a subclass of the other that we should use the equals operator
          */
-        if (left != null && right != null &&
-            (left.getClass().isAssignableFrom(right.getClass()) ||
-             right.getClass().isAssignableFrom(left.getClass())))
+        if (left.getClass().isAssignableFrom(right.getClass()) ||
+            right.getClass().isAssignableFrom(left.getClass()))
         {
-            return left.equals( right );
+            return left.equals(right);
         }
 
-        /*
-         * Ok, time to compare string values
-         */
-        left = (left == null) ? null : left.toString();
-        right = (right == null) ? null: right.toString();
-
-        if (left == null && right == null)
+        // coerce to string, remember getAsString() methods may return null
+        left = DuckType.asString(left);
+        right = DuckType.asString(right);
+        if (left == right)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("Both right (" + getLiteral(false) + " and left "
-                          + getLiteral(true) + " sides of '==' operation returned null."
-                          + "If references, they may not be in the context."
-                          + getLocation(context));
-            }
             return true;
         }
         else if (left == null || right == null)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug((left == null ? "Left" : "Right")
-                        + " side (" + getLiteral(left == null)
-                        + ") of '==' operation has null value. If it is a "
-                        + "reference, it may not be in the context or its "
-                        + "toString() returned null. " + getLocation(context));
-
-            }
             return false;
         }
         else
@@ -151,17 +86,4 @@ public class ASTEQNode extends SimpleNode
         }
     }
 
-    private String getLiteral(boolean left)
-    {
-        return jjtGetChild(left ? 0 : 1).literal();
-    }
-
-    /**
-     * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
-     */
-    public Object value(InternalContextAdapter context)
-        throws MethodInvocationException
-    {
-        return evaluate(context) ? Boolean.TRUE : Boolean.FALSE;
-    }
 }

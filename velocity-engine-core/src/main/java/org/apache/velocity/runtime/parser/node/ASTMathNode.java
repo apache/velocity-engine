@@ -25,7 +25,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.util.TemplateNumber;
+import org.apache.velocity.util.DuckType;
 
 /**
  * Helps handle math<br><br>
@@ -93,17 +93,17 @@ public abstract class ASTMathNode extends SimpleNode
             return special;
         }
 
-        /*
-         * convert to Number if applicable
-         */
-        if (left instanceof TemplateNumber)
+        // coerce to Number type, if possible
+        try
         {
-           left = ((TemplateNumber)left).getAsNumber();
+            left = DuckType.asNumber(left);
         }
-        if (right instanceof TemplateNumber)
+        catch (NumberFormatException nfe) {}
+        try
         {
-           right = ((TemplateNumber)right).getAsNumber();
+            right = DuckType.asNumber(right);
         }
+        catch (NumberFormatException nfe) {}
 
         /*
          * if not a Number, not much we can do

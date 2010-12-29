@@ -37,6 +37,7 @@ import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.ClassUtils;
+import org.apache.velocity.util.DuckType;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.VelMethod;
 import org.apache.velocity.util.introspection.VelPropertySet;
@@ -51,7 +52,7 @@ import org.apache.velocity.util.introspection.VelPropertySet;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
- * @author <a href="mailto:kjohnson@transparent.com>Kent Johnson</a>
+ * @author <a href="mailto:kjohnson@transparent.com">Kent Johnson</a>
  * @version $Id$
 */
 public class ASTReference extends SimpleNode
@@ -418,7 +419,7 @@ public class ASTReference extends SimpleNode
                 }
             }
 
-            toString = value.toString();
+            toString = DuckType.asString(value);
         }
 
         if (value == null || toString == null)
@@ -526,29 +527,18 @@ public class ASTReference extends SimpleNode
         throws MethodInvocationException
     {
         Object value = execute(null, context);
-
         if (value == null)
         {
             return false;
         }
-        else if (value instanceof Boolean)
+        try
         {
-            if (((Boolean) value).booleanValue())
-                return true;
-            else
-                return false;
-        }        
-        else
+            return DuckType.asBoolean(value);
+        }
+        catch(Exception e)
         {
-            try
-            {
-                return value.toString() != null;
-            }
-            catch(Exception e)
-            {
-                throw new VelocityException("Reference evaluation threw an exception at " 
-                    + Log.formatFileString(this), e);
-            }
+            throw new VelocityException("Reference evaluation threw an exception at " 
+                + Log.formatFileString(this), e);
         }
     }
 

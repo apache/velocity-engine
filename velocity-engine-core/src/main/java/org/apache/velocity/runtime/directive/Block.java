@@ -163,6 +163,14 @@ public abstract class Block extends Directive
             }
         }
 
+        /**
+         * Makes #if( $blockRef ) true without rendering, so long as we aren't beyond max depth.
+         */
+        public boolean getAsBoolean()
+        {
+            return depth <= parent.maxDepth;
+        }
+
         public String toString()
         {
             Writer writer = new StringWriter();
