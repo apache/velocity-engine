@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.DuckType;
 
 /**
  * Handles number addition of nodes.<br><br>
@@ -53,23 +54,23 @@ public class ASTAddNode extends ASTMathNode
         super(p, id);
     }
 
-    //@Override
+    @Override
     protected Object handleSpecial(Object left, Object right, InternalContextAdapter context)
     {
-        /*
-         * shall we try for strings?
-         */
-        if (left instanceof String || right instanceof String)
+        // check for strings, but don't coerce
+        String lstr = DuckType.asString(left, false);
+        String rstr = DuckType.asString(right, false);
+        if (lstr != null || rstr != null)
         {
-            if (left == null)
+            if (lstr == null)
             {
-                left = jjtGetChild(0).literal();
+                lstr = left != null ? left.toString() : jjtGetChild(0).literal();
             }
-            else if (right == null)
+            else if (rstr == null)
             {
-                right = jjtGetChild(1).literal();
+                rstr = right != null ? right.toString() : jjtGetChild(1).literal();
             }
-            return left.toString().concat(right.toString());
+            return lstr.concat(rstr);
         }
         return null;
     }

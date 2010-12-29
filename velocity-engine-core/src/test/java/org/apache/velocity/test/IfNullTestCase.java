@@ -91,7 +91,7 @@ public class IfNullTestCase extends BaseTestCase
 
     public static class NullToString
     {
-        public String toString()
+        public String getAsString()
         {
             return null;
         }
