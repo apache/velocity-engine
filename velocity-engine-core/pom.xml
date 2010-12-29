@@ -70,6 +70,10 @@
                     <skip>true</skip>
                     <systemProperties>
                         <property>
+                            <name>test</name>
+                            <value>${test}</value>
+                        </property>
+                        <property>
                             <name>test.compare.dir</name>
                             <value>${project.build.testOutputDirectory}</value>
                         </property>
