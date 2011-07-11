@@ -51,11 +51,13 @@
                                 <filter>
                                     <artifact>commons-lang:commons-lang</artifact>
                                     <includes>
-                                        <include>org/apache/commons/lang/Entities*</include>
-                                        <include>org/apache/commons/lang/StringEscapeUtils*</include>
-                                        <include>org/apache/commons/lang/StringUtils*</include>
-                                        <include>org/apache/commons/lang/UnhandledException*</include>
-                                        <include>org/apache/commons/lang/exception/NestableRuntimeException*</include>
+                                        <include>org/apache/commons/lang/Entities*.class</include>
+                                        <include>org/apache/commons/lang/IntHashMap*.class</include>
+                                        <include>org/apache/commons/lang/StringEscapeUtils.class</include>
+                                        <include>org/apache/commons/lang/StringUtils.class</include>
+                                        <include>org/apache/commons/lang/UnhandledException.class</include>
+                                        <include>org/apache/commons/lang/exception/Nestable.class</include>
+                                        <include>org/apache/commons/lang/exception/NestableRuntimeException.class</include>
                                     </includes>
                                 </filter>
                             </filters>
