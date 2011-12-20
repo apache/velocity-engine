@@ -141,6 +141,15 @@ public class ResourceCacheImpl implements ResourceCache
     }
 
     /**
+     * @see org.apache.velocity.runtime.resource.ResourceCache#clear()
+     * @since 2.0
+     */
+    public void clear()
+    {
+        cache.clear();
+    }
+
+    /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#enumerateKeys()
      */
     public Iterator<Object> enumerateKeys()
