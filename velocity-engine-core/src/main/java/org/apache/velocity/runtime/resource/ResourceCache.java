@@ -66,6 +66,13 @@ public interface ResourceCache
     public Resource remove( Object resourceKey );
 
     /**
+     * Removes all of the resources from this cache.
+     * The cache will be empty after this call returns.
+     * @since 2.0
+     */
+    public void clear();
+
+    /**
      *  returns an Iterator of Keys in the cache.
      * @return An Iterator of Keys in the cache.
      */
