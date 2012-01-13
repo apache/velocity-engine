@@ -230,7 +230,7 @@ public class DataSourceResourceLoader extends ResourceLoader
         try
         {
             conn = openDbConnection();
-            ps = getStatement(conn, templateColumn, name);
+            ps = getStatement(conn, templateColumn, tableName, keyColumn, name);
             rs = ps.executeQuery();
 
             if (rs.next())
@@ -306,7 +306,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             try
             {
                 conn = openDbConnection();
-                ps = getStatement(conn, timestampColumn, name);
+                ps = getStatement(conn, timestampColumn, tableName, keyColumn, name);
                 rs = ps.executeQuery();
 
                 if (rs.next())
@@ -454,11 +454,15 @@ public class DataSourceResourceLoader extends ResourceLoader
      *
      * @param conn connection to datasource
      * @param columnNames columns to fetch from datasource
+     * @param tableName table to fetch from
+     * @param keyColumn column whose value should match templateName
      * @param templateName name of template to fetch
      * @return PreparedStatement
      */
-    private PreparedStatement getStatement(final Connection conn,
+    protected PreparedStatement getStatement(final Connection conn,
                                final String columnNames,
+                               final String tableName,
+                               final String keyColumn,
                                final String templateName) throws SQLException
     {
         PreparedStatement ps = conn.prepareStatement("SELECT " + columnNames + " FROM "+ tableName + " WHERE " + keyColumn + " = ?");
