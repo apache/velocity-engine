@@ -30,6 +30,7 @@ import org.apache.velocity.runtime.log.Log;
  * This is the internal introspector cache implementation.
  *
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
+ * @author <a href="mailto:cdauth@cdauth.eu">Candid Dauth</a>
  * @version $Id$
  * @since 1.5
  */
@@ -48,6 +49,11 @@ public final class IntrospectorCacheImpl implements IntrospectorCache
      * Holds the method maps for the classes we know about. Map: Class --&gt; ClassMap object.
      */
     private final Map classMapCache = new HashMap();
+
+    /**
+     * Holds the field maps for the classes we know about. Map: Class --&gt; ClassFieldMap object.
+     */
+    private final Map classFieldMapCache = new HashMap();
 
     /**
      * Keep the names of the classes in another map. This is needed for a multi-classloader environment where it is possible
@@ -73,13 +79,14 @@ public final class IntrospectorCacheImpl implements IntrospectorCache
         synchronized (classMapCache)
         {
             classMapCache.clear();
+            classFieldMapCache.clear();
             classNameCache.clear();
             log.debug(CACHEDUMP_MSG);
         }
     }
 
     /**
-     * Lookup a given Class object in the cache. If it does not exist, 
+     * Lookup a given Class object in the cache. If it does not exist,
      * check whether this is due to a class change and purge the caches
      * eventually.
      *
@@ -114,6 +121,41 @@ public final class IntrospectorCacheImpl implements IntrospectorCache
     }
 
     /**
+     * Lookup a given Class object in the cache. If it does not exist,
+     * check whether this is due to a class change and purge the caches
+     * eventually.
+     *
+     * @param c The class to look up.
+     * @return A ClassFieldMap object or null if it does not exist in the cache.
+     */
+    public ClassFieldMap getFieldMap(final Class c)
+    {
+        if (c == null)
+        {
+            throw new IllegalArgumentException("class is null!");
+        }
+
+        ClassFieldMap classFieldMap = (ClassFieldMap)classFieldMapCache.get(c);
+        if (classFieldMap == null)
+        {
+            /*
+             * check to see if we have it by name.
+             * if so, then we have an object with the same
+             * name but loaded through a different class loader.
+             * In that case, we will just dump the cache to be sure.
+             */
+            synchronized (classMapCache)
+            {
+                if (classNameCache.contains(c.getName()))
+                {
+                    clear();
+                }
+            }
+        }
+        return classFieldMap;
+    }
+
+    /**
      * Creates a class map for specific class and registers it in the
      * cache.  Also adds the qualified name to the name-&gt;class map
      * for later Classloader change detection.
@@ -124,9 +166,11 @@ public final class IntrospectorCacheImpl implements IntrospectorCache
     public ClassMap put(final Class c)
     {
         final ClassMap classMap = new ClassMap(c, log);
+        final ClassFieldMap classFieldMap = new ClassFieldMap(c, log);
         synchronized (classMapCache)
         {
             classMapCache.put(c, classMap);
+            classFieldMapCache.put(c, classFieldMap);
             classNameCache.add(c.getName());
         }
         return classMap;

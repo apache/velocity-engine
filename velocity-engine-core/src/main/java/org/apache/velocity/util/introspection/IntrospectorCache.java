@@ -23,6 +23,7 @@ package org.apache.velocity.util.introspection;
  * The introspector cache API definition.
  *
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
+ * @author <a href="mailto:cdauth@cdauth.eu">Candid Dauth</a>
  * @version $Id$
  * @since 1.5
  */
@@ -42,6 +43,16 @@ public interface IntrospectorCache {
      * @return A ClassMap object or null if it does not exist in the cache.
      */
     ClassMap get(Class c);
+
+    /**
+     * Lookup a given Class object in the cache. If it does not exist,
+     * check whether this is due to a class change and purge the caches
+     * eventually.
+     *
+     * @param c The class to look up.
+     * @return A ClassFieldMap object or null if it does not exist in the cache.
+     */
+    ClassFieldMap getFieldMap(final Class c);
 
     /**
      * Creates a class map for specific class and registers it in the
