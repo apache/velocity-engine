@@ -19,6 +19,7 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.apache.velocity.runtime.log.Log;
@@ -49,6 +50,7 @@ import org.apache.velocity.runtime.log.Log;
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author <a href="mailto:paulo.gaspar@krankikom.de">Paulo Gaspar</a>
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
+ * @author <a href="mailto:cdauth@cdauth.eu">Candid Dauth</a>
  * @version $Id$
  */
 public abstract class IntrospectorBase
@@ -103,6 +105,35 @@ public abstract class IntrospectorBase
         }
 
         return classMap.findMethod(name, params);
+    }
+
+    /**
+     * Gets the field defined by <code>name</code>.
+     *
+     * @param c Class in which the method search is taking place
+     * @param name Name of the field being searched for
+     *
+     * @return The desired Field object.
+     * @throws IllegalArgumentException When the parameters passed in can not be used for introspection.
+     */
+    public Field getField(final Class c, final String name)
+            throws IllegalArgumentException
+    {
+        if (c == null)
+        {
+            throw new IllegalArgumentException("class object is null!");
+        }
+
+        IntrospectorCache ic = getIntrospectorCache();
+
+        ClassFieldMap classFieldMap = ic.getFieldMap(c);
+        if (classFieldMap == null)
+        {
+            ic.put(c);
+            classFieldMap = ic.getFieldMap(c);
+        }
+
+        return classFieldMap.findField(name);
     }
 
     /**
