@@ -169,7 +169,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
     /**
      * Clones this context object.
      *
-     * @return A deep copy of this <code>Context</code>.
+     * @return A shallow copy of this <code>Context</code>.
      */
     public Object clone()
     {
