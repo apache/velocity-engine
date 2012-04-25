@@ -26,6 +26,35 @@
 
   <body>
     <release version="2.0" date="In Subversion">
+
+      <action type="add" dev="cbrisson" issue="VELOCITY-12" due-to="Candid Dauth">
+        Add a public fields Uberspector
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-814" due-to="Darren Cruse">
+        Support query modification in DataSourceResourceLoader
+      </action>
+
+      <action type="add" dev="nbubna" issue="VELOCITY-813" due-to="Oswaldo Hernandez">
+         Add clear() to ResourceCache
+      </action>
+
+      <action type="fix" dev="nbubna" issue="VELOCITY-692">
+        Make #if() return false for empty strings and empty collections
+      </action>
+
+      <action type="add" dev="apetrelli">
+        Add SLF4J logging option
+      </action>
+
+      <action type="add" dev="apetrelli" issue="VELOCITY-789">
+        Shading of Commons Lang and Commons Collections
+      </action>
+
+      <action type="add" dev="apetrelli">
+        Use Maven 2 as build system
+      </action>
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-785" due-to="Jarkko Viinamäki">
         Fixed quotes escaping so that doubling single quotes only works when enclosing quotes are single quotes
         (and same behaviour for double quotes)
