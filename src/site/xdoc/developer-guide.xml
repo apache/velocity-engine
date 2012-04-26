@@ -1957,6 +1957,8 @@ allows you to create more interesting rules or patterns for Uberspection,
 rather than just returning the first non-null value.
 </p>
 
+<p>Some alternate Uberspectors are provided. You would for instance use <code>runtime.introspector.uberspect = org.apache.velocity.util.introspection.SecureUberspector</code> to avoid template authors to instanciate new classes or to use reflection, or use <code>runtime.introspector.uberspect = org.apache.velocity.util.introspection.UberspectImpl, org.apache.velocity.util.introspection.UberspectPublicFields</code> to expose Java public fields in your templates.</p>
+
 </section>
 
 <section name="Configuring Logging" href="Configuring_Logging">
