@@ -27,6 +27,10 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="add" dev="cbrisson" issue="VELOCITY-706">
+        Method arguments can now be expressions
+      </action>
+
       <action type="add" dev="cbrisson" issue="VELOCITY-819" due-to="Jarkko Viinamäki">
         Parser generation from the .jjt file is now handled by Maven
       </action>
@@ -242,7 +246,7 @@
 	In strict mode attempts to render references that evaluate to
 	null will throw an exception.  In the user wishes to suppress
 	the exception and render nothing then the reference can be
-	proceeded with '$!' as in $!foo.
+	preceeded with '$!' as in $!foo.
       </action>
       
       <action type="add" dev="byron"  issue="VELOCITY-673">
