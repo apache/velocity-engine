@@ -1011,7 +1011,7 @@ TOKEN :
 }
 
 
-<DIRECTIVE>
+<DIRECTIVE,REFMOD2>
 TOKEN :
 {
     <MINUS: "-">
@@ -1711,7 +1711,7 @@ void Parameter() #void: {}
  */
 void Method() : {}
 {
-   Identifier() <LPAREN> [ Parameter() ( <COMMA> Parameter() )* ] <REFMOD2_RPAREN>
+   Identifier() <LPAREN> [ Expression() ( <COMMA> Expression() )* ] <REFMOD2_RPAREN>
 }
 
 
