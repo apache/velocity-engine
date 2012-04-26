@@ -1242,9 +1242,13 @@ $blargh
 
     <p>
       The variable <em>$foo</em> is evaluated to determine whether it is
-      true, which will happen under one of two circumstances: (i)
-      <em>$foo</em> is a boolean (true/false) which has a true value, or
-      (ii) the value is not null.  Remember that the Velocity context only
+      true, which will happen under one of three circumstances:
+      <ul>
+        <li><em>$foo</em> is a boolean (true/false) which has a true value</li>
+        <li><em>$foo</em> is a string or a collection which is not null <strong>and</strong> not empty</li>
+        <li><em>$foo</em> is an object (other than a string or a collection) which is not null</li>
+      </ul>
+      Remember that the Velocity context only
       contains Objects, so when we say 'boolean', it will be represented
       as a Boolean (the class).  This is true even for methods that return
       <code>boolean</code> - the introspection infrastructure will return
