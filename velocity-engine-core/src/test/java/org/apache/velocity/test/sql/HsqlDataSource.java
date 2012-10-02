@@ -23,6 +23,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
@@ -72,6 +74,13 @@ public class HsqlDataSource implements DataSource {
 
     public Object unwrap(final Class iface) throws SQLException {
 	throw new SQLException("Not implemented");
+    }
+
+    /* added to be able to compile with jdk 1.7 */
+
+    Logger getParentLogger() throws SQLFeatureNotSupportedException
+    {
+        throw new SQLFeatureNotSupportedException();
     }
 
 }
