@@ -78,7 +78,7 @@ public class HsqlDataSource implements DataSource {
 
     /* added to be able to compile with jdk 1.7 */
 
-    Logger getParentLogger() throws SQLFeatureNotSupportedException
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException
     {
         throw new SQLFeatureNotSupportedException();
     }
