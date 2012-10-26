@@ -74,4 +74,11 @@ public class HsqlDataSource implements DataSource {
 	throw new SQLException("Not implemented");
     }
 
+    /* added to be able to compile with jdk 1.7 */
+
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException
+    {
+        throw new SQLFeatureNotSupportedException();
+    }
+
 }
