@@ -292,4 +292,106 @@
         <module>velocity-engine-uberjar</module>
         <module>velocity-engine-assembly</module>
     </modules>
+
+    <!-- This project is an effort by many people. If you feel that your name
+         should be in here and has been omitted in error, please open an issue
+         with the Apache Velocity Issue tracker. -->
+    <contributors>
+        <contributor>
+            <name>Adrian Tarau</name>
+        </contributor>
+        <contributor>
+            <name>Aki Nieminen</name>
+        </contributor>
+        <contributor>
+            <name>Alexey Pachenko</name>
+        </contributor>
+        <contributor>
+            <name>Anil K. Vijendran</name>
+        </contributor>
+        <contributor>
+            <name>Attila Szegedi</name>
+        </contributor>
+        <contributor>
+            <name>Bob McWhirter</name>
+        </contributor>
+        <contributor>
+            <name>Byron Foster</name>
+        </contributor>
+        <contributor>
+            <name>Christoph Reck</name>
+        </contributor>
+        <contributor>
+            <name>Dave Bryson</name>
+        </contributor>
+        <contributor>
+            <name>David Kinnvall</name>
+        </contributor>
+        <contributor>
+            <name>Eelco Hillenius</name>
+        </contributor>
+        <contributor>
+            <name>Fedor Karpelevitch</name>
+        </contributor>
+        <contributor>
+            <name>Gal Shachor</name>
+        </contributor>
+        <contributor>
+            <name>Jarkko Viinamäki</name>
+        </contributor>
+        <contributor>
+            <name>Jeff Bowden</name>
+        </contributor>
+        <contributor>
+            <name>Jose Alberto Fernandez</name>
+        </contributor>
+        <contributor>
+            <name>Kasper Nielsen</name>
+        </contributor>
+        <contributor>
+            <name>Kent Johnson</name>
+        </contributor>
+        <contributor>
+            <name>Kyle F. Downey</name>
+        </contributor>
+        <contributor>
+            <name>Leon Messerschmidt</name>
+        </contributor>
+        <contributor>
+            <name>Llewellyn Falco</name>
+        </contributor>
+        <contributor>
+            <name>Matt Raible</name>
+        </contributor>
+        <contributor>
+            <name>Matthijs Lambooy</name>
+        </contributor>
+        <contributor>
+            <name>Paulo Gaspar</name>
+        </contributor>
+        <contributor>
+            <name>Peter Romianowski</name>
+        </contributor>
+        <contributor>
+            <name>Robert Burrell Donkin</name>
+        </contributor>
+        <contributor>
+            <name>Sam Ruby</name>
+        </contributor>
+        <contributor>
+            <name>Sean Legassick</name>
+        </contributor>
+        <contributor>
+            <name>Serge Knystautas</name>
+        </contributor>
+        <contributor>
+            <name>Stephane Bailliez</name>
+        </contributor>
+        <contributor>
+            <name>Stephen Habermann</name>
+        </contributor>
+        <contributor>
+            <name>Sylwester Lachiewicz</name>
+        </contributor>
+    </contributors>
 </project>
