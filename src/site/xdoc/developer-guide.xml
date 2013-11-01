@@ -931,7 +931,7 @@ type of the return value, as they can be things other than Strings.
 
 <li><code>init()</code><br/>
 Initializes the runtime with the default properties provided in the
-distribution.(These are listed below in the section pertaining to
+distribution.  (These are listed below in the section pertaining to
 properties.)
 </li>
 
@@ -940,8 +940,8 @@ properties contained in the <code>java.util.Properties</code> object passed
 as an argument.
 </li>
 
-<li><code>init( String filename )</code><br/> initilizes the runtime
-using the properties found in the properties file filename
+<li><code>init( String filename )</code><br/> initializes the runtime
+using the properties found in the properties file <code>filename</code>
 </li>
 
 </ul>
@@ -977,13 +977,13 @@ call either <code>init( filename )</code> or <code>init( Properties )</code>
 <li> Set the configuration values individually using <code>setProperty()</code>
 and then call <code>init()</code>.  This method is generally used by more advanced
 applications that already have their own configuration management system -
-this allows the application so configure Velocity based upon values it generates
+this allows the application to configure Velocity based upon values it generates
 at runtime, for example.
 </li>
 </ol>
 
 <p>
-Once the runtime is initialized, you can do with it what you wish.. This mostly
+Once the runtime is initialized, you can do with it what you wish.  This mostly
 revolves around rendering templates into an output stream, and the Velocity
 utility class allows you to do this easily.  Currently, here are the methods
 and a brief description of what they do:
@@ -997,7 +997,7 @@ and a brief description of what they do:
      InputStream instream )</code><br/>
      These methods will render the input, in either the form of String or
      InputStream to an output Writer, using a Context that you provide.
-     This is a very convenienient method to use for token replacement of
+     This is a very convenient method to use for token replacement of
      strings, or if you keep 'templates' of VTL-containing content in a
      place like a database or other non-file storage, or simply generate such
      dynamically.
@@ -1034,7 +1034,7 @@ and a brief description of what they do:
 </ul>
 
 <p>
-Once we know about these basic helpers, it is easy to write Java program
+Once we know about these basic helpers, it is easy to write a Java program
 that uses Velocity.  Here it is:
 </p>
 
@@ -1119,7 +1119,7 @@ lower level calls.
 </p>
 
 <p>
-So the example above sticks to the same simply pattern of using the Velocity
+So the example above sticks to the same simple pattern of using the Velocity
 template engine, but the utility functions do some of
 the repeated drudge work, or allow you other options for your
 template content other than template files.
@@ -1155,8 +1155,8 @@ directive initialization.
 
 <li>
 <code>MethodInvocationException</code><br/>
-Thrown when a method of object in the context thrown an exception during
-render time.  This exception wraps the thrown exception and propogates it
+Thrown when a method of object in the context throws an exception during
+render time.  This exception wraps the thrown exception and propagates it
 to the application.  This allows you to handle problems in your own objects
 at runtime.
 </li>
@@ -1686,7 +1686,7 @@ Declares the class to be used
 for resource caching.  The current default is
 <code>org.apache.velocity.runtime.resource.ResourceCacheImpl</code>.
 When <code>resource.manager.defaultcache.size</code> is set to 0, then
-the default implementation is the standard java ConcurrentHashMap.
+the default implementation is the standard Java <code>ConcurrentHashMap</code>.
 Otherwise, a non-zero cache size  uses an LRU Map.  The default cache size
 is 89.  Note that the ConcurrentHashMap may be better at thread concurrency.
 </p>
