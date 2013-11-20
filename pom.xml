@@ -33,7 +33,7 @@
 
   <groupId>org.apache.velocity</groupId>
   <artifactId>velocity</artifactId>
-  <version>1.7</version>
+  <version>1.7.1</version>
 
   <name>Apache Velocity</name>
   <url>http://velocity.apache.org/engine/devel/</url>
