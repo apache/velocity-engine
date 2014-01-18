@@ -24,7 +24,7 @@ import java.io.Writer;
 
 /**
  * Implementation of a fast Writer. It was originally taken from JspWriter
- * and modified to have less syncronization going on.
+ * and modified to have less synchronization going on.
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>

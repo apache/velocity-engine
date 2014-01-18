@@ -32,21 +32,20 @@ package org.apache.velocity.exception;
 public interface ExtendedParseException
 {
     /**
-     * returns the Template name where this exception occured.
-     * @return The Template name where this exception occured.
+     * returns the Template name where this exception occurred.
+     * @return The Template name where this exception occurred.
      */
     String getTemplateName();
 
     /**
-     * returns the line number where this exception occured.
-     * @return The line number where this exception occured.
+     * returns the line number where this exception occurred.
+     * @return The line number where this exception occurred.
      */
     int getLineNumber();
 
     /**
-     * returns the column number where this exception occured.
-     * @return The column number where this exception occured.
+     * returns the column number where this exception occurred.
+     * @return The column number where this exception occurred.
      */
     int getColumnNumber();
 }
-

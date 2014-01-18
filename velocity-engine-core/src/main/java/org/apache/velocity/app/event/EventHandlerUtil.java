@@ -125,7 +125,7 @@ public class EventHandlerUtil {
      * @param context The internal context adapter.
      * @return Object to return as method result
      * @throws Exception
-     *             to be wrapped and propogated to app
+     *             to be wrapped and propagated to app
      */
     public static Object methodException(RuntimeServices rsvc,
             InternalContextAdapter context, Class claz, String method,

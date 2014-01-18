@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Default implementation of the resource cache for the default
  * ResourceManager.  The cache uses a <i>least recently used</i> (LRU)
  * algorithm, with a maximum size specified via the
- * <code>resource.manager.cache.size</code> property (idenfied by the
+ * <code>resource.manager.cache.size</code> property (identified by the
  * {@link
  * org.apache.velocity.runtime.RuntimeConstants#RESOURCE_MANAGER_DEFAULTCACHE_SIZE}
  * constant).  This property get be set to <code>0</code> or less for

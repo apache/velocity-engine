@@ -26,7 +26,7 @@ import org.apache.velocity.context.AbstractContext;
 import org.apache.velocity.context.Context;
 
 /**
- *  General purpose implemention of the application Context
+ *  General purpose implementation of the application Context
  *  interface for general application use.  This class should
  *  be used in place of the original Context class.
  *

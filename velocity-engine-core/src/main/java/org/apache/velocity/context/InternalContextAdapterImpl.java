@@ -336,6 +336,3 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     }
 
 }
-
-
-
