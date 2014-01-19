@@ -283,13 +283,13 @@
 	would throw a VelocityException has been restored.
       </action>
 
-      <action type="add" dev="nbubna" issue="VELOCITY-666" due-to="Jarkko Viinamaki">
+      <action type="add" dev="nbubna" issue="VELOCITY-666" due-to="Jarkko Viinamaki"><![CDATA[
         Add support for calling velocimacros with body content by prefixing the macro
         name with @.
         (e.g. #macro( bold )<strong>$bodyContent</strong>#end #@bold()any valid VTL here#end)
         The $bodyContent reference may be renamed via a velocimacro.body.reference
         setting in your velocity.properties.
-      </action>
+      ]]></action>
 
       <action type="fix" dev="nbubna" issue="VELOCITY-661" due-to="Jarkko Viinamaki">
         Added #[[this is included in output but not parsed]]# syntax to replace
@@ -791,10 +791,10 @@
         If toString() returned null in a silent reference then "null" was displayed.
       </action>
 
-      <action type="fix" dev="wglass" issue="VELOCITY-359" due-to="">
+      <action type="fix" dev="wglass" issue="VELOCITY-359" due-to=""><![CDATA[
         Fixed bug in which empty body for #if (e.g. <code>#if(some expression)#end</code>
         caused ParseException.
-      </action>
+      ]]></action>
 
       <action type="add" dev="wglass" issue="VELOCITY-222" due-to="">
         Added javacc task to build.xml simplifying modification process
@@ -842,11 +842,11 @@
         webapp classpath.
       </action>
 
-      <action type="update" dev="wglass" issue="" due-to="Thomas Veith">
+      <action type="update" dev="wglass" issue="" due-to="Thomas Veith"><![CDATA[
         #set now sets references to null when required.  For backwards
         compatibility this must be enabled by setting the configuration key
         <code>directive.set.null.allowed</code> to true.
-      </action>
+      ]]></action>
 
       <action type="add" dev="wglass" issue="" due-to="">
         New optional event handler that escapes all references.
@@ -979,12 +979,12 @@
             ClasspathResourceLoader now searches ContextClassLoader for template.
         </action>
 
-        <action type="remove" dev="dlr" issue="VELOCITY-164" due-to="">
+        <action type="remove" dev="dlr" issue="VELOCITY-164" due-to=""><![CDATA[
             Removed use of <a href="http://jakarta.apache.org/log4j/">Log4J's</a>
             deprecated Category and Priority classes in favor of the corresponding
             and supported Logger and Level.  To update, replace necessary
             references, and Category.getInstance() with Logger.getLogger().
-        </action>
+        ]]></action>
 
         <action type="add" dev="wglass" issue="VELOCITY-152" due-to="James Taylor">
             New Map literal syntax.
@@ -995,7 +995,7 @@
             SimpleLog4JLogSystem remains.
         </action>
 
-        <action type="update" dev="dlr" issue="" due-to="">
+        <action type="update" dev="dlr" issue="" due-to=""><![CDATA[
             Enhanced the implementation of ResourceCacheImpl using Jakarta Commons
             Collections LRUMap class.  The previous greedy implementation did not
             set an upper bound for the cache size, meaning that cached resources
@@ -1003,7 +1003,7 @@
             use that behavior by setting the
             <code>resource.manager.cache.size</code> for your cache to less than
             1.
-        </action>
+        ]]></action>
 
         <action type="update" dev="geirm" issue="" due-to="Daniel Rall">
             Took dan's modified SimpleLog4jLogSystem, and renamed Log4JLogSystem, and
