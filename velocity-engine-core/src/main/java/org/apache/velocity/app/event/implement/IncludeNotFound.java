@@ -58,7 +58,7 @@ public class IncludeNotFound implements IncludeEventHandler,RuntimeServicesAware
     Context context;
 
     /**
-     * Chseck to see if included file exists, and display "not found" page if it
+     * Check to see if included file exists, and display "not found" page if it
      * doesn't. If "not found" page does not exist, log an error and return
      * null.
      * 

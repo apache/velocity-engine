@@ -21,8 +21,6 @@ import org.apache.velocity.runtime.log.Log;
  * under the License.
  */
 
-
-
 /**
  *  Application-level exception thrown when a reference method is
  *  invoked and an exception is thrown.
@@ -56,7 +54,7 @@ public class MethodInvocationException extends VelocityException implements Exte
      *  @param message
      *  @param e Throwable that we are wrapping
      *  @param methodName name of method that threw the exception
-     *  @param templateName The name of the template where the exception occured.
+     *  @param templateName The name of the template where the exception occurred.
      */
     public MethodInvocationException(final String message, final Throwable e, final String methodName, final String templateName, final int lineNumber, final int columnNumber)
     {

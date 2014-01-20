@@ -247,7 +247,7 @@ public class ParseErrorException extends VelocityException
     }
 
     /**
-     * Return our custum message if we have one, else return the default message
+     * Return our custom message if we have one, else return the default message
      */
     public String getMessage()
     {

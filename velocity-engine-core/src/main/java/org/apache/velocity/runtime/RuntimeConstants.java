@@ -59,7 +59,7 @@ public interface RuntimeConstants
     String RUNTIME_REFERENCES_STRICT = "runtime.references.strict";
     
     /**
-     * Indicates we are going to use modifed escape behavior in strict mode
+     * Indicates we are going to use modified escape behavior in strict mode
      */
     String RUNTIME_REFERENCES_STRICT_ESCAPE = "runtime.references.strict.escape";
 
@@ -195,16 +195,16 @@ public interface RuntimeConstants
     /** switch for autoloading library-sourced VMs (for development). */
     String VM_LIBRARY_AUTORELOAD = "velocimacro.library.autoreload";
 
-    /** boolean (true/false) default true : allow inline (in-template) macro definitions. */
+    /** boolean (true/false) default true: allow inline (in-template) macro definitions. */
     String VM_PERM_ALLOW_INLINE = "velocimacro.permissions.allow.inline";
 
-    /** boolean (true/false) default false : allow inline (in-template) macro definitions to replace existing. */
+    /** boolean (true/false) default false: allow inline (in-template) macro definitions to replace existing. */
     String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL = "velocimacro.permissions.allow.inline.to.replace.global";
 
-    /** Switch for forcing inline macros to be local : default false. */
+    /** Switch for forcing inline macros to be local: default false. */
     String VM_PERM_INLINE_LOCAL = "velocimacro.permissions.allow.inline.local.scope";
 
-    /** Switch for VM blather : default true. */
+    /** Switch for VM blather: default true. */
     String VM_MESSAGES_ON = "velocimacro.messages.on";
 
     /** if true, throw an exception for wrong number of arguments **/
@@ -282,9 +282,4 @@ public interface RuntimeConstants
      * constant.
      */
     int NUMBER_OF_PARSERS = 20;
-
-    
-
-
-
 }

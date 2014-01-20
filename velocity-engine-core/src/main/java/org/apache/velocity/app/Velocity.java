@@ -19,11 +19,7 @@ package org.apache.velocity.app;
  * under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Properties;
 
@@ -39,7 +35,7 @@ import org.apache.velocity.runtime.log.Log;
 
 /**
  * This class provides  services to the application
- * developer, such as :
+ * developer, such as:
  * <ul>
  * <li> Simple Velocity Runtime engine initialization methods.
  * <li> Functions to apply the template engine to streams and strings
@@ -316,7 +312,7 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     * <p>Determines whether a resource is accessable via the
+     * <p>Determines whether a resource is accessible via the
      * currently configured resource loaders.  {@link
      * org.apache.velocity.runtime.resource.Resource} is the generic
      * description of templates, static content, etc.</p>
@@ -349,7 +345,7 @@ public class Velocity implements RuntimeConstants
     /**
      *  <p>
      *  Set the an ApplicationAttribue, which is an Object
-     *  set by the application which is accessable from
+     *  set by the application which is accessible from
      *  any component of the system that gets a RuntimeServices.
      *  This allows communication between the application
      *  environment and custom pluggable components of the
@@ -357,7 +353,7 @@ public class Velocity implements RuntimeConstants
      *  </p>
      *
      *  <p>
-     *  Note that there is no enfocement or rules for the key
+     *  Note that there is no enforcement or rules for the key
      *  used - it is up to the application developer.  However, to
      *  help make the intermixing of components possible, using
      *  the target Class name (e.g.  com.foo.bar ) as the key
