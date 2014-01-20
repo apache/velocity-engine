@@ -18,7 +18,8 @@
  under the License.
 -->
 
-<project name="Apache Velocity">
+<project name="Apache Velocity" xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.4.0.xsd">
   <publishDate position="bottom" format="yyyy-MM-dd HH:mm:ss"/>
   <bannerLeft>
     <name>Apache Velocity Project</name>
@@ -50,7 +51,7 @@
     <breadcrumbs>
       <item name="Apache" href="http://www.apache.org/"/>
       <item name="Velocity" href="http://velocity.apache.org/"/>
-      <item name="Velocity Engine"/>
+      <item name="Velocity Engine" href="."/>
     </breadcrumbs>
 
     <links>
@@ -62,7 +63,7 @@
       <item name="DVSL" href="http://velocity.apache.org/dvsl/devel/"/>
     </links>
 
-    <menu name="Velocity">
+    <menu name="Velocity" inherit="top">
         <item name="General"                  href="index.html"/>
         <item name="Overview"                 href="overview.html"/>
         <item name="Getting Started"          href="getting-started.html"/>
@@ -71,14 +72,14 @@
         <item name="FAQ (Wiki)"               href="http://wiki.apache.org/velocity/VelocityFAQ"/>
     </menu>
 
-    <menu name="Docs">
+    <menu name="Docs" inherit="top">
         <item name="User Guide"               href="user-guide.html"/>
         <item name="Developer Guide"          href="developer-guide.html"/>
         <item name="VTL Reference"            href="vtl-reference-guide.html"/>
         <item name="Glossary"                 href="glossary.html"/>
     </menu>
 
-    <menu name="Developers">
+    <menu name="Developers" inherit="top">
         <item name="License"                  href="license.html"/>
         <item name="Javadoc"                  href="apidocs/index.html"/>
         <item name="Changes"                  href="changes-report.html"/>
@@ -90,7 +91,7 @@
         <item name="Release Process"          href="release.html"/>
     </menu>
 
-    <menu name="Community">
+    <menu name="Community" inherit="top">
         <item name="Wiki"                     href="http://wiki.apache.org/velocity/"/>
         <item name="Recent News"              href="http://velocity.apache.org/news.html"/>
         <item name="Powered By Velocity"      href="http://wiki.apache.org/velocity/PoweredByVelocity"/>
@@ -100,7 +101,7 @@
         <item name="Mailing Lists"            href="http://velocity.apache.org/contact.html"/>
     </menu>
 
-    <menu name="Velocity Development">
+    <menu name="Velocity Development" inherit="top">
         <item name="Road Map"                 href="http://wiki.apache.org/velocity/RoadMap"/>
         <item name="Coding Standards"         href="http://wiki.apache.org/velocity/CodeStandards"/>
         <item name="Documentation Guidelines" href="http://wiki.apache.org/velocity/DocumentationGuidelines"/>
@@ -108,15 +109,15 @@
         <item name="Who we are"               href="http://velocity.apache.org/team-list.html"/>
     </menu>
 
-    <menu name="Translations">
+    <menu name="Translations" inherit="top">
         <item name="Site (Japanese)"          href="http://www.jajakarta.org/velocity/"/>
         <item name="User's Guide (Finnish)"   href="translations/user-guide_fi.html"/>
         <item name="User's Guide (French)"    href="translations/user-guide_fr.html"/>
         <item name="User's Guide (Spanish)"   href="translations/user-guide_es.html"/>
     </menu>
 
-    <menu ref="modules" />
-    <menu ref="reports" />
+    <menu ref="modules" inherit="bottom"/>
+    <menu ref="reports" inherit="bottom"/>
 
   </body>
 </project>
