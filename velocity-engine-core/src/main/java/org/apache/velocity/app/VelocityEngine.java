@@ -114,7 +114,7 @@ public class VelocityEngine implements RuntimeConstants
      *  initialize the Velocity runtime engine, using default properties
      *  plus the properties in the passed in java.util.Properties object
      *
-     *  @param p  Proprties object containing initialization properties
+     *  @param p  Properties object containing initialization properties
      */
     public void init(Properties p)
     {
@@ -325,7 +325,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     *   Determines if a resource is accessable via the currently
+     *   Determines if a resource is accessible via the currently
      *   configured resource loaders.
      *   <br><br>
      *   Note that the current implementation will <b>not</b>

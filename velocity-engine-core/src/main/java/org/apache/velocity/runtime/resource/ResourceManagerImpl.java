@@ -207,7 +207,7 @@ public class ResourceManagerImpl
     }
 
     /**
-     * This will produce a List of Hashtables, each hashtable contains the intialization info for a particular resource loader. This
+     * This will produce a List of Hashtables, each hashtable contains the initialization info for a particular resource loader. This
      * Hashtable will be passed in when initializing the the template loader.
      */
     private void assembleResourceLoaderInitializers()

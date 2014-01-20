@@ -60,7 +60,7 @@ public class TemplateInitException extends VelocityException
     }
 
     /**
-     * Returns the Template name where this exception occured.
+     * Returns the Template name where this exception occurred.
      * @return the template name
      */
     public String getTemplateName()
@@ -69,7 +69,7 @@ public class TemplateInitException extends VelocityException
     }
 
     /**
-     * Returns the line number where this exception occured.
+     * Returns the line number where this exception occurred.
      * @return the line number
      */
     public int getLineNumber()
@@ -78,7 +78,7 @@ public class TemplateInitException extends VelocityException
     }
 
     /**
-     * Returns the column number where this exception occured.
+     * Returns the column number where this exception occurred.
      * @return the line number
      */
     public int getColumnNumber()

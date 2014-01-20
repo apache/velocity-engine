@@ -87,7 +87,7 @@ public abstract class AbstractContext extends InternalContextBase
      *  Currently, this method is not used internally by
      *  the Velocity engine.
      *
-     *   @param key key to test for existance
+     *   @param key key to test for existence
      *   @return true if found, false if not
      */
     public abstract boolean internalContainsKey(Object key);
@@ -104,7 +104,7 @@ public abstract class AbstractContext extends InternalContextBase
     public abstract Object[] internalGetKeys();
 
     /**
-     *  I mplement to remove an item from your storage.
+     *  Implement to remove an item from your storage.
      *  <br><br>
      *  Currently, this method is not used internally by
      *  the Velocity engine.
@@ -134,7 +134,7 @@ public abstract class AbstractContext extends InternalContextBase
 
         /*
          *  now, do a 'forward pull' of event cartridge so
-         *  it's accessable, bringing to the top level.
+         *  it's accessible, bringing to the top level.
          */
 
         if (innerContext instanceof InternalEventContext )

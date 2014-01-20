@@ -127,7 +127,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * The Runtime logger.  We start with an instance of
      * a 'primordial logger', which just collects log messages
      * then, when the log system is initialized, all the
-     * messages get dumpted out of the primordial one into the real one.
+     * messages get dumped out of the primordial one into the real one.
      */
     private Log log = new Log();
 
@@ -204,7 +204,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private boolean provideEvaluateScope = false;
 
     /*
-     *  Opaque reference to something specificed by the
+     *  Opaque reference to something specified by the
      *  application for use in application supplied/specified
      *  pluggable components
      */
@@ -257,7 +257,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             initializeEvaluateScopeSettings();
             /*
              *  initialize the VM Factory.  It will use the properties
-             * accessable from Runtime, so keep this here at the end.
+             * accessible from Runtime, so keep this here at the end.
              */
             vmFactory.initVelocimacro();
 

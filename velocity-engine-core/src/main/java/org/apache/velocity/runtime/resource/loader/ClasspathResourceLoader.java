@@ -52,7 +52,7 @@ import org.apache.velocity.util.ClassUtils;
  *  <br>
  *  To use, put your template directories, jars
  *  and zip files into the classpath or other mechanisms that make
- *  resources accessable to the classloader.
+ *  resources accessible to the classloader.
  *  <br>
  *  <br>
  *  This makes deployment trivial for web applications running in
