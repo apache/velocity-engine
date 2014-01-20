@@ -18,8 +18,8 @@
  under the License.
 -->
 
-<project name="Apache Velocity" xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.4.0.xsd">
+<project name="Apache Velocity" xmlns="http://maven.apache.org/DECORATION/1.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.4.0 http://maven.apache.org/xsd/decoration-1.4.0.xsd">
   <publishDate position="bottom" format="yyyy-MM-dd HH:mm:ss"/>
   <bannerLeft>
     <name>Apache Velocity Project</name>
@@ -48,12 +48,6 @@
   </skin>
 
   <body>
-    <breadcrumbs>
-      <item name="Apache" href="http://www.apache.org/"/>
-      <item name="Velocity" href="http://velocity.apache.org/"/>
-      <item name="Velocity Engine" href="."/>
-    </breadcrumbs>
-
     <links>
       <item name="Engine" href="http://velocity.apache.org/engine/devel/"/>
       <item name="Tools" href="http://velocity.apache.org/tools/devel/"/>
@@ -62,6 +56,11 @@
       <item name="DocBook" href="http://velocity.apache.org/docbook/"/>
       <item name="DVSL" href="http://velocity.apache.org/dvsl/devel/"/>
     </links>
+    <breadcrumbs>
+      <item name="Apache" href="http://www.apache.org/"/>
+      <item name="Velocity" href="http://velocity.apache.org/"/>
+      <item name="Velocity Engine" href="."/>
+    </breadcrumbs>
 
     <menu name="Velocity" inherit="top">
         <item name="General"                  href="index.html"/>
