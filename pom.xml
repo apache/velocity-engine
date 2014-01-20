@@ -18,17 +18,16 @@
     -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>velocity-master</artifactId>
         <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity-master</artifactId>
         <version>2-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.apache.velocity</groupId>
     <artifactId>velocity-engine-parent</artifactId>
     <version>2.0.0-SNAPSHOT</version>
 
@@ -57,6 +56,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
+                <version>3.3</version>
                 <configuration>
                     <inputEncoding>UTF-8</inputEncoding>
                     <outputEncoding>UTF-8</outputEncoding>
@@ -81,107 +81,13 @@
         </site>
     </distributionManagement>
 
-    <profiles>
-        <profile>
-            <id>maven3</id>
-            <activation>
-                <file>
-                    <!-- This employs that the basedir expression is only
-                        recognized by Maven 3.x (see MNG-2363) -->
-                    <exists>${basedir}</exists>
-                </file>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <version>3.0-beta-3</version>
-                        <configuration>
-                            <inputEncoding>UTF-8</inputEncoding>
-                            <outputEncoding>UTF-8</outputEncoding>
-                            <reportPlugins>
-                                <plugin>
-                                    <groupId>org.apache.maven.plugins</groupId>
-                                    <artifactId>maven-project-info-reports-plugin
-                                    </artifactId>
-                                    <version>2.2</version>
-                                </plugin>
-                                <plugin>
-                                    <groupId>org.apache.maven.plugins</groupId>
-                                    <artifactId>maven-changes-plugin</artifactId>
-                                    <version>2.0</version>
-                                    <configuration>
-                                        <issueLinkTemplate>${jira.browse.url}/%ISSUE%</issueLinkTemplate>
-                                        <component>12311337</component>
-                                        <filter>fixfor=12310290&amp;sorter/field=issuekey&amp;sorter/order=ASC</filter>
-                                        <maxEntries>100</maxEntries>
-                                        <teamlist>http://velocity.apache.org/who-we-are.html</teamlist>
-                                    </configuration>
-                                    <reports>
-                                        <report>changes-report</report>
-                                        <!-- <report>jira-report</report> -->
-                                    </reports>
-                                </plugin>
-                                <plugin>
-                                    <groupId>org.codehaus.mojo</groupId>
-                                    <artifactId>taglist-maven-plugin</artifactId>
-                                    <version>2.4</version>
-                                    <configuration>
-                                        <tag>TODO</tag>
-                                        <tag>FIXME</tag>
-                                    </configuration>
-                                </plugin>
-                                <plugin>
-                                    <groupId>org.apache.maven.plugins</groupId>
-                                    <artifactId>maven-jxr-plugin</artifactId>
-                                    <version>2.2</version>
-                                </plugin>
-                                <plugin>
-                                    <groupId>org.apache.maven.plugins</groupId>
-                                    <artifactId>maven-javadoc-plugin</artifactId>
-                                    <version>2.7</version>
-                                    <configuration>
-                                        <excludePackageNames>org.apache.velocity.example</excludePackageNames>
-                                        <links>
-                                            <link>http://java.sun.com/j2se/1.5.0/docs/api/
-                                            </link>
-                                            <link>http://jakarta.apache.org/oro/api</link>
-                                            <link>http://commons.apache.org/lang/api-release/
-                                            </link>
-                                            <link>http://commons.apache.org/collections/api-release/
-                                            </link>
-                                            <link>http://logging.apache.org/log4j/1.2/apidocs/
-                                            </link>
-                                            <link>http://excalibur.apache.org/apidocs</link>
-                                            <link>http://tomcat.apache.org/tomcat-4.1-doc/servletapi/
-                                            </link>
-                                        </links>
-                                    </configuration>
-                                    <reports>
-                                        <report>javadoc</report>
-                                        <report>aggregate</report>
-                                    </reports>
-                                </plugin>
-                                <plugin>
-                                    <groupId>org.apache.maven.plugins</groupId>
-                                    <artifactId>maven-changelog-plugin</artifactId>
-                                    <version>2.2</version>
-                                </plugin>
-                            </reportPlugins>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
     <reporting>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin
                 </artifactId>
-                <version>2.1</version>
+                <version>2.7</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -217,7 +123,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.4</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -226,18 +132,13 @@
                 <configuration>
                     <excludePackageNames>org.apache.velocity.example</excludePackageNames>
                     <links>
-                        <link>http://java.sun.com/j2se/1.5.0/docs/api/
-                        </link>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
                         <link>http://jakarta.apache.org/oro/api</link>
-                        <link>http://commons.apache.org/lang/api-release/
-                        </link>
-                        <link>http://commons.apache.org/collections/api-release/
-                        </link>
-                        <link>http://logging.apache.org/log4j/1.2/apidocs/
-                        </link>
+                        <link>http://commons.apache.org/lang/api-release/</link>
+                        <link>http://commons.apache.org/collections/api-release/</link>
+                        <link>http://logging.apache.org/log4j/1.2/apidocs/</link>
                         <link>http://excalibur.apache.org/apidocs</link>
-                        <link>http://tomcat.apache.org/tomcat-4.1-doc/servletapi/
-                        </link>
+                        <link>http://tomcat.apache.org/tomcat-4.1-doc/servletapi/</link>
                     </links>
                 </configuration>
                 <reportSets>
@@ -264,18 +165,15 @@
     </reporting>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/trunk
-        </connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/trunk
-        </developerConnection>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/trunk</developerConnection>
         <tag>HEAD</tag>
         <url>http://svn.apache.org/viewvc/velocity/engine/trunk
         </url>
     </scm>
 
     <properties>
-        <jira.browse.url>https://issues.apache.org/jira/browse
-        </jira.browse.url>
+        <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
     </properties>
 
     <issueManagement>
