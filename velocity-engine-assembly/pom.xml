@@ -148,7 +148,7 @@
                                 <configuration>
                                     <fromDir>${project.build.directory}/assemblies</fromDir>
                                     <includes>**</includes>
-                                    <toDir>${pom.version}</toDir>
+                                    <toDir>${project.version}</toDir>
                                     <serverId>apache.build</serverId>
                                     <url>scp://people.apache.org/www/people.apache.org/builds/velocity</url>
                                 </configuration>
