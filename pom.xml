@@ -26,6 +26,7 @@
     <groupId>org.apache.velocity</groupId>
     <artifactId>velocity-master</artifactId>
     <version>2-SNAPSHOT</version>
+    <relativePath />
   </parent>
 
   <artifactId>velocity-engine-parent</artifactId>
