@@ -11,15 +11,15 @@
   <description>LogChute implementation for Log4j.</description>
 
   <dependencies>
-  	<dependency>
-  		<groupId>org.apache.velocity</groupId>
-  		<artifactId>velocity-engine-core</artifactId>
-        <version>${project.version}</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>log4j</groupId>
-  		<artifactId>log4j</artifactId>
-  		<version>1.2.14</version>
-  	</dependency>
+    <dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity-engine-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+    </dependency>
   </dependencies>
 </project>
