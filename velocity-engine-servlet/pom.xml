@@ -18,9 +18,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-    	<groupId>org.apache.velocity</groupId>
-    	<artifactId>velocity-engine-core</artifactId>
-        <version>${project.version}</version>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity-engine-core</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>
