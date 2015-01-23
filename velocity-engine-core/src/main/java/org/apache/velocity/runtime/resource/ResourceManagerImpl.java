@@ -158,7 +158,7 @@ public class ResourceManagerImpl
 
         Object cacheObject = null;
 
-        if (org.apache.commons.lang.StringUtils.isNotEmpty(cacheClassName))
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(cacheClassName))
         {
             try
             {
@@ -533,7 +533,7 @@ public class ResourceManagerImpl
              *  this strikes me as bad...
              */
 
-            if (!org.apache.commons.lang.StringUtils.equals(resource.getEncoding(), encoding))
+            if (!org.apache.commons.lang3.StringUtils.equals(resource.getEncoding(), encoding))
             {
                 log.warn("Declared encoding for template '%s' is different on reload. Old = '%s' New = '%s'",
                          resource.getName(), resource.getEncoding(), encoding);

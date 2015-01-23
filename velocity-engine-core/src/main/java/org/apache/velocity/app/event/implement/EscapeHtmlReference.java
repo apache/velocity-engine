@@ -1,6 +1,6 @@
 package org.apache.velocity.app.event.implement;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,7 +23,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * Escape all HTML entities.
- * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeHtml(java.lang.String)">StringEscapeUtils</a>
+ *
+ * @see <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/StringEscapeUtils.html#escapeHtml4%28java.lang.String%29">StringEscapeUtils</a>
  * @author wglass
  * @since 1.5
  */
@@ -35,11 +36,11 @@ public class EscapeHtmlReference extends EscapeReference
      *
      * @param text
      * @return An escaped String.
-     * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeHtml(java.lang.String)">StringEscapeUtils</a>
+     * @see <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/StringEscapeUtils.html#escapeHtml4%28java.lang.String%29">StringEscapeUtils</a>
      */
     protected String escape(Object text)
     {
-        return StringEscapeUtils.escapeHtml(text.toString());
+        return StringEscapeUtils.escapeHtml4(text.toString());
     }
 
     /**

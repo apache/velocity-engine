@@ -1,6 +1,6 @@
 package org.apache.velocity.app.event.implement;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  */
 
 /**
- * Escape all XML entities.
+ * Escape all XML entities, suitable for placing the output inside an XML (1.0) text node or attribute value.
  * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)">StringEscapeUtils</a>
  * @author wglass
  * @since 1.5
@@ -35,11 +35,11 @@ public class EscapeXmlReference extends EscapeReference
      *
      * @param text
      * @return An escaped String.
-     * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)">StringEscapeUtils</a>
+     * @see <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/StringEscapeUtils.html#escapeXml10%28java.lang.String%29">StringEscapeUtils</a>
      */
     protected String escape(Object text)
     {
-        return StringEscapeUtils.escapeXml(text.toString());
+        return StringEscapeUtils.escapeXml10(text.toString());
     }
 
     /**
