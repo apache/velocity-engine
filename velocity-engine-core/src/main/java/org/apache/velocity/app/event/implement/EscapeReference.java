@@ -57,7 +57,6 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
     private RuntimeServices rs;
 
     private String matchRegExp = null;
-    //private Pattern pattern = null;
 
     /**
      * Escape the given text.  Override this in a subclass to do the actual
@@ -117,18 +116,14 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
     {
         this.rs = rs;
 
-        /**
-         * Get the regular expression pattern.
-         */
+        // Get the regular expression pattern.
         matchRegExp = StringUtils.nullTrim(rs.getConfiguration().getString(getMatchAttribute()));
-        if ((matchRegExp != null) && (matchRegExp.length() == 0))
+        if (org.apache.commons.lang3.StringUtils.isEmpty(matchRegExp))
         {
             matchRegExp = null;
         }
 
-        /**
-         * Test the regular expression for a well formed pattern
-         */
+        // Test the regular expression for a well formed pattern
         if (matchRegExp != null)
         {
             try
