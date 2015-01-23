@@ -42,14 +42,11 @@ import org.apache.velocity.util.StringUtils;
  * (e.g. <code>$sql</code>, <code>$sql.toString(),</code>, etc).
  *
  * <PRE>
- * <CODE>eventhandler.escape.sql.match = /sql.*<!-- -->/
- * </CODE>
+ * <CODE>eventhandler.escape.sql.match = sql.*</CODE>
  * </PRE>
- * <!-- note: ignore empty HTML comment above - breaks up star slash avoiding javadoc end -->
  *
- * Regular expressions should follow the "Perl5" format used by the ORO regular expression
- * library.  More info is at
- * <a href="http://jakarta.apache.org/oro/api/org/apache/oro/text/perl/package-summary.html">http://jakarta.apache.org/oro/api/org/apache/oro/text/perl/package-summary.html</a>.
+ * Regular expressions should follow the format used by the Java language.  More info in the
+ * <a href="http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html">Pattern class documentation</a>.
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain </a>
  * @version $Id$
@@ -96,7 +93,6 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
         }
 
         if (matchRegExp == null)
-        //if (pattern == null)
         {
             return escape(value);
         }
