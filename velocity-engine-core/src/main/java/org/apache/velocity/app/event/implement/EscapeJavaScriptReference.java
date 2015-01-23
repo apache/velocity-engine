@@ -1,6 +1,6 @@
 package org.apache.velocity.app.event.implement;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,7 +23,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * Escapes the characters in a String to be suitable for use in JavaScript.
- * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeJavaScript(java.lang.String)">StringEscapeUtils</a>
+ *
+ * @see <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/StringEscapeUtils.html#escapeEcmaScript%28java.lang.String%29">StringEscapeUtils</a>
  * @author wglass
  * @since 1.5
  */
@@ -35,11 +36,11 @@ public class EscapeJavaScriptReference extends EscapeReference
      *
      * @param text
      * @return An escaped String.
-     * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeJavaScript(java.lang.String)">StringEscapeUtils</a>
+     * @see <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/StringEscapeUtils.html#escapeEcmaScript%28java.lang.String%29">StringEscapeUtils</a>
      */
     protected String escape(Object text)
     {
-        return StringEscapeUtils.escapeJavaScript(text.toString());
+        return StringEscapeUtils.escapeEcmaScript(text.toString());
     }
 
     /**

@@ -178,7 +178,7 @@ public class JarResourceLoader extends ResourceLoader
     {
         InputStream results = null;
 
-        if (org.apache.commons.lang.StringUtils.isEmpty(source))
+        if (org.apache.commons.lang3.StringUtils.isEmpty(source))
         {
             throw new ResourceNotFoundException("Need to have a resource!");
         }
