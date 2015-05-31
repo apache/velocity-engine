@@ -662,7 +662,7 @@ TOKEN:
 <DEFAULT, REFERENCE, REFMODIFIER, REFMOD2>
 TOKEN:
 {
-  <SET_DIRECTIVE: (" "|"\t")*  ("#set" | "#{set}")  (" ")* "(">
+  <SET_DIRECTIVE: (" "|"\t")*  ("#set" | "#{set}")  (" "|"\t")* "(">
     {
         if (! inComment)
         {
