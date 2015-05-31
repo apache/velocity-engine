@@ -1,16 +1,4 @@
-package org.apache.velocity.test;
-
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.test.misc.TestLogChute;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.Template;
-import junit.framework.TestSuite;
-
-import java.io.*;
-
-/*
+/**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -28,6 +16,17 @@ import java.io.*;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.velocity.test;
+
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.Template;
+import junit.framework.TestSuite;
+
+import java.io.*;
 
 /**
  * Test case for including macro libraries via the #parse method.
