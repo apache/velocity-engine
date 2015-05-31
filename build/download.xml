@@ -62,7 +62,7 @@
 
   <target name="do-http-m1-download" unless="skip-download">
     <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
-    <get src="${repo.m1.url}/${download.groupId}/jars/${download.artifactId}-${download.version}.jar"
+    <get src="${repo.m1.url}/${download.groupId}/${download.artifactId}/${download.version}/${download.artifactId}-${download.version}.jar"
          dest="${build.lib}/${download.artifactId}-${download.version}.jar"
          usetimestamp="true"
          verbose="false"
@@ -84,7 +84,7 @@
 
   <target name="do-http-test-m1-download" unless="skip-download">
     <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
-    <get src="${repo.m1.url}/${download.groupId}/jars/${download.artifactId}-${download.version}.jar"
+    <get src="${repo.m1.url}/${download.groupId}/${download.artifactId}/${download.version}/${download.artifactId}-${download.version}.jar"
          dest="${build.test.lib}/${download.artifactId}-${download.version}.jar"
          usetimestamp="true"
          verbose="false"
