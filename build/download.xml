@@ -60,7 +60,7 @@
 
   <target name="do-http-download" unless="skip-download">
     <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
-    <get src="${repo.url}/${download.jarname}/jars/${download.jarname}-${download.jarversion}.jar"
+    <get src="${repo.url}/${download.jarname}/${download.jarname}/${download.jarversion}/${download.jarname}-${download.jarversion}.jar"
          dest="${build.lib}/${download.jarname}-${download.jarversion}.jar"
          usetimestamp="true"
          verbose="false"
@@ -82,7 +82,7 @@
 
   <target name="do-http-test-download" unless="skip-download">
     <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
-    <get src="${repo.url}/${download.jarname}/jars/${download.jarname}-${download.jarversion}.jar"
+    <get src="${repo.url}/${download.jarname}/${download.jarname}/${download.jarversion}/${download.jarname}-${download.jarversion}.jar"
          dest="${build.test.lib}/${download.jarname}-${download.jarversion}.jar"
          usetimestamp="true"
          verbose="false"
