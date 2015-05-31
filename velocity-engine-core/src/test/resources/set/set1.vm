@@ -2,12 +2,12 @@
 ## is not accepted
 set1
 
-#set($abc = "123")
+#set ($abc = "123")
 $abc
-#set($abc = $boohoo)
+#set	($abc = $boohoo)
 $abc
 
-#set($map = {})
+#set    ($map = {})
 #set($map.foo = "foo")
 #set($map.bar = "bar")
 $map.foo
