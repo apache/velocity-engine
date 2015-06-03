@@ -1241,23 +1241,23 @@ import org.apache.velocity.runtime.parser.node.Node;]]></replacevalue>
           description="Run the Velocity testcases">
 
     <!-- Require ant 1.7+ for Junit compatibility -->
-	<fail message="You are currently using ${ant.version}">
-			<condition>
-				<or>
-				<contains string="${ant.version}" substring="1.2"/>
-				<contains string="${ant.version}" substring="1.3"/>
-				<contains string="${ant.version}" substring="1.4"/>
-				<contains string="${ant.version}" substring="1.5"/>
-				<contains string="${ant.version}" substring="1.6"/>
-			</or>
-		</condition>
-	      Could not run junit tests:
-	  ***********************************************************
-	  **
-	  ** Ant must be at least version 1.7
-	  **
-	  ***********************************************************
-  	</fail>
+    <fail message="You are currently using ${ant.version}">
+            <condition>
+                <or>
+                <contains string="${ant.version}" substring="1.2"/>
+                <contains string="${ant.version}" substring="1.3"/>
+                <contains string="${ant.version}" substring="1.4"/>
+                <contains string="${ant.version}" substring="1.5"/>
+                <contains string="${ant.version}" substring="1.6"/>
+            </or>
+        </condition>
+          Could not run junit tests:
+      ***********************************************************
+      **
+      ** Ant must be at least version 1.7
+      **
+      ***********************************************************
+    </fail>
 
     <mkdir dir="${build.test.reports}"/>
     <junit dir="${velocity.dir}"
