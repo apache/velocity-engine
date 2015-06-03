@@ -52,4 +52,4 @@ Finally, note that in order to create code that will compile with JDK 1.5,
 you will need to use JavaCC 3.2 or later (replaces variable "enumeration" or "enum"
 with "e". (WGH)
 
-The parser was last built using JavaCC 4.2.
+The parser was last built using JavaCC 4.1.
