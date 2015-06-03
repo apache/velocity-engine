@@ -1317,16 +1317,21 @@ import org.apache.velocity.runtime.parser.node.Node;]]></replacevalue>
   <!-- =================================================================== -->
   <!-- Analyze code with Apache RAT                                        -->
   <!-- =================================================================== -->
-  <target name="rat" depends="package-tgz"
+  <target name="apache-rat-prepare">
+    <ant antfile="${velocity.build.dir}/download.xml" target="run-rat-download" />
+
+    <taskdef
+        uri="antlib:org.apache.rat.anttasks"
+        resource="org/apache/rat/anttasks/antlib.xml">
+        <classpath>
+            <pathelement location="${run.rat.lib}/apache-rat-${jar.rat.version}.jar"/>
+        </classpath>
+    </taskdef>
+  </target>
+
+  <target name="rat" depends="package-tgz,apache-rat-prepare"
     description="Runs Apache RAT against the source code.">
-    <!-- TODO: download RAT and deps -->
-    <echo>
-      NOTE: At this time, you must add Apache RAT, Apache RAT AntTasks
-      Commons-Lang, Commons-Collections and Commons-CLI to Ant's lib directory
-      to use this.
-    </echo>
     <mkdir dir="${build.test.reports}"/>
-    <typedef resource="org/apache/rat/anttasks/antlib.xml" uri="antlib:rat.anttasks"/>
     <rat:report xmlns:rat="antlib:org.apache.rat.anttasks"
       reportFile="${build.test.reports}/rat-report.txt">
       <tarfileset>

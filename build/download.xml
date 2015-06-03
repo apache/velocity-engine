@@ -47,6 +47,11 @@
    <antcall target="junit-download" />
   </target>
 
+  <target name="run-rat-download" description="Download rat and dependencies from the central repository">
+   <mkdir dir="${run.rat.lib}" />
+   <antcall target="apache-rat-download" />
+  </target>
+
   <target name="http-m1-download">
     <condition property="skip-download">
       <or>
@@ -108,6 +113,28 @@
     <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
     <get src="${repo.m2.url}/${download.groupId}/${download.artifactId}/${download.version}/${download.artifactId}-${download.version}.jar"
          dest="${build.lib}/${download.artifactId}-${download.version}.jar"
+         usetimestamp="true"
+         verbose="false"
+         ignoreerrors="false" />
+  </target>
+
+  <target name="http-rat-maven-central-download">
+    <condition property="skip-download">
+      <or>
+        <istrue value="${skip.jar.loading}"/>
+        <and>
+          <isfalse value="${force.jar.loading}"/>
+          <available file="${run.rat.lib}/${download.artifactId}-${download.version}.jar"/>
+        </and>
+      </or>
+    </condition>
+    <antcall target="do-http-rat-maven-central-download"/>
+  </target>
+
+  <target name="do-http-rat-maven-central-download" unless="skip-download">
+    <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
+    <get src="${repo.maven2-central.url}/${download.groupId}/${download.artifactId}/${download.version}/${download.artifactId}-${download.version}.jar"
+         dest="${run.rat.lib}/${download.artifactId}-${download.version}.jar"
          usetimestamp="true"
          verbose="false"
          ignoreerrors="false" />
@@ -208,6 +235,15 @@
    <antcall target="http-m2-download"/>
   </target>
 
+
+  <!-- Apache rat related dependencies -->
+
+   <target name="apache-rat-download">
+	<property name="download.groupId" value="org/apache/rat" />
+	<property name="download.artifactId" value="apache-rat" />
+	<property name="download.version" value="${jar.rat.version}" />
+	<antcall target="http-rat-maven-central-download"/>
+   </target>
 
 </project>
 
