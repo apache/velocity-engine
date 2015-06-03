@@ -375,6 +375,12 @@
     <replace file="${src.java.dir}/org/apache/velocity/runtime/parser/ParserTokenManager.java" 
              token="StringBuffer" 
              value="StrBuilder"/>        
+    <replace file="${src.java.dir}/org/apache/velocity/runtime/parser/JJTParserState.java"
+        token="package org.apache.velocity.runtime.parser;">
+    <replacevalue><![CDATA[package org.apache.velocity.runtime.parser;
+
+import org.apache.velocity.runtime.parser.node.Node;]]></replacevalue>
+</replace>
   </target>
 
    <target name="javacc-cleanup" depends="parser-check">   
