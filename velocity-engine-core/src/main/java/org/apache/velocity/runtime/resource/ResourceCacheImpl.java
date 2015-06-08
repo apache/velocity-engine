@@ -121,7 +121,7 @@ public class ResourceCacheImpl implements ResourceCache
      */
     public Resource get( Object key )
     {
-        return (Resource) cache.get( key );
+        return cache.get( key );
     }
 
     /**
@@ -129,7 +129,7 @@ public class ResourceCacheImpl implements ResourceCache
      */
     public Resource put( Object key, Resource value )
     {
-        return (Resource) cache.put( key, value );
+        return cache.put( key, value );
     }
 
     /**
@@ -137,7 +137,7 @@ public class ResourceCacheImpl implements ResourceCache
      */
     public Resource remove( Object key )
     {
-        return (Resource) cache.remove( key );
+        return cache.remove( key );
     }
 
     /**

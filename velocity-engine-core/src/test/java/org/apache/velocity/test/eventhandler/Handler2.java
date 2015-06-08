@@ -46,7 +46,7 @@ public class Handler2
     /**
      * print the exception
      */
-    public Object methodException(Class claz, String method, Exception e)
+    public Object methodException(Class<?> claz, String method, Exception e)
     {
         return "Exception: " + e;
     }

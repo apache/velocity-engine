@@ -53,64 +53,54 @@ public class IntrospectionUtils
      * type or an object type of a primitive type that can be converted to
      * the formal type.
      */
-    public static boolean isMethodInvocationConvertible(Class formal,
-                                                        Class actual,
-                                                        boolean possibleVarArg)
+    public static boolean isMethodInvocationConvertible(Class<?> formal, Class<?> actual, boolean possibleVarArg )
     {
         /* if it's a null, it means the arg was null */
-        if (actual == null && !formal.isPrimitive())
+        if ( actual == null && !formal.isPrimitive() )
         {
             return true;
         }
 
         /* Check for identity or widening reference conversion */
-        if (actual != null && formal.isAssignableFrom(actual))
+        if ( actual != null && formal.isAssignableFrom( actual ) )
         {
             return true;
         }
 
         /* Check for boxing with widening primitive conversion. Note that
          * actual parameters are never primitives. */
-        if (formal.isPrimitive())
+        if ( formal.isPrimitive() )
         {
-            if(formal == Boolean.TYPE && actual == Boolean.class)
+            if ( formal == Boolean.TYPE && actual == Boolean.class )
                 return true;
-            if(formal == Character.TYPE && actual == Character.class)
+            if ( formal == Character.TYPE && actual == Character.class )
                 return true;
-            if(formal == Byte.TYPE && actual == Byte.class)
+            if ( formal == Byte.TYPE && actual == Byte.class )
                 return true;
-            if(formal == Short.TYPE &&
-               (actual == Short.class || actual == Byte.class))
+            if ( formal == Short.TYPE && ( actual == Short.class || actual == Byte.class ) )
                 return true;
-            if(formal == Integer.TYPE &&
-               (actual == Integer.class || actual == Short.class ||
-                actual == Byte.class))
+            if ( formal == Integer.TYPE && ( actual == Integer.class || actual == Short.class || actual == Byte.class ) )
                 return true;
-            if(formal == Long.TYPE &&
-               (actual == Long.class || actual == Integer.class ||
-                actual == Short.class || actual == Byte.class))
+            if ( formal == Long.TYPE
+                && ( actual == Long.class || actual == Integer.class || actual == Short.class || actual == Byte.class ) )
                 return true;
-            if(formal == Float.TYPE &&
-               (actual == Float.class || actual == Long.class ||
-                actual == Integer.class || actual == Short.class ||
-                actual == Byte.class))
+            if ( formal == Float.TYPE
+                && ( actual == Float.class || actual == Long.class || actual == Integer.class || actual == Short.class || actual == Byte.class ) )
                 return true;
-            if(formal == Double.TYPE &&
-               (actual == Double.class || actual == Float.class ||
-                actual == Long.class || actual == Integer.class ||
-                actual == Short.class || actual == Byte.class))
+            if ( formal == Double.TYPE
+                && ( actual == Double.class || actual == Float.class || actual == Long.class || actual == Integer.class
+                    || actual == Short.class || actual == Byte.class ) )
                 return true;
         }
 
         /* Check for vararg conversion. */
-        if (possibleVarArg && formal.isArray())
+        if ( possibleVarArg && formal.isArray() )
         {
-            if (actual.isArray())
+            if ( actual.isArray() )
             {
                 actual = actual.getComponentType();
             }
-            return isMethodInvocationConvertible(formal.getComponentType(),
-                                                 actual, false);
+            return isMethodInvocationConvertible( formal.getComponentType(), actual, false );
         }
         return false;
     }
@@ -131,54 +121,45 @@ public class IntrospectionUtils
      * or formal and actual are both primitive types and actual can be
      * subject to widening conversion to formal.
      */
-    public static boolean isStrictMethodInvocationConvertible(Class formal,
-                                                              Class actual,
-                                                              boolean possibleVarArg)
+    public static boolean isStrictMethodInvocationConvertible( Class<?> formal, Class<?> actual, boolean possibleVarArg )
     {
         /* we shouldn't get a null into, but if so */
-        if (actual == null && !formal.isPrimitive())
+        if ( actual == null && !formal.isPrimitive() )
         {
             return true;
         }
 
         /* Check for identity or widening reference conversion */
-        if(formal.isAssignableFrom(actual))
+        if ( formal.isAssignableFrom( actual ) )
         {
             return true;
         }
 
         /* Check for widening primitive conversion. */
-        if(formal.isPrimitive())
+        if ( formal.isPrimitive() )
         {
-            if(formal == Short.TYPE && (actual == Byte.TYPE))
+            if ( formal == Short.TYPE && ( actual == Byte.TYPE ) )
                 return true;
-            if(formal == Integer.TYPE &&
-               (actual == Short.TYPE || actual == Byte.TYPE))
+            if ( formal == Integer.TYPE && ( actual == Short.TYPE || actual == Byte.TYPE ) )
                 return true;
-            if(formal == Long.TYPE &&
-               (actual == Integer.TYPE || actual == Short.TYPE ||
-                actual == Byte.TYPE))
+            if ( formal == Long.TYPE && ( actual == Integer.TYPE || actual == Short.TYPE || actual == Byte.TYPE ) )
                 return true;
-            if(formal == Float.TYPE &&
-               (actual == Long.TYPE || actual == Integer.TYPE ||
-                actual == Short.TYPE || actual == Byte.TYPE))
+            if ( formal == Float.TYPE
+                && ( actual == Long.TYPE || actual == Integer.TYPE || actual == Short.TYPE || actual == Byte.TYPE ) )
                 return true;
-            if(formal == Double.TYPE &&
-               (actual == Float.TYPE || actual == Long.TYPE ||
-                actual == Integer.TYPE || actual == Short.TYPE ||
-                actual == Byte.TYPE))
+            if ( formal == Double.TYPE
+                && ( actual == Float.TYPE || actual == Long.TYPE || actual == Integer.TYPE || actual == Short.TYPE || actual == Byte.TYPE ) )
                 return true;
         }
 
         /* Check for vararg conversion. */
-        if (possibleVarArg && formal.isArray())
+        if ( possibleVarArg && formal.isArray() )
         {
-            if (actual.isArray())
+            if ( actual.isArray() )
             {
                 actual = actual.getComponentType();
             }
-            return isStrictMethodInvocationConvertible(formal.getComponentType(),
-                                                       actual, false);
+            return isStrictMethodInvocationConvertible( formal.getComponentType(), actual, false );
         }
         return false;
     }

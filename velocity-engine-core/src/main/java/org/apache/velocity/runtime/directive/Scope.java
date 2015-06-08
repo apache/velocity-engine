@@ -1,28 +1,25 @@
 package org.apache.velocity.runtime.directive;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.velocity.Template;
 
 /**
@@ -31,60 +28,66 @@ import org.apache.velocity.Template;
  * @author Nathan Bubna
  * @version $Id$
  */
-public class Scope extends AbstractMap
+public class Scope
+    extends AbstractMap<Object, Object>
 {
     private static final String setReturnValue = "";
-    private Map storage;
+
+    private Map<Object, Object> storage;
+
     private Object replaced;
+
     private Scope parent;
+
     private Info info;
+
     protected final Object owner;
 
-    public Scope(Object owner, Object previous)
+    public Scope( Object owner, Object previous )
     {
         this.owner = owner;
-        if (previous != null)
+        if ( previous != null )
         {
             try
             {
-                this.parent = (Scope)previous;
+                this.parent = (Scope) previous;
             }
-            catch (ClassCastException cce)
+            catch ( ClassCastException cce )
             {
                 this.replaced = previous;
             }
         }
     }
 
-    private Map getStorage()
+    private Map<Object, Object> getStorage()
     {
-        if (storage == null)
+        if ( storage == null )
         {
-            storage = new HashMap();
+            storage = new HashMap<Object, Object>();
         }
         return storage;
     }
 
-    public Set entrySet()
+    public Set<Entry<Object, Object>> entrySet()
     {
         return getStorage().entrySet();
     }
 
     @Override
-    public Object get(Object key)
+    public Object get( Object key )
     {
-        Object o = super.get(key);
-        if (o == null && parent != null && !containsKey(key))
+        Object o = super.get( key );
+        if ( o == null && parent != null && !containsKey( key ) )
         {
-            return parent.get(key);
+            return parent.get( key );
         }
         return o;
     }
 
     @Override
-    public Object put(Object key, Object value)
+    public Object put( Object key, Object value )
     {
-        return getStorage().put(key, value);
+        return getStorage().put( key, value );
     }
 
     /**
@@ -92,9 +95,9 @@ public class Scope extends AbstractMap
      * without worrying about what is returned/rendered by the call.
      * This should ALWAYS return an empty string.
      */
-    public String set(Object key, Object value)
+    public String set( Object key, Object value )
     {
-        put(key, value);
+        put( key, value );
         return setReturnValue;
     }
 
@@ -103,7 +106,7 @@ public class Scope extends AbstractMap
      */
     protected void stop()
     {
-        throw new StopCommand(owner);
+        throw new StopCommand( owner );
     }
 
     /**
@@ -114,7 +117,7 @@ public class Scope extends AbstractMap
      */
     protected int getDepth()
     {
-        if (parent == null)
+        if ( parent == null )
         {
             return 1;
         }
@@ -127,7 +130,7 @@ public class Scope extends AbstractMap
      */
     public Scope getTopmost()
     {
-        if (parent == null)
+        if ( parent == null )
         {
             return this;
         }
@@ -151,7 +154,7 @@ public class Scope extends AbstractMap
      */
     public Object getReplaced()
     {
-        if (replaced == null && parent != null)
+        if ( replaced == null && parent != null )
         {
             return parent.getReplaced();
         }
@@ -163,9 +166,9 @@ public class Scope extends AbstractMap
      */
     public Info getInfo()
     {
-        if (info == null)
+        if ( info == null )
         {
-            info = new Info(this, owner);
+            info = new Info( this, owner );
         }
         return info;
     }
@@ -177,29 +180,31 @@ public class Scope extends AbstractMap
     public static class Info
     {
         private Scope scope;
+
         private Directive directive;
+
         private Template template;
 
-        public Info(Scope scope, Object owner)
+        public Info( Scope scope, Object owner )
         {
-            if (owner instanceof Directive)
+            if ( owner instanceof Directive )
             {
-                directive = (Directive)owner;
+                directive = (Directive) owner;
             }
-            if (owner instanceof Template)
+            if ( owner instanceof Template )
             {
-                template = (Template)owner;
+                template = (Template) owner;
             }
             this.scope = scope;
         }
 
         public String getName()
         {
-            if (directive != null)
+            if ( directive != null )
             {
                 return directive.getName();
             }
-            if (template != null)
+            if ( template != null )
             {
                 return template.getName();
             }
@@ -208,9 +213,9 @@ public class Scope extends AbstractMap
 
         public String getType()
         {
-            if (directive != null)
+            if ( directive != null )
             {
-                switch (directive.getType())
+                switch ( directive.getType() )
                 {
                     case Directive.BLOCK:
                         return "block";
@@ -218,7 +223,7 @@ public class Scope extends AbstractMap
                         return "line";
                 }
             }
-            if (template != null)
+            if ( template != null )
             {
                 return template.getEncoding();
             }
@@ -232,11 +237,11 @@ public class Scope extends AbstractMap
 
         public String getTemplate()
         {
-            if (directive != null)
+            if ( directive != null )
             {
                 return directive.getTemplateName();
             }
-            if (template != null)
+            if ( template != null )
             {
                 return template.getName();
             }
@@ -245,7 +250,7 @@ public class Scope extends AbstractMap
 
         public int getLine()
         {
-            if (directive != null)
+            if ( directive != null )
             {
                 return directive.getLine();
             }
@@ -254,7 +259,7 @@ public class Scope extends AbstractMap
 
         public int getColumn()
         {
-            if (directive != null)
+            if ( directive != null )
             {
                 return directive.getColumn();
             }
@@ -264,33 +269,33 @@ public class Scope extends AbstractMap
         public String toString()
         {
             StringBuilder sb = new StringBuilder();
-            if (directive != null)
+            if ( directive != null )
             {
-                sb.append('#');
+                sb.append( '#' );
             }
-            sb.append(getName());
-            sb.append("[type:").append(getType());
+            sb.append( getName() );
+            sb.append( "[type:" ).append( getType() );
             int depth = getDepth();
-            if (depth > 1)
+            if ( depth > 1 )
             {
-                sb.append(" depth:").append(depth);
+                sb.append( " depth:" ).append( depth );
             }
-            if (template == null)
+            if ( template == null )
             {
                 String vtl = getTemplate();
-                sb.append(" template:");
-                if (vtl.indexOf(" ") < 0)
+                sb.append( " template:" );
+                if ( vtl.indexOf( " " ) < 0 )
                 {
-                    sb.append(vtl);
+                    sb.append( vtl );
                 }
                 else
                 {
-                    sb.append('"').append(vtl).append('"');
+                    sb.append( '"' ).append( vtl ).append( '"' );
                 }
-                sb.append(" line:").append(getLine());
-                sb.append(" column:").append(getColumn());
+                sb.append( " line:" ).append( getLine() );
+                sb.append( " column:" ).append( getColumn() );
             }
-            sb.append(']');
+            sb.append( ']' );
             return sb.toString();
         }
     }

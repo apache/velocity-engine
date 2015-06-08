@@ -226,7 +226,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      * @since 1.6
      */
-    public void setMacroLibraries(List macroLibraries)
+    public void setMacroLibraries(List<String> macroLibraries)
     {
         icb.setMacroLibraries(macroLibraries);
     }
@@ -235,7 +235,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
      * @since 1.6
      */
-    public List getMacroLibraries()
+    public List<String> getMacroLibraries()
     {
         return icb.getMacroLibraries();
     }

@@ -1,22 +1,18 @@
 package org.apache.velocity.util.introspection;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.lang.reflect.Method;
@@ -38,13 +34,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MethodMap
 {
     private static final int MORE_SPECIFIC = 0;
+
     private static final int LESS_SPECIFIC = 1;
+
     private static final int INCOMPARABLE = 2;
 
     /**
      * Keep track of all methods with the same name.
      */
-    Map methodByNameMap = new ConcurrentHashMap();
+    Map<String, List<Method>> methodByNameMap = new ConcurrentHashMap<String, List<Method>>();
 
     /**
      * Add a method to a list of methods by name.
@@ -52,19 +50,19 @@ public class MethodMap
      * of all the methods with the same name.
      * @param method
      */
-    public void add(Method method)
+    public void add( Method method )
     {
         String methodName = method.getName();
 
-        List l = get( methodName );
+        List<Method> methods = get( methodName );
 
-        if ( l == null)
+        if ( methods == null )
         {
-            l = new ArrayList();
-            methodByNameMap.put(methodName, l);
+            methods = new ArrayList<Method>();
+            methodByNameMap.put( methodName, methods );
         }
 
-        l.add(method);
+        methods.add( method );
     }
 
     /**
@@ -73,9 +71,9 @@ public class MethodMap
      * @param key
      * @return List list of methods
      */
-    public List get(String key)
+    public List<Method> get( String key )
     {
-        return (List) methodByNameMap.get(key);
+        return methodByNameMap.get( key );
     }
 
     /**
@@ -106,20 +104,20 @@ public class MethodMap
      *  @throws AmbiguousException if there is more than one maximally
      *  specific applicable method
      */
-    public Method find(String methodName, Object[] args)
+    public Method find( String methodName, Object[] args )
         throws AmbiguousException
     {
-        List methodList = get(methodName);
+        List<Method> methodList = get( methodName );
 
-        if (methodList == null)
+        if ( methodList == null )
         {
             return null;
         }
 
         int l = args.length;
-        Class[] classes = new Class[l];
+        Class<?>[] classes = new Class[l];
 
-        for(int i = 0; i < l; ++i)
+        for ( int i = 0; i < l; ++i )
         {
             Object arg = args[i];
 
@@ -127,35 +125,34 @@ public class MethodMap
              * if we are careful down below, a null argument goes in there
              * so we can know that the null was passed to the method
              */
-            classes[i] =
-                    arg == null ? null : arg.getClass();
+            classes[i] = arg == null ? null : arg.getClass();
         }
 
-        return getBestMatch(methodList, classes);
+        return getBestMatch( methodList, classes );
     }
 
-    private static Method getBestMatch(List methods, Class[] args)
+    private static Method getBestMatch( List<Method> methods, Class<?>[] args )
     {
-        List equivalentMatches = null;
+        List<Method> equivalentMatches = null;
         Method bestMatch = null;
-        Class[] bestMatchTypes = null;
-        for (Iterator i = methods.iterator(); i.hasNext(); )
+        Class<?>[] bestMatchTypes = null;
+        for ( Iterator<Method> i = methods.iterator(); i.hasNext(); )
         {
-            Method method = (Method)i.next();
-            if (isApplicable(method, args))
+            Method method = i.next();
+            if ( isApplicable( method, args ) )
             {
-                if (bestMatch == null)
+                if ( bestMatch == null )
                 {
                     bestMatch = method;
                     bestMatchTypes = method.getParameterTypes();
                 }
                 else
                 {
-                    Class[] methodTypes = method.getParameterTypes();
-                    switch (compare(methodTypes, bestMatchTypes))
+                    Class<?>[] methodTypes = method.getParameterTypes();
+                    switch ( compare( methodTypes, bestMatchTypes ) )
                     {
                         case MORE_SPECIFIC:
-                            if (equivalentMatches == null)
+                            if ( equivalentMatches == null )
                             {
                                 bestMatch = method;
                                 bestMatchTypes = methodTypes;
@@ -164,10 +161,10 @@ public class MethodMap
                             {
                                 // have to beat all other ambiguous ones...
                                 int ambiguities = equivalentMatches.size();
-                                for (int a=0; a < ambiguities; a++)
+                                for ( int a = 0; a < ambiguities; a++ )
                                 {
-                                    Method other = (Method)equivalentMatches.get(a);
-                                    switch (compare(methodTypes, other.getParameterTypes()))
+                                    Method other = equivalentMatches.get( a );
+                                    switch ( compare( methodTypes, other.getParameterTypes() ) )
                                     {
                                         case MORE_SPECIFIC:
                                             // ...and thus replace them all...
@@ -179,7 +176,7 @@ public class MethodMap
 
                                         case INCOMPARABLE:
                                             // ...join them...
-                                            equivalentMatches.add(method);
+                                            equivalentMatches.add( method );
                                             break;
 
                                         case LESS_SPECIFIC:
@@ -191,11 +188,11 @@ public class MethodMap
                             break;
 
                         case INCOMPARABLE:
-                            if (equivalentMatches == null)
+                            if ( equivalentMatches == null )
                             {
-                                equivalentMatches = new ArrayList(bestMatchTypes.length);
+                                equivalentMatches = new ArrayList<Method>( bestMatchTypes.length );
                             }
-                            equivalentMatches.add(method);
+                            equivalentMatches.add( method );
                             break;
 
                         case LESS_SPECIFIC:
@@ -205,10 +202,10 @@ public class MethodMap
                 }
             }
         }
-                
-        if (equivalentMatches != null)
+
+        if ( equivalentMatches != null )
         {
-            System.out.println("ambiguous: "+equivalentMatches);
+            System.out.println( "ambiguous: " + equivalentMatches );
             throw new AmbiguousException();
         }
         return bestMatch;
@@ -219,7 +216,8 @@ public class MethodMap
      *  we run across ambiguous overloading.  Caught
      *  by the introspector.
      */
-    public static class AmbiguousException extends RuntimeException
+    public static class AmbiguousException
+        extends RuntimeException
     {
         /**
          * Version Id for serializable
@@ -235,7 +233,7 @@ public class MethodMap
      * @return MORE_SPECIFIC if c1 is more specific than c2, LESS_SPECIFIC if
      * c1 is less specific than c2, INCOMPARABLE if they are incomparable.
      */
-    private static int compare(Class[] c1, Class[] c2)
+    private static int compare( Class<?>[] c1, Class<?>[] c2 )
     {
         boolean c1MoreSpecific = false;
         boolean c2MoreSpecific = false;
@@ -243,35 +241,29 @@ public class MethodMap
         // compare lengths to handle comparisons where the size of the arrays
         // doesn't match, but the methods are both applicable due to the fact
         // that one is a varargs method
-        if (c1.length > c2.length)
+        if ( c1.length > c2.length )
         {
             return MORE_SPECIFIC;
         }
-        if (c2.length > c1.length)
+        if ( c2.length > c1.length )
         {
             return LESS_SPECIFIC;
         }
 
         // ok, move on and compare those of equal lengths
-        for(int i = 0; i < c1.length; ++i)
+        for ( int i = 0; i < c1.length; ++i )
         {
-            if(c1[i] != c2[i])
+            if ( c1[i] != c2[i] )
             {
-                boolean last = (i == c1.length - 1);
-                c1MoreSpecific =
-                    c1MoreSpecific ||
-                    isStrictConvertible(c2[i], c1[i], last) ||
-                    c2[i] == Object.class;//Object is always least-specific
-                c2MoreSpecific =
-                    c2MoreSpecific ||
-                    isStrictConvertible(c1[i], c2[i], last) ||
-                    c1[i] == Object.class;//Object is always least-specific
+                boolean last = ( i == c1.length - 1 );
+                c1MoreSpecific = c1MoreSpecific || isStrictConvertible( c2[i], c1[i], last ) || c2[i] == Object.class;//Object is always least-specific
+                c2MoreSpecific = c2MoreSpecific || isStrictConvertible( c1[i], c2[i], last ) || c1[i] == Object.class;//Object is always least-specific
             }
         }
 
-        if(c1MoreSpecific)
+        if ( c1MoreSpecific )
         {
-            if(c2MoreSpecific)
+            if ( c2MoreSpecific )
             {
                 /*
                  * If one method accepts varargs and the other does not,
@@ -279,11 +271,11 @@ public class MethodMap
                  */
                 boolean last1Array = c1[c1.length - 1].isArray();
                 boolean last2Array = c2[c2.length - 1].isArray();
-                if (last1Array && !last2Array)
+                if ( last1Array && !last2Array )
                 {
                     return LESS_SPECIFIC;
                 }
-                if (!last1Array && last2Array)
+                if ( !last1Array && last2Array )
                 {
                     return MORE_SPECIFIC;
                 }
@@ -298,7 +290,7 @@ public class MethodMap
             return MORE_SPECIFIC;
         }
 
-        if(c2MoreSpecific)
+        if ( c2MoreSpecific )
         {
             return LESS_SPECIFIC;
         }
@@ -319,21 +311,20 @@ public class MethodMap
      * @param classes arguments to method
      * @return true if method is applicable to arguments
      */
-    private static boolean isApplicable(Method method, Class[] classes)
+    private static boolean isApplicable( Method method, Class<?>[] classes )
     {
-        Class[] methodArgs = method.getParameterTypes();
+        Class<?>[] methodArgs = method.getParameterTypes();
 
-        if (methodArgs.length > classes.length)
+        if ( methodArgs.length > classes.length )
         {
             // if there's just one more methodArg than class arg
             // and the last methodArg is an array, then treat it as a vararg
-            if (methodArgs.length == classes.length + 1 &&
-                methodArgs[methodArgs.length - 1].isArray())
+            if ( methodArgs.length == classes.length + 1 && methodArgs[methodArgs.length - 1].isArray() )
             {
                 // all the args preceding the vararg must match
-                for (int i = 0; i < classes.length; i++)
+                for ( int i = 0; i < classes.length; i++ )
                 {
-                    if (!isConvertible(methodArgs[i], classes[i], false))
+                    if ( !isConvertible( methodArgs[i], classes[i], false ) )
                     {
                         return false;
                     }
@@ -345,49 +336,49 @@ public class MethodMap
                 return false;
             }
         }
-        else if (methodArgs.length == classes.length)
+        else if ( methodArgs.length == classes.length )
         {
             // this will properly match when the last methodArg
             // is an array/varargs and the last class is the type of array
             // (e.g. String when the method is expecting String...)
-            for(int i = 0; i < classes.length; ++i)
+            for ( int i = 0; i < classes.length; ++i )
             {
-                if(!isConvertible(methodArgs[i], classes[i], false))
+                if ( !isConvertible( methodArgs[i], classes[i], false ) )
                 {
                     // if we're on the last arg and the method expects an array
-                    if (i == classes.length - 1 && methodArgs[i].isArray())
+                    if ( i == classes.length - 1 && methodArgs[i].isArray() )
                     {
                         // check to see if the last arg is convertible
                         // to the array's component type
-                        return isConvertible(methodArgs[i], classes[i], true);
+                        return isConvertible( methodArgs[i], classes[i], true );
                     }
                     return false;
                 }
             }
         }
-        else if (methodArgs.length > 0) // more arguments given than the method accepts; check for varargs
+        else if ( methodArgs.length > 0 ) // more arguments given than the method accepts; check for varargs
         {
             // check that the last methodArg is an array
-            Class lastarg = methodArgs[methodArgs.length - 1];
-            if (!lastarg.isArray())
+            Class<?> lastarg = methodArgs[methodArgs.length - 1];
+            if ( !lastarg.isArray() )
             {
                 return false;
             }
 
             // check that they all match up to the last method arg
-            for (int i = 0; i < methodArgs.length - 1; ++i)
+            for ( int i = 0; i < methodArgs.length - 1; ++i )
             {
-                if (!isConvertible(methodArgs[i], classes[i], false))
+                if ( !isConvertible( methodArgs[i], classes[i], false ) )
                 {
                     return false;
                 }
             }
 
             // check that all remaining arguments are convertible to the vararg type
-            Class vararg = lastarg.getComponentType();
-            for (int i = methodArgs.length - 1; i < classes.length; ++i)
+            Class<?> vararg = lastarg.getComponentType();
+            for ( int i = methodArgs.length - 1; i < classes.length; ++i )
             {
-                if (!isConvertible(vararg, classes[i], false))
+                if ( !isConvertible( vararg, classes[i], false ) )
                 {
                     return false;
                 }
@@ -397,17 +388,13 @@ public class MethodMap
         return true;
     }
 
-    private static boolean isConvertible(Class formal, Class actual,
-                                         boolean possibleVarArg)
+    private static boolean isConvertible( Class<?> formal, Class<?> actual, boolean possibleVarArg )
     {
-        return IntrospectionUtils.
-            isMethodInvocationConvertible(formal, actual, possibleVarArg);
+        return IntrospectionUtils.isMethodInvocationConvertible( formal, actual, possibleVarArg );
     }
 
-    private static boolean isStrictConvertible(Class formal, Class actual,
-                                               boolean possibleVarArg)
+    private static boolean isStrictConvertible( Class<?> formal, Class<?> actual, boolean possibleVarArg )
     {
-        return IntrospectionUtils.
-            isStrictMethodInvocationConvertible(formal, actual, possibleVarArg);
+        return IntrospectionUtils.isStrictMethodInvocationConvertible( formal, actual, possibleVarArg );
     }
 }

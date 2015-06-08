@@ -181,13 +181,13 @@ public class StringUtils
      */
     public static String [] split(String line, String delim)
     {
-        List list = new ArrayList();
+        List<String> list = new ArrayList<String>();
         StringTokenizer t = new StringTokenizer(line, delim);
         while (t.hasMoreTokens())
         {
             list.add(t.nextToken());
         }
-        return (String []) list.toArray(new String[list.size()]);
+        return list.toArray(new String[list.size()]);
     }
 
     /**

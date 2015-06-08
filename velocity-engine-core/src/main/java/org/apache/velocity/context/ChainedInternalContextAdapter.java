@@ -211,7 +211,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      */
-    public void setMacroLibraries(List macroLibraries)
+    public void setMacroLibraries(List<String> macroLibraries)
     {
         wrappedContext.setMacroLibraries(macroLibraries);
     }
@@ -219,7 +219,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
      */
-    public List getMacroLibraries()
+    public List<String> getMacroLibraries()
     {
         return wrappedContext.getMacroLibraries();
     }

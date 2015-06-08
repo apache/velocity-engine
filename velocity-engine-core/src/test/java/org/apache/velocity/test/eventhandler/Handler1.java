@@ -32,36 +32,33 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 public class Handler1
     implements ReferenceInsertionEventHandler, MethodExceptionEventHandler, IncludeEventHandler {
 
-        /**
-         * display output twice, once uppercase and once lowercase
-         */
-        public Object referenceInsert(String reference, Object value)
-        {
-            if (value == null)
-                return null;
-            else
-                return value.toString().toUpperCase() + value.toString().toLowerCase();
-        }
+    /**
+     * display output twice, once uppercase and once lowercase
+     */
+    public Object referenceInsert( String reference, Object value )
+    {
+        if ( value == null )
+            return null;
+        else
+            return value.toString().toUpperCase() + value.toString().toLowerCase();
+    }
 
-        /**
-         * throw the exception
-         */
-        public Object methodException(Class claz, String method, Exception e)
-        {
-            throw new RuntimeException(e);
-        }
+    /**
+     * throw the exception
+     */
+    public Object methodException( Class<?> claz, String method, Exception e )
+    {
+        throw new RuntimeException( e );
+    }
 
-        /*
-         * redirect all requests to a page "login.vm" (simulates access control).
-         */
-        public String includeEvent(
-            String includeResourcePath,
-            String currentResourcePath,
-            String directiveName)
-        {
+    /*
+     * redirect all requests to a page "login.vm" (simulates access control).
+     */
+    public String includeEvent( String includeResourcePath, String currentResourcePath, String directiveName )
+    {
 
-            return "notfound.vm";
+        return "notfound.vm";
 
-        }
+    }
 
 }

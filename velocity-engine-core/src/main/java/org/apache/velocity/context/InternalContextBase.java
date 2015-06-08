@@ -19,9 +19,11 @@ package org.apache.velocity.context;
  * under the License.    
  */
 
+import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Stack;
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
@@ -42,7 +44,8 @@ import org.apache.velocity.util.introspection.IntrospectionCacheData;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-class InternalContextBase implements InternalHousekeepingContext, InternalEventContext
+class InternalContextBase
+    implements InternalHousekeepingContext, InternalEventContext, Serializable
 {
     /**
      * Version Id for serializable
@@ -52,17 +55,17 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      *  cache for node/context specific introspection information
      */
-    private HashMap introspectionCache = new HashMap(33);
+    private Map<Object, IntrospectionCacheData> introspectionCache = new HashMap<Object, IntrospectionCacheData>( 33 );
 
     /**
      *  Template name stack. The stack top contains the current template name.
      */
-    private Stack templateNameStack = new Stack();
+    private Stack<String> templateNameStack = new Stack<String>();
 
     /**
      *  Velocimacro name stack. The stack top contains the current macro name.
      */
-    private Stack macroNameStack = new Stack();
+    private Stack<String> macroNameStack = new Stack<String>();
 
     /**
      *  EventCartridge we are to carry.  Set by application
@@ -79,7 +82,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *  List for holding the macro libraries. Contains the macro library
      *  template name as strings.
      */
-    private List macroLibraries = null;
+    private List<String> macroLibraries = null;
 
     /**
      *  set the current template name on top of stack
@@ -109,7 +112,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         if ( templateNameStack.empty() )
             return "<undef>";
         else
-            return (String) templateNameStack.peek();
+            return templateNameStack.peek();
     }
 
     /**
@@ -153,7 +156,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         }
         else
         {
-            return (String) macroNameStack.peek();
+            return macroNameStack.peek();
         }
     }
 
@@ -186,7 +189,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      */
     public IntrospectionCacheData icacheGet( Object key )
     {
-        return ( IntrospectionCacheData ) introspectionCache.get( key );
+        return introspectionCache.get( key );
     }
 
     /**
@@ -220,7 +223,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      */
-    public void setMacroLibraries(List macroLibraries)
+    public void setMacroLibraries(List<String> macroLibraries)
     {
         this.macroLibraries = macroLibraries;
     }
@@ -228,7 +231,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
      */
-    public List getMacroLibraries()
+    public List<String> getMacroLibraries()
     {
         return macroLibraries;
     }

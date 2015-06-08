@@ -275,7 +275,7 @@ public class Template extends Resource
      *  @throws MethodInvocationException When a method on a referenced object in the context could not invoked.
      *  @since 1.6
      */
-    public void merge( Context context, Writer writer, List macroLibraries)
+    public void merge( Context context, Writer writer, List<String> macroLibraries)
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         /*
@@ -312,7 +312,7 @@ public class Template extends Resource
                      */
                     try
                     {
-                        rsvc.getTemplate((String) macroLibraries.get(i));
+                        rsvc.getTemplate(macroLibraries.get(i));
                     }
                     catch (ResourceNotFoundException re)
                     {
@@ -321,7 +321,7 @@ public class Template extends Resource
                         */
                         rsvc.getLog().error("template.merge(): " +
                                 "cannot find template " +
-                                (String) macroLibraries.get(i));
+                                macroLibraries.get(i));
                         throw re;
                     }
                     catch (ParseErrorException pe)
@@ -332,14 +332,14 @@ public class Template extends Resource
                         */
                         rsvc.getLog().error("template.merge(): " +
                                 "syntax error in template " +
-                                (String) macroLibraries.get(i) + ".");
+                                macroLibraries.get(i) + ".");
                         throw pe;
                     }
                     
                     catch (Exception e)
                     {
                         throw new RuntimeException("Template.merge(): parse failed in template  " +
-                                (String) macroLibraries.get(i) + ".", e);
+                                macroLibraries.get(i) + ".", e);
                     }
                 }
             }

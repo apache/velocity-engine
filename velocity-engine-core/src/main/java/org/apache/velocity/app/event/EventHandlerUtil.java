@@ -1,22 +1,18 @@
 package org.apache.velocity.app.event;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.util.Iterator;
@@ -25,7 +21,6 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.introspection.Info;
-
 
 /**
  * Calls on request all registered event handlers for a particular event. Each
@@ -38,9 +33,9 @@ import org.apache.velocity.util.introspection.Info;
  * @version $Id$
  * @since 1.5
  */
-public class EventHandlerUtil {
-    
-    
+public class EventHandlerUtil
+{
+
     /**
      * Called before a reference is inserted. All event handlers are called in
      * sequence. The default implementation inserts the reference as is.
@@ -53,63 +48,61 @@ public class EventHandlerUtil {
      * @param context The internal context adapter.
      * @return Object on which toString() should be called for output.
      */
-    public static Object referenceInsert(RuntimeServices rsvc,
-            InternalContextAdapter context, String reference, Object value)
+    public static Object referenceInsert( RuntimeServices rsvc, InternalContextAdapter context, String reference,
+                                          Object value )
     {
         // app level cartridges have already been initialized
-        
+
         /*
          * Performance modification: EventCartridge.getReferenceInsertionEventHandlers
          * now returns a null if there are no handlers. Thus we can avoid creating the
          * Iterator object.
          */
         EventCartridge ev1 = rsvc.getApplicationEventCartridge();
-        Iterator applicationEventHandlerIterator = 
-            (ev1 == null) ? null: ev1.getReferenceInsertionEventHandlers();              
-        
+        Iterator<ReferenceInsertionEventHandler> applicationEventHandlerIterator = ( ev1 == null ) ? null : ev1
+            .getReferenceInsertionEventHandlers();
+
         EventCartridge ev2 = context.getEventCartridge();
-        initializeEventCartridge(rsvc, ev2);
-        Iterator contextEventHandlerIterator = 
-            (ev2 == null) ? null: ev2.getReferenceInsertionEventHandlers();              
-        
-        try 
+        initializeEventCartridge( rsvc, ev2 );
+        Iterator<ReferenceInsertionEventHandler> contextEventHandlerIterator = ( ev2 == null ) ? null : ev2
+            .getReferenceInsertionEventHandlers();
+
+        try
         {
             /*
              * Performance modification: methodExecutor is created only if one of the
              * iterators is not null.
              */
-            
-            EventHandlerMethodExecutor methodExecutor = null; 
 
-            if( applicationEventHandlerIterator != null )
+            EventHandlerMethodExecutor methodExecutor = null;
+
+            if ( applicationEventHandlerIterator != null )
             {
-                methodExecutor = 
-                    new ReferenceInsertionEventHandler.referenceInsertExecutor(context, reference, value);
-                iterateOverEventHandlers(applicationEventHandlerIterator, methodExecutor);
+                methodExecutor = new ReferenceInsertionEventHandler.referenceInsertExecutor( context, reference, value );
+                iterateOverEventHandlers( applicationEventHandlerIterator, methodExecutor );
             }
 
-            if( contextEventHandlerIterator != null )
+            if ( contextEventHandlerIterator != null )
             {
-                if( methodExecutor == null )
-                    methodExecutor = 
-                        new ReferenceInsertionEventHandler.referenceInsertExecutor(context, reference, value);
-                    
-                iterateOverEventHandlers(contextEventHandlerIterator, methodExecutor);
+                if ( methodExecutor == null )
+                    methodExecutor = new ReferenceInsertionEventHandler.referenceInsertExecutor( context, reference,
+                                                                                                 value );
+
+                iterateOverEventHandlers( contextEventHandlerIterator, methodExecutor );
             }
 
-            
-            return methodExecutor != null ? methodExecutor.getReturnValue() : value;   
+            return methodExecutor != null ? methodExecutor.getReturnValue() : value;
         }
-        catch (RuntimeException e)
+        catch ( RuntimeException e )
         {
             throw e;
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            throw new VelocityException("Exception in event handler.",e);
+            throw new VelocityException( "Exception in event handler.", e );
         }
     }
-    
+
     /**
      * Called when a method exception is generated during Velocity merge. Only
      * the first valid event handler in the sequence is called. The default
@@ -127,36 +120,35 @@ public class EventHandlerUtil {
      * @throws Exception
      *             to be wrapped and propagated to app
      */
-    public static Object methodException(RuntimeServices rsvc,
-            InternalContextAdapter context, Class claz, String method,
-            Exception e) throws Exception 
+    public static Object methodException( RuntimeServices rsvc, InternalContextAdapter context, Class<?> claz,
+                                          String method, Exception e )
+        throws Exception
     {
         // app level cartridges have already been initialized
         EventCartridge ev1 = rsvc.getApplicationEventCartridge();
-        Iterator applicationEventHandlerIterator = 
-            (ev1 == null) ? null: ev1.getMethodExceptionEventHandlers();              
-        
+        Iterator<MethodExceptionEventHandler> applicationEventHandlerIterator = ( ev1 == null ) ? null : ev1
+            .getMethodExceptionEventHandlers();
+
         EventCartridge ev2 = context.getEventCartridge();
-        initializeEventCartridge(rsvc, ev2);
-        Iterator contextEventHandlerIterator = 
-            (ev2 == null) ? null: ev2.getMethodExceptionEventHandlers();              
-        
-        EventHandlerMethodExecutor methodExecutor = 
-            new MethodExceptionEventHandler.MethodExceptionExecutor(context, claz, method, e);
-        
-        if ( ((applicationEventHandlerIterator == null) || !applicationEventHandlerIterator.hasNext()) &&
-                ((contextEventHandlerIterator == null) || !contextEventHandlerIterator.hasNext()) )
+        initializeEventCartridge( rsvc, ev2 );
+        Iterator<MethodExceptionEventHandler> contextEventHandlerIterator = ( ev2 == null ) ? null : ev2
+            .getMethodExceptionEventHandlers();
+
+        EventHandlerMethodExecutor methodExecutor = new MethodExceptionEventHandler.MethodExceptionExecutor( context,
+                                                                                                             claz,
+                                                                                                             method, e );
+
+        if ( ( ( applicationEventHandlerIterator == null ) || !applicationEventHandlerIterator.hasNext() )
+            && ( ( contextEventHandlerIterator == null ) || !contextEventHandlerIterator.hasNext() ) )
         {
             throw e;
         }
-            
-        callEventHandlers(
-                applicationEventHandlerIterator, 
-                contextEventHandlerIterator, methodExecutor);
-        
+
+        callEventHandlers( applicationEventHandlerIterator, contextEventHandlerIterator, methodExecutor );
+
         return methodExecutor.getReturnValue();
     }
-    
+
     /**
      * Called when an include-type directive is encountered (#include or
      * #parse). All the registered event handlers are called unless null is
@@ -177,43 +169,40 @@ public class EventHandlerUtil {
      * @return a new resource path for the directive, or null to block the
      *         include from occurring.
      */
-    public static String includeEvent(RuntimeServices rsvc,
-            InternalContextAdapter context, String includeResourcePath,
-            String currentResourcePath, String directiveName)
+    public static String includeEvent( RuntimeServices rsvc, InternalContextAdapter context,
+                                       String includeResourcePath, String currentResourcePath, String directiveName )
     {
         // app level cartridges have already been initialized
         EventCartridge ev1 = rsvc.getApplicationEventCartridge();
-        Iterator applicationEventHandlerIterator = 
-            (ev1 == null) ? null: ev1.getIncludeEventHandlers();              
-        
+        Iterator<IncludeEventHandler> applicationEventHandlerIterator = ( ev1 == null ) ? null : ev1
+            .getIncludeEventHandlers();
+
         EventCartridge ev2 = context.getEventCartridge();
-        initializeEventCartridge(rsvc, ev2);
-        Iterator contextEventHandlerIterator = 
-            (ev2 == null) ? null: ev2.getIncludeEventHandlers();              
-        
-        try 
+        initializeEventCartridge( rsvc, ev2 );
+        Iterator<IncludeEventHandler> contextEventHandlerIterator = ( ev2 == null ) ? null : ev2
+            .getIncludeEventHandlers();
+
+        try
         {
-            EventHandlerMethodExecutor methodExecutor = 
-                new IncludeEventHandler.IncludeEventExecutor(
-                        context, includeResourcePath, 
-                        currentResourcePath, directiveName);
-            
-            callEventHandlers(
-                    applicationEventHandlerIterator, 
-                    contextEventHandlerIterator, methodExecutor);
-            
+            EventHandlerMethodExecutor methodExecutor = new IncludeEventHandler.IncludeEventExecutor(
+                                                                                                      context,
+                                                                                                      includeResourcePath,
+                                                                                                      currentResourcePath,
+                                                                                                      directiveName );
+
+            callEventHandlers( applicationEventHandlerIterator, contextEventHandlerIterator, methodExecutor );
+
             return (String) methodExecutor.getReturnValue();
         }
-        catch (RuntimeException e)
+        catch ( RuntimeException e )
         {
             throw e;
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            throw new VelocityException("Exception in event handler.",e);
+            throw new VelocityException( "Exception in event handler.", e );
         }
     }
-   
 
     /**
      * Called when an invalid get method is encountered.
@@ -226,42 +215,36 @@ public class EventHandlerUtil {
      * @param info contains info on template, line, col
      * @return substitute return value for missing reference, or null if no substitute
      */
-    public static Object invalidGetMethod(RuntimeServices rsvc,
-            InternalContextAdapter context, String reference, 
-            Object object, String property, Info info)
+    public static Object invalidGetMethod( RuntimeServices rsvc, InternalContextAdapter context, String reference,
+                                           Object object, String property, Info info )
     {
-        return  
-        invalidReferenceHandlerCall (
-                new InvalidReferenceEventHandler.InvalidGetMethodExecutor
-                (context, reference, object, property, info),
-                rsvc, 
-                context);       
+        return invalidReferenceHandlerCall( new InvalidReferenceEventHandler.InvalidGetMethodExecutor( context,
+                                                                                                       reference,
+                                                                                                       object,
+                                                                                                       property, info ),
+                                            rsvc, context );
     }
-        
-        
-   /**
-     * Called when an invalid set method is encountered.
-     * 
-     * @param rsvc current instance of RuntimeServices
-     * @param context the context when the reference was found invalid
-     * @param leftreference left reference being assigned to
-     * @param rightreference invalid reference on the right
-     * @param info contains info on template, line, col
-     */
-    public static void invalidSetMethod(RuntimeServices rsvc,
-            InternalContextAdapter context, String leftreference, 
-            String rightreference, Info info)
+
+    /**
+      * Called when an invalid set method is encountered.
+      * 
+      * @param rsvc current instance of RuntimeServices
+      * @param context the context when the reference was found invalid
+      * @param leftreference left reference being assigned to
+      * @param rightreference invalid reference on the right
+      * @param info contains info on template, line, col
+      */
+    public static void invalidSetMethod( RuntimeServices rsvc, InternalContextAdapter context, String leftreference,
+                                         String rightreference, Info info )
     {
         /**
          * ignore return value
          */
-        invalidReferenceHandlerCall (
-                new InvalidReferenceEventHandler.InvalidSetMethodExecutor
-                (context, leftreference, rightreference, info),
-                rsvc, 
-                context);   
+        invalidReferenceHandlerCall( new InvalidReferenceEventHandler.InvalidSetMethodExecutor( context, leftreference,
+                                                                                                rightreference, info ),
+                                     rsvc, context );
     }
-    
+
     /**
      * Called when an invalid method is encountered.
      * 
@@ -273,19 +256,15 @@ public class EventHandlerUtil {
      * @param info contains info on template, line, col
      * @return substitute return value for missing reference, or null if no substitute
      */
-    public static Object invalidMethod(RuntimeServices rsvc,
-            InternalContextAdapter context,  String reference,
-            Object object, String method, Info info)
+    public static Object invalidMethod( RuntimeServices rsvc, InternalContextAdapter context, String reference,
+                                        Object object, String method, Info info )
     {
-        return 
-        invalidReferenceHandlerCall (
-                new InvalidReferenceEventHandler.InvalidMethodExecutor
-                (context, reference, object, method, info),
-                rsvc, 
-                context);       
+        return invalidReferenceHandlerCall( new InvalidReferenceEventHandler.InvalidMethodExecutor( context, reference,
+                                                                                                    object, method,
+                                                                                                    info ), rsvc,
+                                            context );
     }
-    
-    
+
     /**
      * Calls event handler method with appropriate chaining across event handlers.
      * 
@@ -294,38 +273,34 @@ public class EventHandlerUtil {
      * @param context The current context
      * @return return value from method, or null if no return value
      */
-    public static Object invalidReferenceHandlerCall(
-            EventHandlerMethodExecutor methodExecutor, 
-            RuntimeServices rsvc,
-            InternalContextAdapter context)
+    public static Object invalidReferenceHandlerCall( EventHandlerMethodExecutor methodExecutor, RuntimeServices rsvc,
+                                                      InternalContextAdapter context )
     {
         // app level cartridges have already been initialized
         EventCartridge ev1 = rsvc.getApplicationEventCartridge();
-        Iterator applicationEventHandlerIterator = 
-            (ev1 == null) ? null: ev1.getInvalidReferenceEventHandlers();              
-        
+        Iterator<InvalidReferenceEventHandler> applicationEventHandlerIterator = ( ev1 == null ) ? null : ev1
+            .getInvalidReferenceEventHandlers();
+
         EventCartridge ev2 = context.getEventCartridge();
-        initializeEventCartridge(rsvc, ev2);
-        Iterator contextEventHandlerIterator = 
-            (ev2 == null) ? null: ev2.getInvalidReferenceEventHandlers();              
-        
+        initializeEventCartridge( rsvc, ev2 );
+        Iterator<InvalidReferenceEventHandler> contextEventHandlerIterator = ( ev2 == null ) ? null : ev2
+            .getInvalidReferenceEventHandlers();
+
         try
         {
-            callEventHandlers(
-                    applicationEventHandlerIterator, 
-                    contextEventHandlerIterator, methodExecutor);
-            
+            callEventHandlers( applicationEventHandlerIterator, contextEventHandlerIterator, methodExecutor );
+
             return methodExecutor.getReturnValue();
         }
-        catch (RuntimeException e)
+        catch ( RuntimeException e )
         {
             throw e;
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            throw new VelocityException("Exception in event handler.",e);
+            throw new VelocityException( "Exception in event handler.", e );
         }
-        
+
     }
 
     /**
@@ -334,22 +309,21 @@ public class EventHandlerUtil {
      * @param rsvc current instance of RuntimeServices
      * @param eventCartridge the event cartridge to be initialized
      */
-    private static void initializeEventCartridge(RuntimeServices rsvc, EventCartridge eventCartridge)
+    private static void initializeEventCartridge( RuntimeServices rsvc, EventCartridge eventCartridge )
     {
-        if (eventCartridge != null)
+        if ( eventCartridge != null )
         {
             try
             {
-                eventCartridge.initialize(rsvc);
+                eventCartridge.initialize( rsvc );
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
-                throw new VelocityException("Couldn't initialize event cartridge : ", e);
+                throw new VelocityException( "Couldn't initialize event cartridge : ", e );
             }
         }
     }
-    
-    
+
     /**
      * Loop through both the application level and context-attached event handlers.
      * 
@@ -357,45 +331,43 @@ public class EventHandlerUtil {
      * @param contextEventHandlerIterator Iterator that loops through all global event handlers attached to context
      * @param eventExecutor Strategy object that executes event handler method
      */
-    private static void callEventHandlers(
-            Iterator applicationEventHandlerIterator, 
-            Iterator contextEventHandlerIterator,
-            EventHandlerMethodExecutor eventExecutor)
+    private static void callEventHandlers( Iterator<? extends EventHandler> applicationEventHandlerIterator,
+                                           Iterator<? extends EventHandler> contextEventHandlerIterator,
+                                           EventHandlerMethodExecutor eventExecutor )
     {
         /**
          * First loop through the event handlers configured at the app level
          * in the properties file.
          */
-        iterateOverEventHandlers(applicationEventHandlerIterator, eventExecutor);
-        
+        iterateOverEventHandlers( applicationEventHandlerIterator, eventExecutor );
+
         /**
          * Then loop through the event handlers attached to the context.
          */
-        iterateOverEventHandlers(contextEventHandlerIterator, eventExecutor);
+        iterateOverEventHandlers( contextEventHandlerIterator, eventExecutor );
     }
-    
+
     /**
      * Loop through a given iterator of event handlers.
      * 
      * @param handlerIterator Iterator that loops through event handlers
      * @param eventExecutor Strategy object that executes event handler method
      */
-    private static void iterateOverEventHandlers(
-            Iterator handlerIterator,
-            EventHandlerMethodExecutor eventExecutor)
+    private static void iterateOverEventHandlers( Iterator<? extends EventHandler> handlerIterator,
+                                                  EventHandlerMethodExecutor eventExecutor )
     {
-        if (handlerIterator != null)
+        if ( handlerIterator != null )
         {
-            for (Iterator i = handlerIterator; i.hasNext();)
+            for ( Iterator<? extends EventHandler> i = handlerIterator; i.hasNext(); )
             {
-                EventHandler eventHandler = (EventHandler) i.next();
-                
-                if (!eventExecutor.isDone())
+                EventHandler eventHandler = i.next();
+
+                if ( !eventExecutor.isDone() )
                 {
-                    eventExecutor.execute(eventHandler);
+                    eventExecutor.execute( eventHandler );
                 }
-            }            
+            }
         }
     }
-    
+
 }

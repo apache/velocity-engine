@@ -1,22 +1,18 @@
 package org.apache.velocity.util.introspection;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.lang.reflect.Array;
@@ -50,7 +46,8 @@ import org.apache.velocity.util.EnumerationIterator;
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
-public class UberspectImpl implements Uberspect, UberspectLoggable
+public class UberspectImpl
+    implements Uberspect, UberspectLoggable
 {
     /**
      *  Our runtime logger.
@@ -69,7 +66,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      */
     public void init()
     {
-        introspector = new Introspector(log);
+        introspector = new Introspector( log );
     }
 
     /**
@@ -79,7 +76,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param log The logger instance to use.
      * @since 1.5
      */
-    public void setLog(Log log)
+    public void setLog( Log log )
     {
         this.log = log;
     }
@@ -92,78 +89,76 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param i Info about the object's location.
      * @return An {@link Iterator} object.
      */
-    public Iterator getIterator(Object obj, Info i)
+    public Iterator<Object> getIterator( Object obj, Info i )
     {
-        if (obj.getClass().isArray())
+        if ( obj.getClass().isArray() )
         {
-            return new ArrayIterator(obj);
+            return new ArrayIterator( obj );
         }
-        else if (obj instanceof Collection)
+        else if ( obj instanceof Collection )
         {
-            return ((Collection) obj).iterator();
+            return ( (Collection<Object>) obj ).iterator();
         }
-        else if (obj instanceof Map)
+        else if ( obj instanceof Map )
         {
-            return ((Map) obj).values().iterator();
+            return ( (Map) obj ).values().iterator();
         }
-        else if (obj instanceof Iterator)
+        else if ( obj instanceof Iterator )
         {
-            if (log.isDebugEnabled())
+            if ( log.isDebugEnabled() )
             {
-                log.debug("The iterative object in the #foreach() loop at " +
-                           i + " is of type java.util.Iterator.  Because " +
-                           "it is not resettable, if used in more than once it " +
-                           "may lead to unexpected results.");
+                log.debug( "The iterative object in the #foreach() loop at " + i
+                    + " is of type java.util.Iterator.  Because "
+                    + "it is not resettable, if used in more than once it " + "may lead to unexpected results." );
             }
-            return ((Iterator) obj);
+            return ( (Iterator<Object>) obj );
         }
-        else if (obj instanceof Enumeration)
+        else if ( obj instanceof Enumeration )
         {
-            if (log.isDebugEnabled())
+            if ( log.isDebugEnabled() )
             {
-                log.debug("The iterative object in the #foreach() loop at " +
-                           i + " is of type java.util.Enumeration.  Because " +
-                           "it is not resettable, if used in more than once it " +
-                           "may lead to unexpected results.");
+                log.debug( "The iterative object in the #foreach() loop at " + i
+                    + " is of type java.util.Enumeration.  Because "
+                    + "it is not resettable, if used in more than once it " + "may lead to unexpected results." );
             }
-            return new EnumerationIterator((Enumeration) obj);
+            return new EnumerationIterator( (Enumeration) obj );
         }
         else
         {
             // look for an iterator() method to support the JDK5 Iterable
             // interface or any user tools/DTOs that want to work in
             // foreach without implementing the Collection interface
-            Class type = obj.getClass();
+            Class<?> type = obj.getClass();
             try
             {
-                Method iter = type.getMethod("iterator");
-                Class returns = iter.getReturnType();
-                if (Iterator.class.isAssignableFrom(returns))
+                Method iter = type.getMethod( "iterator" );
+                Class<?> returns = iter.getReturnType();
+                if ( Iterator.class.isAssignableFrom( returns ) )
                 {
                     try
                     {
-                        return (Iterator)iter.invoke(obj);
-                    } 
-                    catch (Exception e)
+                        return (Iterator<Object>) iter.invoke( obj );
+                    }
+                    catch ( Exception e )
                     {
-                        throw new VelocityException("Error invoking the method 'iterator' on class '" 
-                            + obj.getClass().getName() +"'", e);
+                        throw new VelocityException( "Error invoking the method 'iterator' on class '"
+                            + obj.getClass().getName() + "'", e );
                     }
                 }
                 else
                 {
-                    log.debug("iterator() method of reference in #foreach loop at "
-                              + i + " does not return a true Iterator.");
+                    log.debug( "iterator() method of reference in #foreach loop at " + i
+                        + " does not return a true Iterator." );
                 }
             }
-            catch (NoSuchMethodException nsme)
+            catch ( NoSuchMethodException nsme )
             {
                 // eat this one, but let all other exceptions thru
             }
         }
 
         /*  we have no clue what this is  */
-        log.debug("Could not determine type of iterator in #foreach loop at " + i);
+        log.debug( "Could not determine type of iterator in #foreach loop at " + i );
 
         return null;
     }
@@ -176,39 +171,39 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param i
      * @return A Velocity Method.
      */
-    public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
+    public VelMethod getMethod( Object obj, String methodName, Object[] args, Info i )
     {
-        if (obj == null)
+        if ( obj == null )
         {
             return null;
         }
 
-        Method m = introspector.getMethod(obj.getClass(), methodName, args);
-        if (m != null)
+        Method m = introspector.getMethod( obj.getClass(), methodName, args );
+        if ( m != null )
         {
-            return new VelMethodImpl(m);
+            return new VelMethodImpl( m );
         }
 
-        Class cls = obj.getClass();
+        Class<?> cls = obj.getClass();
         // if it's an array
-        if (cls.isArray())
+        if ( cls.isArray() )
         {
             // check for support via our array->list wrapper
-            m = introspector.getMethod(ArrayListWrapper.class, methodName, args);
-            if (m != null)
+            m = introspector.getMethod( ArrayListWrapper.class, methodName, args );
+            if ( m != null )
             {
                 // and create a method that knows to wrap the value
                 // before invoking the method
-                return new VelMethodImpl(m, true);
+                return new VelMethodImpl( m, true );
             }
         }
         // watch for classes, to allow calling their static methods (VELOCITY-102)
-        else if (cls == Class.class)
+        else if ( cls == Class.class )
         {
-            m = introspector.getMethod((Class)obj, methodName, args);
-            if (m != null)
+            m = introspector.getMethod( (Class<?>) obj, methodName, args );
+            if ( m != null )
             {
-                return new VelMethodImpl(m);
+                return new VelMethodImpl( m );
             }
         }
         return null;
@@ -221,49 +216,48 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param i
      * @return A Velocity Getter Method.
      */
-    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
+    public VelPropertyGet getPropertyGet( Object obj, String identifier, Info i )
     {
-        if (obj == null)
+        if ( obj == null )
         {
             return null;
         }
 
-        Class claz = obj.getClass();
+        Class<?> claz = obj.getClass();
 
         /*
          *  first try for a getFoo() type of property
          *  (also getfoo() )
          */
-        AbstractExecutor executor = new PropertyExecutor(log, introspector, claz, identifier);
+        AbstractExecutor executor = new PropertyExecutor( log, introspector, claz, identifier );
 
         /*
          * Let's see if we are a map...
          */
-        if (!executor.isAlive()) 
+        if ( !executor.isAlive() )
         {
-            executor = new MapGetExecutor(log, claz, identifier);
+            executor = new MapGetExecutor( log, claz, identifier );
         }
 
         /*
          *  if that didn't work, look for get("foo")
          */
 
-        if (!executor.isAlive())
+        if ( !executor.isAlive() )
         {
-            executor = new GetExecutor(log, introspector, claz, identifier);
+            executor = new GetExecutor( log, introspector, claz, identifier );
         }
 
         /*
          *  finally, look for boolean isFoo()
          */
 
-        if (!executor.isAlive())
+        if ( !executor.isAlive() )
         {
-            executor = new BooleanPropertyExecutor(log, introspector, claz,
-                                                   identifier);
+            executor = new BooleanPropertyExecutor( log, introspector, claz, identifier );
         }
 
-        return (executor.isAlive()) ? new VelGetterImpl(executor) : null;
+        return ( executor.isAlive() ) ? new VelGetterImpl( executor ) : null;
     }
 
     /**
@@ -274,62 +268,65 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      * @param i
      * @return A Velocity Setter method.
      */
-    public VelPropertySet getPropertySet(Object obj, String identifier,
-                                         Object arg, Info i)
+    public VelPropertySet getPropertySet( Object obj, String identifier, Object arg, Info i )
     {
-        if (obj == null)
+        if ( obj == null )
         {
             return null;
         }
 
-        Class claz = obj.getClass();
+        Class<?> claz = obj.getClass();
 
         /*
          *  first try for a setFoo() type of property
          *  (also setfoo() )
          */
-        SetExecutor executor = new SetPropertyExecutor(log, introspector, claz, identifier, arg);
+        SetExecutor executor = new SetPropertyExecutor( log, introspector, claz, identifier, arg );
 
         /*
          * Let's see if we are a map...
          */
-        if (!executor.isAlive())  {
-            executor = new MapSetExecutor(log, claz, identifier);
+        if ( !executor.isAlive() )
+        {
+            executor = new MapSetExecutor( log, claz, identifier );
         }
 
         /*
          *  if that didn't work, look for put("foo", arg)
          */
 
-        if (!executor.isAlive())
+        if ( !executor.isAlive() )
         {
-            executor = new PutExecutor(log, introspector, claz, arg, identifier);
+            executor = new PutExecutor( log, introspector, claz, arg, identifier );
         }
 
-        return (executor.isAlive()) ? new VelSetterImpl(executor) : null;
+        return ( executor.isAlive() ) ? new VelSetterImpl( executor ) : null;
     }
 
     /**
      *  Implementation of VelMethod
      */
-    public static class VelMethodImpl implements VelMethod
+    public static class VelMethodImpl
+        implements VelMethod
     {
         final Method method;
+
         Boolean isVarArg;
+
         boolean wrapArray;
 
         /**
          * @param m
          */
-        public VelMethodImpl(Method m)
+        public VelMethodImpl( Method m )
         {
-            this(m, false);
+            this( m, false );
         }
 
         /**
          * @since 1.6
          */
-        public VelMethodImpl(Method method, boolean wrapArray)
+        public VelMethodImpl( Method method, boolean wrapArray )
         {
             this.method = method;
             this.wrapArray = wrapArray;
@@ -343,28 +340,28 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         /**
          * @see VelMethod#invoke(java.lang.Object, java.lang.Object[])
          */
-        public Object invoke(Object o, Object[] actual)
+        public Object invoke( Object o, Object[] actual )
             throws IllegalAccessException, InvocationTargetException
         {
             // if we're pretending an array is a list...
-            if (wrapArray)
+            if ( wrapArray )
             {
-                o = new ArrayListWrapper(o);
+                o = new ArrayListWrapper( o );
             }
 
-            if (isVarArg())
+            if ( isVarArg() )
             {
-                Class[] formal = method.getParameterTypes();
+                Class<?>[] formal = method.getParameterTypes();
                 int index = formal.length - 1;
-                if (actual.length >= index)
+                if ( actual.length >= index )
                 {
-                    Class type = formal[index].getComponentType();
-                    actual = handleVarArg(type, index, actual);
+                    Class<?> type = formal[index].getComponentType();
+                    actual = handleVarArg( type, index, actual );
                 }
             }
 
             // call extension point invocation
-            return doInvoke(o, actual);
+            return doInvoke( o, actual );
         }
 
         /**
@@ -373,10 +370,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          * has already been completed.
          * @since 1.6
          */
-        protected Object doInvoke(Object o, Object[] actual)
+        protected Object doInvoke( Object o, Object[] actual )
             throws IllegalAccessException, InvocationTargetException
         {
-            return method.invoke(o, actual);
+            return method.invoke( o, actual );
         }
 
         /**
@@ -385,19 +382,19 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          */
         public boolean isVarArg()
         {
-            if (isVarArg == null)
+            if ( isVarArg == null )
             {
-                Class[] formal = method.getParameterTypes();
-                if (formal == null || formal.length == 0)
+                Class<?>[] formal = method.getParameterTypes();
+                if ( formal == null || formal.length == 0 )
                 {
                     this.isVarArg = Boolean.FALSE;
                 }
                 else
                 {
-                    Class last = formal[formal.length - 1];
+                    Class<?> last = formal[formal.length - 1];
                     // if the last arg is an array, then
                     // we consider this a varargs method
-                    this.isVarArg = Boolean.valueOf(last.isArray());
+                    this.isVarArg = Boolean.valueOf( last.isArray() );
                 }
             }
             return isVarArg.booleanValue();
@@ -413,50 +410,45 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          * @returns The actual parameters adjusted for the varargs in order
          *          to fit the method declaration.
          */
-        private Object[] handleVarArg(final Class type,
-                                      final int index,
-                                      Object[] actual)
+        private Object[] handleVarArg( final Class<?> type, final int index, Object[] actual )
         {
             // if no values are being passed into the vararg
-            if (actual.length == index)
+            if ( actual.length == index )
             {
                 // copy existing args to new array
                 Object[] newActual = new Object[actual.length + 1];
-                System.arraycopy(actual, 0, newActual, 0, actual.length);
+                System.arraycopy( actual, 0, newActual, 0, actual.length );
                 // create an empty array of the expected type
-                newActual[index] = Array.newInstance(type, 0);
+                newActual[index] = Array.newInstance( type, 0 );
                 actual = newActual;
             }
             // if one value is being passed into the vararg
-            else if (actual.length == index + 1 && actual[index] != null)
+            else if ( actual.length == index + 1 && actual[index] != null )
             {
                 // make sure the last arg is an array of the expected type
-                Class argClass = actual[index].getClass();
-                if (!argClass.isArray() &&
-                    IntrospectionUtils.isMethodInvocationConvertible(type,
-                                                                     argClass,
-                                                                     false))
+                Class<?> argClass = actual[index].getClass();
+                if ( !argClass.isArray() && IntrospectionUtils.isMethodInvocationConvertible( type, argClass, false ) )
                 {
                     // create a 1-length array to hold and replace the last param
-                    Object lastActual = Array.newInstance(type, 1);
-                    Array.set(lastActual, 0, actual[index]);
+                    Object lastActual = Array.newInstance( type, 1 );
+                    Array.set( lastActual, 0, actual[index] );
                     actual[index] = lastActual;
                 }
             }
             // if multiple values are being passed into the vararg
-            else if (actual.length > index + 1)
+            else if ( actual.length > index + 1 )
             {
                 // put the last and extra actual in an array of the expected type
                 int size = actual.length - index;
-                Object lastActual = Array.newInstance(type, size);
-                for (int i = 0; i < size; i++)
+                Object lastActual = Array.newInstance( type, size );
+                for ( int i = 0; i < size; i++ )
                 {
-                    Array.set(lastActual, i, actual[index + i]);
+                    Array.set( lastActual, i, actual[index + i] );
                 }
 
                 // put all into a new actual array of the appropriate size
                 Object[] newActual = new Object[index + 1];
-                for (int i = 0; i < index; i++)
+                for ( int i = 0; i < index; i++ )
                 {
                     newActual[i] = actual[i];
                 }
@@ -487,7 +479,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         /**
          * @see org.apache.velocity.util.introspection.VelMethod#getReturnType()
          */
-        public Class getReturnType()
+        public Class<?> getReturnType()
         {
             return method.getReturnType();
         }
@@ -497,14 +489,15 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      *
      *
      */
-    public static class VelGetterImpl implements VelPropertyGet
+    public static class VelGetterImpl
+        implements VelPropertyGet
     {
         final AbstractExecutor getExecutor;
 
         /**
          * @param exec
          */
-        public VelGetterImpl(AbstractExecutor exec)
+        public VelGetterImpl( AbstractExecutor exec )
         {
             getExecutor = exec;
         }
@@ -517,10 +510,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         /**
          * @see org.apache.velocity.util.introspection.VelPropertyGet#invoke(java.lang.Object)
          */
-        public Object invoke(Object o)
+        public Object invoke( Object o )
             throws IllegalAccessException, InvocationTargetException
         {
-            return getExecutor.execute(o);
+            return getExecutor.execute( o );
         }
 
         /**
@@ -543,14 +536,15 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     /**
      *
      */
-    public static class VelSetterImpl implements VelPropertySet
+    public static class VelSetterImpl
+        implements VelPropertySet
     {
         private final SetExecutor setExecutor;
 
         /**
          * @param setExecutor
          */
-        public VelSetterImpl(final SetExecutor setExecutor)
+        public VelSetterImpl( final SetExecutor setExecutor )
         {
             this.setExecutor = setExecutor;
         }
@@ -567,10 +561,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          * @param value in the Value to set.
          * @return The resulting Object.
          */
-        public Object invoke(final Object o, final Object value)
+        public Object invoke( final Object o, final Object value )
             throws IllegalAccessException, InvocationTargetException
         {
-            return setExecutor.execute(o, value);
+            return setExecutor.execute( o, value );
         }
 
         /**

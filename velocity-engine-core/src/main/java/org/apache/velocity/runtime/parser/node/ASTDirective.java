@@ -103,7 +103,7 @@ public class ASTDirective extends SimpleNode
 
                 try
                 {
-                    directive = (Directive) parser.getDirective( directiveName )
+                    directive = parser.getDirective( directiveName )
                         .getClass().newInstance();
                 }
                 catch (InstantiationException e)

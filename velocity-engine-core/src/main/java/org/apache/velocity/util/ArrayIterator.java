@@ -1,28 +1,23 @@
 package org.apache.velocity.util;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.lang.reflect.Array;
-
 
 /**
  *  <p>
@@ -42,7 +37,8 @@ import java.lang.reflect.Array;
  * @author <a href="mailto:geirm@apache.org">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ArrayIterator implements Iterator
+public class ArrayIterator
+    implements Iterator<Object>
 {
     /**
      * The objects to iterate.
@@ -53,6 +49,7 @@ public class ArrayIterator implements Iterator
      * The current position and size in the array.
      */
     private int pos;
+
     private int size;
 
     /**
@@ -60,7 +57,7 @@ public class ArrayIterator implements Iterator
      *
      * @param array The array for which an iterator is desired.
      */
-    public ArrayIterator(Object array)
+    public ArrayIterator( Object array )
     {
         /*
          * if this isn't an array, then throw.  Note that this is
@@ -70,8 +67,7 @@ public class ArrayIterator implements Iterator
 
         if ( !array.getClass().isArray() )
         {
-            throw new IllegalArgumentException(
-                "Programmer error : internal ArrayIterator invoked w/o array");
+            throw new IllegalArgumentException( "Programmer error : internal ArrayIterator invoked w/o array" );
         }
 
         this.array = array;
@@ -86,15 +82,14 @@ public class ArrayIterator implements Iterator
      */
     public Object next()
     {
-        if (pos < size )
-            return Array.get( array, pos++);
+        if ( pos < size )
+            return Array.get( array, pos++ );
 
         /*
          *  we screwed up...
          */
 
-        throw new NoSuchElementException("No more elements: " + pos +
-                                         " / " + size);
+        throw new NoSuchElementException( "No more elements: " + pos + " / " + size );
     }
 
     /**
@@ -104,7 +99,7 @@ public class ArrayIterator implements Iterator
      */
     public boolean hasNext()
     {
-        return (pos < size );
+        return ( pos < size );
     }
 
     /**

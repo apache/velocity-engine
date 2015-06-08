@@ -64,7 +64,6 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      * @see org.apache.velocity.util.introspection.Uberspect#getIterator(java.lang.Object,
      *      org.apache.velocity.util.introspection.Info)
      */
-    //@SuppressWarnings("unchecked")
     //@Override
     public Iterator getIterator(Object obj, Info i)
     {
