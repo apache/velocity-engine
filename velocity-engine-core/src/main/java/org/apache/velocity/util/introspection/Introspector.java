@@ -1,22 +1,18 @@
 package org.apache.velocity.util.introspection;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.lang.reflect.Method;
@@ -52,15 +48,16 @@ import org.apache.velocity.runtime.log.Log;
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
-public class Introspector extends IntrospectorBase
+public class Introspector
+    extends IntrospectorBase
 {
     /**
      * @param log A Log object to use for the introspector.
      * @since 1.5
      */
-    public Introspector(final Log log)
+    public Introspector( final Log log )
     {
-        super(log);
+        super( log );
     }
 
     /**
@@ -75,44 +72,42 @@ public class Introspector extends IntrospectorBase
      * @return The desired Method object.
      * @throws IllegalArgumentException When the parameters passed in can not be used for introspection.
      */
-    public Method getMethod(final Class c, final String name, final Object[] params)
+    public Method getMethod( final Class<?> c, final String name, final Object[] params )
         throws IllegalArgumentException
     {
         try
         {
-            return super.getMethod(c, name, params);
+            return super.getMethod( c, name, params );
         }
-        catch(MethodMap.AmbiguousException ae)
+        catch ( MethodMap.AmbiguousException ae )
         {
             /*
              *  whoops.  Ambiguous.  Make a nice log message and return null...
              */
 
-            StringBuffer msg = new StringBuffer("Introspection Error : Ambiguous method invocation ")
-                    .append(name)
-                    .append("(");
+            StringBuffer msg = new StringBuffer( "Introspection Error : Ambiguous method invocation " ).append( name )
+                .append( "(" );
 
-            for (int i = 0; i < params.length; i++)
+            for ( int i = 0; i < params.length; i++ )
             {
-                if (i > 0)
+                if ( i > 0 )
                 {
-                    msg.append(", ");
+                    msg.append( ", " );
                 }
 
-                if (params[i] == null)
+                if ( params[i] == null )
                 {
-                    msg.append("null");
+                    msg.append( "null" );
                 }
                 else
                 {
-                    msg.append(params[i].getClass().getName());
+                    msg.append( params[i].getClass().getName() );
                 }
             }
 
-            msg.append(") for class ")
-                    .append(c);
+            msg.append( ") for class " ).append( c );
 
-            log.debug(msg.toString());
+            log.debug( msg.toString() );
         }
 
         return null;

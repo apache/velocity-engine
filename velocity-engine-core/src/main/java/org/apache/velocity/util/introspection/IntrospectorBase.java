@@ -1,22 +1,18 @@
 package org.apache.velocity.util.introspection;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.lang.reflect.Field;
@@ -60,16 +56,16 @@ public abstract class IntrospectorBase
 
     /** The Introspector Cache */
     private final IntrospectorCache introspectorCache;
-    
+
     /**
      * C'tor.
      */
-    protected IntrospectorBase(final Log log)
+    protected IntrospectorBase( final Log log )
     {
         this.log = log;
-        introspectorCache = new IntrospectorCacheImpl(log); // TODO: Load that from properties.
+        introspectorCache = new IntrospectorCacheImpl( log ); // TODO: Load that from properties.
     }
-    
+
     /**
      * Gets the method defined by <code>name</code> and
      * <code>params</code> for the Class <code>c</code>.
@@ -83,28 +79,28 @@ public abstract class IntrospectorBase
      * @throws IllegalArgumentException When the parameters passed in can not be used for introspection.
      * @throws MethodMap.AmbiguousException When the method map contains more than one match for the requested signature.
      */
-    public Method getMethod(final Class c, final String name, final Object[] params)
-            throws IllegalArgumentException,MethodMap.AmbiguousException
+    public Method getMethod( final Class<?> c, final String name, final Object[] params )
+        throws IllegalArgumentException, MethodMap.AmbiguousException
     {
-        if (c == null)
+        if ( c == null )
         {
-            throw new IllegalArgumentException ("class object is null!");
+            throw new IllegalArgumentException( "class object is null!" );
         }
-        
-        if (params == null)
+
+        if ( params == null )
         {
-            throw new IllegalArgumentException("params object is null!");
+            throw new IllegalArgumentException( "params object is null!" );
         }
 
         IntrospectorCache ic = getIntrospectorCache();
 
-        ClassMap classMap = ic.get(c);
-        if (classMap == null)
+        ClassMap classMap = ic.get( c );
+        if ( classMap == null )
         {
-            classMap = ic.put(c);
+            classMap = ic.put( c );
         }
 
-        return classMap.findMethod(name, params);
+        return classMap.findMethod( name, params );
     }
 
     /**
@@ -116,24 +112,24 @@ public abstract class IntrospectorBase
      * @return The desired Field object.
      * @throws IllegalArgumentException When the parameters passed in can not be used for introspection.
      */
-    public Field getField(final Class c, final String name)
-            throws IllegalArgumentException
+    public Field getField( final Class<?> c, final String name )
+        throws IllegalArgumentException
     {
-        if (c == null)
+        if ( c == null )
         {
-            throw new IllegalArgumentException("class object is null!");
+            throw new IllegalArgumentException( "class object is null!" );
         }
 
         IntrospectorCache ic = getIntrospectorCache();
 
-        ClassFieldMap classFieldMap = ic.getFieldMap(c);
-        if (classFieldMap == null)
+        ClassFieldMap classFieldMap = ic.getFieldMap( c );
+        if ( classFieldMap == null )
         {
-            ic.put(c);
-            classFieldMap = ic.getFieldMap(c);
+            ic.put( c );
+            classFieldMap = ic.getFieldMap( c );
         }
 
-        return classFieldMap.findField(name);
+        return classFieldMap.findField( name );
     }
 
     /**
@@ -144,7 +140,7 @@ public abstract class IntrospectorBase
      */
     protected IntrospectorCache getIntrospectorCache()
     {
-	    return introspectorCache;
+        return introspectorCache;
     }
 
 }

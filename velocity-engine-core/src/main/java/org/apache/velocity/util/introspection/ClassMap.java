@@ -1,29 +1,27 @@
 package org.apache.velocity.util.introspection;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.velocity.runtime.log.Log;
 
 /**
@@ -51,7 +49,7 @@ public class ClassMap
      * Class passed into the constructor used to as
      * the basis for the Method map.
      */
-    private final Class clazz;
+    private final Class<?> clazz;
 
     private final MethodCache methodCache;
 
@@ -59,22 +57,22 @@ public class ClassMap
      * Standard constructor
      * @param clazz The class for which this ClassMap gets constructed.
      */
-    public ClassMap(final Class clazz, final Log log)
+    public ClassMap( final Class<?> clazz, final Log log )
     {
         this.clazz = clazz;
         this.log = log;
 
-        if (debugReflection && log.isDebugEnabled())
+        if ( debugReflection && log.isDebugEnabled() )
         {
-            log.debug("=================================================================");
-            log.debug("== Class: " + clazz);
+            log.debug( "=================================================================" );
+            log.debug( "== Class: " + clazz );
         }
 
         methodCache = createMethodCache();
 
-        if (debugReflection && log.isDebugEnabled())
+        if ( debugReflection && log.isDebugEnabled() )
         {
-            log.debug("=================================================================");
+            log.debug( "=================================================================" );
         }
     }
 
@@ -83,7 +81,7 @@ public class ClassMap
      *
      * @return The class object whose methods are cached by this map.
      */
-    public Class getCachedClass()
+    public Class<?> getCachedClass()
     {
         return clazz;
     }
@@ -96,10 +94,10 @@ public class ClassMap
      * @return A Method object representing the method to invoke or null.
      * @throws MethodMap.AmbiguousException When more than one method is a match for the parameters.
      */
-    public Method findMethod(final String name, final Object[] params)
-            throws MethodMap.AmbiguousException
+    public Method findMethod( final String name, final Object[] params )
+        throws MethodMap.AmbiguousException
     {
-        return methodCache.get(name, params);
+        return methodCache.get( name, params );
     }
 
     /**
@@ -109,31 +107,32 @@ public class ClassMap
      */
     private MethodCache createMethodCache()
     {
-        MethodCache methodCache = new MethodCache(log);
-	//
-	// Looks through all elements in the class hierarchy. This one is bottom-first (i.e. we start
-	// with the actual declaring class and its interfaces and then move up (superclass etc.) until we
-	// hit java.lang.Object. That is important because it will give us the methods of the declaring class
-	// which might in turn be abstract further up the tree.
-	//
-	// We also ignore all SecurityExceptions that might happen due to SecurityManager restrictions (prominently
-	// hit with Tomcat 5.5).
-	//
-	// We can also omit all that complicated getPublic, getAccessible and upcast logic that the class map had up
-	// until Velocity 1.4. As we always reflect all elements of the tree (that's what we have a cache for), we will
-	// hit the public elements sooner or later because we reflect all the public elements anyway.
-	//
+        MethodCache methodCache = new MethodCache( log );
+        //
+        // Looks through all elements in the class hierarchy. This one is bottom-first (i.e. we start
+        // with the actual declaring class and its interfaces and then move up (superclass etc.) until we
+        // hit java.lang.Object. That is important because it will give us the methods of the declaring class
+        // which might in turn be abstract further up the tree.
+        //
+        // We also ignore all SecurityExceptions that might happen due to SecurityManager restrictions (prominently
+        // hit with Tomcat 5.5).
+        //
+        // We can also omit all that complicated getPublic, getAccessible and upcast logic that the class map had up
+        // until Velocity 1.4. As we always reflect all elements of the tree (that's what we have a cache for), we will
+        // hit the public elements sooner or later because we reflect all the public elements anyway.
+        //
         // Ah, the miracles of Java for(;;) ...
-        for (Class classToReflect = getCachedClass(); classToReflect != null ; classToReflect = classToReflect.getSuperclass())
+        for ( Class<?> classToReflect = getCachedClass(); classToReflect != null; classToReflect = classToReflect
+            .getSuperclass() )
         {
-            if (Modifier.isPublic(classToReflect.getModifiers()))
+            if ( Modifier.isPublic( classToReflect.getModifiers() ) )
             {
-                populateMethodCacheWith(methodCache, classToReflect);
+                populateMethodCacheWith( methodCache, classToReflect );
             }
-            Class [] interfaces = classToReflect.getInterfaces();
-            for (int i = 0; i < interfaces.length; i++)
+            Class<?>[] interfaces = classToReflect.getInterfaces();
+            for ( int i = 0; i < interfaces.length; i++ )
             {
-                populateMethodCacheWithInterface(methodCache, interfaces[i]);
+                populateMethodCacheWithInterface( methodCache, interfaces[i] );
             }
         }
         // return the already initialized cache
@@ -141,43 +140,43 @@ public class ClassMap
     }
 
     /* recurses up interface heirarchy to get all super interfaces (VELOCITY-689) */
-    private void populateMethodCacheWithInterface(MethodCache methodCache, Class iface)
+    private void populateMethodCacheWithInterface( MethodCache methodCache, Class<?> iface )
     {
-        if (Modifier.isPublic(iface.getModifiers()))
+        if ( Modifier.isPublic( iface.getModifiers() ) )
         {
-            populateMethodCacheWith(methodCache, iface);
+            populateMethodCacheWith( methodCache, iface );
         }
-        Class[] supers = iface.getInterfaces();
-        for (int i=0; i < supers.length; i++)
+        Class<?>[] supers = iface.getInterfaces();
+        for ( int i = 0; i < supers.length; i++ )
         {
-            populateMethodCacheWithInterface(methodCache, supers[i]);
+            populateMethodCacheWithInterface( methodCache, supers[i] );
         }
     }
 
-    private void populateMethodCacheWith(MethodCache methodCache, Class classToReflect)
+    private void populateMethodCacheWith( MethodCache methodCache, Class<?> classToReflect )
     {
-        if (debugReflection && log.isDebugEnabled())
+        if ( debugReflection && log.isDebugEnabled() )
         {
-            log.debug("Reflecting " + classToReflect);
+            log.debug( "Reflecting " + classToReflect );
         }
 
         try
         {
             Method[] methods = classToReflect.getDeclaredMethods();
-            for (int i = 0; i < methods.length; i++)
+            for ( int i = 0; i < methods.length; i++ )
             {
                 int modifiers = methods[i].getModifiers();
-                if (Modifier.isPublic(modifiers))
+                if ( Modifier.isPublic( modifiers ) )
                 {
-                    methodCache.put(methods[i]);
+                    methodCache.put( methods[i] );
                 }
             }
         }
-        catch (SecurityException se) // Everybody feels better with...
+        catch ( SecurityException se ) // Everybody feels better with...
         {
-            if (log.isDebugEnabled())
+            if ( log.isDebugEnabled() )
             {
-                log.debug("While accessing methods of " + classToReflect + ": ", se);
+                log.debug( "While accessing methods of " + classToReflect + ": ", se );
             }
         }
     }
@@ -194,33 +193,33 @@ public class ClassMap
 
         private static final String NULL_ARG = Object.class.getName();
 
-        private static final Map convertPrimitives = new HashMap();
+        private static final Map<Class<? extends Serializable>, String> convertPrimitives = new HashMap<Class<? extends Serializable>, String>();
 
         static
         {
-            convertPrimitives.put(Boolean.TYPE,   Boolean.class.getName());
-            convertPrimitives.put(Byte.TYPE,      Byte.class.getName());
-            convertPrimitives.put(Character.TYPE, Character.class.getName());
-            convertPrimitives.put(Double.TYPE,    Double.class.getName());
-            convertPrimitives.put(Float.TYPE,     Float.class.getName());
-            convertPrimitives.put(Integer.TYPE,   Integer.class.getName());
-            convertPrimitives.put(Long.TYPE,      Long.class.getName());
-            convertPrimitives.put(Short.TYPE,     Short.class.getName());
+            convertPrimitives.put( Boolean.TYPE, Boolean.class.getName() );
+            convertPrimitives.put( Byte.TYPE, Byte.class.getName() );
+            convertPrimitives.put( Character.TYPE, Character.class.getName() );
+            convertPrimitives.put( Double.TYPE, Double.class.getName() );
+            convertPrimitives.put( Float.TYPE, Float.class.getName() );
+            convertPrimitives.put( Integer.TYPE, Integer.class.getName() );
+            convertPrimitives.put( Long.TYPE, Long.class.getName() );
+            convertPrimitives.put( Short.TYPE, Short.class.getName() );
         }
 
-    	/** Class logger */
-	    private final Log log;
+        /** Class logger */
+        private final Log log;
 
         /**
          * Cache of Methods, or CACHE_MISS, keyed by method
          * name and actual arguments used to find it.
          */
-        private final Map cache = new ConcurrentHashMap();
+        private final Map<String, Object> cache = new ConcurrentHashMap<String, Object>();
 
         /** Map of methods that are searchable according to method parameters to find a match */
         private final MethodMap methodMap = new MethodMap();
 
-        private MethodCache(Log log)
+        private MethodCache( Log log )
         {
             this.log = log;
         }
@@ -241,57 +240,56 @@ public class ClassMap
          * @return A Method object representing the method to invoke or null.
          * @throws MethodMap.AmbiguousException When more than one method is a match for the parameters.
          */
-        public Method get(final String name, final Object [] params)
-                throws MethodMap.AmbiguousException
+        public Method get( final String name, final Object[] params )
+            throws MethodMap.AmbiguousException
         {
-            String methodKey = makeMethodKey(name, params);
+            String methodKey = makeMethodKey( name, params );
 
-            Object cacheEntry = cache.get(methodKey);
-            if (cacheEntry == CACHE_MISS)
+            Object cacheEntry = cache.get( methodKey );
+            if ( cacheEntry == CACHE_MISS )
             {
                 // We looked this up before and failed.
                 return null;
             }
 
-            if (cacheEntry == null)
+            if ( cacheEntry == null )
             {
                 try
                 {
                     // That one is expensive...
-                    cacheEntry = methodMap.find(name, params);
+                    cacheEntry = methodMap.find( name, params );
                 }
-                catch(MethodMap.AmbiguousException ae)
+                catch ( MethodMap.AmbiguousException ae )
                 {
                     /*
                      *  that's a miss :-)
                      */
-                    cache.put(methodKey, CACHE_MISS);
+                    cache.put( methodKey, CACHE_MISS );
                     throw ae;
                 }
 
-                cache.put(methodKey,
-                        (cacheEntry != null) ? cacheEntry : CACHE_MISS);
+                cache.put( methodKey, ( cacheEntry != null ) ? cacheEntry : CACHE_MISS );
             }
 
             // Yes, this might just be null.
             return (Method) cacheEntry;
         }
 
-        private void put(Method method)
+        private void put( Method method )
         {
-            String methodKey = makeMethodKey(method);
+            String methodKey = makeMethodKey( method );
 
             // We don't overwrite methods because we fill the
             // cache from defined class towards java.lang.Object
             // and that would cause overridden methods to appear
             // as if they were not overridden.
-            if (cache.get(methodKey) == null)
+            if ( cache.get( methodKey ) == null )
             {
-                cache.put(methodKey, method);
-                methodMap.add(method);
-                if (debugReflection && log.isDebugEnabled())
+                cache.put( methodKey, method );
+                methodMap.add( method );
+                if ( debugReflection && log.isDebugEnabled() )
                 {
-                    log.debug("Adding " + method);
+                    log.debug( "Adding " + method );
                 }
             }
         }
@@ -304,18 +302,18 @@ public class ClassMap
          * @param method to be stored as key
          * @return key for ClassMap
          */
-        private String makeMethodKey(final Method method)
+        private String makeMethodKey( final Method method )
         {
-            Class[] parameterTypes = method.getParameterTypes();
+            Class<?>[] parameterTypes = method.getParameterTypes();
             int args = parameterTypes.length;
-            if (args == 0)
+            if ( args == 0 )
             {
                 return method.getName();
             }
 
-            StringBuilder methodKey = new StringBuilder((args+1)*16).append(method.getName());
+            StringBuilder methodKey = new StringBuilder( ( args + 1 ) * 16 ).append( method.getName() );
 
-            for (int j = 0; j < args; j++)
+            for ( int j = 0; j < args; j++ )
             {
                 /*
                  * If the argument type is primitive then we want
@@ -327,39 +325,39 @@ public class ClassMap
                  * primitives (boolean, byte, char, double, float, int, long, short)
                  * known to Java. So it should never return null for the key passed in.
                  */
-                if (parameterTypes[j].isPrimitive())
+                if ( parameterTypes[j].isPrimitive() )
                 {
-                    methodKey.append((String) convertPrimitives.get(parameterTypes[j]));
+                    methodKey.append( convertPrimitives.get( parameterTypes[j] ) );
                 }
                 else
                 {
-                    methodKey.append(parameterTypes[j].getName());
+                    methodKey.append( parameterTypes[j].getName() );
                 }
             }
 
             return methodKey.toString();
         }
 
-        private String makeMethodKey(String method, Object[] params)
+        private String makeMethodKey( String method, Object[] params )
         {
             int args = params.length;
-            if (args == 0)
+            if ( args == 0 )
             {
                 return method;
             }
 
-            StringBuilder methodKey = new StringBuilder((args+1)*16).append(method);
+            StringBuilder methodKey = new StringBuilder( ( args + 1 ) * 16 ).append( method );
 
-            for (int j = 0; j < args; j++)
+            for ( int j = 0; j < args; j++ )
             {
                 Object arg = params[j];
-                if (arg == null)
+                if ( arg == null )
                 {
-                    methodKey.append(NULL_ARG);
+                    methodKey.append( NULL_ARG );
                 }
                 else
                 {
-                    methodKey.append(arg.getClass().getName());
+                    methodKey.append( arg.getClass().getName() );
                 }
             }
 

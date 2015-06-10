@@ -1,22 +1,18 @@
 package org.apache.velocity.runtime.directive;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.io.IOException;
@@ -45,7 +41,8 @@ import org.apache.velocity.runtime.parser.node.Node;
  * found the literal text is rendered.
  * @since 1.6
  */
-public class RuntimeMacro extends Directive
+public class RuntimeMacro
+    extends Directive
 {
     /**
      * Name of the macro
@@ -81,11 +78,11 @@ public class RuntimeMacro extends Directive
      *
      * @param macroName name of the macro
      */
-    public RuntimeMacro(String macroName)
+    public RuntimeMacro( String macroName )
     {
-        if (macroName == null)
+        if ( macroName == null )
         {
-            throw new IllegalArgumentException("Null arguments");
+            throw new IllegalArgumentException( "Null arguments" );
         }
 
         this.macroName = macroName.intern();
@@ -96,6 +93,7 @@ public class RuntimeMacro extends Directive
      *
      * @return The name of this Velocimacro.
      */
+    @Override
     public String getName()
     {
         return macroName;
@@ -107,6 +105,7 @@ public class RuntimeMacro extends Directive
      * scope, we are within a #macro call.  The macro name will instead
      * be used as the scope name when defining the body of a BlockMacro.
      */
+    @Override
     public String getScopeName()
     {
         return "macro";
@@ -118,11 +117,11 @@ public class RuntimeMacro extends Directive
      *
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return LINE;
     }
-
 
     /**
      * Intialize the Runtime macro. At the init time no implementation so we
@@ -132,10 +131,10 @@ public class RuntimeMacro extends Directive
      * @param context InternalContextAdapter
      * @param node node containing the macro call
      */
-    public void init(RuntimeServices rs, InternalContextAdapter context,
-                     Node node)
+    @Override
+    public void init( RuntimeServices rs, InternalContextAdapter context, Node node )
     {
-        super.init(rs, context, node);
+        super.init( rs, context, node );
         rsvc = rs;
         this.node = node;
 
@@ -147,27 +146,26 @@ public class RuntimeMacro extends Directive
          * may end with '\n'
          */
         Token t = node.getLastToken();
-        if (t.image.startsWith(")") || t.image.startsWith("#end"))
+        if ( t.image.startsWith( ")" ) || t.image.startsWith( "#end" ) )
         {
-            strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+            strictRef = rsvc.getBoolean( RuntimeConstants.RUNTIME_REFERENCES_STRICT, false );
         }
 
         // Validate that none of the arguments are plain words, (VELOCITY-614)
         // they should be string literals, references, inline maps, or inline lists
-        for (int n=0; n < node.jjtGetNumChildren(); n++)
+        for ( int n = 0; n < node.jjtGetNumChildren(); n++ )
         {
-            Node child = node.jjtGetChild(n);
-            if (child.getType() == ParserTreeConstants.JJTWORD)
+            Node child = node.jjtGetChild( n );
+            if ( child.getType() == ParserTreeConstants.JJTWORD )
             {
-                badArgsErrorMsg = "Invalid arg '" + child.getFirstToken().image
-                + "' in macro #" + macroName + " at " + Log.formatFileString(child);
+                badArgsErrorMsg = "Invalid arg '" + child.getFirstToken().image + "' in macro #" + macroName + " at "
+                    + Log.formatFileString( child );
 
-                if (strictRef)  // If strict, throw now
+                if ( strictRef ) // If strict, throw now
                 {
                     /* indicate col/line assuming it starts at 0
                      * this will be corrected one call up  */
-                    throw new TemplateInitException(badArgsErrorMsg,
-                        context.getCurrentTemplateName(), 0, 0);
+                    throw new TemplateInitException( badArgsErrorMsg, context.getCurrentTemplateName(), 0, 0 );
                 }
             }
         }
@@ -180,27 +178,26 @@ public class RuntimeMacro extends Directive
      */
     private String getLiteral()
     {
-        if (literal == null)
+        if ( literal == null )
         {
             StringBuilder buffer = new StringBuilder();
             Token t = node.getFirstToken();
 
-            while (t != null && t != node.getLastToken())
+            while ( t != null && t != node.getLastToken() )
             {
-                buffer.append(t.image);
+                buffer.append( t.image );
                 t = t.next;
             }
 
-            if (t != null)
+            if ( t != null )
             {
-                buffer.append(t.image);
+                buffer.append( t.image );
             }
 
             literal = buffer.toString();
         }
         return literal;
     }
-
 
     /**
      * Velocimacro implementation is not known at the init time. So look for
@@ -220,12 +217,11 @@ public class RuntimeMacro extends Directive
      * @throws ParseErrorException
      * @throws MethodInvocationException
      */
-    public boolean render(InternalContextAdapter context, Writer writer,
-                          Node node)
-            throws IOException, ResourceNotFoundException,
-            ParseErrorException, MethodInvocationException
+    @Override
+    public boolean render( InternalContextAdapter context, Writer writer, Node node )
+        throws IOException, ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
-        return render(context, writer, node, null);
+        return render( context, writer, node, null );
     }
 
     /**
@@ -241,10 +237,8 @@ public class RuntimeMacro extends Directive
      * @throws ParseErrorException
      * @throws MethodInvocationException
      */
-    public boolean render(InternalContextAdapter context, Writer writer,
-                          Node node, Renderable body)
-            throws IOException, ResourceNotFoundException,
-            ParseErrorException, MethodInvocationException
+    public boolean render( InternalContextAdapter context, Writer writer, Node node, Renderable body )
+        throws IOException, ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         VelocimacroProxy vmProxy = null;
         String renderingTemplate = context.getCurrentTemplateName();
@@ -252,30 +246,29 @@ public class RuntimeMacro extends Directive
         /**
          * first look in the source template
          */
-        Object o = rsvc.getVelocimacro(macroName, getTemplateName(), renderingTemplate);
+        Object o = rsvc.getVelocimacro( macroName, getTemplateName(), renderingTemplate );
 
-        if( o != null )
+        if ( o != null )
         {
             // getVelocimacro can only return a VelocimacroProxy so we don't need the
             // costly instanceof check
-            vmProxy = (VelocimacroProxy)o;
+            vmProxy = (VelocimacroProxy) o;
         }
 
         /**
          * if not found, look in the macro libraries.
          */
-        if (vmProxy == null)
+        if ( vmProxy == null )
         {
-            List macroLibraries = context.getMacroLibraries();
-            if (macroLibraries != null)
+            List<String> macroLibraries = context.getMacroLibraries();
+            if ( macroLibraries != null )
             {
-                for (int i = macroLibraries.size() - 1; i >= 0; i--)
+                for ( int i = macroLibraries.size() - 1; i >= 0; i-- )
                 {
-                    o = rsvc.getVelocimacro(macroName,
-                            (String)macroLibraries.get(i), renderingTemplate);
+                    o = rsvc.getVelocimacro( macroName, macroLibraries.get( i ), renderingTemplate );
 
                     // get the first matching macro
-                    if (o != null)
+                    if ( o != null )
                     {
                         vmProxy = (VelocimacroProxy) o;
                         break;
@@ -284,28 +277,28 @@ public class RuntimeMacro extends Directive
             }
         }
 
-        if (vmProxy != null)
+        if ( vmProxy != null )
         {
-            if (badArgsErrorMsg != null)
+            if ( badArgsErrorMsg != null )
             {
-                throw new TemplateInitException(badArgsErrorMsg,
-                  context.getCurrentTemplateName(), node.getColumn(), node.getLine());
+                throw new TemplateInitException( badArgsErrorMsg, context.getCurrentTemplateName(), node.getColumn(),
+                                                 node.getLine() );
             }
 
             try
             {
-                preRender(context);
-                return vmProxy.render(context, writer, node, body);
+                preRender( context );
+                return vmProxy.render( context, writer, node, body );
             }
-            catch (StopCommand stop)
+            catch ( StopCommand stop )
             {
-                if (!stop.isFor(this))
+                if ( !stop.isFor( this ) )
                 {
                     throw stop;
                 }
                 return true;
             }
-            catch (RuntimeException e)
+            catch ( RuntimeException e )
             {
                 /**
                  * We catch, the exception here so that we can record in
@@ -314,31 +307,28 @@ public class RuntimeMacro extends Directive
                  * especially important for multiple macro call levels.
                  * this is also true for the following catch blocks.
                  */
-                rsvc.getLog().error("Exception in macro #" + macroName + " called at " +
-                  Log.formatFileString(node));
+                rsvc.getLog().error( "Exception in macro #" + macroName + " called at " + Log.formatFileString( node ) );
                 throw e;
             }
-            catch (IOException e)
+            catch ( IOException e )
             {
-                rsvc.getLog().error("Exception in macro #" + macroName + " called at " +
-                  Log.formatFileString(node));
+                rsvc.getLog().error( "Exception in macro #" + macroName + " called at " + Log.formatFileString( node ) );
                 throw e;
             }
             finally
             {
-                postRender(context);
+                postRender( context );
             }
         }
-        else if (strictRef)
+        else if ( strictRef )
         {
-            throw new VelocityException("Macro '#" + macroName + "' is not defined at "
-                + Log.formatFileString(node));
+            throw new VelocityException( "Macro '#" + macroName + "' is not defined at " + Log.formatFileString( node ) );
         }
 
         /**
          * If we cannot find an implementation write the literal text
          */
-        writer.write(getLiteral());
+        writer.write( getLiteral() );
         return true;
     }
 }
