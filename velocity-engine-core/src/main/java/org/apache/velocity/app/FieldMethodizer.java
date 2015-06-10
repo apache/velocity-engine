@@ -1,27 +1,25 @@
 package org.apache.velocity.app;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.velocity.util.ClassUtils;
 
 /**
@@ -62,7 +60,7 @@ import org.apache.velocity.util.ClassUtils;
 public class FieldMethodizer
 {
     /** Hold the field objects by field name */
-    private HashMap fieldHash = new HashMap();
+    private Map<String, Field> fieldHash = new HashMap<String, Field>();
 
     /**
      * Allow object to be initialized without any data. You would use
@@ -82,35 +80,29 @@ public class FieldMethodizer
     {
         try
         {
-            addObject(s);
+            addObject( s );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
-            System.err.println("Could not add " + s
-                    + " for field methodizing: "
-                    + e.getMessage());
+            System.err.println( "Could not add " + s + " for field methodizing: " + e.getMessage() );
         }
     }
 
-  /**
-     *  Constructor that takes as it's arg a living
-     *  object to methodize.  Note that it will still
-     *  only methodized the public static fields of
-     *  the class.
-     *
-     *  @param o Name of class to methodize.
-     */
+    /**
+    *  Constructor that takes as it's arg a living object to methodize.  
+    *  Note that it will still only methodized the public static fields of the class.
+    *
+    *  @param o Name of class to methodize.
+    */
     public FieldMethodizer( Object o )
     {
         try
         {
-            addObject(o);
+            addObject( o );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
-            System.err.println("Could not add " + o
-                    + " for field methodizing: "
-                    + e.getMessage());
+            System.err.println( "Could not add " + o + " for field methodizing: " + e.getMessage() );
         }
     }
 
@@ -119,10 +111,10 @@ public class FieldMethodizer
      * @param s
      * @throws Exception
      */
-    public void addObject ( String s )
+    public void addObject( String s )
         throws Exception
     {
-        inspect(ClassUtils.getClass(s));
+        inspect( ClassUtils.getClass( s ) );
     }
 
     /**
@@ -130,10 +122,10 @@ public class FieldMethodizer
      * @param o
      * @throws Exception
      */
-    public void addObject ( Object o )
+    public void addObject( Object o )
         throws Exception
     {
-        inspect(o.getClass());
+        inspect( o.getClass() );
     }
 
     /**
@@ -148,16 +140,15 @@ public class FieldMethodizer
         Object value = null;
         try
         {
-            Field f = (Field) fieldHash.get( fieldName );
-            if (f != null)
+            Field f = fieldHash.get( fieldName );
+            if ( f != null )
             {
-                value = f.get(null);
+                value = f.get( null );
             }
         }
-        catch( IllegalAccessException e )
+        catch ( IllegalAccessException e )
         {
-            System.err.println("IllegalAccessException while trying to access " + fieldName
-                    + ": " + e.getMessage());
+            System.err.println( "IllegalAccessException while trying to access " + fieldName + ": " + e.getMessage() );
         }
         return value;
     }
@@ -166,18 +157,16 @@ public class FieldMethodizer
      *  Method that retrieves all public static fields
      *  in the class we are methodizing.
      */
-    private void inspect(Class clas)
+    private void inspect( Class<?> clas )
     {
         Field[] fields = clas.getFields();
-        for( int i = 0; i < fields.length; i++)
+        for ( Field field : fields )
         {
-            /*
-             *  only if public and static
-             */
-            int mod = fields[i].getModifiers();
-            if ( Modifier.isStatic(mod) && Modifier.isPublic(mod) )
+            // only if public and static
+            int mod = field.getModifiers();
+            if ( Modifier.isStatic( mod ) && Modifier.isPublic( mod ) )
             {
-                fieldHash.put(fields[i].getName(), fields[i]);
+                fieldHash.put( field.getName(), field );
             }
         }
     }

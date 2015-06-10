@@ -1,22 +1,18 @@
 package org.apache.velocity.context;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 /**
@@ -48,13 +44,17 @@ package org.apache.velocity.context;
  * @version $Id$
  */
 
-public abstract class AbstractContext extends InternalContextBase
+public abstract class AbstractContext
+    extends InternalContextBase
     implements Context
 {
+
+    private static final long serialVersionUID = 7379310681344561603L;
+
     /**
      *  the chained Context if any
      */
-    private   Context  innerContext = null;
+    private Context innerContext = null;
 
     /**
      *  Implement to return a value from the context storage.
@@ -90,7 +90,7 @@ public abstract class AbstractContext extends InternalContextBase
      *   @param key key to test for existence
      *   @return true if found, false if not
      */
-    public abstract boolean internalContainsKey(Object key);
+    public abstract boolean internalContainsKey( Object key );
 
     /**
      *  Implement to return an object array of key
@@ -112,7 +112,7 @@ public abstract class AbstractContext extends InternalContextBase
      *  @param key key to remove
      *  @return object removed if exists, else null
      */
-    public abstract Object internalRemove(Object key);
+    public abstract Object internalRemove( Object key );
 
     /**
      *  default CTOR
@@ -137,9 +137,9 @@ public abstract class AbstractContext extends InternalContextBase
          *  it's accessible, bringing to the top level.
          */
 
-        if (innerContext instanceof InternalEventContext )
+        if ( innerContext instanceof InternalEventContext )
         {
-            attachEventCartridge( ( (InternalEventContext) innerContext).getEventCartridge() );
+            attachEventCartridge( ( (InternalEventContext) innerContext ).getEventCartridge() );
         }
     }
 
@@ -151,17 +151,17 @@ public abstract class AbstractContext extends InternalContextBase
      * @return Object that was replaced in the the Context if
      *         applicable or null if not.
      */
-    public Object put(String key, Object value)
+    public Object put( String key, Object value )
     {
         /*
          * don't even continue if key is null
          */
-        if (key == null)
+        if ( key == null )
         {
             return null;
         }
-        
-        return internalPut(key.intern(), value);
+
+        return internalPut( key.intern(), value );
     }
 
     /**
@@ -174,13 +174,13 @@ public abstract class AbstractContext extends InternalContextBase
      *  @return    The value corresponding to the provided key or null if
      *             the key param is null.
      */
-    public Object get(String key)
+    public Object get( String key )
     {
         /*
          *  punt if key is null
          */
 
-        if (key == null)
+        if ( key == null )
         {
             return null;
         }
@@ -192,7 +192,7 @@ public abstract class AbstractContext extends InternalContextBase
 
         Object o = internalGet( key );
 
-        if (o == null && innerContext != null)
+        if ( o == null && innerContext != null )
         {
             o = innerContext.get( key );
         }
@@ -207,19 +207,19 @@ public abstract class AbstractContext extends InternalContextBase
      * @param key The key to look for.
      * @return true if the key is in the context, false if not.
      */
-    public boolean containsKey(Object key)
+    public boolean containsKey( Object key )
     {
-        if (key == null)
+        if ( key == null )
         {
             return false;
         }
 
-        boolean exists = internalContainsKey(key);
-        if (!exists && innerContext != null)
+        boolean exists = internalContainsKey( key );
+        if ( !exists && innerContext != null )
         {
-            exists = innerContext.containsKey(key);
+            exists = innerContext.containsKey( key );
         }
-        
+
         return exists;
     }
 
@@ -240,14 +240,14 @@ public abstract class AbstractContext extends InternalContextBase
      * @return    The value that the key was mapped to, or <code>null</code>
      *            if unmapped.
      */
-    public Object remove(Object key)
+    public Object remove( Object key )
     {
-        if (key == null)
+        if ( key == null )
         {
             return null;
         }
 
-        return internalRemove(key);
+        return internalRemove( key );
     }
 
     /**
@@ -261,6 +261,3 @@ public abstract class AbstractContext extends InternalContextBase
     }
 
 }
-
-
-

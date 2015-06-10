@@ -274,7 +274,6 @@ public class VelocimacroProxy extends Directive
     {
         if (maxCallDepth > 0 && maxCallDepth == context.getCurrentMacroCallDepth())
         {
-            String templateName = context.getCurrentTemplateName();
             Object[] stack = context.getMacroNameStack();
 
             StringBuffer out = new StringBuffer(100)
