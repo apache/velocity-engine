@@ -1,22 +1,18 @@
 package org.apache.velocity.runtime.parser.node;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.lang.reflect.InvocationTargetException;
@@ -50,7 +46,8 @@ import org.apache.velocity.util.introspection.VelMethod;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ASTMethod extends SimpleNode
+public class ASTMethod
+    extends SimpleNode
 {
     /**
      * An empty immutable <code>Class</code> array.
@@ -58,6 +55,7 @@ public class ASTMethod extends SimpleNode
     private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
 
     private String methodName = "";
+
     private int paramCount = 0;
 
     protected Info uberInfo;
@@ -70,26 +68,26 @@ public class ASTMethod extends SimpleNode
     /**
      * @param id
      */
-    public ASTMethod(int id)
+    public ASTMethod( int id )
     {
-        super(id);
+        super( id );
     }
 
     /**
      * @param p
      * @param id
      */
-    public ASTMethod(Parser p, int id)
+    public ASTMethod( Parser p, int id )
     {
-        super(p, id);
+        super( p, id );
     }
 
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
-    public Object jjtAccept(ParserVisitor visitor, Object data)
+    public Object jjtAccept( ParserVisitor visitor, Object data )
     {
-        return visitor.visit(this, data);
+        return visitor.visit( this, data );
     }
 
     /**
@@ -100,17 +98,16 @@ public class ASTMethod extends SimpleNode
      * @return The init result
      * @throws TemplateInitException
      */
-    public Object init(  InternalContextAdapter context, Object data)
+    public Object init( InternalContextAdapter context, Object data )
         throws TemplateInitException
     {
-        super.init(  context, data );
+        super.init( context, data );
 
         /*
          * make an uberinfo - saves new's later on
          */
 
-        uberInfo = new Info(getTemplateName(),
-                getLine(),getColumn());
+        uberInfo = new Info( getTemplateName(), getLine(), getColumn() );
         /*
          *  this is about all we can do
          */
@@ -118,7 +115,7 @@ public class ASTMethod extends SimpleNode
         methodName = getFirstToken().image;
         paramCount = jjtGetNumChildren() - 1;
 
-        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+        strictRef = rsvc.getBoolean( RuntimeConstants.RUNTIME_REFERENCES_STRICT, false );
 
         return data;
     }
@@ -132,7 +129,7 @@ public class ASTMethod extends SimpleNode
      * @return Result or null.
      * @throws MethodInvocationException
      */
-    public Object execute(Object o, InternalContextAdapter context)
+    public Object execute( Object o, InternalContextAdapter context )
         throws MethodInvocationException
     {
         /*
@@ -141,27 +138,26 @@ public class ASTMethod extends SimpleNode
          *  at execution time.  There can be no in-node caching,
          *  but if we are careful, we can do it in the context.
          */
-        Object [] params = new Object[paramCount];
+        Object[] params = new Object[paramCount];
 
-          /*
-           * sadly, we do need recalc the values of the args, as this can
-           * change from visit to visit
-           */
-        final Class[] paramClasses =
-            paramCount > 0 ? new Class[paramCount] : EMPTY_CLASS_ARRAY;
+        /*
+         * sadly, we do need recalc the values of the args, as this can
+         * change from visit to visit
+         */
+        final Class<?>[] paramClasses = paramCount > 0 ? new Class[paramCount] : EMPTY_CLASS_ARRAY;
 
-        for (int j = 0; j < paramCount; j++)
+        for ( int j = 0; j < paramCount; j++ )
         {
-            params[j] = jjtGetChild(j + 1).value(context);
-            if (params[j] != null)
+            params[j] = jjtGetChild( j + 1 ).value( context );
+            if ( params[j] != null )
             {
                 paramClasses[j] = params[j].getClass();
             }
         }
 
-        VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
-            o, context, this, strictRef);
-        if (method == null) return null;
+        VelMethod method = ClassUtils.getMethod( methodName, params, paramClasses, o, context, this, strictRef );
+        if ( method == null )
+            return null;
 
         try
         {
@@ -174,11 +170,11 @@ public class ASTMethod extends SimpleNode
              *  all is well.
              */
 
-            Object obj = method.invoke(o, params);
+            Object obj = method.invoke( o, params );
 
-            if (obj == null)
+            if ( obj == null )
             {
-                if( method.getReturnType() == Void.TYPE)
+                if ( method.getReturnType() == Void.TYPE )
                 {
                     return "";
                 }
@@ -186,41 +182,40 @@ public class ASTMethod extends SimpleNode
 
             return obj;
         }
-        catch( InvocationTargetException ite )
+        catch ( InvocationTargetException ite )
         {
-            return handleInvocationException(o, context, ite.getTargetException());
+            return handleInvocationException( o, context, ite.getTargetException() );
         }
 
         /** Can also be thrown by method invocation **/
-        catch( IllegalArgumentException t )
+        catch ( IllegalArgumentException t )
         {
-            return handleInvocationException(o, context, t);
+            return handleInvocationException( o, context, t );
         }
 
         /**
          * pass through application level runtime exceptions
          */
-        catch( RuntimeException e )
+        catch ( RuntimeException e )
         {
             throw e;
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
-            String msg = "ASTMethod.execute() : exception invoking method '"
-                         + methodName + "' in " + o.getClass();
-            log.error(msg, e);
-            throw new VelocityException(msg, e);
+            String msg = "ASTMethod.execute() : exception invoking method '" + methodName + "' in " + o.getClass();
+            log.error( msg, e );
+            throw new VelocityException( msg, e );
         }
     }
 
-    private Object handleInvocationException(Object o, InternalContextAdapter context, Throwable t)
+    private Object handleInvocationException( Object o, InternalContextAdapter context, Throwable t )
     {
         /*
          * We let StopCommands go up to the directive they are for/from
          */
-        if (t instanceof StopCommand)
+        if ( t instanceof StopCommand )
         {
-            throw (StopCommand)t;
+            throw (StopCommand) t;
         }
 
         /*
@@ -230,7 +225,7 @@ public class ASTMethod extends SimpleNode
          *  out which reference threw the exception, so do that
          *  above
          */
-        else if (t instanceof Exception)
+        else if ( t instanceof Exception )
         {
             try
             {
@@ -242,14 +237,11 @@ public class ASTMethod extends SimpleNode
              * in a MethodInvocationException.  Don't pass through RuntimeExceptions like other
              * similar catchall code blocks.
              */
-            catch( Exception e )
+            catch ( Exception e )
             {
-                throw new MethodInvocationException(
-                    "Invocation of method '"
-                    + methodName + "' in  " + o.getClass()
-                    + " threw exception "
-                    + e.toString(),
-                    e, methodName, getTemplateName(), this.getLine(), this.getColumn());
+                throw new MethodInvocationException( "Invocation of method '" + methodName + "' in  " + o.getClass()
+                    + " threw exception " + e.toString(), e, methodName, getTemplateName(), this.getLine(),
+                                                     this.getColumn() );
             }
         }
 
@@ -262,12 +254,9 @@ public class ASTMethod extends SimpleNode
              * no event cartridge to override. Just throw
              */
 
-            throw new MethodInvocationException(
-            "Invocation of method '"
-            + methodName + "' in  " + o.getClass()
-            + " threw exception "
-            + t.toString(),
-            t, methodName, getTemplateName(), this.getLine(), this.getColumn());
+            throw new MethodInvocationException( "Invocation of method '" + methodName + "' in  " + o.getClass()
+                + " threw exception " + t.toString(), t, methodName, getTemplateName(), this.getLine(),
+                                                 this.getColumn() );
         }
     }
 
@@ -281,43 +270,43 @@ public class ASTMethod extends SimpleNode
     public static class MethodCacheKey
     {
         private final String methodName;
-        private final Class[] params;
 
-        public MethodCacheKey(String methodName, Class[] params)
+        private final Class<?>[] params;
+
+        public MethodCacheKey( String methodName, Class<?>[] params )
         {
             /**
              * Should never be initialized with nulls, but to be safe we refuse
              * to accept them.
              */
-            this.methodName = (methodName != null) ? methodName : StringUtils.EMPTY;
-            this.params = (params != null) ? params : EMPTY_CLASS_ARRAY;
+            this.methodName = ( methodName != null ) ? methodName : StringUtils.EMPTY;
+            this.params = ( params != null ) ? params : EMPTY_CLASS_ARRAY;
         }
 
         /**
          * @see java.lang.Object#equals(java.lang.Object)
          */
-        public boolean equals(Object o)
+        public boolean equals( Object o )
         {
             /**
              * note we skip the null test for methodName and params
              * due to the earlier test in the constructor
              */
-            if (o instanceof MethodCacheKey)
+            if ( o instanceof MethodCacheKey )
             {
                 final MethodCacheKey other = (MethodCacheKey) o;
-                if (params.length == other.params.length &&
-                        methodName.equals(other.methodName))
+                if ( params.length == other.params.length && methodName.equals( other.methodName ) )
                 {
-                    for (int i = 0; i < params.length; ++i)
+                    for ( int i = 0; i < params.length; ++i )
                     {
-                        if (params[i] == null)
+                        if ( params[i] == null )
                         {
-                            if (params[i] != other.params[i])
+                            if ( params[i] != other.params[i] )
                             {
                                 return false;
                             }
                         }
-                        else if (!params[i].equals(other.params[i]))
+                        else if ( !params[i].equals( other.params[i] ) )
                         {
                             return false;
                         }
@@ -327,7 +316,6 @@ public class ASTMethod extends SimpleNode
             }
             return false;
         }
-
 
         /**
          * @see java.lang.Object#hashCode()
@@ -340,10 +328,10 @@ public class ASTMethod extends SimpleNode
              * note we skip the null test for methodName and params
              * due to the earlier test in the constructor
              */
-            for (int i = 0; i < params.length; ++i)
+            for ( int i = 0; i < params.length; ++i )
             {
-                final Class param = params[i];
-                if (param != null)
+                final Class<?> param = params[i];
+                if ( param != null )
                 {
                     result = result * 37 + param.hashCode();
                 }
@@ -363,6 +351,5 @@ public class ASTMethod extends SimpleNode
     {
         return methodName;
     }
-
 
 }

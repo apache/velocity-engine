@@ -1,30 +1,26 @@
 package org.apache.velocity.runtime.parser.node;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utility-class for all arithmetic-operations.<br><br>
@@ -53,42 +49,47 @@ public abstract class MathUtils
     /**
      * A BigDecimal representing the number 0
      */
-    protected static final BigDecimal DECIMAL_ZERO    = new BigDecimal ( BigInteger.ZERO );
+    protected static final BigDecimal DECIMAL_ZERO = new BigDecimal( BigInteger.ZERO );
 
     /**
      * The constants are used to determine in which context we have to calculate.
      */
-    protected static final int BASE_LONG          = 0;
-    protected static final int BASE_FLOAT         = 1;
-    protected static final int BASE_DOUBLE        = 2;
-    protected static final int BASE_BIGINTEGER    = 3;
-    protected static final int BASE_BIGDECIMAL    = 4;
+    protected static final int BASE_LONG = 0;
+
+    protected static final int BASE_FLOAT = 1;
+
+    protected static final int BASE_DOUBLE = 2;
+
+    protected static final int BASE_BIGINTEGER = 3;
+
+    protected static final int BASE_BIGDECIMAL = 4;
 
     /**
      * The <code>Class</code>-object is key, the maximum-value is the value
      */
-    protected static final Map ints = new HashMap();
+    protected static final Map<Class<? extends Number>, BigDecimal> ints = new HashMap<Class<? extends Number>, BigDecimal>();
+
     static
     {
-        ints.put (Byte.class, BigDecimal.valueOf (Byte.MAX_VALUE));
-        ints.put (Short.class, BigDecimal.valueOf (Short.MAX_VALUE));
-        ints.put (Integer.class, BigDecimal.valueOf (Integer.MAX_VALUE));
-        ints.put (Long.class, BigDecimal.valueOf (Long.MAX_VALUE));
-        ints.put (BigInteger.class, BigDecimal.valueOf (-1));
+        ints.put( Byte.class, BigDecimal.valueOf( Byte.MAX_VALUE ) );
+        ints.put( Short.class, BigDecimal.valueOf( Short.MAX_VALUE ) );
+        ints.put( Integer.class, BigDecimal.valueOf( Integer.MAX_VALUE ) );
+        ints.put( Long.class, BigDecimal.valueOf( Long.MAX_VALUE ) );
+        ints.put( BigInteger.class, BigDecimal.valueOf( -1 ) );
     }
 
     /**
      * The "size" of the number-types - ascending.
      */
-    protected static final List typesBySize = new ArrayList();
+    protected static final List<Class<? extends Number>> typesBySize = new ArrayList<Class<? extends Number>>();
     static
     {
-        typesBySize.add (Byte.class);
-        typesBySize.add (Short.class);
-        typesBySize.add (Integer.class);
-        typesBySize.add (Long.class);
-        typesBySize.add (Float.class);
-        typesBySize.add (Double.class);
+        typesBySize.add( Byte.class );
+        typesBySize.add( Short.class );
+        typesBySize.add( Integer.class );
+        typesBySize.add( Long.class );
+        typesBySize.add( Float.class );
+        typesBySize.add( Double.class );
     }
 
     /**
@@ -96,20 +97,20 @@ public abstract class MathUtils
      * @param n
      * @return The number as BigDecimal
      */
-    public static BigDecimal toBigDecimal (Number n)
+    public static BigDecimal toBigDecimal( Number n )
     {
 
-        if (n instanceof BigDecimal)
+        if ( n instanceof BigDecimal )
         {
-            return (BigDecimal)n;
+            return (BigDecimal) n;
         }
 
-        if (n instanceof BigInteger)
+        if ( n instanceof BigInteger )
         {
-            return new BigDecimal ( (BigInteger)n );
+            return new BigDecimal( (BigInteger) n );
         }
 
-        return new BigDecimal (n.doubleValue());
+        return new BigDecimal( n.doubleValue() );
 
     }
 
@@ -118,15 +119,15 @@ public abstract class MathUtils
      * @param n
      * @return The number as BigInteger
      */
-    public static BigInteger toBigInteger (Number n)
+    public static BigInteger toBigInteger( Number n )
     {
 
-        if (n instanceof BigInteger)
+        if ( n instanceof BigInteger )
         {
-            return (BigInteger)n;
+            return (BigInteger) n;
         }
 
-        return BigInteger.valueOf (n.longValue());
+        return BigInteger.valueOf( n.longValue() );
 
     }
 
@@ -135,25 +136,25 @@ public abstract class MathUtils
      * @param n
      * @return True if number is 0.
      */
-    public static boolean isZero (Number n)
+    public static boolean isZero( Number n )
     {
-        if (isInteger( n ) )
+        if ( isInteger( n ) )
         {
-            if (n instanceof BigInteger)
+            if ( n instanceof BigInteger )
             {
-                return ((BigInteger)n).compareTo (BigInteger.ZERO) == 0;
+                return ( (BigInteger) n ).compareTo( BigInteger.ZERO ) == 0;
             }
             return n.doubleValue() == 0;
         }
-        if (n instanceof Float)
+        if ( n instanceof Float )
         {
             return n.floatValue() == 0f;
         }
-        if (n instanceof Double)
+        if ( n instanceof Double )
         {
             return n.doubleValue() == 0d;
         }
-        return toBigDecimal( n ).compareTo( DECIMAL_ZERO) == 0;
+        return toBigDecimal( n ).compareTo( DECIMAL_ZERO ) == 0;
     }
 
     /**
@@ -162,9 +163,9 @@ public abstract class MathUtils
      * @param n
      * @return True if n is an integer.
      */
-    public static boolean isInteger (Number n)
+    public static boolean isInteger( Number n )
     {
-        return ints.containsKey (n.getClass());
+        return ints.containsKey( n.getClass() );
     }
 
     /**
@@ -174,50 +175,50 @@ public abstract class MathUtils
      * @param type
      * @return Number object representing the primitive.
      */
-    public static Number wrapPrimitive (long value, Class type)
+    public static Number wrapPrimitive( long value, Class<? extends Number> type )
     {
-        if (type == Byte.class)
+        if ( type == Byte.class )
         {
-            if (value > Byte.MAX_VALUE || value < Byte.MIN_VALUE)
+            if ( value > Byte.MAX_VALUE || value < Byte.MIN_VALUE )
             {
                 type = Short.class;
             }
             else
             {
                 // TODO: JDK 1.4+ -> valueOf()
-                return new Byte ((byte)value);
+                return Byte.valueOf( (byte) value );
             }
         }
-        if (type == Short.class)
+        if ( type == Short.class )
         {
-            if (value > Short.MAX_VALUE || value < Short.MIN_VALUE)
+            if ( value > Short.MAX_VALUE || value < Short.MIN_VALUE )
             {
                 type = Integer.class;
             }
             else
             {
                 // TODO: JDK 1.4+ -> valueOf()
-                return new Short((short)value);
+                return Short.valueOf( (short) value );
             }
         }
-        if (type == Integer.class)
+        if ( type == Integer.class )
         {
-            if (value > Integer.MAX_VALUE || value < Integer.MIN_VALUE)
+            if ( value > Integer.MAX_VALUE || value < Integer.MIN_VALUE )
             {
                 type = Long.class;
             }
             else
             {
                 // TODO: JDK 1.4+ -> valueOf()
-                return new Integer ((int)value);
+                return Integer.valueOf( (int) value );
             }
         }
-        if (type == Long.class)
+        if ( type == Long.class )
         {
             // TODO: JDK 1.4+ -> valueOf()
-            return new Long (value);
+            return Long.valueOf( value );
         }
-        return BigInteger.valueOf( value);
+        return BigInteger.valueOf( value );
     }
 
     /**
@@ -228,13 +229,13 @@ public abstract class MathUtils
      * @param op2 second operand of binary operation
      * @return Number object of appropriate size to fit the value and operators
      */
-    private static Number wrapPrimitive (long value, Number op1, Number op2)
+    private static Number wrapPrimitive( long value, Number op1, Number op2 )
     {
-        if ( typesBySize.indexOf( op1.getClass()) > typesBySize.indexOf( op2.getClass()))
+        if ( typesBySize.indexOf( op1.getClass() ) > typesBySize.indexOf( op2.getClass() ) )
         {
-            return wrapPrimitive( value, op1.getClass());
+            return wrapPrimitive( value, op1.getClass() );
         }
-        return wrapPrimitive( value, op2.getClass());
+        return wrapPrimitive( value, op2.getClass() );
     }
 
     /**
@@ -244,27 +245,28 @@ public abstract class MathUtils
      * @param op2 second operand of binary operation
      * @return constant indicating type of Number to use in calculations
      */
-    private static int findCalculationBase (Number op1, Number op2)
+    private static int findCalculationBase( Number op1, Number op2 )
     {
 
-        boolean op1Int = isInteger(op1);
-        boolean op2Int = isInteger(op2);
+        boolean op1Int = isInteger( op1 );
+        boolean op2Int = isInteger( op2 );
 
-        if ( (op1 instanceof BigDecimal || op2 instanceof BigDecimal) ||
-             ( (!op1Int || !op2Int) && (op1 instanceof BigInteger || op2 instanceof BigInteger)) )
+        if ( ( op1 instanceof BigDecimal || op2 instanceof BigDecimal )
+            || ( ( !op1Int || !op2Int ) && ( op1 instanceof BigInteger || op2 instanceof BigInteger ) ) )
         {
             return BASE_BIGDECIMAL;
         }
 
-        if (op1Int && op2Int) {
-            if (op1 instanceof BigInteger || op2 instanceof BigInteger)
+        if ( op1Int && op2Int )
+        {
+            if ( op1 instanceof BigInteger || op2 instanceof BigInteger )
             {
                 return BASE_BIGINTEGER;
             }
             return BASE_LONG;
         }
 
-        if ((op1 instanceof Double) || (op2 instanceof Double))
+        if ( ( op1 instanceof Double ) || ( op2 instanceof Double ) )
         {
             return BASE_DOUBLE;
         }
@@ -278,33 +280,33 @@ public abstract class MathUtils
      * @param op2
      * @return Addition result.
      */
-    public static Number add (Number op1, Number op2)
+    public static Number add( Number op1, Number op2 )
     {
 
-        int calcBase = findCalculationBase( op1, op2);
-        switch (calcBase)
+        int calcBase = findCalculationBase( op1, op2 );
+        switch ( calcBase )
         {
             case BASE_BIGINTEGER:
-                return toBigInteger( op1 ).add( toBigInteger( op2 ));
+                return toBigInteger( op1 ).add( toBigInteger( op2 ) );
             case BASE_LONG:
                 long l1 = op1.longValue();
                 long l2 = op2.longValue();
-                long result = l1+l2;
+                long result = l1 + l2;
 
                 // Overflow check
-                if ((result ^ l1) < 0 && (result ^ l2) < 0)
+                if ( ( result ^ l1 ) < 0 && ( result ^ l2 ) < 0 )
                 {
-                    return toBigInteger( op1).add( toBigInteger( op2));
+                    return toBigInteger( op1 ).add( toBigInteger( op2 ) );
                 }
-                return wrapPrimitive( result, op1, op2);
+                return wrapPrimitive( result, op1, op2 );
             case BASE_FLOAT:
-                return new Float (op1.floatValue()+op2.floatValue());
+                return new Float( op1.floatValue() + op2.floatValue() );
             case BASE_DOUBLE:
-                return new Double (op1.doubleValue()+op2.doubleValue());
+                return new Double( op1.doubleValue() + op2.doubleValue() );
 
-            // Default is BigDecimal operation
+                // Default is BigDecimal operation
             default:
-                return toBigDecimal( op1 ).add( toBigDecimal( op2 ));
+                return toBigDecimal( op1 ).add( toBigDecimal( op2 ) );
         }
     }
 
@@ -315,30 +317,33 @@ public abstract class MathUtils
      * @param op2
      * @return Subtraction result.
      */
-    public static Number subtract (Number op1, Number op2) {
+    public static Number subtract( Number op1, Number op2 )
+    {
 
-        int calcBase = findCalculationBase( op1, op2);
-        switch (calcBase) {
+        int calcBase = findCalculationBase( op1, op2 );
+        switch ( calcBase )
+        {
             case BASE_BIGINTEGER:
-                return toBigInteger( op1 ).subtract( toBigInteger( op2 ));
+                return toBigInteger( op1 ).subtract( toBigInteger( op2 ) );
             case BASE_LONG:
                 long l1 = op1.longValue();
                 long l2 = op2.longValue();
-                long result = l1-l2;
+                long result = l1 - l2;
 
                 // Overflow check
-                if ((result ^ l1) < 0 && (result ^ ~l2) < 0) {
-                    return toBigInteger( op1).subtract( toBigInteger( op2));
+                if ( ( result ^ l1 ) < 0 && ( result ^ ~l2 ) < 0 )
+                {
+                    return toBigInteger( op1 ).subtract( toBigInteger( op2 ) );
                 }
-                return wrapPrimitive( result, op1, op2);
+                return wrapPrimitive( result, op1, op2 );
             case BASE_FLOAT:
-                return new Float (op1.floatValue()-op2.floatValue());
+                return new Float( op1.floatValue() - op2.floatValue() );
             case BASE_DOUBLE:
-                return new Double (op1.doubleValue()-op2.doubleValue());
+                return new Double( op1.doubleValue() - op2.doubleValue() );
 
-            // Default is BigDecimal operation
+                // Default is BigDecimal operation
             default:
-                return toBigDecimal( op1 ).subtract( toBigDecimal( op2 ));
+                return toBigDecimal( op1 ).subtract( toBigDecimal( op2 ) );
         }
     }
 
@@ -349,30 +354,33 @@ public abstract class MathUtils
      * @param op2
      * @return Multiplication result.
      */
-    public static Number multiply (Number op1, Number op2) {
+    public static Number multiply( Number op1, Number op2 )
+    {
 
-        int calcBase = findCalculationBase( op1, op2);
-        switch (calcBase) {
+        int calcBase = findCalculationBase( op1, op2 );
+        switch ( calcBase )
+        {
             case BASE_BIGINTEGER:
-                return toBigInteger( op1 ).multiply( toBigInteger( op2 ));
+                return toBigInteger( op1 ).multiply( toBigInteger( op2 ) );
             case BASE_LONG:
                 long l1 = op1.longValue();
                 long l2 = op2.longValue();
-                long result = l1*l2;
+                long result = l1 * l2;
 
                 // Overflow detection
-                if ((l2 != 0) && (result / l2 != l1)) {
-                    return toBigInteger( op1).multiply( toBigInteger( op2));
+                if ( ( l2 != 0 ) && ( result / l2 != l1 ) )
+                {
+                    return toBigInteger( op1 ).multiply( toBigInteger( op2 ) );
                 }
-                return wrapPrimitive( result, op1, op2);
+                return wrapPrimitive( result, op1, op2 );
             case BASE_FLOAT:
-                return new Float (op1.floatValue()*op2.floatValue());
+                return new Float( op1.floatValue() * op2.floatValue() );
             case BASE_DOUBLE:
-                return new Double (op1.doubleValue()*op2.doubleValue());
+                return new Double( op1.doubleValue() * op2.doubleValue() );
 
-            // Default is BigDecimal operation
+                // Default is BigDecimal operation
             default:
-                return toBigDecimal( op1 ).multiply( toBigDecimal( op2 ));
+                return toBigDecimal( op1 ).multiply( toBigDecimal( op2 ) );
         }
     }
 
@@ -384,28 +392,30 @@ public abstract class MathUtils
      * @param op2
      * @return Division result.
      */
-    public static Number divide (Number op1, Number op2) {
+    public static Number divide( Number op1, Number op2 )
+    {
 
-        int calcBase = findCalculationBase( op1, op2);
-        switch (calcBase) {
+        int calcBase = findCalculationBase( op1, op2 );
+        switch ( calcBase )
+        {
             case BASE_BIGINTEGER:
                 BigInteger b1 = toBigInteger( op1 );
                 BigInteger b2 = toBigInteger( op2 );
-                return b1.divide( b2);
+                return b1.divide( b2 );
 
             case BASE_LONG:
                 long l1 = op1.longValue();
                 long l2 = op2.longValue();
-                return wrapPrimitive( l1 / l2, op1, op2);
+                return wrapPrimitive( l1 / l2, op1, op2 );
 
             case BASE_FLOAT:
-                return new Float (op1.floatValue()/op2.floatValue());
+                return new Float( op1.floatValue() / op2.floatValue() );
             case BASE_DOUBLE:
-                return new Double (op1.doubleValue()/op2.doubleValue());
+                return new Double( op1.doubleValue() / op2.doubleValue() );
 
-            // Default is BigDecimal operation
+                // Default is BigDecimal operation
             default:
-                return toBigDecimal( op1 ).divide( toBigDecimal( op2 ), BigDecimal.ROUND_HALF_DOWN);
+                return toBigDecimal( op1 ).divide( toBigDecimal( op2 ), BigDecimal.ROUND_HALF_DOWN );
         }
     }
 
@@ -417,22 +427,25 @@ public abstract class MathUtils
      *
      * @throws ArithmeticException If at least one parameter is a BigDecimal
      */
-    public static Number modulo (Number op1, Number op2) throws ArithmeticException {
+    public static Number modulo( Number op1, Number op2 )
+        throws ArithmeticException
+    {
 
-        int calcBase = findCalculationBase( op1, op2);
-        switch (calcBase) {
+        int calcBase = findCalculationBase( op1, op2 );
+        switch ( calcBase )
+        {
             case BASE_BIGINTEGER:
-                return toBigInteger( op1 ).mod( toBigInteger( op2 ));
+                return toBigInteger( op1 ).mod( toBigInteger( op2 ) );
             case BASE_LONG:
-                return wrapPrimitive( op1.longValue() % op2.longValue(), op1, op2);
+                return wrapPrimitive( op1.longValue() % op2.longValue(), op1, op2 );
             case BASE_FLOAT:
-                return new Float (op1.floatValue() % op2.floatValue());
+                return new Float( op1.floatValue() % op2.floatValue() );
             case BASE_DOUBLE:
-                return new Double (op1.doubleValue() % op2.doubleValue());
+                return new Double( op1.doubleValue() % op2.doubleValue() );
 
-            // Default is BigDecimal operation
+                // Default is BigDecimal operation
             default:
-                throw new ArithmeticException( "Cannot calculate the modulo of BigDecimals.");
+                throw new ArithmeticException( "Cannot calculate the modulo of BigDecimals." );
         }
     }
 
@@ -442,46 +455,54 @@ public abstract class MathUtils
      * @param op2
      * @return 1 if n1 > n2, -1 if n1 < n2 and 0 if equal.
      */
-    public static int compare (Number op1, Number op2) {
+    public static int compare( Number op1, Number op2 )
+    {
 
-        int calcBase = findCalculationBase( op1, op2);
-        switch (calcBase) {
+        int calcBase = findCalculationBase( op1, op2 );
+        switch ( calcBase )
+        {
             case BASE_BIGINTEGER:
-                return toBigInteger( op1 ).compareTo( toBigInteger( op2 ));
+                return toBigInteger( op1 ).compareTo( toBigInteger( op2 ) );
             case BASE_LONG:
                 long l1 = op1.longValue();
                 long l2 = op2.longValue();
-                if (l1 < l2) {
+                if ( l1 < l2 )
+                {
                     return -1;
                 }
-                if (l1 > l2) {
+                if ( l1 > l2 )
+                {
                     return 1;
                 }
                 return 0;
             case BASE_FLOAT:
                 float f1 = op1.floatValue();
                 float f2 = op2.floatValue();
-                if (f1 < f2) {
+                if ( f1 < f2 )
+                {
                     return -1;
                 }
-                if (f1 > f2) {
+                if ( f1 > f2 )
+                {
                     return 1;
                 }
                 return 0;
             case BASE_DOUBLE:
                 double d1 = op1.doubleValue();
                 double d2 = op2.doubleValue();
-                if (d1 < d2) {
+                if ( d1 < d2 )
+                {
                     return -1;
                 }
-                if (d1 > d2) {
+                if ( d1 > d2 )
+                {
                     return 1;
                 }
                 return 0;
 
-            // Default is BigDecimal operation
+                // Default is BigDecimal operation
             default:
-                return toBigDecimal( op1 ).compareTo( toBigDecimal ( op2 ));
+                return toBigDecimal( op1 ).compareTo( toBigDecimal( op2 ) );
         }
     }
 }

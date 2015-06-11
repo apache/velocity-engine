@@ -1,25 +1,22 @@
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.apache.velocity.util.introspection;
 
 import java.util.Iterator;
+
 import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.PublicFieldExecutor;
 import org.apache.velocity.runtime.parser.node.SetPublicFieldExecutor;
@@ -33,7 +30,8 @@ import org.apache.velocity.util.introspection.UberspectImpl.VelSetterImpl;
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @author <a href="mailto:cdauth@cdauth.eu">Candid Dauth</a>
  */
-public class UberspectPublicFields implements Uberspect, UberspectLoggable
+public class UberspectPublicFields
+    implements Uberspect, UberspectLoggable
 {
     /**
      *  Our runtime logger.
@@ -52,7 +50,7 @@ public class UberspectPublicFields implements Uberspect, UberspectLoggable
      */
     public void init()
     {
-        introspector = new Introspector(log);
+        introspector = new Introspector( log );
     }
 
     /**
@@ -62,7 +60,7 @@ public class UberspectPublicFields implements Uberspect, UberspectLoggable
      * @param log The logger instance to use.
      * @since 1.5
      */
-    public void setLog(Log log)
+    public void setLog( Log log )
     {
         this.log = log;
     }
@@ -75,18 +73,18 @@ public class UberspectPublicFields implements Uberspect, UberspectLoggable
      * @return A Velocity Getter Method.
      * @throws Exception
      */
-    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
+    public VelPropertyGet getPropertyGet( Object obj, String identifier, Info i )
     {
-        if (obj == null)
+        if ( obj == null )
         {
             return null;
         }
 
-        Class claz = obj.getClass();
+        Class<?> claz = obj.getClass();
 
-        PublicFieldExecutor executor = new PublicFieldExecutor(log, introspector, claz, identifier);
+        PublicFieldExecutor executor = new PublicFieldExecutor( log, introspector, claz, identifier );
 
-        return (executor.isAlive()) ? new VelGetterImpl(executor) : null;
+        return ( executor.isAlive() ) ? new VelGetterImpl( executor ) : null;
     }
 
     /**
@@ -98,26 +96,26 @@ public class UberspectPublicFields implements Uberspect, UberspectLoggable
      * @return A Velocity Setter method.
      * @throws Exception
      */
-    public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
+    public VelPropertySet getPropertySet( Object obj, String identifier, Object arg, Info i )
     {
-        if (obj == null)
+        if ( obj == null )
         {
             return null;
         }
 
-        Class claz = obj.getClass();
+        Class<?> claz = obj.getClass();
 
-        SetPublicFieldExecutor executor = new SetPublicFieldExecutor(log, introspector, claz, identifier, arg);
+        SetPublicFieldExecutor executor = new SetPublicFieldExecutor( log, introspector, claz, identifier, arg );
 
-        return (executor.isAlive()) ? new VelSetterImpl(executor) : null;
+        return ( executor.isAlive() ) ? new VelSetterImpl( executor ) : null;
     }
 
-    public Iterator getIterator(Object obj, Info info)
+    public Iterator getIterator( Object obj, Info info )
     {
         return null;
     }
 
-    public VelMethod getMethod(Object obj, String method, Object[] args, Info info)
+    public VelMethod getMethod( Object obj, String method, Object[] args, Info info )
     {
         return null;
     }

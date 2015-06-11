@@ -19,13 +19,11 @@ package org.apache.velocity.runtime.resource;
  * under the License.    
  */
 
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.RuntimeConstants;
-
-import org.apache.velocity.runtime.resource.loader.ResourceLoader;
-
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 
 /**
  * This class represent a general text resource that

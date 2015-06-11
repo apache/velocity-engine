@@ -1,22 +1,18 @@
 package org.apache.velocity.util;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.io.ByteArrayOutputStream;
@@ -28,7 +24,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
 
 /**
  * This class provides some methods for dynamically
@@ -46,7 +41,7 @@ public class StringUtils
     /**
      * Line separator for the OS we are operating on.
      */
-    private static final String EOL = System.getProperty("line.separator");
+    private static final String EOL = System.getProperty( "line.separator" );
 
     /**
      * Concatenates a list of objects as a String.
@@ -54,14 +49,14 @@ public class StringUtils
      * @param list The list of objects to concatenate.
      * @return     A text representation of the concatenated objects.
      */
-    public String concat(List list)
+    public String concat( List<Object> list )
     {
         StringBuffer sb = new StringBuffer();
         int size = list.size();
 
-        for (int i = 0; i < size; i++)
+        for ( int i = 0; i < size; i++ )
         {
-            sb.append(list.get(i).toString());
+            sb.append( list.get( i ) );
         }
         return sb.toString();
     }
@@ -72,9 +67,9 @@ public class StringUtils
      * @param pckge package name to convert to a directory.
      * @return String directory path.
      */
-    static public String getPackageAsPath(String pckge)
+    static public String getPackageAsPath( String pckge )
     {
-        return pckge.replace( '.', File.separator.charAt(0) ) + File.separator;
+        return pckge.replace( '.', File.separator.charAt( 0 ) ) + File.separator;
     }
 
     /**
@@ -94,9 +89,9 @@ public class StringUtils
      * @param data string to hump
      * @return String
      */
-    static public String removeAndHump (String data)
+    static public String removeAndHump( String data )
     {
-        return removeAndHump(data,"_");
+        return removeAndHump( data, "_" );
     }
 
     /**
@@ -117,18 +112,18 @@ public class StringUtils
      * @param replaceThis string to be replaced
      * @return String
      */
-    static public String removeAndHump (String data,String replaceThis)
+    static public String removeAndHump( String data, String replaceThis )
     {
         String temp = null;
         StringBuffer out = new StringBuffer();
         temp = data;
 
-        StringTokenizer st = new StringTokenizer(temp, replaceThis);
+        StringTokenizer st = new StringTokenizer( temp, replaceThis );
 
-        while (st.hasMoreTokens())
+        while ( st.hasMoreTokens() )
         {
             String element = (String) st.nextElement();
-            out.append ( capitalizeFirstLetter(element));
+            out.append( capitalizeFirstLetter( element ) );
         }//while
 
         return out.toString();
@@ -146,10 +141,10 @@ public class StringUtils
      * @param data capitalize this
      * @return String
      */
-    static public String firstLetterCaps ( String data )
+    static public String firstLetterCaps( String data )
     {
-        String firstLetter = data.substring(0,1).toUpperCase();
-        String restLetters = data.substring(1).toLowerCase();
+        String firstLetter = data.substring( 0, 1 ).toUpperCase();
+        String restLetters = data.substring( 1 ).toLowerCase();
         return firstLetter + restLetters;
     }
 
@@ -165,10 +160,10 @@ public class StringUtils
      * @param data capitalize this
      * @return String
      */
-    static public String capitalizeFirstLetter ( String data )
+    static public String capitalizeFirstLetter( String data )
     {
-        String firstLetter = data.substring(0,1).toUpperCase();
-        String restLetters = data.substring(1);
+        String firstLetter = data.substring( 0, 1 ).toUpperCase();
+        String restLetters = data.substring( 1 );
         return firstLetter + restLetters;
     }
 
@@ -179,15 +174,15 @@ public class StringUtils
      * @param delim the delimter to split by
      * @return a string array of the split fields
      */
-    public static String [] split(String line, String delim)
+    public static String[] split( String line, String delim )
     {
         List<String> list = new ArrayList<String>();
-        StringTokenizer t = new StringTokenizer(line, delim);
-        while (t.hasMoreTokens())
+        StringTokenizer t = new StringTokenizer( line, delim );
+        while ( t.hasMoreTokens() )
         {
-            list.add(t.nextToken());
+            list.add( t.nextToken() );
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray( new String[list.size()] );
     }
 
     /**
@@ -200,9 +195,9 @@ public class StringUtils
      * @param i Number of characters to chop.
      * @return String with processed answer.
      */
-    public static String chop(String s, int i)
+    public static String chop( String s, int i )
     {
-        return chop(s, i, EOL);
+        return chop( s, i, EOL );
     }
 
     /**
@@ -214,11 +209,11 @@ public class StringUtils
      * @param eol A String representing the EOL (end of line).
      * @return String with processed answer.
      */
-    public static String chop(String s, int i, String eol)
+    public static String chop( String s, int i, String eol )
     {
         if ( i == 0 || s == null || eol == null )
         {
-           return s;
+            return s;
         }
 
         int length = s.length();
@@ -227,23 +222,23 @@ public class StringUtils
          * if it is a 2 char EOL and the string ends with
          * it, nip it off.  The EOL in this case is treated like 1 character
          */
-        if ( eol.length() == 2 && s.endsWith(eol ))
+        if ( eol.length() == 2 && s.endsWith( eol ) )
         {
             length -= 2;
             i -= 1;
         }
 
-        if ( i > 0)
+        if ( i > 0 )
         {
             length -= i;
         }
 
-        if ( length < 0)
+        if ( length < 0 )
         {
             length = 0;
         }
 
-        return s.substring( 0, length);
+        return s.substring( 0, length );
     }
 
     /**
@@ -251,10 +246,9 @@ public class StringUtils
      * @param vars
      * @return Substituted String.
      */
-    public static StringBuffer stringSubstitution( String argStr,
-                                                   Hashtable vars )
+    public static StringBuffer stringSubstitution( String argStr, Hashtable<String, String> vars )
     {
-        return stringSubstitution( argStr, (Map) vars );
+        return stringSubstitution( argStr, (Map<String, String>) vars );
     }
 
     /**
@@ -267,42 +261,40 @@ public class StringUtils
      * @param vars name/value pairs used for substitution
      * @return String target string with replacements.
      */
-    public static StringBuffer stringSubstitution(String argStr,
-            Map vars)
+    public static StringBuffer stringSubstitution( String argStr, Map<String, String> vars )
     {
         StringBuffer argBuf = new StringBuffer();
 
-        for (int cIdx = 0 ; cIdx < argStr.length();)
+        for ( int cIdx = 0; cIdx < argStr.length(); )
         {
-            char ch = argStr.charAt(cIdx);
+            char ch = argStr.charAt( cIdx );
 
-            switch (ch)
+            switch ( ch )
             {
                 case '$':
                     StringBuffer nameBuf = new StringBuffer();
-                    for (++cIdx ; cIdx < argStr.length(); ++cIdx)
+                    for ( ++cIdx; cIdx < argStr.length(); ++cIdx )
                     {
-                        ch = argStr.charAt(cIdx);
-                        if (ch == '_' || Character.isLetterOrDigit(ch))
-                            nameBuf.append(ch);
+                        ch = argStr.charAt( cIdx );
+                        if ( ch == '_' || Character.isLetterOrDigit( ch ) )
+                            nameBuf.append( ch );
                         else
                             break;
                     }
 
-                    if (nameBuf.length() > 0)
+                    if ( nameBuf.length() > 0 )
                     {
-                        String value =
-                                (String) vars.get(nameBuf.toString());
+                        String value = vars.get( nameBuf.toString() );
 
-                        if (value != null)
+                        if ( value != null )
                         {
-                            argBuf.append(value);
+                            argBuf.append( value );
                         }
                     }
                     break;
 
                 default:
-                    argBuf.append(ch);
+                    argBuf.append( ch );
                     ++cIdx;
                     break;
             }
@@ -318,39 +310,39 @@ public class StringUtils
      * @param file path to file.
      * @return String contents of the file.
      */
-    public static String fileContentsToString(String file)
+    public static String fileContentsToString( String file )
     {
         String contents = "";
 
         File f = null;
         try
         {
-            f = new File(file);
+            f = new File( file );
 
-            if (f.exists())
+            if ( f.exists() )
             {
                 FileReader fr = null;
                 try
                 {
-                    fr = new FileReader(f);
+                    fr = new FileReader( f );
                     char[] template = new char[(int) f.length()];
-                    fr.read(template);
-                    contents = new String(template);
+                    fr.read( template );
+                    contents = new String( template );
                 }
-                catch (Exception e)
+                catch ( Exception e )
                 {
                     e.printStackTrace();
                 }
                 finally
                 {
-                    if (fr != null)
+                    if ( fr != null )
                     {
                         fr.close();
                     }
                 }
             }
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
             e.printStackTrace();
         }
@@ -363,17 +355,17 @@ public class StringUtils
      * @param argStr string to collapse newlines in.
      * @return String
      */
-    public static String collapseNewlines(String argStr)
+    public static String collapseNewlines( String argStr )
     {
-        char last = argStr.charAt(0);
+        char last = argStr.charAt( 0 );
         StringBuffer argBuf = new StringBuffer();
 
-        for (int cIdx = 0 ; cIdx < argStr.length(); cIdx++)
+        for ( int cIdx = 0; cIdx < argStr.length(); cIdx++ )
         {
-            char ch = argStr.charAt(cIdx);
-            if (ch != '\n' || last != '\n')
+            char ch = argStr.charAt( cIdx );
+            if ( ch != '\n' || last != '\n' )
             {
-                argBuf.append(ch);
+                argBuf.append( ch );
                 last = ch;
             }
         }
@@ -387,17 +379,17 @@ public class StringUtils
      * @param argStr string to remove multiple spaces from.
      * @return String
      */
-    public static String collapseSpaces(String argStr)
+    public static String collapseSpaces( String argStr )
     {
-        char last = argStr.charAt(0);
+        char last = argStr.charAt( 0 );
         StringBuffer argBuf = new StringBuffer();
 
-        for (int cIdx = 0 ; cIdx < argStr.length(); cIdx++)
+        for ( int cIdx = 0; cIdx < argStr.length(); cIdx++ )
         {
-            char ch = argStr.charAt(cIdx);
-            if (ch != ' ' || last != ' ')
+            char ch = argStr.charAt( cIdx );
+            if ( ch != ' ' || last != ' ' )
             {
-                argBuf.append(ch);
+                argBuf.append( ch );
                 last = ch;
             }
         }
@@ -414,26 +406,25 @@ public class StringUtils
       * @param newString replace oldString with this.
       * @return String string with replacements.
       */
-    public static final String sub(String line, String oldString,
-            String newString)
+    public static final String sub( String line, String oldString, String newString )
     {
         int i = 0;
-        if ((i = line.indexOf(oldString, i)) >= 0)
+        if ( ( i = line.indexOf( oldString, i ) ) >= 0 )
         {
-            char [] line2 = line.toCharArray();
-            char [] newString2 = newString.toCharArray();
+            char[] line2 = line.toCharArray();
+            char[] newString2 = newString.toCharArray();
             int oLength = oldString.length();
-            StringBuffer buf = new StringBuffer(line2.length);
-            buf.append(line2, 0, i).append(newString2);
+            StringBuffer buf = new StringBuffer( line2.length );
+            buf.append( line2, 0, i ).append( newString2 );
             i += oLength;
             int j = i;
-            while ((i = line.indexOf(oldString, i)) > 0)
+            while ( ( i = line.indexOf( oldString, i ) ) > 0 )
             {
-                buf.append(line2, j, i - j).append(newString2);
+                buf.append( line2, j, i - j ).append( newString2 );
                 i += oLength;
                 j = i;
             }
-            buf.append(line2, j, line2.length - j);
+            buf.append( line2, j, line2.length - j );
             return buf.toString();
         }
         return line;
@@ -445,17 +436,17 @@ public class StringUtils
      * @param e A Throwable.
      * @return A String.
      */
-    public static final String stackTrace(Throwable e)
+    public static final String stackTrace( Throwable e )
     {
         String foo = null;
         try
         {
             // And show the Error Screen.
             ByteArrayOutputStream ostr = new ByteArrayOutputStream();
-            e.printStackTrace( new PrintWriter(ostr,true) );
+            e.printStackTrace( new PrintWriter( ostr, true ) );
             foo = ostr.toString();
         }
-        catch (Exception f)
+        catch ( Exception f )
         {
             // Do nothing.
         }
@@ -472,65 +463,61 @@ public class StringUtils
      * @param path Path to be normalized
      * @return String normalized path
      */
-    public static final String normalizePath(String path)
+    public static final String normalizePath( String path )
     {
         // Normalize the slashes and add leading slash if necessary
         String normalized = path;
-        if (normalized.indexOf('\\') >= 0)
+        if ( normalized.indexOf( '\\' ) >= 0 )
         {
-            normalized = normalized.replace('\\', '/');
+            normalized = normalized.replace( '\\', '/' );
         }
 
-        if (!normalized.startsWith("/"))
+        if ( !normalized.startsWith( "/" ) )
         {
             normalized = "/" + normalized;
         }
 
         // Resolve occurrences of "//" in the normalized path
-        while (true)
+        while ( true )
         {
-            int index = normalized.indexOf("//");
-            if (index < 0)
+            int index = normalized.indexOf( "//" );
+            if ( index < 0 )
                 break;
-            normalized = normalized.substring(0, index) +
-            normalized.substring(index + 1);
+            normalized = normalized.substring( 0, index ) + normalized.substring( index + 1 );
         }
 
         // Resolve occurrences of "%20" in the normalized path
-        while (true)
+        while ( true )
         {
-            int index = normalized.indexOf("%20");
-            if (index < 0)
+            int index = normalized.indexOf( "%20" );
+            if ( index < 0 )
                 break;
-            normalized = normalized.substring(0, index) + " " +
-            normalized.substring(index + 3);
+            normalized = normalized.substring( 0, index ) + " " + normalized.substring( index + 3 );
         }
 
         // Resolve occurrences of "/./" in the normalized path
-        while (true)
+        while ( true )
         {
-            int index = normalized.indexOf("/./");
-            if (index < 0)
+            int index = normalized.indexOf( "/./" );
+            if ( index < 0 )
                 break;
-            normalized = normalized.substring(0, index) +
-            normalized.substring(index + 2);
+            normalized = normalized.substring( 0, index ) + normalized.substring( index + 2 );
         }
 
         // Resolve occurrences of "/../" in the normalized path
-        while (true)
+        while ( true )
         {
-            int index = normalized.indexOf("/../");
-            if (index < 0)
+            int index = normalized.indexOf( "/../" );
+            if ( index < 0 )
                 break;
-            if (index == 0)
-                return (null);  // Trying to go outside our context
-            int index2 = normalized.lastIndexOf('/', index - 1);
-            normalized = normalized.substring(0, index2) +
-            normalized.substring(index + 3);
+            if ( index == 0 )
+                return ( null ); // Trying to go outside our context
+            int index2 = normalized.lastIndexOf( '/', index - 1 );
+            normalized = normalized.substring( 0, index2 ) + normalized.substring( index + 3 );
         }
 
         // Return the normalized path that we have completed
-        return (normalized);
+        return ( normalized );
     }
 
     /**
@@ -542,9 +529,9 @@ public class StringUtils
      * @param falseString
      * @return Selected result.
      */
-    public String select(boolean state, String trueString, String falseString)
+    public String select( boolean state, String trueString, String falseString )
     {
-        if (state)
+        if ( state )
         {
             return trueString;
         }
@@ -561,13 +548,13 @@ public class StringUtils
      * @param list A list of {@link java.lang.String} objects.
      * @return     Whether all strings are empty.
      */
-    public boolean allEmpty(List list)
+    public boolean allEmpty( List<String> list )
     {
         int size = list.size();
 
-        for (int i = 0; i < size; i++)
+        for ( int i = 0; i < size; i++ )
         {
-            if (list.get(i) != null && list.get(i).toString().length() > 0)
+            if ( list.get( i ) != null && list.get( i ).length() > 0 )
             {
                 return false;
             }
@@ -581,14 +568,16 @@ public class StringUtils
      * @return List of trimmed strings.
      * @since 1.5
      */
-    public static List trimStrings(List list)
+    public static List<String> trimStrings( List<String> list )
     {
-        if (list == null)
+        if ( list == null )
+        {
             return null;
+        }
 
         int sz = list.size();
-        for (int i = 0; i < sz; i++)
-            list.set(i,nullTrim((String) list.get(i)));
+        for ( int i = 0; i < sz; i++ )
+            list.set( i, nullTrim( list.get( i ) ) );
         return list;
     }
 
@@ -598,9 +587,9 @@ public class StringUtils
      * @return List of trimmed Strings.
      * @since 1.5
      */
-    public static String nullTrim(String s)
+    public static String nullTrim( String s )
     {
-        if (s == null)
+        if ( s == null )
         {
             return null;
         }

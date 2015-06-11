@@ -19,10 +19,9 @@ package org.apache.velocity.runtime.resource;
  * under the License.    
  */
 
-import org.apache.velocity.runtime.RuntimeServices;
-
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeServices;
 
 /**
  * Class to manage the text resource for the Velocity

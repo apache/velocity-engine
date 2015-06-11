@@ -1,35 +1,29 @@
 package org.apache.velocity.runtime.resource.loader;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.io.InputStream;
-
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
-import org.apache.velocity.util.StringUtils;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * <p>
@@ -62,70 +56,71 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
  * @version $Id$
  */
-public class JarResourceLoader extends ResourceLoader
+public class JarResourceLoader
+    extends ResourceLoader
 {
     /**
      * Maps entries to the parent JAR File
      * Key = the entry *excluding* plain directories
      * Value = the JAR URL
      */
-    private Map entryDirectory = new HashMap(559);
+    private Map<String, String> entryDirectory = new HashMap<String, String>( 559 );
 
     /**
      * Maps JAR URLs to the actual JAR
      * Key = the JAR URL
      * Value = the JAR
      */
-    private Map jarfiles = new HashMap(89);
+    private Map<String, JarHolder> jarfiles = new HashMap<String, JarHolder>( 89 );
 
     /**
      * Called by Velocity to initialize the loader
      * @param configuration
      */
-    public void init( ExtendedProperties configuration)
+    public void init( ExtendedProperties configuration )
     {
-        log.trace("JarResourceLoader : initialization starting.");
+        log.trace( "JarResourceLoader : initialization starting." );
 
         // rest of Velocity engine still use legacy Vector
         // and Hashtable classes. Classes are implicitly
         // synchronized even if we don't need it.
-        Vector paths = configuration.getVector("path");
-        StringUtils.trimStrings(paths);
+        Vector<String> paths = configuration.getVector( "path" );
+        StringUtils.trimStrings( paths );
 
-        if (paths != null)
+        if ( paths != null )
         {
-            log.debug("JarResourceLoader # of paths : " + paths.size() );
+            log.debug( "JarResourceLoader # of paths : " + paths.size() );
 
-            for ( int i=0; i<paths.size(); i++ )
+            for ( int i = 0; i < paths.size(); i++ )
             {
-                loadJar( (String)paths.get(i) );
+                loadJar( paths.get( i ) );
             }
         }
 
-        log.trace("JarResourceLoader : initialization complete.");
+        log.trace( "JarResourceLoader : initialization complete." );
     }
 
     private void loadJar( String path )
     {
-        if (log.isDebugEnabled())
+        if ( log.isDebugEnabled() )
         {
-            log.debug("JarResourceLoader : trying to load \"" + path + "\"");
+            log.debug( "JarResourceLoader : trying to load \"" + path + "\"" );
         }
 
         // Check path information
         if ( path == null )
         {
             String msg = "JarResourceLoader : can not load JAR - JAR path is null";
-            log.error(msg);
-            throw new RuntimeException(msg);
+            log.error( msg );
+            throw new RuntimeException( msg );
         }
-        if ( !path.startsWith("jar:") )
+        if ( !path.startsWith( "jar:" ) )
         {
             String msg = "JarResourceLoader : JAR path must start with jar: -> see java.net.JarURLConnection for information";
-            log.error(msg);
-            throw new RuntimeException(msg);
+            log.error( msg );
+            throw new RuntimeException( msg );
         }
-        if ( path.indexOf("!/") < 0 )
+        if ( path.indexOf( "!/" ) < 0 )
         {
             path += "!/";
         }
@@ -135,7 +130,7 @@ public class JarResourceLoader extends ResourceLoader
         closeJar( path );
 
         // Create a new JarHolder
-        JarHolder temp = new JarHolder( rsvc,  path );
+        JarHolder temp = new JarHolder( rsvc, path );
         // Add it's entries to the entryCollection
         addEntries( temp.getEntries() );
         // Add it to the Jar table
@@ -148,9 +143,9 @@ public class JarResourceLoader extends ResourceLoader
      */
     private void closeJar( String path )
     {
-        if ( jarfiles.containsKey(path) )
+        if ( jarfiles.containsKey( path ) )
         {
-            JarHolder theJar = (JarHolder)jarfiles.get(path);
+            JarHolder theJar = jarfiles.get( path );
             theJar.close();
         }
     }
@@ -159,7 +154,7 @@ public class JarResourceLoader extends ResourceLoader
      * Copy all the entries into the entryDirectory
      * It will overwrite any duplicate keys.
      */
-    private void addEntries( Hashtable entries )
+    private void addEntries( Map<String, String> entries )
     {
         entryDirectory.putAll( entries );
     }
@@ -178,56 +173,53 @@ public class JarResourceLoader extends ResourceLoader
     {
         InputStream results = null;
 
-        if (org.apache.commons.lang3.StringUtils.isEmpty(source))
+        if ( org.apache.commons.lang3.StringUtils.isEmpty( source ) )
         {
-            throw new ResourceNotFoundException("Need to have a resource!");
+            throw new ResourceNotFoundException( "Need to have a resource!" );
         }
 
         String normalizedPath = StringUtils.normalizePath( source );
 
         if ( normalizedPath == null || normalizedPath.length() == 0 )
         {
-            String msg = "JAR resource error : argument " + normalizedPath +
-                " contains .. and may be trying to access " +
-                "content outside of template root.  Rejected.";
+            String msg = "JAR resource error : argument " + normalizedPath
+                + " contains .. and may be trying to access " + "content outside of template root.  Rejected.";
 
             log.error( "JarResourceLoader : " + msg );
 
-            throw new ResourceNotFoundException ( msg );
+            throw new ResourceNotFoundException( msg );
         }
 
         /*
          *  if a / leads off, then just nip that :)
          */
-        if ( normalizedPath.startsWith("/") )
+        if ( normalizedPath.startsWith( "/" ) )
         {
-            normalizedPath = normalizedPath.substring(1);
+            normalizedPath = normalizedPath.substring( 1 );
         }
 
         if ( entryDirectory.containsKey( normalizedPath ) )
         {
-            String jarurl  = (String)entryDirectory.get( normalizedPath );
+            String jarurl = entryDirectory.get( normalizedPath );
 
             if ( jarfiles.containsKey( jarurl ) )
             {
-                JarHolder holder = (JarHolder)jarfiles.get( jarurl );
-                results =  holder.getResource( normalizedPath );
+                JarHolder holder = jarfiles.get( jarurl );
+                results = holder.getResource( normalizedPath );
                 return results;
             }
         }
 
-        throw new ResourceNotFoundException( "JarResourceLoader Error: cannot find resource " +
-          source );
+        throw new ResourceNotFoundException( "JarResourceLoader Error: cannot find resource " + source );
 
     }
-
 
     // TODO: SHOULD BE DELEGATED TO THE JARHOLDER
 
     /**
      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
-    public boolean isSourceModified(Resource resource)
+    public boolean isSourceModified( Resource resource )
     {
         return true;
     }
@@ -235,7 +227,7 @@ public class JarResourceLoader extends ResourceLoader
     /**
      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
-    public long getLastModified(Resource resource)
+    public long getLastModified( Resource resource )
     {
         return 0;
     }

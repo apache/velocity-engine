@@ -16,6 +16,7 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.lang.reflect.Method;
+
 import org.apache.velocity.runtime.log.Log;
 
 /**

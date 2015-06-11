@@ -1,22 +1,18 @@
 package org.apache.velocity.util;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.io.InputStream;
@@ -30,8 +26,6 @@ import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.VelMethod;
 
-
-
 /**
  * Simple utility functions for manipulating classes and resources
  * from the classloader.
@@ -40,7 +34,8 @@ import org.apache.velocity.util.introspection.VelMethod;
  *  @version $Id$
  * @since 1.5
  */
-public class ClassUtils {
+public class ClassUtils
+{
 
     /**
      * Utility class; cannot be instantiated.
@@ -60,19 +55,20 @@ public class ClassUtils {
      * @return the requested Class object
      * @throws ClassNotFoundException
      */
-    public static Class getClass(String clazz) throws ClassNotFoundException
+    public static Class<?> getClass( String clazz )
+        throws ClassNotFoundException
     {
         /**
          * Use the Thread context classloader if possible
          */
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if (loader != null)
+        if ( loader != null )
         {
             try
             {
-                return Class.forName(clazz, true, loader);
+                return Class.forName( clazz, true, loader );
             }
-            catch (ClassNotFoundException E)
+            catch ( ClassNotFoundException E )
             {
                 /**
                  * If not found with ThreadContext loader, fall thru to
@@ -83,7 +79,7 @@ public class ClassUtils {
         /**
          * Thread context classloader isn't working out, so use system loader.
          */
-        return Class.forName(clazz);
+        return Class.forName( clazz );
     }
 
     /**
@@ -99,10 +95,10 @@ public class ClassUtils {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public static Object getNewInstance(String clazz)
-        throws ClassNotFoundException,IllegalAccessException,InstantiationException
+    public static Object getNewInstance( String clazz )
+        throws ClassNotFoundException, IllegalAccessException, InstantiationException
     {
-        return getClass(clazz).newInstance();
+        return getClass( clazz ).newInstance();
     }
 
     /**
@@ -115,39 +111,38 @@ public class ClassUtils {
      * @param name name of the resource
      * @return InputStream for the resource.
      */
-    public static InputStream getResourceAsStream(Class claz, String name)
+    public static InputStream getResourceAsStream( Class<?> claz, String name )
     {
         InputStream result = null;
 
         /**
          * remove leading slash so path will work with classes in a JAR file
          */
-        while (name.startsWith("/"))
+        while ( name.startsWith( "/" ) )
         {
-            name = name.substring(1);
+            name = name.substring( 1 );
         }
 
-        ClassLoader classLoader = Thread.currentThread()
-                                    .getContextClassLoader();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-        if (classLoader == null)
+        if ( classLoader == null )
         {
             classLoader = claz.getClassLoader();
             result = classLoader.getResourceAsStream( name );
         }
         else
         {
-            result= classLoader.getResourceAsStream( name );
+            result = classLoader.getResourceAsStream( name );
 
             /**
             * for compatibility with texen / ant tasks, fall back to
             * old method when resource is not found.
             */
 
-            if (result == null)
+            if ( result == null )
             {
                 classLoader = claz.getClassLoader();
-                if (classLoader != null)
+                if ( classLoader != null )
                     result = classLoader.getResourceAsStream( name );
             }
         }
@@ -156,118 +151,119 @@ public class ClassUtils {
 
     }
 
-  /**
-   * Lookup a VelMethod object given the method signature that is specified in
-   * the passed in parameters.  This method first searches the cache, if not found in
-   * the cache then uses reflections to inspect Object o, for the given method.
-   * @param methodName Name of method
-   * @param params Array of objects that are parameters to the method
-   * @param paramClasses Array of Classes coresponding to the types in params.
-   * @param o Object to introspect for the given method.
-   * @param context Context from which the method cache is aquirred
-   * @param node ASTNode, used for error reporting.
-   * @param strictRef If no method is found, throw an exception, never return null in this case
-   * @return VelMethod object if the object is found, null if not matching method is found
-   */    
-  public static VelMethod getMethod(String methodName, Object[] params,
-                                    Class[] paramClasses, Object o, InternalContextAdapter context,
-                                    SimpleNode node, boolean strictRef)
-  {
-    VelMethod method = null;
-    try
+    /**
+     * Lookup a VelMethod object given the method signature that is specified in
+     * the passed in parameters.  This method first searches the cache, if not found in
+     * the cache then uses reflections to inspect Object o, for the given method.
+     * @param methodName Name of method
+     * @param params Array of objects that are parameters to the method
+     * @param paramClasses Array of Classes coresponding to the types in params.
+     * @param o Object to introspect for the given method.
+     * @param context Context from which the method cache is aquirred
+     * @param node ASTNode, used for error reporting.
+     * @param strictRef If no method is found, throw an exception, never return null in this case
+     * @return VelMethod object if the object is found, null if not matching method is found
+     */
+    public static VelMethod getMethod( String methodName, Object[] params, Class<?>[] paramClasses, Object o,
+                                       InternalContextAdapter context, SimpleNode node, boolean strictRef )
     {
-      /*
-       * check the cache
-       */
-      MethodCacheKey mck = new MethodCacheKey(methodName, paramClasses);
-      IntrospectionCacheData icd = context.icacheGet(mck);
-
-      /*
-       * like ASTIdentifier, if we have cache information, and the Class of
-       * Object o is the same as that in the cache, we are safe.
-       */
-      if (icd != null && (o != null && icd.contextData == o.getClass()))
-      {
-
-        /*
-         * get the method from the cache
-         */
-        method = (VelMethod) icd.thingy;
-      } 
-      else
-      {
-        /*
-         * otherwise, do the introspection, and then cache it
-         */
-        method = node.getRuntimeServices().getUberspect().getMethod(o, methodName, params,
-           new Info(node.getTemplateName(), node.getLine(), node.getColumn()));
-
-        if ((method != null) && (o != null))
+        VelMethod method = null;
+        try
         {
-          icd = new IntrospectionCacheData();
-          icd.contextData = o.getClass();
-          icd.thingy = method;
+            /*
+             * check the cache
+             */
+            MethodCacheKey mck = new MethodCacheKey( methodName, paramClasses );
+            IntrospectionCacheData icd = context.icacheGet( mck );
 
-          context.icachePut(mck, icd);
+            /*
+             * like ASTIdentifier, if we have cache information, and the Class of
+             * Object o is the same as that in the cache, we are safe.
+             */
+            if ( icd != null && ( o != null && icd.contextData == o.getClass() ) )
+            {
+
+                /*
+                 * get the method from the cache
+                 */
+                method = (VelMethod) icd.thingy;
+            }
+            else
+            {
+                /*
+                 * otherwise, do the introspection, and then cache it
+                 */
+                method = node
+                    .getRuntimeServices()
+                    .getUberspect()
+                    .getMethod( o, methodName, params,
+                                new Info( node.getTemplateName(), node.getLine(), node.getColumn() ) );
+
+                if ( ( method != null ) && ( o != null ) )
+                {
+                    icd = new IntrospectionCacheData();
+                    icd.contextData = o.getClass();
+                    icd.thingy = method;
+
+                    context.icachePut( mck, icd );
+                }
+            }
+
+            /*
+             * if we still haven't gotten the method, either we are calling a method
+             * that doesn't exist (which is fine...) or I screwed it up.
+             */
+            if ( method == null )
+            {
+                if ( strictRef )
+                {
+                    // Create a parameter list for the exception error message
+                    StringBuffer plist = new StringBuffer();
+                    for ( int i = 0; i < params.length; i++ )
+                    {
+                        Class<?> param = paramClasses[i];
+                        plist.append( param == null ? "null" : param.getName() );
+                        if ( i < params.length - 1 )
+                            plist.append( ", " );
+                    }
+                    throw new MethodInvocationException( "Object '" + o.getClass().getName()
+                        + "' does not contain method " + methodName + "(" + plist + ")", null, methodName,
+                                                         node.getTemplateName(), node.getLine(), node.getColumn() );
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
         }
-      }
+        catch ( MethodInvocationException mie )
+        {
+            /*
+             * this can come from the doIntrospection(), as the arg values are
+             * evaluated to find the right method signature. We just want to propogate
+             * it here, not do anything fancy
+             */
 
-      /*
-       * if we still haven't gotten the method, either we are calling a method
-       * that doesn't exist (which is fine...) or I screwed it up.
-       */
-      if (method == null)
-      {
-        if (strictRef)
-        {
-          // Create a parameter list for the exception error message
-          StringBuffer plist = new StringBuffer();
-          for (int i = 0; i < params.length; i++)
-          {
-            Class param = paramClasses[i];
-            plist.append(param == null ? "null" : param.getName());
-            if (i < params.length - 1)
-              plist.append(", ");
-          }
-          throw new MethodInvocationException("Object '"
-              + o.getClass().getName() + "' does not contain method "
-              + methodName + "(" + plist + ")", null, methodName, node
-               .getTemplateName(), node.getLine(), node.getColumn());
-        } 
-        else
-        {
-          return null;
+            throw mie;
         }
-      }
+        catch ( RuntimeException e )
+        {
+            /**
+             * pass through application level runtime exceptions
+             */
+            throw e;
+        }
+        catch ( Exception e )
+        {
+            /*
+             * can come from the doIntropection() also, from Introspector
+             */
+            String msg = "ASTMethod.execute() : exception from introspection";
+            throw new VelocityException( msg, e );
+        }
 
-    } 
-    catch (MethodInvocationException mie)
-    {
-      /*
-       * this can come from the doIntrospection(), as the arg values are
-       * evaluated to find the right method signature. We just want to propogate
-       * it here, not do anything fancy
-       */
-
-      throw mie;
-    }    
-    catch (RuntimeException e)
-    {
-      /**
-       * pass through application level runtime exceptions
-       */
-      throw e;
-    } 
-    catch (Exception e)
-    {
-      /*
-       * can come from the doIntropection() also, from Introspector
-       */
-      String msg = "ASTMethod.execute() : exception from introspection";
-      throw new VelocityException(msg, e);
+        return method;
     }
 
-    return method;
-  }
-    
 }

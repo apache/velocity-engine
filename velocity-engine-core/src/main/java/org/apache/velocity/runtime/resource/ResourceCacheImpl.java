@@ -25,10 +25,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Default implementation of the resource cache for the default

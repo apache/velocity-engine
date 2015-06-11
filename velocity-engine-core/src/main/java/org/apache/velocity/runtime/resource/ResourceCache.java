@@ -20,6 +20,7 @@ package org.apache.velocity.runtime.resource;
  */
 
 import java.util.Iterator;
+
 import org.apache.velocity.runtime.RuntimeServices;
 
 /**

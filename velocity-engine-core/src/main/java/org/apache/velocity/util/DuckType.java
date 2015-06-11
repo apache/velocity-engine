@@ -1,22 +1,18 @@
 package org.apache.velocity.util;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.lang.reflect.Array;
@@ -35,138 +31,133 @@ import java.util.HashMap;
  */
 public class DuckType
 {
-    protected enum Types
-    {
-        STRING("getAsString"),
-        NUMBER("getAsNumber"),
-        BOOLEAN("getAsBoolean"),
-        EMPTY("isEmpty");
+    protected enum Types {
+        STRING("getAsString"), NUMBER("getAsNumber"), BOOLEAN("getAsBoolean"), EMPTY("isEmpty");
 
         final String name;
-        final Map<Class,Object> cache = new HashMap();
 
-        Types(String name)
+        final Map<Class<?>, Object> cache = new HashMap<Class<?>, Object>();
+
+        Types( String name )
         {
             this.name = name;
         }
 
-        void set(Class c, Object o)
+        void set( Class<?> c, Object o )
         {
-            cache.put(c, o);
+            cache.put( c, o );
         }
 
-        Object get(Class c)
+        Object get( Class<?> c )
         {
-            return cache.get(c);
+            return cache.get( c );
         }
     }
 
     protected static final Object NO_METHOD = new Object();
 
-    public static String asString(Object value)
+    public static String asString( Object value )
     {
-        return asString(value, true);
+        return asString( value, true );
     }
 
-    public static String asString(Object value, boolean coerceType)
+    public static String asString( Object value, boolean coerceType )
     {
-        if (value == null)
+        if ( value == null )
         {
             return null;
         }
-        if (value instanceof String)
+        if ( value instanceof String )
         {
-            return (String)value;
+            return (String) value;
         }
-        Object got = get(value, Types.STRING);
-        if (got == NO_METHOD)
+        Object got = get( value, Types.STRING );
+        if ( got == NO_METHOD )
         {
             return coerceType ? value.toString() : null;
         }
-        return (String)got;
+        return (String) got;
     }
 
-    public static boolean asNull(Object value)
+    public static boolean asNull( Object value )
     {
-        if (value == null ||
-            get(value, Types.STRING) == null ||
-            get(value, Types.NUMBER) == null)
+        if ( value == null || get( value, Types.STRING ) == null || get( value, Types.NUMBER ) == null )
         {
             return true;
         }
         return false;
     }
 
-    public static boolean asBoolean(Object value)
+    public static boolean asBoolean( Object value )
     {
-        return asBoolean(value, true);
+        return asBoolean( value, true );
     }
 
-    public static boolean asBoolean(Object value, boolean coerceType)
+    public static boolean asBoolean( Object value, boolean coerceType )
     {
-        if (value == null)
+        if ( value == null )
         {
             return false;
         }
-        if (value instanceof Boolean)
+        if ( value instanceof Boolean )
         {
-            return ((Boolean)value).booleanValue();
+            return ( (Boolean) value ).booleanValue();
         }
-        Object got = get(value, Types.BOOLEAN);
-        if (got != NO_METHOD)
+        Object got = get( value, Types.BOOLEAN );
+        if ( got != NO_METHOD )
         {
-            return ((Boolean)got).booleanValue();
+            return ( (Boolean) got ).booleanValue();
         }
-        if (coerceType)
+        if ( coerceType )
         {
-            return !asEmpty(value);
+            return !asEmpty( value );
         }
         return true;
     }
 
     // see VELOCITY-692 for discussion about empty values
-    public static boolean asEmpty(Object value)
+    public static boolean asEmpty( Object value )
     {
         // empty variable
-        if (value == null)
+        if ( value == null )
         {
             return true;
         }
 
         // empty string
-        if (value instanceof CharSequence)
+        if ( value instanceof CharSequence )
         {
-            return ((CharSequence)value).length() == 0;
+            return ( (CharSequence) value ).length() == 0;
         }
 
         // isEmpty() object
-        Object isEmpty = get(value, Types.EMPTY);
-        if (isEmpty != NO_METHOD)
+        Object isEmpty = get( value, Types.EMPTY );
+        if ( isEmpty != NO_METHOD )
         {
-            return (Boolean)isEmpty;
+            return (Boolean) isEmpty;
         }
 
         // empty array
-        if (value.getClass().isArray())
+        if ( value.getClass().isArray() )
         {
-            return Array.getLength(value) == 0;// [] is false
+            return Array.getLength( value ) == 0;// [] is false
         }
 
         // null getAsString()
-        Object asString = get(value, Types.STRING);
-        if (asString == null)
+        Object asString = get( value, Types.STRING );
+        if ( asString == null )
         {
             return true;// duck null
         }
         // empty getAsString()
-        else if (asString != NO_METHOD)
+        else if ( asString != NO_METHOD )
         {
-            return ((String)asString).length() == 0;
+            return ( (String) asString ).length() == 0;
         }
 
         // null getAsNumber()
-        Object asNumber = get(value, Types.NUMBER);
-        if (asNumber == null)
+        Object asNumber = get( value, Types.NUMBER );
+        if ( asNumber == null )
         {
             return true;
         }
@@ -176,112 +167,114 @@ public class DuckType
         return string == null || string.length() == 0;
     }
 
-    public static Number asNumber(Object value)
+    public static Number asNumber( Object value )
     {
-        return asNumber(value, true);
+        return asNumber( value, true );
     }
 
-    public static Number asNumber(Object value, boolean coerceType)
+    public static Number asNumber( Object value, boolean coerceType )
     {
-        if (value == null)
+        if ( value == null )
         {
             return null;
         }
-        if (value instanceof Number)
+        if ( value instanceof Number )
         {
-            return (Number)value;
+            return (Number) value;
         }
-        Object got = get(value, Types.NUMBER);
-        if (got != NO_METHOD)
+        Object got = get( value, Types.NUMBER );
+        if ( got != NO_METHOD )
         {
-            return (Number)got;
+            return (Number) got;
         }
-        if (coerceType)
+        if ( coerceType )
         {
-            String string = asString(value);// coerce to string
-            if (string != null)
+            String string = asString( value );// coerce to string
+            if ( string != null )
             {
-                return new BigDecimal(string);
+                return new BigDecimal( string );
             }
         }
         return null;
     }
 
-    protected static Object get(Object value, Types type)
+    protected static Object get( Object value, Types type )
     {
         try
         {
             // check cache
-            Class c = value.getClass();
-            Object cached = type.get(c);
-            if (cached == NO_METHOD)
+            Class<?> c = value.getClass();
+            Object cached = type.get( c );
+            if ( cached == NO_METHOD )
             {
                 return cached;
             }
-            if (cached != null)
+            if ( cached != null )
             {
-                return ((Method)cached).invoke(value);
+                return ( (Method) cached ).invoke( value );
             }
             // ok, search the class
-            Method method = findMethod(c, type);
-            if (method == null)
+            Method method = findMethod( c, type );
+            if ( method == null )
             {
-                type.set(c, NO_METHOD);
+                type.set( c, NO_METHOD );
                 return NO_METHOD;
             }
-            type.set(c, method);
-            return method.invoke(value);
+            type.set( c, method );
+            return method.invoke( value );
         }
-        catch (RuntimeException re)
+        catch ( RuntimeException re )
         {
             throw re;
         }
-        catch (Exception e)
+        catch ( Exception e )
         {
-            throw new RuntimeException(e);// no checked exceptions, please
+            throw new RuntimeException( e );// no checked exceptions, please
         }
     }
 
-    protected static Method findMethod(Class c, Types type)
+    protected static Method findMethod( Class<?> c, Types type )
     {
-        if (c == null || c == Object.class)
+        if ( c == null || c == Object.class )
         {
             return null;
         }
-        Method m = getMethod(c, type.name);
-        if (m != null)
+        Method m = getMethod( c, type.name );
+        if ( m != null )
         {
             return m;
         }
-        for (Class i : c.getInterfaces())
+        for ( Class<?> i : c.getInterfaces() )
         {
-            m = findMethod(i, type);
-            if (m != null)
+            m = findMethod( i, type );
+            if ( m != null )
             {
                 return m;
             }
         }
-        m = findMethod(c.getSuperclass(), type);
-        if (m != null)
+        m = findMethod( c.getSuperclass(), type );
+        if ( m != null )
         {
             return m;
         }
         return null;
     }
 
-    private static Method getMethod(Class c, String name)
+    private static Method getMethod( Class<?> c, String name )
     {
-        if (Modifier.isPublic(c.getModifiers()))
+        if ( Modifier.isPublic( c.getModifiers() ) )
         {
             try
             {
-                Method m = c.getDeclaredMethod(name);
-                if (Modifier.isPublic(m.getModifiers()))
+                Method m = c.getDeclaredMethod( name );
+                if ( Modifier.isPublic( m.getModifiers() ) )
                 {
                     return m;
                 }
             }
-            catch (NoSuchMethodException nsme) {}
+            catch ( NoSuchMethodException nsme )
+            {
+            }
         }
         return null;
     }

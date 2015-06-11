@@ -21,10 +21,11 @@ package org.apache.velocity.runtime.directive;
 
 import java.io.Writer;
 import java.util.ArrayList;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;

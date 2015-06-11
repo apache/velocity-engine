@@ -1,22 +1,18 @@
 package org.apache.velocity.runtime.parser.node;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.    
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import org.apache.velocity.exception.VelocityException;
@@ -36,7 +32,8 @@ import org.apache.velocity.util.introspection.Introspector;
  *  @author <a href="geirm@apache.org">Geir Magnusson Jr.</a>
  *  @version $Id$
  */
-public class BooleanPropertyExecutor extends PropertyExecutor
+public class BooleanPropertyExecutor
+    extends PropertyExecutor
 {
     /**
      * @param log
@@ -45,64 +42,63 @@ public class BooleanPropertyExecutor extends PropertyExecutor
      * @param property
      * @since 1.5
      */
-    public BooleanPropertyExecutor(final Log log, final Introspector introspector,
-            final Class clazz, final String property)
+    public BooleanPropertyExecutor( final Log log, final Introspector introspector, final Class<?> clazz,
+                                    final String property )
     {
-        super(log, introspector, clazz, property);
+        super( log, introspector, clazz, property );
     }
 
-    protected void discover(final Class clazz, final String property)
+    protected void discover( final Class<?> clazz, final String property )
     {
         try
         {
-            Object [] params = {};
+            Object[] params = {};
 
-            StringBuffer sb = new StringBuffer("is");
-            sb.append(property);
+            StringBuffer sb = new StringBuffer( "is" );
+            sb.append( property );
 
-            setMethod(getIntrospector().getMethod(clazz, sb.toString(), params));
+            setMethod( getIntrospector().getMethod( clazz, sb.toString(), params ) );
 
-            if (!isAlive())
+            if ( !isAlive() )
             {
                 /*
                  *  now the convenience, flip the 1st character
                  */
 
-                char c = sb.charAt(2);
+                char c = sb.charAt( 2 );
 
-                if (Character.isLowerCase(c))
+                if ( Character.isLowerCase( c ) )
                 {
-                    sb.setCharAt(2, Character.toUpperCase(c));
+                    sb.setCharAt( 2, Character.toUpperCase( c ) );
                 }
                 else
                 {
-                    sb.setCharAt(2, Character.toLowerCase(c));
+                    sb.setCharAt( 2, Character.toLowerCase( c ) );
                 }
 
-                setMethod(getIntrospector().getMethod(clazz, sb.toString(), params));
+                setMethod( getIntrospector().getMethod( clazz, sb.toString(), params ) );
             }
-            
-            if (isAlive())
+
+            if ( isAlive() )
             {
-                if( getMethod().getReturnType() != Boolean.TYPE &&
-                    getMethod().getReturnType() != Boolean.class )
+                if ( getMethod().getReturnType() != Boolean.TYPE && getMethod().getReturnType() != Boolean.class )
                 {
-                    setMethod(null);
+                    setMethod( null );
                 }
             }
         }
         /**
          * pass through application level runtime exceptions
          */
-        catch( RuntimeException e )
+        catch ( RuntimeException e )
         {
             throw e;
         }
-        catch(Exception e)
+        catch ( Exception e )
         {
             String msg = "Exception while looking for boolean property getter for '" + property;
-            log.error(msg, e);
-            throw new VelocityException(msg, e);
+            log.error( msg, e );
+            throw new VelocityException( msg, e );
         }
     }
 }

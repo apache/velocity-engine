@@ -19,9 +19,10 @@ package org.apache.velocity.runtime.resource;
  * under the License.    
  */
 
-import java.io.StringWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
+
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 
