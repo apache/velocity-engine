@@ -49,265 +49,273 @@ import org.apache.velocity.util.RuntimeServicesAware;
  */
 public class EventCartridge
 {
-    private List<ReferenceInsertionEventHandler> referenceHandlers = new ArrayList<ReferenceInsertionEventHandler>();
+	private List<ReferenceInsertionEventHandler> referenceHandlers = new ArrayList<ReferenceInsertionEventHandler>();
 
-    private List<MethodExceptionEventHandler> methodExceptionHandlers = new ArrayList<MethodExceptionEventHandler>();
+	private List<MethodExceptionEventHandler> methodExceptionHandlers = new ArrayList<MethodExceptionEventHandler>();
 
-    private List<IncludeEventHandler> includeHandlers = new ArrayList<IncludeEventHandler>();
+	private List<IncludeEventHandler> includeHandlers = new ArrayList<IncludeEventHandler>();
 
-    private List<InvalidReferenceEventHandler> invalidReferenceHandlers = new ArrayList<InvalidReferenceEventHandler>();
+	private List<InvalidReferenceEventHandler> invalidReferenceHandlers = new ArrayList<InvalidReferenceEventHandler>();
 
-    /**
-     * Ensure that handlers are not initialized more than once.
-     */
-    Set<EventHandler> initializedHandlers = new HashSet<EventHandler>();
+	/**
+	 * Ensure that handlers are not initialized more than once.
+	 */
+	Set<EventHandler> initializedHandlers = new HashSet<EventHandler>();
 
-    /**
-     *  Adds an event handler(s) to the Cartridge.  This method
-     *  will find all possible event handler interfaces supported
-     *  by the passed in object.
-     *
-     *  @param ev object implementing a valid EventHandler-derived interface
-     *  @return true if a supported interface, false otherwise or if null
-     */
-    public boolean addEventHandler( EventHandler ev )
-    {
-        if ( ev == null )
-        {
-            return false;
-        }
+	/**
+	 * Adds an event handler(s) to the Cartridge. This method will find all
+	 * possible event handler interfaces supported by the passed in object.
+	 *
+	 * @param ev
+	 *            object implementing a valid EventHandler-derived interface
+	 * @return true if a supported interface, false otherwise or if null
+	 */
+	public boolean addEventHandler(EventHandler ev)
+	{
+		if (ev == null)
+		{
+			return false;
+		}
 
-        boolean found = false;
+		boolean found = false;
 
-        if ( ev instanceof ReferenceInsertionEventHandler )
-        {
-            addReferenceInsertionEventHandler( (ReferenceInsertionEventHandler) ev );
-            found = true;
-        }
+		if (ev instanceof ReferenceInsertionEventHandler)
+		{
+			addReferenceInsertionEventHandler((ReferenceInsertionEventHandler) ev);
+			found = true;
+		}
 
-        if ( ev instanceof MethodExceptionEventHandler )
-        {
-            addMethodExceptionHandler( (MethodExceptionEventHandler) ev );
-            found = true;
-        }
+		if (ev instanceof MethodExceptionEventHandler)
+		{
+			addMethodExceptionHandler((MethodExceptionEventHandler) ev);
+			found = true;
+		}
 
-        if ( ev instanceof IncludeEventHandler )
-        {
-            addIncludeEventHandler( (IncludeEventHandler) ev );
-            found = true;
-        }
+		if (ev instanceof IncludeEventHandler)
+		{
+			addIncludeEventHandler((IncludeEventHandler) ev);
+			found = true;
+		}
 
-        if ( ev instanceof InvalidReferenceEventHandler )
-        {
-            addInvalidReferenceEventHandler( (InvalidReferenceEventHandler) ev );
-            found = true;
-        }
+		if (ev instanceof InvalidReferenceEventHandler)
+		{
+			addInvalidReferenceEventHandler((InvalidReferenceEventHandler) ev);
+			found = true;
+		}
 
-        return found;
-    }
+		return found;
+	}
 
-    /**
-      *  Add a reference insertion event handler to the Cartridge.
-      *
-      *  @param ev ReferenceInsertionEventHandler
-     * @since 1.5
-     */
-    public void addReferenceInsertionEventHandler( ReferenceInsertionEventHandler ev )
-    {
-        referenceHandlers.add( ev );
-    }
+	/**
+	 * Add a reference insertion event handler to the Cartridge.
+	 *
+	 * @param ev
+	 *            ReferenceInsertionEventHandler
+	 * @since 1.5
+	 */
+	public void addReferenceInsertionEventHandler(
+			ReferenceInsertionEventHandler ev)
+	{
+		referenceHandlers.add(ev);
+	}
 
-    /**
-     *  Add a method exception event handler to the Cartridge.
-     *
-     *  @param ev MethodExceptionEventHandler
-     *  @since 1.5
-     */
-    public void addMethodExceptionHandler( MethodExceptionEventHandler ev )
-    {
-        methodExceptionHandlers.add( ev );
-    }
+	/**
+	 * Add a method exception event handler to the Cartridge.
+	 *
+	 * @param ev
+	 *            MethodExceptionEventHandler
+	 * @since 1.5
+	 */
+	public void addMethodExceptionHandler(MethodExceptionEventHandler ev)
+	{
+		methodExceptionHandlers.add(ev);
+	}
 
-    /**
-     *  Add an include event handler to the Cartridge.
-     *
-     *  @param ev IncludeEventHandler
-     *  @since 1.5
-     */
-    public void addIncludeEventHandler( IncludeEventHandler ev )
-    {
-        includeHandlers.add( ev );
-    }
+	/**
+	 * Add an include event handler to the Cartridge.
+	 *
+	 * @param ev
+	 *            IncludeEventHandler
+	 * @since 1.5
+	 */
+	public void addIncludeEventHandler(IncludeEventHandler ev)
+	{
+		includeHandlers.add(ev);
+	}
 
-    /**
-     *  Add an invalid reference event handler to the Cartridge.
-     *
-     *  @param ev InvalidReferenceEventHandler
-     *  @since 1.5
-     */
-    public void addInvalidReferenceEventHandler( InvalidReferenceEventHandler ev )
-    {
-        invalidReferenceHandlers.add( ev );
-    }
+	/**
+	 * Add an invalid reference event handler to the Cartridge.
+	 *
+	 * @param ev
+	 *            InvalidReferenceEventHandler
+	 * @since 1.5
+	 */
+	public void addInvalidReferenceEventHandler(InvalidReferenceEventHandler ev)
+	{
+		invalidReferenceHandlers.add(ev);
+	}
 
-    /**
-     * Removes an event handler(s) from the Cartridge. This method will find all
-     * possible event handler interfaces supported by the passed in object and
-     * remove them.
-     *
-     * @param ev  object impementing a valid EventHandler-derived interface
-     * @return true if event handler was previously registered, false if not
-     *         found
-     */
-    public boolean removeEventHandler( EventHandler ev )
-    {
-        if ( ev == null )
-        {
-            return false;
-        }
+	/**
+	 * Removes an event handler(s) from the Cartridge. This method will find all
+	 * possible event handler interfaces supported by the passed in object and
+	 * remove them.
+	 *
+	 * @param ev
+	 *            object impementing a valid EventHandler-derived interface
+	 * @return true if event handler was previously registered, false if not
+	 *         found
+	 */
+	public boolean removeEventHandler(EventHandler ev)
+	{
+		if (ev == null)
+		{
+			return false;
+		}
 
-        boolean found = false;
+		boolean found = false;
 
-        if ( ev instanceof ReferenceInsertionEventHandler )
-            return referenceHandlers.remove( ev );
+		if (ev instanceof ReferenceInsertionEventHandler)
+			return referenceHandlers.remove(ev);
 
-        if ( ev instanceof MethodExceptionEventHandler )
-            return methodExceptionHandlers.remove( ev );
+		if (ev instanceof MethodExceptionEventHandler)
+			return methodExceptionHandlers.remove(ev);
 
-        if ( ev instanceof IncludeEventHandler )
-            return includeHandlers.remove( ev );
+		if (ev instanceof IncludeEventHandler)
+			return includeHandlers.remove(ev);
 
-        if ( ev instanceof InvalidReferenceEventHandler )
-            return invalidReferenceHandlers.remove( ev );
+		if (ev instanceof InvalidReferenceEventHandler)
+			return invalidReferenceHandlers.remove(ev);
 
-        return found;
-    }
+		return found;
+	}
 
-    /**
-     * Iterate through all the stored ReferenceInsertionEventHandler objects
-     * 
-     * @return iterator of handler objects, null if there are not handlers
-     * @since 1.5
-     */
-    public Iterator<ReferenceInsertionEventHandler> getReferenceInsertionEventHandlers()
-    {
-        return referenceHandlers.size() == 0 ? null : referenceHandlers.iterator();
-    }
+	/**
+	 * Iterate through all the stored ReferenceInsertionEventHandler objects
+	 * 
+	 * @return iterator of handler objects, null if there are not handlers
+	 * @since 1.5
+	 */
+	public Iterator<ReferenceInsertionEventHandler> getReferenceInsertionEventHandlers()
+	{
+		return referenceHandlers.size() == 0 ? null : referenceHandlers
+				.iterator();
+	}
 
-    /**
-     * Iterate through all the stored MethodExceptionEventHandler objects
-     * 
-     * @return iterator of handler objects
-     * @since 1.5
-     */
-    public Iterator<MethodExceptionEventHandler> getMethodExceptionEventHandlers()
-    {
-        return methodExceptionHandlers.iterator();
-    }
+	/**
+	 * Iterate through all the stored MethodExceptionEventHandler objects
+	 * 
+	 * @return iterator of handler objects
+	 * @since 1.5
+	 */
+	public Iterator<MethodExceptionEventHandler> getMethodExceptionEventHandlers()
+	{
+		return methodExceptionHandlers.iterator();
+	}
 
-    /**
-     * Iterate through all the stored IncludeEventHandlers objects
-     * 
-     * @return iterator of handler objects
-     */
-    public Iterator<IncludeEventHandler> getIncludeEventHandlers()
-    {
-        return includeHandlers.iterator();
-    }
+	/**
+	 * Iterate through all the stored IncludeEventHandlers objects
+	 * 
+	 * @return iterator of handler objects
+	 */
+	public Iterator<IncludeEventHandler> getIncludeEventHandlers()
+	{
+		return includeHandlers.iterator();
+	}
 
-    /**
-     * Iterate through all the stored InvalidReferenceEventHandlers objects
-     * 
-     * @return iterator of handler objects
-     * @since 1.5
-     */
-    public Iterator<InvalidReferenceEventHandler> getInvalidReferenceEventHandlers()
-    {
-        return invalidReferenceHandlers.iterator();
-    }
+	/**
+	 * Iterate through all the stored InvalidReferenceEventHandlers objects
+	 * 
+	 * @return iterator of handler objects
+	 * @since 1.5
+	 */
+	public Iterator<InvalidReferenceEventHandler> getInvalidReferenceEventHandlers()
+	{
+		return invalidReferenceHandlers.iterator();
+	}
 
-    /**
-     *  Attached the EventCartridge to the context
-     *
-     *  Final because not something one should mess with lightly :)
-     *
-     *  @param context context to attach to
-     *  @return true if successful, false otherwise
-     */
-    public final boolean attachToContext( Context context )
-    {
-        if ( context instanceof InternalEventContext )
-        {
-            InternalEventContext iec = (InternalEventContext) context;
+	/**
+	 * Attached the EventCartridge to the context
+	 *
+	 * Final because not something one should mess with lightly :)
+	 *
+	 * @param context
+	 *            context to attach to
+	 * @return true if successful, false otherwise
+	 */
+	public final boolean attachToContext(Context context)
+	{
+		if (context instanceof InternalEventContext)
+		{
+			InternalEventContext iec = (InternalEventContext) context;
 
-            iec.attachEventCartridge( this );
+			iec.attachEventCartridge(this);
 
-            /**
-             * while it's tempting to call setContext on each handler from here,
-             * this needs to be done before each method call.  This is
-             * because the specific context will change as inner contexts
-             * are linked in through macros, foreach, or directly by the user.
-             */
+			/**
+			 * while it's tempting to call setContext on each handler from here,
+			 * this needs to be done before each method call. This is because
+			 * the specific context will change as inner contexts are linked in
+			 * through macros, foreach, or directly by the user.
+			 */
 
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
 
-    /**
-     * Initialize the handlers.  For global handlers this is called when Velocity
-     * is initialized. For local handlers this is called when the first handler
-     * is executed.  Handlers will not be initialized more than once.
-     * 
-     * @param rs
-     * @since 1.5
-     */
-    public void initialize( RuntimeServices rs )
-    {
+	/**
+	 * Initialize the handlers. For global handlers this is called when Velocity
+	 * is initialized. For local handlers this is called when the first handler
+	 * is executed. Handlers will not be initialized more than once.
+	 * 
+	 * @param rs
+	 * @since 1.5
+	 */
+	public void initialize(RuntimeServices rs)
+	{
 
-        for ( Iterator<ReferenceInsertionEventHandler> i = referenceHandlers.iterator(); i.hasNext(); )
-        {
-            EventHandler eh = i.next();
-            if ( ( eh instanceof RuntimeServicesAware ) && !initializedHandlers.contains( eh ) )
-            {
-                ( (RuntimeServicesAware) eh ).setRuntimeServices( rs );
-                initializedHandlers.add( eh );
-            }
-        }
+		for (ReferenceInsertionEventHandler eventHandler : referenceHandlers)
+		{
+			if ((eventHandler instanceof RuntimeServicesAware)
+					&& !initializedHandlers.contains(eventHandler))
+			{
+				((RuntimeServicesAware) eventHandler).setRuntimeServices(rs);
+				initializedHandlers.add(eventHandler);
+			}
 
-        for ( Iterator<MethodExceptionEventHandler> i = methodExceptionHandlers.iterator(); i.hasNext(); )
-        {
-            EventHandler eh = i.next();
-            if ( ( eh instanceof RuntimeServicesAware ) && !initializedHandlers.contains( eh ) )
-            {
-                ( (RuntimeServicesAware) eh ).setRuntimeServices( rs );
-                initializedHandlers.add( eh );
-            }
-        }
+		}
 
-        for ( Iterator<IncludeEventHandler> i = includeHandlers.iterator(); i.hasNext(); )
-        {
-            EventHandler eh = i.next();
-            if ( ( eh instanceof RuntimeServicesAware ) && !initializedHandlers.contains( eh ) )
-            {
-                ( (RuntimeServicesAware) eh ).setRuntimeServices( rs );
-                initializedHandlers.add( eh );
-            }
-        }
+		for (MethodExceptionEventHandler eventHandler : methodExceptionHandlers)
+		{
+			if ((eventHandler instanceof RuntimeServicesAware)
+					&& !initializedHandlers.contains(eventHandler))
+			{
+				((RuntimeServicesAware) eventHandler).setRuntimeServices(rs);
+				initializedHandlers.add(eventHandler);
+			}
+		}
 
-        for ( Iterator<InvalidReferenceEventHandler> i = invalidReferenceHandlers.iterator(); i.hasNext(); )
-        {
-            EventHandler eh = i.next();
-            if ( ( eh instanceof RuntimeServicesAware ) && !initializedHandlers.contains( eh ) )
-            {
-                ( (RuntimeServicesAware) eh ).setRuntimeServices( rs );
-                initializedHandlers.add( eh );
-            }
-        }
+		for (IncludeEventHandler eventHandler : includeHandlers)
+		{
+			if ((eventHandler instanceof RuntimeServicesAware)
+					&& !initializedHandlers.contains(eventHandler))
+			{
+				((RuntimeServicesAware) eventHandler).setRuntimeServices(rs);
+				initializedHandlers.add(eventHandler);
+			}
+		}
 
-    }
+		for (InvalidReferenceEventHandler eventHandler : invalidReferenceHandlers)
+		{
+			if ((eventHandler instanceof RuntimeServicesAware)
+					&& !initializedHandlers.contains(eventHandler))
+			{
+				((RuntimeServicesAware) eventHandler).setRuntimeServices(rs);
+				initializedHandlers.add(eventHandler);
+			}
+
+		}
+	}
 
 }
