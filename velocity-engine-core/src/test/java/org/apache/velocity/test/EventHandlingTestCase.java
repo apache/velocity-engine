@@ -19,10 +19,7 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-import java.io.Writer;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
@@ -32,7 +29,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.ContextAware;
 import org.apache.velocity.util.RuntimeServicesAware;
-import org.apache.velocity.test.misc.TestLogChute;
 
 /**
  * Tests event handling for all event handlers except IncludeEventHandler.  This is tested
