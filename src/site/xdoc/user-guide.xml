@@ -250,34 +250,6 @@ Hello $customer.Name!
   <version>x.x.x</version>
 </dependency>]]>
     </source>
-    <p>If you want to connect Velocity log facility to Commons Logging, SLF4J, Log4j or the servlet logger,
-    choose the appropriate dependency:</p>
-    <source><![CDATA[
-<dependency>
-  <groupId>org.apache.velocity</groupId>
-  <artifactId>velocity-engine-commons-logging</artifactId>
-  <version>x.x.x</version>
-</dependency>
-
-<dependency>
-  <groupId>org.apache.velocity</groupId>
-  <artifactId>velocity-engine-slf4j</artifactId>
-  <version>x.x.x</version>
-</dependency>
-
-<dependency>
-  <groupId>org.apache.velocity</groupId>
-  <artifactId>velocity-engine-log4j</artifactId>
-  <version>x.x.x</version>
-</dependency>
-
-<dependency>
-  <groupId>org.apache.velocity</groupId>
-  <artifactId>velocity-engine-servlet</artifactId>
-  <version>x.x.x</version>
-</dependency>
-]]>
-    </source>
  </subsection>
  <subsection name="Other users" href="Other_users">
 	 <p>
@@ -294,20 +266,7 @@ Hello $customer.Name!
 	 <ul>
 	 	<li><strong>velocity-engine-core-x.x.x.jar</strong>: The main Velocity library. It
 	 	must be included at all times.</li>
-	 	<li><strong>velocity-engine-commons-logging-x.x.x.jar</strong>: It contains the binding to
-	 	Commons Logging, so all log messages will be directed to it. To be used in
-	 	conjunction with Commons Logging (included in "lib" directory).</li>
-        <li><strong>velocity-engine-slf4j-x.x.x.jar</strong>: It contains the binding to
-        SLF4J, so all log messages will be directed to it. To be used in
-        conjunction with SLF4J (included in "lib" directory).</li>
-	 	<li><strong>velocity-engine-log4j-x.x.x.jar</strong>: It contains the binding to
-	 	Log4j, so all log messages will be directed to it. To be used in
-	 	conjunction with Log4j (included in "lib" directory).</li>
-	 	<li><strong>velocity-engine-servlet-x.x.x.jar</strong>: It contains the binding to
-	 	the servlet logger. To be used in a servlet container.</li>
 	 </ul>
-	 <p>The extra jars you will always need always are Commons Collections and Commons Lang,
-     included in "lib" directory.</p>
  </subsection>
 </section>
 

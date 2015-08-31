@@ -23,11 +23,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * Break directive used for interrupting scopes.
@@ -98,7 +98,7 @@ public class Break extends Directive
         {
             throw new VelocityException(node.jjtGetChild(0).literal()+
                 " is not a valid " + Scope.class.getName() + " instance at "
-                + Log.formatFileString(this));
+                + StringUtils.formatFileString(this));
         }
     }
     

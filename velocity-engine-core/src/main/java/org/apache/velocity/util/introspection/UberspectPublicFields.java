@@ -20,7 +20,9 @@
 package org.apache.velocity.util.introspection;
 
 import java.util.Iterator;
-import org.apache.velocity.runtime.log.Log;
+
+import org.slf4j.Logger;
+
 import org.apache.velocity.runtime.parser.node.PublicFieldExecutor;
 import org.apache.velocity.runtime.parser.node.SetPublicFieldExecutor;
 import org.apache.velocity.util.introspection.UberspectImpl.VelGetterImpl;
@@ -38,7 +40,7 @@ public class UberspectPublicFields implements Uberspect, UberspectLoggable
     /**
      *  Our runtime logger.
      */
-    protected Log log;
+    protected Logger log;
 
     /**
      *  the default Velocity introspector
@@ -62,7 +64,7 @@ public class UberspectPublicFields implements Uberspect, UberspectLoggable
      * @param log The logger instance to use.
      * @since 1.5
      */
-    public void setLog(Log log)
+    public void setLog(Logger log)
     {
         this.log = log;
     }

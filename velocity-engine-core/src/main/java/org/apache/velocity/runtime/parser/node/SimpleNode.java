@@ -23,15 +23,17 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.util.StringUtils;
 
 /**
  *
@@ -42,7 +44,7 @@ public class SimpleNode implements Node
     protected RuntimeServices rsvc = null;
 
     /** */
-    protected Log log = null;
+    protected Logger log = null;
 
     /** */
     protected Node parent;
@@ -261,7 +263,7 @@ public class SimpleNode implements Node
      */
     protected String getLocation(InternalContextAdapter context)
     {
-        return Log.formatFileString(this);
+        return StringUtils.formatFileString(this);
     }
 
     // All additional methods

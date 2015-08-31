@@ -23,12 +23,14 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.slf4j.Logger;
+
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * Directive that puts an unrendered AST block in the context
@@ -44,7 +46,7 @@ import org.apache.velocity.runtime.parser.node.Node;
 public abstract class Block extends Directive
 {
     protected Node block;
-    protected Log log;
+    protected Logger log;
     protected int maxDepth;
     protected String key;
 
@@ -83,7 +85,7 @@ public abstract class Block extends Directive
         catch (IOException e)
         {
             String msg = "Failed to render " + id(context) + " to writer "
-              + " at " + Log.formatFileString(this);
+              + " at " + StringUtils.formatFileString(this);
 
             log.error(msg, e);
             throw new RuntimeException(msg, e);
@@ -151,7 +153,7 @@ public abstract class Block extends Directive
                  * pulling it off properly.
                  */
                 parent.log.debug("Max recursion depth reached for " + parent.id(context)
-                    + " at " + Log.formatFileString(parent));
+                    + " at " + StringUtils.formatFileString(parent));
                 depth--;
                 return false;
             }

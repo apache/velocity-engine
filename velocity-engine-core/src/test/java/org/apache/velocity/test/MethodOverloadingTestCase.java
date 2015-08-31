@@ -33,7 +33,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
+import org.apache.velocity.test.misc.TestLogger;
 
 /**
  * Test a reported bug in which method overloading throws IllegalArgumentException 
@@ -43,7 +43,7 @@ import org.apache.velocity.runtime.log.LogChute;
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
-public class MethodOverloadingTestCase extends BaseTestCase implements LogChute
+public class MethodOverloadingTestCase extends BaseTestCase
 {
     String logData;
     
@@ -122,10 +122,10 @@ public class MethodOverloadingTestCase extends BaseTestCase implements LogChute
     public void testFile(String basefilename)
     throws Exception
     {
-        
+        TestLogger logger = new TestLogger();
         VelocityEngine ve = new VelocityEngine();
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-        ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
+        ve.setProperty(VelocityEngine.RUNTIME_LOG_INSTANCE, logger );
         ve.init();
         
         Template template;
@@ -142,7 +142,9 @@ public class MethodOverloadingTestCase extends BaseTestCase implements LogChute
         
         context = new VelocityContext();
         setupContext(context);
+        logger.on();
         template.merge(context, fwriter);
+        logger.off();
         fwriter.flush();
         fwriter.close();
         
@@ -150,6 +152,7 @@ public class MethodOverloadingTestCase extends BaseTestCase implements LogChute
         {
             fail("Output incorrect.");
         }
+        logData = logger.getLog();
     }
         
     public void setupContext(Context context)
@@ -178,54 +181,5 @@ public class MethodOverloadingTestCase extends BaseTestCase implements LogChute
     public String overloadedMethod2 ( String i )
     {
         return "String";
-    }
-
-
-    public void log(int level, String message)
-    {
-        String out = "";
-
-        /*
-         * Start with the appropriate prefix
-         */
-        switch( level )
-        {
-            case DEBUG_ID :
-                out = DEBUG_PREFIX;
-                break;
-            case INFO_ID :
-                out = INFO_PREFIX;
-                break;
-            case TRACE_ID :
-                out = TRACE_PREFIX;
-                break;
-            case WARN_ID :
-                out = WARN_PREFIX;
-                break;
-            case ERROR_ID :
-                out = ERROR_PREFIX;
-                break;
-            default :
-                out = INFO_PREFIX;
-                break;
-        }
-
-        logData += "\n" + out + message;
-    }
-
-    public void init( RuntimeServices rs )
-    {
-        // do nothing with it
-    }
-
-    public void log(int level, String message, Throwable t)
-    {
-        // ignore the Throwable, we're not testing this method here
-        log(level, message);
-    }
-
-    public boolean isLevelEnabled(int level)
-    {
-        return true;
     }
 }

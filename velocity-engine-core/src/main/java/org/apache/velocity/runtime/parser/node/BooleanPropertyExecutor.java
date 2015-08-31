@@ -19,8 +19,9 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
+import org.slf4j.Logger;
+
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
@@ -45,7 +46,7 @@ public class BooleanPropertyExecutor extends PropertyExecutor
      * @param property
      * @since 1.5
      */
-    public BooleanPropertyExecutor(final Log log, final Introspector introspector,
+    public BooleanPropertyExecutor(final Logger log, final Introspector introspector,
             final Class clazz, final String property)
     {
         super(log, introspector, clazz, property);

@@ -23,6 +23,8 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
@@ -31,7 +33,6 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.runtime.log.Log;
 
 /**
  * This class provides  services to the application
@@ -337,7 +338,7 @@ public class Velocity implements RuntimeConstants
      * @return A convenience Log instance that wraps the current LogChute.
      * @since 1.5
      */
-    public static Log getLog()
+    public static Logger getLog()
     {
         return RuntimeSingleton.getLog();
     }

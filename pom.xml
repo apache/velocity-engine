@@ -184,12 +184,7 @@
   </issueManagement>
   <modules>
     <module>velocity-engine-core</module>
-    <module>velocity-engine-log4j</module>
-    <module>velocity-engine-commons-logging</module>
-    <module>velocity-engine-servlet</module>
-    <module>velocity-engine-slf4j</module>
     <module>velocity-engine-examples</module>
-    <module>velocity-engine-uberjar</module>
     <module>velocity-engine-assembly</module>
   </modules>
 

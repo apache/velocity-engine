@@ -22,7 +22,7 @@ package org.apache.velocity.runtime.parser.node;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.velocity.runtime.log.Log;
+import org.slf4j.Logger;
 
 /**
  * Abstract class that is used to execute an arbitrary
@@ -41,7 +41,7 @@ import org.apache.velocity.runtime.log.Log;
 public abstract class SetExecutor
 {
     /** Class logger */
-    protected Log log = null;
+    protected Logger log = null;
 
     /**
      * Method to be executed.

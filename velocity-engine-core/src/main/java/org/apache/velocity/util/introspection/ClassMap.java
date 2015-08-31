@@ -24,7 +24,8 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.velocity.runtime.log.Log;
+
+import org.slf4j.Logger;
 
 /**
  * A cache of introspection information for a specific class instance.
@@ -45,7 +46,7 @@ public class ClassMap
     private static final boolean debugReflection = true;
 
     /** Class logger */
-    private final Log log;
+    private final Logger log;
 
     /**
      * Class passed into the constructor used to as
@@ -59,7 +60,7 @@ public class ClassMap
      * Standard constructor
      * @param clazz The class for which this ClassMap gets constructed.
      */
-    public ClassMap(final Class clazz, final Log log)
+    public ClassMap(final Class clazz, final Logger log)
     {
         this.clazz = clazz;
         this.log = log;
@@ -209,7 +210,7 @@ public class ClassMap
         }
 
     	/** Class logger */
-	    private final Log log;
+	    private final Logger log;
 
         /**
          * Cache of Methods, or CACHE_MISS, keyed by method
@@ -220,7 +221,7 @@ public class ClassMap
         /** Map of methods that are searchable according to method parameters to find a match */
         private final MethodMap methodMap = new MethodMap();
 
-        private MethodCache(Log log)
+        private MethodCache(Logger log)
         {
             this.log = log;
         }

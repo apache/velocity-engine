@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.test.misc.TestLogger;
 
 /**
  * This class is intended to test the app.Velocity.java class.
@@ -53,7 +53,7 @@ public class VelocityAppTestCase extends BaseTestCase implements TemplateTestBas
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
 
         Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+                Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 
         Velocity.init();
     }

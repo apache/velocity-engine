@@ -21,7 +21,7 @@ package org.apache.velocity.util.introspection;
 
 import java.lang.reflect.Method;
 
-import org.apache.velocity.runtime.log.Log;
+import org.slf4j.Logger;
 
 /**
  * This basic function of this class is to return a Method
@@ -55,10 +55,10 @@ import org.apache.velocity.runtime.log.Log;
 public class Introspector extends IntrospectorBase
 {
     /**
-     * @param log A Log object to use for the introspector.
+     * @param log A Logger object to use for the introspector.
      * @since 1.5
      */
-    public Introspector(final Log log)
+    public Introspector(final Logger log)
     {
         super(log);
     }

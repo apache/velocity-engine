@@ -29,13 +29,15 @@ import java.util.ArrayList;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.slf4j.Logger;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
+import org.apache.velocity.test.misc.TestLogger;
 
 /**
  * Tests event handling for all event handlers when multiple event handlers are
@@ -44,7 +46,7 @@ import org.apache.velocity.runtime.log.LogChute;
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
-public class FilteredEventHandlingTestCase extends BaseTestCase implements LogChute
+public class FilteredEventHandlingTestCase extends BaseTestCase
 {
 
     /**
@@ -79,7 +81,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogCh
    private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/includeevent/compare";
 
 
-    private String logString = null;
+	private TestLogger logger = new TestLogger(false, false);
 
     /**
      * Default constructor.
@@ -87,15 +89,6 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogCh
     public FilteredEventHandlingTestCase(String name)
     {
         super(name);
-    }
-
-
-    /**
-     * Required by LogChute
-     */
-    public void init( RuntimeServices rs )
-    {
-        /* don't need it...*/
     }
 
     public static Test suite ()
@@ -116,7 +109,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogCh
          * Set up two VelocityEngines that will apply the handlers in both orders
          */
         VelocityEngine ve = new VelocityEngine();
-        ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, this);
+        ve.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         ve.setProperty(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION, sequence1);
         ve.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, sequence1);
         ve.setProperty(RuntimeConstants.EVENTHANDLER_INCLUDE, sequence1);
@@ -124,7 +117,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogCh
         ve.init();
 
         VelocityEngine ve2 = new VelocityEngine();
-        ve2.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, this);
+        ve2.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         ve2.setProperty(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION, sequence2);
         ve2.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, sequence2);
         ve2.setProperty(RuntimeConstants.EVENTHANDLER_INCLUDE, sequence2);
@@ -182,9 +175,10 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogCh
         // sequence 1
         context = new VelocityContext();
         w = new StringWriter();
-        logString = null;
+        logger.startCapture();
         ve.evaluate( context, w, "test", "#set($test1 = $test2)" );
-        if ( logString != null)
+        String log = logger.getLog();
+        if ( log != null && log.length() > 0)
         {
             fail( "log null set test 1");
         }
@@ -192,13 +186,15 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogCh
         // sequence 2
         context = new VelocityContext();
         w = new StringWriter();
-        logString = null;
+        logger.startCapture();
         ve2.evaluate( context, w, "test", "#set($test1 = $test2)" );
-        if ( logString != null)
+        log = logger.getLog();
+        if ( log != null && log.length() > 0)
         {
             fail( "log null set test 2");
         }
 
+        logger.stopCapture();
 
         // check include event handler with both sequences
 
@@ -243,26 +239,4 @@ public class FilteredEventHandlingTestCase extends BaseTestCase implements LogCh
         }
 
     }
-
-
-
-
-    /**
-     *  handler for LogChute interface
-     */
-    public void log(int level, String message)
-    {
-        logString = message;
-    }
-
-    public void log(int level, String message, Throwable t)
-    {
-        logString = message;
-    }
-
-    public boolean isLevelEnabled(int level)
-    {
-        return true;
-    }
-
 }

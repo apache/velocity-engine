@@ -19,7 +19,7 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
-import org.apache.velocity.runtime.log.Log;
+import org.slf4j.Logger;
 
 /**
  *  Marker interface to let an uberspector indicate it can and wants to
@@ -40,6 +40,6 @@ public interface UberspectLoggable
      * uberspector
      * @param log
      */
-    public void setLog(Log log);
+    public void setLog(Logger log);
 
 }

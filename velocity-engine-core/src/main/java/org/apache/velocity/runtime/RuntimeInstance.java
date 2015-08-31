@@ -32,8 +32,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.EventHandler;
 import org.apache.velocity.app.event.IncludeEventHandler;
@@ -52,8 +56,6 @@ import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.directive.Scope;
 import org.apache.velocity.runtime.directive.StopCommand;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.runtime.log.LogManager;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -77,23 +79,9 @@ import org.apache.velocity.util.introspection.UberspectLoggable;
  * in order to get Velocity to perform.
  *
  * The Runtime will also cooperate with external
- * systems like Turbine. Runtime properties can
- * set and then the Runtime is initialized.
+ * systems, which can make all needed setProperty() calls
+ * before calling init().
  *
- * Turbine, for example, knows where the templates
- * are to be loaded from, and where the Velocity
- * log file should be placed.
- *
- * So in the case of Velocity cooperating with Turbine
- * the code might look something like the following:
- *
- * <blockquote><code><pre>
- * ri.setProperty(Runtime.FILE_RESOURCE_LOADER_PATH, templatePath);
- * ri.setProperty(Runtime.RUNTIME_LOG, pathToVelocityLog);
- * ri.init();
- * </pre></code></blockquote>
- *
- * <pre>
  * -----------------------------------------------------------------------
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
@@ -124,12 +112,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private  VelocimacroFactory vmFactory = null;
 
     /**
-     * The Runtime logger.  We start with an instance of
-     * a 'primordial logger', which just collects log messages
-     * then, when the log system is initialized, all the
-     * messages get dumped out of the primordial one into the real one.
+     * The Runtime logger.  The default instance is the "Velocity" logger.
      */
-    private Log log = new Log();
+    private Logger log = LoggerFactory.getLogger(Velocity.class);
 
     /**
      * The Runtime parser pool
@@ -281,7 +266,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         this.eventCartridge = null;
         this.initialized = false;
         this.initializing = false;
-        this.log = new Log();
         this.overridingProperties = null;
         this.parserPool = null;
         this.provideEvaluateScope = false;
@@ -879,11 +863,49 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void initializeLog()
     {
-        // since the Log we started with was just placeholding,
-        // let's update it with the real LogChute settings.
+        // if we were provided a specific logger or logger name, let's use it
         try
         {
-            LogManager.updateLog(this.log, this);
+            /* If a Logger instance was set as a configuration
+             * value, use that.  This is any class the user specifies.
+             */
+            Object o = getProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE);
+            if (o != null)
+            {
+                // check for a Logger
+                if (Logger.class.isAssignableFrom(o.getClass()))
+                {
+                    //looks ok
+                    log = (Logger)o;
+                }
+                else
+                {
+                    String msg = o.getClass().getName() + " object set as runtime.log.instance is not a valid org.slf4j.Logger implementation.";
+                    log.error(msg);
+                    throw new VelocityException(msg);
+                }
+            }
+            else
+            {
+                /* otherwise, see if a logger name was specified.
+                 */
+                o = getProperty(RuntimeConstants.RUNTIME_LOG_NAME);
+                if (o != null)
+                {
+                    if (o instanceof String)
+                    {
+                        log = LoggerFactory.getLogger((String)o);
+                    }
+                    else
+                    {
+                        String msg = o.getClass().getName() + " object set as runtime.log.name is not a valid string.";
+                        log.error(msg);
+                        throw new VelocityException(msg);
+                    }
+                }
+            }
+            /* else keep our default Velocity logger
+             */
         }
         catch (Exception e)
         {
@@ -1617,7 +1639,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return A convenience Log instance that wraps the current LogChute.
      * @since 1.5
      */
-    public Log getLog()
+    public Logger getLog()
     {
         return log;
     }

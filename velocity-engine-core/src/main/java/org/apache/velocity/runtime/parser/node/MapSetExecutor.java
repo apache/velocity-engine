@@ -20,8 +20,10 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import java.util.Map;
+
+import org.slf4j.Logger;
+
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.log.Log;
 
 /**
  * SetExecutor that is smart about Maps. If it detects one, it does not
@@ -36,7 +38,7 @@ public class MapSetExecutor
 {
     private final String property;
 
-    public MapSetExecutor(final Log log, final Class clazz, final String property)
+    public MapSetExecutor(final Logger log, final Class clazz, final String property)
     {
         this.log = log;
         this.property = property;

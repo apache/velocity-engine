@@ -28,7 +28,7 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.util.introspection.Introspector;
 
@@ -55,7 +55,7 @@ public class VelTools66TestCase
             throws Exception
     {
         Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+                Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 
         Velocity.init();
         System.setSecurityManager(new TestSecurityManager());

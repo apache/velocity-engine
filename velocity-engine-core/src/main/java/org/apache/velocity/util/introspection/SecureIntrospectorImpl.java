@@ -20,7 +20,8 @@ package org.apache.velocity.util.introspection;
  */
 
 import java.lang.reflect.Method;
-import org.apache.velocity.runtime.log.Log;
+
+import org.slf4j.Logger;
 
 /**
  * <p>Prevent "dangerous" classloader/reflection related calls.  Use this
@@ -40,7 +41,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
     private String[] badClasses;
     private String[] badPackages;
 
-    public SecureIntrospectorImpl(String[] badClasses, String[] badPackages, Log log)
+    public SecureIntrospectorImpl(String[] badClasses, String[] badPackages, Logger log)
     {
         super(log);
         this.badClasses = badClasses;

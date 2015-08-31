@@ -24,7 +24,7 @@ import junit.framework.TestSuite;
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 
@@ -60,7 +60,7 @@ public class MacroForwardDefineTestCase
     /**
      * Collects the log messages.
      */
-    private TestLogChute logger = new TestLogChute();
+	private TestLogger logger = new TestLogger(false, true);
 
     /**
      * Default constructor.
@@ -82,9 +82,8 @@ public class MacroForwardDefineTestCase
         Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,"true");
 
         // actual instance of logger
-        logger = new TestLogChute(true, false);
-        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM,logger);
-        Velocity.setProperty(TestLogChute.TEST_LOGGER_LEVEL, "debug");
+        logger.setEnabledLevel(TestLogger.LOG_LEVEL_DEBUG);
+        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         Velocity.init();
     }
 

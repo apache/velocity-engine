@@ -34,12 +34,12 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * Pluggable directive that handles the <code>#parse()</code>
@@ -142,7 +142,7 @@ public class Parse extends InputBase
         if ( node.jjtGetNumChildren() == 0 )
         {
             throw new VelocityException("#parse(): argument missing at " +
-                                        Log.formatFileString(this));
+                                        StringUtils.formatFileString(this));
         }
 
         /*
@@ -152,7 +152,7 @@ public class Parse extends InputBase
         if (value == null && rsvc.getLog().isDebugEnabled())
         {
             rsvc.getLog().debug("#parse(): null argument at " +
-                                Log.formatFileString(this));
+                                StringUtils.formatFileString(this));
         }
 
         /*
@@ -171,7 +171,7 @@ public class Parse extends InputBase
         if (strictRef && value == null && arg == null)
         {
             throw new VelocityException("The argument to #parse returned null at "
-              + Log.formatFileString(this));
+              + StringUtils.formatFileString(this));
         }
 
         /*
@@ -221,7 +221,7 @@ public class Parse extends InputBase
              * the arg wasn't found.  Note it and throw
              */
             rsvc.getLog().error("#parse(): cannot find template '" + arg +
-                                "', called at " + Log.formatFileString(this));
+                                "', called at " + StringUtils.formatFileString(this));
             throw rnfe;
         }
         catch ( ParseErrorException pee )
@@ -231,7 +231,7 @@ public class Parse extends InputBase
              *  note it and throw
              */
             rsvc.getLog().error("#parse(): syntax error in #parse()-ed template '"
-                                + arg + "', called at " + Log.formatFileString(this));
+                                + arg + "', called at " + StringUtils.formatFileString(this));
             throw pee;
         }
         /**
@@ -240,13 +240,13 @@ public class Parse extends InputBase
         catch( RuntimeException e )
         {
             rsvc.getLog().error("Exception rendering #parse(" + arg + ") at " +
-                                Log.formatFileString(this));
+                                StringUtils.formatFileString(this));
             throw e;
         }
         catch ( Exception e)
         {
             String msg = "Exception rendering #parse(" + arg + ") at " +
-                         Log.formatFileString(this);
+                         StringUtils.formatFileString(this);
             rsvc.getLog().error(msg, e);
             throw new VelocityException(msg, e);
         }
@@ -294,13 +294,13 @@ public class Parse extends InputBase
              * Log #parse errors so the user can track which file called which.
              */
             rsvc.getLog().error("Exception rendering #parse(" + arg + ") at " +
-                                Log.formatFileString(this));
+                                StringUtils.formatFileString(this));
             throw e;
         }
         catch ( Exception e )
         {
             String msg = "Exception rendering #parse(" + arg + ") at " +
-                         Log.formatFileString(this);
+                         StringUtils.formatFileString(this);
             rsvc.getLog().error(msg, e);
             throw new VelocityException(msg, e);
         }

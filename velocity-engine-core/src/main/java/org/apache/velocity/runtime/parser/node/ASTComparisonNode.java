@@ -23,9 +23,9 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.DuckType;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * Numeric comparison support<br><br>
@@ -92,7 +92,7 @@ public abstract class ASTComparisonNode extends SimpleNode
                        + " side ("
                        + jjtGetChild( (left == null? 0 : 1) ).literal()
                        + ") of comparison operation has null value at "
-                       + Log.formatFileString(this);
+                       + StringUtils.formatFileString(this);
         if (rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false))
         {
             throw new VelocityException(msg);
@@ -129,7 +129,7 @@ public abstract class ASTComparisonNode extends SimpleNode
         // by default, log and bail
         String msg = (right instanceof Number ? "Left" : "Right")
                        + " side of comparison operation is not a number at "
-                       + Log.formatFileString(this);
+                       + StringUtils.formatFileString(this);
         if (rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false))
         {
             throw new VelocityException(msg);

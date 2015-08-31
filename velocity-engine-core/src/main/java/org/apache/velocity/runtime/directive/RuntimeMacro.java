@@ -32,10 +32,10 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * This class acts as a proxy for potential macros.  When the AST is built
@@ -160,7 +160,7 @@ public class RuntimeMacro extends Directive
             if (child.getType() == ParserTreeConstants.JJTWORD)
             {
                 badArgsErrorMsg = "Invalid arg '" + child.getFirstToken().image
-                + "' in macro #" + macroName + " at " + Log.formatFileString(child);
+                + "' in macro #" + macroName + " at " + StringUtils.formatFileString(child);
 
                 if (strictRef)  // If strict, throw now
                 {
@@ -315,13 +315,13 @@ public class RuntimeMacro extends Directive
                  * this is also true for the following catch blocks.
                  */
                 rsvc.getLog().error("Exception in macro #" + macroName + " called at " +
-                  Log.formatFileString(node));
+                  StringUtils.formatFileString(node));
                 throw e;
             }
             catch (IOException e)
             {
                 rsvc.getLog().error("Exception in macro #" + macroName + " called at " +
-                  Log.formatFileString(node));
+                  StringUtils.formatFileString(node));
                 throw e;
             }
             finally
@@ -332,7 +332,7 @@ public class RuntimeMacro extends Directive
         else if (strictRef)
         {
             throw new VelocityException("Macro '#" + macroName + "' is not defined at "
-                + Log.formatFileString(node));
+                + StringUtils.formatFileString(node));
         }
 
         /**

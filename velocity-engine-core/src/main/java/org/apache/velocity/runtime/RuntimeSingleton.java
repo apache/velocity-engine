@@ -23,6 +23,8 @@ import java.io.Reader;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
@@ -30,7 +32,6 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
@@ -46,23 +47,9 @@ import org.apache.velocity.util.introspection.Uberspect;
  * in order to get Velocity to perform.
  *
  * The Runtime will also cooperate with external
- * systems like Turbine. Runtime properties can
- * set and then the Runtime is initialized.
+ * systems, which can make all needed setProperty() calls
+ * before calling init().
  *
- * Turbine for example knows where the templates
- * are to be loaded from, and where the velocity
- * log file should be placed.
- *
- * So in the case of Velocity cooperating with Turbine
- * the code might look something like the following:
- *
- * <pre>
- * RuntimeSingleton.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, templatePath);
- * RuntimeSingleton.setProperty(RuntimeConstants.RUNTIME_LOG, pathToVelocityLog);
- * RuntimeSingleton.init();
- * </pre>
- *
- * <pre>
  * -----------------------------------------------------------------------
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
@@ -389,7 +376,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * @see RuntimeInstance#getLog()
      * @since 1.5
      */
-    public static Log getLog()
+    public static Logger getLog()
     {
         return ri.getLog();
     }

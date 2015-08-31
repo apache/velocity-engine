@@ -39,30 +39,6 @@ Apache Velocity will run with any version of Java greater than 1.3.
 Building from source requires Java version 1.4 (or greater) and ant
 1.6 or greater.
 
-
-INCLUDED PRE-BUILT JARS
------------------------
-
-If you are using an offical Apache Velocity release distribution, you
-will find two pre-built jars in the top level directory.
-
-1) velocity-<version>.jar: 
-    This jar does not include any external dependencies needed by
-    Velocity, such as the commons-collection classes, the Avalon
-    Logkit, or Apache Jakarta ORO. We do this to allow you to use
-    whatever version of collections, logkit, etc that you wish w/o
-    fear of collision.  These jars are included in the distribution,
-    in the build/lib directory, or at the respective project sites.
-
-2) velocity-dep-<version>.jar:
-    This jar includes all dependencies that were present in previous
-    distribution jars.  It is intended as a convenience to allow you
-    to drop this distribution in place of existing 1.1 or 1.2-dep
-    distributions.
-
-Please see the WHY_TWO_JARS.txt file for more information.
-
-
 UPGRADING FROM EARLIER RELEASES
 -------------------------------
 

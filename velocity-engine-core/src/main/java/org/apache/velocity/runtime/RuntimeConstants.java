@@ -44,14 +44,11 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /** Location of the velocity log file. */
-    String RUNTIME_LOG = "runtime.log";
-
     /** externally provided logger. */
-    String RUNTIME_LOG_LOGSYSTEM = "runtime.log.logsystem";
+    String RUNTIME_LOG_INSTANCE = "runtime.log.instance";
 
-    /** class of log system to use. */
-    String RUNTIME_LOG_LOGSYSTEM_CLASS = "runtime.log.logsystem.class";
+    /** externally provided logger name. */
+    String RUNTIME_LOG_NAME = "runtime.log.name";
 
     /**
      * Properties referenced in the template are required to exist the object
