@@ -33,11 +33,11 @@ import org.apache.velocity.io.Filter;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.directive.Block.Reference;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.DuckType;
+import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.VelMethod;
 import org.apache.velocity.util.introspection.VelPropertySet;
@@ -265,7 +265,7 @@ public class ASTReference extends SimpleNode
                     String name = jjtGetChild(i).getFirstToken().image;
                     throw new VelocityException("Attempted to access '"  
                         + name + "' on a null value at "
-                        + Log.formatFileString(uberInfo.getTemplateName(),
+                        + StringUtils.formatFileString(uberInfo.getTemplateName(),
                         + jjtGetChild(i).getLine(), jjtGetChild(i).getColumn()));                  
                 }
                 previousResult = result;
@@ -414,7 +414,7 @@ public class ASTReference extends SimpleNode
                     // as another element of the error stack we report to log.
                     log.error("Exception rendering "
                         + ((renderable instanceof Reference)? "block ":"Renderable ")
-                        + rootString + " at " + Log.formatFileString(this));
+                        + rootString + " at " + StringUtils.formatFileString(this));
                     throw e;
                 }
             }
@@ -434,7 +434,7 @@ public class ASTReference extends SimpleNode
                   {
                     throw new VelocityException("Reference " + literal() 
                         + " evaluated to null when attempting to render at " 
-                        + Log.formatFileString(this));
+                        + StringUtils.formatFileString(this));
                   }
                   else  // toString == null
                   {
@@ -444,7 +444,7 @@ public class ASTReference extends SimpleNode
                     throw new VelocityException("Reference " + literal()
                         + " evaluated to object " + value.getClass().getName()
                         + " whose toString() method returned null at "
-                        + Log.formatFileString(this));
+                        + StringUtils.formatFileString(this));
                   }
                 }              
                 return true;
@@ -538,7 +538,7 @@ public class ASTReference extends SimpleNode
         catch(Exception e)
         {
             throw new VelocityException("Reference evaluation threw an exception at " 
-                + Log.formatFileString(this), e);
+                + StringUtils.formatFileString(this), e);
         }
     }
 
@@ -592,7 +592,7 @@ public class ASTReference extends SimpleNode
         if (result == null)
         {
             String msg = "reference set is not a valid reference at "
-                    + Log.formatFileString(uberInfo);
+                    + StringUtils.formatFileString(uberInfo);
             log.error(msg);
             return false;
         }
@@ -616,7 +616,7 @@ public class ASTReference extends SimpleNode
                 }            
               
                 String msg = "reference set is not a valid reference at "
-                    + Log.formatFileString(uberInfo);
+                    + StringUtils.formatFileString(uberInfo);
                 log.error(msg);
 
                 return false;
@@ -663,7 +663,7 @@ public class ASTReference extends SimpleNode
                         "Found neither a 'set' or 'put' method with param types '("
                         + printClass(paramClasses[0]) + "," + printClass(paramClasses[1])
                         + ")' on class '" + result.getClass().getName() 
-                        + "' at " + Log.formatFileString(astIndex));
+                        + "' at " + StringUtils.formatFileString(astIndex));
                 }
                 return false;
             }
@@ -746,7 +746,7 @@ public class ASTReference extends SimpleNode
              *  maybe a security exception?
              */
             String msg = "ASTReference setValue() : exception : " + e
-                          + " template at " + Log.formatFileString(uberInfo);
+                          + " template at " + StringUtils.formatFileString(uberInfo);
             log.error(msg, e);
             throw new VelocityException(msg, e);
          }
@@ -977,7 +977,7 @@ public class ASTReference extends SimpleNode
         catch(RuntimeException e)
         {
             log.error("Exception calling reference $" + variable + " at "
-                      + Log.formatFileString(uberInfo));
+                      + StringUtils.formatFileString(uberInfo));
             throw e;
         }
         
@@ -986,7 +986,7 @@ public class ASTReference extends SimpleNode
           if (!context.containsKey(variable))
           {
               log.error("Variable $" + variable + " has not been set at "
-                        + Log.formatFileString(uberInfo));
+                        + StringUtils.formatFileString(uberInfo));
               throw new MethodInvocationException("Variable $" + variable +
                   " has not been set", null, identifier,
                   uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());            

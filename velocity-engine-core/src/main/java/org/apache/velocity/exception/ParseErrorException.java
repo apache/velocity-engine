@@ -22,9 +22,9 @@ package org.apache.velocity.exception;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.StringUtils;
 
 /**
  *  Application-level exception thrown when a resource of any type
@@ -116,7 +116,7 @@ public class ParseErrorException extends VelocityException
                columnNumber = Integer.parseInt(match.group(2));
                String restOfMsg = match.group(3);
                msg = "Lexical error, " + restOfMsg + " at " 
-                 + Log.formatFileString(templateName, lineNumber, columnNumber);
+                 + StringUtils.formatFileString(templateName, lineNumber, columnNumber);
             }
           
             //  ugly, ugly, ugly...

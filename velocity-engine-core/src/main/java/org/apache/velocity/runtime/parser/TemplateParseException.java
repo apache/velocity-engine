@@ -20,8 +20,8 @@ package org.apache.velocity.runtime.parser;
  */
 
 import org.apache.velocity.exception.ExtendedParseException;
-import org.apache.velocity.runtime.log.Log;
 
+import org.apache.velocity.util.StringUtils;
 
 /**
  * This is an extension of the ParseException, which also takes a
@@ -234,7 +234,7 @@ public class TemplateParseException
      */
     protected void appendTemplateInfo(final StringBuffer sb)
     {
-        sb.append(Log.formatFileString(getTemplateName(), getLineNumber(), getColumnNumber()));
+        sb.append(StringUtils.formatFileString(getTemplateName(), getLineNumber(), getColumnNumber()));
         sb.append(eol);
     }
 }

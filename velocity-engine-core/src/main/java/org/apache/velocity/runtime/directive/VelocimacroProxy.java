@@ -30,9 +30,9 @@ import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Macro.MacroArg;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.util.StringUtils;
 
 /**
  *  VelocimacroProxy.java
@@ -254,7 +254,7 @@ public class VelocimacroProxy extends Directive
             {
                 throw new VelocityException("Provided " + callArgNum + " arguments but macro #" 
                     + macroArgs.get(0).name + " accepts at most " + (macroArgs.size()-1)
-                    + " at " + Log.formatFileString(node));
+                    + " at " + StringUtils.formatFileString(node));
             }
             else if (rsvc.getLog().isDebugEnabled())
             {
@@ -289,7 +289,7 @@ public class VelocimacroProxy extends Directive
                 }
                 out.append(stack[i]);
             }
-            out.append(" at " + Log.formatFileString(this));
+            out.append(" at " + StringUtils.formatFileString(this));
             rsvc.getLog().error(out.toString());
             
             // clean out the macro stack, since we just broke it
@@ -341,7 +341,7 @@ public class VelocimacroProxy extends Directive
                 }
                 throw new VelocityException("Need at least " + minArgNum + " argument for macro #"
                     + macroArgs.get(0).name + " but only " + callArgNum + " where provided at "
-                    + Log.formatFileString(node));
+                    + StringUtils.formatFileString(node));
             }
             else
             {

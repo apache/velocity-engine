@@ -21,9 +21,10 @@ package org.apache.velocity.runtime.parser.node;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.slf4j.Logger;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.util.introspection.Introspector;
 
 /**
@@ -46,7 +47,7 @@ public class SetPropertyExecutor
      * @param property
      * @param arg
      */
-    public SetPropertyExecutor(final Log log, final Introspector introspector,
+    public SetPropertyExecutor(final Logger log, final Introspector introspector,
             final Class clazz, final String property, final Object arg)
     {
         this.log = log;

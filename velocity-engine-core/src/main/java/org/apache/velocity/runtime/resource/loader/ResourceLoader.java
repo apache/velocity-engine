@@ -21,8 +21,9 @@ package org.apache.velocity.runtime.resource.loader;
 
 import java.io.InputStream;
 
+import org.slf4j.Logger;
+
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceCacheImpl;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -58,7 +59,7 @@ public abstract class ResourceLoader
     protected String className = null;
 
     protected RuntimeServices rsvc = null;
-    protected Log log = null;
+    protected Logger log = null;
 
     /**
      * This initialization is used by all resource

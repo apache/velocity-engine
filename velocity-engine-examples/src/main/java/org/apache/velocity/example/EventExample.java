@@ -19,7 +19,9 @@ package org.apache.velocity.example;
  */
 
 import java.io.StringWriter;
-
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MarkerIgnoringBase;
+import org.slf4j.helpers.MessageFormatter;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.event.EventCartridge;
@@ -28,7 +30,6 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
 
 /**
  *   This class is a simple demonstration of how the event handling
@@ -40,10 +41,9 @@ import org.apache.velocity.runtime.log.LogChute;
  * @version $Id$
  */
 
-public class EventExample implements ReferenceInsertionEventHandler,
-        MethodExceptionEventHandler, LogChute
+public class EventExample extends MarkerIgnoringBase
+    implements ReferenceInsertionEventHandler, MethodExceptionEventHandler
 {
-
     private boolean logOutput = false;
     private boolean exceptionSwitch = false;
 
@@ -57,11 +57,11 @@ public class EventExample implements ReferenceInsertionEventHandler,
         try
         {
             /*
-             *  this class implements the LogSystem interface, so we
+             *  this class implements the Logger interface, so we
              *  can use it as a logger for Velocity
              */
 
-            Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this );
+            Velocity.setProperty(Velocity.RUNTIME_LOG_INSTANCE, this );
             Velocity.init();
         }
         catch(Exception e)
@@ -292,14 +292,9 @@ public class EventExample implements ReferenceInsertionEventHandler,
         throw new RuntimeException(e);
     }
 
-	/**
-	 *  Required init method for LogSystem
-	 *  to get access to RuntimeServices
-	 */
-	 public void init( RuntimeServices rs )
-	 {
-	 	return;
-	 }
+    /**
+     *  Our own logging towards System.out
+     */
 
     /**
      * This just prints the message and level to System.out.
@@ -327,11 +322,187 @@ public class EventExample implements ReferenceInsertionEventHandler,
     }
 
     /**
+     * This prints the level and formatted message to
+     * System.out.
+     */
+    public void formatAndLog(int level, String format, Object... arguments)
+    {
+        if (logOutput)
+        {
+            FormattingTuple tp = MessageFormatter.arrayFormat(format, arguments);
+            log(level, tp.getMessage());
+        }
+    }
+
+    /**
      * This always returns true because logging levels can't be disabled in
      * this impl.
      */
     public boolean isLevelEnabled(int level)
     {
         return true;
+    }
+
+    public static final int LOG_LEVEL_TRACE = 1;
+    public static final int LOG_LEVEL_DEBUG = 2;
+    public static final int LOG_LEVEL_INFO = 3;
+    public static final int LOG_LEVEL_WARN = 4;
+    public static final int LOG_LEVEL_ERROR = 5;
+
+    /**
+     *  Required init methods for Logger interface
+     */
+
+    public String getName()
+    {
+        return "EventExample";
+    }
+
+    public boolean isTraceEnabled() {
+        return isLevelEnabled(LOG_LEVEL_TRACE);
+    }
+
+    public void trace(String msg) {
+        log(LOG_LEVEL_TRACE, msg);
+    }
+
+    public void trace(String format, Object param1)
+    {
+        formatAndLog(LOG_LEVEL_TRACE, format, param1);
+    }
+
+    public void trace(String format, Object param1, Object param2)
+    {
+        formatAndLog(LOG_LEVEL_TRACE, format, param1, param2);
+    }
+
+    public void trace(String format, Object... argArray)
+    {
+        formatAndLog(LOG_LEVEL_TRACE, format, argArray);
+    }
+
+    public void trace(String msg, Throwable t)
+    {
+        log(LOG_LEVEL_TRACE, msg, t);
+    }
+
+    public boolean isDebugEnabled()
+    {
+        return isLevelEnabled(LOG_LEVEL_DEBUG);
+    }
+
+    public void debug(String msg)
+    {
+        log(LOG_LEVEL_DEBUG, msg);
+    }
+
+    public void debug(String format, Object param1)
+    {
+        formatAndLog(LOG_LEVEL_DEBUG, format, param1);
+    }
+
+    public void debug(String format, Object param1, Object param2)
+    {
+        formatAndLog(LOG_LEVEL_DEBUG, format, param1, param2);
+    }
+
+    public void debug(String format, Object... argArray)
+    {
+        formatAndLog(LOG_LEVEL_DEBUG, format, argArray);
+    }
+
+    public void debug(String msg, Throwable t)
+    {
+        log(LOG_LEVEL_DEBUG, msg, t);
+    }
+
+    public boolean isInfoEnabled()
+    {
+        return isLevelEnabled(LOG_LEVEL_INFO);
+    }
+
+    public void info(String msg)
+    {
+        log(LOG_LEVEL_INFO, msg);
+    }
+
+    public void info(String format, Object arg)
+    {
+        formatAndLog(LOG_LEVEL_INFO, format, arg);
+    }
+
+    public void info(String format, Object arg1, Object arg2)
+    {
+        formatAndLog(LOG_LEVEL_INFO, format, arg1, arg2);
+    }
+
+    public void info(String format, Object... argArray)
+    {
+        formatAndLog(LOG_LEVEL_INFO, format, argArray);
+    }
+
+    public void info(String msg, Throwable t)
+    {
+        log(LOG_LEVEL_INFO, msg, t);
+    }
+
+    public boolean isWarnEnabled()
+    {
+        return isLevelEnabled(LOG_LEVEL_WARN);
+    }
+
+    public void warn(String msg)
+    {
+        log(LOG_LEVEL_WARN, msg);
+    }
+
+    public void warn(String format, Object arg)
+    {
+        formatAndLog(LOG_LEVEL_WARN, format, arg);
+    }
+
+    public void warn(String format, Object arg1, Object arg2)
+    {
+        formatAndLog(LOG_LEVEL_WARN, format, arg1, arg2);
+    }
+
+    public void warn(String format, Object... argArray)
+    {
+        formatAndLog(LOG_LEVEL_WARN, format, argArray);
+    }
+
+    public void warn(String msg, Throwable t)
+    {
+        log(LOG_LEVEL_WARN, msg, t);
+    }
+
+    public boolean isErrorEnabled()
+    {
+        return isLevelEnabled(LOG_LEVEL_ERROR);
+    }
+
+    public void error(String msg)
+    {
+        log(LOG_LEVEL_ERROR, msg);
+    }
+
+    public void error(String format, Object arg)
+    {
+        formatAndLog(LOG_LEVEL_ERROR, format, arg);
+    }
+
+    public void error(String format, Object arg1, Object arg2)
+    {
+        formatAndLog(LOG_LEVEL_ERROR, format, arg1, arg2);
+    }
+
+    public void error(String format, Object... argArray)
+    {
+        formatAndLog(LOG_LEVEL_ERROR, format, argArray);
+    }
+
+    public void error(String msg, Throwable t)
+    {
+        log(LOG_LEVEL_ERROR, msg, t);
     }
 }

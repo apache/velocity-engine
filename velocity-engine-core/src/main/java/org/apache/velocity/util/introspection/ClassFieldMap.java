@@ -24,7 +24,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.velocity.runtime.log.Log;
+
+import org.slf4j.Logger;
 
 /**
  * A cache of introspection information for a specific class instance.
@@ -44,7 +45,7 @@ public class ClassFieldMap
     private static final boolean debugReflection = false;
 
     /** Class logger */
-    private final Log log;
+    private final Logger log;
 
     /**
      * Class passed into the constructor used to as
@@ -61,7 +62,7 @@ public class ClassFieldMap
      * Standard constructor
      * @param clazz The class for which this ClassMap gets constructed.
      */
-    public ClassFieldMap(final Class clazz, final Log log)
+    public ClassFieldMap(final Class clazz, final Logger log)
     {
         this.clazz = clazz;
         this.log = log;

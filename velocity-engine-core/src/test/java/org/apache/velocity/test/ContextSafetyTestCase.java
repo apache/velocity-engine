@@ -32,7 +32,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.test.misc.TestLogger;
 
 /**
  * Tests if we are context safe : can we switch objects in the context
@@ -62,7 +62,7 @@ public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestB
                 Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
 
         Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+                Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 
         Velocity.init();
     }

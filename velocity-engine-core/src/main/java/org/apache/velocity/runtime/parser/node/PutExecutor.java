@@ -20,8 +20,10 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import java.lang.reflect.InvocationTargetException;
+
+import org.slf4j.Logger;
+
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.util.introspection.Introspector;
 
 
@@ -49,7 +51,7 @@ public class PutExecutor extends SetExecutor
      * @param arg
      * @param property
      */
-    public PutExecutor(final Log log, final Introspector introspector,
+    public PutExecutor(final Logger log, final Introspector introspector,
             final Class clazz, final Object arg, final String property)
     {
         this.log = log;

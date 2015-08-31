@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.velocity.runtime.log.Log;
+import org.slf4j.Logger;
 
 /**
  * This is the internal introspector cache implementation.
@@ -43,7 +43,7 @@ public final class IntrospectorCacheImpl implements IntrospectorCache
         "IntrospectorCache detected classloader change. Dumping cache.";
 
     /** Class logger */
-    private final Log log;
+    private final Logger log;
     
     /**
      * Holds the method maps for the classes we know about. Map: Class --&gt; ClassMap object.
@@ -66,7 +66,7 @@ public final class IntrospectorCacheImpl implements IntrospectorCache
     /**
      * C'tor
      */
-    public IntrospectorCacheImpl(final Log log)
+    public IntrospectorCacheImpl(final Logger log)
     {
 	    this.log = log;
     }

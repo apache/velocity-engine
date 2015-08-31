@@ -91,14 +91,6 @@
 
 <li>
 <a href="#Configuring_Logging">Configuring Logging</a>
- <ul>
-  <li>
-    <a href="#usinglog4jwithexistinglogger">Using Log4j With Existing Logger</a>
-  </li>
-  <li>
-    <a href="#simpleexampleofacustomlogger">Simple Example of a Custom Logger</a>
-  </li>
- </ul>
 </li>
 
 <li>
@@ -184,16 +176,10 @@ more detail on the various options.
 <strong>Dependencies</strong>
 
 <p>
-Velocity uses elements of the Java 2 API such as collections, and therefore
-building requires the Java 2 Standard Edition SDK (Software Development Kit).
-To run Velocity, the Java 2 Standard Edition RTE (Run Time Environment)
-is required (or you can use the SDK, of course).
+For compiling or at runtime, Velocity needs a Java runtime environment version of 1.5 or more recent.
 </p>
 <p>
-Velocity also is dependent upon a few packages for general functionality.  They
-are included in the <code>build/lib</code> directory for convenience, but
-the default build target (see above) does not include them.  If you use the
-default build target, you must add the dependencies to your classpath.
+Velocity also is dependent upon a few packages for general functionality:
 </p>
 
 <ul>
@@ -206,17 +192,8 @@ default build target, you must add the dependencies to your classpath.
   <b>Jakarta Commons Lang</b></a> - required.
 </li>
 <li>
-  <a href="http://excalibur.apache.org/logger.html">
-  <b>Excalibur (ex-Avalon) Logkit</b></a> - optional, but very common.
-  Needed if using the default file-based logging in Velocity.
+  <a href="http://www.slf4j.org"><b>SLF4J API</b></a> - required
 </li>
-<li>
-  <a href="http://jakarta.apache.org/oro/index.html"><b>Jakarta ORO</b></a>
-   - optional.  Needed when using the
-   <code>org.apache.velocity.convert.WebMacro</code> template conversion
-   utility or <code>org.apache.velocity.app.event.implement.EscapeReference</code>
-   ReferenceInsertionEventHandler.
- </li>
 </ul>
 
 
@@ -256,11 +233,6 @@ Some great sources are:
     application example 2: <code>examples/app_example2</code>: a simple
     example showing how to use Velocity in an application program using the
     Velocity application utility class.
-  </li>
-  <li>
-    logger example: <code>examples/logger_example</code>: a simple example
-    showing how to create a custom logging class and register it with
-    Velocity to receive all log messages.
   </li>
   <li>
     XML example: <code>examples/xmlapp_example</code>: a simple example
@@ -414,11 +386,11 @@ import org.apache.velocity.Template;
 
 /*
  *  Configure the engine - as an example, we are using
- *  ourselves as the logger - see logging examples
+ *  a specific logger name
  */
 
 Velocity.setProperty(
-    Velocity.RUNTIME_LOG_LOGSYSTEM, this);
+    Velocity.RUNTIME_LOG_NAME, "mylog");
 
 /*
  *  now initialize the engine
@@ -461,11 +433,11 @@ VelocityEngine ve = new VelocityEngine();
 
 /*
  *  configure the engine.  In this case, we are using
- *  ourselves as a logger (see logging examples..)
+ *  a specific named logger
  */
 
 ve.setProperty(
-    VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this);
+    VelocityEngine.RUNTIME_LOG_NAME, "mylog");
 
 /*
  *  initialize the engine
@@ -1531,27 +1503,16 @@ to the right of the '=' sign.
 </p>
 
 <p>
-<code>runtime.log = velocity.log</code><br/>
-Full path and name of log file for error, warning,
-and informational messages.  The location, if not absolute, is
-relative to the 'current directory'.
+<code>runtime.log.instance = <i>Java Object instance</i></code><br/>
+Living Java instance, that must implement the interface org.slf4j.Logger.<br/>
+This property can only be set programmatically.
 </p>
 
 <p>
-<code>runtime.log.logsystem</code><br/>
-This property has no default value.  It is used to give Velocity an
-instantiated instance of a logging class that supports the interface
-<code>org.apache.velocity.runtime.log.LogChute</code>, which allows
-the combination of Velocity log messages with your other application
-log messages.  Please see the section
-<a href="#Configuring_Logging"><b>Configuring Logging</b></a>
+<code>runtime.log.name = <i>name</i></code><br/>
+This property has no default value, since the default logger will be instanciated as the logger for the class org.apache.velocity.app.Velocity.
+See <a href="#Configuring_Logging"><b>Configuring Logging</b></a>
 for more information.
-</p>
-
-<p>
-<code>runtime.log.logsystem.class =
-org.apache.velocity.runtime.log.AvalonLogChute</code><br/>
-Class to be used for the Velocity-instantiated log system.
 </p>
 
 <p>
@@ -1965,240 +1926,20 @@ rather than just returning the first non-null value.
 <section name="Configuring Logging" href="Configuring_Logging">
 
 <p>
-Velocity has a few nice logging features to allow both simplicity and
-flexibility. Without any extra configuration, Velocity will setup a
-file-based logger that will output all logging messages to a file
-called <code>velocity.log</code> in the 'current directory' where
-Velocity was initialized.   For more advanced users, you may integrate
-your current logging facilities with Velocity to have all log messages
-sent to your logger.
+Since version 2.0, Velocity has switched to the <a href="http://www.slf4j.org/">SLF4J</a> logging facade.
 </p>
 
 <p>
-Starting with version 1.3, Velocity will automatically use either the
-<a href="http://jakarta.apache.org/avalon/logkit/index.html">
-Jakarta Avalon Logkit</a> logger, or the
-<a href="http://jakarta.apache.org/log4j/">Jakarta Log4j</a> logger.
-It will do so by using whatever it finds in the current classpath, starting
-first with Logkit.  If Logkit isn't found, it tries Log4j.
+All you have to do to enable logging is to make sure that your classpath contains the slf4j-api jar, and one and only one slf4j binding jar towards your favourite logsystem or facade.
 </p>
 
-<p>
-To utilize this feature, simply use the 'non-dependency' Velocity jar
-(because Logkit is baked into the jar with dependencies) and place
-either the logkit or log4j jar in your classpath.
-</p>
-
-<p>
-In general, you have the following logging options:
-</p>
-
+<p>By default, Velocity will use a logger tagged for the org.apache.velocity.app.Velocity class.
+You can customize this logger in two ways:
 <ul>
-
-<li>
-<b>Default Configuration</b><br/>
-By default, Velocity will create a file-based logger in the current
-directory.  See the note above regarding automatic detection of
-Logkit or Log4j to use as the default logging system.
-</li>
-
-<li>
-<b>Existing Log4j Logger</b><br/>
-Starting with version 1.3, Velocity will log its output to an existing
-Log4j Logger setup elsewhere in the application. To use this feature you must
-  <ol>
-    <li>
-    Make sure that the Log4j jar is in your classpath. (You would do this
-    anyway since you are using Log4j in the application using Velocity.)
-    </li>
-    <li>Configure Velocity to use the <code>Log4JLogChute</code> class by
-    specifying the name of the existing Logger to use via the
-    'runtime.log.logsystem.log4j.logger' property.
-    </li>
-  </ol>
-
-Note that this support for Logger is in version 1.5 of Velocity.  Further,
-in version 1.5 we removed the now-ancient and very deprecated original
-Log4JLogSystem class and replaced with the current Log4JLogChute class which
-uses the Logger class.  We apologize for the confusion, but we needed to move
-on.
-</li>
-
-<li>
-<b>Custom Standalone Logger</b><br/>
-You can create a custom logging class - you just need to implement the
-interface <code>org.apache.velocity.runtime.log.LogChute</code> and
-then simply set the  configuration property
-<code>runtime.log.logsystem.class</code> with the
-classname, and Velocity will create an instance of that class at init time.
-You may specify the classname as you specify any other properties. See
-the information on the
-<a href="#thevelocityhelperclass">
-Velocity helper class</a> as well as the
-<a href="#Velocity_Configuration_Keys_and_Values">
-configuration keys and values.</a>
-Please note that the old <code>org.apache.velocity.runtime.log.LogSystem</code>
-interface has been deprecated for v1.5 in favor of the new LogChute interface.
-This is due to significant upgrades to our logging code that could not be
-supported by the LogSystem interface.  But don't worry, if you specify a
-custom class that implements the LogSystem interface, it will still work.
-However, it will generate deprecation warnings.  You should upgrade your
-custom logger to implement LogChute as soon as possible.
-</li>
-
-<li>
-<b>Integrated Logging</b><br/>
-You can integrate Velocity's logging capabilities with your applications
-existing logging system, simply by implementing the
-<code>org.apache.velocity.runtime.log.LogChute</code> interface.  Then,
-pass an instance of your logging class to Velocity via the
-<code>runtime.log.logsystem</code> configuration key before
-initializing the Velocity engine,
-and Velocity will log messages to your application's logger.
-See the information on the
-<a href="#thevelocityhelperclass">Velocity helper class</a>
-as well as the
-<a href="#Velocity_Configuration_Keys_and_Values">configuration keys and values.</a>
-</li>
-
+<li>By programmatically giving Velocity a living instance of an orf.slf4j.Logger object, using the runtime.log.instance property key.</li>
+<li>By configuring the name of the logger to be used by your velocity instance, using the runtime.log.name property key. It can be done from the velocity.properties file, if present.</li>
 </ul>
-
-<a name="usinglog4jwithexistinglogger"><strong>Using Log4j With Existing Logger</strong></a>
-
-<p>
-Here is an example of how to configure Velocity to log to an existing Log4j
-Logger.
 </p>
-
-<source><![CDATA[
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.BasicConfigurator;
-
-public class Log4jLoggerExample
-{
-  public static String LOGGER_NAME = "velexample";
-
-  public static void main( String args[] )
-    throws Exception
-  {
-    /*
-     *  configure log4j to log to console
-     */
-
-    BasicConfigurator.configure();
-
-    Logger log = Logger.getLogger( LOGGER_NAME );
-
-    log.info("Log4jLoggerExample: ready to start velocity");
-
-    /*
-     *  now create a new VelocityEngine instance, and
-     *  configure it to use the category
-     */
-
-    VelocityEngine ve = new VelocityEngine();
-
-    ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-      "org.apache.velocity.runtime.log.Log4JLogChute" );
-
-    ve.setProperty("runtime.log.logsystem.log4j.logger",
-                    LOGGER_NAME);
-
-    ve.init();
-
-    log.info("follows initialization output from velocity");
-  }
-}
-]]></source>
-
-<p>
-Note that the above example can be found in <code>examples/logger_example</code>.
-</p>
-
-<a name="simpleexampleofacustomlogger"><strong>Simple Example of a Custom Logger</strong></a>
-
-<p>
-Here is an example of how to use an instantiation of your class that implements
-Velocity's logging system as the logger.  Note that we are not passing the name
-of the class to use, but rather a living, existing instantiation of the class
-to be used.  All that is required is that it support the
-<code>LogChute</code> interface.
-
-</p>
-
-<source><![CDATA[
-import org.apache.velocity.runtime.log.LogChute;
-import org.apache.velocity.runtime.RuntimeServices;
-...
-
-public class MyClass implements LogChute
-{
-
-...
-
-  public MyClass()
-  {
-    ...
-
-    try
-    {
-      /*
-       *  register this class as a logger with the Velocity singleton
-       *  (NOTE: this would not work for the non-singleton method.)
-       */
-      Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, this );
-      Velocity.init();
-    }
-    catch (Exception e)
-    {
-      /*
-       *  do something
-       */
-    }
-  }
-
-  /**
-   *  This init() will be invoked once by the LogManager
-   *  to give you the current RuntimeServices intance
-   */
-  public void init(RuntimeServices rsvc)
-  {
-    // do nothing
-  }
-
-  /**
-   *  This is the method that you implement for Velocity to
-   *  call with log messages.
-   */
-  public void log(int level, String message)
-  {
-    /*  do something useful */
-  }
-
-  /**
-   *  This is the method that you implement for Velocity to
-   *  call with log messages.
-   */
-  public void log(int level, String message, Throwable t)
-  {
-    /*  do something useful */
-  }
-
-  /**
-   *  This is the method that you implement for Velocity to
-   *  check whether a specified log level is enabled.
-   */
-  public boolean isLevelEnabled(int level)
-  {
-    /*  do something useful */
-    return someBooleanValue;
-  }
-...
-}
-]]></source>
 
 </section>
 

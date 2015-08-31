@@ -21,7 +21,7 @@ package org.apache.velocity.test;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.URLResourceLoader;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.test.misc.TestLogger;
 
 /**
  * This class tests support for custom timeouts in URLResourceLoader.
@@ -41,7 +41,7 @@ public class URLResourceLoaderTimeoutTestCase extends BaseTestCase
             isJava5plus = false;
         }
     }
-    private TestLogChute logger = new TestLogChute();
+    private TestLogger logger = new TestLogger();
     private URLResourceLoader loader = new URLResourceLoader();
     private int timeout = 2000;
 
@@ -59,7 +59,7 @@ public class URLResourceLoaderTimeoutTestCase extends BaseTestCase
 
         // actual instance of logger
         logger.on();
-        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, logger);
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         engine.setProperty("runtime.log.logsystem.test.level", "debug");
         engine.init();
     }

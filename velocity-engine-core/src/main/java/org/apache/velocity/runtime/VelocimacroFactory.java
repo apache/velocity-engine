@@ -26,13 +26,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import org.slf4j.Logger;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
-import org.apache.velocity.runtime.log.LogDisplayWrapper;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.Node;
 
@@ -54,7 +55,7 @@ public class VelocimacroFactory
     /**
      *  the log for this instance
      */
-    private final LogDisplayWrapper log;
+    private final Logger log;
 
     /**
      *  VMManager : deal with namespace management
@@ -106,8 +107,7 @@ public class VelocimacroFactory
     public VelocimacroFactory(final RuntimeServices rsvc)
     {
         this.rsvc = rsvc;
-        this.log = new LogDisplayWrapper(rsvc.getLog(), "Velocimacro : ",
-                rsvc.getBoolean(RuntimeConstants.VM_MESSAGES_ON, true));
+        this.log = rsvc.getLog();
 
         /*
          *  we always access in a synchronized(), so we
@@ -215,7 +215,7 @@ public class VelocimacroFactory
                          catch (Exception e)
                          {
                              String msg = "Velocimacro : Error using VM library : " + lib;
-                             log.error(true, msg, e);
+                             log.error(msg, e);
                              throw new VelocityException(msg, e);
                          }
 
@@ -649,7 +649,7 @@ public class VelocimacroFactory
                     catch (Exception e)
                     {
                         String msg = "Velocimacro : Error using VM library : " + lib;
-                        log.error(true, msg, e);
+                        log.error(msg, e);
                         throw new VelocityException(msg, e);
                     }
 

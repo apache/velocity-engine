@@ -32,7 +32,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 
@@ -75,7 +75,7 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
      */
     private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/resourceinstance/compare";
 
-    private TestLogChute logger = new TestLogChute();
+    private TestLogger logger = new TestLogger();
 
     /**
      * Default constructor.
@@ -99,7 +99,7 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
 
         // actual instance of logger
         logger.on();
-        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM, logger);
+        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         Velocity.setProperty("runtime.log.logsystem.test.level", "debug");
 
         Velocity.init();

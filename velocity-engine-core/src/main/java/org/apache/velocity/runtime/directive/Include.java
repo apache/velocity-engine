@@ -30,10 +30,10 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.StringUtils;
 
 /**
  * <p>Pluggable directive that handles the #include() statement in VTL.
@@ -168,7 +168,7 @@ public class Include extends InputBase
             else
             {
                 String msg = "invalid #include() argument '" 
-                  + n.toString() + "' at " + Log.formatFileString(this);
+                  + n.toString() + "' at " + StringUtils.formatFileString(this);
                 rsvc.getLog().error(msg);
                 outputErrorToStream( writer, "error with arg " + i
                     + " please see log.");
@@ -243,7 +243,7 @@ public class Include extends InputBase
              * the arg wasn't found.  Note it and throw
              */
             rsvc.getLog().error("#include(): cannot find resource '" + arg +
-                                "', called at " + Log.formatFileString(this));
+                                "', called at " + StringUtils.formatFileString(this));
             throw rnfe;
         }
 
@@ -253,13 +253,13 @@ public class Include extends InputBase
         catch( RuntimeException e )
         {
             rsvc.getLog().error("#include(): arg = '" + arg +
-                                "', called at " + Log.formatFileString(this));
+                                "', called at " + StringUtils.formatFileString(this));
             throw e;
         }
         catch (Exception e)
         {
             String msg = "#include(): arg = '" + arg +
-                        "', called at " + Log.formatFileString(this);
+                        "', called at " + StringUtils.formatFileString(this);
             rsvc.getLog().error(msg, e);
             throw new VelocityException(msg, e);
         }

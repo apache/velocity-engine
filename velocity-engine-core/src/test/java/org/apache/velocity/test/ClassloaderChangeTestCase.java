@@ -31,7 +31,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.introspection.IntrospectorCacheImpl;
 
 /**
@@ -40,13 +40,12 @@ import org.apache.velocity.util.introspection.IntrospectorCacheImpl;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ClassloaderChangeTestCase extends TestCase implements LogChute
+public class ClassloaderChangeTestCase extends TestCase
 {
     private VelocityEngine ve = null;
-    private boolean sawCacheDump = false;
+	private TestLogger logger = null;
 
     private static String OUTPUT = "Hello From Foo";
-
 
     /**
      * Default constructor.
@@ -60,13 +59,10 @@ public class ClassloaderChangeTestCase extends TestCase implements LogChute
             throws Exception
     {
         ve = new VelocityEngine();
-        ve.setProperty(VelocityEngine.RUNTIME_LOG_LOGSYSTEM, this );
+        logger = new TestLogger(false, true);
+        logger.setEnabledLevel(TestLogger.LOG_LEVEL_DEBUG);
+        ve.setProperty(VelocityEngine.RUNTIME_LOG_INSTANCE, logger);
         ve.init();
-    }
-
-    public void init( RuntimeServices rs )
-    {
-        // do nothing with it
     }
 
     public static Test suite ()
@@ -80,7 +76,7 @@ public class ClassloaderChangeTestCase extends TestCase implements LogChute
     public void testClassloaderChange()
         throws Exception
     {
-        sawCacheDump = false;
+        logger.on();
 
         VelocityContext vc = new VelocityContext();
         Object foo = null;
@@ -132,37 +128,10 @@ public class ClassloaderChangeTestCase extends TestCase implements LogChute
             fail("Output from doIt() incorrect");
         }
 
-        if (!sawCacheDump)
+        if (!logger.getLog().contains(IntrospectorCacheImpl.CACHEDUMP_MSG))
         {
             fail("Didn't see introspector cache dump.");
         }
-    }
-
-    /**
-     *  method to catch Velocity log messages.  When we
-     *  see the introspector dump message, then set the flag
-     */
-    public void log(int level, String message)
-    {
-        if (message.equals( IntrospectorCacheImpl.CACHEDUMP_MSG) )
-        {
-            sawCacheDump = true;
-        }
-    }
-
-    /**
-     *  method to catch Velocity log messages.  When we
-     *  see the introspector dump message, then set the flag
-     */
-    public void log(int level, String message, Throwable t)
-    {
-        // ignore the Throwable for this test
-        log(level, message);
-    }
-
-    public boolean isLevelEnabled(int level)
-    {
-        return true;
     }
 
     /**

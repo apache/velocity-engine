@@ -21,7 +21,7 @@ package org.apache.velocity.test;
 
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.test.TemplateTestBase;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
@@ -72,8 +72,7 @@ public class StopDirectiveTestCase extends BaseTestCase
 
     public void testStopMessage()
     {
-        log.setEnabledLevel(TestLogChute.DEBUG_ID);
-        log.off();
+        log.setEnabledLevel(TestLogger.LOG_LEVEL_DEBUG);
         context.put("log", log);
 
         assertEvalEquals("a", "a$!log.startCapture()#stop('woogie!')b");

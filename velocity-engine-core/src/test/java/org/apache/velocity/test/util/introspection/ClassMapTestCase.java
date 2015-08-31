@@ -21,10 +21,9 @@ package org.apache.velocity.test.util.introspection;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
+import org.slf4j.Logger;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.log.Log;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.util.introspection.ClassMap;
 
@@ -48,9 +47,7 @@ public class ClassMapTestCase
     public void setUp()
             throws Exception
     {
-        Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
-
+        Velocity.setProperty(Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 	Velocity.init();
     }
     
@@ -61,7 +58,7 @@ public class ClassMapTestCase
     public void testPrimitives()
     	throws Exception
     {
-	Log log = Velocity.getLog();
+        Logger log = Velocity.getLog();
 	
         ClassMap c = new ClassMap(TestClassMap.class, log);
         assertNotNull(c.findMethod("setBoolean",   new Object[] { Boolean.TRUE }));

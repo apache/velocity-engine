@@ -30,6 +30,8 @@ import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.misc.TestLogger;
 
 /**
  *  More specific parser tests where just templating
@@ -57,7 +59,8 @@ public class ParserTestCase extends TestCase
         throws Exception
     {
         VelocityEngine ve = new VelocityEngine();
-
+        TestLogger logger = new TestLogger();
+        ve.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         ve.init();
 
         /*
@@ -92,7 +95,8 @@ public class ParserTestCase extends TestCase
         throws Exception
     {
         VelocityEngine ve = new VelocityEngine();
-
+        TestLogger logger = new TestLogger();
+        ve.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         ve.init();
 
         /*
@@ -128,7 +132,8 @@ public class ParserTestCase extends TestCase
         throws Exception
     {
         VelocityEngine ve = new VelocityEngine();
-
+        TestLogger logger = new TestLogger();
+        ve.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         ve.init();
 
         /*
@@ -171,7 +176,8 @@ public class ParserTestCase extends TestCase
         throws Exception
     {
         VelocityEngine ve = new VelocityEngine();
-
+        TestLogger logger = new TestLogger();
+        ve.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         ve.init();
 
         String template = "$counter";

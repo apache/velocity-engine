@@ -27,7 +27,6 @@ import java.util.List;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
@@ -232,7 +231,7 @@ public class Macro extends Directive
             StringBuffer msg = new StringBuffer("Macro.getArgArray() : nbrArgs=");
             msg.append(numArgs).append(" : ");
             macroToString(msg, macroArgs);
-            rsvc.getLog().debug(msg);
+            rsvc.getLog().debug(msg.toString());
             System.out.println("---- >  macro:  " + msg);
         }
 

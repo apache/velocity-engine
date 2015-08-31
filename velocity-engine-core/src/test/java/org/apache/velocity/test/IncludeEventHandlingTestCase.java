@@ -35,7 +35,7 @@ import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.misc.TestLogChute;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.RuntimeServicesAware;
 
 /**
@@ -103,7 +103,7 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
             Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
 
         Velocity.setProperty(
-                Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+                Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 
         Velocity.init();
 

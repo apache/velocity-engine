@@ -28,8 +28,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.Hashtable;
 
+import org.slf4j.Logger;
+
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 
@@ -45,7 +46,7 @@ public class JarHolder
     private JarFile theJar = null;
     private JarURLConnection conn = null;
 
-    private Log log = null;
+    private Logger log = null;
 
     /**
      * @param rs

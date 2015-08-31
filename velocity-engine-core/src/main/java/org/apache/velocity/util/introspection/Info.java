@@ -19,8 +19,8 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.util.StringUtils;
 
 /**
  *  Little class to carry in info such as template name, line and column
@@ -92,6 +92,6 @@ public class Info
      */
     public String toString()
     {
-        return Log.formatFileString(getTemplateName(), getLine(), getColumn());
+        return StringUtils.formatFileString(getTemplateName(), getLine(), getColumn());
     }
 }

@@ -25,6 +25,8 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
@@ -34,7 +36,6 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -464,7 +465,7 @@ public interface RuntimeServices
      * Returns a convenient Log instance that wraps the current LogChute.
      * @return A log object.
      */
-    public Log getLog();
+    public Logger getLog();
 
     /**
      * Returns the event handlers for the application.

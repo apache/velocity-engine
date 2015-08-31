@@ -29,13 +29,13 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.Log;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Info;
 
 /**
@@ -187,7 +187,7 @@ public class Foreach extends Directive
             catch (Exception ee)
             {
                 String msg = "Error getting iterator for #foreach parameter "
-                    + node.literal() + " at " + Log.formatFileString(node);
+                    + node.literal() + " at " + StringUtils.formatFileString(node);
                 rsvc.getLog().error(msg, ee);
                 throw new VelocityException(msg, ee);
             }
@@ -195,7 +195,7 @@ public class Foreach extends Directive
             if (i == null && !skipInvalidIterator)
             {
                 String msg = "#foreach parameter " + node.literal() + " at "
-                    + Log.formatFileString(node) + " is of type " + iterable.getClass().getName()
+                    + StringUtils.formatFileString(node) + " is of type " + iterable.getClass().getName()
                     + " and cannot be iterated by " + rsvc.getUberspect().getClass().getName();
                 rsvc.getLog().error(msg);
                 throw new VelocityException(msg);

@@ -85,7 +85,6 @@
         <item name="Changes"                  href="changes-report.html"/>
         <item name="Resolved Issues"          href="jira-report.html"/>
         <item name="Upgrading"                href="upgrading.html"/>
-        <item name="Dependencies"             href="jar-dependencies.html"/>
         <item name="Source Code Repository"   href="http://svn.apache.org/viewvc/velocity/engine/trunk/"/>
         <item name="Building from Source"     href="build.html"/>
         <item name="Release Process"          href="release.html"/>
