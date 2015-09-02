@@ -62,6 +62,15 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <artifactSet>
+                <includes>
+                  <include>commons-collections:commons-collections</include>
+                  <include>org.apache.commons:commons-lang3</include>
+                </includes>
+                <excludes>
+                  <exclude>org.slf4j:slf4j-api</exclude>
+                </excludes>
+              </artifactSet>
               <relocations>
                 <relocation>
                   <pattern>org.apache.commons.collections</pattern>
