@@ -236,6 +236,7 @@ Velocity AST Node classes created to src/main/java/org/apache/velocity/runtime/p
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>1.7.12</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
