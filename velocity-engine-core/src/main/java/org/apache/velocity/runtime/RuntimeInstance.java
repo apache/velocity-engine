@@ -114,7 +114,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * The Runtime logger.  The default instance is the "Velocity" logger.
      */
-    private Logger log = LoggerFactory.getLogger(Velocity.class);
+    private Logger log = LoggerFactory.getLogger("Velocity");
 
     /**
      * The Runtime parser pool
