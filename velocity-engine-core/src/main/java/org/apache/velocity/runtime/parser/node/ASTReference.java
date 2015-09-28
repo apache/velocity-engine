@@ -341,7 +341,7 @@ public class ASTReference extends SimpleNode
     {
         if (referenceType == RUNT)
         {
-            writer.write(rootString);
+            writer.write(literal);
             return true;
         }
 
