@@ -85,6 +85,16 @@ public class UberspectImplTestCase extends BaseTestCase
         Velocity.evaluate(context, writer, "test", "#foreach($i in $publicMethod)$i#end");
         assertEquals(writer.toString(), "123");
     }
+    
+    public void testIterableForeach()
+    {
+        VelocityContext context = new VelocityContext();
+        context.put("iterable", new SomeIterable());
+        StringWriter writer = new StringWriter();
+
+        Velocity.evaluate(context, writer, "test", "#foreach($i in $iterable)$i#end");
+        assertEquals(writer.toString(), "123");
+    }
 
     private class PrivateClass
     {
@@ -103,6 +113,14 @@ public class UberspectImplTestCase extends BaseTestCase
     }
 
     public class PublicMethod
+    {
+        public Iterator iterator()
+        {
+            return Arrays.asList("1", "2", "3").iterator();
+        }
+    }
+
+    public class SomeIterable implements Iterable
     {
         public Iterator iterator()
         {
