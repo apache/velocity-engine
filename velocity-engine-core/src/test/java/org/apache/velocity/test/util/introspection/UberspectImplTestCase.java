@@ -33,7 +33,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Tests uberspectors chaining
+ * Tests the default uberspector.
  */
 public class UberspectImplTestCase extends BaseTestCase
 {
@@ -85,7 +85,7 @@ public class UberspectImplTestCase extends BaseTestCase
         Velocity.evaluate(context, writer, "test", "#foreach($i in $publicMethod)$i#end");
         assertEquals(writer.toString(), "123");
     }
-    
+
     public void testIterableForeach()
     {
         VelocityContext context = new VelocityContext();
