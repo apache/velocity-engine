@@ -111,9 +111,9 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             return new ArrayIterator(obj);
         }
-        else if (obj instanceof Collection)
+        else if (obj instanceof Iterable)
         {
-            return ((Collection) obj).iterator();
+            return ((Iterable) obj).iterator();
         }
         else if (obj instanceof Map)
         {
