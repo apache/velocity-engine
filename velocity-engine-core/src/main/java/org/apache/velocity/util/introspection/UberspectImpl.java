@@ -145,6 +145,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                     {
                         return (Iterator)iter.invoke(obj);
                     } 
+                    catch (IllegalAccessException e)
+                    {
+                        // Cannot invoke this method, just give up
+                    }
                     catch (Exception e)
                     {
                         throw new VelocityException("Error invoking the method 'iterator' on class '" 
