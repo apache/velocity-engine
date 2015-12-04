@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.test.misc.TestLogger;
+import org.apache.velocity.test.misc.TestLogChute;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -37,6 +37,7 @@ import junit.framework.TestSuite;
  */
 public class UberspectImplTestCase extends BaseTestCase
 {
+    VelocityEngine engine;
 
     public UberspectImplTestCase(String name)
         throws Exception
@@ -53,11 +54,11 @@ public class UberspectImplTestCase extends BaseTestCase
     public void setUp()
         throws Exception
     {
-        Velocity.reset();
-        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, new TestLogger());
-        Velocity.addProperty(RuntimeConstants.UBERSPECT_CLASSNAME,
-            "org.apache.velocity.util.introspection.UberspectImpl");
-        Velocity.init();
+        engine = new VelocityEngine();
+        
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, TestLogChute.class.getName());
+        engine.addProperty(RuntimeConstants.UBERSPECT_CLASSNAME,"org.apache.velocity.util.introspection.UberspectImpl");
+	    engine.init();
     }
 
     @Override
@@ -74,15 +75,15 @@ public class UberspectImplTestCase extends BaseTestCase
         context.put("publicMethod", new PublicMethod());
         StringWriter writer = new StringWriter();
 
-        Velocity.evaluate(context, writer, "test", "#foreach($i in $privateClass)$i#end");
+        engine.evaluate(context, writer, "test", "#foreach($i in $privateClass)$i#end");
         assertEquals(writer.toString(), "");
 
         writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test", "#foreach($i in $privateMethod)$i#end");
+        engine.evaluate(context, writer, "test", "#foreach($i in $privateMethod)$i#end");
         assertEquals(writer.toString(), "");
 
         writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test", "#foreach($i in $publicMethod)$i#end");
+        engine.evaluate(context, writer, "test", "#foreach($i in $publicMethod)$i#end");
         assertEquals(writer.toString(), "123");
     }
     
@@ -92,7 +93,7 @@ public class UberspectImplTestCase extends BaseTestCase
         context.put("iterable", new SomeIterable());
         StringWriter writer = new StringWriter();
 
-        Velocity.evaluate(context, writer, "test", "#foreach($i in $iterable)$i#end");
+        engine.evaluate(context, writer, "test", "#foreach($i in $iterable)$i#end");
         assertEquals(writer.toString(), "123");
     }
 
