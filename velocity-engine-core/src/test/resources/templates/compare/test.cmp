@@ -33,9 +33,9 @@ $foo/  => bar/
 $foo"  => bar"
 $foo\  => bar\
 $foo<  => bar<
-\$foo-  => $foo-
+$foo-  => bar-
 \$fooo+ => $fooo+
-\$foo-x => $foo-x
+$foo-x => bar-x
 $foo$  => bar$
 
 
