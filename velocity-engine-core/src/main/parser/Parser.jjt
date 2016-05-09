@@ -685,7 +685,7 @@ TOKEN:
  * DEFAULT lexical state the following VTL fails "$a#set($b = 1)"
  * because the Reference token uses LOOKAHEAD(2) combined with the
  * fact that we explicity set the lex state to REFERENCE with the $
- * token, which means we would never evaulate this token during the
+ * token, which means we would never evaluate this token during the
  * look ahead.  This general issue is disscussed here:
  *
  *  http://www.engr.mun.ca/~theo/JavaCC-FAQ/javacc-faq-ie.htm#tth_sEc3.12
@@ -1129,7 +1129,7 @@ TOKEN:
 <PRE_DIRECTIVE,DIRECTIVE>
 TOKEN:
 {
-    <#LETTER: [ "a"-"z", "A" - "Z" ] >
+    <#LETTER: [ "a"-"z", "A"-"Z" ] >
 |   <#DIRECTIVE_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
 |   <WORD: ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* >
 |   <BRACKETED_WORD: "{" ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* "}" >
@@ -1164,7 +1164,7 @@ TOKEN :
 {
     <#ALPHA_CHAR: ["a"-"z", "A"-"Z"] >
 |   <#ALPHANUM_CHAR: [ "a"-"z", "A"-"Z", "0"-"9" ] >
-|   <#IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "-", "_" ] >
+|   <#IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
 |   <IDENTIFIER:  ( <ALPHA_CHAR> | ["_"]) (<IDENTIFIER_CHAR>)* >
 |   <DOT: "." <ALPHA_CHAR>>
     {
