@@ -27,6 +27,39 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="fix" dev="sdimitriu" issue="VELOCITY-863" due-to="Mike Kienenberger">
+        Fix regression: #set&lt;tab&gt;left-paren no longer valid grammar
+        Patch from Mike Kienenberger applied + added test
+      </action>
+      
+      <action type="add" dev="cbrisson">
+        switch to slf4j logging facade
+      </action>
+      
+      <action type="fix" dev="cbrisson">
+        fix parser for '$map{key}' text rendering (StackOverflow 32805217)
+      </action>
+      
+      <action type="fix" dev="sdimitriu" issue="VELOCITY-869">
+        Vulnerability in dependency: commons-collections: 3.2.1
+      </action>
+      
+      <action type="fix" dev="sdimitriu" issue="VELOCITY-870">
+        Exception displayed when trying to loop over an Iterable private class
+      </action>
+      
+      <action type="fix" dev="sdimitriu" issue="VELOCITY-871">
+        #foreach should work over any Iterable class
+      </action>
+      
+      <action type="fix" dev="sdimitriu">
+        Catch exceptions raised during chainable uberspector initialization
+      </action>
+      
+      <action type="fix" dev="cbrisson" issue="VELOCITY-542">
+        Hypen is no more allowed in variable names
+      </action>
+      
       <action type="add" dev="cbrisson" issue="VELOCITY-706">
         Method arguments can now be expressions
       </action>
