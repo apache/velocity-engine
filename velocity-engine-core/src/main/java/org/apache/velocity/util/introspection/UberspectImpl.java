@@ -111,10 +111,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             if (log.isDebugEnabled())
             {
-                log.debug("The iterative object in the #foreach() loop at " +
-                           i + " is of type java.util.Iterator.  Because " +
-                           "it is not resettable, if used in more than once it " +
-                           "may lead to unexpected results.");
+                log.debug("The iterative object in the #foreach() loop at {}" +
+                          " is of type java.util.Iterator.  Because " +
+                          "it is not resettable, if used in more than once it " +
+                          "may lead to unexpected results.", i);
             }
             return ((Iterator) obj);
         }
@@ -122,10 +122,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         {
             if (log.isDebugEnabled())
             {
-                log.debug("The iterative object in the #foreach() loop at " +
-                           i + " is of type java.util.Enumeration.  Because " +
-                           "it is not resettable, if used in more than once it " +
-                           "may lead to unexpected results.");
+                log.debug("The iterative object in the #foreach() loop at {}" +
+                          " is of type java.util.Enumeration.  Because " +
+                          "it is not resettable, if used in more than once it " +
+                          "may lead to unexpected results.", i);
             }
             return new EnumerationIterator((Enumeration) obj);
         }
@@ -157,8 +157,8 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                 }
                 else
                 {
-                    log.debug("iterator() method of reference in #foreach loop at "
-                              + i + " does not return a true Iterator.");
+                    log.debug("iterator() method of reference in #foreach loop at " +
+                              "{} does not return a true Iterator.", i);
                 }
             }
             catch (NoSuchMethodException nsme)
@@ -168,7 +168,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         }
 
         /*  we have no clue what this is  */
-        log.debug("Could not determine type of iterator in #foreach loop at " + i);
+        log.debug("Could not determine type of iterator in #foreach loop at {}", i);
 
         return null;
     }

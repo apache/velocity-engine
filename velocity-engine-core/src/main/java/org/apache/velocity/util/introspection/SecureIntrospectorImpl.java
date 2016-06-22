@@ -64,9 +64,8 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
     {
         if (!checkObjectExecutePermission(clazz, methodName))
         {
-            log.warn("Cannot retrieve method " + methodName +
-                     " from object of class " + clazz.getName() +
-                     " due to security restrictions.");
+            log.warn("Cannot retrieve method {} from object of class {} due to security restrictions."
+                     , methodName, clazz.getName());
             return null;
         }
         else

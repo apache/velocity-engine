@@ -57,7 +57,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
             try {
                 this.inner.init();
             } catch (Exception e) {
-                this.log.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
                 this.inner = null;
             }
         }

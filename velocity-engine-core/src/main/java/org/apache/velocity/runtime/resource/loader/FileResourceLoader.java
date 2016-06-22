@@ -85,7 +85,7 @@ public class FileResourceLoader extends ResourceLoader
 
         if (log.isDebugEnabled())
         {
-            log.debug("Do unicode file recognition:  " + unicode);
+            log.debug("Do unicode file recognition: {}", unicode);
         }
 
         if (log.isDebugEnabled())
@@ -97,7 +97,7 @@ public class FileResourceLoader extends ResourceLoader
             int sz = paths.size();
             for( int i=0; i < sz; i++)
             {
-                log.debug("FileResourceLoader : adding path '" + (String) paths.get(i) + "'");
+                log.debug("FileResourceLoader : adding path '{}'", (String)paths.get(i));
             }
             log.trace("FileResourceLoader : initialization complete.");
         }
@@ -208,8 +208,7 @@ public class FileResourceLoader extends ResourceLoader
             }
             catch (Exception ioe)
             {
-                String msg = "Exception while checking for template " + name;
-                log.debug(msg, ioe);
+                log.debug("Exception while checking for template {}", name);
             }
         }
         return false;
@@ -247,7 +246,7 @@ public class FileResourceLoader extends ResourceLoader
 
                             if (log.isDebugEnabled())
                             {
-                                log.debug("File Encoding for " + file + " is: " + uis.getEncodingFromStream());
+                                log.debug("File Encoding for {} is: {}", file, uis.getEncodingFromStream());
                             }
 
                             return new BufferedInputStream(uis);

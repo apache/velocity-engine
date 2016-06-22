@@ -107,7 +107,7 @@ public class ResourceManagerImpl
         this.rsvc = rsvc;
         log = rsvc.getLog();
 
-        log.trace("ResourceManager initializing: %s", this.getClass());
+        log.trace("ResourceManager initializing: {}", this.getClass());
 
         assembleResourceLoaderInitializers();
 
@@ -240,7 +240,7 @@ public class ResourceManagerImpl
             if (loaderConfiguration == null)
             {
                 log.debug("ResourceManager : No configuration information found "+
-                          "for resource loader named '%s' (id is %s). Skipping it...",
+                          "for resource loader named '{}' (id is {}). Skipping it...",
                           loaderName, loaderID);
                 continue;
             }
@@ -448,7 +448,7 @@ public class ResourceManagerImpl
 
                     if (logWhenFound && log.isDebugEnabled())
                     {
-                        log.debug("ResourceManager: found %s with loader ",
+                        log.debug("ResourceManager: found {} with loader {}",
                                   resourceName, resourceLoader.getClassName());
                     }
 
@@ -536,7 +536,7 @@ public class ResourceManagerImpl
 
             if (!org.apache.commons.lang3.StringUtils.equals(resource.getEncoding(), encoding))
             {
-                log.warn("Declared encoding for template '%s' is different on reload. Old = '%s' New = '%s'",
+                log.warn("Declared encoding for template '{}' is different on reload. Old = '{}' New = '{}'",
                          resource.getName(), resource.getEncoding(), encoding);
                 resource.setEncoding(encoding);
             }

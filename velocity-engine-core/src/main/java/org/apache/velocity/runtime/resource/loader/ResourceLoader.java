@@ -228,9 +228,8 @@ public abstract class ResourceLoader
         {
             if (log.isDebugEnabled())
             {
-                log.debug("Could not load resource '" + resourceName 
-                        + "' from ResourceLoader " + this.getClass().getName() 
-                        + ": ", e);
+                log.debug("Could not load resource '{}' from ResourceLoader {}",
+                          resourceName, this.getClass().getName(), e);
             }
         }
         finally
@@ -246,8 +245,9 @@ public abstract class ResourceLoader
             {
                 if (log.isErrorEnabled())
                 {
-                    String msg = "While closing InputStream for resource '" + resourceName
-                        + "' from ResourceLoader "+this.getClass().getName();
+                    String msg = "While closing InputStream for resource '" +
+                        resourceName + "' from ResourceLoader " +
+                        this.getClass().getName();
                     log.error(msg, e);
                     throw new VelocityException(msg, e);
                 }
