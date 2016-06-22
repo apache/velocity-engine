@@ -61,7 +61,7 @@ public class JarHolder
 
         if (log.isDebugEnabled())
         {
-            log.debug("JarHolder: initialized JAR: " + urlpath);
+            log.debug("JarHolder: initialized JAR: {}", urlpath);
         }
     }
 
@@ -74,7 +74,7 @@ public class JarHolder
         {
             if (log.isDebugEnabled())
             {
-                log.debug("JarHolder: attempting to connect to " + urlpath);
+                log.debug("JarHolder: attempting to connect to {}", urlpath);
             }
             URL url = new URL( urlpath );
             conn = (JarURLConnection) url.openConnection();

@@ -70,7 +70,7 @@ public class ClassFieldMap
         if (debugReflection && log.isDebugEnabled())
         {
             log.debug("=================================================================");
-            log.debug("== Class: " + clazz);
+            log.debug("== Class: {}", clazz);
         }
 
         fieldCache = createFieldCache();
@@ -150,7 +150,7 @@ public class ClassFieldMap
     {
         if (debugReflection && log.isDebugEnabled())
         {
-            log.debug("Reflecting " + classToReflect);
+            log.debug("Reflecting {}", classToReflect);
         }
 
         try
@@ -169,7 +169,7 @@ public class ClassFieldMap
         {
             if (log.isDebugEnabled())
             {
-                log.debug("While accessing fields of " + classToReflect + ": ", se);
+                log.debug("While accessing fields of {}:", classToReflect, se);
             }
         }
     }

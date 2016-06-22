@@ -427,7 +427,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             if (log.isDebugEnabled())
             {
-                log.debug("Default Properties File: " +
+                log.debug("Default Properties File: {}",
                     new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
             }
 
@@ -984,7 +984,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             String directiveClass = (String) directiveClasses.nextElement();
             loadDirective(directiveClass);
-            log.debug("Loaded System Directive: " + directiveClass);
+            log.debug("Loaded System Directive: {}", directiveClass);
         }
 
         /*
@@ -998,7 +998,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             loadDirective(userdirective[i]);
             if (log.isDebugEnabled())
             {
-                log.debug("Loaded User Directive: " + userdirective[i]);
+                log.debug("Loaded User Directive: {}", userdirective[i]);
             }
         }
 

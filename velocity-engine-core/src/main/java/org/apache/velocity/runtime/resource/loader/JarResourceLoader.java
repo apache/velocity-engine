@@ -94,7 +94,7 @@ public class JarResourceLoader extends ResourceLoader
 
         if (paths != null)
         {
-            log.debug("JarResourceLoader # of paths : " + paths.size() );
+            log.debug("JarResourceLoader # of paths : {}", paths.size() );
 
             for ( int i=0; i<paths.size(); i++ )
             {
@@ -109,7 +109,7 @@ public class JarResourceLoader extends ResourceLoader
     {
         if (log.isDebugEnabled())
         {
-            log.debug("JarResourceLoader : trying to load \"" + path + "\"");
+            log.debug("JarResourceLoader : trying to load \"{}\"", path);
         }
 
         // Check path information

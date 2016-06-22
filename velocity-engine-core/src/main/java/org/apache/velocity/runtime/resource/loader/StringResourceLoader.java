@@ -224,7 +224,7 @@ public class StringResourceLoader extends ResourceLoader
             this.repository = getRepository(repoName);
             if (repository != null && log.isDebugEnabled())
             {
-                log.debug("Loaded repository '"+repoName+"' from static repo store");
+                log.debug("Loaded repository '{}' from static repo store", repoName);
             }
         }
         else
@@ -232,7 +232,7 @@ public class StringResourceLoader extends ResourceLoader
             this.repository = (StringResourceRepository)rsvc.getApplicationAttribute(repoName);
             if (repository != null && log.isDebugEnabled())
             {
-                log.debug("Loaded repository '"+repoName+"' from application attributes");
+                log.debug("Loaded repository '{}' from application attributes", repoName);
             }
         }
 
@@ -257,9 +257,9 @@ public class StringResourceLoader extends ResourceLoader
             // warn them if they are trying to change the class of the repository
             if (!this.repository.getClass().getName().equals(repoClass))
             {
-                log.debug("Cannot change class of string repository '"+repoName+
-                          "' from "+this.repository.getClass().getName()+" to "+repoClass+
-                          ". The change will be ignored.");
+                log.debug("Cannot change class of string repository '{}' from {} to {}." +
+                          " The change will be ignored.",
+                          repoName, this.repository.getClass().getName(), repoClass);
             }
 
             // allow them to change the default encoding of the repo
@@ -268,8 +268,8 @@ public class StringResourceLoader extends ResourceLoader
             {
                 if (log.isDebugEnabled())
                 {
-                    log.debug("Changing the default encoding of string repository '"+repoName+
-                              "' from "+this.repository.getEncoding()+" to "+encoding);
+                    log.debug("Changing the default encoding of string repository '{}' from {} to {}",
+                              repoName, this.repository.getEncoding(), encoding);
                 }
                 this.repository.setEncoding(encoding);
             }
@@ -286,7 +286,7 @@ public class StringResourceLoader extends ResourceLoader
     {
         if (log.isDebugEnabled())
         {
-            log.debug("Creating string repository using class "+className+"...");
+            log.debug("Creating string repository using class {}...", className);
         }
 
         StringResourceRepository repo;
@@ -318,7 +318,7 @@ public class StringResourceLoader extends ResourceLoader
 
         if (log.isDebugEnabled())
         {
-            log.debug("Default repository encoding is " + repo.getEncoding());
+            log.debug("Default repository encoding is {}", repo.getEncoding());
         }
         return repo;
     }

@@ -84,9 +84,8 @@ public abstract class Block extends Directive
         }
         catch (IOException e)
         {
-            String msg = "Failed to render " + id(context) + " to writer "
-              + " at " + StringUtils.formatFileString(this);
-
+            String msg = "Failed to render " + id(context) + " to writer at " +
+                StringUtils.formatFileString(this);
             log.error(msg, e);
             throw new RuntimeException(msg, e);
         }
@@ -152,8 +151,7 @@ public abstract class Block extends Directive
                  * use recursive block definitions and having problems
                  * pulling it off properly.
                  */
-                parent.log.debug("Max recursion depth reached for " + parent.id(context)
-                    + " at " + StringUtils.formatFileString(parent));
+                parent.log.debug("Max recursion depth reached for {} at {}", parent.id(context), StringUtils.formatFileString(parent));
                 depth--;
                 return false;
             }

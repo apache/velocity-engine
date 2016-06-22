@@ -58,7 +58,7 @@ public class URLResourceLoader extends ResourceLoader
         {
             for (int i=0; i < roots.length; i++)
             {
-                log.debug("URLResourceLoader : adding root '" + roots[i] + "'");
+                log.debug("URLResourceLoader : adding root '{}'", roots[i]);
             }
         }
 
@@ -71,7 +71,7 @@ public class URLResourceLoader extends ResourceLoader
                 Method conn = URLConnection.class.getMethod("setConnectTimeout", types);
                 Method read = URLConnection.class.getMethod("setReadTimeout", types);
                 timeoutMethods = new Method[] { conn, read };
-                log.debug("URLResourceLoader : timeout set to "+timeout);
+                log.debug("URLResourceLoader : timeout set to {}", timeout);
             }
             catch (NoSuchMethodException nsme)
             {
@@ -116,7 +116,7 @@ public class URLResourceLoader extends ResourceLoader
 
                 if (inputStream != null)
                 {
-                    if (log.isDebugEnabled()) log.debug("URLResourceLoader: Found '"+name+"' at '"+roots[i]+"'");
+                    if (log.isDebugEnabled()) log.debug("URLResourceLoader: Found '{}' at '{}'", name, roots[i]);
 
                     // save this root for later re-use
                     templateRoots.put(name, roots[i]);
@@ -125,7 +125,7 @@ public class URLResourceLoader extends ResourceLoader
             }
             catch(IOException ioe)
             {
-                if (log.isDebugEnabled()) log.debug("URLResourceLoader: Exception when looking for '"+name+"' at '"+roots[i]+"'", ioe);
+                if (log.isDebugEnabled()) log.debug("URLResourceLoader: Exception when looking for '{}' at '{}'", name, roots[i], ioe);
 
                 // only save the first one for later throwing
                 if (exception == null)

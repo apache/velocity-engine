@@ -151,9 +151,7 @@ public class VelocimacroFactory
 
              if (libfiles == null)
              {
-                 log.debug("\"" + RuntimeConstants.VM_LIBRARY +
-                     "\" is not set.  Trying default library: " +
-                     RuntimeConstants.VM_LIBRARY_DEFAULT);
+                 log.debug("\"{}\" is not set. Trying default library: {}", RuntimeConstants.VM_LIBRARY, RuntimeConstants.VM_LIBRARY_DEFAULT);
 
                  // try the default library.
                  if (rsvc.getLoaderNameForResource(RuntimeConstants.VM_LIBRARY_DEFAULT) != null)
@@ -195,7 +193,7 @@ public class VelocimacroFactory
 
                          vmManager.setRegisterFromLib(true);
 
-                         log.debug("adding VMs from VM library : " + lib);
+                         log.debug("adding VMs from VM library : {}", lib);
 
                          try
                          {
@@ -466,7 +464,7 @@ public class VelocimacroFactory
         }
         if (log.isDebugEnabled())
         {
-            log.debug("added VM "+name+": source="+sourceTemplate);
+            log.debug("added VM {}: source={}", name, sourceTemplate);
         }
         return true;
     }
@@ -501,7 +499,7 @@ public class VelocimacroFactory
          */
         if (!addNewAllowed)
         {
-            log.warn("VM addition rejected : "+name+" : inline VMs not allowed.");
+            log.warn("VM addition rejected : {} : inline VelociMacros not allowed.", name);
             return false;
         }
 
@@ -526,7 +524,7 @@ public class VelocimacroFactory
                  * some macro
                  */
                 if (log.isDebugEnabled())
-                    log.debug("VM addition rejected : "+name+" : inline not allowed to replace existing VM");
+                    log.debug("VM addition rejected : {} : inline not allowed to replace existing VM", name);
                 return false;
             }
         }
@@ -617,7 +615,7 @@ public class VelocimacroFactory
 
                             if (ft > tt)
                             {
-                                log.debug("auto-reloading VMs from VM library : " + lib);
+                                log.debug("auto-reloading VMs from VM library : {}", lib);
 
                                 /*
                                  * when there are VMs in a library that invoke each other, there are

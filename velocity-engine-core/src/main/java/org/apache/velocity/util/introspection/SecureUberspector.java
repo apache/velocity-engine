@@ -84,8 +84,7 @@ public class SecureUberspector extends UberspectImpl implements RuntimeServicesA
             }
             else
             {
-                log.warn("Cannot retrieve iterator from " + obj.getClass() +
-                         " due to security restrictions.");
+                log.warn("Cannot retrieve iterator from {} due to security restrictions.", obj.getClass().getName());
             }
         }
         return null;

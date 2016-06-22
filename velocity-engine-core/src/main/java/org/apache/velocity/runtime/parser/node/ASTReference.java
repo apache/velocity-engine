@@ -428,8 +428,9 @@ public class ASTReference extends SimpleNode
             {
                 if (referenceType != QUIET_REFERENCE)
                 {
-                  log.error("Prepend the reference with '$!' e.g., $!" + literal().substring(1)
-                      + " if you want Velocity to ignore the reference when it evaluates to null");
+                  log.error("Prepend the reference with '$!' e.g., $!{}" + 
+                            " if you want Velocity to ignore the reference when it evaluates to null",
+                            literal().substring(1));
                   if (value == null)
                   {
                     throw new VelocityException("Reference " + literal() 
@@ -467,9 +468,8 @@ public class ASTReference extends SimpleNode
 
             if (logOnNull && referenceType != QUIET_REFERENCE && log.isDebugEnabled())
             {
-                log.debug("Null reference [template '" + getTemplateName()
-                        + "', line " + this.getLine() + ", column " + this.getColumn() + "] : "
-                        + this.literal() + " cannot be resolved.");
+                log.debug("Null reference [template '{}', line {}, column {}] : {} cannot be resolved.",
+                          getTemplateName(), this.getLine(), this.getColumn(), this.literal());
             }
             return true;
         }
@@ -591,9 +591,8 @@ public class ASTReference extends SimpleNode
 
         if (result == null)
         {
-            String msg = "reference set is not a valid reference at "
-                    + StringUtils.formatFileString(uberInfo);
-            log.error(msg);
+            log.error("reference set is not a valid reference at {}",
+                      StringUtils.formatFileString(uberInfo));
             return false;
         }
 
@@ -615,10 +614,8 @@ public class ASTReference extends SimpleNode
                         jjtGetChild(i+1).getLine(), jjtGetChild(i+1).getColumn());
                 }            
               
-                String msg = "reference set is not a valid reference at "
-                    + StringUtils.formatFileString(uberInfo);
-                log.error(msg);
-
+                log.error("reference set is not a valid reference at {}",
+                          StringUtils.formatFileString(uberInfo));
                 return false;
             }
         }
@@ -976,8 +973,8 @@ public class ASTReference extends SimpleNode
         }
         catch(RuntimeException e)
         {
-            log.error("Exception calling reference $" + variable + " at "
-                      + StringUtils.formatFileString(uberInfo));
+            log.error("Exception calling reference ${} at {}",
+                      variable, StringUtils.formatFileString(uberInfo));
             throw e;
         }
         
@@ -985,8 +982,8 @@ public class ASTReference extends SimpleNode
         {
           if (!context.containsKey(variable))
           {
-              log.error("Variable $" + variable + " has not been set at "
-                        + StringUtils.formatFileString(uberInfo));
+              log.error("Variable ${} has not been set at {}",
+                        variable, StringUtils.formatFileString(uberInfo));
               throw new MethodInvocationException("Variable $" + variable +
                   " has not been set", null, identifier,
                   uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());            

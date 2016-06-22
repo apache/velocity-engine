@@ -68,7 +68,7 @@ public class ClassMap
         if (debugReflection && log.isDebugEnabled())
         {
             log.debug("=================================================================");
-            log.debug("== Class: " + clazz);
+            log.debug("== Class: {}", clazz);
         }
 
         methodCache = createMethodCache();
@@ -159,7 +159,7 @@ public class ClassMap
     {
         if (debugReflection && log.isDebugEnabled())
         {
-            log.debug("Reflecting " + classToReflect);
+            log.debug("Reflecting {}", classToReflect);
         }
 
         try
@@ -178,7 +178,7 @@ public class ClassMap
         {
             if (log.isDebugEnabled())
             {
-                log.debug("While accessing methods of " + classToReflect + ": ", se);
+                log.debug("While accessing methods of {}:", classToReflect, se);
             }
         }
     }
@@ -292,7 +292,7 @@ public class ClassMap
                 methodMap.add(method);
                 if (debugReflection && log.isDebugEnabled())
                 {
-                    log.debug("Adding " + method);
+                    log.debug("Adding {}", method);
                 }
             }
         }
