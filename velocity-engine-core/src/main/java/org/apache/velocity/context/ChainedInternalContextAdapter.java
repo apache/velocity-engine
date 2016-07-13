@@ -99,7 +99,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.Context#containsKey(java.lang.Object)
      */
-    public boolean containsKey(Object key)
+    public boolean containsKey(String key)
     {
         return wrappedContext.containsKey(key);
     }
@@ -107,7 +107,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.Context#getKeys()
      */
-    public Object[] getKeys()
+    public String[] getKeys()
     {
         return wrappedContext.getKeys();
     }
@@ -115,7 +115,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.Context#remove(java.lang.Object)
      */
-    public Object remove(Object key)
+    public Object remove(String key)
     {
         return wrappedContext.remove(key);
     }
@@ -147,7 +147,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getTemplateNameStack()
      */
-    public Object[] getTemplateNameStack()
+    public String[] getTemplateNameStack()
     {
         return wrappedContext.getTemplateNameStack();
     }
@@ -187,7 +187,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
      */
-    public Object[] getMacroNameStack()
+    public String[] getMacroNameStack()
     {
         return wrappedContext.getMacroNameStack();
     }

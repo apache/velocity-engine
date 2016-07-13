@@ -58,7 +58,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
     /**
      *  Storage for key/value pairs.
      */
-    private Map context = null;
+    private Map<String, Object> context = null;
 
     /**
      *  Creates a new instance (with no inner context).
@@ -73,7 +73,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *  context).
      * @param context
      */
-    public VelocityContext(Map context)
+    public VelocityContext(Map<String, Object> context)
     {
         this(context, null);
     }
@@ -101,10 +101,10 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *  create default storage.
      *  @param innerContext Inner context.
      */
-    public VelocityContext(Map context, Context innerContext)
+    public VelocityContext(Map<String, Object> context, Context innerContext)
     {
         super(innerContext);
-        this.context = (context == null ? new HashMap() : context);
+        this.context = (context == null ? new HashMap<String, Object>() : context);
     }
 
     /**
@@ -139,7 +139,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *  @param key name of value to check
      *  @return true if non-null value in store
      */
-    public  boolean internalContainsKey(Object key)
+    public  boolean internalContainsKey(String key)
     {
         return context.containsKey( key );
     }
@@ -149,9 +149,9 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *
      *  @return keys as []
      */
-    public  Object[] internalGetKeys()
+    public  String[] internalGetKeys()
     {
-        return context.keySet().toArray();
+        return context.keySet().toArray(new String[context.size()]);
     }
 
     /**
@@ -161,7 +161,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *  @param key name of value to remove
      *  @return value removed
      */
-    public  Object internalRemove(Object key)
+    public  Object internalRemove(String key)
     {
         return context.remove( key );
     }
@@ -177,7 +177,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
         try
         {
             clone = (VelocityContext) super.clone();
-            clone.context = new HashMap(context);
+            clone.context = new HashMap<String, Object>(context);
         }
         catch (CloneNotSupportedException ignored)
         {
