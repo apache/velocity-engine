@@ -90,7 +90,7 @@ public abstract class AbstractContext extends InternalContextBase
      *   @param key key to test for existence
      *   @return true if found, false if not
      */
-    public abstract boolean internalContainsKey(Object key);
+    public abstract boolean internalContainsKey(String key);
 
     /**
      *  Implement to return an object array of key
@@ -101,7 +101,7 @@ public abstract class AbstractContext extends InternalContextBase
      *
      *  @return array of keys
      */
-    public abstract Object[] internalGetKeys();
+    public abstract String[] internalGetKeys();
 
     /**
      *  Implement to remove an item from your storage.
@@ -112,7 +112,7 @@ public abstract class AbstractContext extends InternalContextBase
      *  @param key key to remove
      *  @return object removed if exists, else null
      */
-    public abstract Object internalRemove(Object key);
+    public abstract Object internalRemove(String key);
 
     /**
      *  default CTOR
@@ -207,7 +207,7 @@ public abstract class AbstractContext extends InternalContextBase
      * @param key The key to look for.
      * @return true if the key is in the context, false if not.
      */
-    public boolean containsKey(Object key)
+    public boolean containsKey(String key)
     {
         if (key == null)
         {
@@ -228,7 +228,7 @@ public abstract class AbstractContext extends InternalContextBase
      *  @return Object[] of keys in the Context. Does not return
      *          keys in chained context.
      */
-    public Object[] getKeys()
+    public String[] getKeys()
     {
         return internalGetKeys();
     }
@@ -240,7 +240,7 @@ public abstract class AbstractContext extends InternalContextBase
      * @return    The value that the key was mapped to, or <code>null</code>
      *            if unmapped.
      */
-    public Object remove(Object key)
+    public Object remove(String key)
     {
         if (key == null)
         {

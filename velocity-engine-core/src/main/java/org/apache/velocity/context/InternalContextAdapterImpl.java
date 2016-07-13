@@ -140,7 +140,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getTemplateNameStack()
      */
-    public Object[] getTemplateNameStack()
+    public String[] getTemplateNameStack()
     {
         return icb.getTemplateNameStack();
     }
@@ -185,7 +185,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
      * @since 1.6
      */
-    public Object[] getMacroNameStack()
+    public String[] getMacroNameStack()
     {
         return icb.getMacroNameStack();
     }
@@ -261,7 +261,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.Context#containsKey(java.lang.Object)
      */
-    public boolean containsKey(Object key)
+    public boolean containsKey(String key)
     {
         return context.containsKey( key );
     }
@@ -269,7 +269,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.Context#getKeys()
      */
-    public Object[] getKeys()
+    public String[] getKeys()
     {
         return context.getKeys();
     }
@@ -277,7 +277,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.Context#remove(java.lang.Object)
      */
-    public Object remove(Object key)
+    public Object remove(String key)
     {
         return context.remove( key );
     }

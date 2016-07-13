@@ -190,7 +190,7 @@ public class Parse extends InputBase
             /* 
              * see if we have exceeded the configured depth.
              */
-            Object[] templateStack = context.getTemplateNameStack();
+            String[] templateStack = context.getTemplateNameStack();
             if (templateStack.length >= maxDepth)
             {
                 StringBuffer path = new StringBuffer();

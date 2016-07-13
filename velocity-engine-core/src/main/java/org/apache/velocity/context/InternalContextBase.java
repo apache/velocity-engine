@@ -57,12 +57,12 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      *  Template name stack. The stack top contains the current template name.
      */
-    private Stack templateNameStack = new Stack();
+    private Stack<String> templateNameStack = new Stack<String>();
 
     /**
      *  Velocimacro name stack. The stack top contains the current macro name.
      */
-    private Stack macroNameStack = new Stack();
+    private Stack<String> macroNameStack = new Stack<String>();
 
     /**
      *  EventCartridge we are to carry.  Set by application
@@ -109,17 +109,17 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         if ( templateNameStack.empty() )
             return "<undef>";
         else
-            return (String) templateNameStack.peek();
+            return templateNameStack.peek();
     }
 
     /**
      *  get the current template name stack
      *
-     *  @return Object[] with the template name stack contents.
+     *  @return String[] with the template name stack contents.
      */
-    public Object[] getTemplateNameStack()
+    public String[] getTemplateNameStack()
     {
-        return templateNameStack.toArray();
+        return templateNameStack.toArray(new String[templateNameStack.size()]);
     }
 
     /**
@@ -153,7 +153,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
         }
         else
         {
-            return (String) macroNameStack.peek();
+            return macroNameStack.peek();
         }
     }
 
@@ -170,11 +170,11 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      *  get the current macro name stack
      *
-     *  @return Object[] with the macro name stack contents.
+     *  @return String[] with the macro name stack contents.
      */
-    public Object[] getMacroNameStack()
+    public String[] getMacroNameStack()
     {
-        return macroNameStack.toArray();
+        return macroNameStack.toArray(new String[macroNameStack.size()]);
     }
 
     /**

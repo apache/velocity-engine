@@ -60,13 +60,13 @@ public interface Context
      * @param key The key to look for.
      * @return    Whether the key is in the context.
      */
-    boolean containsKey(Object key);
+    boolean containsKey(String key);
 
     /**
      * Get all the keys for the values in the context.
      * @return All the keys for the values in the context.
      */
-    Object[] getKeys();
+    String[] getKeys();
 
     /**
      * Removes the value associated with the specified key from the context.
@@ -75,5 +75,5 @@ public interface Context
      * @return    The value that the key was mapped to, or <code>null</code>
      *            if unmapped.
      */
-    Object remove(Object key);
+    Object remove(String key);
 }

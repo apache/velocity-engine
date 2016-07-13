@@ -54,6 +54,6 @@ public interface InternalWrapperContext
     /**
      * Tests if the key exists in the specified scope
      */
-    boolean containsKey(Object key);
+    boolean containsKey(String key);
         
 }

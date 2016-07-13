@@ -35,9 +35,9 @@ import org.apache.velocity.context.Context;
 public class TestContext implements Context
 {
     Context innerContext = new VelocityContext();
-    Map originalKeys = new HashMap();
+    Map<String, String> originalKeys = new HashMap<String, String>();
     
-    public boolean containsKey(Object key)
+    public boolean containsKey(String key)
     {
         return innerContext.containsKey(normalizeKey(key));
     }
@@ -47,9 +47,9 @@ public class TestContext implements Context
         return innerContext.get(normalizeKey(key));
     }
 
-    public Object[] getKeys()
+    public String[] getKeys()
     {
-        return originalKeys.values().toArray();
+        return originalKeys.values().toArray(new String[originalKeys.size()]);
     }
 
     public Object put(String key, Object value)
@@ -59,25 +59,21 @@ public class TestContext implements Context
         return innerContext.put(normalizedKey, value);
     }
 
-    public Object remove(Object key)
+    public Object remove(String key)
     {
         originalKeys.remove(key);
         return innerContext.remove(normalizeKey(key));
     }
 
-    private String normalizeKey(Object key)
+    private String normalizeKey(String key)
     {
         if (key == null)
         {
             return null;
         }
-        else if (key.toString() == null)
-        {
-            return null;
-        }
         else
         {
-            return key.toString().toUpperCase();
+            return key.toUpperCase();
         }
     }
 }

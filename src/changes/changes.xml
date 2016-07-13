@@ -27,6 +27,11 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="fix" dev="cbrisson" issue="VELOCITY-266">
+        Take advantage of the major version jump to enforce String keys
+        in internal Context API
+      </action>
+      
       <action type="fix" dev="sdimitriu" issue="VELOCITY-863" due-to="Mike Kienenberger">
         Fix regression: #set&lt;tab&gt;left-paren no longer valid grammar
         Patch from Mike Kienenberger applied + added test
