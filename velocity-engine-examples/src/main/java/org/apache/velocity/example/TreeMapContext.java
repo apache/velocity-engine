@@ -18,6 +18,7 @@ package org.apache.velocity.example;
  * under the License.
  */
 
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.velocity.context.AbstractContext;
@@ -58,17 +59,18 @@ public class TreeMapContext extends AbstractContext
         return context.put( key, value );
     }
 
-    public  boolean internalContainsKey(Object key)
+    public  boolean internalContainsKey(String key)
     {
         return context.containsKey( key );
     }
 
-    public  Object[] internalGetKeys()
+    public  String[] internalGetKeys()
     {
-        return context.keySet().toArray();
+        Set<String> keys = context.keySet();
+        return keys.toArray(new String[keys.size()]);
     }
 
-    public  Object internalRemove(Object key)
+    public  Object internalRemove(String key)
     {
         return context.remove( key );
     }

@@ -142,7 +142,7 @@ public class DBContext extends AbstractContext
      *  operation, so not bothering.  As we say above :
      *  "very fragile, crappy code..."
      */
-    public  boolean internalContainsKey(Object key)
+    public  boolean internalContainsKey(String key)
     {
         return false;
     }
@@ -152,7 +152,7 @@ public class DBContext extends AbstractContext
      *  operation, so not bothering.  As we say above :
      *  "very fragile, crappy code..."
      */
-    public  Object[] internalGetKeys()
+    public  String[] internalGetKeys()
     {
         return null;
     }
@@ -162,7 +162,7 @@ public class DBContext extends AbstractContext
      *  operation, so not bothering.  As we say above :
      *  "very fragile, crappy code..."
      */
-    public  Object internalRemove(Object key)
+    public  Object internalRemove(String key)
     {
         return null;
     }
