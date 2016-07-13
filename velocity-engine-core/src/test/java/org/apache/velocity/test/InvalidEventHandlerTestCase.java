@@ -306,6 +306,12 @@ extends TestCase
             fail("Expected exception.");
         } catch (RuntimeException e) {}
 
+        // except if object is tested first
+        s = "#if($a2 and $a2.foobar)yes#{else}no#end";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+        assertEquals("no", w.toString());
+
         // bad object, no property            
         s = "$a3";
         w = new StringWriter();
