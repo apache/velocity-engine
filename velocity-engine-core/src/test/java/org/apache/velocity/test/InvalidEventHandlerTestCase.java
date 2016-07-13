@@ -46,6 +46,42 @@ import org.apache.velocity.util.introspection.Info;
 public class InvalidEventHandlerTestCase
 extends TestCase
 {
+    // @@ VELOCITY-553
+    public class TestObject {
+        private String nullValueAttribute = null;
+        
+        public String getNullValueAttribute() {
+            return nullValueAttribute;
+        }	
+
+        public String getRealString() {
+            return new String("helloFooRealStr");
+        }	
+        
+        public String getString() {
+            return new String("helloFoo");
+        }
+
+        public String getNullString() {
+            return null;
+        }	
+        
+        public java.util.Date getNullDate() {
+            return null;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("TestObject [nullValueAttribute=");
+            builder.append(nullValueAttribute);
+            builder.append("]");
+            return builder.toString();
+        }
+    }
+    // @@ VELOCITY-553
+
+    
     /**
      * Default constructor.
      */
@@ -86,6 +122,7 @@ extends TestCase
         ec.addEventHandler(te);
         ec.attachToContext( inner );
         
+        doTestInvalidReferenceEventHandler0(ve, inner);
         doTestInvalidReferenceEventHandler1(ve, inner);
         doTestInvalidReferenceEventHandler2(ve, inner);
         doTestInvalidReferenceEventHandler3(ve, inner);
@@ -103,6 +140,7 @@ extends TestCase
         ve.setProperty(RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES, TestEventCartridge.class.getName());
 
         ve.init();
+        doTestInvalidReferenceEventHandler0(ve, null);
         doTestInvalidReferenceEventHandler1(ve, null);
         doTestInvalidReferenceEventHandler2(ve, null);
         doTestInvalidReferenceEventHandler3(ve, null);
@@ -133,11 +171,11 @@ extends TestCase
         // show work fine
         s = "$tree.Field $tree.field $tree.child.Field";
         w = new StringWriter();
-        ve.evaluate( context, w, "mystring", s );
+        ve.evaluate(context, w, "mystring", s);
         
         s = "$tree.x $tree.field.x $tree.child.y $tree.child.Field.y";
         w = new StringWriter();
-        ve.evaluate( context, w, "mystring", s );
+        ve.evaluate(context, w, "mystring", s);
         
     }
     
@@ -151,8 +189,8 @@ extends TestCase
     throws Exception
     {
         VelocityContext context = new VelocityContext(vc);
-        context.put("a1",new Integer(5));
-        context.put("a4",new Integer(5));
+        context.put("a1", new Integer(5));
+        context.put("a4", new Integer(5));
         context.put("b1","abc");
         
         String s;
@@ -235,7 +273,7 @@ extends TestCase
         // normal - should be no calls to handler
         String s = "$a1 $a1.intValue() $b1 $b1.length() #set($c1 = '5')";
         Writer w = new StringWriter();
-        ve.evaluate( context, w, "mystring", s );
+        ve.evaluate(context, w, "mystring", s);
         
         // good object, bad property
         s = "$a1.foobar";
@@ -244,7 +282,14 @@ extends TestCase
             ve.evaluate( context, w, "mystring", s );
             fail("Expected exception.");
         } catch (RuntimeException e) {}
-        
+
+        // same one inside an #if statement should not fail
+        s = "#if($a1.foobar)yes#{else}no#end";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+        assertEquals("no",w.toString());
+
+
         // bad object, bad property            
         s = "$a2.foobar";
         w = new StringWriter();
@@ -252,7 +297,15 @@ extends TestCase
             ve.evaluate( context, w, "mystring", s );
             fail("Expected exception.");
         } catch (RuntimeException e) {}
-        
+
+        // same one inside an #if statement should still fail
+        s = "#if($a2.foobar)yes#{else}no#end";
+        w = new StringWriter();
+        try {
+            ve.evaluate( context, w, "mystring", s );
+            fail("Expected exception.");
+        } catch (RuntimeException e) {}
+
         // bad object, no property            
         s = "$a3";
         w = new StringWriter();
@@ -260,7 +313,14 @@ extends TestCase
             ve.evaluate( context, w, "mystring", s );
             fail("Expected exception.");
         } catch (RuntimeException e) {}
-        
+
+        // bad object, no property as #if condition should not fail
+        s = "#if($a3)yes#{else}no#end";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+        result = w.toString();
+        assertEquals("no", result);
+
         // good object, bad property; change the value
         s = "$a4.foobar";
         w = new StringWriter();
@@ -269,8 +329,95 @@ extends TestCase
         assertEquals("zzz", result);
         
     }
-    
-    
+
+    /**
+     * Test invalidGetMethod
+     *
+     * Test behaviour (which should be the same) of
+     * $objRef.myAttribute and $objRef.getMyAttribute()
+     *
+     * @param ve
+     * @param vc
+     * @throws Exception
+     */
+    private void doTestInvalidReferenceEventHandler0(VelocityEngine ve, VelocityContext vc)
+            throws Exception
+    {
+        String result;
+        Writer w;
+        String s;
+        boolean rc;
+
+        VelocityContext context = new VelocityContext(vc);
+        context.put("propertyAccess", new String("lorem ipsum"));
+        context.put("objRef", new TestObject());
+        java.util.ArrayList arrayList = new java.util.ArrayList();
+        arrayList.add("firstOne");
+        arrayList.add(null);
+        java.util.HashMap hashMap = new java.util.HashMap();
+        hashMap.put(41, "41 is not 42");
+
+        context.put("objRefArrayList", arrayList);
+        context.put("objRefHashMap", hashMap);
+
+        // good object, good property (returns non null value)
+        s = "#set($resultVar = $propertyAccess.bytes)"; // -> getBytes()
+        w = new StringWriter();
+        rc = ve.evaluate( context, w, "mystring", s );
+
+        // good object, good property accessor method (returns non null value)
+        s = "#set($resultVar = $propertyAccess.getBytes())"; // -> getBytes()
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+
+        // good object, good property (returns non null value)
+        s = "$objRef.getRealString()";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+
+        // good object, good property accessor method (returns null value)
+        // No exception shall be thrown, as returning null should be valid
+        s = "$objRef.getNullValueAttribute()";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+
+        // good object, good property (returns null value)
+        // No exception shall be thrown, as returning null should be valid
+        s = "$objRef.nullValueAttribute";   // -> getNullValueAttribute()
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+
+        // good object, good accessor method which returns a non-null object reference
+        // Test removing a hashmap element which exists
+        s = "$objRefHashMap.remove(41)";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+
+
+        // good object, good accessor method which returns null
+        // Test removing a hashmap element which DOES NOT exist
+        // Expected behaviour: Returning null as a value should be
+        // OK and not result in an exception
+        s = "$objRefHashMap.remove(42)";   // will return null, as the key does not exist
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+
+        // good object, good method invocation (returns non-null object reference)
+        s = "$objRefArrayList.get(0)";   // element 0 is NOT NULL
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+
+
+        // good object, good method invocation (returns null value)
+        // Expected behaviour: Returning null as a value should be
+        // OK and not result in an exception
+        s = "$objRefArrayList.get(1)";   // element 1 is null
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+
+    }
+
+
 
     /**
      * Test assigning the event handlers via properties
