@@ -213,7 +213,7 @@ public class ASTReference extends SimpleNode
     /**
      *   gets an Object that 'is' the value of the reference
      *
-     *   @param o   unused Object parameter
+     *   @param o Object parameter, unused per se, but non-null by convention inside an #if/#elseif evaluation
      *   @param context context used to generate value
      * @return The execution result.
      * @throws MethodInvocationException
@@ -221,6 +221,14 @@ public class ASTReference extends SimpleNode
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
+        /*
+         *  The only case where 'o' is not null is when this method is called by evaluate().
+         *  Its value is not used, but it is a convention meant to allow statements like
+         *  #if($invalidReference) *not* to trigger an invalid reference event.
+         *  Statements like #if($invalidReference.prop) should *still* trigger an invalid reference event.
+         *  Statements like #if($validReference.invalidProp) should not.
+         */
+        boolean onlyTestingReference = (o != null);
 
         if (referenceType == RUNT)
             return null;
@@ -233,8 +241,15 @@ public class ASTReference extends SimpleNode
 
         if (result == null && !strictRef)
         {
-            return EventHandlerUtil.invalidGetMethod(rsvc, context, 
-                    "$" + rootString, null, null, uberInfo);
+            /*
+             * do not trigger an invalid reference if the reference is present, but with a null value
+             * don't either inside an #if/#elseif evaluation context
+             */
+            if (!context.containsKey(rootString) && !onlyTestingReference)
+            {
+                return EventHandlerUtil.invalidGetMethod(rsvc, context,
+                        "$" + rootString, null, null, uberInfo);
+            }
         }
 
         /*
@@ -273,8 +288,15 @@ public class ASTReference extends SimpleNode
                 if (result == null && !strictRef)  // If strict and null then well catch this
                                                    // next time through the loop
                 {
-                    failedChild = i;
-                    break;
+                    // do not call bad reference handler if the getter is present
+                    // (it means the getter has been called and returned null)
+                    // do not either if the *last* child failed while testing the reference
+                    Object getter = context.icacheGet(jjtGetChild(i));
+                    if (getter == null && (!onlyTestingReference || i < jjtGetNumChildren() - 1))
+                    {
+                        failedChild = i;
+                        break;
+                    }
                 }
             }
 
@@ -282,8 +304,15 @@ public class ASTReference extends SimpleNode
             {
                 if (failedChild == -1)
                 {
-                    result = EventHandlerUtil.invalidGetMethod(rsvc, context, 
-                            "$" + rootString, previousResult, null, uberInfo);                    
+                    /*
+                     * do not trigger an invalid reference if the reference is present, but with a null value
+                     * don't either inside an #if/#elseif evaluation context when there's no child
+                     */
+                    if (!context.containsKey(rootString) && (!onlyTestingReference || jjtGetNumChildren() > 0))
+                    {
+                        result = EventHandlerUtil.invalidGetMethod(rsvc, context,
+                                "$" + rootString, previousResult, null, uberInfo);
+                    }
                 }
                 else
                 {
@@ -304,7 +333,7 @@ public class ASTReference extends SimpleNode
                     if (jjtGetChild(failedChild) instanceof ASTMethod)
                     {
                         String methodName = ((ASTMethod) jjtGetChild(failedChild)).getMethodName();
-                        result = EventHandlerUtil.invalidMethod(rsvc, context, 
+                        result = EventHandlerUtil.invalidMethod(rsvc, context,
                                 name.toString(), previousResult, methodName, uberInfo);                                                                
                     }
                     else
@@ -526,7 +555,7 @@ public class ASTReference extends SimpleNode
     public boolean evaluate(InternalContextAdapter context)
         throws MethodInvocationException
     {
-        Object value = execute(null, context);
+        Object value = execute(this, context); // non-null object as first parameter by convention for 'evaluate'
         if (value == null)
         {
             return false;

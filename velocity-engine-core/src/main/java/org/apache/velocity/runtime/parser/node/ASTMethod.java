@@ -32,6 +32,7 @@ import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.VelMethod;
 
 /**
@@ -161,7 +162,25 @@ public class ASTMethod extends SimpleNode
 
         VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
             o, context, this, strictRef);
-        if (method == null) return null;
+
+        /*
+         * The parent class (typically ASTReference) uses the icache entry
+         * under 'this' key to distinguish a valid null result from a non-existent method.
+         * So update this dummy cache value if necessary.
+         */
+        IntrospectionCacheData prevICD = context.icacheGet(this);
+        if (method == null)
+        {
+            if (prevICD != null)
+            {
+                context.icachePut(this, null);
+            }
+            return null;
+        }
+        else if (prevICD == null)
+        {
+            context.icachePut(this, new IntrospectionCacheData()); // no need to fill in its members
+        }
 
         try
         {
