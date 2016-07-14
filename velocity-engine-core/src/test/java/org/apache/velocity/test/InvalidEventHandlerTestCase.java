@@ -238,7 +238,13 @@ extends TestCase
             ve.evaluate( context, w, "mystring", s );
             fail("Expected exception.");
         } catch (RuntimeException e) {}
-        
+
+        // good object, bad method, quiet reference
+        s = "$!a1.afternoon()";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+        assertEquals("", w.toString());
+
         // bad object, bad method -- fails on get
         s = "$zz.daylight()";
         w = new StringWriter();
@@ -246,6 +252,12 @@ extends TestCase
             ve.evaluate( context, w, "mystring", s );
             fail("Expected exception.");
         } catch (RuntimeException e) {}
+
+        // bad object, bad method, quiet reference
+        s = "$!zz.daylight()";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+        assertEquals("", w.toString());
 
         // change result
         s = "$b1.baby()";
@@ -283,6 +295,12 @@ extends TestCase
             fail("Expected exception.");
         } catch (RuntimeException e) {}
 
+        // same one as a quiet reference should not fail
+        s = "$!a1.foobar";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+        assertEquals("",w.toString());
+
         // same one inside an #if statement should not fail
         s = "#if($a1.foobar)yes#{else}no#end";
         w = new StringWriter();
@@ -297,6 +315,12 @@ extends TestCase
             ve.evaluate( context, w, "mystring", s );
             fail("Expected exception.");
         } catch (RuntimeException e) {}
+
+        // same one as a quiet reference should not fail
+        s = "$!a2.foobar";
+        w = new StringWriter();
+        ve.evaluate( context, w, "mystring", s );
+        assertEquals("",w.toString());
 
         // same one inside an #if statement should still fail
         s = "#if($a2.foobar)yes#{else}no#end";
@@ -319,6 +343,13 @@ extends TestCase
             ve.evaluate( context, w, "mystring", s );
             fail("Expected exception.");
         } catch (RuntimeException e) {}
+
+        // bad object, no property as quiet reference should not fail
+        s = "$!a3";
+        w = new StringWriter();
+        ve.evaluate(context, w, "mystring", s);
+        result = w.toString();
+        assertEquals("", result);
 
         // bad object, no property as #if condition should not fail
         s = "#if($a3)yes#{else}no#end";
