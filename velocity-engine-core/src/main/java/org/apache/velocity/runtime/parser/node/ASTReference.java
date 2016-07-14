@@ -243,9 +243,9 @@ public class ASTReference extends SimpleNode
         {
             /*
              * do not trigger an invalid reference if the reference is present, but with a null value
-             * don't either inside an #if/#elseif evaluation context
+             * don't either for a quiet reference or inside an #if/#elseif evaluation context
              */
-            if (!context.containsKey(rootString) && !onlyTestingReference)
+            if (!context.containsKey(rootString) && referenceType != QUIET_REFERENCE && !onlyTestingReference)
             {
                 return EventHandlerUtil.invalidGetMethod(rsvc, context,
                         "$" + rootString, null, null, uberInfo);
@@ -290,9 +290,11 @@ public class ASTReference extends SimpleNode
                 {
                     // do not call bad reference handler if the getter is present
                     // (it means the getter has been called and returned null)
-                    // do not either if the *last* child failed while testing the reference
+                    // do not either for a quiet reference or if the *last* child failed while testing the reference
                     Object getter = context.icacheGet(jjtGetChild(i));
-                    if (getter == null && (!onlyTestingReference || i < jjtGetNumChildren() - 1))
+                    if (getter == null &&
+                            referenceType != QUIET_REFERENCE  &&
+                            (!onlyTestingReference || i < jjtGetNumChildren() - 1))
                     {
                         failedChild = i;
                         break;
@@ -306,9 +308,10 @@ public class ASTReference extends SimpleNode
                 {
                     /*
                      * do not trigger an invalid reference if the reference is present, but with a null value
-                     * don't either inside an #if/#elseif evaluation context when there's no child
+                     * don't either for a quiet reference,
+                     * or inside an #if/#elseif evaluation context when there's no child
                      */
-                    if (!context.containsKey(rootString) && (!onlyTestingReference || jjtGetNumChildren() > 0))
+                    if (!context.containsKey(rootString) && referenceType != QUIET_REFERENCE && (!onlyTestingReference || jjtGetNumChildren() > 0))
                     {
                         result = EventHandlerUtil.invalidGetMethod(rsvc, context,
                                 "$" + rootString, previousResult, null, uberInfo);
