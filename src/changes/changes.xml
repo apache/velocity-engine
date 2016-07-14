@@ -28,7 +28,7 @@
     <release version="2.0" date="In Subversion">
 
       <action type="fix" dev="cbrisson" issue="VELOCITY-553">
-        InvalidReferenceHandler events should not be triggered by null values,
+        InvalidReferenceHandler events should not be triggered by quiet references, null values,
         or by references testing inside #if / #elseif. Thanks to Renato Steiner
         for his testcase.
       </action>
