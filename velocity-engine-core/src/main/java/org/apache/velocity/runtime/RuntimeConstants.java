@@ -231,11 +231,8 @@ public interface RuntimeConstants
     /** The character encoding for the templates. Used by the parser in processing the input streams. */
     String INPUT_ENCODING = "input.encoding";
 
-    /** Encoding for the output stream. Currently used by Anakia and VelocityServlet */
-    String OUTPUT_ENCODING = "output.encoding";
-
-    /** Default Encoding is ISO-8859-1. */
-    String ENCODING_DEFAULT = "ISO-8859-1";
+    /** Default Encoding is UTF-8 if not found in system. */
+    String ENCODING_DEFAULT = "UTF-8";
 
     /** key name for uberspector. Multiple classnames can be specified,in which case uberspectors will be chained. */
     String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";

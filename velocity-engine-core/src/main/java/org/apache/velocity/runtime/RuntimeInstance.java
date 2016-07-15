@@ -1527,7 +1527,17 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         if (encoding == null)
         {
-            encoding = getString(INPUT_ENCODING, ENCODING_DEFAULT);
+            /*
+             * first try to get the OS encoding
+             */
+            encoding = System.getProperty("file.encoding");
+            if (encoding == null)
+            {
+                /*
+                 * then fall back to default
+                 */
+                encoding = getString(INPUT_ENCODING, ENCODING_DEFAULT);
+            }
         }
         return encoding;
     }
@@ -1536,7 +1546,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>
-     * property.  The default is "ISO-8859-1"
+     * property. The default is platform dependant.
      *
      * @param name The file name of the desired template.
      * @return     The template.
