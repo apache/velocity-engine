@@ -19,7 +19,10 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.
  */
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.commons.lang3.StringUtils;
@@ -97,8 +100,9 @@ public class ClasspathResourceLoader extends ResourceLoader
      * @return InputStream containing the template
      * @throws ResourceNotFoundException if template not found
      *         in  classpath.
+     * @deprecated use {@link #getResourceReader(String, String)}
      */
-    public InputStream getResourceStream( String name )
+    public @Deprecated InputStream getResourceStream( String name )
         throws ResourceNotFoundException
     {
         InputStream result = null;
@@ -128,6 +132,64 @@ public class ClasspathResourceLoader extends ResourceLoader
               name;
 
              throw new ResourceNotFoundException( msg );
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a Reader so that the Runtime can build a
+     * template with it.
+     *
+     * @param name name of template to get
+     * @param encoding asked encoding
+     * @return InputStream containing the template
+     * @throws ResourceNotFoundException if template not found
+     *         in  classpath.
+     * @since 2.0
+     */
+    public Reader getResourceReader( String name, String encoding )
+            throws ResourceNotFoundException
+    {
+        Reader result = null;
+
+        if (StringUtils.isEmpty(name))
+        {
+            throw new ResourceNotFoundException ("No template name provided");
+        }
+
+        /**
+         * look for resource in thread classloader first (e.g. WEB-INF\lib in
+         * a servlet container) then fall back to the system classloader.
+         */
+
+        InputStream rawStream = null;
+        try
+        {
+            rawStream = ClassUtils.getResourceAsStream( getClass(), name );
+            if (rawStream != null)
+            {
+                result = buildReader(rawStream, encoding);
+            }
+        }
+        catch( Exception fnfe )
+        {
+            if (rawStream != null)
+            {
+                try
+                {
+                    rawStream.close();
+                }
+                catch (IOException ioe) {}
+            }
+            throw new ResourceNotFoundException("ClasspathResourceLoader problem with template: " + name, fnfe );
+        }
+
+        if (result == null)
+        {
+            String msg = "ClasspathResourceLoader Error: cannot find resource " + name;
+
+            throw new ResourceNotFoundException( msg );
         }
 
         return result;

@@ -19,13 +19,17 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.
  */
 
+import java.io.IOException;
 import java.io.InputStream;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -137,9 +141,9 @@ public class JarResourceLoader extends ResourceLoader
         // Create a new JarHolder
         JarHolder temp = new JarHolder( rsvc,  path );
         // Add it's entries to the entryCollection
-        addEntries( temp.getEntries() );
+        addEntries(temp.getEntries());
         // Add it to the Jar table
-        jarfiles.put( temp.getUrlPath(), temp );
+        jarfiles.put(temp.getUrlPath(), temp);
     }
 
     /**
@@ -172,8 +176,9 @@ public class JarResourceLoader extends ResourceLoader
      * @return InputStream containing the template
      * @throws ResourceNotFoundException if template not found
      *         in the file template path.
+     * @deprecated Use {@link #getResourceReader(String, String)}
      */
-    public InputStream getResourceStream( String source )
+    public @Deprecated InputStream getResourceStream( String source )
         throws ResourceNotFoundException
     {
         InputStream results = null;
@@ -221,6 +226,81 @@ public class JarResourceLoader extends ResourceLoader
 
     }
 
+    /**
+     * Get a Reader so that the Runtime can build a
+     * template with it.
+     *
+     * @param source name of template to get
+     * @param encoding asked encoding
+     * @return InputStream containing the template
+     * @throws ResourceNotFoundException if template not found
+     *         in the file template path.
+     * @since 2.0
+    */
+    public Reader getResourceReader( String source, String encoding )
+            throws ResourceNotFoundException
+    {
+        Reader result = null;
+
+        if (org.apache.commons.lang3.StringUtils.isEmpty(source))
+        {
+            throw new ResourceNotFoundException("Need to have a resource!");
+        }
+
+        String normalizedPath = StringUtils.normalizePath( source );
+
+        if ( normalizedPath == null || normalizedPath.length() == 0 )
+        {
+            String msg = "JAR resource error : argument " + normalizedPath +
+                    " contains .. and may be trying to access " +
+                    "content outside of template root.  Rejected.";
+
+            log.error( "JarResourceLoader : " + msg );
+
+            throw new ResourceNotFoundException ( msg );
+        }
+
+        /*
+         *  if a / leads off, then just nip that :)
+         */
+        if ( normalizedPath.startsWith("/") )
+        {
+            normalizedPath = normalizedPath.substring(1);
+        }
+
+        if ( entryDirectory.containsKey( normalizedPath ) )
+        {
+            String jarurl  = (String)entryDirectory.get( normalizedPath );
+
+            if ( jarfiles.containsKey( jarurl ) )
+            {
+                JarHolder holder = (JarHolder)jarfiles.get( jarurl );
+                InputStream rawStream = holder.getResource( normalizedPath );
+                try
+                {
+                    return buildReader(rawStream, encoding);
+                }
+                catch (Exception e)
+                {
+                    if (rawStream != null)
+                    {
+                        try
+                        {
+                            rawStream.close();
+                        }
+                        catch (IOException ioe) {}
+                    }
+                    String msg = "JAR resource error : Exception while loading " + source;
+                    log.error(msg, e);
+                    throw new VelocityException(msg, e);
+                }
+            }
+        }
+
+        throw new ResourceNotFoundException( "JarResourceLoader Error: cannot find resource " +
+                source );
+
+    }
 
     // TODO: SHOULD BE DELEGATED TO THE JARHOLDER
 

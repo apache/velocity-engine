@@ -20,7 +20,13 @@ package org.apache.velocity.runtime.resource.loader;
  */
 
 import java.io.InputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 
+import org.apache.velocity.io.UnicodeInputStream;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.slf4j.Logger;
 
 import org.apache.velocity.runtime.RuntimeServices;
@@ -44,7 +50,7 @@ public abstract class ResourceLoader
      * Does this loader want templates produced with it
      * cached in the Runtime.
      */
-     protected boolean isCachingOn = false;
+    protected boolean isCachingOn = false;
 
     /**
      * This property will be passed on to the templates
@@ -65,10 +71,11 @@ public abstract class ResourceLoader
      * This initialization is used by all resource
      * loaders and must be called to set up common
      * properties shared by all resource loaders
+     *
      * @param rs
      * @param configuration
      */
-    public void commonInit( RuntimeServices rs, ExtendedProperties configuration)
+    public void commonInit(RuntimeServices rs, ExtendedProperties configuration)
     {
         this.rsvc = rs;
         this.log = rsvc.getLog();
@@ -88,7 +95,7 @@ public abstract class ResourceLoader
         catch (Exception e)
         {
             isCachingOn = false;
-            String msg = "Exception parsing cache setting: "+configuration.getString("cache");
+            String msg = "Exception parsing cache setting: " + configuration.getString("cache");
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }
@@ -99,7 +106,7 @@ public abstract class ResourceLoader
         catch (Exception e)
         {
             modificationCheckInterval = 0;
-            String msg = "Exception parsing modificationCheckInterval setting: "+configuration.getString("modificationCheckInterval");
+            String msg = "Exception parsing modificationCheckInterval setting: " + configuration.getString("modificationCheckInterval");
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }
@@ -123,23 +130,41 @@ public abstract class ResourceLoader
     /**
      * Initialize the template loader with a
      * a resources class.
+     *
      * @param configuration
      */
-    public abstract void init( ExtendedProperties configuration);
+    public abstract void init(ExtendedProperties configuration);
 
     /**
      * Get the InputStream that the Runtime will parse
      * to create a template.
+     *
      * @param source
      * @return The input stream for the requested resource.
      * @throws ResourceNotFoundException
+     * @deprecated Use {@link #getResourceReader(String, String)}
      */
-    public abstract InputStream getResourceStream( String source )
-        throws ResourceNotFoundException;
+    public
+    @Deprecated
+    abstract InputStream getResourceStream(String source)
+            throws ResourceNotFoundException;
+
+    /**
+     * Get the Reader that the Runtime will parse
+     * to create a template.
+     *
+     * @param source
+     * @return The reader for the requested resource.
+     * @throws ResourceNotFoundException
+     * @since 2.0
+     */
+    public abstract Reader getResourceReader(String source, String encoding)
+            throws ResourceNotFoundException;
 
     /**
      * Given a template, check to see if the source of InputStream
      * has been modified.
+     *
      * @param resource
      * @return True if the resource has been modified.
      */
@@ -150,6 +175,7 @@ public abstract class ResourceLoader
      * that was used to create the template. We need the template
      * here because we have to extract the name of the template
      * in order to locate the InputStream source.
+     *
      * @param resource
      * @return Time in millis when the resource has been modified.
      */
@@ -157,6 +183,7 @@ public abstract class ResourceLoader
 
     /**
      * Return the class name of this resource Loader
+     *
      * @return Class name of the resource loader.
      */
     public String getClassName()
@@ -169,6 +196,7 @@ public abstract class ResourceLoader
      * would like the Runtime to cache templates that
      * have been created with InputStreams provided
      * by this loader.
+     *
      * @param value
      */
     public void setCachingOn(boolean value)
@@ -181,6 +209,7 @@ public abstract class ResourceLoader
      * template loader wants the Runtime to cache
      * templates created with InputStreams provided
      * by this loader.
+     *
      * @return True if this resource loader caches.
      */
     public boolean isCachingOn()
@@ -191,6 +220,7 @@ public abstract class ResourceLoader
     /**
      * Set the interval at which the InputStream source
      * should be checked for modifications.
+     *
      * @param modificationCheckInterval
      */
     public void setModificationCheckInterval(long modificationCheckInterval)
@@ -201,6 +231,7 @@ public abstract class ResourceLoader
     /**
      * Get the interval at which the InputStream source
      * should be checked for modifications.
+     *
      * @return The modification check interval.
      */
     public long getModificationCheckInterval()
@@ -211,7 +242,7 @@ public abstract class ResourceLoader
     /**
      * Check whether any given resource exists. This is not really
      * a very efficient test and it can and should be overridden in the
-     * subclasses extending ResourceLoader. 
+     * subclasses extending ResourceLoader.
      *
      * @param resourceName The name of a resource.
      * @return true if a resource exists and can be accessed.
@@ -219,26 +250,26 @@ public abstract class ResourceLoader
      */
     public boolean resourceExists(final String resourceName)
     {
-        InputStream is = null;
+        Reader reader = null;
         try
         {
-            is = getResourceStream(resourceName);
+            reader = getResourceReader(resourceName, null);
         }
         catch (ResourceNotFoundException e)
         {
             if (log.isDebugEnabled())
             {
                 log.debug("Could not load resource '{}' from ResourceLoader {}",
-                          resourceName, this.getClass().getName(), e);
+                        resourceName, this.getClass().getName(), e);
             }
         }
         finally
         {
             try
             {
-                if (is != null)
+                if (reader != null)
                 {
-                    is.close();
+                    reader.close();
                 }
             }
             catch (Exception e)
@@ -246,13 +277,64 @@ public abstract class ResourceLoader
                 if (log.isErrorEnabled())
                 {
                     String msg = "While closing InputStream for resource '" +
-                        resourceName + "' from ResourceLoader " +
-                        this.getClass().getName();
+                            resourceName + "' from ResourceLoader " +
+                            this.getClass().getName();
                     log.error(msg, e);
                     throw new VelocityException(msg, e);
                 }
             }
         }
-        return (is != null);
+        return (reader != null);
     }
+
+    /**
+     * Builds a Reader given a raw InputStream and an encoding. Should be use
+     * by every subclass that whishes to accept optional BOMs in resources.
+     * This method does *not* close the given input stream whenever an exception is thrown.
+     *
+     * @param rawStream The raw input stream.
+     * @param encoding  The asked encoding.
+     * @return found reader
+     * @throws IOException, UnsupportedEncodingException
+     * @since 2.0
+     */
+    protected Reader buildReader(InputStream rawStream, String encoding)
+            throws IOException, UnsupportedEncodingException
+    {
+        UnicodeInputStream inputStream = new UnicodeInputStream(rawStream);
+        /*
+         * Check encoding
+         */
+        String foundEncoding = inputStream.getEncodingFromStream();
+        if (foundEncoding != null && encoding != null && !UnicodeInputStream.sameEncoding(foundEncoding, encoding))
+        {
+            log.warn("Found BOM encoding '{}' differs from asked encoding: '{}' - using BOM encoding to read resource.", foundEncoding, encoding);
+            encoding = foundEncoding;
+        }
+        if (encoding == null)
+        {
+            if (foundEncoding == null)
+            {
+                encoding = rsvc.getString(RuntimeConstants.INPUT_ENCODING);
+            } else
+            {
+                encoding = foundEncoding;
+            }
+        }
+
+        try
+        {
+            return new InputStreamReader(inputStream, encoding);
+        }
+        catch (UnsupportedEncodingException uee)
+        {
+            try
+            {
+                inputStream.close();
+            }
+            catch (IOException ioe) {}
+            throw uee;
+        }
+    }
+
 }

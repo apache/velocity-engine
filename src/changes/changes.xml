@@ -27,6 +27,12 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="add" dev="cbrisson" issue="VELOCITY-793">
+        The ResourceLoader API now provides a Reader rather than an InputStream.
+        The InputStream getter method has been deprecated.
+        Also fixes VELOCITY-599.
+      </action>
+      
       <action type="fix" dev="cbrisson" issue="VELOCITY-553">
         InvalidReferenceHandler events should not be triggered by quiet references, null values,
         or by references testing inside #if / #elseif. Thanks to Renato Steiner

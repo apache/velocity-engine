@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -63,9 +64,6 @@ public class FileResourceLoader extends ResourceLoader
      */
     private Map templatePaths = Collections.synchronizedMap(new HashMap());
 
-    /** Shall we inspect unicode files to see what encoding they contain?. */
-    private boolean unicode = false;
-
     /**
      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
      */
@@ -78,15 +76,7 @@ public class FileResourceLoader extends ResourceLoader
 
         paths.addAll( configuration.getVector("path") );
 
-        // unicode files may have a BOM marker at the start, but Java
-        // has problems recognizing the UTF-8 bom. Enabling unicode will
-        // recognize all unicode boms.
-        unicode = configuration.getBoolean("unicode", false);
-
-        if (log.isDebugEnabled())
-        {
-            log.debug("Do unicode file recognition: {}", unicode);
-        }
+        // unicode files may have a BOM marker at the start,
 
         if (log.isDebugEnabled())
         {
@@ -110,9 +100,10 @@ public class FileResourceLoader extends ResourceLoader
      * @param templateName name of template to get
      * @return InputStream containing the template
      * @throws ResourceNotFoundException if template not found
+     * @deprecated Use {@link #getResourceReader(String,String)}
      *         in the file template path.
      */
-    public InputStream getResourceStream(String templateName)
+    public @Deprecated InputStream getResourceStream(String templateName)
         throws ResourceNotFoundException
     {
         /*
@@ -145,14 +136,18 @@ public class FileResourceLoader extends ResourceLoader
         for (int i = 0; i < size; i++)
         {
             String path = (String) paths.get(i);
-            InputStream inputStream = null;
+            InputStream rawStream = null;
+            UnicodeInputStream inputStream = null;
 
             try
             {
-                inputStream = findTemplate(path, template);
+                rawStream = findTemplate(path, template);
+                inputStream = new UnicodeInputStream(rawStream, true);
+
             }
             catch (IOException ioe)
             {
+                closeQuiet(rawStream);
                 String msg = "Exception while loading Template " + template;
                 log.error(msg, ioe);
                 throw new VelocityException(msg, ioe);
@@ -176,6 +171,87 @@ public class FileResourceLoader extends ResourceLoader
          * throw an exception.
          */
          throw new ResourceNotFoundException("FileResourceLoader : cannot find " + template);
+    }
+
+    /**
+     * Get a Reader so that the Runtime can build a
+     * template with it.
+     *
+     * @param templateName name of template to get
+     * @return Reader containing the template
+     * @throws ResourceNotFoundException if template not found
+     *         in the file template path.
+     * @since 2.0
+     */
+    public Reader getResourceReader(String templateName, String encoding)
+            throws ResourceNotFoundException
+    {
+        /*
+         * Make sure we have a valid templateName.
+         */
+        if (org.apache.commons.lang3.StringUtils.isEmpty(templateName))
+        {
+            /*
+             * If we don't get a properly formed templateName then
+             * there's not much we can do. So we'll forget about
+             * trying to search any more paths for the template.
+             */
+            throw new ResourceNotFoundException(
+                    "Need to specify a file name or file path!");
+        }
+
+        String template = StringUtils.normalizePath(templateName);
+        if ( template == null || template.length() == 0 )
+        {
+            String msg = "File resource error : argument " + template +
+                    " contains .. and may be trying to access " +
+                    "content outside of template root.  Rejected.";
+
+            log.error("FileResourceLoader : " + msg);
+
+            throw new ResourceNotFoundException ( msg );
+        }
+
+        int size = paths.size();
+        for (int i = 0; i < size; i++)
+        {
+            String path = (String) paths.get(i);
+            InputStream rawStream = null;
+            Reader reader = null;
+
+            try
+            {
+                rawStream = findTemplate(path, template);
+                if (rawStream != null)
+                {
+                    reader = buildReader(rawStream, encoding);
+                }
+            }
+            catch (IOException ioe)
+            {
+                closeQuiet(rawStream);
+                String msg = "Exception while loading Template " + template;
+                log.error(msg, ioe);
+                throw new VelocityException(msg, ioe);
+            }
+            if (reader != null)
+            {
+                /*
+                 * Store the path that this template came
+                 * from so that we can check its modification
+                 * time.
+                 */
+                templatePaths.put(templateName, path);
+                return reader;
+            }
+        }
+
+        /*
+         * We have now searched all the paths for
+         * templates and we didn't find anything so
+         * throw an exception.
+         */
+        throw new ResourceNotFoundException("FileResourceLoader : cannot find " + template);
     }
 
     /**
@@ -227,7 +303,7 @@ public class FileResourceLoader extends ResourceLoader
     {
         try
         {
-            File file = getFile(path,template);
+            File file = getFile(path, template);
 
             if (file.canRead())
             {
@@ -235,32 +311,7 @@ public class FileResourceLoader extends ResourceLoader
                 try
                 {
                     fis = new FileInputStream(file.getAbsolutePath());
-
-                    if (unicode)
-                    {
-                        UnicodeInputStream uis = null;
-
-                        try
-                        {
-                            uis = new UnicodeInputStream(fis, true);
-
-                            if (log.isDebugEnabled())
-                            {
-                                log.debug("File Encoding for {} is: {}", file, uis.getEncodingFromStream());
-                            }
-
-                            return new BufferedInputStream(uis);
-                        }
-                        catch(IOException e)
-                        {
-                            closeQuiet(uis);
-                            throw e;
-                        }
-                    }
-                    else
-                    {
-                        return new BufferedInputStream(fis);
-                    }
+                    return fis;
                 }
                 catch (IOException e)
                 {

@@ -62,9 +62,7 @@ public class ContentResource extends Resource
         {
             StringWriter sw = new StringWriter();
 
-            reader = new BufferedReader(
-                new InputStreamReader(resourceLoader.getResourceStream(name),
-                                      encoding));
+            reader = new BufferedReader(resourceLoader.getResourceReader(name, encoding));
 
             char buf[] = new char[1024];
             int len = 0;
