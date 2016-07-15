@@ -27,6 +27,10 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="add" dev="cbrusson" issue="VELOCITY-735" due-to="Dishara Wijewardana">
+        Add a first implementation for the JSR 223 standard scripting interface.
+      </action>
+      
       <action type="fix" dev="cbrisson" issue="VELOCITY-809">
         Fix Template default encoding initialization problem.
       </action>

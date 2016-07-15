@@ -186,6 +186,7 @@
     <module>velocity-engine-core</module>
     <module>velocity-engine-examples</module>
     <module>velocity-engine-assembly</module>
+    <module>velocity-engine-scripting</module>
   </modules>
 
   <!-- This project is an effort by many people. If you feel that your name
