@@ -158,8 +158,35 @@ public abstract class ResourceLoader
      * @throws ResourceNotFoundException
      * @since 2.0
      */
-    public abstract Reader getResourceReader(String source, String encoding)
-            throws ResourceNotFoundException;
+    public Reader getResourceReader(String source, String encoding)
+            throws ResourceNotFoundException
+    {
+        /*
+         * We provide a default implementation that relies on the deprecated method getResourceStream()
+         * to enhance backward compatibility. The day getResourceStream() is removed, this method should
+         * become abstract.
+         */
+        InputStream rawStream = null;
+        try
+        {
+            rawStream = getResourceStream(source);
+            return buildReader(rawStream, encoding);
+        }
+        catch(IOException ioe)
+        {
+            if (rawStream != null)
+            {
+                try
+                {
+                    rawStream.close();
+                }
+                catch (IOException e) {}
+            }
+            String msg = "Exception while loading resousrce " + source;
+            log.error(msg, ioe);
+            throw new VelocityException(msg, ioe);
+        }
+    }
 
     /**
      * Given a template, check to see if the source of InputStream
