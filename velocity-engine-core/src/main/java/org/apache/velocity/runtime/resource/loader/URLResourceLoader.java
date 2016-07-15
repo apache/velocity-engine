@@ -21,6 +21,8 @@ package org.apache.velocity.runtime.resource.loader;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
@@ -94,8 +96,9 @@ public class URLResourceLoader extends ResourceLoader
      * @return InputStream containing the template
      * @throws ResourceNotFoundException if template not found
      *         in the file template path.
+     * @deprecated Use {@link #findTemplateReader(source)}
      */
-    public synchronized InputStream getResourceStream(String name)
+    public synchronized @Deprecated InputStream getResourceStream(String name)
         throws ResourceNotFoundException
     {
         if (StringUtils.isEmpty(name))
@@ -152,6 +155,86 @@ public class URLResourceLoader extends ResourceLoader
         }
 
         return inputStream;
+    }
+
+    /**
+     * Get a Reader so that the Runtime can build a
+     * template with it.
+     *
+     * @param name name of template to fetch bytestream of
+     * @param encoding asked encoding
+     * @return InputStream containing the template
+     * @throws ResourceNotFoundException if template not found
+     *         in the file template path.
+     * @since 2.0
+     */
+    public synchronized Reader getResourceReader(String name, String encoding)
+            throws ResourceNotFoundException
+    {
+        if (StringUtils.isEmpty(name))
+        {
+            throw new ResourceNotFoundException("URLResourceLoader : No template name provided");
+        }
+
+        Reader reader = null;
+        Exception exception = null;
+        for(int i=0; i < roots.length; i++)
+        {
+            InputStream rawStream = null;
+            try
+            {
+                URL u = new URL(roots[i] + name);
+                URLConnection conn = u.openConnection();
+                tryToSetTimeout(conn);
+                rawStream = conn.getInputStream();
+                reader = buildReader(rawStream, encoding);
+
+                if (reader != null)
+                {
+                    if (log.isDebugEnabled()) log.debug("URLResourceLoader: Found '{}' at '{}'", name, roots[i]);
+
+                    // save this root for later re-use
+                    templateRoots.put(name, roots[i]);
+                    break;
+                }
+            }
+            catch(IOException ioe)
+            {
+                if (rawStream != null)
+                {
+                    try
+                    {
+                        rawStream.close();
+                    }
+                    catch (IOException e) {}
+                }
+                if (log.isDebugEnabled()) log.debug("URLResourceLoader: Exception when looking for '{}' at '{}'", name, roots[i], ioe);
+
+                // only save the first one for later throwing
+                if (exception == null)
+                {
+                    exception = ioe;
+                }
+            }
+        }
+
+        // if we never found the template
+        if (reader == null)
+        {
+            String msg;
+            if (exception == null)
+            {
+                msg = "URLResourceLoader : Resource '" + name + "' not found.";
+            }
+            else
+            {
+                msg = exception.getMessage();
+            }
+            // convert to a general Velocity ResourceNotFoundException
+            throw new ResourceNotFoundException(msg);
+        }
+
+        return reader;
     }
 
     /**

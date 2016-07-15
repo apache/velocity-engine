@@ -20,6 +20,7 @@ package org.apache.velocity.test.misc;
  */
 
 import java.io.InputStream;
+import java.io.Reader;
 
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -40,7 +41,12 @@ public class ExceptionGeneratingResourceLoader extends ResourceLoader
     {
     }
 
-    public InputStream getResourceStream(String source) throws ResourceNotFoundException
+    public @Deprecated InputStream getResourceStream(String source) throws ResourceNotFoundException
+    {
+        throw new RuntimeException("exception");
+    }
+
+    public Reader getResourceReader(String source, String encoding) throws ResourceNotFoundException
     {
         throw new RuntimeException("exception");
     }

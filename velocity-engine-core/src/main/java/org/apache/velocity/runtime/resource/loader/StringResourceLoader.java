@@ -24,7 +24,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
@@ -344,8 +348,9 @@ public class StringResourceLoader extends ResourceLoader
      * @return InputStream containing the template.
      * @throws ResourceNotFoundException Ff template not found
      *         in the RepositoryFactory.
+     * @deprecated use {@link #getResourceReader(String,String)}
      */
-    public InputStream getResourceStream(final String name)
+    public @Deprecated InputStream getResourceStream(final String name)
             throws ResourceNotFoundException
     {
         if (StringUtils.isEmpty(name))
@@ -370,6 +375,68 @@ public class StringResourceLoader extends ResourceLoader
         catch(UnsupportedEncodingException ue)
         {
             throw new VelocityException("Could not convert String using encoding " + resource.getEncoding(), ue);
+        }
+    }
+
+    /**
+     * Get a reader so that the Runtime can build a
+     * template with it.
+     *
+     * @param name name of template to get.
+     * @param encoding asked encoding
+     * @return Reader containing the template.
+     * @throws ResourceNotFoundException Ff template not found
+     *         in the RepositoryFactory.
+     * @since 2.0
+     */
+    public Reader getResourceReader(String name, String encoding)
+            throws ResourceNotFoundException
+    {
+        if (StringUtils.isEmpty(name))
+        {
+            throw new ResourceNotFoundException("No template name provided");
+        }
+
+        StringResource resource = this.repository.getStringResource(name);
+
+        if(resource == null)
+        {
+            throw new ResourceNotFoundException("Could not locate resource '" + name + "'");
+        }
+
+        byte [] byteArray = null;
+        InputStream rawStream = null;
+
+        try
+        {
+            byteArray = resource.getBody().getBytes(resource.getEncoding());
+            rawStream = new ByteArrayInputStream(byteArray);
+            return new InputStreamReader(rawStream, resource.getEncoding());
+        }
+        catch(UnsupportedEncodingException ue)
+        {
+            if (rawStream != null)
+            {
+                try
+                {
+                    rawStream.close();
+                }
+                catch (IOException ioe) {}
+            }
+            throw new VelocityException("Could not convert String using encoding " + resource.getEncoding(), ue);
+        }
+        catch(IOException ioe)
+        {
+            if (rawStream != null)
+            {
+                try
+                {
+                    rawStream.close();
+                }
+                catch (IOException e) {}
+            }
+            throw new VelocityException("Exception while loading string resource", ioe);
+
         }
     }
 

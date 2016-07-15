@@ -20,7 +20,9 @@ package org.apache.velocity.runtime.resource.loader;
  */
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -209,8 +211,9 @@ public class DataSourceResourceLoader extends ResourceLoader
      *  @param name name of template
      *  @return InputStream containing template
      * @throws ResourceNotFoundException
+     * @deprecated Use {@link #getResourceReader(String,String)}
      */
-    public synchronized InputStream getResourceStream(final String name)
+    public synchronized @Deprecated InputStream getResourceStream(final String name)
         throws ResourceNotFoundException
     {
         if (org.apache.commons.lang3.StringUtils.isEmpty(name))
@@ -259,6 +262,93 @@ public class DataSourceResourceLoader extends ResourceLoader
         {
             String msg = "DataSourceResourceLoader: database problem while getting resource '"
                          + name + "': ";
+
+            log.error(msg, ne);
+            throw new ResourceNotFoundException(msg);
+        }
+        finally
+        {
+            closeResultSet(rs);
+            closeStatement(ps);
+            closeDbConnection(conn);
+        }
+    }
+
+    /**
+     * Get an InputStream so that the Runtime can build a
+     * template with it.
+     *
+     * @param name name of template
+     * @param encoding asked encoding
+     * @return InputStream containing template
+     * @throws ResourceNotFoundException
+     * @since 2.0
+     */
+    public synchronized Reader getResourceReader(final String name, String encoding)
+            throws ResourceNotFoundException
+    {
+        if (org.apache.commons.lang3.StringUtils.isEmpty(name))
+        {
+            throw new ResourceNotFoundException("DataSourceResourceLoader: Template name was empty or null");
+        }
+
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        try
+        {
+            conn = openDbConnection();
+            ps = getStatement(conn, templateColumn, tableName, keyColumn, name);
+            rs = ps.executeQuery();
+
+            if (rs.next())
+            {
+                InputStream rawStream = rs.getBinaryStream(templateColumn);
+                if (rawStream == null)
+                {
+                    throw new ResourceNotFoundException("DataSourceResourceLoader: "
+                            + "template column for '"
+                            + name + "' is null");
+                }
+                try
+                {
+                    return buildReader(rawStream, encoding);
+                }
+                catch (Exception e)
+                {
+                    if (rawStream != null)
+                    {
+                        try
+                        {
+                            rawStream.close();
+                        }
+                        catch(IOException ioe) {}
+                    }
+                    String msg = "Exception while loading Template column for " + name;
+                    log.error(msg, e);
+                    throw new VelocityException(msg, e);
+                }
+            }
+            else
+            {
+                throw new ResourceNotFoundException("DataSourceResourceLoader: "
+                        + "could not find resource '"
+                        + name + "'");
+
+            }
+        }
+        catch (SQLException sqle)
+        {
+            String msg = "DataSourceResourceLoader: database problem while getting resource '"
+                    + name + "': ";
+
+            log.error(msg, sqle);
+            throw new ResourceNotFoundException(msg);
+        }
+        catch (NamingException ne)
+        {
+            String msg = "DataSourceResourceLoader: database problem while getting resource '"
+                    + name + "': ";
 
             log.error(msg, ne);
             throw new ResourceNotFoundException(msg);

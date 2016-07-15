@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.List;
@@ -97,7 +98,7 @@ public class Template extends Resource
         throws ResourceNotFoundException, ParseErrorException
     {
         data = null;
-        InputStream is = null;
+        Reader reader = null;
         errorCondition = null;
 
         /*
@@ -105,7 +106,7 @@ public class Template extends Resource
          */
         try
         {
-            is = resourceLoader.getResourceStream(name);
+            reader = resourceLoader.getResourceReader(name, getEncoding());
         }
         catch( ResourceNotFoundException rnfe )
         {
@@ -122,7 +123,7 @@ public class Template extends Resource
          *  forgets to throw a proper exception
          */
 
-        if (is != null)
+        if (reader != null)
         {
             /*
              *  now parse the template
@@ -130,18 +131,10 @@ public class Template extends Resource
 
             try
             {
-                BufferedReader br = new BufferedReader( new InputStreamReader( is, encoding ) );
+                BufferedReader br = new BufferedReader( reader );
                 data = rsvc.parse( br, name);
                 initDocument();
                 return true;
-            }
-            catch( UnsupportedEncodingException  uce )
-            {
-                String msg = "Template.process : Unsupported input encoding : " + encoding
-                + " for template " + name;
-
-                errorCondition  = new ParseErrorException( msg );
-                throw errorCondition;
             }
             catch ( ParseException pex )
             {
@@ -172,7 +165,7 @@ public class Template extends Resource
                  */
                 try
                 {
-                    is.close();
+                    reader.close();
                 }
                 catch(IOException e)
                 {

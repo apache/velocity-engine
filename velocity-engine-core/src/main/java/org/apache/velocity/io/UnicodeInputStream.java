@@ -56,14 +56,12 @@ public class UnicodeInputStream
     /**
      * BOM Marker for UTF 32, little endian. See http://www.unicode.org/unicode/faq/utf_bom.html
      *
-     * TODO: Does Java actually support this?
      */
     public static final UnicodeBOM UTF32LE_BOM = new UnicodeBOM("UTF-32LE", new byte [] { (byte)0xff, (byte)0xfe, (byte)0x00, (byte)0x00 });
 
     /**
      * BOM Marker for UTF 32, big endian. See http://www.unicode.org/unicode/faq/utf_bom.html
      *
-     * TODO: Does Java actually support this?
      */
     public static final UnicodeBOM UTF32BE_BOM = new UnicodeBOM("UTF-32BE", new byte [] { (byte)0x00, (byte)0x00, (byte)0xfe, (byte)0xff });
 
@@ -338,6 +336,17 @@ public class UnicodeInputStream
         throws IOException
     {
         return inputStream.skip(n);
+    }
+
+
+    /**
+     * Helper function to compare encodings
+     */
+    public static boolean sameEncoding(String left, String right)
+    {
+        left = left.toUpperCase().replace("-", "");
+        right = right.toUpperCase().replace("-", "");
+        return left.equals(right);
     }
 
     /**
