@@ -1548,7 +1548,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException
     {
-        return getTemplate(name, getDefaultEncoding());
+        return getTemplate(name, null);
     }
 
     /**
@@ -1566,7 +1566,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         throws ResourceNotFoundException, ParseErrorException
     {
         requireInitialization();
-
+        if (encoding == null) encoding = getDefaultEncoding();
         return (Template)
                 resourceManager.getResource(name,
                     ResourceManager.RESOURCE_TEMPLATE, encoding);
