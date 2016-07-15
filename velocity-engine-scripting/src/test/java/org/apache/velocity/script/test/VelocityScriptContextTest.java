@@ -19,8 +19,9 @@ package org.apache.velocity.script.test;
 * under the License.
 */
 
-import org.apache.velocity.script.VelocityBindings;
+import javax.script.Bindings;
 import javax.script.ScriptContext;
+import javax.script.SimpleBindings;
 import java.util.List;
 
 
@@ -41,7 +42,7 @@ public class VelocityScriptContextTest extends AbstractScriptTest {
 
     public void testScopes() {
 
-        VelocityBindings velocityBindings = new VelocityBindings();
+        Bindings velocityBindings = new SimpleBindings();
         engine.getContext().setBindings(velocityBindings, ScriptContext.ENGINE_SCOPE);
         assertNotNull(engine.getBindings(ScriptContext.ENGINE_SCOPE));
         assertNotNull("Engines Registered through manager sets the global scope", engine.getBindings(ScriptContext.GLOBAL_SCOPE));
@@ -88,7 +89,7 @@ public class VelocityScriptContextTest extends AbstractScriptTest {
         }
 
         try {
-            context.setBindings(new VelocityBindings(), invalidScope);
+            context.setBindings(new SimpleBindings(), invalidScope);
             fail("Cannot pass invalid scope");
         } catch (IllegalArgumentException n) {
             //Success
@@ -156,5 +157,3 @@ public class VelocityScriptContextTest extends AbstractScriptTest {
 
     }
 }
-
-

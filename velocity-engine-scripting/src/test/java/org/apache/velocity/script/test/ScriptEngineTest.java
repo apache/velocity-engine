@@ -65,29 +65,13 @@ public class ScriptEngineTest extends AbstractScriptTest {
     }
 
     public void testEngineEvals() throws ScriptException {
-        String path = ScriptEngineTest.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        String propertyFile = path.substring(0,path.indexOf("target/test-classes")) +
-                "src/test/java/org/apache/velocity/script/test/resources/velocity.properties";
-        System.setProperty(VelocityScriptEngine.VELOCITY_PROPERTIES,  propertyFile) ;
-        //Comment test case
-
+        String path = System.getProperty("test.resources.dir");
         Writer writer = new StringWriter();
         engine.getContext().setWriter(writer);
-        String script = "<html>\n" +
-                "<body>\n" +
-                "#set( $foo = \"Velocity\" )\n" +
-                "Hello $foo World!\n" +
-                "</body>\n" +
-                "<html>";
-//        String script = "## This is a comment ";
+        engine.getContext().setAttribute(VelocityScriptEngine.VELOCITY_PROPERTIES_KEY, path + "/test-classes/velocity.properties", ScriptContext.ENGINE_SCOPE);
+        engine.getContext().setAttribute(VelocityScriptEngine.STRING_OUTPUT_MODE_KEY, "true", ScriptContext.ENGINE_SCOPE);
+        String script = "<html><body>#set( $foo = 'Velocity' )Hello $foo World!</body><html>";
         Object result = engine.eval(script);
-        assertTrue(Boolean.valueOf(result.toString()));
-        System.out.println(">>>"+writer);
-        //TODO add more engine script evaluation test cases
-
+        assertEquals(String.valueOf(result), "<html><body>Hello Velocity World!</body><html>");
     }
-
-
-
-
 }

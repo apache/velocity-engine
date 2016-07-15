@@ -1,4 +1,7 @@
 package org.apache.velocity.script;
+
+/* dual licencing... */
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,287 +21,164 @@ package org.apache.velocity.script;
  * under the License.
  */
 
+/*
+ * Copyright 2006 Sun Microsystems, Inc. All rights reserved. 
+ * Use is subject to license terms.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are 
+ * permitted provided that the following conditions are met: Redistributions of source code 
+ * must retain the above copyright notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of 
+ * conditions and the following disclaimer in the documentation and/or other materials 
+ * provided with the distribution. Neither the name of the Sun Microsystems nor the names of 
+ * is contributors may be used to endorse or promote products derived from this software 
+ * without specific prior written permission. 
+
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY 
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER 
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * Factory class for the Velocity scripting interface. Please refer to the
+ * javax.script.ScriptEngineFactory documentation for details.
+ *
+ * @author A. Sundararajan
+ * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
+ * @version $Id: VelocityScriptEngineFactory.java$
+ */
+
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
-/**
- * VelocityScriptEngineFactory is used to describe and instantiate ScriptEngines.
- * There are two fundamental ways to instantiate this.
- *
- *   1. Create a factory by providing only name and version and allows to inherit default factory settings.
- *   2. Create a factory by providing all required attributes i.e  List<String> names, List<String> extensions
- *       List<String> mimeTypes , String name,String version, String langName, String langVersion
- */
-public class VelocityScriptEngineFactory implements ScriptEngineFactory {
+public class VelocityScriptEngineFactory implements ScriptEngineFactory
+{
 
-    /**
-     *  names of the script engine
-     */
-    private List<String> names;
+    private static final String VELOCITY_NAME = "Velocity";
+    private static final String VELOCITY_VERSION = "2.0";
+    private static final String VELOCITY_LANGUAGE = "VTL";
 
+    private static List<String> names;
+    private static List<String> extensions;
+    private static List<String> mimeTypes;
 
-    /**
-     * List of  extensions for script engine
-     */
-    private List<String> extensions;
-
-
-    /**
-     *  List of mime types for script engine
-     */
-    private List<String> mimeTypes;
-
-    /**
-     *  Default name of the engine
-     */
-    private String name = "velocity";
-
-
-    /**
-     * Default version of the engine
-     */
-    private String version = "1.8";
-
-
-    /**
-     *  Default script language name
-     */
-    private String langName = "velocity";
-
-
-    /**
-     * Default  version of the script language
-     */
-    private String langVersion = "1.8";
-
-
-    /**
-     * Provides full capability to change default engine settings
-     *
-     * @param names       Override default names for script engine
-     * @param extensions  Override default extensions for script engine
-     * @param mimeTypes   Override default mime types for script engine
-     * @param name        Override default name for script engine
-     * @param version     Override default version for script engine
-     * @param langName    Override default language names for script engine
-     * @param langVersion Override default language version for script engine
-     */
-    public VelocityScriptEngineFactory(List<String> names, List<String> extensions
-            , List<String> mimeTypes
-            , String name
-            , String version
-            , String langName
-            , String langVersion
-    ) {
-        this.names = Collections.unmodifiableList(names);
-        this.extensions = Collections.unmodifiableList(extensions);
-        this.mimeTypes = Collections.unmodifiableList(mimeTypes);
-        this.name = name;
-        this.version = version;
-        this.langName = langName;
-        this.langVersion = langVersion;
-    }
-
-    /**
-     * @param name    Override default name for script engine
-     * @param version Override default version for script engine
-     */
-    public VelocityScriptEngineFactory(String name, String version) {
-        this.name = name;
-        this.version = version;
-        initDefaultSettings();
-    }
-
-    /**
-     * Simple Factory with all default settings
-     */
-    public VelocityScriptEngineFactory() {
-        initDefaultSettings();
-    }
-
-    private void initDefaultSettings() {
-        names = new ArrayList<String>(1);
+    private static Properties parameters;
+    
+    static
+    {
+        names = new ArrayList();
+        names.add("velocity");
         names.add("Velocity");
         names = Collections.unmodifiableList(names);
-        extensions = new ArrayList<String>(3);
+        extensions = new ArrayList();
         extensions.add("vm");
         extensions.add("vtl");
         extensions.add("vhtml");
         extensions = Collections.unmodifiableList(extensions);
-        mimeTypes = new ArrayList<String>(1);
+        mimeTypes = new ArrayList();
         mimeTypes.add("text/x-velocity");
         mimeTypes = Collections.unmodifiableList(mimeTypes);
+        parameters = new Properties();
+        parameters.put(ScriptEngine.NAME, VELOCITY_NAME);
+        parameters.put(ScriptEngine.ENGINE_VERSION, VELOCITY_VERSION);
+        parameters.put(ScriptEngine.ENGINE, VELOCITY_NAME);
+        parameters.put(ScriptEngine.LANGUAGE, VELOCITY_LANGUAGE);
+        parameters.put(ScriptEngine.LANGUAGE_VERSION, VELOCITY_VERSION);
+        parameters.put("THREADING", "MULTITHREADED");
+    }
+    
+    public String getEngineName()
+    { 
+        return VELOCITY_NAME;
     }
 
-  /**
-     *  Returns the full name of the ScriptEngine.
-     * @return
-     */
-    public String getEngineName() {
-        return name;
+    public String getEngineVersion()
+    {
+        return VELOCITY_VERSION;
     }
 
-
-  /**
-     *  Returns the version of the ScriptEngine.
-     * @return
-     */
-    public String getEngineVersion() {
-        return version;
-    }
-
-
-  /**
-     *  Returns an immutable list of filename extensions, which generally identify scripts written in the language
-     *  supported by this ScriptEngine.
-     * @return
-     */
-    public List<String> getExtensions() {
+    public List<String> getExtensions()
+    {
         return extensions;
     }
 
+    public String getLanguageName()
+    {
+        return VELOCITY_NAME;
+    }
 
-  /**
-     *  Returns an immutable list of mimetypes, associated with scripts that can be executed by the engine.
-     * @return
-     */
-    public List<String> getMimeTypes() {
+    public String getLanguageVersion()
+    {
+        return VELOCITY_VERSION;
+    }
+
+    public String getMethodCallSyntax(String obj, String m, String... args)
+    {
+        StringBuilder buf = new StringBuilder();
+        buf.append("${");
+        buf.append(obj);
+        buf.append(".");
+        buf.append(m);
+        buf.append("(");
+        if (args.length != 0)
+        {
+            int i = 0;
+            for (; i < args.length - 1; i++)
+            {
+                buf.append("$" + args[i]);
+                buf.append(", ");
+            }
+            buf.append("$" + args[i]);
+        }        
+        buf.append(")}");
+        return buf.toString();
+    }
+
+    public List<String> getMimeTypes()
+    {
         return mimeTypes;
     }
 
-
-  /**
-     * Returns an immutable list of short names for the ScriptEngine, which may be used to identify the ScriptEngine by the ScriptEngineManager.
-     * @return
-     */
-    public List<String> getNames() {
+    public List<String> getNames()
+    {
         return names;
     }
 
-
-  /**
-     *  Returns the name of the scripting langauge supported by this ScriptEngine.
-     * @return
-     */
-    public String getLanguageName() {
-        return langName;
+    public String getOutputStatement(String toDisplay)
+    {
+        StringBuilder buf = new StringBuilder();
+        buf.append("#[[").append(toDisplay).append("]]#");
+        return buf.toString();
     }
 
+    public String getParameter(String key)
+    {
+        return parameters.getProperty(key);
+    } 
 
-  /**
-     *  Returns the version of the scripting language supported by this ScriptEngine.
-     * @return
-     */
-    public String getLanguageVersion() {
-        return langVersion;
-    }
-
-
-
-   /**
-     *   Returns the value of an attribute whose meaning may be implementation-specific.
-     * @param s
-     * @return
-     */
-    public Object getParameter(String s) {
-        if (s.equals(ScriptEngine.ENGINE)) {
-            return getEngineName();
-        } else if (s.equals(ScriptEngine.NAME)) {
-            return getNames().get(0);
-        } else if (s.equals(ScriptEngine.LANGUAGE)) {
-            return getLanguageName();
-        } else if (s.equals(ScriptEngine.ENGINE_VERSION)) {
-            return getEngineVersion();
-        } else if (s.equals(ScriptEngine.LANGUAGE_VERSION)) {
-            return getLanguageVersion();
-        } else if (s.equals("THREADING")) {
-            return "MULTITHREADED";
-        } else {
-            return null;
+    public String getProgram(String... statements)
+    {
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < statements.length; i++)
+        {
+            buf.append(statements[i]);
+            buf.append("\n");
         }
+        return buf.toString();
     }
 
-
-
-    /**
-     *
-     * @param s   Name of the Object to whom the method belongs to
-     * @param s1  Name of the method
-     * @param strings method arguments to be passed
-     * @return  the method syntax for velocity script
-     */
-    public String getMethodCallSyntax(String s, String s1, String... strings) {
-        StringBuilder syntax = new StringBuilder();
-        syntax.append("$");
-        syntax.append("{");
-        syntax.append(s);
-        syntax.append(".");
-        syntax.append(s1);
-        syntax.append("(");
-        if (strings.length != 0) {
-            int i = 0;
-            for (; i < strings.length - 1; i++) {
-                syntax.append("$" + strings[i]);
-                syntax.append(", ");
-            }
-            syntax.append("$" + strings[i]);
-        }
-        syntax.append(")");
-        syntax.append("}");
-        return syntax.toString();
-    }
-
-
-
-    /**
-     *
-     * @param s  String to display
-     * @return     //TODO
-     */
-    public String getOutputStatement(String s) {
-        StringBuilder output = new StringBuilder();
-        output.append("${context.getWriter().write(\"");
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            switch (ch) {
-            case '"':
-                output.append("\\\"");
-                break;
-            case '\\':
-                output.append("\\\\");
-                break;
-            default:
-                output.append(ch);
-                break;
-            }
-        }
-        output.append("\")}");
-        return output.toString();
-    }
-
-
-  /**
-     *   Returns A valid scripting language executable progam with given statements.
-     * @param strings  scripting statements provided
-     * @return the program from the statements given
-     */
-    public String getProgram(String... strings) {
-        StringBuilder program = new StringBuilder();
-        for (int i = 0; i < strings.length; i++) {
-            program.append(strings[i]);
-            program.append("\n");
-        }
-        return program.toString();
-    }
-
-    /**
-     *  Returns an instance of the ScriptEngine associated with this ScriptEngineFactory
-     * @return
-     */
-    public ScriptEngine getScriptEngine() {
+    public ScriptEngine getScriptEngine()
+    {
         return new VelocityScriptEngine(this);
     }
 }
