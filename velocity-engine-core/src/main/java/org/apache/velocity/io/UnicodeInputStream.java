@@ -344,8 +344,8 @@ public class UnicodeInputStream
      */
     public static boolean sameEncoding(String left, String right)
     {
-        left = left.toUpperCase().replace("-", "");
-        right = right.toUpperCase().replace("-", "");
+        left = left.toUpperCase().replace("-", "").replace("_","");
+        right = right.toUpperCase().replace("-", "").replace("_","");
         return left.equals(right);
     }
 
