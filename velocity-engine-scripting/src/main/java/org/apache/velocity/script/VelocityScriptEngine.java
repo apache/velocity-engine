@@ -60,34 +60,66 @@ import javax.script.SimpleBindings;
 
 public class VelocityScriptEngine extends AbstractScriptEngine implements Compilable
 {
+    /**
+     * Key used to provide this engine with the pathname of the Velocity properties file.
+     * This key is first searched in the ScriptContext attributes, then as a System property
+     */
     public static final String VELOCITY_PROPERTIES_KEY = "org.apache.velocity.script.properties";
 
     // my factory, may be null
     private volatile ScriptEngineFactory factory;
     private volatile RuntimeInstance velocityEngine;
 
+    /**
+     * contructs a new Velocity script engine, linked to the given factory
+     * @param factory
+     */
     public VelocityScriptEngine(ScriptEngineFactory factory)
     {
         this.factory = factory;
-    }   
+    }
 
+    /**
+     * constructs a new standalone Velocity script engine
+     */
     public VelocityScriptEngine()
     {
         this(null);
     }
 
-    public RuntimeInstance getVelocityEngine()
+    /**
+     * get the internal Velocity RuntimeInstance
+     * @return the internal Velocity RuntimeInstance
+     */
+    protected RuntimeInstance getVelocityEngine()
     {
         return velocityEngine;
     }
-	
-    // ScriptEngine methods
-    public Object eval(String str, ScriptContext ctx) 
+
+    /**
+     * Evaluate the given script.
+     * If you wish to get a resulting string, call getContext().setWriter(new StringWriter()) then call toString()
+     * on the returned writer.
+     * @param str script source
+     * @param ctx script context
+     * @return the script context writer (by default a PrintWriter towards System.out)
+     * @throws ScriptException
+     */
+    public Object eval(String str, ScriptContext ctx)
                        throws ScriptException
     {	
         return eval(new StringReader(str), ctx);
     }
 
+    /**
+     * Evaluate the given script.
+     * If you wish to get a resulting string, call getContext().setWriter(new StringWriter()) then call toString()
+     * on the returned writer.
+     * @param reader script source reader
+     * @param ctx script context
+     * @return the script context writer (by default a PrintWriter towards System.out)
+     * @throws ScriptException
+     */
     public Object eval(Reader reader, ScriptContext ctx)
                        throws ScriptException
     { 
@@ -112,6 +144,10 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
         return out;
     }
 
+    /**
+     * get the factory used to create this script engine
+     * @return factory
+     */
     public ScriptEngineFactory getFactory()
     {
         if (factory == null)
@@ -127,12 +163,15 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
         return factory;
     }
 
+    /**
+     * creates a new Bindings to be used with this script
+     * @return new bindings
+     */
     public Bindings createBindings()
     {
         return new SimpleBindings();
     }
 
-    // internals only below this point
     private void initVelocityEngine(ScriptContext ctx)
     {
         if (ctx == null)
@@ -223,11 +262,23 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
         return null;
     }
 
+    /**
+     * Compile a template
+     * @param script template source
+     * @return compiled template
+     * @throws ScriptException
+     */
     public CompiledScript compile(String script) throws ScriptException
     {
         return compile(new StringReader(script));
     }
 
+    /**
+     * Compile a template
+     * @param script template source
+     * @return compiled template
+     * @throws ScriptException
+     */
     public CompiledScript compile(Reader script) throws ScriptException
     {
         initVelocityEngine(null);
