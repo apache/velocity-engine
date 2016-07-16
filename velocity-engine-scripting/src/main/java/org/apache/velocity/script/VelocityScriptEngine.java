@@ -1,26 +1,5 @@
 package org.apache.velocity.script;
 
-/* dual licencing... */
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 /*
  * Copyright 2006 Sun Microsystems, Inc. All rights reserved. 
  * Use is subject to license terms.
@@ -61,8 +40,13 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Properties;
-import org.apache.velocity.*;
-import org.apache.velocity.app.*;
+
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
+import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
 import javax.script.AbstractScriptEngine;
 import javax.script.Bindings;
@@ -187,9 +171,9 @@ public class VelocityScriptEngine extends AbstractScriptEngine
         }
     }
 
-    private static VelocityContext getVelocityContext(ScriptContext ctx)
+    protected static VelocityContext getVelocityContext(ScriptContext ctx)
     {
-        ctx.setAttribute("context", ctx, ScriptContext.ENGINE_SCOPE);
+        ctx.setAttribute("script_context", ctx, ScriptContext.ENGINE_SCOPE);
         Bindings globalScope = ctx.getBindings(ScriptContext.GLOBAL_SCOPE);        
         Bindings engineScope = ctx.getBindings(ScriptContext.ENGINE_SCOPE);
         if (globalScope != null)
@@ -202,19 +186,19 @@ public class VelocityScriptEngine extends AbstractScriptEngine
         }
     }
 
-    private static String getFilename(ScriptContext ctx)
+    protected static String getFilename(ScriptContext ctx)
     {
         Object fileName = ctx.getAttribute(ScriptEngine.FILENAME);
         return fileName != null? fileName.toString() : "<unknown>";
     }
 
-    private static boolean isStringOutputMode(ScriptContext ctx)
+    protected static boolean isStringOutputMode(ScriptContext ctx)
     {
         Object flag = ctx.getAttribute(STRING_OUTPUT_MODE_KEY);
         return Boolean.parseBoolean(String.valueOf(flag));
     }
 
-    private static Properties getVelocityProperties(ScriptContext ctx)
+    protected static Properties getVelocityProperties(ScriptContext ctx)
     {
         try
         {
