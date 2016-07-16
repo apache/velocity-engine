@@ -43,28 +43,28 @@ import java.util.Properties;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
 import javax.script.AbstractScriptEngine;
 import javax.script.Bindings;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
-public class VelocityScriptEngine extends AbstractScriptEngine
+public class VelocityScriptEngine extends AbstractScriptEngine implements Compilable
 {
-
-    public static final String STRING_OUTPUT_MODE_KEY = "org.apache.velocity.stringOutput";
     public static final String VELOCITY_PROPERTIES_KEY = "org.apache.velocity.script.properties";
 
     // my factory, may be null
     private volatile ScriptEngineFactory factory;
-    private volatile VelocityEngine vengine;
+    private volatile RuntimeInstance velocityEngine;
 
     public VelocityScriptEngine(ScriptEngineFactory factory)
     {
@@ -76,9 +76,9 @@ public class VelocityScriptEngine extends AbstractScriptEngine
         this(null);
     }
 
-    public VelocityEngine getVelocityEngine()
+    public RuntimeInstance getVelocityEngine()
     {
-        return vengine;
+        return velocityEngine;
     }
 	
     // ScriptEngine methods
@@ -94,26 +94,22 @@ public class VelocityScriptEngine extends AbstractScriptEngine
         initVelocityEngine(ctx);
         String fileName = getFilename(ctx);
         VelocityContext vctx = getVelocityContext(ctx);
-        boolean outputAsString = isStringOutputMode(ctx);
-        Writer out;
-        if (outputAsString)
+        Writer out = ctx.getWriter();
+        if (out == null)
         {
             out = new StringWriter();
-        }
-        else
-        {
-            out = ctx.getWriter();
+            ctx.setWriter(out);
         }
         try
         {
-            vengine.evaluate(vctx, out, fileName, reader);
+            velocityEngine.evaluate(vctx, out, fileName, reader);
             out.flush();
         }
         catch (Exception exp)
         {
             throw new ScriptException(exp);
         }
-        return outputAsString ? out.toString() : null;
+        return out;
     }
 
     public ScriptEngineFactory getFactory()
@@ -139,14 +135,18 @@ public class VelocityScriptEngine extends AbstractScriptEngine
     // internals only below this point
     private void initVelocityEngine(ScriptContext ctx)
     {
-        if (vengine == null)
+        if (ctx == null)
+        {
+            ctx = getContext();
+        }
+        if (velocityEngine == null)
         {
             synchronized (this)
             {
-                if (vengine != null) return;
+                if (velocityEngine != null) return;
 
                 Properties props = getVelocityProperties(ctx);
-                VelocityEngine tmpEngine = new VelocityEngine();
+                RuntimeInstance tmpEngine = new RuntimeInstance();
                 try
                 {
                     if (props != null)
@@ -166,7 +166,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine
                 {
                     throw new RuntimeException(exp);
                 }
-                vengine = tmpEngine;
+                velocityEngine = tmpEngine;
             }
         }
     }
@@ -190,12 +190,6 @@ public class VelocityScriptEngine extends AbstractScriptEngine
     {
         Object fileName = ctx.getAttribute(ScriptEngine.FILENAME);
         return fileName != null? fileName.toString() : "<unknown>";
-    }
-
-    protected static boolean isStringOutputMode(ScriptContext ctx)
-    {
-        Object flag = ctx.getAttribute(STRING_OUTPUT_MODE_KEY);
-        return Boolean.parseBoolean(String.valueOf(flag));
     }
 
     protected static Properties getVelocityProperties(ScriptContext ctx)
@@ -227,5 +221,46 @@ public class VelocityScriptEngine extends AbstractScriptEngine
             System.err.println(exp);
         }            
         return null;
+    }
+
+    public CompiledScript compile(String script) throws ScriptException
+    {
+        return compile(new StringReader(script));
+    }
+
+    public CompiledScript compile(Reader script) throws ScriptException
+    {
+        initVelocityEngine(null);
+        ResourceLoader2 resourceLoader = new SingleResourceReader(script);
+        Template template = new Template();
+        template.setRuntimeServices(velocityEngine);
+        template.setResourceLoader(resourceLoader);
+        try
+        {
+            template.process();
+        }
+        catch(Exception e)
+        {
+            // CB TODO - exception may have line/col informations, that ScriptException can exploit
+            throw new ScriptException(e);
+        }
+        return new VelocityCompiledScript(this, template);
+    }
+
+    // a dummy resource reader class, serving a single resource given the resource reader
+    protected static class SingleResourceReader extends StringResourceLoader
+    {
+        private Reader reader;
+
+        public SingleResourceReader(Reader r)
+        {
+            reader = r;
+        }
+
+        @Override
+        public Reader getResourceReader(String source, String encoding) throws ResourceNotFoundException
+        {
+            return reader;
+        }
     }
 }
