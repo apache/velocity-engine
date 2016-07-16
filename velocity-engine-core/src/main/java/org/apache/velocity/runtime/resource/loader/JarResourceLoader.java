@@ -22,7 +22,6 @@ package org.apache.velocity.runtime.resource.loader;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -66,7 +65,7 @@ import org.apache.commons.collections.ExtendedProperties;
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
  * @version $Id$
  */
-public class JarResourceLoader extends ResourceLoader
+public class JarResourceLoader extends ResourceLoader2
 {
     /**
      * Maps entries to the parent JAR File
@@ -169,64 +168,6 @@ public class JarResourceLoader extends ResourceLoader
     }
 
     /**
-     * Get an InputStream so that the Runtime can build a
-     * template with it.
-     *
-     * @param source name of template to get
-     * @return InputStream containing the template
-     * @throws ResourceNotFoundException if template not found
-     *         in the file template path.
-     * @deprecated Use {@link #getResourceReader(String, String)}
-     */
-    public @Deprecated InputStream getResourceStream( String source )
-        throws ResourceNotFoundException
-    {
-        InputStream results = null;
-
-        if (org.apache.commons.lang3.StringUtils.isEmpty(source))
-        {
-            throw new ResourceNotFoundException("Need to have a resource!");
-        }
-
-        String normalizedPath = StringUtils.normalizePath( source );
-
-        if ( normalizedPath == null || normalizedPath.length() == 0 )
-        {
-            String msg = "JAR resource error : argument " + normalizedPath +
-                " contains .. and may be trying to access " +
-                "content outside of template root.  Rejected.";
-
-            log.error( "JarResourceLoader : " + msg );
-
-            throw new ResourceNotFoundException ( msg );
-        }
-
-        /*
-         *  if a / leads off, then just nip that :)
-         */
-        if ( normalizedPath.startsWith("/") )
-        {
-            normalizedPath = normalizedPath.substring(1);
-        }
-
-        if ( entryDirectory.containsKey( normalizedPath ) )
-        {
-            String jarurl  = (String)entryDirectory.get( normalizedPath );
-
-            if ( jarfiles.containsKey( jarurl ) )
-            {
-                JarHolder holder = (JarHolder)jarfiles.get( jarurl );
-                results =  holder.getResource( normalizedPath );
-                return results;
-            }
-        }
-
-        throw new ResourceNotFoundException( "JarResourceLoader Error: cannot find resource " +
-          source );
-
-    }
-
-    /**
      * Get a Reader so that the Runtime can build a
      * template with it.
      *
@@ -305,7 +246,7 @@ public class JarResourceLoader extends ResourceLoader
     // TODO: SHOULD BE DELEGATED TO THE JARHOLDER
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(Resource resource)
     {
@@ -313,7 +254,7 @@ public class JarResourceLoader extends ResourceLoader
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(Resource resource)
     {

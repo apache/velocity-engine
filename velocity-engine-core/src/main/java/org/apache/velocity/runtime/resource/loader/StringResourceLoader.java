@@ -113,7 +113,7 @@ import org.apache.velocity.util.ClassUtils;
  * @version $Id$
  * @since 1.5
  */
-public class StringResourceLoader extends ResourceLoader
+public class StringResourceLoader extends ResourceLoader2
 {
     /**
      * Key to determine whether the repository should be set as the static one or not.
@@ -210,7 +210,7 @@ public class StringResourceLoader extends ResourceLoader
 
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.commons.collections.ExtendedProperties)
      */
     public void init(final ExtendedProperties configuration)
     {
@@ -341,44 +341,6 @@ public class StringResourceLoader extends ResourceLoader
     }
 
     /**
-     * Get an InputStream so that the Runtime can build a
-     * template with it.
-     *
-     * @param name name of template to get.
-     * @return InputStream containing the template.
-     * @throws ResourceNotFoundException Ff template not found
-     *         in the RepositoryFactory.
-     * @deprecated use {@link #getResourceReader(String,String)}
-     */
-    public @Deprecated InputStream getResourceStream(final String name)
-            throws ResourceNotFoundException
-    {
-        if (StringUtils.isEmpty(name))
-        {
-            throw new ResourceNotFoundException("No template name provided");
-        }
-
-        StringResource resource = this.repository.getStringResource(name);
-
-        if(resource == null)
-        {
-            throw new ResourceNotFoundException("Could not locate resource '" + name + "'");
-        }
-
-        byte [] byteArray = null;
-
-        try
-        {
-            byteArray = resource.getBody().getBytes(resource.getEncoding());
-            return new ByteArrayInputStream(byteArray);
-        }
-        catch(UnsupportedEncodingException ue)
-        {
-            throw new VelocityException("Could not convert String using encoding " + resource.getEncoding(), ue);
-        }
-    }
-
-    /**
      * Get a reader so that the Runtime can build a
      * template with it.
      *
@@ -441,7 +403,7 @@ public class StringResourceLoader extends ResourceLoader
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(final Resource resource)
     {
@@ -459,7 +421,7 @@ public class StringResourceLoader extends ResourceLoader
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(final Resource resource)
     {

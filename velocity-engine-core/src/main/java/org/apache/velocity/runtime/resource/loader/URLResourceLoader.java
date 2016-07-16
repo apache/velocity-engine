@@ -21,7 +21,6 @@ package org.apache.velocity.runtime.resource.loader;
 
 import java.io.InputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -41,7 +40,7 @@ import org.apache.commons.lang3.StringUtils;
  * @version $Id: URLResourceLoader.java 191743 2005-06-21 23:22:20Z dlr $
  * @since 1.5
  */
-public class URLResourceLoader extends ResourceLoader
+public class URLResourceLoader extends ResourceLoader2
 {
     private String[] roots = null;
     protected HashMap templateRoots = null;
@@ -49,7 +48,7 @@ public class URLResourceLoader extends ResourceLoader
     private Method[] timeoutMethods;
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.commons.collections.ExtendedProperties)
      */
     public void init(ExtendedProperties configuration)
     {
@@ -86,75 +85,6 @@ public class URLResourceLoader extends ResourceLoader
         templateRoots = new HashMap();
 
         log.trace("URLResourceLoader : initialization complete.");
-    }
-
-    /**
-     * Get an InputStream so that the Runtime can build a
-     * template with it.
-     *
-     * @param name name of template to fetch bytestream of
-     * @return InputStream containing the template
-     * @throws ResourceNotFoundException if template not found
-     *         in the file template path.
-     * @deprecated Use {@link #findTemplateReader(source)}
-     */
-    public synchronized @Deprecated InputStream getResourceStream(String name)
-        throws ResourceNotFoundException
-    {
-        if (StringUtils.isEmpty(name))
-        {
-            throw new ResourceNotFoundException("URLResourceLoader : No template name provided");
-        }
-
-        InputStream inputStream = null;
-        Exception exception = null;
-        for(int i=0; i < roots.length; i++)
-        {
-            try
-            {
-                URL u = new URL(roots[i] + name);
-                URLConnection conn = u.openConnection();
-                tryToSetTimeout(conn);
-                inputStream = conn.getInputStream();
-
-                if (inputStream != null)
-                {
-                    if (log.isDebugEnabled()) log.debug("URLResourceLoader: Found '{}' at '{}'", name, roots[i]);
-
-                    // save this root for later re-use
-                    templateRoots.put(name, roots[i]);
-                    break;
-                }
-            }
-            catch(IOException ioe)
-            {
-                if (log.isDebugEnabled()) log.debug("URLResourceLoader: Exception when looking for '{}' at '{}'", name, roots[i], ioe);
-
-                // only save the first one for later throwing
-                if (exception == null)
-                {
-                    exception = ioe;
-                }
-            }
-        }
-
-        // if we never found the template
-        if (inputStream == null)
-        {
-            String msg;
-            if (exception == null)
-            {
-                msg = "URLResourceLoader : Resource '" + name + "' not found.";
-            }
-            else
-            {
-                msg = exception.getMessage();
-            }
-            // convert to a general Velocity ResourceNotFoundException
-            throw new ResourceNotFoundException(msg);
-        }
-
-        return inputStream;
     }
 
     /**

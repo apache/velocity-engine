@@ -21,7 +21,6 @@ package org.apache.velocity.runtime.resource.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 
 import org.apache.commons.collections.ExtendedProperties;
@@ -77,7 +76,7 @@ import org.apache.velocity.util.ClassUtils;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ClasspathResourceLoader extends ResourceLoader
+public class ClasspathResourceLoader extends ResourceLoader2
 {
 
     /**
@@ -90,51 +89,6 @@ public class ClasspathResourceLoader extends ResourceLoader
         {
             log.trace("ClasspathResourceLoader : initialization complete.");
         }
-    }
-
-    /**
-     * Get an InputStream so that the Runtime can build a
-     * template with it.
-     *
-     * @param name name of template to get
-     * @return InputStream containing the template
-     * @throws ResourceNotFoundException if template not found
-     *         in  classpath.
-     * @deprecated use {@link #getResourceReader(String, String)}
-     */
-    public @Deprecated InputStream getResourceStream( String name )
-        throws ResourceNotFoundException
-    {
-        InputStream result = null;
-
-        if (StringUtils.isEmpty(name))
-        {
-            throw new ResourceNotFoundException ("No template name provided");
-        }
-
-        /**
-         * look for resource in thread classloader first (e.g. WEB-INF\lib in
-         * a servlet container) then fall back to the system classloader.
-         */
-
-        try
-        {
-            result = ClassUtils.getResourceAsStream( getClass(), name );
-        }
-        catch( Exception fnfe )
-        {
-            throw new ResourceNotFoundException("ClasspathResourceLoader problem with template: " + name, fnfe );
-        }
-
-        if (result == null)
-        {
-             String msg = "ClasspathResourceLoader Error: cannot find resource " +
-              name;
-
-             throw new ResourceNotFoundException( msg );
-        }
-
-        return result;
     }
 
     /**
@@ -196,7 +150,7 @@ public class ClasspathResourceLoader extends ResourceLoader
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(Resource resource)
     {
@@ -204,7 +158,7 @@ public class ClasspathResourceLoader extends ResourceLoader
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(Resource resource)
     {
