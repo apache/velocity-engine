@@ -75,32 +75,59 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
         parameters.put(ScriptEngine.LANGUAGE_VERSION, VELOCITY_VERSION);
         parameters.put("THREADING", "MULTITHREADED");
     }
-    
+
+    /**
+     * get engine name
+     * @return engine name, aka "Velocity"
+     */
     public String getEngineName()
     { 
         return VELOCITY_NAME;
     }
 
+    /**
+     * get engine version
+     * @return engine version string
+     */
     public String getEngineVersion()
     {
         return VELOCITY_VERSION;
     }
 
+    /**
+     * get the list of file extensions handled by Velocity: vm, vtl, vhtml
+     * @return extentions list
+     */
     public List<String> getExtensions()
     {
         return extensions;
     }
 
+    /**
+     * get language name
+     * @return language name, aka "VTL"
+     */
     public String getLanguageName()
     {
         return VELOCITY_NAME;
     }
 
+    /**
+     * get language version (same as engine version)
+     * @return language version string
+     */
     public String getLanguageVersion()
     {
         return VELOCITY_VERSION;
     }
 
+    /**
+     * get Velocity syntax for calling method 'm' on bject 'obj' with provided arguments
+     * @param obj
+     * @param m
+     * @param args
+     * @return VTL call ${obj.m(args...)}
+     */
     public String getMethodCallSyntax(String obj, String m, String... args)
     {
         StringBuilder buf = new StringBuilder();
@@ -123,16 +150,29 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
         return buf.toString();
     }
 
+    /**
+     * get the list of Velocity mime types
+     * @return singleton { 'text/x-velocity' }
+     */
     public List<String> getMimeTypes()
     {
         return mimeTypes;
     }
 
+    /**
+     * get the list of names
+     * @return { 'velocity', 'Velocity' }
+     */
     public List<String> getNames()
     {
         return names;
     }
 
+    /**
+     * get VTL expression used to display specified string
+     * @param toDisplay
+     * @return escaped string #[[toDisplay]]#
+     */
     public String getOutputStatement(String toDisplay)
     {
         StringBuilder buf = new StringBuilder();
@@ -140,11 +180,21 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
         return buf.toString();
     }
 
+    /**
+     * get engine parameter for provided key
+     * @param key
+     * @return found parameter, or null
+     */
     public String getParameter(String key)
     {
         return parameters.getProperty(key);
-    } 
+    }
 
+    /**
+     * get whole VTL program given VTL lines
+     * @param statements VTL lines
+     * @return lines concatenated with carriage returns
+     */
     public String getProgram(String... statements)
     {
         StringBuilder buf = new StringBuilder();
@@ -156,6 +206,10 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
         return buf.toString();
     }
 
+    /**
+     * get a Velocity script engine
+     * @return a new Velocity script engine
+     */
     public ScriptEngine getScriptEngine()
     {
         return new VelocityScriptEngine(this);
