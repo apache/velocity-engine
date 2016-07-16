@@ -25,8 +25,24 @@ package org.apache.velocity.script;
  */
 
 /*
- * Main class for the Velocity script engine. Please refer to the
- * javax.script.ScriptEngine documentation for details.
+ * Main class for the Velocity script engine.
+ * All the variants of the eval() methods return the writer. The default writer is a PrintWriter towards System.out.
+ * To specify a specific writer, use getContext().setWriter(writer). To get a resulting string, pass a StringWriter.
+ *
+ * You can specify a pathname towards a Velocity properties file using the "org.apache.velocity.script.properties" key,
+ * either as a ScriptContext attribute, or as a System property.
+ *
+ * Example use:
+ * <pre>
+ *     ScriptEngine vel = new VelocityScriptEngine();
+ *     vel.getContext().setAttribute(VelocityScriptEngine.VELOCITY_PROPERTIES_KEY, "path/to/velocity.properties");
+ *     vel.getContext().setWriter(new StringWriter());
+ *     vel.put("foo","World");
+ *     Object result = vel.eval("Hello $foo !");
+ *     String helloWorld = result.toString()
+ * </pre>
+ *
+ * Please refer to the javax.script.ScriptEngine documentation for additional details.
  *
  * @author A. Sundararajan
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
@@ -298,7 +314,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
         return new VelocityCompiledScript(this, template);
     }
 
-    // a dummy resource reader class, serving a single resource given the resource reader
+    // a dummy resource reader class, serving a single resource given by the provided resource reader
     protected static class SingleResourceReader extends StringResourceLoader
     {
         private Reader reader;
