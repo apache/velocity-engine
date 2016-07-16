@@ -43,16 +43,17 @@ public class EventToolTest extends AbstractScriptTest {
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         CustomEvent event = new CustomEvent("MyEvent");
         context.getBindings(ScriptContext.ENGINE_SCOPE).put("event", event);
-        context.setAttribute(VelocityScriptEngine.VELOCITY_PROPERTIES, properties, ScriptContext.ENGINE_SCOPE);
+        context.setAttribute(VelocityScriptEngine.VELOCITY_PROPERTIES_KEY, properties, ScriptContext.ENGINE_SCOPE);
         context.setAttribute(VelocityScriptEngine.FILENAME, "eventtool.vm", ScriptContext.ENGINE_SCOPE);
         Writer writer = new StringWriter();
         context.setWriter(writer);
         engine.eval("$event;\n" +
-                "\n" +
                 "Event Created by $event.getName()\n" +
                 "Event Created on $event.getDate()\n" +
                 "Event ID is $event.getID()");
-        System.out.println("####### Tools output #########\n"+writer);
+        // check string start
+        String check = "This is a test event template: created by MyEvent on ";
+        assertEquals(writer.toString().substring(0, check.length()), check);
     }
 
 

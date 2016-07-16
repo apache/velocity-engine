@@ -21,6 +21,8 @@ package org.apache.velocity.script.test;
 import org.apache.velocity.script.VelocityScriptEngine;
 
 import javax.script.Bindings;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
 import javax.script.ScriptContext;
 import javax.script.ScriptException;
 import java.io.StringWriter;
@@ -66,12 +68,22 @@ public class ScriptEngineTest extends AbstractScriptTest {
 
     public void testEngineEvals() throws ScriptException {
         String path = System.getProperty("test.resources.dir");
-        Writer writer = new StringWriter();
-        engine.getContext().setWriter(writer);
+        engine.getContext().setWriter(new StringWriter());
         engine.getContext().setAttribute(VelocityScriptEngine.VELOCITY_PROPERTIES_KEY, path + "/test-classes/velocity.properties", ScriptContext.ENGINE_SCOPE);
-        engine.getContext().setAttribute(VelocityScriptEngine.STRING_OUTPUT_MODE_KEY, "true", ScriptContext.ENGINE_SCOPE);
         String script = "<html><body>#set( $foo = 'Velocity' )Hello $foo World!</body><html>";
         Object result = engine.eval(script);
-        assertEquals(String.valueOf(result), "<html><body>Hello Velocity World!</body><html>");
+        assertEquals(result.toString(), "<html><body>Hello Velocity World!</body><html>");
+    }
+
+    public void testCompilable() throws ScriptException
+    {
+        String path = System.getProperty("test.resources.dir");
+        engine.getContext().setWriter(new StringWriter());
+        engine.getContext().setAttribute(VelocityScriptEngine.VELOCITY_PROPERTIES_KEY, path + "/test-classes/velocity.properties", ScriptContext.ENGINE_SCOPE);
+        String script = "$foo";
+        engine.put("foo", "bar");
+        CompiledScript compiled = ((Compilable)engine).compile(script);
+        Object result = compiled.eval();
+        assertEquals(result.toString(), "bar");
     }
 }
