@@ -19,7 +19,6 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.
  */
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,7 +48,7 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @version $Id$
  */
-public class FileResourceLoader extends ResourceLoader
+public class FileResourceLoader extends ResourceLoader2
 {
     /**
      * The paths to search for templates.
@@ -65,7 +64,7 @@ public class FileResourceLoader extends ResourceLoader
     private Map templatePaths = Collections.synchronizedMap(new HashMap());
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.commons.collections.ExtendedProperties)
      */
     public void init( ExtendedProperties configuration)
     {
@@ -91,86 +90,6 @@ public class FileResourceLoader extends ResourceLoader
             }
             log.trace("FileResourceLoader : initialization complete.");
         }
-    }
-
-    /**
-     * Get an InputStream so that the Runtime can build a
-     * template with it.
-     *
-     * @param templateName name of template to get
-     * @return InputStream containing the template
-     * @throws ResourceNotFoundException if template not found
-     * @deprecated Use {@link #getResourceReader(String,String)}
-     *         in the file template path.
-     */
-    public @Deprecated InputStream getResourceStream(String templateName)
-        throws ResourceNotFoundException
-    {
-        /*
-         * Make sure we have a valid templateName.
-         */
-        if (org.apache.commons.lang3.StringUtils.isEmpty(templateName))
-        {
-            /*
-             * If we don't get a properly formed templateName then
-             * there's not much we can do. So we'll forget about
-             * trying to search any more paths for the template.
-             */
-            throw new ResourceNotFoundException(
-                "Need to specify a file name or file path!");
-        }
-
-        String template = StringUtils.normalizePath(templateName);
-        if ( template == null || template.length() == 0 )
-        {
-            String msg = "File resource error : argument " + template +
-                " contains .. and may be trying to access " +
-                "content outside of template root.  Rejected.";
-
-            log.error("FileResourceLoader : " + msg);
-
-            throw new ResourceNotFoundException ( msg );
-        }
-
-        int size = paths.size();
-        for (int i = 0; i < size; i++)
-        {
-            String path = (String) paths.get(i);
-            InputStream rawStream = null;
-            UnicodeInputStream inputStream = null;
-
-            try
-            {
-                rawStream = findTemplate(path, template);
-                inputStream = new UnicodeInputStream(rawStream, true);
-
-            }
-            catch (IOException ioe)
-            {
-                closeQuiet(rawStream);
-                String msg = "Exception while loading Template " + template;
-                log.error(msg, ioe);
-                throw new VelocityException(msg, ioe);
-            }
-
-            if (inputStream != null)
-            {
-                /*
-                 * Store the path that this template came
-                 * from so that we can check its modification
-                 * time.
-                 */
-                templatePaths.put(templateName, path);
-                return inputStream;
-            }
-        }
-
-        /*
-         * We have now searched all the paths for
-         * templates and we didn't find anything so
-         * throw an exception.
-         */
-         throw new ResourceNotFoundException("FileResourceLoader : cannot find " + template);
     }
 
     /**
@@ -410,7 +329,7 @@ public class FileResourceLoader extends ResourceLoader
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(Resource resource)
     {

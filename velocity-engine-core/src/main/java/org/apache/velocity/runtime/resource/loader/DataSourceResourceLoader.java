@@ -19,7 +19,6 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.
  */
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -128,7 +127,7 @@ import org.apache.velocity.util.StringUtils;
  * @version $Id$
  * @since 1.5
  */
-public class DataSourceResourceLoader extends ResourceLoader
+public class DataSourceResourceLoader extends ResourceLoader2
 {
     private String dataSourceName;
     private String tableName;
@@ -139,7 +138,7 @@ public class DataSourceResourceLoader extends ResourceLoader
     private DataSource dataSource;
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#init(org.apache.commons.collections.ExtendedProperties)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.commons.collections.ExtendedProperties)
      */
     public void init(ExtendedProperties configuration)
     {
@@ -188,7 +187,7 @@ public class DataSourceResourceLoader extends ResourceLoader
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(final Resource resource)
     {
@@ -197,81 +196,11 @@ public class DataSourceResourceLoader extends ResourceLoader
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(final Resource resource)
     {
         return readLastModified(resource, "getting timestamp");
-    }
-
-    /**
-     * Get an InputStream so that the Runtime can build a
-     * template with it.
-     *
-     *  @param name name of template
-     *  @return InputStream containing template
-     * @throws ResourceNotFoundException
-     * @deprecated Use {@link #getResourceReader(String,String)}
-     */
-    public synchronized @Deprecated InputStream getResourceStream(final String name)
-        throws ResourceNotFoundException
-    {
-        if (org.apache.commons.lang3.StringUtils.isEmpty(name))
-        {
-            throw new ResourceNotFoundException("DataSourceResourceLoader: Template name was empty or null");
-        }
-
-        Connection conn = null;
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-        try
-        {
-            conn = openDbConnection();
-            ps = getStatement(conn, templateColumn, tableName, keyColumn, name);
-            rs = ps.executeQuery();
-
-            if (rs.next())
-            {
-                InputStream stream = rs.getBinaryStream(templateColumn);
-                if (stream == null)
-                {
-                    throw new ResourceNotFoundException("DataSourceResourceLoader: "
-                                                        + "template column for '"
-                                                        + name + "' is null");
-                }
-
-                return new BufferedInputStream(stream);
-            }
-            else
-            {
-                throw new ResourceNotFoundException("DataSourceResourceLoader: "
-                                                    + "could not find resource '"
-                                                    + name + "'");
-
-            }
-        }
-        catch (SQLException sqle)
-        {
-            String msg = "DataSourceResourceLoader: database problem while getting resource '"
-                         + name + "': ";
-
-            log.error(msg, sqle);
-            throw new ResourceNotFoundException(msg);
-        }
-        catch (NamingException ne)
-        {
-            String msg = "DataSourceResourceLoader: database problem while getting resource '"
-                         + name + "': ";
-
-            log.error(msg, ne);
-            throw new ResourceNotFoundException(msg);
-        }
-        finally
-        {
-            closeResultSet(rs);
-            closeStatement(ps);
-            closeDbConnection(conn);
-        }
     }
 
     /**

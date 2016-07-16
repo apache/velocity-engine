@@ -32,7 +32,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.StringUtils;
@@ -102,7 +102,7 @@ public class ResourceManagerImpl
             return;
         }
 
-        ResourceLoader resourceLoader = null;
+        ResourceLoader2 resourceLoader = null;
 
         this.rsvc = rsvc;
         log = rsvc.getLog();
@@ -120,7 +120,7 @@ public class ResourceManagerImpl
             ExtendedProperties configuration = (ExtendedProperties) it.next();
 
             String loaderClass = StringUtils.nullTrim(configuration.getString("class"));
-            ResourceLoader loaderInstance = (ResourceLoader) configuration.get("instance");
+            ResourceLoader2 loaderInstance = (ResourceLoader2) configuration.get("instance");
 
             if (loaderInstance != null)
             {
@@ -424,7 +424,7 @@ public class ResourceManagerImpl
 
         for (Iterator it = resourceLoaders.iterator(); it.hasNext();)
         {
-            ResourceLoader resourceLoader = (ResourceLoader) it.next();
+            ResourceLoader2 resourceLoader = (ResourceLoader2) it.next();
             resource.setResourceLoader(resourceLoader);
 
             /*
@@ -516,7 +516,7 @@ public class ResourceManagerImpl
         /* check whether this can now be found in a higher priority
          * resource loader.  if so, pass the request off to loadResource.
          */
-        ResourceLoader loader = resource.getResourceLoader();
+        ResourceLoader2 loader = resource.getResourceLoader();
         if (resourceLoaders.size() > 0 && resourceLoaders.indexOf(loader) > 0)
         {
             String name = resource.getName();
@@ -583,7 +583,7 @@ public class ResourceManagerImpl
      */
     public String getLoaderNameForResource(String resourceName)
     {
-        ResourceLoader loader = getLoaderForResource(resourceName);
+        ResourceLoader2 loader = getLoaderForResource(resourceName);
         if (loader == null)
         {
             return null;
@@ -592,14 +592,14 @@ public class ResourceManagerImpl
     }
 
     /**
-     * Returns the first {@link ResourceLoader} in which the specified
+     * Returns the first {@link ResourceLoader2} in which the specified
      * resource exists.
      */
-    private ResourceLoader getLoaderForResource(String resourceName)
+    private ResourceLoader2 getLoaderForResource(String resourceName)
     {
         for (Iterator i = resourceLoaders.iterator(); i.hasNext(); )
         {
-            ResourceLoader loader = (ResourceLoader)i.next();
+            ResourceLoader2 loader = (ResourceLoader2)i.next();
             if (loader.resourceExists(resourceName))
             {
                 return loader;

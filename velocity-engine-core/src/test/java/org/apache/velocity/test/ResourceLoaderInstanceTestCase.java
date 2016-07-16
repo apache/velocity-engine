@@ -32,12 +32,12 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
+import org.apache.velocity.test.misc.TestLogger;
 
 /**
- * Test that an instance of a ResourceLoader can be successfully passed in.
+ * Test that an instance of a ResourceLoader2 can be successfully passed in.
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  * @version $Id$
@@ -89,7 +89,7 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
             throws Exception
     {
 
-        ResourceLoader rl = new FileResourceLoader();
+        ResourceLoader2 rl = new FileResourceLoader();
 
         // pass in an instance to Velocity
         Velocity.reset();

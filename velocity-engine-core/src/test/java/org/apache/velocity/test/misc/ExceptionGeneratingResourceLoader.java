@@ -19,13 +19,12 @@ package org.apache.velocity.test.misc;
  * under the License.    
  */
 
-import java.io.InputStream;
 import java.io.Reader;
 
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
 
 /**
  * Resource Loader that always throws an exception.  Used to test
@@ -34,16 +33,11 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
-public class ExceptionGeneratingResourceLoader extends ResourceLoader
+public class ExceptionGeneratingResourceLoader extends ResourceLoader2
 {
 
     public void init(ExtendedProperties configuration)
     {
-    }
-
-    public @Deprecated InputStream getResourceStream(String source) throws ResourceNotFoundException
-    {
-        throw new RuntimeException("exception");
     }
 
     public Reader getResourceReader(String source, String encoding) throws ResourceNotFoundException
