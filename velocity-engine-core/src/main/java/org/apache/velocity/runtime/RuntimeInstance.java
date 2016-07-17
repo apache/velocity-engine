@@ -224,32 +224,49 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         if (!initialized && !initializing)
         {
-            log.debug("Initializing Velocity, Calling init()...");
-            initializing = true;
-
-            log.trace("*******************************************************************");
-            log.debug("Starting Apache Velocity v2.0-dev (compiled: 2009-02-05 07:40:05)");
-            log.trace("RuntimeInstance initializing.");
-
-            initializeProperties();
-            initializeLog();
-            initializeResourceManager();
-            initializeDirectives();
-            initializeEventHandlers();
-            initializeParserPool();
-
-            initializeIntrospection();
-            initializeEvaluateScopeSettings();
-            /*
-             *  initialize the VM Factory.  It will use the properties
-             * accessible from Runtime, so keep this here at the end.
-             */
-            vmFactory.initVelocimacro();
-
-            log.trace("RuntimeInstance successfully initialized.");
-
-            initialized = true;
-            initializing = false;
+            try
+            {
+                log.debug("Initializing Velocity, Calling init()...");
+                initializing = true;
+                
+                log.trace("*******************************************************************");
+                log.debug("Starting Apache Velocity v2.0-dev (compiled: 2009-02-05 07:40:05)");
+                log.trace("RuntimeInstance initializing.");
+                
+                initializeProperties();
+                initializeLog();
+                initializeResourceManager();
+                initializeDirectives();
+                initializeEventHandlers();
+                initializeParserPool();
+                
+                initializeIntrospection();
+                initializeEvaluateScopeSettings();
+                /*
+                 *  initialize the VM Factory.  It will use the properties
+                 * accessible from Runtime, so keep this here at the end.
+                 */
+                vmFactory.initVelocimacro();
+                
+                log.trace("RuntimeInstance successfully initialized.");
+                
+                initialized = true;
+                initializing = false;
+            }
+            catch(RuntimeException re)
+            {
+                // initialization failed at some point... try to reset everything
+                try
+                {
+                    reset();
+                }
+                catch(RuntimeException re2) {} // prefer throwing the original exception
+                throw re;
+            }
+            finally
+            {
+                initializing = false;
+            }
         }
     }
 
