@@ -19,8 +19,8 @@ package org.apache.velocity.util;
  * under the License.    
  */
 
-import java.util.Iterator;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 /**
  * An Iterator wrapper for an Enumeration.

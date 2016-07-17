@@ -19,14 +19,10 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.test.misc.TestLogger;
+
+import java.io.StringWriter;
 
 /**
  * This class is intended to test the app.Velocity.java class.
@@ -46,48 +42,39 @@ public class VelocityAppTestCase extends BaseTestCase implements TemplateTestBas
         super(name);
     }
 
-    public void setUp()
+    public void testVelocityApp()
             throws Exception
     {
-        Velocity.setProperty(
-                Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+        engine.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
+        engine.init();
 
-        Velocity.setProperty(
-                Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
+        // the usage of engine here is equivalent to using static calls to Velocity. class
 
-        Velocity.init();
-    }
-
-    public static Test suite()
-    {
-        return new TestSuite(VelocityAppTestCase.class);
-    }
-
-    /**
-     * Runs the test.
-     */
-    public void testVelocityApp ()
-            throws Exception
-    {
         VelocityContext context = new VelocityContext();
         context.put("name", "jason");
         context.put("Floog", "floogie woogie");
 
-            Velocity.evaluate(context, compare1, "evaltest", input1);
+        String cmp = "Hello jason! Nice floogie woogie!";
 
-/*
- *            @todo FIXME: Not tested right now.
- *
- *            StringWriter result2 = new StringWriter();
- *            Velocity.mergeTemplate("mergethis.vm",  context, result2);
- *
- *            StringWriter result3 = new StringWriter();
- *            Velocity.invokeVelocimacro("floog", "test", new String[2],
- *                                        context, result3);
- */
-            if (!result1.equals(compare1.toString()))
-            {
-                fail("Output incorrect.");
-            }
+        engine.evaluate(context, compare1, "evaltest", input1);
+        if (!result1.equals(compare1.toString()))
+        {
+            fail("Output 1 incorrect.");
+        }
+
+        StringWriter result2 = new StringWriter();
+        engine.mergeTemplate("mergethis.vm", "UTF-8", context, result2);
+        if (!result2.toString().equals(cmp))
+        {
+            fail("Output 2 incorrect.");
+        }
+
+        StringWriter result3 = new StringWriter();
+        engine.invokeVelocimacro("floog", "test", new String[]{"name", "Floog"}, context, result3);
+
+        if (!result3.toString().equals(cmp))
+        {
+            fail("Output 3 incorrect.");
+        }
     }
 }

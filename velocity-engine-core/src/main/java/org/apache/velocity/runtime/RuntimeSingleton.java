@@ -19,12 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.
  */
 
-import java.io.Reader;
-import java.util.List;
-import java.util.Properties;
-
-import org.slf4j.Logger;
-
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
@@ -39,6 +33,11 @@ import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
+import org.slf4j.Logger;
+
+import java.io.Reader;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -144,7 +143,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void setProperty(String key, Object value)
     {
-        ri.setProperty( key, value );
+        ri.setProperty(key, value);
     }
 
     /**
@@ -177,7 +176,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void setConfiguration( ExtProperties configuration)
     {
-        ri.setConfiguration( configuration );
+        ri.setConfiguration(configuration);
     }
 
     /**
@@ -202,7 +201,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static void addProperty(String key, Object value)
     {
-        ri.addProperty( key, value );
+        ri.addProperty(key, value);
     }
 
     /**
@@ -268,33 +267,16 @@ public class RuntimeSingleton implements RuntimeConstants
      *  application.  We will revisit this.
      *
      * @param reader Reader retrieved by a resource loader
-     * @param templateName name of the template being parsed
+     * @param template Template being parsed
      * @return A root node representing the template as an AST tree.
      * @throws ParseException When the template could not be parsed.
-     * @see RuntimeInstance#parse(Reader, String)
+     * @see RuntimeInstance#parse(Reader, Template)
      */
-    public static SimpleNode parse( Reader reader, String templateName )
+    public static SimpleNode parse( Reader reader, Template template )
         throws ParseException
     {
-        return ri.parse( reader, templateName );
+        return ri.parse(reader, template);
     }
-
-    /**
-     *  Parse the input and return the root of the AST node structure.
-     *
-     * @param reader Reader retrieved by a resource loader
-     * @param templateName name of the template being parsed
-     * @param dumpNamespace flag to dump the Velocimacro namespace for this template
-     * @return A root node representing the template as an AST tree.
-     * @throws ParseException When the template could not be parsed.
-     * @see RuntimeInstance#parse(Reader, String, boolean)
-     */
-    public static SimpleNode parse( Reader reader, String templateName, boolean dumpNamespace )
-        throws ParseException
-    {
-        return ri.parse( reader, templateName, dumpNamespace );
-    }
-
 
     /**
      * Returns a <code>Template</code> from the resource manager.
@@ -313,7 +295,7 @@ public class RuntimeSingleton implements RuntimeConstants
     public static Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException
     {
-        return ri.getTemplate( name );
+        return ri.getTemplate(name);
     }
 
     /**
@@ -331,7 +313,7 @@ public class RuntimeSingleton implements RuntimeConstants
     public static Template getTemplate(String name, String  encoding)
         throws ResourceNotFoundException, ParseErrorException
     {
-        return ri.getTemplate( name, encoding );
+        return ri.getTemplate(name, encoding);
     }
 
     /**
@@ -349,7 +331,7 @@ public class RuntimeSingleton implements RuntimeConstants
     public static ContentResource getContent(String name)
         throws ResourceNotFoundException, ParseErrorException
     {
-        return ri.getContent( name );
+        return ri.getContent(name);
     }
 
     /**
@@ -367,7 +349,7 @@ public class RuntimeSingleton implements RuntimeConstants
     public static ContentResource getContent( String name, String encoding )
         throws ResourceNotFoundException, ParseErrorException
     {
-        return ri.getContent( name, encoding );
+        return ri.getContent(name, encoding);
     }
 
 
@@ -383,7 +365,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static String getLoaderNameForResource( String resourceName )
     {
-        return ri.getLoaderNameForResource( resourceName );
+        return ri.getLoaderNameForResource(resourceName);
     }
 
 
@@ -411,7 +393,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static String getString( String key, String defaultValue)
     {
-        return ri.getString( key, defaultValue );
+        return ri.getString(key, defaultValue);
     }
 
     /**
@@ -423,9 +405,22 @@ public class RuntimeSingleton implements RuntimeConstants
      * @return The requested VelocimacroProxy.
      * @see RuntimeInstance#getVelocimacro(String, String)
      */
-    public static Directive getVelocimacro( String vmName, String templateName  )
+
+    /**
+     * Returns the appropriate VelocimacroProxy object if strVMname
+     * is a valid current Velocimacro.
+     *
+     * @param vmName  Name of velocimacro requested
+     * @param renderingTemplate Template we are currently rendering. This
+     *    information is needed when VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL setting is true
+     *    and template contains a macro with the same name as the global macro library.
+     * @param template current template
+     *
+     * @return VelocimacroProxy
+     */
+    public static Directive getVelocimacro(String vmName, Template renderingTemplate, Template template)
     {
-        return ri.getVelocimacro( vmName, templateName );
+        return ri.getVelocimacro(vmName, renderingTemplate, template);
     }
 
     /**
@@ -435,41 +430,24 @@ public class RuntimeSingleton implements RuntimeConstants
      * @param macro  root AST node of the parsed macro
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
-     * @param sourceTemplate The template from which the macro is requested.
-     * @return boolean  True if added, false if rejected for some
-     *                  reason (either parameters or permission settings)
-     * @see RuntimeInstance#addVelocimacro(String, Node, List, String)
-     * @since 1.6
+     * @param definingTemplate Templaite containing the definition of the macro.
      */
     public static boolean addVelocimacro(String name, Node macro,
-                                         List<Macro.MacroArg> macroArgs, String sourceTemplate)
+                                         List<Macro.MacroArg> macroArgs, Template definingTemplate)
     {
-        return ri.addVelocimacro(name, macro, macroArgs, sourceTemplate);
+        return ri.addVelocimacro(name, macro, macroArgs, definingTemplate);
     }
 
     /**
      *  Checks to see if a VM exists
      *
      * @param vmName Name of the Velocimacro.
-     * @param templateName Template on which to look for the Macro.
+     * @param template Template on which to look for the Macro.
      * @return True if VM by that name exists, false if not
-     * @see RuntimeInstance#isVelocimacro(String, String)
      */
-    public static boolean isVelocimacro( String vmName, String templateName )
+    public static boolean isVelocimacro(String vmName, Template template)
     {
-        return ri.isVelocimacro( vmName, templateName );
-    }
-
-    /**
-     * tells the vmFactory to dump the specified namespace.  This is to support
-     * clearing the VM list when in inline-VM-local-scope mode
-     * @param namespace Namespace to dump.
-     * @return True if namespace was dumped successfully.
-     * @see RuntimeInstance#dumpVMNamespace(String)
-     */
-    public static boolean dumpVMNamespace( String namespace )
-    {
-        return ri.dumpVMNamespace( namespace );
+        return ri.isVelocimacro(vmName, template);
     }
 
     /* --------------------------------------------------------------------

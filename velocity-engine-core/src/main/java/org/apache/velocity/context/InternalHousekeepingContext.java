@@ -19,9 +19,8 @@ package org.apache.velocity.context;
  * under the License.    
  */
 
-import org.apache.velocity.util.introspection.IntrospectionCacheData;
-
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 import java.util.List;
 

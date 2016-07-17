@@ -19,11 +19,12 @@ package org.apache.velocity.app.event.implement;
  * under the License.    
  */
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * Simple event handler that renders method exceptions in the page

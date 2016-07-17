@@ -24,8 +24,8 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 
 /**
  *  This interface characterize objects other than ASTNodes that can be rendered

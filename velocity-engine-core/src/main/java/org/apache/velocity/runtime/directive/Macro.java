@@ -19,11 +19,6 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -31,6 +26,11 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  Macro implements the macro definition directive of VTL.
@@ -115,7 +115,7 @@ public class Macro extends Directive
         List<MacroArg> macroArgs = getArgArray(node, rs);
         int numArgs = node.jjtGetNumChildren();
         rs.addVelocimacro(macroArgs.get(0).name, node.jjtGetChild(numArgs - 1), 
-            macroArgs, node.getTemplateName());
+            macroArgs, node.getTemplate());
     }
     
     /**

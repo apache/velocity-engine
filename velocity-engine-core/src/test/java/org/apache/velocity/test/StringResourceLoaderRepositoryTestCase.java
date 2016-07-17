@@ -19,11 +19,7 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import java.io.StringWriter;
-
 import junit.framework.TestCase;
-import org.slf4j.impl.SimpleLogger;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -33,6 +29,8 @@ import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.apache.velocity.runtime.resource.util.StringResourceRepositoryImpl;
 import org.apache.velocity.test.misc.TestLogger;
+
+import java.io.StringWriter;
 
 /**
  * Tests ability to have multiple repositories in the same app.

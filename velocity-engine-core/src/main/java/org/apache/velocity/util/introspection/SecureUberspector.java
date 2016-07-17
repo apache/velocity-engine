@@ -19,11 +19,11 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
-import java.util.Iterator;
-
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
+
+import java.util.Iterator;
 
 /**
  * Use a custom introspector that prevents classloader related method 

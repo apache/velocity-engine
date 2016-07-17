@@ -19,18 +19,17 @@ package org.apache.velocity.test.issues;
  * under the License.
  */
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.test.BaseTestCase;
+import org.apache.velocity.test.misc.TestLogger;
+import org.apache.velocity.util.introspection.Introspector;
+
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
 import java.security.Permission;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.test.misc.TestLogger;
-import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.util.introspection.Introspector;
 
 /**
  * Test Case for <a href="https://issues.apache.org/jira/browse/VELTOOLS-66">Velocity Tools Issue 66</a>.

@@ -19,11 +19,11 @@ package org.apache.velocity.test.sql;
  * under the License.    
  */
 
+import org.apache.velocity.test.BaseTestCase;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.apache.velocity.test.BaseTestCase;
 
 /**
  * A base class to implement tests that need a running

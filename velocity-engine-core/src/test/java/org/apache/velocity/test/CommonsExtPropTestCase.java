@@ -19,13 +19,12 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
+import junit.framework.TestSuite;
+import org.apache.commons.collections.ExtendedProperties;
+
 import java.io.FileWriter;
 import java.util.Iterator;
 import java.util.Vector;
-
-import junit.framework.TestSuite;
-
-import org.apache.commons.collections.ExtendedProperties;
 
 
 /**

@@ -19,9 +19,9 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
+import org.apache.velocity.runtime.parser.CharStream;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.SimplePool;
-import org.apache.velocity.runtime.parser.CharStream;
 
 /**
  * This wraps the original parser SimplePool class.  It also handles

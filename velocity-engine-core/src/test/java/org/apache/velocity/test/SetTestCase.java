@@ -19,12 +19,13 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
+import org.apache.velocity.Template;
+import org.apache.velocity.runtime.RuntimeConstants;
+
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import org.apache.velocity.Template;
-import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * Test that an instance of a ResourceLoader can be successfully passed in.

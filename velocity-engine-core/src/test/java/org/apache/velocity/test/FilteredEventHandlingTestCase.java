@@ -19,25 +19,21 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.misc.TestLogger;
+
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.slf4j.Logger;
-
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.test.misc.TestLogger;
 
 /**
  * Tests event handling for all event handlers when multiple event handlers are

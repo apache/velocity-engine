@@ -19,11 +19,12 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
+import org.apache.velocity.Template;
+
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.apache.velocity.Template;
 
 /**
  * This handles context scoping and metadata for directives.

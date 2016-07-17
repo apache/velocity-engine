@@ -1,14 +1,16 @@
 package org.apache.velocity.test.util.introspection;
 
-import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Iterator;
-
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.test.misc.TestLogger;
+
+import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -28,9 +30,6 @@ import org.apache.velocity.test.misc.TestLogger;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Tests the default uberspector.

@@ -19,10 +19,7 @@ package org.apache.velocity.runtime.directive;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-
+import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -33,6 +30,10 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
 
 
 /**
@@ -47,7 +48,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     private int line = 0;
     private int column = 0;
     private boolean provideScope = false;
-    private String templateName;
+    private Template template;
 
     /**
      *
@@ -82,10 +83,19 @@ public abstract class Directive implements DirectiveConstants, Cloneable
      * @param line
      * @param column
      */
-    public void setLocation(int line, int column, String templateName)
+    public void setLocation(int line, int column, Template template)
     {
         setLocation(line, column);
-        this.templateName = templateName;
+        this.template = template;
+    }
+
+    /**
+     * returns the template in which this directive appears
+     * @return template
+     */
+    public Template getTemplate()
+    {
+        return template;
     }
 
     /**
@@ -112,7 +122,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
      */
     public String getTemplateName()
     {
-      return templateName;
+      return template.getName();
     }
 
     /**

@@ -20,12 +20,12 @@ package org.apache.velocity.util.introspection;
  */
 
 
+import org.slf4j.Logger;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
 
 /**
  * A cache of introspection information for a specific class instance.

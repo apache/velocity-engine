@@ -19,16 +19,6 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.slf4j.Logger;
-
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.parser.node.AbstractExecutor;
 import org.apache.velocity.runtime.parser.node.BooleanPropertyExecutor;
@@ -42,6 +32,14 @@ import org.apache.velocity.runtime.parser.node.SetPropertyExecutor;
 import org.apache.velocity.util.ArrayIterator;
 import org.apache.velocity.util.ArrayListWrapper;
 import org.apache.velocity.util.EnumerationIterator;
+import org.slf4j.Logger;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  *  Implementation of Uberspect to provide the default introspective

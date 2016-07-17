@@ -19,9 +19,6 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -34,6 +31,9 @@ import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.StringUtils;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * <p>Pluggable directive that handles the #include() statement in VTL.

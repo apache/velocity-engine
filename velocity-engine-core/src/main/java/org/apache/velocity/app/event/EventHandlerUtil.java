@@ -19,12 +19,12 @@ package org.apache.velocity.app.event;
  * under the License.    
  */
 
-import java.util.Iterator;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.introspection.Info;
+
+import java.util.Iterator;
 
 
 /**

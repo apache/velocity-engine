@@ -19,10 +19,10 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
+import org.slf4j.Logger;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-
-import org.slf4j.Logger;
 
 /**
  * Lookup a a Method object for a particular class given the name of a method

@@ -21,14 +21,13 @@ package org.apache.velocity.test;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.misc.TestLogger;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
 
-import java.io.*;
+import java.io.StringWriter;
 
 /**
  * Make sure that a forward referenced macro inside another macro definition does

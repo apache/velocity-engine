@@ -19,11 +19,11 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * This class tests support for strict foreach mode.

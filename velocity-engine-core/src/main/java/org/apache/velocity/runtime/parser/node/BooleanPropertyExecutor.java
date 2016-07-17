@@ -19,10 +19,9 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import org.slf4j.Logger;
-
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.util.introspection.Introspector;
+import org.slf4j.Logger;
 
 /**
  *  Handles discovery and valuation of a

@@ -19,11 +19,6 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -40,6 +35,11 @@ import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Pluggable directive that handles the <code>#parse()</code>
@@ -266,7 +266,8 @@ public class Parse extends InputBase
 
         context.setMacroLibraries(macroLibraries);
 
-        macroLibraries.add(arg);
+        /* instead of adding the name of the template, add the Template reference */
+        macroLibraries.add(t);
 
         /*
          *  and render it

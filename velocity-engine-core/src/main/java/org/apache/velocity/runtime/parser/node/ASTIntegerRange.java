@@ -19,13 +19,13 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * handles the range 'operator'  [ n .. m ]
@@ -136,7 +136,6 @@ public class ASTIntegerRange extends SimpleNode
 
         for (int i = 0; i < nbrElements; i++)
         {
-            // TODO: JDK 1.4+ -> valueOf()
             elements.add(new Integer(value));
             value += delta;
         }

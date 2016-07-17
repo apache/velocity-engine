@@ -19,12 +19,12 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.parser.Parser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

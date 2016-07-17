@@ -19,10 +19,7 @@ package org.apache.velocity.runtime.directive;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.List;
-
+import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -36,6 +33,10 @@ import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.util.StringUtils;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.List;
 
 /**
  * This class acts as a proxy for potential macros.  When the AST is built
@@ -247,12 +248,12 @@ public class RuntimeMacro extends Directive
             ParseErrorException, MethodInvocationException
     {
         VelocimacroProxy vmProxy = null;
-        String renderingTemplate = context.getCurrentTemplateName();
+        Template renderingTemplate = (Template)context.getCurrentResource();
 
         /**
          * first look in the source template
          */
-        Object o = rsvc.getVelocimacro(macroName, getTemplateName(), renderingTemplate);
+        Object o = rsvc.getVelocimacro(macroName, renderingTemplate, getTemplate());
 
         if( o != null )
         {
@@ -271,8 +272,7 @@ public class RuntimeMacro extends Directive
             {
                 for (int i = macroLibraries.size() - 1; i >= 0; i--)
                 {
-                    o = rsvc.getVelocimacro(macroName,
-                            (String)macroLibraries.get(i), renderingTemplate);
+                    o = rsvc.getVelocimacro(macroName, renderingTemplate, (Template)macroLibraries.get(i));
 
                     // get the first matching macro
                     if (o != null)

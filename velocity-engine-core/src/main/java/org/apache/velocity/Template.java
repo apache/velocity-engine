@@ -19,15 +19,6 @@ package org.apache.velocity;
  * under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.util.List;
-
 import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -42,6 +33,15 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceManager;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class is used for controlling all template
@@ -73,6 +73,7 @@ public class Template extends Resource
      */
     private String scopeName = "template";
     private boolean provideScope = false;
+    private Map<String, Object> macros = new ConcurrentHashMap(17, 0.7f);
 
     private VelocityException errorCondition = null;
 
@@ -82,6 +83,15 @@ public class Template extends Resource
         super();
         
         setType(ResourceManager.RESOURCE_TEMPLATE);
+    }
+
+    /**
+     * get the map of all macros defined by this template
+     * @return macros map
+     */
+    public Map<String, Object> getMacros()
+    {
+        return macros;
     }
 
     /**
@@ -132,7 +142,7 @@ public class Template extends Resource
             try
             {
                 BufferedReader br = new BufferedReader( reader );
-                data = rsvc.parse( br, name);
+                data = rsvc.parse( br, this);
                 initDocument();
                 return true;
             }
@@ -294,7 +304,8 @@ public class Template extends Resource
             /**
              * Set the macro libraries
              */
-            ica.setMacroLibraries(macroLibraries);
+            List libTemplates = new ArrayList();
+            ica.setMacroLibraries(libTemplates);
 
             if (macroLibraries != null)
             {
@@ -305,7 +316,8 @@ public class Template extends Resource
                      */
                     try
                     {
-                        rsvc.getTemplate((String) macroLibraries.get(i));
+                        Template t = rsvc.getTemplate((String) macroLibraries.get(i));
+                        libTemplates.add(t);
                     }
                     catch (ResourceNotFoundException re)
                     {

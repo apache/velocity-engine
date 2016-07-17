@@ -19,9 +19,9 @@ package org.apache.velocity.util;
  * under the License.    
  */
 
+import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.lang.reflect.Array;
 
 
 /**

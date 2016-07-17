@@ -19,12 +19,7 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.Writer;
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.velocity.app.event.EventHandlerUtil;
-import org.apache.velocity.context.Context;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
@@ -41,6 +36,10 @@ import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.VelMethod;
 import org.apache.velocity.util.introspection.VelPropertySet;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * This class is responsible for handling the references in

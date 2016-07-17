@@ -20,8 +20,8 @@ package org.apache.velocity.test.issues;
  */
 
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.test.BaseTestCase;
 
 /**
  * This class tests VELOCITY-742.

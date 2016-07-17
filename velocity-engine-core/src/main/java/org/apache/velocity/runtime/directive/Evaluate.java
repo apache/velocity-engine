@@ -19,9 +19,7 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.Writer;
+import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -33,6 +31,10 @@ import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.introspection.Info;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.Writer;
 
 /**
  * Evaluates the directive argument as a VTL string, using the existing
@@ -151,11 +153,17 @@ public class Evaluate extends Directive
          * The new string needs to be parsed since the text has been dynamically generated.
          */
         String templateName = context.getCurrentTemplateName();
+        Template template = (Template)context.getCurrentResource();
+        if (template == null)
+        {
+            template = new Template();
+            template.setName(templateName);
+        }
         SimpleNode nodeTree = null;
 
         try
         {
-            nodeTree = rsvc.parse(new StringReader(sourceText), templateName, false);
+            nodeTree = rsvc.parse(new StringReader(sourceText), template);
         }
         catch (ParseException pex)
         {

@@ -19,11 +19,11 @@ package org.apache.velocity;
  * under the License.    
  */
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.velocity.context.AbstractContext;
 import org.apache.velocity.context.Context;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *  General purpose implementation of the application Context

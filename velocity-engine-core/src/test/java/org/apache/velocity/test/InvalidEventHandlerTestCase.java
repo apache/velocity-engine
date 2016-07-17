@@ -19,13 +19,9 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-import java.io.Writer;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.app.event.EventCartridge;
@@ -35,6 +31,9 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.introspection.Info;
+
+import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * Tests event handling for all event handlers except IncludeEventHandler.  This is tested

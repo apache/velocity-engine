@@ -19,12 +19,12 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
+import org.slf4j.Logger;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.slf4j.Logger;
 
 /**
  * This is the internal introspector cache implementation.

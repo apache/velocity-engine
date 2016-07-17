@@ -19,8 +19,9 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.util.ArrayList;
 import org.apache.velocity.runtime.RuntimeConstants;
+
+import java.util.ArrayList;
 /**
  * Test index syntax e.g, $foo[1]
  */

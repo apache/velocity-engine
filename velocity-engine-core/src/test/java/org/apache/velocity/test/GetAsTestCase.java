@@ -19,9 +19,9 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import org.apache.velocity.util.TemplateString;
 import org.apache.velocity.util.TemplateBoolean;
 import org.apache.velocity.util.TemplateNumber;
+import org.apache.velocity.util.TemplateString;
 
 /**
  * Test objects with getAs<Type>() methods.

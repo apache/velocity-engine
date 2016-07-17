@@ -19,8 +19,9 @@ package org.apache.velocity.runtime.resource;
  * under the License.    
  */
 
-import java.util.Iterator;
 import org.apache.velocity.runtime.RuntimeServices;
+
+import java.util.Iterator;
 
 /**
  * Interface that defines the shape of a pluggable resource cache

@@ -19,14 +19,13 @@
 
 package org.apache.velocity.util.introspection;
 
-import java.util.Iterator;
-
-import org.slf4j.Logger;
-
 import org.apache.velocity.runtime.parser.node.PublicFieldExecutor;
 import org.apache.velocity.runtime.parser.node.SetPublicFieldExecutor;
 import org.apache.velocity.util.introspection.UberspectImpl.VelGetterImpl;
 import org.apache.velocity.util.introspection.UberspectImpl.VelSetterImpl;
+import org.slf4j.Logger;
+
+import java.util.Iterator;
 
 /**
  * Implementation of Uberspect to additionally provide access to public fields.

@@ -19,19 +19,18 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.test.provider.NumberMethods;
+
+import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 
 /**

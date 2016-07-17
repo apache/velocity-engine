@@ -19,12 +19,12 @@ package org.apache.velocity.exception;
  * under the License.    
  */
 
+import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.util.StringUtils;
+import org.apache.velocity.util.introspection.Info;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.util.introspection.Info;
-import org.apache.velocity.util.StringUtils;
 
 /**
  *  Application-level exception thrown when a resource of any type

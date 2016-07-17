@@ -19,6 +19,12 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.
  */
 
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.ExtProperties;
+import org.apache.velocity.util.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,13 +36,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.io.UnicodeInputStream;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.StringUtils;
 
 /**
  * A loader for templates stored on the file system.  Treats the template

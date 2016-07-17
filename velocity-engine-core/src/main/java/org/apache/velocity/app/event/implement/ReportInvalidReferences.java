@@ -19,15 +19,15 @@ package org.apache.velocity.app.event.implement;
  * under the License.    
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.velocity.app.event.InvalidReferenceEventHandler;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.introspection.Info;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Use this event handler to flag invalid references.  Since this 

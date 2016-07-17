@@ -19,16 +19,13 @@ package org.apache.velocity.test.misc;
  * under the License.    
  */
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import org.slf4j.Logger;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
-import org.apache.velocity.runtime.RuntimeServices;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 /**
  * Logger implementation that can easily capture output

@@ -19,10 +19,11 @@ package org.apache.velocity.app;
  * under the License.    
  */
 
+import org.apache.velocity.util.ClassUtils;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
-import org.apache.velocity.util.ClassUtils;
 
 /**
  *  <p>

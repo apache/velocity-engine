@@ -19,10 +19,8 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.test.TemplateTestBase;
-import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.misc.TestLogger;
 
 /**
  *  Test the #stop directive

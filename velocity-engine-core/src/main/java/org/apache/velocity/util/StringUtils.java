@@ -19,6 +19,10 @@ package org.apache.velocity.util;
  * under the License.    
  */
 
+import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.util.introspection.Info;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
@@ -28,10 +32,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.util.introspection.Info;
 
 /**
  * This class provides some methods for dynamically

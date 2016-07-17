@@ -21,8 +21,6 @@ package org.apache.velocity.test.issues;
 
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.IncludeEventHandler;
-import org.apache.velocity.context.Context;
-import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.test.BaseTestCase;
 
 /**

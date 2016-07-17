@@ -19,11 +19,10 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.util.Map;
-
+import org.apache.velocity.exception.VelocityException;
 import org.slf4j.Logger;
 
-import org.apache.velocity.exception.VelocityException;
+import java.util.Map;
 
 /**
  * SetExecutor that is smart about Maps. If it detects one, it does not

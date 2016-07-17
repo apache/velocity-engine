@@ -21,11 +21,11 @@ package org.apache.velocity.test.util.introspection;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.slf4j.Logger;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.test.BaseTestCase;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.introspection.ClassMap;
+import org.slf4j.Logger;
 
 /**
  * Test the ClassMap Lookup

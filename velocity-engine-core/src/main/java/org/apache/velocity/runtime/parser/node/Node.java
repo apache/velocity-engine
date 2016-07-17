@@ -19,9 +19,7 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.Writer;
-
+import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -29,6 +27,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.parser.Token;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  *  This file describes the interface between the Velocity code
@@ -205,4 +206,10 @@ public interface Node extends Renderable
      * @return the file name of the template
      */
     public String getTemplateName();
+
+    /**
+     * @return the template this node belongs to
+     */
+    public Template getTemplate();
+
 }

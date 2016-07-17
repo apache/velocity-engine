@@ -20,7 +20,6 @@ package org.apache.velocity.test;
  */
 
 import junit.framework.TestCase;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.velocity.runtime.parser.node.ASTMethod;
 

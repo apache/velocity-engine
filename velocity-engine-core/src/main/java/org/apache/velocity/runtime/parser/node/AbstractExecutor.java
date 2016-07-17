@@ -19,10 +19,10 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
+import org.slf4j.Logger;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import org.slf4j.Logger;
 
 /**
  * Abstract class that is used to execute an arbitrary
