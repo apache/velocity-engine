@@ -19,16 +19,14 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import java.io.StringWriter;
-import java.io.Writer;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.test.TemplateTestBase;
+
+import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * Test resource caching related issues.

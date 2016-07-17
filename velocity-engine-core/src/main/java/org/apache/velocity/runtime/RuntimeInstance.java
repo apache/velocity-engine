@@ -19,22 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
@@ -52,7 +36,6 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
-import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.directive.Scope;
 import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -70,6 +53,21 @@ import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.LinkingUberspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.UberspectLoggable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * This is the Runtime system for Velocity. It is the
@@ -539,7 +537,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * the case with Turbine.
      *
      * @param  configuration
-     * @deprecated use {@link setConfiguration(ExtProperties)}
+     * @deprecated use {@link #setConfiguration(ExtProperties)}
      */
     public @Deprecated void setConfiguration( ExtendedProperties configuration)
     {
@@ -1221,54 +1219,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  PARSER_POOL_SIZE property appropriately for their
      *  application.  We will revisit this.
      *
-     * @param string String to be parsed
-     * @param templateName name of the template being parsed
-     * @return A root node representing the template as an AST tree.
-     * @throws ParseException When the string could not be parsed as a template.
-     * @since 1.6
-     */
-    public SimpleNode parse(String string, String templateName)
-        throws ParseException
-    {
-        return parse(new StringReader(string), templateName);
-    }
-
-    /**
-     * Parse the input and return the root of
-     * AST node structure.
-     * <br><br>
-     *  In the event that it runs out of parsers in the
-     *  pool, it will create and let them be GC'd
-     *  dynamically, logging that it has to do that.  This
-     *  is considered an exceptional condition.  It is
-     *  expected that the user will set the
-     *  PARSER_POOL_SIZE property appropriately for their
-     *  application.  We will revisit this.
-     *
      * @param reader Reader retrieved by a resource loader
-     * @param templateName name of the template being parsed
+     * @param template template being parsed
      * @return A root node representing the template as an AST tree.
      * @throws ParseException When the template could not be parsed.
      */
-    public SimpleNode parse(Reader reader, String templateName)
-        throws ParseException
-    {
-        /*
-         *  do it and dump the VM namespace for this template
-         */
-        return parse(reader, templateName, true);
-    }
-
-    /**
-     *  Parse the input and return the root of the AST node structure.
-     *
-     * @param reader Reader retrieved by a resource loader
-     * @param templateName name of the template being parsed
-     * @param dumpNamespace flag to dump the Velocimacro namespace for this template
-     * @return A root node representing the template as an AST tree.
-     * @throws ParseException When the template could not be parsed.
-     */
-    public SimpleNode parse(Reader reader, String templateName, boolean dumpNamespace)
+    public SimpleNode parse(Reader reader, Template template)
         throws ParseException
     {
         requireInitialization();
@@ -1292,21 +1248,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         try
         {
-            /*
-             *  dump namespace if we are told to.  Generally, you want to
-             *  do this - you don't in special circumstances, such as
-             *  when a VM is getting init()-ed & parsed
-             */
-            if (dumpNamespace)
-            {
-                dumpVMNamespace(templateName);
-            }
-            return parser.parse(reader, templateName);
+            return parser.parse(reader, template);
         }
         finally
         {
             if (keepParser)
             {
+                /* drop the parser Template reference to allow garbage collection */
+                parser.currentTemplate = null;
                 parserPool.put(parser);
             }
 
@@ -1323,6 +1272,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Renders the input string using the context into the output writer.
      * To be used when a template is dynamically constructed, or want to use
      * Velocity as a token replacer.
+     * <br>
+     * Note! Macros defined in evaluate() calls are not persisted in memory so next evaluate() call
+     * does not know about macros defined during previous calls.
      *
      * @param context context to use in rendering input string
      * @param out  Writer in which to render the output
@@ -1347,6 +1299,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Renders the input reader using the context into the output writer.
      * To be used when a template is dynamically constructed, or want to
      * use Velocity as a token replacer.
+     * <br>
+     * Note! Macros defined in evaluate() calls are not persisted in memory so next evaluate() call
+     * does not know about macros defined during previous calls.
      *
      * @param context context to use in rendering input string
      * @param writer  Writer in which to render the output
@@ -1370,9 +1325,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
 
         SimpleNode nodeTree = null;
+        Template t = new Template();
+        t.setName(logTag);
         try
         {
-            nodeTree = parse(reader, logTag);
+            nodeTree = parse(reader, t);
         }
         catch (ParseException pex)
         {
@@ -1504,6 +1461,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * and places the rendered stream into the writer.
      * <br>
      * Note : currently only accepts args to the VM if they are in the context.
+     * <br>
+     * Note: only macros in the global context can be called. This method doesn't find macros defined by
+     * templates during previous mergeTemplate calls if Velocity.VM_PERM_INLINE_LOCAL has been enabled.
      *
      * @param vmName name of Velocimacro to call
      * @param logTag string to be used for template name in case of error. if null,
@@ -1537,8 +1497,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             params = new String[0];
         }
 
-        /* does the VM exist? */
-        if (!isVelocimacro(vmName, logTag))
+        /* does the VM exist? (only global scope is scanned so this doesn't find inline macros in templates) */
+        if (!isVelocimacro(vmName, null))
         {
             String msg = "RuntimeInstance.invokeVelocimacro() : VM '" + vmName
                          + "' is not registered.";
@@ -1713,91 +1673,49 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Returns the appropriate VelocimacroProxy object if vmName
      * is a valid current Velocimacro.
      *
-     * @param vmName Name of velocimacro requested
-     * @param templateName Name of the template that contains the velocimacro.
-     * @return The requested VelocimacroProxy.
-     * @since 1.6
-     */
-    public Directive getVelocimacro(String vmName, String templateName)
-    {
-        return vmFactory.getVelocimacro( vmName, templateName );
-    }
-
-    /**
-     * Returns the appropriate VelocimacroProxy object if vmName
-     * is a valid current Velocimacro.
-     *
      * @param vmName  Name of velocimacro requested
-     * @param templateName Name of the namespace.
-     * @param renderingTemplate Name of the template we are currently rendering. This
+     * @param renderingTemplate Template we are currently rendering. This
      *    information is needed when VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL setting is true
      *    and template contains a macro with the same name as the global macro library.
-     *
-     * @since Velocity 1.6
+     * @param template Template which acts as the host for the macro
      *
      * @return VelocimacroProxy
      */
-    public Directive getVelocimacro(String vmName, String templateName, String renderingTemplate)
+    public Directive getVelocimacro(String vmName, Template renderingTemplate, Template template)
     {
-        return vmFactory.getVelocimacro( vmName, templateName, renderingTemplate );
+        return vmFactory.getVelocimacro(vmName, renderingTemplate, template);
     }
-
-    /**
-     * Return a list of VelocimacroProxies that are defined by the given
-     * template name.
-     */
-    public List<VelocimacroProxy> getVelocimacros(String templateName)
-    {
-        return vmFactory.getVelocimacros(templateName);
-    }
-
 
     /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.
-     *
-     * Called by org.apache.velocity.runtime.directive.processAndRegister
      *
      * @param name  Name of velocimacro
      * @param macro  root AST node of the parsed macro
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
-     * @param sourceTemplate
-     *
-     * @since Velocity 1.6
+     * @param definingTemplate Template containing the source of the macro
      *
      * @return boolean  True if added, false if rejected for some
      *                  reason (either parameters or permission settings)
      */
     public boolean addVelocimacro( String name,
-                                          Node macro,
-                                          List<Macro.MacroArg> macroArgs,
-                                          String sourceTemplate )
+                                   Node macro,
+                                   List<Macro.MacroArg> macroArgs,
+                                   Template definingTemplate)
     {
-        return vmFactory.addVelocimacro(name.intern(), macro,  macroArgs,  sourceTemplate);
+        return vmFactory.addVelocimacro(name.intern(), macro, macroArgs, definingTemplate);
     }
-
 
     /**
      *  Checks to see if a VM exists
      *
      * @param vmName Name of the Velocimacro.
-     * @param templateName Template on which to look for the Macro.
+     * @param template Template on which to look for the Macro.
      * @return True if VM by that name exists, false if not
      */
-    public boolean isVelocimacro( String vmName, String templateName )
+    public boolean isVelocimacro(String vmName, Template template)
     {
-        return vmFactory.isVelocimacro(vmName.intern(), templateName);
-    }
-
-    /**
-     * tells the vmFactory to dump the specified namespace.  This is to support
-     * clearing the VM list when in inline-VM-local-scope mode
-     * @param namespace Namespace to dump.
-     * @return True if namespace was dumped successfully.
-     */
-    public boolean dumpVMNamespace(String namespace)
-    {
-        return vmFactory.dumpVMNamespace( namespace );
+        return vmFactory.isVelocimacro(vmName.intern(), template);
     }
 
     /* --------------------------------------------------------------------

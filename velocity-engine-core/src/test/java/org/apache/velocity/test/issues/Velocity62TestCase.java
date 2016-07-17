@@ -19,7 +19,6 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.BaseTestCase;
 
 /**

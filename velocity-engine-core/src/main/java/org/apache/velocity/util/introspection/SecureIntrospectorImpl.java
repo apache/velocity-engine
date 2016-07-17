@@ -19,9 +19,9 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
-import java.lang.reflect.Method;
-
 import org.slf4j.Logger;
+
+import java.lang.reflect.Method;
 
 /**
  * <p>Prevent "dangerous" classloader/reflection related calls.  Use this

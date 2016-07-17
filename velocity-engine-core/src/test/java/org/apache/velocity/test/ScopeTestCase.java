@@ -19,10 +19,10 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.util.HashMap;
-
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
+
+import java.util.HashMap;
 
 /**
  * This class tests the directive scope controls

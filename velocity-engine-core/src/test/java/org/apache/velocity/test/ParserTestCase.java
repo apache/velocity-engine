@@ -19,19 +19,18 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-import java.util.Map;
-import java.util.HashMap;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.misc.TestLogger;
+
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *  More specific parser tests where just templating

@@ -19,13 +19,13 @@ package org.apache.velocity.context;
  * under the License.    
  */
 
-import java.util.HashMap;
-import java.util.Stack;
-import java.util.List;
-
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
 /**
  *  class to encapsulate the 'stuff' for internal operation of velocity.

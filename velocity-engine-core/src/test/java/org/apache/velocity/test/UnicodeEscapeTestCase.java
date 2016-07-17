@@ -19,7 +19,6 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.runtime.parser.node.ASTStringLiteral;
 
 /**

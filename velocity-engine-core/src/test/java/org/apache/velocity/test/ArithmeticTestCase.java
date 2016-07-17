@@ -19,14 +19,13 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.runtime.parser.node.MathUtils;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * Test arithmetic operations. Introduced after extending from Integer-only

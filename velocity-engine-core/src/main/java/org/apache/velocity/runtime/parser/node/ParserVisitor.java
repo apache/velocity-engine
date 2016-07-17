@@ -1,7 +1,5 @@
 package org.apache.velocity.runtime.parser.node;
 
-import org.apache.velocity.runtime.directive.Stop;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file

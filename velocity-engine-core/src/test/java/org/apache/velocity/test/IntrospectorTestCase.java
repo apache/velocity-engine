@@ -19,12 +19,11 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.lang.reflect.Method;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.runtime.RuntimeSingleton;
+
+import java.lang.reflect.Method;
 
 /**
  * Test case for the Velocity Introspector which uses

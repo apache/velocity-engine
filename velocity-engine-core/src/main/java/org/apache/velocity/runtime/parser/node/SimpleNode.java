@@ -19,12 +19,7 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Arrays;
-
-import org.slf4j.Logger;
-
+import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -34,6 +29,11 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.StringUtils;
+import org.slf4j.Logger;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Arrays;
 
 /**
  *
@@ -74,9 +74,7 @@ public class SimpleNode implements Node
     /** */
     protected Token last;
 
-
-    protected String templateName;
-
+    protected Template template;
 
     public RuntimeServices getRuntimeServices()
     {
@@ -99,7 +97,7 @@ public class SimpleNode implements Node
     {
         this(i);
         parser = p;
-        templateName = parser.currentTemplateName;
+        template = parser.currentTemplate;
     }
 
     /**
@@ -441,7 +439,9 @@ public class SimpleNode implements Node
 
 	public String getTemplateName()
     {
-      return templateName;
+      return template.getName();
     }
+
+    public Template getTemplate() { return template; }
 }
 

@@ -19,18 +19,17 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.util.HashMap;
-import java.util.Map;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.test.misc.GetPutObject;
 import org.apache.velocity.test.misc.UberspectorTestObject;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.VelPropertyGet;
 import org.apache.velocity.util.introspection.VelPropertySet;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class UberspectorTestCase

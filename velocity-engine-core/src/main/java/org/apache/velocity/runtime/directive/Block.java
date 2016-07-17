@@ -19,18 +19,17 @@ package org.apache.velocity.runtime.directive;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
-import org.slf4j.Logger;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.util.StringUtils;
+import org.slf4j.Logger;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * Directive that puts an unrendered AST block in the context

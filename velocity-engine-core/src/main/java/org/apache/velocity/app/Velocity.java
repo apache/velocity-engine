@@ -19,12 +19,6 @@ package org.apache.velocity.app;
  * under the License.
  */
 
-import java.io.Reader;
-import java.io.Writer;
-import java.util.Properties;
-
-import org.slf4j.Logger;
-
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
@@ -34,6 +28,11 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.util.ExtProperties;
+import org.slf4j.Logger;
+
+import java.io.Reader;
+import java.io.Writer;
+import java.util.Properties;
 
 /**
  * This class provides  services to the application

@@ -19,12 +19,10 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import java.io.FileInputStream;
-import java.util.Properties;
-
 import junit.framework.TestSuite;
 
-import org.apache.velocity.app.Velocity;
+import java.io.FileInputStream;
+import java.util.Properties;
 
 /**
  * Test suite for Templates.

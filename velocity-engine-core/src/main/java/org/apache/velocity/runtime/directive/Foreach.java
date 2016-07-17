@@ -19,12 +19,6 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
@@ -38,6 +32,12 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Info;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Foreach directive used for moving through arrays,

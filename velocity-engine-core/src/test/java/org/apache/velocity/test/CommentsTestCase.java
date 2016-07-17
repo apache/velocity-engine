@@ -19,14 +19,13 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
+
+import java.io.StringWriter;
 
 /**
  * Test comments

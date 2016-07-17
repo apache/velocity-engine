@@ -19,12 +19,12 @@ package org.apache.velocity.app.event.implement;
  * under the License.
  */
 
-import java.util.regex.PatternSyntaxException;
-
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
+
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Base class for escaping references.  To use it, override the following methods:

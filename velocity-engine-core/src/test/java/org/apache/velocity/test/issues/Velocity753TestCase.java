@@ -19,7 +19,6 @@ package org.apache.velocity.test.issues;
  * under the License.    
  */
 
-import java.text.NumberFormat;
 import org.apache.velocity.test.BaseTestCase;
 
 /**

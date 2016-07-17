@@ -19,9 +19,6 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -29,6 +26,9 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.Info;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * Node for the #set directive

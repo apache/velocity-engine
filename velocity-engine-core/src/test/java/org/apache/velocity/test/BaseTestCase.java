@@ -19,10 +19,6 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-
 import junit.framework.TestCase;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -32,6 +28,10 @@ import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 
 /**
  * Base test case that provides utility methods for

@@ -19,11 +19,11 @@ package org.apache.velocity.context;
  * under the License.    
  */
 
-import java.util.List;
-
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
+
+import java.util.List;
 
 /**
  * This is an abstract internal-use-only context implementation to be

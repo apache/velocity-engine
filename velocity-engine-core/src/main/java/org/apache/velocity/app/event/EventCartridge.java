@@ -19,16 +19,16 @@ package org.apache.velocity.app.event;
  * under the License.    
  */
 
+import org.apache.velocity.context.Context;
+import org.apache.velocity.context.InternalEventContext;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.RuntimeServicesAware;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.velocity.context.Context;
-import org.apache.velocity.context.InternalEventContext;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.util.RuntimeServicesAware;
 
 /**
  * Stores the event handlers. Event handlers can be assigned on a per

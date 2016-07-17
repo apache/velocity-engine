@@ -19,14 +19,15 @@ package org.apache.velocity.test.view;
  * under the License.    
  */
 
+import org.apache.velocity.Template;
+import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.visitor.NodeViewMode;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-
-import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.apache.velocity.runtime.visitor.NodeViewMode;
 
 /**
  * Simple class for dumping the AST for a template.
@@ -54,19 +55,21 @@ public class TemplateNodeView
      * the node structure and then produces the
      * visual representation by the visitation.
      */
-    public TemplateNodeView(String template)
+    public TemplateNodeView(String templateFile)
     {
         try
         {
             RuntimeSingleton.init("velocity.properties");
 
             InputStreamReader isr = new InputStreamReader(
-                                       new FileInputStream(template),
+                                       new FileInputStream(templateFile),
                                        RuntimeSingleton.getString(RuntimeSingleton.INPUT_ENCODING));
 
             BufferedReader br = new BufferedReader( isr );
 
-            document = RuntimeSingleton.parse( br, template);
+            Template tmpl = new Template();
+            tmpl.setName(templateFile);
+            document = RuntimeSingleton.parse( br, tmpl);
 
             visitor = new NodeViewMode();
             visitor.setContext(null);

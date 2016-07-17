@@ -79,6 +79,7 @@ package org.apache.velocity.runtime.parser;
 
 import java.io.*;
 import java.util.*;
+import org.apache.velocity.Template;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.*;
@@ -108,9 +109,9 @@ public class Parser
     private Map macroNames = new HashMap();
 
     /**
-     * Name of current template we are parsing.  Passed to us in parse()
+     * Current template we are parsing.  Passed to us in parse()
      */
-    public String currentTemplateName = "";
+    public Template currentTemplate = null;
 
     /**
      * Set to true if the property
@@ -163,12 +164,12 @@ public class Parser
      * method and re-initializing the lexer with
      * the new stream that we want parsed.
      */
-    public SimpleNode parse( Reader reader, String templateName )
+    public SimpleNode parse( Reader reader, Template template )
         throws ParseException
     {
         SimpleNode sn = null;
 
-        currentTemplateName = templateName;
+        currentTemplate = template;
 
         try
         {
@@ -196,14 +197,14 @@ public class Parser
              *  thrown by the Macro class when something is amiss in the
              *  Macro specification
              */
-            rsvc.getLog().error("Parser Error: " + templateName, mee);
+            rsvc.getLog().error("Parser Error: " + template.getName(), mee);
             throw mee;
         }
         catch (ParseException pe)
         {
-            rsvc.getLog().error("Parser Exception: " + templateName, pe);
+            rsvc.getLog().error("Parser Exception: " + template.getName(), pe);
             throw new TemplateParseException (pe.currentToken,
-				pe.expectedTokenSequences, pe.tokenImage, currentTemplateName);
+				pe.expectedTokenSequences, pe.tokenImage, currentTemplate.getName());
 		}
         catch (TokenMgrError tme)
         {
@@ -211,12 +212,12 @@ public class Parser
         }
         catch (Exception e)
         {
-            String msg = "Parser Error: " + templateName;
+            String msg = "Parser Error: " + template.getName();
             rsvc.getLog().error(msg, e);
             throw new VelocityException(msg, e);
         }
 
-        currentTemplateName = "";
+        currentTemplate = null;
 
         return sn;
     }
@@ -268,7 +269,7 @@ public class Parser
         if (strictEscape
              || isDirective(dirTag)
              || macroNames.containsKey(dirTag)
-             || rsvc.isVelocimacro(dirTag, currentTemplateName))
+             || rsvc.isVelocimacro(dirTag, currentTemplate))
         {
             bRecognizedDirective = true;
         }
@@ -1328,7 +1329,7 @@ void Escape() : {}
         if (strictEscape
             || isDirective(nTag)
             || macroNames.containsKey(nTag)
-            || rsvc.isVelocimacro(nTag, currentTemplateName))
+            || rsvc.isVelocimacro(nTag, currentTemplate))
         {
             control = true;
         }
@@ -1511,7 +1512,7 @@ SimpleNode Directive() :
                 /*
                  *  if null, then not a real directive, but maybe a Velocimacro
                  */
-                isVM = rsvc.isVelocimacro(directiveName, currentTemplateName);
+                isVM = rsvc.isVelocimacro(directiveName, currentTemplate);
 
                 directiveType = Directive.LINE;
             }
@@ -1554,7 +1555,7 @@ SimpleNode Directive() :
                     if (isVM)
                     {
                         throw new MacroParseException("Invalid argument "
-                        + (argPos+1) + " in macro call " + t.image, currentTemplateName, t);
+                        + (argPos+1) + " in macro call " + t.image, currentTemplate.getName(), t);
                     }
                 }
 
@@ -1566,7 +1567,7 @@ SimpleNode Directive() :
           {
               // We only allow line comments in macro definitions for now
               throw new MacroParseException("A Line comment is not allowed in " + t.image
-              + " arguments", currentTemplateName, t);
+              + " arguments", currentTemplate.getName(), t);
           }
         }
 
@@ -1582,7 +1583,7 @@ SimpleNode Directive() :
     {
         if (d != null)
         {
-            d.checkArgs(argtypes, t, currentTemplateName);
+            d.checkArgs(argtypes, t, currentTemplate.getName());
         }
 
         if (directiveType  == Directive.LINE)
@@ -1615,7 +1616,7 @@ SimpleNode Directive() :
 
         if (d != null)
         {
-            d.checkArgs(argtypes, t, currentTemplateName);
+            d.checkArgs(argtypes, t, currentTemplate.getName());
         }
 
         /*

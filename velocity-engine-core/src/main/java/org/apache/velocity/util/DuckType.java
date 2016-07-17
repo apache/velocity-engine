@@ -23,8 +23,8 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Support for getAs<Type>() convention for rendering (String), evaluating (Boolean)

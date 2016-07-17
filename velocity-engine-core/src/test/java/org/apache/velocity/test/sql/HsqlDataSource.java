@@ -19,16 +19,15 @@ package org.apache.velocity.test.sql;
  * under the License.    
  */
 
+import org.hsqldb.jdbcDriver;
+
+import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
-
-import javax.sql.DataSource;
-
-import org.hsqldb.jdbcDriver;
 
 public class HsqlDataSource implements DataSource {
 

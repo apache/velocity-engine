@@ -19,13 +19,12 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.
  */
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.slf4j.Logger;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.util.introspection.Introspector;
+import org.slf4j.Logger;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Executor for looking up property names in the passed in class

@@ -21,11 +21,15 @@ package org.apache.velocity.test.util.introspection;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.test.misc.TestLogger;
-import org.apache.velocity.util.introspection.*;
-import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.test.BaseTestCase;
+import org.apache.velocity.test.misc.TestLogger;
+import org.apache.velocity.util.introspection.AbstractChainableUberspector;
+import org.apache.velocity.util.introspection.Info;
+import org.apache.velocity.util.introspection.UberspectImpl;
+import org.apache.velocity.util.introspection.VelPropertyGet;
+import org.apache.velocity.util.introspection.VelPropertySet;
 
 import java.io.StringWriter;
 

@@ -21,7 +21,6 @@ package org.apache.velocity.test.issues;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.test.BaseTestCase;
 
 /**

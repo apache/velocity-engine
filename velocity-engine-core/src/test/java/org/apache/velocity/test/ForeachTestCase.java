@@ -19,12 +19,12 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.provider.ForeachMethodCallHelper;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.test.provider.ForeachMethodCallHelper;
 
 /**
  * This class tests the Foreach loop.

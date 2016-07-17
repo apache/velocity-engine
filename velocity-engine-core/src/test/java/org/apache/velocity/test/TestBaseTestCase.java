@@ -19,10 +19,10 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.File;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import java.io.File;
 
 /**
  * I keep breaking the getFileName method all the time...

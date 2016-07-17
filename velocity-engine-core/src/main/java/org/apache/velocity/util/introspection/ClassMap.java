@@ -19,13 +19,13 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
+import org.slf4j.Logger;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
 
 /**
  * A cache of introspection information for a specific class instance.

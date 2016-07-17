@@ -19,11 +19,11 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.runtime.parser.Parser;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * This class is responsible for handling Escapes

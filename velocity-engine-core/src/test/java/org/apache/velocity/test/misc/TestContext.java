@@ -19,11 +19,11 @@ package org.apache.velocity.test.misc;
  * under the License.    
  */
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Used for testing EvaluateContext.  For testing purposes, this is a case insensitive

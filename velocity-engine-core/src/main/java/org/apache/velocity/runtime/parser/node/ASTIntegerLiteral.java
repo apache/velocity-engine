@@ -19,11 +19,11 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.    
  */
 
-import java.math.BigInteger;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
+
+import java.math.BigInteger;
 
 /**
  * Handles integer numbers.  The value will be either an Integer, a Long, or a BigInteger.

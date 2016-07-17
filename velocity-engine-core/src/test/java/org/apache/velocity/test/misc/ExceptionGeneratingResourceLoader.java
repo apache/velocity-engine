@@ -19,12 +19,12 @@ package org.apache.velocity.test.misc;
  * under the License.    
  */
 
-import java.io.Reader;
-
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
 import org.apache.velocity.util.ExtProperties;
+
+import java.io.Reader;
 
 /**
  * Resource Loader that always throws an exception.  Used to test

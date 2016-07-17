@@ -19,10 +19,6 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.List;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MacroOverflowException;
 import org.apache.velocity.exception.VelocityException;
@@ -33,6 +29,10 @@ import org.apache.velocity.runtime.directive.Macro.MacroArg;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.List;
 
 /**
  *  VelocimacroProxy.java
@@ -274,7 +274,6 @@ public class VelocimacroProxy extends Directive
     {
         if (maxCallDepth > 0 && maxCallDepth == context.getCurrentMacroCallDepth())
         {
-            String templateName = context.getCurrentTemplateName();
             String[] stack = context.getMacroNameStack();
 
             StringBuffer out = new StringBuffer(100)

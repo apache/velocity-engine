@@ -19,6 +19,17 @@ package org.apache.velocity.test;
  * under the License.
  */
 
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.FieldMethodizer;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.test.misc.TestLogger;
+import org.apache.velocity.test.provider.BoolObj;
+import org.apache.velocity.test.provider.NullToStringObject;
+import org.apache.velocity.test.provider.TestNumber;
+import org.apache.velocity.test.provider.TestProvider;
+
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -27,18 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Vector;
-
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.FieldMethodizer;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.test.misc.TestLogger;
-import org.apache.velocity.test.provider.BoolObj;
-import org.apache.velocity.test.provider.NullToStringObject;
-import org.apache.velocity.test.provider.TestNumber;
-import org.apache.velocity.test.provider.TestProvider;
 
 /**
  * Easily add test cases which evaluate templates and check their output.

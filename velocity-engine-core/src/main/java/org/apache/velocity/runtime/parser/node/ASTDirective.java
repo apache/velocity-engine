@@ -19,9 +19,6 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
@@ -33,6 +30,9 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.RuntimeMacro;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * This class is responsible for handling the pluggable
@@ -121,7 +121,7 @@ public class ASTDirective extends SimpleNode
                             e);
                 }
 
-                directive.setLocation(getLine(), getColumn(), getTemplateName());
+                directive.setLocation(getLine(), getColumn(), getTemplate());
                 directive.init(rsvc, context,this);
             }
             else if( directiveName.startsWith("@") )
@@ -132,7 +132,7 @@ public class ASTDirective extends SimpleNode
                     directiveName = directiveName.substring(1);
 
                     directive = new BlockMacro(directiveName);
-                    directive.setLocation(getLine(), getColumn(), getTemplateName());
+                    directive.setLocation(getLine(), getColumn(), getTemplate());
 
                     try
                     {
@@ -161,7 +161,7 @@ public class ASTDirective extends SimpleNode
                  * Create a new RuntimeMacro
                  */
                 directive = new RuntimeMacro(directiveName);
-                directive.setLocation(getLine(), getColumn(), getTemplateName());
+                directive.setLocation(getLine(), getColumn(), getTemplate());
 
                 /**
                  * Initialize it

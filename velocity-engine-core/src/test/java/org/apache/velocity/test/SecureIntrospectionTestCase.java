@@ -19,15 +19,8 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Collection;
-import java.util.HashSet;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
@@ -36,6 +29,12 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.util.introspection.SecureUberspector;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Checks that the secure introspector is working properly.

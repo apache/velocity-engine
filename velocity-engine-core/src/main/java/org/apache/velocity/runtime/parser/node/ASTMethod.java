@@ -19,8 +19,6 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.
  */
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.app.event.EventHandlerUtil;
 import org.apache.velocity.context.InternalContextAdapter;
@@ -34,6 +32,8 @@ import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.VelMethod;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  *  ASTMethod.java

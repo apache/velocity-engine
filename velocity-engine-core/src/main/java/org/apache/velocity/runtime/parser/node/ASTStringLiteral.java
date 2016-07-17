@@ -17,10 +17,7 @@ package org.apache.velocity.runtime.parser.node;
  * the License.
  */
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-
+import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
@@ -29,6 +26,10 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.StringUtils;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 /**
  * ASTStringLiteral support. Will interpolate!
@@ -163,17 +164,25 @@ public class ASTStringLiteral extends SimpleNode
              * Also, do *not* dump the VM namespace for this template
              */
 
-            String templateName =
-                (context != null) ? context.getCurrentTemplateName() : "StringLiteral";
+            Template template = null;
+            if (context != null)
+            {
+                template = (Template)context.getCurrentResource();
+            }
+            if (template == null)
+            {
+                template = new Template();
+                template.setName("StringLiteral");
+            }
             try
             {
-                nodeTree = rsvc.parse(br, templateName, false);
+                nodeTree = rsvc.parse(br, template);
             }
             catch (ParseException e)
             {
                 String msg = "Failed to parse String literal at "+
-                    StringUtils.formatFileString(templateName, getLine(), getColumn());
-                throw new TemplateInitException(msg, e, templateName, getColumn(), getLine());
+                    StringUtils.formatFileString(template.getName(), getLine(), getColumn());
+                throw new TemplateInitException(msg, e, template.getName(), getColumn(), getLine());
             }
 
             adjTokenLineNums(nodeTree);
@@ -233,7 +242,6 @@ public class ASTStringLiteral extends SimpleNode
         }
 
         StringBuilder result = new StringBuilder(s.length());
-        char prev = ' ';
         for(int i = 0, is = s.length(); i < is; i++)
         {
             char c = s.charAt(i);

@@ -21,10 +21,10 @@ package org.apache.velocity.runtime.parser.node;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utility-class for all arithmetic-operations.<br><br>
@@ -184,8 +184,7 @@ public abstract class MathUtils
             }
             else
             {
-                // TODO: JDK 1.4+ -> valueOf()
-                return new Byte ((byte)value);
+                return Byte.valueOf((byte)value);
             }
         }
         if (type == Short.class)
@@ -196,8 +195,7 @@ public abstract class MathUtils
             }
             else
             {
-                // TODO: JDK 1.4+ -> valueOf()
-                return new Short((short)value);
+                return Short.valueOf((short)value);
             }
         }
         if (type == Integer.class)
@@ -208,14 +206,12 @@ public abstract class MathUtils
             }
             else
             {
-                // TODO: JDK 1.4+ -> valueOf()
-                return new Integer ((int)value);
+                return Integer.valueOf((int)value);
             }
         }
         if (type == Long.class)
         {
-            // TODO: JDK 1.4+ -> valueOf()
-            return new Long (value);
+            return Long.valueOf(value);
         }
         return BigInteger.valueOf( value);
     }

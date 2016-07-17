@@ -19,17 +19,16 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.StringWriter;
-
 import junit.framework.TestCase;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
+
+import java.io.IOException;
+import java.io.StringWriter;
 
 /**
  * Checks that arrays are cached correctly in the Introspector.

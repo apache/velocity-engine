@@ -19,14 +19,13 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test case for any miscellaneous stuff.  If it isn't big, and doesn't fit

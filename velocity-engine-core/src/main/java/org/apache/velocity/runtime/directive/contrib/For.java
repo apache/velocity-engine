@@ -18,10 +18,6 @@
  */
 package org.apache.velocity.runtime.directive.contrib;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -32,6 +28,10 @@ import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
 
 /**
  * The #for directive provides the behavior of the #foreach directive but also

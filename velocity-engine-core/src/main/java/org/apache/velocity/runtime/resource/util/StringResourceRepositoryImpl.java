@@ -19,10 +19,11 @@ package org.apache.velocity.runtime.resource.util;
  * under the License.
  */
 
+import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
 /**
  * Default implementation of StringResourceRepository.

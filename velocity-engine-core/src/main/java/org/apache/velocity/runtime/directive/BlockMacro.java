@@ -19,14 +19,14 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * BlockMacro directive is used to invoke Velocity macros with normal parameters and a macro body.
@@ -102,7 +102,7 @@ public class BlockMacro extends Block
         maxDepth = rs.getInt(RuntimeConstants.VM_MAX_DEPTH);
 
         macro = new RuntimeMacro(name);
-        macro.setLocation(getLine(), getColumn(), getTemplateName());
+        macro.setLocation(getLine(), getColumn(), getTemplate());
         macro.init(rs, context, node);
     }
 

@@ -19,23 +19,15 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.    
  */
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-
-import org.apache.velocity.io.UnicodeInputStream;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.slf4j.Logger;
-
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.runtime.resource.ResourceCacheImpl;
+import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.commons.collections.ExtendedProperties;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 
 /**
  * This is abstract class the all text resource loaders should

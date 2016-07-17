@@ -20,7 +20,6 @@ package org.apache.velocity.test.issues;
  */
 
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.exception.VelocityException;
 
 /**
  * This class tests VELOCITY-785.

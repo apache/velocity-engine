@@ -19,16 +19,15 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
-import java.io.StringWriter;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.test.misc.TestLogger;
+
+import java.io.StringWriter;
 
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.

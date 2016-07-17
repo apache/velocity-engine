@@ -10,21 +10,20 @@ package org.apache.velocity.test.issues;
  * governing permissions and limitations under the License.
  */
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.test.misc.TestLogger;
+
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * Test Case for <a href="https://issues.apache.org/jira/browse/VELOCITY-537">Velocity Issue 537</a>.

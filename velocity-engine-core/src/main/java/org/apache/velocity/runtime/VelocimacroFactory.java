@@ -19,23 +19,20 @@ package org.apache.velocity.runtime;
  * under the License.
  */
 
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
-import org.slf4j.Logger;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
-import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  *  VelocimacroFactory.java
@@ -318,101 +315,16 @@ public class VelocimacroFactory
     /**
      * Adds a macro to the factory.
      *
-     * addVelocimacro(String, Node, String[] argArray, String) should be used internally
-     * instead of this.
-     *
-     * @param name Name of the Macro to add.
-     * @param macroBody String representation of the macro.
-     * @param macroArgs  Array of macro arguments, containing the
-     *        #macro() arguments and default values.  the 0th is the name.
-     * @param sourceTemplate Source template from which the macro gets registered.
-     *
-     * @return true if Macro was registered successfully.
-     */
-    public boolean addVelocimacro(String name, String macroBody,
-            List<Macro.MacroArg> macroArgs, String sourceTemplate)
-    {
-        /*
-         * maybe we should throw an exception, maybe just tell
-         * the caller like this...
-         *
-         * I hate this : maybe exceptions are in order here...
-         * They definitely would be if this was only called by directly
-         * by users, but Velocity calls this internally.
-         */
-        if (name == null || macroBody == null || macroArgs == null ||
-            sourceTemplate == null)
-        {
-            String msg = "VM '"+name+"' addition rejected : ";
-            if (name == null)
-            {
-                msg += "name";
-            }
-            else if (macroBody == null)
-            {
-                msg += "macroBody";
-            }
-            else if (macroArgs == null)
-            {
-                msg += "argArray";
-            }
-            else
-            {
-                msg += "sourceTemplate";
-            }
-            msg += " argument was null";
-            log.error(msg);
-            throw new NullPointerException(msg);
-        }
-
-        /*
-         *  see if the current ruleset allows this addition
-         */
-
-        if (!canAddVelocimacro(name, sourceTemplate))
-        {
-            return false;
-        }
-
-        synchronized (this)
-        {
-            try
-            {
-                Node macroRootNode = rsvc.parse(new StringReader(macroBody), sourceTemplate);
-
-                vmManager.addVM(name, macroRootNode, macroArgs, sourceTemplate, replaceAllowed);
-            }
-            catch (ParseException ex)
-            {
-                // to keep things 1.3 compatible call toString() here
-                throw new RuntimeException(ex.toString());
-            }
-        }
-
-        if (log.isDebugEnabled())
-        {
-            StringBuffer msg = new StringBuffer("added ");
-            Macro.macroToString(msg, macroArgs);
-            msg.append(" : source = ").append(sourceTemplate);
-            log.debug(msg.toString());
-        }
-
-        return true;
-    }
-
-    /**
-     * Adds a macro to the factory.
-     *
      * @param name Name of the Macro to add.
      * @param macroBody root node of the parsed macro AST
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
-     * @param sourceTemplate Source template from which the macro gets registered.
+     * @param definingTemplate template containing the macro definition
      * @return true if Macro was registered successfully.
      * @since 1.6
      */
     public boolean addVelocimacro(String name, Node macroBody,
-            List<Macro.MacroArg> macroArgs, String sourceTemplate)
+            List<Macro.MacroArg> macroArgs, Template definingTemplate)
     {
         // Called by RuntimeInstance.addVelocimacro
 
@@ -425,7 +337,7 @@ public class VelocimacroFactory
          * by users, but Velocity calls this internally.
          */
         if (name == null || macroBody == null || macroArgs == null ||
-            sourceTemplate == null)
+            definingTemplate == null)
         {
             String msg = "VM '"+name+"' addition rejected : ";
             if (name == null)
@@ -453,18 +365,18 @@ public class VelocimacroFactory
          *  see if the current ruleset allows this addition
          */
 
-        if (!canAddVelocimacro(name, sourceTemplate))
+        if (!canAddVelocimacro(name, definingTemplate))
         {
             return false;
         }
 
         synchronized(this)
         {
-            vmManager.addVM(name, macroBody, macroArgs, sourceTemplate, replaceAllowed);
+            vmManager.addVM(name, macroBody, macroArgs, definingTemplate, replaceAllowed);
         }
         if (log.isDebugEnabled())
         {
-            log.debug("added VM {}: source={}", name, sourceTemplate);
+            log.debug("added VM {}: source={}", name, definingTemplate);
         }
         return true;
     }
@@ -475,10 +387,10 @@ public class VelocimacroFactory
      *  to be added
      *
      *  @param name Name of VM to add
-     *  @param sourceTemplate Source template that contains the defintion of the VM
+     *  @param definingTemplate template containing the source of the macro
      *  @return true if it is allowed to be added, false otherwise
      */
-    private synchronized boolean canAddVelocimacro(String name, String sourceTemplate)
+    private synchronized boolean canAddVelocimacro(String name, Template definingTemplate)
     {
         /*
          *  short circuit and do it if autoloader is on, and the
@@ -487,7 +399,7 @@ public class VelocimacroFactory
 
         if (autoReloadLibrary && (macroLibVec != null))
         {
-            if( macroLibVec.contains(sourceTemplate) )
+            if( macroLibVec.contains(definingTemplate.getName()) )
                 return true;
         }
 
@@ -516,7 +428,7 @@ public class VelocimacroFactory
              *
              *  so if we have it, and we aren't allowed to replace, bail
              */
-            if (!replaceAllowed && isVelocimacro(name, sourceTemplate))
+            if (!replaceAllowed && isVelocimacro(name, definingTemplate))
             {
                 /*
                  * Concurrency fix: the log entry was changed to debug scope because it
@@ -535,13 +447,13 @@ public class VelocimacroFactory
     /**
      * Tells the world if a given directive string is a Velocimacro
      * @param vm Name of the Macro.
-     * @param sourceTemplate Source template from which the macro should be loaded.
+     * @param template Source template from which the macro should be loaded.
      * @return True if the given name is a macro.
      */
-    public boolean isVelocimacro(String vm, String sourceTemplate)
+    public boolean isVelocimacro(String vm, Template template)
     {
         // synchronization removed
-        return(vmManager.get(vm, sourceTemplate) != null);
+        return(vmManager.get(vm, null, template) != null);
     }
 
     /**
@@ -549,31 +461,15 @@ public class VelocimacroFactory
      *  behave correctly wrt getting the framework to
      *  dig out the correct # of args
      * @param vmName Name of the Macro.
+     * @param renderingTemplate destination template
      * @param sourceTemplate Source template from which the macro should be loaded.
      * @return A directive representing the Macro.
      */
-     public Directive getVelocimacro(String vmName, String sourceTemplate)
-     {
-        return(getVelocimacro(vmName, sourceTemplate, null));
-     }
-
-     /**
-      * Return a list of VelocimacroProxies that are defined by the given
-      * template name.
-      */
-     public List<VelocimacroProxy> getVelocimacros(String sourceTemplate)
-     {
-       return vmManager.getVelocimacros(sourceTemplate);
-     }
-
-     /**
-      * @since 1.6
-      */
-     public Directive getVelocimacro(String vmName, String sourceTemplate, String renderingTemplate)
+     public Directive getVelocimacro(String vmName, Template renderingTemplate, Template sourceTemplate)
      {
         VelocimacroProxy vp = null;
 
-        vp = vmManager.get(vmName, sourceTemplate, renderingTemplate);
+        vp = vmManager.get(vmName, renderingTemplate, sourceTemplate);
 
         /*
          * if this exists, and autoload is on, we need to check where this VM came from
@@ -657,17 +553,6 @@ public class VelocimacroFactory
         }
 
         return vp;
-    }
-
-    /**
-     * tells the vmManager to dump the specified namespace
-     *
-     * @param namespace Namespace to dump.
-     * @return True if namespace has been dumped successfully.
-     */
-    public boolean dumpVMNamespace(String namespace)
-    {
-        return vmManager.dumpNamespace(namespace);
     }
 
     /**

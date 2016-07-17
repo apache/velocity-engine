@@ -19,14 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.    
  */
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.List;
-import java.util.Properties;
-
-import org.slf4j.Logger;
-
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
@@ -44,6 +36,13 @@ import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
+import org.slf4j.Logger;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.List;
+import java.util.Properties;
 
 
 /**
@@ -166,14 +165,6 @@ public interface RuntimeServices
     public void init(String configurationFile);
 
     /**
-     * Wraps the String in a StringReader and passes it off to
-     * {@link #parse(Reader,String)}.
-     * @since 1.6
-     */
-    public SimpleNode parse(String string, String templateName)
-        throws ParseException;
-
-    /**
      * Parse the input and return the root of
      * AST node structure.
      * <br><br>
@@ -186,23 +177,11 @@ public interface RuntimeServices
      *  application.  We will revisit this.
      *
      * @param reader inputstream retrieved by a resource loader
-     * @param templateName name of the template being parsed
+     * @param template template being parsed
      * @return The AST representing the template.
      * @throws ParseException
      */
-    public  SimpleNode parse( Reader reader, String templateName )
-        throws ParseException;
-
-    /**
-     *  Parse the input and return the root of the AST node structure.
-     *
-     * @param reader inputstream retrieved by a resource loader
-     * @param templateName name of the template being parsed
-     * @param dumpNamespace flag to dump the Velocimacro namespace for this template
-     * @return The AST representing the template.
-     * @throws ParseException
-     */
-    public SimpleNode parse( Reader reader, String templateName, boolean dumpNamespace )
+    public  SimpleNode parse( Reader reader, Template template )
         throws ParseException;
 
     /**
@@ -353,26 +332,14 @@ public interface RuntimeServices
      * is a valid current Velocimacro.
      *
      * @param vmName  Name of velocimacro requested
-     * @param templateName Name of the namespace.
-     * @return VelocimacroProxy
-     */
-    public Directive getVelocimacro( String vmName, String templateName  );
-    
-    /**
-     * Returns the appropriate VelocimacroProxy object if strVMname
-     * is a valid current Velocimacro.
-     *
-     * @param vmName  Name of velocimacro requested
-     * @param templateName Name of the namespace.
-     * @param renderingTemplate Name of the template we are currently rendering. This
+     * @param renderingTemplate Template we are currently rendering. This
      *    information is needed when VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL setting is true
      *    and template contains a macro with the same name as the global macro library.
-     * 
-     * @since Velocity 1.6
-     * 
+     * @param template current template
+     *
      * @return VelocimacroProxy
      */
-    public Directive getVelocimacro( String vmName, String templateName, String renderingTemplate  );
+    public Directive getVelocimacro(String vmName, Template renderingTemplate, Template template);
 
     /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.
@@ -381,35 +348,25 @@ public interface RuntimeServices
      * @param macro  root AST node of the parsed macro
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
-     * @param sourceTemplate
-     * 
-     * @since Velocity 1.6
-     *                   
+     * @param definingTemplate template containing macro definition
+     *
      * @return boolean  True if added, false if rejected for some
      *                  reason (either parameters or permission settings)
      */
     public boolean addVelocimacro( String name,
-                                          Node macro,
-                                          List<Macro.MacroArg> macroArgs,
-                                          String sourceTemplate );
-                                          
-                                          
+                                   Node macro,
+                                   List<Macro.MacroArg> macroArgs,
+                                   Template definingTemplate );
+
+
     /**
      *  Checks to see if a VM exists
      *
      * @param vmName  Name of velocimacro
-     * @param templateName
+     * @param template Template "namespace"
      * @return boolean  True if VM by that name exists, false if not
      */
-    public boolean isVelocimacro( String vmName, String templateName );
-
-    /**
-     *  tells the vmFactory to dump the specified namespace.  This is to support
-     *  clearing the VM list when in inline-VM-local-scope mode
-     * @param namespace
-     * @return True if the Namespace was dumped.
-     */
-    public boolean dumpVMNamespace( String namespace );
+    public boolean isVelocimacro(String vmName, Template template);
 
     /**
      * String property accessor method to hide the configuration implementation

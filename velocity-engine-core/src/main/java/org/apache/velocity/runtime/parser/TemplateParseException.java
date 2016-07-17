@@ -20,7 +20,6 @@ package org.apache.velocity.runtime.parser;
  */
 
 import org.apache.velocity.exception.ExtendedParseException;
-
 import org.apache.velocity.util.StringUtils;
 
 /**

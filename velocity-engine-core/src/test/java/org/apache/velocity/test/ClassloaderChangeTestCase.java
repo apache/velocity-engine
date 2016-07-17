@@ -19,20 +19,18 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.StringWriter;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.introspection.IntrospectorCacheImpl;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.StringWriter;
 
 /**
  * Tests if we can hand Velocity an arbitrary class for logging.
