@@ -26,7 +26,6 @@ import java.util.Vector;
 
 import org.slf4j.Logger;
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
@@ -35,6 +34,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
 import org.apache.velocity.util.ClassUtils;
+import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.StringUtils;
 
 
@@ -117,7 +117,7 @@ public class ResourceManagerImpl
              * Resource loader can be loaded either via class name or be passed
              * in as an instance.
              */
-            ExtendedProperties configuration = (ExtendedProperties) it.next();
+            ExtProperties configuration = (ExtProperties) it.next();
 
             String loaderClass = StringUtils.nullTrim(configuration.getString("class"));
             ResourceLoader2 loaderInstance = (ResourceLoader2) configuration.get("instance");
@@ -231,7 +231,7 @@ public class ResourceManagerImpl
             StringBuffer loaderID = new StringBuffer(loaderName);
             loaderID.append(".").append(RuntimeConstants.RESOURCE_LOADER);
 
-            ExtendedProperties loaderConfiguration =
+            ExtProperties loaderConfiguration =
         		rsvc.getConfiguration().subset(loaderID.toString());
 
             /*

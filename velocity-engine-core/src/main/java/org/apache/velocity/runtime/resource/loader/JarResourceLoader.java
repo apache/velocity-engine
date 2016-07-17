@@ -32,7 +32,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.util.ExtProperties;
 
 /**
  * <p>
@@ -85,7 +85,7 @@ public class JarResourceLoader extends ResourceLoader2
      * Called by Velocity to initialize the loader
      * @param configuration
      */
-    public void init( ExtendedProperties configuration)
+    public void init( ExtProperties configuration)
     {
         log.trace("JarResourceLoader : initialization starting.");
 

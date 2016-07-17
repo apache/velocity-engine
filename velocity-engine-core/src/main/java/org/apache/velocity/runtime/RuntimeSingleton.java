@@ -36,6 +36,7 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
+import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 
@@ -155,9 +156,26 @@ public class RuntimeSingleton implements RuntimeConstants
      * the case with Turbine.
      *
      * @param configuration
+     * @deprecated use {@link #setConfiguration(ExtProperties)}
      * @see RuntimeInstance#setConfiguration(ExtendedProperties)
      */
-    public static void setConfiguration( ExtendedProperties configuration)
+    public @Deprecated static void setConfiguration( ExtendedProperties configuration)
+    {
+        ri.setConfiguration(configuration);
+    }
+
+    /**
+     * Allow an external system to set an ExtProperties
+     * object to use. This is useful where the external
+     * system also uses the ExtProperties class and
+     * the velocity configuration is a subset of
+     * parent application's configuration. This is
+     * the case with Turbine.
+     *
+     * @param configuration
+     * @see RuntimeInstance#setConfiguration(ExtProperties)
+     */
+    public static void setConfiguration( ExtProperties configuration)
     {
         ri.setConfiguration( configuration );
     }
@@ -227,7 +245,7 @@ public class RuntimeSingleton implements RuntimeConstants
 
     /**
      * Initialize the Velocity Runtime with the name of
-     * ExtendedProperties object.
+     * ExtProperties object.
      *
      * @param configurationFile
      * @see RuntimeInstance#init(String)
@@ -518,11 +536,11 @@ public class RuntimeSingleton implements RuntimeConstants
     /**
      * Return the velocity runtime configuration object.
      *
-     * @return ExtendedProperties configuration object which houses
+     * @return ExtProperties configuration object which houses
      *                       the velocity runtime properties.
      * @see RuntimeInstance#getConfiguration()
      */
-    public static ExtendedProperties getConfiguration()
+    public static ExtProperties getConfiguration()
     {
         return ri.getConfiguration();
     }

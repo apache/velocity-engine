@@ -32,10 +32,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -138,9 +138,9 @@ public class DataSourceResourceLoader extends ResourceLoader2
     private DataSource dataSource;
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.commons.collections.ExtendedProperties)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.velocity.util.ExtProperties)
      */
-    public void init(ExtendedProperties configuration)
+    public void init(ExtProperties configuration)
     {
         dataSourceName  = StringUtils.nullTrim(configuration.getString("resource.datasource"));
         tableName       = StringUtils.nullTrim(configuration.getString("resource.table"));

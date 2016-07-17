@@ -33,6 +33,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.util.ExtProperties;
 
 /**
  * This class provides  services to the application
@@ -112,7 +113,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void setProperty(String key, Object value)
     {
-        RuntimeSingleton.setProperty(key,value);
+        RuntimeSingleton.setProperty(key, value);
     }
 
     /**
@@ -123,7 +124,7 @@ public class Velocity implements RuntimeConstants
      */
     public static void addProperty(String key, Object value)
     {
-        RuntimeSingleton.addProperty(key,value);
+        RuntimeSingleton.addProperty(key, value);
     }
 
     /**
@@ -143,9 +144,25 @@ public class Velocity implements RuntimeConstants
      * is a subset of the parent application's configuration.
      *
      * @param configuration A configuration object.
+     * @deprecated use {@link setExtendedProperties(ExtProperties)}
      *
      */
-    public static void setExtendedProperties( ExtendedProperties configuration)
+    public @Deprecated static void setExtendedProperties( ExtendedProperties configuration)
+    {
+        RuntimeSingleton.setConfiguration(configuration);
+    }
+
+    /**
+     * Set an entire configuration at once. This is
+     * useful in cases where the parent application uses
+     * the ExtendedProperties class and the velocity configuration
+     * is a subset of the parent application's configuration.
+     *
+     * @param configuration A configuration object.
+     * @since 2.0
+     *
+     */
+    public static void setExtendedProperties( ExtProperties configuration)
     {
         RuntimeSingleton.setConfiguration( configuration );
     }

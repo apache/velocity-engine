@@ -31,11 +31,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.io.UnicodeInputStream;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.StringUtils;
 
 /**
@@ -64,9 +64,9 @@ public class FileResourceLoader extends ResourceLoader2
     private Map templatePaths = Collections.synchronizedMap(new HashMap());
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.commons.collections.ExtendedProperties)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.velocity.util.ExtProperties)
      */
-    public void init( ExtendedProperties configuration)
+    public void init( ExtProperties configuration)
     {
         if (log.isTraceEnabled())
         {

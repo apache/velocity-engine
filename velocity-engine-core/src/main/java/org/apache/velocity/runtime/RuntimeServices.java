@@ -41,6 +41,7 @@ import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
+import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 
@@ -92,10 +93,24 @@ public interface RuntimeServices
      * the case with Turbine.
      *
      * @param configuration
+     * @deprecated use {@link setConfiguration(ExtProperties)}
      */
-    public void setConfiguration( ExtendedProperties configuration);
+    public @Deprecated void setConfiguration( ExtendedProperties configuration);
 
     /**
+     * Allow an external system to set an ExtProperties
+     * object to use. This is useful where the external
+     * system also uses the ExtendedProperties class and
+     * the velocity configuration is a subset of
+     * parent application's configuration. This is
+     * the case with Turbine.
+     *
+     * @param configuration
+     * @since 2.0
+     */
+    public void setConfiguration( ExtProperties configuration);
+
+ /**
      * Add a property to the configuration. If it already
      * exists then the value stated here will be added
      * to the configuration entry. For example, if
@@ -144,7 +159,7 @@ public interface RuntimeServices
 
     /**
      * Initialize the Velocity Runtime with the name of
-     * ExtendedProperties object.
+     * ExtProperties object.
      *
      * @param configurationFile
      */
@@ -432,10 +447,10 @@ public interface RuntimeServices
     /**
      * Return the velocity runtime configuration object.
      *
-     * @return ExtendedProperties configuration object which houses
+     * @return ExtProperties configuration object which houses
      *                       the velocity runtime properties.
      */
-    public ExtendedProperties getConfiguration();
+    public ExtProperties getConfiguration();
 
     /**
      * Return the specified application attribute.

@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.EventHandler;
 import org.apache.velocity.app.event.IncludeEventHandler;
@@ -63,6 +62,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ClassUtils;
+import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.ChainableUberspector;
@@ -135,7 +135,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * These are the properties that are laid down over top
      * of the default properties when requested.
      */
-    private  ExtendedProperties overridingProperties = null;
+    private  ExtProperties overridingProperties = null;
 
     /**
      * This is a hashtable of initialized directives.
@@ -154,19 +154,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Object that houses the configuration options for
-     * the velocity runtime. The ExtendedProperties object allows
+     * the velocity runtime. The ExtProperties object allows
      * the convenient retrieval of a subset of properties.
      * For example all the properties for a resource loader
-     * can be retrieved from the main ExtendedProperties object
+     * can be retrieved from the main ExtProperties object
      * using something like the following:
      *
-     * ExtendedProperties loaderConfiguration =
+     * ExtProperties loaderConfiguration =
      *         configuration.subset(loaderID);
      *
      * And a configuration is a lot more convenient to deal
      * with then conventional properties objects, or Maps.
      */
-    private  ExtendedProperties configuration = new ExtendedProperties();
+    private  ExtProperties configuration = new ExtProperties();
 
     private ResourceManager resourceManager = null;
 
@@ -260,7 +260,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public synchronized void reset()
     {
-        this.configuration = new ExtendedProperties();
+        this.configuration = new ExtProperties();
         this.encoding = null;
         this.evaluateScopeName = "evaluate";
         this.eventCartridge = null;
@@ -468,7 +468,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         if (overridingProperties == null)
         {
-            overridingProperties = new ExtendedProperties();
+            overridingProperties = new ExtProperties();
         }
 
         overridingProperties.setProperty(key, value);
@@ -480,10 +480,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public void setProperties(String fileName)
     {
-        ExtendedProperties props = null;
+        ExtProperties props = null;
         try
         {
-              props = new ExtendedProperties(fileName);
+              props = new ExtProperties(fileName);
         }
         catch (IOException e)
         {
@@ -522,8 +522,32 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * the case with Turbine.
      *
      * @param  configuration
+     * @deprecated use {@link setConfiguration(ExtProperties)}
      */
-    public void setConfiguration( ExtendedProperties configuration)
+    public @Deprecated void setConfiguration( ExtendedProperties configuration)
+    {
+        if (overridingProperties == null)
+        {
+            overridingProperties = ExtProperties.convertProperties(configuration);
+        }
+        else
+        {
+            overridingProperties.combine(ExtProperties.convertProperties(configuration));
+        }
+    }
+
+    /**
+     * Allow an external system to set an ExtendedProperties
+     * object to use. This is useful where the external
+     * system also uses the ExtendedProperties class and
+     * the velocity configuration is a subset of
+     * parent application's configuration. This is
+     * the case with Turbine.
+     *
+     * @param  configuration
+     * @since 2.0
+     */
+    public void setConfiguration( ExtProperties configuration)
     {
         if (overridingProperties == null)
         {
@@ -562,7 +586,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         if (overridingProperties == null)
         {
-            overridingProperties = new ExtendedProperties();
+            overridingProperties = new ExtProperties();
         }
 
         overridingProperties.addProperty(key, value);
@@ -652,11 +676,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public void init(Properties p)
     {
-        setProperties(ExtendedProperties.convertProperties(p));
+        setProperties(ExtProperties.convertProperties(p));
         init();
     }
 
-    private void setProperties(ExtendedProperties p)
+    private void setProperties(ExtProperties p)
     {
         if (overridingProperties == null)
         {
@@ -678,7 +702,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         try
         {
-            setProperties(new ExtendedProperties(configurationFile));
+            setProperties(new ExtProperties(configurationFile));
         }
         catch (IOException e)
         {
@@ -1822,7 +1846,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return Configuration object which houses the Velocity runtime
      * properties.
      */
-    public ExtendedProperties getConfiguration()
+    public ExtProperties getConfiguration()
     {
         return configuration;
     }
