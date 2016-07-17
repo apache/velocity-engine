@@ -27,6 +27,10 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="fix" dev="cbrisson" issue="VELOCITY-820" due-to="Robert Fuller">
+        have #foreach honnor the Closeable interface on the iterator
+      </action>
+      
       <action type="fix" dev="cbrisson" issue="VELOCITY-804" due-to="Felipe Maschio">
         Don't leave 'initializing' to true if a problem occurs during initialization.
       </action>
