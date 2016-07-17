@@ -21,10 +21,10 @@ package org.apache.velocity.test.misc;
 
 import java.io.Reader;
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
+import org.apache.velocity.util.ExtProperties;
 
 /**
  * Resource Loader that always throws an exception.  Used to test
@@ -36,7 +36,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
 public class ExceptionGeneratingResourceLoader extends ResourceLoader2
 {
 
-    public void init(ExtendedProperties configuration)
+    public void init(ExtProperties configuration)
     {
     }
 

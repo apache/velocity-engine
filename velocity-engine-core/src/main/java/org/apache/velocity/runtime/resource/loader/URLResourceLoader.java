@@ -26,10 +26,10 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.ExtProperties;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -48,9 +48,9 @@ public class URLResourceLoader extends ResourceLoader2
     private Method[] timeoutMethods;
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.commons.collections.ExtendedProperties)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.velocity.util.ExtProperties)
      */
-    public void init(ExtendedProperties configuration)
+    public void init(ExtProperties configuration)
     {
         log.trace("URLResourceLoader : initialization starting.");
 

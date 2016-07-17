@@ -19,7 +19,6 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.    
  */
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.io.UnicodeInputStream;
@@ -27,6 +26,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceCacheImpl;
+import org.apache.velocity.util.ExtProperties;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -75,7 +75,7 @@ public abstract class ResourceLoader2
      * @param rs
      * @param configuration
      */
-    public void commonInit(RuntimeServices rs, ExtendedProperties configuration)
+    public void commonInit(RuntimeServices rs, ExtProperties configuration)
     {
         this.rsvc = rs;
         this.log = rsvc.getLog();
@@ -133,7 +133,7 @@ public abstract class ResourceLoader2
      *
      * @param configuration
      */
-    public abstract void init(ExtendedProperties configuration);
+    public abstract void init(ExtProperties configuration);
 
     /**
      * Get the Reader that the Runtime will parse

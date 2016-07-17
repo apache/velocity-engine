@@ -27,7 +27,12 @@
   <body>
     <release version="2.0" date="In Subversion">
 
-      <action type="add" dev="cbrusson" issue="VELOCITY-735" due-to="Dishara Wijewardana">
+      <action type="add" dev="cbrisson" issue="VELOCITY-790">
+        Remove dependency upon commons-collections-3 (except at compile-time for deprecated methods and classes
+        which are needed for backward compatibility), use our own ExtProperties object.
+      </action>
+      
+      <action type="add" dev="cbrisson" issue="VELOCITY-735" due-to="Dishara Wijewardana">
         Add a first implementation for the JSR 223 standard scripting interface.
       </action>
       

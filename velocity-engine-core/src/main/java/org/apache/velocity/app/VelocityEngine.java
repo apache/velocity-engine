@@ -33,6 +33,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.util.ExtProperties;
 
 /**
  * <p>
@@ -130,7 +131,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void setProperty(String key, Object value)
     {
-        ri.setProperty(key,value);
+        ri.setProperty(key, value);
     }
 
     /**
@@ -141,7 +142,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public void addProperty(String key, Object value)
     {
-        ri.addProperty(key,value);
+        ri.addProperty(key, value);
     }
 
     /**
@@ -161,9 +162,23 @@ public class VelocityEngine implements RuntimeConstants
      * is a subset of the parent application's configuration.
      *
      * @param  configuration
-     *
+     * @deprecated use {@link setExtendedProperties(ExtProperties)}
      */
-    public void setExtendedProperties( ExtendedProperties configuration)
+    public @Deprecated void setExtendedProperties( ExtendedProperties configuration)
+    {
+        ri.setConfiguration(configuration);
+    }
+
+    /**
+     * Set an entire configuration at once. This is
+     * useful in cases where the parent application uses
+     * the ExtendedProperties class and the velocity configuration
+     * is a subset of the parent application's configuration.
+     *
+     * @param  configuration
+     * @since 2.0
+     */
+    public void setExtendedProperties( ExtProperties configuration)
     {
         ri.setConfiguration( configuration );
     }

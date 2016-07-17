@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
@@ -38,6 +37,7 @@ import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.apache.velocity.runtime.resource.util.StringResourceRepositoryImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.util.ClassUtils;
+import org.apache.velocity.util.ExtProperties;
 
 /**
  * Resource loader that works with Strings. Users should manually add
@@ -210,9 +210,9 @@ public class StringResourceLoader extends ResourceLoader2
 
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.commons.collections.ExtendedProperties)
+     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.velocity.util.ExtProperties)
      */
-    public void init(final ExtendedProperties configuration)
+    public void init(final ExtProperties configuration)
     {
         log.trace("StringResourceLoader : initialization starting.");
 

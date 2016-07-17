@@ -34,6 +34,7 @@ import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceCacheImpl;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.util.ExtProperties;
 import org.apache.commons.collections.ExtendedProperties;
 
 /**
@@ -48,6 +49,32 @@ import org.apache.commons.collections.ExtendedProperties;
  */
 public @Deprecated abstract class ResourceLoader extends ResourceLoader2
 {
+    /**
+     * This initialization is used by all resource
+     * loaders and must be called to set up common
+     * properties shared by all resource loaders
+     *
+     * @param rs
+     * @param configuration
+     * @deprecated use {@link #commonInit(RuntimeServices, ExtProperties)}
+     */
+    public @Deprecated void commonInit(RuntimeServices rs, ExtendedProperties configuration)
+    {
+        commonInit(rs, ExtProperties.convertProperties(configuration));
+    }
+
+    /**
+     * Initialize the template loader with a
+     * a resources class.
+     *
+     * @param configuration
+     * @deprecated use {@link #init(ExtProperties)}
+     */
+    public @Deprecated void init(ExtendedProperties configuration)
+    {
+        init(ExtProperties.convertProperties(configuration));
+    }
+
     /**
      * Get the InputStream that the Runtime will parse
      * to create a template.
