@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.directive;
  * under the License.    
  */
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -164,13 +165,12 @@ public class Foreach extends Directive
     /**
      * Retrieve the contextual iterator.
      */
-    protected Iterator getIterator(InternalContextAdapter context, Node node)
+    protected Iterator getIterator(Object iterable, Node node)
     {
         Iterator i = null;
         /*
          * do our introspection to see what our collection is
          */
-        Object iterable = node.value(context);
         if (iterable != null)
         {
             try
@@ -215,7 +215,9 @@ public class Foreach extends Directive
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
-        Iterator i = getIterator(context, node.jjtGetChild(2));
+        Node iterableNode = node.jjtGetChild(2);
+        Object iterable = iterableNode.value(context);
+        Iterator i = getIterator(iterable, iterableNode);
         if (i == null)
         {
             return false;
@@ -272,6 +274,13 @@ public class Foreach extends Directive
             }
         }
         clean(context, o);
+        /*
+         * closes the iterator if it implements the Closeable interface
+         */
+        if (i != null && i instanceof Closeable && i != iterable) /* except if the iterable is the iterator itself */
+        {
+            ((Closeable)i).close();
+        }
         return true;
     }
 
