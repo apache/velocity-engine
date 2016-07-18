@@ -1,0 +1,1 @@
+#macro ( Test1 )This is from Test1 macro of one.vm#end#Test1

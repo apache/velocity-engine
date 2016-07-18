@@ -1195,7 +1195,7 @@ public class ExtProperties extends Hashtable<String,Object> {
             return (Boolean) value;
             
         } else if (value instanceof String) {
-            String s = testBoolean((String) value);
+            String s = testBoolean(((String) value).trim());
             Boolean b = new Boolean(s);
             put(key, b);
             return b;
