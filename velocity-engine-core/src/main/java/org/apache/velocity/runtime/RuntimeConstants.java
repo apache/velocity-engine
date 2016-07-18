@@ -246,6 +246,9 @@ public interface RuntimeConstants
     /** Switch for ignoring nulls in math equations vs throwing exceptions. */
     String STRICT_MATH = "runtime.strict.math";
 
+    /** Key upon which a context should be accessible within itself */
+    String CONTEXT_AUTOREFERENCE_KEY = "context.autoreference.key";
+
     /**
      * The <code>parser.pool.class</code> property specifies the name of the {@link org.apache.velocity.util.SimplePool}
      * implementation to use.
@@ -256,7 +259,7 @@ public interface RuntimeConstants
      * @see  #NUMBER_OF_PARSERS
      */
     String PARSER_POOL_SIZE = "parser.pool.size";
-    
+
     /*
      * ----------------------------------------------------------------------
      * These constants are used internally by the Velocity runtime i.e.

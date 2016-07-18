@@ -1410,6 +1410,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     Object previous = ica.get(evaluateScopeName);
                     context.put(evaluateScopeName, new Scope(this, previous));
                 }
+                /**
+                 * optionally put the context in itself if asked so
+                 */
+                String self = getString(CONTEXT_AUTOREFERENCE_KEY);
+                if (self != null) context.put(self, context);
                 nodeTree.render(ica, writer);
             }
             catch (StopCommand stop)
