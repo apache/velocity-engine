@@ -19,6 +19,8 @@ package org.apache.velocity.example;
  */
 
 import java.io.StringWriter;
+
+import org.apache.velocity.util.introspection.Info;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
@@ -279,7 +281,7 @@ public class EventExample extends MarkerIgnoringBase
         return true;
     }
 
-    public Object methodException( Class claz, String method, Exception e )   {
+    public Object methodException( Class claz, String method, Exception e, Info info )   {
         /*
          *  only do processing if the switch is on
          */

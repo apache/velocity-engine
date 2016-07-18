@@ -320,7 +320,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
 
         VelocityEngine ve2 = new VelocityEngine();
         ve2.setProperty(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION, "org.apache.velocity.app.event.implement.PrintExceptions");
-        ve2.setProperty("eventhandler.methodexception.message","true");
+        ve2.setProperty("eventhandler.methodexception.templateinfo","true");
         ve2.init();
 
         VelocityEngine ve3 = new VelocityEngine();
@@ -334,25 +334,32 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         context = new VelocityContext();
         context.put("list",new ArrayList());
 
-        // exception only
+        // exception and message only
         writer = new StringWriter();
-        ve1.evaluate(context,writer,"test","$list.get(0)");
-        assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
-        assertTrue(writer.toString().indexOf("Index: 0, Size: 0") == -1);
-        assertTrue(writer.toString().indexOf("ArrayList") == -1);
+        ve1.evaluate(context, writer, "test", "$list.get(0)");
+        String result = writer.toString();
+        assertTrue(result.indexOf("IndexOutOfBoundsException") != -1);
+        assertTrue(result.indexOf("Index: 0, Size: 0") != -1);
+        assertTrue(result.indexOf("at test (line 1, column 7)") == -1);
+        assertTrue(result.indexOf("rangeCheck") == -1);
 
-        // message
+        // exception, message and template info
         writer = new StringWriter();
         ve2.evaluate(context,writer,"test","$list.get(0)");
-        assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
-        assertTrue(writer.toString().indexOf("Index: 0, Size: 0") != -1);
-        assertTrue(writer.toString().indexOf("ArrayList") == -1);
+        result = writer.toString();;
+        assertTrue(result.indexOf("IndexOutOfBoundsException") != -1);
+        assertTrue(result.indexOf("Index: 0, Size: 0") != -1);
+        assertTrue(result.indexOf("at test (line 1, column 7)") != -1);
+        assertTrue(result.indexOf("rangeCheck") == -1);
 
-        // stack trace
+        // exception, message and stack trace
         writer = new StringWriter();
         ve3.evaluate(context,writer,"test","$list.get(0)");
-        assertTrue(writer.toString().indexOf("IndexOutOfBoundsException") != -1);
-        assertTrue(writer.toString().indexOf("ArrayList") != -1);
+        result = writer.toString();;
+        assertTrue(result.indexOf("IndexOutOfBoundsException") != -1);
+        assertTrue(result.indexOf("Index: 0, Size: 0") != -1);
+        assertTrue(result.indexOf("at test (line 1, column 7)") == -1);
+        assertTrue(result.indexOf("rangeCheck") != -1);
 
         log("PrintException handler successful.");
 

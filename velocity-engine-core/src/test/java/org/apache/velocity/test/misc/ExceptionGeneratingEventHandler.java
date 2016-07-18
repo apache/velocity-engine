@@ -22,6 +22,7 @@ package org.apache.velocity.test.misc;
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.util.introspection.Info;
 
 /**
  * Event handlers that always throws an exception.  Used to test
@@ -40,10 +41,7 @@ public class ExceptionGeneratingEventHandler implements IncludeEventHandler,
         throw new RuntimeException("exception");
     }
 
-    public Object methodException(Class claz, String method, Exception e)
-    {
-        throw new RuntimeException("exception");
-    }
+    public Object methodException(Class claz, String method, Exception e, Info info) { throw new RuntimeException("exception"); }
 
     public Object referenceInsert(String reference, Object value)
     {

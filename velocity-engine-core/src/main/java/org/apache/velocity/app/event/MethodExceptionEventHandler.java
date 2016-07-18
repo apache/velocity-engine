@@ -2,6 +2,7 @@ package org.apache.velocity.app.event;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.util.ContextAware;
+import org.apache.velocity.util.introspection.Info;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -43,10 +44,11 @@ public interface MethodExceptionEventHandler extends EventHandler
      * @param claz the class of the object the method is being applied to
      * @param method the method
      * @param e the thrown exception
+     * @param info contains template, line, column details
      * @return an object to insert in the page
      * @throws RuntimeException an exception to be thrown instead inserting an object
      */
-    public Object methodException( Class claz, String method, Exception e );
+    public Object methodException( Class claz, String method, Exception e, Info info );
 
     /**
      * Defines the execution strategy for methodException
@@ -58,6 +60,7 @@ public interface MethodExceptionEventHandler extends EventHandler
         private Class claz;
         private String method;
         private Exception e;
+        private Info info;
         
         private Object result;
         private boolean executed = false;
@@ -66,12 +69,14 @@ public interface MethodExceptionEventHandler extends EventHandler
                 Context context, 
                 Class claz,
                 String method,
-                Exception e)
+                Exception e,
+                Info info)
         {
             this.context = context;
             this.claz = claz;
             this.method = method;
             this.e = e;
+            this.info = info;
         }
 
         /**
@@ -88,7 +93,7 @@ public interface MethodExceptionEventHandler extends EventHandler
                 ((ContextAware) eh).setContext(context);
 
             executed = true;
-            result = ((MethodExceptionEventHandler) handler).methodException(claz, method, e);
+            result = ((MethodExceptionEventHandler) handler).methodException(claz, method, e, info);
         }
 
         public Object getReturnValue()
