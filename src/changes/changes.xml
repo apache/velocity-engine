@@ -27,6 +27,11 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="add" dev="cbrisson" issue="VELOCITY-799">
+        The new configuration property context.autoreference.key, if present, allows to specify the name
+        of the reference under which the context is accessible in itself
+      </action>
+      
       <action type="add" dev="cbrisson" issue="VELOCITY-746">
         MethodExceptionEventHandler now provide template location infos
       </action>
