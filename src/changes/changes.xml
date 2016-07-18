@@ -27,6 +27,10 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="add" dev="cbrisson" issue="VELOCITY-746">
+        MethodExceptionEventHandler now provide template location infos
+      </action>
+      
       <action type="fix" dev="cbrisson" issue="VELOCITY-797" due-to="Jarkko Viinamäki">
         Attach macros to their defining template. Also fixes VELOCITY-776. Thanks to Simon Kitching for the multithreading testcase.
       </action>

@@ -210,7 +210,7 @@ public class ASTIdentifier extends SimpleNode
                 try
                 {
                     return EventHandlerUtil.methodException(rsvc, context, o.getClass(), vg.getMethodName(),
-                            (Exception) t);
+                            (Exception) t, uberInfo);
                 }
 
                 /**

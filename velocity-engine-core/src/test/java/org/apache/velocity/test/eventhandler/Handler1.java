@@ -22,6 +22,7 @@ package org.apache.velocity.test.eventhandler;
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.util.introspection.Info;
 
 /**
  * This is a test set of event handlers, used to test event handler sequences.
@@ -46,7 +47,7 @@ public class Handler1
         /**
          * throw the exception
          */
-        public Object methodException(Class claz, String method, Exception e)
+        public Object methodException(Class claz, String method, Exception e, Info info)
         {
             throw new RuntimeException(e);
         }

@@ -29,6 +29,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.ContextAware;
 import org.apache.velocity.util.RuntimeServicesAware;
+import org.apache.velocity.util.introspection.Info;
 
 /**
  * Tests event handling for all event handlers except IncludeEventHandler.  This is tested
@@ -232,7 +233,7 @@ public class EventHandlingTestCase extends BaseTestCase
         /**
          *  Handles exceptions thrown during in-template method access
          */
-        public Object methodException( Class claz, String method, Exception e )
+        public Object methodException( Class claz, String method, Exception e, Info info )
         {
             // as a test, make sure this EventHandler is initialized
             if (rs == null)

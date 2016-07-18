@@ -129,7 +129,7 @@ public class EventHandlerUtil {
      */
     public static Object methodException(RuntimeServices rsvc,
             InternalContextAdapter context, Class claz, String method,
-            Exception e) throws Exception 
+            Exception e, Info info) throws Exception
     {
         // app level cartridges have already been initialized
         EventCartridge ev1 = rsvc.getApplicationEventCartridge();
@@ -142,7 +142,7 @@ public class EventHandlerUtil {
             (ev2 == null) ? null: ev2.getMethodExceptionEventHandlers();              
         
         EventHandlerMethodExecutor methodExecutor = 
-            new MethodExceptionEventHandler.MethodExceptionExecutor(context, claz, method, e);
+            new MethodExceptionEventHandler.MethodExceptionExecutor(context, claz, method, e, info);
         
         if ( ((applicationEventHandlerIterator == null) || !applicationEventHandlerIterator.hasNext()) &&
                 ((contextEventHandlerIterator == null) || !contextEventHandlerIterator.hasNext()) )

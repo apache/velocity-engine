@@ -253,7 +253,7 @@ public class ASTMethod extends SimpleNode
         {
             try
             {
-                return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception) t );
+                return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception) t, uberInfo );
             }
 
             /**
