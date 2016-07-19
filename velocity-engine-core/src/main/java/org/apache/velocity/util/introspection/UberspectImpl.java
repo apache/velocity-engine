@@ -244,7 +244,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          */
         if (!executor.isAlive()) 
         {
-            executor = new MapGetExecutor(log, claz, identifier);
+            executor = new MapGetExecutor(log, obj, identifier);
         }
 
         /*

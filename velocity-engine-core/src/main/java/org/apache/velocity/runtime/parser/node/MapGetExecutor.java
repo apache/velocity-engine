@@ -22,6 +22,7 @@ package org.apache.velocity.runtime.parser.node;
 import org.apache.velocity.exception.VelocityException;
 import org.slf4j.Logger;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
@@ -36,48 +37,69 @@ public class MapGetExecutor
         extends AbstractExecutor 
 {
     private final String property;
+    private final boolean isAlive;
 
-    public MapGetExecutor(final Logger log, final Class clazz, final String property)
+    public MapGetExecutor(final Logger log, final Object object, final String property)
     {
         this.log = log;
         this.property = property;
-        discover(clazz);
+        isAlive = discover(object);
     }
 
-    protected void discover (final Class clazz)
+    @Override
+    public Method getMethod()
     {
-        Class [] interfaces = clazz.getInterfaces();
-        for (int i = 0 ; i < interfaces.length; i++)
+        if (isAlive())
         {
-            if (interfaces[i].equals(Map.class))
+            return MapGetMethod.instance();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isAlive()
+    {
+        return isAlive;
+    }
+
+    protected boolean discover (final Object object)
+    {
+        if (object instanceof Map)
+        {
+            if (property != null)
             {
-                try
-                {
-                    if (property != null)
-                    {
-                        setMethod(Map.class.getMethod("get", new Class [] { Object.class }));
-                    }
-                }
-                /**
-                 * pass through application level runtime exceptions
-                 */
-                catch( RuntimeException e )
-                {
-                    throw e;
-                }
-                catch(Exception e)
-                {
-                    String msg = "Exception while looking for get('" + property + "') method";
-                    log.error(msg, e);
-                    throw new VelocityException(msg, e);
-                }
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     public Object execute(final Object o)
     {
         return ((Map) o).get(property);
+    }
+
+    private static final class MapGetMethod
+    {
+        private static final Method instance;
+
+        static
+        {
+            try
+            {
+                instance = Map.class.getMethod("get", new Class[]{Object.class});
+            }
+            catch (final NoSuchMethodException mapGetMethodMissingError)
+            {
+                throw new Error(mapGetMethodMissingError);
+            }
+        }
+
+        private MapGetMethod() { }
+
+        static Method instance()
+        {
+            return instance;
+        }
     } 
 }
