@@ -22,17 +22,22 @@ package org.apache.velocity.test;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.test.misc.TestLogger;
 
+import java.io.File;
 import java.io.FileWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 /**
  * This class tests the velocimacro.library.autoreload functionality, and issue VELOCITY-
  */
 public class MacroAutoReloadTestCase extends BaseTestCase
 {
+    private final String RELOAD_TEMPLATE_PATH = TEST_COMPARE_DIR + "/reload";
+
     public MacroAutoReloadTestCase(String name)
     {
         super(name);
@@ -40,6 +45,9 @@ public class MacroAutoReloadTestCase extends BaseTestCase
 
     protected void setUp() throws Exception
     {
+        // always copy macros library before modifying it, to ensure successive tests will pass
+        Files.copy(FileSystems.getDefault().getPath(RELOAD_TEMPLATE_PATH + "/macros.vtl"), FileSystems.getDefault().getPath(RELOAD_TEMPLATE_PATH + "/macros2.vtl"), StandardCopyOption.REPLACE_EXISTING);
+
         engine = new VelocityEngine();
 
         //by default, make the engine's log output go to the test-report
@@ -48,44 +56,47 @@ public class MacroAutoReloadTestCase extends BaseTestCase
 
         // use file resource loader
         engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,string");
-        engine.addProperty("file.resource.loader.path", TEST_COMPARE_DIR + "/reload");
-        engine.addProperty("velocimacro.library", "macros.vtl");
+        engine.addProperty("file.resource.loader.path", RELOAD_TEMPLATE_PATH);
+        engine.addProperty("velocimacro.library", "macros2.vtl");
         engine.addProperty("velocimacro.library.autoreload", "true");
         engine.addProperty("file.resource.loader.cache", "false");
         engine.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
         engine.addProperty("string.resource.loader.repository.name", "stringRepo");
         engine.addProperty("string.resource.loader.repository.static", "false");
-        
-        setUpEngine(engine);
-
         context = new VelocityContext();
-        setUpContext(context);
     }
 
     
     public void testChangedMacro() throws Exception
     {
         String template = "#foo('hip')";
-        String result = "hop_hip";
-        assertEvalEquals(result, template);
+        assertEvalEquals("hop_hip", template);
 
-        FileWriter writer = new FileWriter(TEST_COMPARE_DIR + "/reload/macros.vtl");
+        FileWriter writer = new FileWriter(RELOAD_TEMPLATE_PATH + "/macros2.vtl");
         writer.write("#macro(foo $txt)hip_$txt#{end}");
         writer.close();
- 
-        result = "hip_hip";
-        assertEvalEquals(result, template);
+        // last modified timestamps resolution is one second before Java 8,
+        // so force reloading by setting a file date in the future
+        File macros2 = new File(TEST_COMPARE_DIR + "/reload/macros2.vtl");
+        macros2.setLastModified(macros2.lastModified() + 1000);
+
+        assertEvalEquals("hip_hip", template);
     }
 
     public void testNewMacro() throws Exception
     {
-        FileWriter writer = new FileWriter(TEST_COMPARE_DIR + "/reload/macros.vtl", true);
+        String template = "#foo('hip')";
+        assertEvalEquals("hop_hip", template);
+
+        FileWriter writer = new FileWriter(TEST_COMPARE_DIR + "/reload/macros2.vtl", true);
         writer.write("\n#macro(bar $txt)hep_$txt#{end}");
         writer.close();
- 
-        String template = "#foo('hip') #bar('hip')";
-        String result = "hip_hip hep_hip";
-        assertEvalEquals(result, template);
+        // last modified timestamps resolution is one second before Java 8,
+        // so force reloading by setting a file date in the future
+        File macros2 = new File(TEST_COMPARE_DIR + "/reload/macros2.vtl");
+        macros2.setLastModified(macros2.lastModified() + 1000);
+
+        template = "#foo('hip') #bar('hip')";
+        assertEvalEquals("hop_hip hep_hip", template);
     }
 }
-
