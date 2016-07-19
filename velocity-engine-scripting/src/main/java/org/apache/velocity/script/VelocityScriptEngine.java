@@ -228,7 +228,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
 
     protected static VelocityContext getVelocityContext(ScriptContext ctx)
     {
-        ctx.setAttribute("script_context", ctx, ScriptContext.ENGINE_SCOPE);
+        ctx.setAttribute("context", ctx, ScriptContext.ENGINE_SCOPE);
         Bindings globalScope = ctx.getBindings(ScriptContext.GLOBAL_SCOPE);        
         Bindings engineScope = ctx.getBindings(ScriptContext.ENGINE_SCOPE);
         if (globalScope != null)

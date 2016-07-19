@@ -44,8 +44,6 @@ public class ScriptEngineTest extends AbstractScriptTest {
 
         String val = engine.get("name1").toString();
         assertEquals("Engine#get should have same effect as context.get ", engineScope.get("name1"), val);
-
-
     }
 
 
@@ -86,4 +84,15 @@ public class ScriptEngineTest extends AbstractScriptTest {
         Object result = compiled.eval();
         assertEquals(result.toString(), "bar");
     }
+
+    public void testContext() throws ScriptException
+    {
+        String path = System.getProperty("test.resources.dir");
+        engine.getContext().setWriter(new StringWriter());
+        engine.getContext().setAttribute(VelocityScriptEngine.VELOCITY_PROPERTIES_KEY, path + "/test-classes/velocity.properties", ScriptContext.ENGINE_SCOPE);
+        String script = "$context.class.name $context.writer.class.name $context.reader.class.name $context.errorWriter.class.name";
+        String result = engine.eval(script).toString();
+        assertEquals("javax.script.SimpleScriptContext java.io.StringWriter java.io.InputStreamReader java.io.PrintWriter", result);
+    }
+    
 }
