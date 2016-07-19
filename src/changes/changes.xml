@@ -27,6 +27,11 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="fix" dev="cbrisson" issue="VELOCITY-815" due-to="Oswaldo Hernandez">
+        Applied performance patch for MapGetExecutor: it's faster to directly use object
+        instance rather than to inspect all public interfaces
+      </action>
+      
       <action type="add" dev="cbrisson" issue="VELOCITY-799">
         The new configuration property context.autoreference.key, if present, allows to specify the name
         of the reference under which the context is accessible in itself
