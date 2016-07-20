@@ -189,7 +189,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         Method m = introspector.getMethod(obj.getClass(), methodName, args);
         if (m != null)
         {
-            return new VelMethodImpl(m);
+            return new VelMethodImpl(m, false, getNeededConverters(m.getParameterTypes(), args));
         }
 
         Class cls = obj.getClass();
@@ -202,7 +202,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             {
                 // and create a method that knows to wrap the value
                 // before invoking the method
-                return new VelMethodImpl(m, true);
+                return new VelMethodImpl(m, true, getNeededConverters(m.getParameterTypes(), args));
             }
         }
         // watch for classes, to allow calling their static methods (VELOCITY-102)
@@ -211,10 +211,36 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             m = introspector.getMethod((Class)obj, methodName, args);
             if (m != null)
             {
-                return new VelMethodImpl(m);
+                return new VelMethodImpl(m, false, getNeededConverters(m.getParameterTypes(), args));
             }
         }
         return null;
+    }
+
+    /**
+     * get the list of needed converters to adapt passed argument types to method types
+     * @return null if not conversion needed, otherwise an array containing needed converters
+     */
+    private Converter[] getNeededConverters(Class[] expected, Object[] provided)
+    {
+        // var args are not handled here
+        int n = Math.min(expected.length, provided.length);
+        Converter[] converters = null;
+        for (int i = 0; i < n; ++i)
+        {
+            Object arg = provided[i];
+            if (arg == null) continue;
+            Converter converter = IntrospectionUtils.getNeededConverter(expected[i], arg.getClass());
+            if (converter != null)
+            {
+                if (converters == null)
+                {
+                    converters = new Converter[expected.length];
+                }
+                converters[i] = converter;
+            }
+        }
+        return converters;
     }
 
     /**
@@ -320,13 +346,14 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         final Method method;
         Boolean isVarArg;
         boolean wrapArray;
+        Converter converters[];
 
         /**
          * @param m
          */
         public VelMethodImpl(Method m)
         {
-            this(m, false);
+            this(m, false, null);
         }
 
         /**
@@ -334,8 +361,17 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
          */
         public VelMethodImpl(Method method, boolean wrapArray)
         {
+            this(method, wrapArray, null);
+        }
+
+        /**
+         * @since 2.0
+         */
+        public VelMethodImpl(Method method, boolean wrapArray, Converter[] converters)
+        {
             this.method = method;
             this.wrapArray = wrapArray;
+            this.converters = converters;
         }
 
         private VelMethodImpl()
@@ -363,6 +399,14 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                 {
                     Class type = formal[index].getComponentType();
                     actual = handleVarArg(type, index, actual);
+                }
+            }
+
+            if (converters != null)
+            {
+                for (int i = 0; i < actual.length; ++i)
+                {
+                    actual[i] = converters[i].convert(actual[i]);
                 }
             }
 
