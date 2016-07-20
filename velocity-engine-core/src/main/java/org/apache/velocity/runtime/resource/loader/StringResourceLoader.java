@@ -387,19 +387,6 @@ public class StringResourceLoader extends ResourceLoader2
             }
             throw new VelocityException("Could not convert String using encoding " + resource.getEncoding(), ue);
         }
-        catch(IOException ioe)
-        {
-            if (rawStream != null)
-            {
-                try
-                {
-                    rawStream.close();
-                }
-                catch (IOException e) {}
-            }
-            throw new VelocityException("Exception while loading string resource", ioe);
-
-        }
     }
 
     /**
