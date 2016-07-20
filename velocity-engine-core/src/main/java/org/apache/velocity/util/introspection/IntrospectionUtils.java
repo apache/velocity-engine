@@ -112,6 +112,13 @@ public class IntrospectionUtils
             return isMethodInvocationConvertible(formal.getComponentType(),
                                                  actual, false);
         }
+
+        /* Check for manual conversions */
+        if (isExplicitlyConvertible(formal, actual))
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -181,5 +188,46 @@ public class IntrospectionUtils
                                                        actual, false);
         }
         return false;
+    }
+
+    /**
+     * Check to see if the conversion can be done using an explicit conversion
+     */
+    public static boolean isExplicitlyConvertible(Class formal, Class actual)
+    {
+        /* Check for String to Enum constant conversion */
+        if (formal.isEnum() && actual == String.class)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Returns the appropriate Converter object needed for an explicit conversion
+     * Returns null if no conversion is needed.
+     *
+     * @param actual found argument type
+     * @param formal expected formal type
+     * @return null if no conversion is needed, or the appropriate Converter object
+     * @since 2.0
+     */
+    public static Converter getNeededConverter(final Class formal, final Class actual)
+    {
+        /* the only current use case is the String -> Enum constant conversion. */
+        if (formal.isEnum() && actual == String.class)
+        {
+            Converter converter = new Converter()
+            {
+                @Override
+                public Object convert(Object o)
+                {
+                    return Enum.valueOf((Class<Enum>)formal, (String)o);
+                }
+            };
+            return converter;
+        }
+        return null;
     }
 }
