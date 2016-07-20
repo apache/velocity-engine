@@ -435,18 +435,18 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         InputStream inputStream = null;
         try
         {
-            inputStream = getClass()
-                .getResourceAsStream('/' + DEFAULT_RUNTIME_PROPERTIES);
+            inputStream = getClass().getClassLoader()
+                .getResourceAsStream(DEFAULT_RUNTIME_PROPERTIES);
+
+            if (inputStream == null)
+                throw new IOException("Resource not found: " + DEFAULT_RUNTIME_PROPERTIES);
 
             configuration.load( inputStream );
 
             if (log.isDebugEnabled())
             {
-                log.debug("Default Properties File: {}",
-                    new File(DEFAULT_RUNTIME_PROPERTIES).getPath());
+                log.debug("Default Properties resource: {}", DEFAULT_RUNTIME_PROPERTIES);
             }
-
-
         }
         catch (IOException ioe)
         {
