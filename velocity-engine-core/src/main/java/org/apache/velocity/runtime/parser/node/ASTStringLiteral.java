@@ -47,8 +47,6 @@ public class ASTStringLiteral extends SimpleNode
 
     private String image = "";
 
-    private String interpolateimage = "";
-
     /** true if the string contains a line comment (##) */
     private boolean containsLineComment;
 
@@ -121,37 +119,38 @@ public class ASTStringLiteral extends SimpleNode
             image = replaceQuotes(image, img.charAt(0));
         }
 
-        /**
-         * note. A kludge on a kludge. The first part, Geir calls this the
-         * dreaded <MORE> kludge. Basically, the use of the <MORE> token eats
-         * the last character of an interpolated string. EXCEPT when a line
-         * comment (##) is in the string this isn't an issue.
-         *
-         * So, to solve this we look for a line comment. If it isn't found we
-         * add a space here and remove it later.
-         */
-
-        /**
-         * Note - this should really use a regexp to look for [^\]## but
-         * apparently escaping of line comments isn't working right now anyway.
-         */
-        containsLineComment = (image.indexOf("##") != -1);
-
-        /*
-         * if appropriate, tack a space on the end (dreaded <MORE> kludge)
-         */
-
-        if (!containsLineComment)
-        {
-            interpolateimage = image + " ";
-        }
-        else
-        {
-            interpolateimage = image;
-        }
-
         if (interpolate)
         {
+            /*
+             * if appropriate, tack a space on the end (dreaded <MORE> kludge)
+             */
+		 
+		    String interpolateimage;
+			
+	        /**
+             * Note - this should really use a regexp to look for [^\]## but
+             * apparently escaping of line comments isn't working right now anyway.
+             */
+            containsLineComment = (image.indexOf("##") != -1);
+
+            /**
+             * note. A kludge on a kludge. The first part, Geir calls this the
+             * dreaded <MORE> kludge. Basically, the use of the <MORE> token eats
+             * the last character of an interpolated string. EXCEPT when a line
+             * comment (##) is in the string this isn't an issue.
+             *
+             * So, to solve this we look for a line comment. If it isn't found we
+             * add a space here and remove it later.
+             */
+            if (!containsLineComment)
+            {
+                interpolateimage = image + " ";
+            }
+            else
+            {
+                interpolateimage = image;
+            }
+
             /*
              * now parse and init the nodeTree
              */
