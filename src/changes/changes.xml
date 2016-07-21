@@ -27,6 +27,10 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="add" dev="cbrisson">
+        nicified AST tree debug output
+      </action>
+      
       <action type="fix" dev="cbrisson" issue=VELOCITY-830">
         fix parsing of $obj._method()
       </action>

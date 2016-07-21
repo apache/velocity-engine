@@ -231,7 +231,7 @@ public class SimpleNode implements Node
      */
     public String toString(String prefix)
     {
-        return prefix + toString();
+        return prefix + "_" + toString();
     }
 
     /**
@@ -242,15 +242,16 @@ public class SimpleNode implements Node
      */
     public void dump(String prefix)
     {
-        System.out.println(toString(prefix));
+        System.out.println(toString());
         if (children != null)
         {
             for (int i = 0; i < children.length; ++i)
             {
                 SimpleNode n = (SimpleNode) children[i];
+                System.out.print(prefix + " |_");
                 if (n != null)
                 {
-                    n.dump(prefix + " ");
+                    n.dump(prefix + ( i == children.length - 1 ? "   " : " | " ));
                 }
             }
         }
@@ -431,10 +432,11 @@ public class SimpleNode implements Node
             }
             t = t.next;
         }
-
-		return "SimpleNode [id=" + id + ", info=" + info + ", invalid="
-		        + invalid + ", children=" + Arrays.toString(children)
-		        + ", tokens=" + tokens + "]";
+        String tok = tokens.toString();
+        if (tok.length() > 50) tok = tok.substring(0, 50) + "...";
+        return getClass().getSimpleName() + " [id=" + id + ", info=" + info + ", invalid="
+		        + invalid
+		        + ", tokens=" + tok + "]";
     }
 
 	public String getTemplateName()
