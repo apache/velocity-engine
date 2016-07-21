@@ -27,6 +27,10 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="fix" dev="cbrisson" issue="VELOCITY-833" due-to="Jarkko Viinamäki">
+        avoid useless string calculation in ASTStringLiteral
+      </action>
+      
       <action type="add" dev="cbrisson">
         nicified AST tree debug output
       </action>
