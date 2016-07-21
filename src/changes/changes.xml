@@ -27,6 +27,10 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="fix" dev="cbrisson" issue=VELOCITY-830">
+        fix parsing of $obj._method()
+      </action>
+      
       <action type="fix" dev="cbrisson" issue="VELOCITY-827" due-to="Dawid Weiss">
         loading default properties should not prepend '/' and should use classloader to get resource stream
       </action>

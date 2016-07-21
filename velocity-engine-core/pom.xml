@@ -104,7 +104,7 @@
               <name>test.result.dir</name>
               <value>${project.build.directory}/results</value>
             </property>
-          </systemProperties>
+          </systemProperties>          
         </configuration>
         <executions>
           <execution>
@@ -137,6 +137,8 @@
           <buildNodeFiles>${parser.nodefiles}</buildNodeFiles>
           <multi>true</multi>
           <debugParser>false</debugParser>
+          <debugLookAhead>false</debugLookAhead>
+          <debugTokenManager>false</debugTokenManager>
           <jdkVersion>1.4</jdkVersion>
           <nodeUsesParser>true</nodeUsesParser>
           <nodePackage>org.apache.velocity.runtime.parser</nodePackage>
