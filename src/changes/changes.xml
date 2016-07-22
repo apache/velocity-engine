@@ -43,7 +43,7 @@
         nicified AST tree debug output
       </action>
       
-      <action type="fix" dev="cbrisson" issue=VELOCITY-830">
+      <action type="fix" dev="cbrisson" issue="VELOCITY-830">
         fix parsing of $obj._method()
       </action>
       
