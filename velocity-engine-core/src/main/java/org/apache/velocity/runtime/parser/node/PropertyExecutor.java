@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.util.ArrayListWrapper;
 import org.apache.velocity.util.introspection.Introspector;
 import org.slf4j.Logger;
 
@@ -32,6 +33,7 @@ import java.lang.reflect.InvocationTargetException;
 public class PropertyExecutor extends AbstractExecutor
 {
     private final Introspector introspector;
+    private final boolean wrapArray;
 
     /**
      * @param log
@@ -41,10 +43,25 @@ public class PropertyExecutor extends AbstractExecutor
      * @since 1.5
      */
     public PropertyExecutor(final Logger log, final Introspector introspector,
-            final Class clazz, final String property)
+                            final Class clazz, final String property)
+    {
+        this(log, introspector, clazz, property, false);
+    }
+
+    /**
+     * @param log
+     * @param introspector
+     * @param clazz
+     * @param property
+     * @param wrapArray
+     * @since 1.5
+     */
+    public PropertyExecutor(final Logger log, final Introspector introspector,
+            final Class clazz, final String property, final boolean wrapArray)
     {
         this.log = log;
         this.introspector = introspector;
+        this.wrapArray = wrapArray;
 
         // Don't allow passing in the empty string or null because
         // it will either fail with a StringIndexOutOfBounds error
@@ -124,6 +141,10 @@ public class PropertyExecutor extends AbstractExecutor
     public Object execute(Object o)
         throws IllegalAccessException,  InvocationTargetException
     {
+        if (wrapArray)
+        {
+            o = new ArrayListWrapper(o);
+        }
         return isAlive() ? getMethod().invoke(o, ((Object []) null)) : null;
     }
 }

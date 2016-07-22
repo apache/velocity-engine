@@ -292,6 +292,15 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
                                                    identifier);
         }
 
+        /*
+         * and idem on an array
+         */
+        if (!executor.isAlive() && obj.getClass().isArray())
+        {
+            executor = new BooleanPropertyExecutor(log, introspector, ArrayListWrapper.class,
+                    identifier, true);
+        }
+
         return (executor.isAlive()) ? new VelGetterImpl(executor) : null;
     }
 

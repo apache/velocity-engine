@@ -55,4 +55,9 @@ public class ArrayListWrapper extends AbstractList
         return Array.getLength(array);
     }
 
+    public boolean isEmpty()
+    {
+        return Array.getLength(array) == 0;
+    }
+
 }

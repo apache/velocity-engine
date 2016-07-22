@@ -46,9 +46,23 @@ public class BooleanPropertyExecutor extends PropertyExecutor
      * @since 1.5
      */
     public BooleanPropertyExecutor(final Logger log, final Introspector introspector,
-            final Class clazz, final String property)
+                                   final Class clazz, final String property)
     {
-        super(log, introspector, clazz, property);
+        this(log, introspector, clazz, property, false);
+    }
+
+    /**
+     * @param log
+     * @param introspector
+     * @param clazz
+     * @param property
+     * @maram wrapArray
+     * @since 1.5
+     */
+    public BooleanPropertyExecutor(final Logger log, final Introspector introspector,
+            final Class clazz, final String property, final boolean wrapArray)
+    {
+        super(log, introspector, clazz, property, wrapArray);
     }
 
     protected void discover(final Class clazz, final String property)

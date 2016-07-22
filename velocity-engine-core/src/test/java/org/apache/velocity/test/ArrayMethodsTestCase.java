@@ -112,6 +112,8 @@ public class ArrayMethodsTestCase extends BaseTestCase
         boolean isEmpty = (size == 0);
         checkResult("isEmpty()", String.valueOf(isEmpty), compareToList);
 
+        checkPropertyResult("empty", String.valueOf(isEmpty), compareToList);
+
         // check that the wrapping doesn't apply to java.lang.Object methods
         // such as toString() (for backwards compatibility).
         assertFalse(evaluate("$array").equals(evaluate("$list")));
@@ -175,10 +177,30 @@ public class ArrayMethodsTestCase extends BaseTestCase
             assertEquals(result, listResult);
         }
 
-        info("    <$!array."+method+"> resolved to <"+result+">");
+        info("    <$!array." + method + "> resolved to <" + result + ">");
         if (compareToList)
         {
             info("    <$!list."+method+"> resolved to "+listResult+">");
+        }
+    }
+
+    private void checkPropertyResult(String property, String expected,
+                             boolean compareToList) throws Exception
+    {
+        String result = evaluate("$!array."+property);
+        assertEquals(expected, result);
+
+        String listResult = null;
+        if (compareToList)
+        {
+            listResult = evaluate("$!list."+property);
+            assertEquals(result, listResult);
+        }
+
+        info("    <$!array."+property+"> resolved to <"+result+">");
+        if (compareToList)
+        {
+            info("    <$!list."+property+"> resolved to "+listResult+">");
         }
     }
 
