@@ -48,7 +48,7 @@ public class ASTStringLiteral extends SimpleNode
     private String image = "";
 
     /** true if the string contains a line comment (##) */
-    private boolean containsLineComment;
+    private boolean containsLineComment = false;
 
     /**
      * @param id
@@ -124,9 +124,9 @@ public class ASTStringLiteral extends SimpleNode
             /*
              * if appropriate, tack a space on the end (dreaded <MORE> kludge)
              */
-		 
+
 		    String interpolateimage;
-			
+
 	        /**
              * Note - this should really use a regexp to look for [^\]## but
              * apparently escaping of line comments isn't working right now anyway.
@@ -193,7 +193,14 @@ public class ASTStringLiteral extends SimpleNode
             nodeTree.init(context, rsvc);
         }
 
+        cleanupParserAndTokens();
+
         return data;
+    }
+
+    public String literal()
+    {
+    	return image;
     }
 
     /**

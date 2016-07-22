@@ -74,11 +74,14 @@ public class ASTTextblock extends SimpleNode
         
         String text = t.image;
         
-        // t.image is in format: #% <string> %#
+        // t.image is in format: #[[ <string> ]]#
         // we must strip away the hash tags
         text = text.substring(START.length(), text.length() - END.length());
 
         ctext = text.toCharArray();
+        
+        cleanupParserAndTokens();
+        
         return data;
     }
 

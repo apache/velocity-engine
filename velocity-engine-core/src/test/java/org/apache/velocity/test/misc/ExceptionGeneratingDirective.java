@@ -38,7 +38,6 @@ import java.io.Writer;
  */
 public class ExceptionGeneratingDirective extends Directive
 {
-
     public String getName()
     {
         return "Exception";

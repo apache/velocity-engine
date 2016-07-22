@@ -121,6 +121,8 @@ public class ASTMethod extends SimpleNode
 
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
 
+        cleanupParserAndTokens();
+        
         return data;
     }
 

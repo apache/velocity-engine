@@ -54,7 +54,6 @@ public class ASTIntegerLiteral extends SimpleNode
         super(p, id);
     }
 
-
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
@@ -81,23 +80,21 @@ public class ASTIntegerLiteral extends SimpleNode
          String str = getFirstToken().image;
          try
          {
-             value = new Integer( str );
+        	 value = Integer.valueOf( str );
          }
          catch ( NumberFormatException E1 )
          {
             try
             {
-
                 value = new Long( str );
-
             }
             catch ( NumberFormatException E2 )
             {
-
                 // if there's still an Exception it will propogate out
                 value = new BigInteger( str );
             }
         }
+        cleanupParserAndTokens();
 
         return data;
     }
@@ -109,5 +106,4 @@ public class ASTIntegerLiteral extends SimpleNode
     {
         return value;
     }
-
 }

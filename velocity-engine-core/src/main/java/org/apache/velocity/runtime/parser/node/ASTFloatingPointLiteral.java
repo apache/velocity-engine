@@ -97,6 +97,7 @@ public class ASTFloatingPointLiteral extends SimpleNode
             value = new BigDecimal( str );
 
         }
+        cleanupParserAndTokens();
 
         return data;
     }

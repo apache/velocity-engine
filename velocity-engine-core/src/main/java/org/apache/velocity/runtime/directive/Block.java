@@ -65,7 +65,7 @@ public abstract class Block extends Directive
     {
         super.init(rs, context, node);
 
-        log = rs.getLog();
+        log = rsvc.getLog();
 
         /**
          * No checking is done. We just grab the last child node and assume

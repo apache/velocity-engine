@@ -54,7 +54,7 @@ public abstract class AbstractContext extends InternalContextBase
     /**
      *  the chained Context if any
      */
-    private   Context  innerContext = null;
+    private Context innerContext = null;
 
     /**
      *  Implement to return a value from the context storage.
@@ -160,7 +160,13 @@ public abstract class AbstractContext extends InternalContextBase
         {
             return null;
         }
-        
+
+        /*
+         * We always use string interning here:
+         * 1) speed is générally less critical when populating the context than during parsing or rendering
+         * 2) a context key is very likely to be used several times, or even a lot of times, in the template (but does it save memory if runtime.string.interning is false?)
+         * 3) last but not least: we don't have access to RuntimeServices from here, the reenginering would be painful...
+         */
         return internalPut(key.intern(), value);
     }
 

@@ -138,9 +138,8 @@ public class Foreach extends Directive
         {
             /*
              * the default, error-prone way which we'll remove
-             *  TODO : remove if all goes well
              */
-            elementKey = sn.getFirstToken().image.substring(1);
+        	elementKey = sn.getFirstTokenImage().substring(1);
         }
         
         /*

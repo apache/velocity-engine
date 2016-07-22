@@ -122,7 +122,7 @@ public class ASTDirective extends SimpleNode
                 }
 
                 directive.setLocation(getLine(), getColumn(), getTemplate());
-                directive.init(rsvc, context,this);
+                directive.init(rsvc, context, this);
             }
             else if( directiveName.startsWith("@") )
             {
@@ -131,12 +131,12 @@ public class ASTDirective extends SimpleNode
                     // block macro call (normal macro call but has AST body)
                     directiveName = directiveName.substring(1);
 
-                    directive = new BlockMacro(directiveName);
+                    directive = new BlockMacro();
                     directive.setLocation(getLine(), getColumn(), getTemplate());
 
                     try
                     {
-                        directive.init( rsvc, context, this );
+                        ((BlockMacro)directive).init( rsvc, directiveName, context, this );
                     }
                     catch (TemplateInitException die)
                     {
@@ -160,7 +160,7 @@ public class ASTDirective extends SimpleNode
                 /**
                  * Create a new RuntimeMacro
                  */
-                directive = new RuntimeMacro(directiveName);
+                directive = new RuntimeMacro();
                 directive.setLocation(getLine(), getColumn(), getTemplate());
 
                 /**
@@ -168,7 +168,7 @@ public class ASTDirective extends SimpleNode
                  */
                 try
                 {
-                    directive.init( rsvc, context, this );
+                    ((RuntimeMacro)directive).init( rsvc, directiveName, context, this );
                 }
 
                 /**
@@ -183,11 +183,15 @@ public class ASTDirective extends SimpleNode
                             die.getLineNumber() + getLine());
                 }
                 isDirective = true;
+                
             }
 
             isInitialized = true;
+            
+            saveTokenImages();
+            cleanupParserAndTokens();
         }
-
+        
         return data;
     }
 

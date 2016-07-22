@@ -23,6 +23,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 
@@ -87,6 +88,8 @@ public class ASTComment extends SimpleNode
         {
             carr = t.image.substring(0, (loc1 == -1) ? loc2 : loc1).toCharArray();
         }
+        
+        cleanupParserAndTokens();
 
         return data;
     }
@@ -100,5 +103,5 @@ public class ASTComment extends SimpleNode
         writer.write(carr);
         return true;
     }
-
+    
 }

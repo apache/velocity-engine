@@ -474,4 +474,5 @@ public interface RuntimeServices
      */
     public Directive getDirective(String name);
 
+    public boolean useStringInterning();
 }

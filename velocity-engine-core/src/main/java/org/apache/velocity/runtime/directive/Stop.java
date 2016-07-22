@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * stopping.
  */
 public class Stop extends Directive
-{  
+{
     private static final StopCommand STOP_ALL = new StopCommand("StopCommand to exit merging");
 
     private boolean hasMessage = false;

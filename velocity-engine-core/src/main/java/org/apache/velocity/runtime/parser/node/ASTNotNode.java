@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
 
 /**
@@ -73,5 +74,16 @@ public class ASTNotNode extends SimpleNode
         throws MethodInvocationException
     {
         return (jjtGetChild(0).evaluate( context ) ? Boolean.FALSE : Boolean.TRUE) ;
+    }
+    
+    /**
+     * @throws TemplateInitException
+     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
+     */
+    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    {
+    	Object obj = super.init(context, data);
+    	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
+    	return obj;
     }
 }

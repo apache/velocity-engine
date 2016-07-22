@@ -61,6 +61,7 @@ public abstract class ASTMathNode extends SimpleNode
     {
         super.init(context, data);
         strictMode = rsvc.getBoolean(RuntimeConstants.STRICT_MATH, false);
+        cleanupParserAndTokens();
         return data;
     }
 

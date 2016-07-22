@@ -63,6 +63,7 @@ public class NodeViewMode extends BaseVisitor
 
         if (showTokens)
         {
+        	// TODO: Token reference
             t = node.getFirstToken();
 
             if (t.specialToken != null && ! t.specialToken.image.startsWith("##"))

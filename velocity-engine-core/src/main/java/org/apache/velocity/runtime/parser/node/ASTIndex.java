@@ -76,6 +76,7 @@ public class ASTIndex extends SimpleNode
     {
         super.init(context, data);    
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+        cleanupParserAndTokens();
         return data;
     }  
 
@@ -133,7 +134,7 @@ public class ASTIndex extends SimpleNode
                   + "' when Integer was expected at " + StringUtils.formatFileString(node));
           }
           
-          argument = new Integer(sizeint + ((Integer)argument).intValue());
+          argument = Integer.valueOf(sizeint + ((Integer)argument).intValue());
       }
       
       // Nothing to do, return the original argument

@@ -77,22 +77,6 @@ public class RuntimeMacro extends Directive
     private String badArgsErrorMsg = null;
 
     /**
-     * Create a RuntimeMacro instance. Macro name and source
-     * template stored for later use.
-     *
-     * @param macroName name of the macro
-     */
-    public RuntimeMacro(String macroName)
-    {
-        if (macroName == null)
-        {
-            throw new IllegalArgumentException("Null arguments");
-        }
-
-        this.macroName = macroName.intern();
-    }
-
-    /**
      * Return name of this Velocimacro.
      *
      * @return The name of this Velocimacro.
@@ -126,18 +110,25 @@ public class RuntimeMacro extends Directive
 
 
     /**
-     * Intialize the Runtime macro. At the init time no implementation so we
+     * Initialize the Runtime macro. At the init time no implementation so we
      * just save the values to use at the render time.
      *
      * @param rs runtime services
      * @param context InternalContextAdapter
      * @param node node containing the macro call
      */
-    public void init(RuntimeServices rs, InternalContextAdapter context,
+    public void init(RuntimeServices rs, String name, InternalContextAdapter context,
                      Node node)
     {
         super.init(rs, context, node);
-        rsvc = rs;
+
+        macroName = name;
+        if (macroName == null)
+        {
+            throw new IllegalArgumentException("Null arguments");
+        }
+
+        this.macroName = rsvc.useStringInterning() ? macroName.intern() : macroName;
         this.node = node;
 
         /**
@@ -147,6 +138,7 @@ public class RuntimeMacro extends Directive
          * "#end" is a block style macro. We use starts with because the token
          * may end with '\n'
          */
+        // Tokens can be used here since we are in init() and Tokens have not been dropped yet
         Token t = node.getLastToken();
         if (t.image.startsWith(")") || t.image.startsWith("#end"))
         {
@@ -160,7 +152,7 @@ public class RuntimeMacro extends Directive
             Node child = node.jjtGetChild(n);
             if (child.getType() == ParserTreeConstants.JJTWORD)
             {
-                badArgsErrorMsg = "Invalid arg '" + child.getFirstToken().image
+                badArgsErrorMsg = "Invalid arg '" + child.getFirstTokenImage()
                 + "' in macro #" + macroName + " at " + StringUtils.formatFileString(child);
 
                 if (strictRef)  // If strict, throw now
@@ -172,6 +164,12 @@ public class RuntimeMacro extends Directive
                 }
             }
         }
+        // TODO: Improve this
+        // this is only needed if the macro does not exist during runtime
+        // since tokens are eliminated after this init call, we have to create a cached version of the
+        // literal which is in 99.9% cases waste. However, for regular macro calls (non Block macros)
+        // this doesn't create very long Strings so it's probably acceptable
+        getLiteral();
     }
 
     /**
