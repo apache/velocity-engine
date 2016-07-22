@@ -181,6 +181,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private Introspector introspector = null;
 
     /*
+     * Whether to use string interning
+     */
+    private boolean stringInterning = false;
+
+    /*
      * Settings for provision of root scope for evaluate(...) calls.
      */
     private String evaluateScopeName = "evaluate";
@@ -232,6 +237,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 log.trace("RuntimeInstance initializing.");
                 
                 initializeProperties();
+                initializeSelfProperties();
                 initializeLog();
                 initializeResourceManager();
                 initializeDirectives();
@@ -288,6 +294,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         this.runtimeDirectives = new Hashtable();
         this.runtimeDirectivesShared = null;
         this.uberSpect = null;
+        this.stringInterning = false;
 
         /*
          *  create a VM factory, introspector, and application attributes
@@ -332,6 +339,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 throw new RuntimeException("Velocity could not be initialized!", e);
             }
         }
+    }
+
+    /**
+     *  Initialize runtime internal properties
+     */
+    private void initializeSelfProperties()
+    {
+        stringInterning = getBoolean(RUNTIME_STRING_INTERNING, true);
     }
 
     /**
@@ -1708,7 +1723,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                                    List<Macro.MacroArg> macroArgs,
                                    Template definingTemplate)
     {
-        return vmFactory.addVelocimacro(name.intern(), macro, macroArgs, definingTemplate);
+        return vmFactory.addVelocimacro(stringInterning ? name.intern() : name, macro, macroArgs, definingTemplate);
     }
 
     /**
@@ -1720,7 +1735,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public boolean isVelocimacro(String vmName, Template template)
     {
-        return vmFactory.isVelocimacro(vmName.intern(), template);
+        return vmFactory.isVelocimacro(stringInterning ? vmName.intern() : vmName, template);
     }
 
     /* --------------------------------------------------------------------
@@ -1844,4 +1859,13 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         return uberSpect;
     }
 
+    /**
+     * Whether to use string interning
+     *
+     * @return boolean
+     */
+    public boolean useStringInterning()
+    {
+        return stringInterning;
+    }
 }

@@ -101,11 +101,14 @@ public class ASTIdentifier extends SimpleNode
     {
         super.init(context, data);
 
-        identifier = getFirstToken().image.intern();
+        identifier = rsvc.useStringInterning() ? getFirstToken().image.intern() : getFirstToken().image;
 
         uberInfo = new Info(getTemplateName(), getLine(), getColumn());
 
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+        
+        saveTokenImages();
+        cleanupParserAndTokens();
         
         return data;
     }

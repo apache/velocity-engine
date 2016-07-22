@@ -25,6 +25,10 @@ import org.apache.velocity.runtime.parser.Parser;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.parser.Parser;
+
 /**
  * This class is responsible for handling EscapedDirectives
  *  in VTL.
@@ -69,8 +73,19 @@ public class ASTEscapedDirective extends SimpleNode
     public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException
     {
-        writer.write(getFirstToken().image);
+    	writer.write(firstImage);
         return true;
     }
-
+    
+    /**
+     * @throws TemplateInitException
+     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
+     */
+    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    {
+    	Object obj = super.init(context, data);
+    	saveTokenImages();
+    	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
+    	return obj;
+    }
 }

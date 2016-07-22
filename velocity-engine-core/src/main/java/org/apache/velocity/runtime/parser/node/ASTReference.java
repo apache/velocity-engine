@@ -137,7 +137,7 @@ public class ASTReference extends SimpleNode
          *  so it's thread- and context-safe
          */
 
-        rootString = getRoot().intern();
+        rootString = rsvc.useStringInterning() ? getRoot().intern() : getRoot();
 
         numChildren = jjtGetNumChildren();
         
@@ -154,8 +154,9 @@ public class ASTReference extends SimpleNode
             if (lastNode instanceof ASTIndex)
                 astIndex = (ASTIndex)lastNode;
             else
-                identifier = lastNode.getFirstToken().image;            
+            	identifier = lastNode.getFirstTokenImage();
         }
+        
 
         /*
          * make an uberinfo - saves new's later on
@@ -196,6 +197,8 @@ public class ASTReference extends SimpleNode
                 }
             }
         }
+        saveTokenImages();
+        cleanupParserAndTokens();
                 
         return data;
     }
@@ -276,7 +279,7 @@ public class ASTReference extends SimpleNode
                      * At this point we know that an attempt is about to be made
                      * to call a method or property on a null value.
                      */
-                    String name = jjtGetChild(i).getFirstToken().image;
+                    String name = jjtGetChild(i).getFirstTokenImage();
                     throw new VelocityException("Attempted to access '"  
                         + name + "' on a null value at "
                         + StringUtils.formatFileString(uberInfo.getTemplateName(),
@@ -328,7 +331,7 @@ public class ASTReference extends SimpleNode
                         }
                         else
                         {
-                            name.append(".").append(node.getFirstToken().image);
+                            name.append(".").append(node.getFirstTokenImage());
                         }
                     }
                     
@@ -340,7 +343,7 @@ public class ASTReference extends SimpleNode
                     }
                     else
                     {
-                        String property = jjtGetChild(failedChild).getFirstToken().image;
+                        String property = jjtGetChild(failedChild).getFirstTokenImage();
                         result = EventHandlerUtil.invalidGetMethod(rsvc, context, 
                                 name.toString(), previousResult, property, uberInfo);                        
                     }
@@ -639,7 +642,7 @@ public class ASTReference extends SimpleNode
             {
                 if (strictRef)
                 {
-                    String name = jjtGetChild(i+1).getFirstToken().image;
+                    String name = jjtGetChild(i+1).getFirstTokenImage();
                     throw new MethodInvocationException("Attempted to access '"  
                         + name + "' on a null value", null, name, uberInfo.getTemplateName(),
                         jjtGetChild(i+1).getLine(), jjtGetChild(i+1).getColumn());
@@ -805,7 +808,7 @@ public class ASTReference extends SimpleNode
                 // pattern a non-reference, and we print it out as schmoo...
                 nullString = literal();
                 escaped = true;
-                return literal();
+                return nullString;
             }
           
             /*

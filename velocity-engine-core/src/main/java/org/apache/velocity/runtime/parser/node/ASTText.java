@@ -70,6 +70,8 @@ public class ASTText extends SimpleNode
         String text = NodeUtils.tokenLiteral( t );
 
         ctext = text.toCharArray();
+        
+        cleanupParserAndTokens();
 
         return data;
     }

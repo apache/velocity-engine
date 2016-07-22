@@ -201,15 +201,24 @@ public interface Node extends Renderable
      * @return The current column position.
      */
     public int getColumn();
-    
+
     /**
      * @return the file name of the template
      */
     public String getTemplateName();
 
     /**
+     * @return cached image (String) of the first Token for this Node returned by the Parser
+     */
+    public String getFirstTokenImage();
+
+    /**
+     * @return cached image (String) of the last Token for this Node returned by the Parser
+     */
+    public String getLastTokenImage();
+
+    /**
      * @return the template this node belongs to
      */
     public Template getTemplate();
-
 }

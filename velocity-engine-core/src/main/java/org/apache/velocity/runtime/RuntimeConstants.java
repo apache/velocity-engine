@@ -63,6 +63,9 @@ public interface RuntimeConstants
     /** Logging of invalid references. */
     String RUNTIME_LOG_REFERENCE_LOG_INVALID = "runtime.log.invalid.references";
 
+    /** Whether to use string interning. */
+    String RUNTIME_STRING_INTERNING = "runtime.string.interning";
+
     /*
      * ----------------------------------------------------------------------
      * D I R E C T I V E  C O N F I G U R A T I O N

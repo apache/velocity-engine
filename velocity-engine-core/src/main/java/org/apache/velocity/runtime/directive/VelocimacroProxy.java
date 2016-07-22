@@ -137,10 +137,10 @@ public class VelocimacroProxy extends Directive
      */
     public void init(RuntimeServices rs)
     {
-        rsvc = rs;
+        rsvc = rs; // CB TODO - why not super.init(rs) ?
       
         // this is a very expensive call (ExtendedProperties is very slow)
-        strictArguments = rs.getConfiguration().getBoolean(
+        strictArguments = rsvc.getConfiguration().getBoolean(
             RuntimeConstants.VM_ARGUMENTS_STRICT, false);
 
         // get the macro call depth limit
@@ -155,7 +155,7 @@ public class VelocimacroProxy extends Directive
     {
         return render(context, writer, node, null);
     }
-    
+
     /**
      * Renders the macro using the context.
      * 
@@ -186,7 +186,7 @@ public class VelocimacroProxy extends Directive
         checkDepth(context);
 
         // put macro arg values and save the returned old/new value pairs
-        Object[][] values = handleArgValues(context, node, callArgNum);
+        Object[] values = handleArgValues(context, node, callArgNum);
         try
         {
             // render the velocity macro
@@ -226,9 +226,9 @@ public class VelocimacroProxy extends Directive
             {
                 MacroArg macroArg = macroArgs.get(i);
                 current = context.get(macroArg.name);
-                if (current == values[i-1][1])
+                if (current == values[(i-1) * 2 + 1])
                 {
-                    Object old = values[i-1][0];
+                    Object old = values[(i-1) * 2];
                     if (old != null)
                     {
                         context.put(macroArg.name, old);
@@ -241,7 +241,7 @@ public class VelocimacroProxy extends Directive
             }
         }
     }
-
+    
     /**
      * Check whether the number of arguments given matches the number defined.
      */
@@ -305,16 +305,17 @@ public class VelocimacroProxy extends Directive
      * the argument names.  Store and return an array of old and new values
      * paired for each argument name, for later cleanup.
      */
-    protected Object[][] handleArgValues(InternalContextAdapter context,
+    protected Object[] handleArgValues(InternalContextAdapter context,
                                          Node node, int callArgNum)
     {
-        Object[][] values = new Object[macroArgs.size()][2];
+    	// Changed two dimensional array to single dimensional to optimize memory lookups
+        Object[] values = new Object[macroArgs.size() * 2];
           
         // Move arguments into the macro's context. Start at one to skip macro name
         for (int i = 1; i < macroArgs.size(); i++)
         {
             MacroArg macroArg = macroArgs.get(i);
-            values[i-1][0] = context.get(macroArg.name);
+            values[(i-1) * 2] = context.get(macroArg.name);
 
             // put the new value in
             Object newVal = null;
@@ -355,12 +356,12 @@ public class VelocimacroProxy extends Directive
             }
 
             context.put(macroArg.name, newVal);
-            values[i-1][1] = newVal;
+            values[(i-1) * 2 + 1] = newVal;
         }
 
         // return the array of replaced and new values
         return values;
     }
-
+    
 }
 

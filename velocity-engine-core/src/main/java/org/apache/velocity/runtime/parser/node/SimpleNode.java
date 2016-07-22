@@ -56,11 +56,10 @@ public class SimpleNode implements Node
     protected int id;
 
     /** */
-    // TODO - It seems that this field is only valid when parsing, and should not be kept around.
     protected Parser parser;
 
     /** */
-    protected int info; // added
+    protected int info;
 
     /** */
     public boolean state;
@@ -75,6 +74,32 @@ public class SimpleNode implements Node
     protected Token last;
 
     protected Template template;
+
+    /**
+     * For caching the literal value.
+     */
+    protected String literal = null;
+
+    /**
+     * Line number for this Node in the vm source file.
+     */
+
+    protected int line;
+
+    /**
+     * Column number for this Node in the vm source file.
+     */
+    protected int column;
+
+    /**
+     * String image variable of the first Token element that was parsed and connected to this Node.
+     */
+    protected String firstImage;
+
+    /**
+     * String image variable of the last Token element that was parsed and connected to this Node.
+     */
+    protected String lastImage;
 
     public RuntimeServices getRuntimeServices()
     {
@@ -272,11 +297,17 @@ public class SimpleNode implements Node
      */
     public String literal()
     {
+        if( literal != null )
+        {
+            return literal;
+        }
+
         // if we have only one string, just return it and avoid
         // buffer allocation. VELOCITY-606
         if (first == last)
         {
-            return NodeUtils.tokenLiteral(first);
+            literal = NodeUtils.tokenLiteral(first);
+            return literal;
         }
 
         Token t = first;
@@ -286,7 +317,8 @@ public class SimpleNode implements Node
             t = t.next;
             sb.append(NodeUtils.tokenLiteral(t));
         }
-        return sb.toString();
+        literal = sb.toString();
+        return literal;
     }
 
     /**
@@ -308,6 +340,9 @@ public class SimpleNode implements Node
         {
             jjtGetChild(i).init( context, data);
         }
+
+        line = first.beginLine;
+        column = first.beginColumn;
 
         return data;
     }
@@ -398,7 +433,7 @@ public class SimpleNode implements Node
      */
     public int getLine()
     {
-        return first.beginLine;
+        return line;
     }
 
     /**
@@ -406,7 +441,7 @@ public class SimpleNode implements Node
      */
     public int getColumn()
     {
-        return first.beginColumn;
+        return column;
     }
 
     /**
@@ -435,15 +470,58 @@ public class SimpleNode implements Node
         String tok = tokens.toString();
         if (tok.length() > 50) tok = tok.substring(0, 50) + "...";
         return getClass().getSimpleName() + " [id=" + id + ", info=" + info + ", invalid="
-		        + invalid
-		        + ", tokens=" + tok + "]";
+                + invalid
+                + ", tokens=" + tok + "]";
     }
 
-	public String getTemplateName()
+    public String getTemplateName()
     {
       return template.getName();
     }
 
+    /**
+     * Call before calling cleanupParserAndTokens() if you want to store image of
+     * the first and last token of this node.
+     */
+    public void saveTokenImages()
+    {
+        if( first != null )
+        {
+            this.firstImage = first.image;
+        }
+        if( last != null )
+        {
+            this.lastImage = last.image;
+        }
+    }
+
+    /**
+     * Removes references to Parser and Tokens since they are not needed anymore at this point.
+     *
+     * This allows us to save memory quite a bit.
+     */
+    public void cleanupParserAndTokens()
+    {
+        this.parser = null;
+        this.first = null;
+        this.last = null;
+    }
+
+    /**
+     * @return String image variable of the first Token element that was parsed and connected to this Node.
+     */
+    public String getFirstTokenImage()
+    {
+        return firstImage;
+    }
+
+    /**
+     * @return String image variable of the last Token element that was parsed and connected to this Node.
+     */
+    public String getLastTokenImage()
+    {
+        return lastImage;
+    }
+
     public Template getTemplate() { return template; }
 }
-

@@ -72,13 +72,13 @@ public class Define extends Block
          * just assume it looks like this: $block_name. Should we check if it has
          * a '$' or not?
          */
-        key = node.jjtGetChild(0).getFirstToken().image.substring(1);
+        key = node.jjtGetChild(0).getFirstTokenImage().substring(1);
 
         /*
          * default max depth of two is used because intentional recursion is
          * unlikely and discouraged, so make unintentional ones end fast
          */
-        maxDepth = rs.getInt(RuntimeConstants.DEFINE_DIRECTIVE_MAXDEPTH, 2);
+        maxDepth = rsvc.getInt(RuntimeConstants.DEFINE_DIRECTIVE_MAXDEPTH, 2);
     }
 
     /**

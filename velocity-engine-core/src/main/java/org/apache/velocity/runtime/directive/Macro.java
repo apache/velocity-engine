@@ -112,9 +112,9 @@ public class Macro extends Directive
 
         
         // Add this macro to the VelocimacroManager now that it has been initialized.        
-        List<MacroArg> macroArgs = getArgArray(node, rs);
+        List<MacroArg> macroArgs = getArgArray(node, rsvc);
         int numArgs = node.jjtGetNumChildren();
-        rs.addVelocimacro(macroArgs.get(0).name, node.jjtGetChild(numArgs - 1), 
+        rsvc.addVelocimacro(macroArgs.get(0).name, node.jjtGetChild(numArgs - 1),
             macroArgs, node.getTemplate());
     }
     
@@ -203,8 +203,8 @@ public class Macro extends Directive
             if (curnode.getType() == ParserTreeConstants.JJTDIRECTIVEASSIGN)
             {
                 // This is an argument with a default value
-              
-                macroArg.name = curnode.getFirstToken().image;
+            	macroArg.name = curnode.getFirstTokenImage();
+            	
                 // Inforced by the parser there will be an argument here.
                 i++;
                 curnode = node.jjtGetChild(i);
@@ -213,7 +213,7 @@ public class Macro extends Directive
             else
             {
                 // An argument without a default value
-                macroArg.name = curnode.getFirstToken().image;
+               	macroArg.name = curnode.getFirstTokenImage();
             }
             
             // trim off the leading $ for the args after the macro name.

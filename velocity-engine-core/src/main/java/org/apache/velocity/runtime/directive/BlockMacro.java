@@ -62,11 +62,6 @@ public class BlockMacro extends Block
     private String name;
     private RuntimeMacro macro;
 
-    public BlockMacro(String name)
-    {
-        this.name = name;
-    }
-    
     public String getName()
     {
         return key;
@@ -90,20 +85,22 @@ public class BlockMacro extends Block
      * @param node
      * @throws TemplateInitException
      */
-    public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
+    public void init(RuntimeServices rs, String macroName, InternalContextAdapter context, Node node)
         throws TemplateInitException
     {
+        this.name = macroName;
+
         super.init(rs, context, node);
-        
+
         // get name of the reference that refers to AST block passed to block macro call
         key = rsvc.getString(RuntimeConstants.VM_BODY_REFERENCE, "bodyContent");
 
         // use the macro max depth for bodyContent max depth as well
-        maxDepth = rs.getInt(RuntimeConstants.VM_MAX_DEPTH);
+        maxDepth = rsvc.getInt(RuntimeConstants.VM_MAX_DEPTH);
 
-        macro = new RuntimeMacro(name);
+        macro = new RuntimeMacro();
         macro.setLocation(getLine(), getColumn(), getTemplate());
-        macro.init(rs, context, node);
+        macro.init(rsvc, name, context, node);
     }
 
     /**
