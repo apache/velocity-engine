@@ -9,6 +9,3 @@ The files
  - velocity-engine-scripting/src/main/java/org/apache/velocity/script/VelocityScriptEngine.java
  - velocity-engine-scripting/src/main/java/org/apache/velocity/script/VelocityScriptEngineFactory.java
 are Copyright 2006 Sun Microsystems, Inc., and licenced under a BSD-like licence.
-
-The file velocity-engine-core/src/main/java/org/apache/velocity/util/introspection/DeprecatedCheckUberspector.java
-is originating from the xwiki project, and licenced under the LGPL licence.
