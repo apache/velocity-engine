@@ -161,7 +161,7 @@ public class VelocityEngine implements RuntimeConstants
      * is a subset of the parent application's configuration.
      *
      * @param  configuration
-     * @deprecated use {@link setExtendedProperties(ExtProperties)}
+     * @deprecated use {@link #setExtendedProperties(ExtProperties)}
      */
     public @Deprecated void setExtendedProperties( ExtendedProperties configuration)
     {

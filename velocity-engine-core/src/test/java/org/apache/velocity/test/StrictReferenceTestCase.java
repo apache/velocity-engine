@@ -19,10 +19,13 @@ package org.apache.velocity.test;
  * under the License.    
  */
 
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
+import org.apache.velocity.test.misc.TestLogger;
 
 /**
  * Test strict reference mode turned on by the velocity property
@@ -35,10 +38,21 @@ public class StrictReferenceTestCase extends BaseTestCase
         super(name);
     }
 
+    // second engine to test WITH conversions
+    VelocityEngine engine2;
+
     public void setUp() throws Exception
     {
         super.setUp();
+
+        /* first engine without conversions */
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
+        engine.setProperty(RuntimeConstants.CONVERSION_HANDLER_CLASS, "none");
+
+        /* second engine with conversions */
+        engine2 = createEngine();
+        engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
+
         context.put("NULL", null);
         context.put("bar", null);
         context.put("TRUE", Boolean.TRUE);

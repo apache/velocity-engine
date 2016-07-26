@@ -28,6 +28,10 @@
     <release version="2.0" date="In Subversion">
 
       <action type="add" dev="cbrisson">
+        added a new pluggable ConversionHandler class which, by default, converts method arguments as needed between main basic Java data types (boolean, numbers and strings)
+      </action>
+      
+      <action type="add" dev="cbrisson">
         added a runtime.string.interning option to trigger Java String interning on or off
       </action>
       

@@ -19,30 +19,113 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
+import org.apache.commons.lang3.Conversion;
+import org.slf4j.Logger;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
- * The introspector cache API definition.
+ * This is the internal introspector cache implementation.
  *
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @author <a href="mailto:cdauth@cdauth.eu">Candid Dauth</a>
  * @version $Id$
  * @since 1.5
  */
-public interface IntrospectorCache {
+public final class IntrospectorCache
+{
+    /**
+     * define a public string so that it can be looked for if interested
+     */
+    public final static String CACHEDUMP_MSG =
+            "IntrospectorCache detected classloader change. Dumping cache.";
+
+    /** Class logger */
+    private final Logger log;
+
+    /**
+     * Holds the method maps for the classes we know about. Map: Class --&gt; ClassMap object.
+     */
+    private final Map classMapCache = new HashMap();
+
+    /**
+     * Holds the field maps for the classes we know about. Map: Class --&gt; ClassFieldMap object.
+     */
+    private final Map classFieldMapCache = new HashMap();
+
+    /**
+     * Keep the names of the classes in another map. This is needed for a multi-classloader environment where it is possible
+     * to have Class 'Foo' loaded by a classloader and then get asked to introspect on 'Foo' from another class loader. While these
+     * two Class objects have the same name, a <code>classMethodMaps.get(Foo.class)</code> will return null. For that case, we
+     * keep a set of class names to recognize this case.  
+     */
+    private final Set classNameCache = new HashSet();
+
+    /**
+     * Conversion handler
+     */
+    private final ConversionHandler conversionHandler;
+
+    /**
+     * C'tor
+     */
+    public IntrospectorCache(final Logger log, final ConversionHandler conversionHandler)
+    {
+        this.log = log;
+        this.conversionHandler = conversionHandler;
+    }
 
     /**
      * Clears the internal cache.
      */
-    void clear();
+    public void clear()
+    {
+        synchronized (classMapCache)
+        {
+            classMapCache.clear();
+            classFieldMapCache.clear();
+            classNameCache.clear();
+            log.debug(CACHEDUMP_MSG);
+        }
+    }
 
     /**
-     * Lookup a given Class object in the cache. If it does not exist, 
+     * Lookup a given Class object in the cache. If it does not exist,
      * check whether this is due to a class change and purge the caches
      * eventually.
      *
      * @param c The class to look up.
      * @return A ClassMap object or null if it does not exist in the cache.
      */
-    ClassMap get(Class c);
+    public ClassMap get(final Class c)
+    {
+        if (c == null)
+        {
+            throw new IllegalArgumentException("class is null!");
+        }
+
+        ClassMap classMap = (ClassMap)classMapCache.get(c);
+        if (classMap == null)
+        {
+            /*
+             * check to see if we have it by name.
+             * if so, then we have an object with the same
+             * name but loaded through a different class loader.
+             * In that case, we will just dump the cache to be sure.
+             */
+            synchronized (classMapCache)
+            {
+                if (classNameCache.contains(c.getName()))
+                {
+                    clear();
+                }
+            }
+        }
+        return classMap;
+    }
 
     /**
      * Lookup a given Class object in the cache. If it does not exist,
@@ -52,7 +135,32 @@ public interface IntrospectorCache {
      * @param c The class to look up.
      * @return A ClassFieldMap object or null if it does not exist in the cache.
      */
-    ClassFieldMap getFieldMap(final Class c);
+    public ClassFieldMap getFieldMap(final Class c)
+    {
+        if (c == null)
+        {
+            throw new IllegalArgumentException("class is null!");
+        }
+
+        ClassFieldMap classFieldMap = (ClassFieldMap)classFieldMapCache.get(c);
+        if (classFieldMap == null)
+        {
+            /*
+             * check to see if we have it by name.
+             * if so, then we have an object with the same
+             * name but loaded through a different class loader.
+             * In that case, we will just dump the cache to be sure.
+             */
+            synchronized (classMapCache)
+            {
+                if (classNameCache.contains(c.getName()))
+                {
+                    clear();
+                }
+            }
+        }
+        return classFieldMap;
+    }
 
     /**
      * Creates a class map for specific class and registers it in the
@@ -62,6 +170,17 @@ public interface IntrospectorCache {
      * @param c The class for which the class map gets generated.
      * @return A ClassMap object.
      */
-    ClassMap put(Class c);
+    public ClassMap put(final Class c)
+    {
+        final ClassMap classMap = new ClassMap(c, log, conversionHandler);
+        final ClassFieldMap classFieldMap = new ClassFieldMap(c, log);
+        synchronized (classMapCache)
+        {
+            classMapCache.put(c, classMap);
+            classFieldMapCache.put(c, classFieldMap);
+            classNameCache.add(c.getName());
+        }
+        return classMap;
+    }
 
 }

@@ -60,7 +60,17 @@ public class Introspector extends IntrospectorBase
      */
     public Introspector(final Logger log)
     {
-        super(log);
+        this(log, null);
+    }
+
+    /**
+     * @param log A Logger object to use for the introspector.
+     * @param conversionHandler conversion handler
+     * @since 2.0
+     */
+    public Introspector(final Logger log, ConversionHandler conversionHandler)
+    {
+        super(log, conversionHandler);
     }
 
     /**

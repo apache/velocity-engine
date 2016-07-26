@@ -24,6 +24,7 @@ import junit.framework.TestSuite;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.misc.TestLogger;
+import org.apache.velocity.util.introspection.Introspector;
 
 import java.lang.reflect.Method;
 
@@ -70,7 +71,9 @@ public class Introspector2TestCase extends BaseTestCase
 
         Object[] params = { new Foo(), new Foo() };
 
-        method = RuntimeSingleton.getIntrospector()
+        Introspector introspector = new Introspector(log);
+
+        method = introspector
             .getMethod( Tester.class, "find", params );
 
         if ( method == null)
@@ -87,7 +90,7 @@ public class Introspector2TestCase extends BaseTestCase
          *  now test for failure due to ambiguity
          */
 
-        method = RuntimeSingleton.getIntrospector()
+        method = introspector
             .getMethod( Tester2.class, "find", params );
 
         if ( method != null)

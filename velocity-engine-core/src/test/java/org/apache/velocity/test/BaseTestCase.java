@@ -62,22 +62,26 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         }
     }
 
-    protected void setUp() throws Exception
+    protected VelocityEngine createEngine()
     {
-        engine = new VelocityEngine();
-
-        //by default, make the engine's log output go to the test-report
-        log = new TestLogger(false, false);
-        engine.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
+        VelocityEngine ret = new VelocityEngine();
+        ret.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
 
         // use string resource loader by default, instead of file
-        engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,string");
-        engine.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
-        engine.addProperty("string.resource.loader.repository.name", stringRepoName);
-        engine.addProperty("string.resource.loader.repository.static", "false");
+        ret.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,string");
+        ret.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
+        ret.addProperty("string.resource.loader.repository.name", stringRepoName);
+        ret.addProperty("string.resource.loader.repository.static", "false");
 
-        setUpEngine(engine);
+        setUpEngine(ret);
+        return ret;
+    }
 
+    protected void setUp() throws Exception
+    {
+        //by default, make the engine's log output go to the test-report
+        log = new TestLogger(false, false);
+        engine = createEngine();
         context = new VelocityContext();
         setUpContext(context);
     }

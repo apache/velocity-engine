@@ -1,7 +1,5 @@
 package org.apache.velocity.util.introspection;
 
-import java.lang.reflect.InvocationTargetException;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +18,9 @@ import java.lang.reflect.InvocationTargetException;
  * specific language governing permissions and limitations
  * under the License.    
  */
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  *  Method used for regular method invocation
@@ -56,6 +57,13 @@ public interface VelMethod
      * @return The method name used
      */
     public String getMethodName();
+
+    /**
+     * returns the underlying Method
+     * @return the method
+     * @since 2.0
+     */
+    public Method getMethod();
 
     /**
      *  returns the return type of the method invoked

@@ -80,9 +80,9 @@ public class VelTools66TestCase
     {
         Method verifyMethod = TestInterface.class.getMethod("getTestValue", new Class[0]);
 
-
         RuntimeInstance ri = new RuntimeInstance();
-        Introspector introspector = ri.getIntrospector();
+        log = new TestLogger();
+        Introspector introspector = new Introspector(log);
 
         Method testMethod = introspector.getMethod(TestObject.class, "getTestValue", new Object[0]);
         assertNotNull(testMethod);

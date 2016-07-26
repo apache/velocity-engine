@@ -524,17 +524,6 @@ public class RuntimeSingleton implements RuntimeConstants
     }
 
     /**
-     *  Return the Introspector for this RuntimeInstance
-     *
-     *  @return Introspector object for this runtime instance
-     * @see RuntimeInstance#getIntrospector()
-     */
-    public static Introspector getIntrospector()
-    {
-        return ri.getIntrospector();
-    }
-
-    /**
      * Returns the event handlers for the application.
      * @return The event handlers for the application.
      * @see RuntimeInstance#getApplicationEventCartridge()

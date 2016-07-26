@@ -20,6 +20,8 @@ package org.apache.velocity.util.introspection;
  */
 
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.AbstractExecutor;
 import org.apache.velocity.runtime.parser.node.BooleanPropertyExecutor;
 import org.apache.velocity.runtime.parser.node.GetExecutor;
@@ -29,9 +31,12 @@ import org.apache.velocity.runtime.parser.node.PropertyExecutor;
 import org.apache.velocity.runtime.parser.node.PutExecutor;
 import org.apache.velocity.runtime.parser.node.SetExecutor;
 import org.apache.velocity.runtime.parser.node.SetPropertyExecutor;
+import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ArrayIterator;
 import org.apache.velocity.util.ArrayListWrapper;
+import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.EnumerationIterator;
+import org.apache.velocity.util.RuntimeServicesAware;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Array;
@@ -49,7 +54,7 @@ import java.util.Map;
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
-public class UberspectImpl implements Uberspect, UberspectLoggable
+public class UberspectImpl implements Uberspect, UberspectLoggable, RuntimeServicesAware
 {
     /**
      *  Our runtime logger.
@@ -62,13 +67,72 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     protected Introspector introspector;
 
     /**
+     * the conversion handler
+     */
+    protected ConversionHandler conversionHandler;
+
+    /**
      *  init - generates the Introspector. As the setup code
      *  makes sure that the log gets set before this is called,
      *  we can initialize the Introspector using the log object.
      */
     public void init()
     {
-        introspector = new Introspector(log);
+        introspector = new Introspector(log, conversionHandler);
+    }
+
+    public ConversionHandler getConversionHandler()
+    {
+        return conversionHandler;
+    }
+
+    /**
+     * sets the runtime services
+     * @param rs runtime services
+     */
+    public void setRuntimeServices(RuntimeServices rs)
+    {
+        String conversionHandlerClass = rs.getString(RuntimeConstants.CONVERSION_HANDLER_CLASS);
+        if (conversionHandlerClass == null || conversionHandlerClass.equals("none"))
+        {
+            conversionHandler = null;
+        }
+        else
+        {
+            Object o = null;
+
+            try
+            {
+                o = ClassUtils.getNewInstance(conversionHandlerClass);
+            }
+            catch (ClassNotFoundException cnfe )
+            {
+                String err = "The specified class for ConversionHandler (" + conversionHandlerClass
+                        + ") does not exist or is not accessible to the current classloader.";
+                log.error(err);
+                throw new VelocityException(err, cnfe);
+            }
+            catch (InstantiationException ie)
+            {
+                throw new VelocityException("Could not instantiate class '" + conversionHandlerClass + "'", ie);
+            }
+            catch (IllegalAccessException ae)
+            {
+                throw new VelocityException("Cannot access class '" + conversionHandlerClass + "'", ae);
+            }
+
+            if (!(o instanceof ConversionHandler))
+            {
+                String err = "The specified class for ResourceManager (" + conversionHandlerClass
+                        + ") does not implement " + ConversionHandler.class.getName()
+                        + "; Velocity is not initialized correctly.";
+
+                log.error(err);
+                throw new VelocityException(err);
+            }
+
+            conversionHandler = (ConversionHandler) o;
+        }
     }
 
     /**
@@ -223,14 +287,15 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
      */
     private Converter[] getNeededConverters(Class[] expected, Object[] provided)
     {
-        // var args are not handled here
+        if (conversionHandler == null) return null;
+        // var args are not handled here - CB TODO
         int n = Math.min(expected.length, provided.length);
         Converter[] converters = null;
         for (int i = 0; i < n; ++i)
         {
             Object arg = provided[i];
             if (arg == null) continue;
-            Converter converter = IntrospectionUtils.getNeededConverter(expected[i], arg.getClass());
+            Converter converter = conversionHandler.getNeededConverter(expected[i], arg.getClass());
             if (converter != null)
             {
                 if (converters == null)
@@ -289,7 +354,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         if (!executor.isAlive())
         {
             executor = new BooleanPropertyExecutor(log, introspector, claz,
-                                                   identifier);
+                    identifier);
         }
 
         /*
@@ -350,7 +415,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
     /**
      *  Implementation of VelMethod
      */
-    public static class VelMethodImpl implements VelMethod
+    public class VelMethodImpl implements VelMethod
     {
         final Method method;
         Boolean isVarArg;
@@ -415,7 +480,10 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             {
                 for (int i = 0; i < actual.length; ++i)
                 {
-                    actual[i] = converters[i].convert(actual[i]);
+                    if (converters[i] != null)
+                    {
+                        actual[i] = converters[i].convert(actual[i]);
+                    }
                 }
             }
 
@@ -488,10 +556,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
             {
                 // make sure the last arg is an array of the expected type
                 Class argClass = actual[index].getClass();
-                if (!argClass.isArray() &&
-                    IntrospectionUtils.isMethodInvocationConvertible(type,
-                                                                     argClass,
-                                                                     false))
+                if (!argClass.isArray() && IntrospectionUtils.isMethodInvocationConvertible(type, argClass, false))
                 {
                     // create a 1-length array to hold and replace the last param
                     Object lastActual = Array.newInstance(type, 1);
@@ -538,6 +603,14 @@ public class UberspectImpl implements Uberspect, UberspectLoggable
         public String getMethodName()
         {
             return method.getName();
+        }
+
+        /**
+         * @see org.apache.velocity.util.introspection.VelMethod#getMethod()
+         */
+        public Method getMethod()
+        {
+            return method;
         }
 
         /**

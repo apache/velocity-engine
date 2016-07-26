@@ -19,17 +19,20 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
-import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.util.StringUtils;
-
 /**
  * Converts a value to type T
  *
+ * @since 2.0
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  * @version $Id$
  */
 
 public interface Converter<T>
 {
+    /**
+     * convert object to type T
+     * @param o input object
+     * @result converted object
+     */
     T convert(Object o);
 }

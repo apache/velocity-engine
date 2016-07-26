@@ -49,7 +49,6 @@ import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.ChainableUberspector;
-import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.LinkingUberspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.UberspectLoggable;
@@ -175,12 +174,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private EventCartridge eventCartridge = null;
 
     /*
-     *  Each runtime instance has it's own introspector
-     *  to ensure that each instance is completely separate.
-     */
-    private Introspector introspector = null;
-
-    /*
      * Whether to use string interning
      */
     private boolean stringInterning = false;
@@ -300,11 +293,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          *  create a VM factory, introspector, and application attributes
          */
         vmFactory = new VelocimacroFactory( this );
-
-        /*
-         *  make a new introspector and initialize it
-         */
-        introspector = new Introspector(getLog());
 
         /*
          * and a store for the application attributes
@@ -1804,15 +1792,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public ExtProperties getConfiguration()
     {
         return configuration;
-    }
-
-    /**
-     *  Return the Introspector for this instance
-     * @return The Introspector for this instance
-     */
-    public Introspector getIntrospector()
-    {
-        return introspector;
     }
 
     /**

@@ -26,7 +26,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.test.misc.TestLogger;
-import org.apache.velocity.util.introspection.IntrospectorCacheImpl;
+import org.apache.velocity.util.introspection.IntrospectorCache;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -126,7 +126,7 @@ public class ClassloaderChangeTestCase extends TestCase
             fail("Output from doIt() incorrect");
         }
 
-        if (!logger.getLog().contains(IntrospectorCacheImpl.CACHEDUMP_MSG))
+        if (!logger.getLog().contains(IntrospectorCache.CACHEDUMP_MSG))
         {
             fail("Didn't see introspector cache dump.");
         }

@@ -22,6 +22,7 @@ package org.apache.velocity.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.util.introspection.Introspector;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -66,19 +67,20 @@ public class Introspector3TestCase extends BaseTestCase
         Object[] longInt = {  new Long(1), new Integer(2) };
         Object[] longLong = {  new Long(1), new Long(2) };
 
-        method = RuntimeSingleton.getIntrospector().getMethod(
+        Introspector introspector = new Introspector(log);
+        method = introspector.getMethod(
             MethodProvider.class, "lii", listIntInt);
         result = (String) method.invoke(mp, listIntInt);
 
         assertTrue(result.equals("lii"));
 
-        method = RuntimeSingleton.getIntrospector().getMethod(
+        method = introspector.getMethod(
             MethodProvider.class, "ii", intInt);
         result = (String) method.invoke(mp, intInt);
 
         assertTrue(result.equals("ii"));
 
-        method = RuntimeSingleton.getIntrospector().getMethod(
+        method = introspector.getMethod(
             MethodProvider.class, "ll", longInt);
         result = (String) method.invoke(mp, longInt);
 
@@ -88,13 +90,13 @@ public class Introspector3TestCase extends BaseTestCase
          * test overloading with primitives
          */
 
-        method = RuntimeSingleton.getIntrospector().getMethod(
+        method = introspector.getMethod(
             MethodProvider.class, "ll", longLong);
         result = (String) method.invoke(mp, longLong);
 
         assertTrue(result.equals("ll"));
 
-        method = RuntimeSingleton.getIntrospector().getMethod(
+        method = introspector.getMethod(
             MethodProvider.class, "lll", listLongList);
         result = (String) method.invoke(mp, listLongList);
 
@@ -105,7 +107,7 @@ public class Introspector3TestCase extends BaseTestCase
          */
 
         Object [] oa = {null, new Integer(0)};
-        method = RuntimeSingleton.getIntrospector().getMethod(
+        method = introspector.getMethod(
             MethodProvider.class, "lll", oa );
         result = (String) method.invoke(mp, oa);
 
