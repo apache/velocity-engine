@@ -19,6 +19,10 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  *
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
@@ -27,11 +31,62 @@ package org.apache.velocity.util.introspection;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
  * @author Nathan Bubna
+ * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  * @version $Id: IntrospectionUtils.java 476785 2006-11-19 10:06:21Z henning $
  * @since 1.6
  */
 public class IntrospectionUtils
 {
+    /**
+     * boxing helper maps for standard types
+     */
+    static Map<Class, Class> boxingMap, unboxingMap;
+
+    static
+    {
+        boxingMap = new HashMap<Class, Class>();
+        boxingMap.put(Boolean.TYPE, Boolean.class);
+        boxingMap.put(Character.TYPE, Character.class);
+        boxingMap.put(Byte.TYPE, Byte.class);
+        boxingMap.put(Short.TYPE, Short.class);
+        boxingMap.put(Integer.TYPE, Integer.class);
+        boxingMap.put(Long.TYPE, Long.class);
+        boxingMap.put(Float.TYPE, Float.class);
+        boxingMap.put(Double.TYPE, Double.class);
+
+        unboxingMap = new HashMap<Class, Class>();
+        for (Map.Entry<Class,Class> entry : (Set<Map.Entry<Class,Class>>)boxingMap.entrySet())
+        {
+            unboxingMap.put(entry.getValue(), entry.getKey());
+        }
+    }
+
+    /**
+     * returns boxed type (or input type if not a primitive type)
+     * @param clazz input class
+     * @return boxed class
+     */
+    static Class getBoxedClass(Class clazz)
+    {
+        Class boxed = boxingMap.get(clazz);
+        return boxed == null ? clazz : boxed;
+    }
+
+    /**
+     * returns unboxed type (or input type if not successful)
+     * @param clazz input class
+     * @return unboxed class
+     */
+    static Class getUnboxedClass(Class clazz)
+    {
+        Class unboxed = unboxingMap.get(clazz);
+        return unboxed == null ? clazz : unboxed;
+    }
+
+    /**
+     *
+     */
+
 
     /**
      * Determines whether a type represented by a class object is
@@ -58,48 +113,74 @@ public class IntrospectionUtils
                                                         boolean possibleVarArg)
     {
         /* if it's a null, it means the arg was null */
-        if (actual == null && !formal.isPrimitive())
+        if (actual == null)
         {
-            return true;
+            return !formal.isPrimitive();
         }
 
         /* Check for identity or widening reference conversion */
-        if (actual != null && formal.isAssignableFrom(actual))
+        if (formal.isAssignableFrom(actual))
         {
             return true;
         }
 
-        /* Check for boxing with widening primitive conversion. Note that
-         * actual parameters are never primitives. */
+        /* 2.0: Since MethodMap's comparison functions now use this method with potentially reversed arguments order,
+         * actual can be a primitive type. */
+
+        /* Check for boxing */
+        if (!formal.isPrimitive() && actual.isPrimitive())
+        {
+            Class boxed = boxingMap.get(actual);
+            if (boxed != null && boxed == formal) return true;
+        }
+
         if (formal.isPrimitive())
         {
-            if(formal == Boolean.TYPE && actual == Boolean.class)
-                return true;
-            if(formal == Character.TYPE && actual == Character.class)
-                return true;
-            if(formal == Byte.TYPE && actual == Byte.class)
-                return true;
-            if(formal == Short.TYPE &&
-               (actual == Short.class || actual == Byte.class))
-                return true;
-            if(formal == Integer.TYPE &&
-               (actual == Integer.class || actual == Short.class ||
-                actual == Byte.class))
-                return true;
-            if(formal == Long.TYPE &&
-               (actual == Long.class || actual == Integer.class ||
-                actual == Short.class || actual == Byte.class))
-                return true;
-            if(formal == Float.TYPE &&
-               (actual == Float.class || actual == Long.class ||
-                actual == Integer.class || actual == Short.class ||
-                actual == Byte.class))
-                return true;
-            if(formal == Double.TYPE &&
-               (actual == Double.class || actual == Float.class ||
-                actual == Long.class || actual == Integer.class ||
-                actual == Short.class || actual == Byte.class))
-                return true;
+            if (actual.isPrimitive())
+            {
+                /* check for widening primitive conversion */
+                if (formal == Short.TYPE && actual == Byte.TYPE)
+                    return true;
+                if (formal == Integer.TYPE && (
+                        actual == Byte.TYPE || actual == Short.TYPE))
+                    return true;
+                if (formal == Long.TYPE && (
+                        actual == Byte.TYPE || actual == Short.TYPE || actual == Integer.TYPE))
+                    return true;
+                if (formal == Float.TYPE && (
+                        actual == Byte.TYPE || actual == Short.TYPE || actual == Integer.TYPE ||
+                                actual == Long.TYPE))
+                    return true;
+                if (formal == Double.TYPE && (
+                        actual == Byte.TYPE || actual == Short.TYPE || actual == Integer.TYPE ||
+                                actual == Long.TYPE || actual == Float.TYPE))
+                    return true;
+            }
+            else
+            {
+                /* Check for unboxing with widening primitive conversion. */
+                if (formal == Boolean.TYPE && actual == Boolean.class)
+                    return true;
+                if (formal == Character.TYPE && actual == Character.class)
+                    return true;
+                if (formal == Byte.TYPE && actual == Byte.class)
+                    return true;
+                if (formal == Short.TYPE && (actual == Short.class || actual == Byte.class))
+                    return true;
+                if (formal == Integer.TYPE && (actual == Integer.class || actual == Short.class ||
+                        actual == Byte.class))
+                    return true;
+                if (formal == Long.TYPE && (actual == Long.class || actual == Integer.class ||
+                        actual == Short.class || actual == Byte.class))
+                    return true;
+                if (formal == Float.TYPE && (actual == Float.class || actual == Long.class ||
+                        actual == Integer.class || actual == Short.class || actual == Byte.class))
+                    return true;
+                if (formal == Double.TYPE && (actual == Double.class || actual == Float.class ||
+                        actual == Long.class || actual == Integer.class || actual == Short.class ||
+                        actual == Byte.class))
+                    return true;
+            }
         }
 
         /* Check for vararg conversion. */
@@ -112,13 +193,6 @@ public class IntrospectionUtils
             return isMethodInvocationConvertible(formal.getComponentType(),
                                                  actual, false);
         }
-
-        /* Check for manual conversions */
-        if (isExplicitlyConvertible(formal, actual))
-        {
-            return true;
-        }
-
         return false;
     }
 
@@ -188,46 +262,5 @@ public class IntrospectionUtils
                                                        actual, false);
         }
         return false;
-    }
-
-    /**
-     * Check to see if the conversion can be done using an explicit conversion
-     */
-    public static boolean isExplicitlyConvertible(Class formal, Class actual)
-    {
-        /* Check for String to Enum constant conversion */
-        if (formal.isEnum() && actual == String.class)
-        {
-            return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * Returns the appropriate Converter object needed for an explicit conversion
-     * Returns null if no conversion is needed.
-     *
-     * @param actual found argument type
-     * @param formal expected formal type
-     * @return null if no conversion is needed, or the appropriate Converter object
-     * @since 2.0
-     */
-    public static Converter getNeededConverter(final Class formal, final Class actual)
-    {
-        /* the only current use case is the String -> Enum constant conversion. */
-        if (formal.isEnum() && actual == String.class)
-        {
-            Converter converter = new Converter()
-            {
-                @Override
-                public Object convert(Object o)
-                {
-                    return Enum.valueOf((Class<Enum>)formal, (String)o);
-                }
-            };
-            return converter;
-        }
-        return null;
     }
 }

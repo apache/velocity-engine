@@ -60,14 +60,18 @@ public abstract class IntrospectorBase
 
     /** The Introspector Cache */
     private final IntrospectorCache introspectorCache;
-    
+
+    /** The Conversion handler */
+    private final ConversionHandler conversionHandler;
+
     /**
      * C'tor.
      */
-    protected IntrospectorBase(final Logger log)
+    protected IntrospectorBase(final Logger log, final ConversionHandler conversionHandler)
     {
         this.log = log;
-        introspectorCache = new IntrospectorCacheImpl(log); // TODO: Load that from properties.
+        introspectorCache = new IntrospectorCache(log, conversionHandler);
+        this.conversionHandler = conversionHandler;
     }
     
     /**

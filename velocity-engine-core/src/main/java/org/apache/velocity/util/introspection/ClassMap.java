@@ -38,6 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @author Nathan Bubna
+ * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  * @version $Id$
  */
 public class ClassMap
@@ -62,6 +63,18 @@ public class ClassMap
      */
     public ClassMap(final Class clazz, final Logger log)
     {
+        this(clazz, log, null);
+    }
+
+    /**
+     * Standard constructor
+     * @param clazz The class for which this ClassMap gets constructed.
+     * @param log logger
+     * @param conversionHandler conversion handler
+     * @since 2.0
+     */
+    public ClassMap(final Class clazz, final Logger log, final ConversionHandler conversionHandler)
+    {
         this.clazz = clazz;
         this.log = log;
 
@@ -71,7 +84,7 @@ public class ClassMap
             log.debug("== Class: {}", clazz);
         }
 
-        methodCache = createMethodCache();
+        methodCache = createMethodCache(conversionHandler);
 
         if (debugReflection && log.isDebugEnabled())
         {
@@ -108,9 +121,9 @@ public class ClassMap
      * are taken from all the public methods
      * that our class, its parents and their implemented interfaces provide.
      */
-    private MethodCache createMethodCache()
+    private MethodCache createMethodCache(ConversionHandler conversionHandler)
     {
-        MethodCache methodCache = new MethodCache(log);
+        MethodCache methodCache = new MethodCache(log, conversionHandler);
 	//
 	// Looks through all elements in the class hierarchy. This one is bottom-first (i.e. we start
 	// with the actual declaring class and its interfaces and then move up (superclass etc.) until we
@@ -219,11 +232,12 @@ public class ClassMap
         private final Map cache = new ConcurrentHashMap();
 
         /** Map of methods that are searchable according to method parameters to find a match */
-        private final MethodMap methodMap = new MethodMap();
+        private final MethodMap methodMap;
 
-        private MethodCache(Logger log)
+        private MethodCache(Logger log, ConversionHandler conversionHandler)
         {
             this.log = log;
+            methodMap = new MethodMap(conversionHandler);
         }
 
         /**

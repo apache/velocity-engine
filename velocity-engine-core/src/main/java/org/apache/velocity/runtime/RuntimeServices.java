@@ -445,15 +445,6 @@ public interface RuntimeServices
      */
     public EventCartridge getApplicationEventCartridge();
 
-
-    /**
-     * Returns the configured method introspection/reflection
-     * implementation.
-     * @return The configured method introspection/reflection
-     * implementation.
-     */
-    public Introspector getIntrospector();
-
     /**
      * Returns true if the RuntimeInstance has been successfully initialized.
      * @return True if the RuntimeInstance has been successfully initialized.

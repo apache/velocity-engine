@@ -78,6 +78,17 @@ public class GetExecutor extends AbstractExecutor
         try
         {
             setMethod(introspector.getMethod(clazz, "get", params));
+            /* get(Number) or get(integral) are NOT admissible,
+             * as the key is a string
+             */
+            if (getMethod() != null)
+            {
+                Class<?> [] args = getMethod().getParameterTypes();
+                if (args.length == 1 && (args[0].isPrimitive() || Number.class.isAssignableFrom(args[0])))
+                {
+                    setMethod(null);
+                }
+            }
         }
         /**
          * pass through application level runtime exceptions

@@ -240,6 +240,9 @@ public interface RuntimeConstants
     /** key name for uberspector. Multiple classnames can be specified,in which case uberspectors will be chained. */
     String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
 
+    /** key for Conversion Manager class */
+    String CONVERSION_HANDLER_CLASS = "runtime.conversion.handler.class";
+
     /** A comma separated list of packages to restrict access to in the SecureIntrospector. */
     String INTROSPECTOR_RESTRICT_PACKAGES = "introspector.restrict.packages";
 

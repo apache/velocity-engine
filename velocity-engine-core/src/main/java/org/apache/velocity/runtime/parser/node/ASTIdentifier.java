@@ -148,7 +148,7 @@ public class ASTIdentifier extends SimpleNode
                  *  uberspector
                  */
 
-                vg = rsvc.getUberspect().getPropertyGet(o,identifier, uberInfo);
+                vg = rsvc.getUberspect().getPropertyGet(o, identifier, uberInfo);
 
                 if (vg != null && vg.isCacheable() && (o != null))
                 {

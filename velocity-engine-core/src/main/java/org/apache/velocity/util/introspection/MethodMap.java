@@ -19,6 +19,8 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
+import org.apache.commons.lang3.Conversion;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,6 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author <a href="mailto:Christoph.Reck@dlr.de">Christoph Reck</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="mailto:szegedia@freemail.hu">Attila Szegedi</a>
+ * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  * @version $Id$
  */
 public class MethodMap
@@ -40,6 +43,26 @@ public class MethodMap
     private static final int MORE_SPECIFIC = 0;
     private static final int LESS_SPECIFIC = 1;
     private static final int INCOMPARABLE = 2;
+
+    ConversionHandler conversionHandler;
+
+    /**
+     * Default constructor
+     */
+    public MethodMap()
+    {
+        this(null);
+    }
+
+    /**
+     * Constructor with provided conversion handler
+     * @param conversionHandler conversion handler
+     * @since 2.0
+     */
+    public MethodMap(ConversionHandler conversionHandler)
+    {
+        this.conversionHandler = conversionHandler;
+    }
 
     /**
      * Keep track of all methods with the same name.
@@ -134,11 +157,17 @@ public class MethodMap
         return getBestMatch(methodList, classes);
     }
 
-    private static Method getBestMatch(List methods, Class[] args)
+    private Method getBestMatch(List methods, Class[] args)
     {
         List equivalentMatches = null;
         Method bestMatch = null;
         Class[] bestMatchTypes = null;
+        int bestMatchComp = INCOMPARABLE; /* how does the best match compare to provided type */
+        Class[] unboxedArgs = new Class[args.length];
+        for (int i = 0; i < args.length; ++i)
+        {
+            unboxedArgs[i] = IntrospectionUtils.getUnboxedClass(args[i]);
+        }
         for (Iterator i = methods.iterator(); i.hasNext(); )
         {
             Method method = (Method)i.next();
@@ -148,6 +177,7 @@ public class MethodMap
                 {
                     bestMatch = method;
                     bestMatchTypes = method.getParameterTypes();
+                    bestMatchComp = compare(bestMatchTypes, unboxedArgs);
                 }
                 else
                 {
@@ -155,35 +185,60 @@ public class MethodMap
                     switch (compare(methodTypes, bestMatchTypes))
                     {
                         case MORE_SPECIFIC:
+                            /* do not retain method if it's more specific than (or incomparable to) provided (unboxed) arguments
+                             * while best batch is less specific
+                             */
+                            if (bestMatchComp == LESS_SPECIFIC && compare(methodTypes, unboxedArgs) != LESS_SPECIFIC)
+                            {
+                                break;
+                            }
                             if (equivalentMatches == null)
                             {
                                 bestMatch = method;
                                 bestMatchTypes = methodTypes;
+                                bestMatchComp = compare(bestMatchTypes, unboxedArgs);
                             }
                             else
                             {
-                                // have to beat all other ambiguous ones...
+                                /* have to beat all other ambiguous ones... */
                                 int ambiguities = equivalentMatches.size();
-                                for (int a=0; a < ambiguities; a++)
+                                for (int a = 0; a < ambiguities; a++)
                                 {
                                     Method other = (Method)equivalentMatches.get(a);
                                     switch (compare(methodTypes, other.getParameterTypes()))
                                     {
                                         case MORE_SPECIFIC:
-                                            // ...and thus replace them all...
+                                        /* ...and thus replace them all...
+                                         * but do not retain method if it's more specific than (or incomparable to) provided (unboxed) arguments
+                                         * while best batch is less specific
+                                         */
+                                            if (bestMatchComp == LESS_SPECIFIC && compare(methodTypes, unboxedArgs) != LESS_SPECIFIC)
+                                            {
+                                                break;
+                                            }
                                             bestMatch = method;
                                             bestMatchTypes = methodTypes;
+                                            bestMatchComp = compare(bestMatchTypes, unboxedArgs);
                                             equivalentMatches = null;
                                             ambiguities = 0;
                                             break;
 
                                         case INCOMPARABLE:
-                                            // ...join them...
+                                            /* ...join them...*/
                                             equivalentMatches.add(method);
                                             break;
 
                                         case LESS_SPECIFIC:
-                                            // ...or just go away.
+                                            /* retain it anyway if less specific than (unboxed) provided args while
+                                             * bestmatch is more specific
+                                             */
+                                            if (bestMatchComp == MORE_SPECIFIC && compare(methodTypes, unboxedArgs) == LESS_SPECIFIC)
+                                            {
+                                                bestMatch = method;
+                                                bestMatchTypes = methodTypes;
+                                                bestMatchComp = compare(bestMatchTypes, unboxedArgs);
+                                                equivalentMatches = null;
+                                            }
                                             break;
                                     }
                                 }
@@ -199,7 +254,16 @@ public class MethodMap
                             break;
 
                         case LESS_SPECIFIC:
-                            // do nothing
+                            /* retain it anyway if less specific than (unboxed) provided args while
+                             * bestmatch is more specific
+                             */
+                            if (bestMatchComp == MORE_SPECIFIC && compare(methodTypes, unboxedArgs) == LESS_SPECIFIC)
+                            {
+                                bestMatch = method;
+                                bestMatchTypes = methodTypes;
+                                bestMatchComp = compare(bestMatchTypes, unboxedArgs);
+                                equivalentMatches = null;
+                            }
                             break;
                     }
                 }
@@ -235,7 +299,7 @@ public class MethodMap
      * @return MORE_SPECIFIC if c1 is more specific than c2, LESS_SPECIFIC if
      * c1 is less specific than c2, INCOMPARABLE if they are incomparable.
      */
-    private static int compare(Class[] c1, Class[] c2)
+    private int compare(Class[] c1, Class[] c2)
     {
         boolean c1MoreSpecific = false;
         boolean c2MoreSpecific = false;
@@ -255,7 +319,7 @@ public class MethodMap
         // ok, move on and compare those of equal lengths
         for(int i = 0; i < c1.length; ++i)
         {
-            if(c1[i] != c2[i])
+            if(c1[i] != c2[i] && c1[i] != null && c2[i] != null)
             {
                 boolean last = (i == c1.length - 1);
                 c1MoreSpecific =
@@ -266,6 +330,20 @@ public class MethodMap
                     c2MoreSpecific ||
                     isStrictConvertible(c1[i], c2[i], last) ||
                     c1[i] == Object.class;//Object is always least-specific
+            }
+        }
+
+        /* check for conversions */
+        if (!c1MoreSpecific && !c2MoreSpecific)
+        {
+            for(int i = 0; i < c1.length; ++i)
+            {
+                boolean last = (i == c1.length - 1);
+                if (c1[i] != c2[i] && c1[i] != null && c2[i] != null)
+                {
+                    c1MoreSpecific = c1MoreSpecific || isConvertible(c2[i], c1[i], last);
+                    c2MoreSpecific = c2MoreSpecific || isConvertible(c1[i], c2[i], last);
+                }
             }
         }
 
@@ -319,7 +397,7 @@ public class MethodMap
      * @param classes arguments to method
      * @return true if method is applicable to arguments
      */
-    private static boolean isApplicable(Method method, Class[] classes)
+    private boolean isApplicable(Method method, Class[] classes)
     {
         Class[] methodArgs = method.getParameterTypes();
 
@@ -333,7 +411,8 @@ public class MethodMap
                 // all the args preceding the vararg must match
                 for (int i = 0; i < classes.length; i++)
                 {
-                    if (!isConvertible(methodArgs[i], classes[i], false))
+                    if (!isConvertible(methodArgs[i], classes[i], false) &&
+                            !isExplicitlyConvertible(methodArgs[i], classes[i], false))
                     {
                         return false;
                     }
@@ -352,14 +431,16 @@ public class MethodMap
             // (e.g. String when the method is expecting String...)
             for(int i = 0; i < classes.length; ++i)
             {
-                if(!isConvertible(methodArgs[i], classes[i], false))
+                if(!isConvertible(methodArgs[i], classes[i], false) &&
+                        !isExplicitlyConvertible(methodArgs[i], classes[i], false))
                 {
                     // if we're on the last arg and the method expects an array
                     if (i == classes.length - 1 && methodArgs[i].isArray())
                     {
                         // check to see if the last arg is convertible
                         // to the array's component type
-                        return isConvertible(methodArgs[i], classes[i], true);
+                        return isConvertible(methodArgs[i], classes[i], true) ||
+                                isExplicitlyConvertible(methodArgs[i], classes[i], true);
                     }
                     return false;
                 }
@@ -397,17 +478,45 @@ public class MethodMap
         return true;
     }
 
-    private static boolean isConvertible(Class formal, Class actual,
-                                         boolean possibleVarArg)
+    /**
+     * Returns true if <code>actual</code> is convertible to <code>formal</code> by implicit Java method call conversions
+     *
+     * @param formal
+     * @param actual
+     * @param possibleVarArg
+     * @return convertible
+     */
+    private boolean isConvertible(Class formal, Class actual, boolean possibleVarArg)
     {
         return IntrospectionUtils.
             isMethodInvocationConvertible(formal, actual, possibleVarArg);
     }
 
-    private static boolean isStrictConvertible(Class formal, Class actual,
-                                               boolean possibleVarArg)
+    /**
+     * Returns true if <code>actual</code> is strictly convertible to <code>formal</code> (aka without implicit
+     * boxing/unboxing)
+     *
+     * @param formal
+     * @param actual
+     * @param possibleVarArg
+     * @return convertible
+     */
+    private static boolean isStrictConvertible(Class formal, Class actual, boolean possibleVarArg)
     {
         return IntrospectionUtils.
             isStrictMethodInvocationConvertible(formal, actual, possibleVarArg);
+    }
+
+    /**
+     * Returns true if <code>actual</code> is convertible to <code>formal</code> using an explicit converter
+     *
+     * @param formal
+     * @param actual
+     * @param possibleVarArg
+     * @return
+     */
+    private boolean isExplicitlyConvertible(Class formal, Class actual, boolean possibleVarArg)
+    {
+        return conversionHandler != null && conversionHandler.isExplicitlyConvertible(formal, actual, possibleVarArg);
     }
 }

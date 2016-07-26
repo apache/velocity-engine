@@ -22,6 +22,8 @@ package org.apache.velocity.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.test.misc.TestLogger;
+import org.apache.velocity.util.introspection.Introspector;
 
 import java.lang.reflect.Method;
 
@@ -41,9 +43,13 @@ public class IntrospectorTestCase extends BaseTestCase
 {
     private static MethodProvider mp;
 
+    private Introspector introspector;
+    
     public void setUp()
     {
         mp = new MethodProvider();
+        log = new TestLogger();
+        introspector = new Introspector(log);
     }
 
     /**
@@ -71,8 +77,8 @@ public class IntrospectorTestCase extends BaseTestCase
         // Test boolean primitive.
         Object[] booleanParams = { new Boolean(true) };
         String type = "boolean";
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, type + "Method", booleanParams);
+        Method method = introspector.getMethod(
+                MethodProvider.class, type + "Method", booleanParams);
         String result = (String) method.invoke(mp, booleanParams);
 
         assertEquals("Method could not be found", type, result);
@@ -84,8 +90,8 @@ public class IntrospectorTestCase extends BaseTestCase
         // Test byte primitive.
         Object[] byteParams = { new Byte("1") };
         String type = "byte";
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, type + "Method", byteParams);
+        Method method = introspector.getMethod(
+                MethodProvider.class, type + "Method", byteParams);
         String result = (String) method.invoke(mp, byteParams);
 
         assertEquals("Method could not be found", type, result);
@@ -97,8 +103,8 @@ public class IntrospectorTestCase extends BaseTestCase
         // Test char primitive.
         Object[] characterParams = { new Character('a') };
         String type = "character";
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, type + "Method", characterParams);
+        Method method = introspector.getMethod(
+                MethodProvider.class, type + "Method", characterParams);
         String result = (String) method.invoke(mp, characterParams);
 
         assertEquals("Method could not be found", type, result);
@@ -111,8 +117,8 @@ public class IntrospectorTestCase extends BaseTestCase
         // Test double primitive.
         Object[] doubleParams = { new Double((double)1) };
         String type = "double";
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, type + "Method", doubleParams);
+        Method method = introspector.getMethod(
+                MethodProvider.class, type + "Method", doubleParams);
         String result = (String) method.invoke(mp, doubleParams);
 
         assertEquals("Method could not be found", type, result);
@@ -125,8 +131,8 @@ public class IntrospectorTestCase extends BaseTestCase
         // Test float primitive.
         Object[] floatParams = { new Float((float)1) };
         String type = "float";
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, type + "Method", floatParams);
+        Method method = introspector.getMethod(
+                MethodProvider.class, type + "Method", floatParams);
         String result = (String) method.invoke(mp, floatParams);
 
         assertEquals("Method could not be found", type, result);
@@ -139,8 +145,8 @@ public class IntrospectorTestCase extends BaseTestCase
         // Test integer primitive.
         Object[] integerParams = { new Integer((int)1) };
         String type = "integer";
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, type + "Method", integerParams);
+        Method method = introspector.getMethod(
+                MethodProvider.class, type + "Method", integerParams);
         String result = (String) method.invoke(mp, integerParams);
 
         assertEquals("Method could not be found", type, result);
@@ -153,8 +159,8 @@ public class IntrospectorTestCase extends BaseTestCase
         // Test long primitive.
         Object[] longParams = { new Long((long)1) };
         String type = "long";
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, type + "Method", longParams);
+        Method method = introspector.getMethod(
+                MethodProvider.class, type + "Method", longParams);
         String result = (String) method.invoke(mp, longParams);
 
         assertEquals("Method could not be found", type, result);
@@ -166,8 +172,8 @@ public class IntrospectorTestCase extends BaseTestCase
         // Test short primitive.
         Object[] shortParams = { new Short((short)1) };
         String type = "short";
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, type + "Method", shortParams);
+        Method method = introspector.getMethod(
+                MethodProvider.class, type + "Method", shortParams);
         String result = (String) method.invoke(mp, shortParams);
 
         assertEquals("Method could not be found", type, result);
@@ -180,8 +186,8 @@ public class IntrospectorTestCase extends BaseTestCase
 
         Object[] params = {};
 
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, "untouchable", params);
+        Method method = introspector.getMethod(
+                MethodProvider.class, "untouchable", params);
 
         assertNull("able to access a private-access method.", method);
     }
@@ -192,8 +198,8 @@ public class IntrospectorTestCase extends BaseTestCase
         // Test really untouchable
         Object[] params = {};
 
-        Method method = RuntimeSingleton.getIntrospector().getMethod(
-            MethodProvider.class, "reallyuntouchable", params);
+        Method method = introspector.getMethod(
+                MethodProvider.class, "reallyuntouchable", params);
 
         assertNull("able to access a private-access method.", method);
     }
