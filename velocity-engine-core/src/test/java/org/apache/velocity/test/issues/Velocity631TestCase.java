@@ -30,7 +30,14 @@ public class Velocity631TestCase extends BaseTestCase
     {
         super(name);
     }
-   
+
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        engine.setProperty("space.gobbling", "bc");
+    }
+
+
     public void test631()
     {
         assertEvalEquals("$a", "$a #set($b = 1)");

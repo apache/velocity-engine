@@ -43,6 +43,7 @@ public class ScopeTestCase extends BaseTestCase
         engine.setProperty("macro.provide.scope.control", "true");
         engine.setProperty("template.provide.scope.control", "true");
         engine.setProperty("vm.provide.scope.control", "true");
+        engine.setProperty("space.gobbling", "bc");
     }
 
     public void testScopeGetLeakIntoInner()

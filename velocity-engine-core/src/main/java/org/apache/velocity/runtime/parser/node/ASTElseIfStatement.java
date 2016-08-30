@@ -24,6 +24,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 
 import java.io.IOException;
@@ -56,6 +57,17 @@ public class ASTElseIfStatement extends SimpleNode
     public ASTElseIfStatement(Parser p, int id)
     {
         super(p, id);
+    }
+
+    /**
+     * @throws TemplateInitException
+     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
+     */
+    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    {
+        Object obj = super.init(context, data);
+         cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
+        return obj;
     }
 
     /**
@@ -92,16 +104,4 @@ public class ASTElseIfStatement extends SimpleNode
     {
         return jjtGetChild(1).render( context, writer );
     }
-    
-    /**
-     * @throws TemplateInitException
-     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
-     */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
-    {
-    	Object obj = super.init(context, data);
-    	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
-    	return obj;
-    }
-    
 }

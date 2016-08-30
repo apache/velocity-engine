@@ -41,7 +41,15 @@ public interface ParserVisitor
    * @param data
    * @return The object rendered by this node.
    */
+
   public Object visit(ASTprocess node, Object data);
+
+  /**
+   * @param node
+   * @param data
+   * @return The object rendered by this node.
+   */
+  public Object visit(ASTText node, Object data);
 
   /**
    * @param node
@@ -63,6 +71,12 @@ public interface ParserVisitor
    * @return The object rendered by this node.
    */
   public Object visit(ASTComment node, Object data);
+  /**
+   * @param node
+   * @param data
+   * @return The object rendered by this node.
+   */
+  public Object visit(ASTTextblock node, Object data);
 
   /**
    * @param node
@@ -99,6 +113,13 @@ public interface ParserVisitor
    */
   public Object visit(ASTWord node, Object data);
 
+  /**
+   * @param node
+   * @param data
+   * @return The object rendered by this node.
+   */
+
+  public Object visit(ASTDirectiveAssign node, Object data);
   /**
    * @param node
    * @param data
@@ -146,6 +167,13 @@ public interface ParserVisitor
    * @param data
    * @return The object rendered by this node.
    */
+  public Object visit(ASTIndex node, Object data);
+
+  /**
+   * @param node
+   * @param data
+   * @return The object rendered by this node.
+   */
   public Object visit(ASTReference node, Object data);
 
   /**
@@ -161,13 +189,6 @@ public interface ParserVisitor
    * @return The object rendered by this node.
    */
   public Object visit(ASTFalse node, Object data);
-
-  /**
-   * @param node
-   * @param data
-   * @return The object rendered by this node.
-   */
-  public Object visit(ASTText node, Object data);
 
   /**
    * @param node

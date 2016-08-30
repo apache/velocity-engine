@@ -34,6 +34,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.parser.Parser;
 
 import java.io.IOException;
@@ -45,6 +46,9 @@ import java.io.Writer;
  */
 public class ASTIfStatement extends SimpleNode
 {
+    private String prefix = "";
+    private String postfix = "";
+
     /**
      * @param id
      */
@@ -62,7 +66,6 @@ public class ASTIfStatement extends SimpleNode
         super(p, id);
     }
 
-
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
@@ -72,12 +75,73 @@ public class ASTIfStatement extends SimpleNode
     }
 
     /**
+     * @throws TemplateInitException
+     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
+     */
+    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    {
+        Object obj = super.init(context, data);
+
+        /* handle structured space gobbling */
+        if (rsvc.getSpaceGobbling() == SpaceGobbling.STRUCTURED && postfix.length() > 0)
+        {
+            NodeUtils.fixIndentation(this, prefix);
+        }
+
+        cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
+        return obj;
+    }
+
+    /**
+     * set indentation prefix
+     * @param prefix
+     */
+    public void setPrefix(String prefix)
+    {
+        this.prefix = prefix;
+    }
+
+    /**
+     * get indentation prefix
+     * @return prefix
+     */
+    public String getPrefix()
+    {
+        return prefix;
+    }
+
+    /**
+     * set indentation postfix
+     * @param postfix
+     */
+    public void setPostfix(String postfix)
+    {
+        this.postfix = postfix;
+    }
+
+    /**
+     * get indentation postfix
+     * @return postfix
+     */
+    public String getPostfix()
+    {
+        return postfix;
+    }
+
+    /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException,MethodInvocationException,
         	ResourceNotFoundException, ParseErrorException
     {
+        SpaceGobbling spaceGobbling = rsvc.getSpaceGobbling();
+
+        if (spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
+        {
+            writer.write(prefix);
+        }
+
         /*
          * Check if the #if(expression) construct evaluates to true:
          * if so render and leave immediately because there
@@ -105,15 +169,20 @@ public class ASTIfStatement extends SimpleNode
             if (jjtGetChild(i).evaluate(context))
             {
                 jjtGetChild(i).render(context, writer);
-                return true;
+                break;
             }
         }
 
+        if (spaceGobbling == SpaceGobbling.NONE)
+        {
+            writer.write(postfix);
+        }
+
         /*
-         * This is reached when an ASTIfStatement
-         * consists of an if/elseif sequence where
-         * none of the nodes evaluate to true.
+         * This is reached without rendering anything when an ASTIfStatement
+         * consists of an if/elseif sequence where none of the nodes evaluate to true.
          */
+
         return true;
     }
 
@@ -123,16 +192,5 @@ public class ASTIfStatement extends SimpleNode
      */
     public void process( InternalContextAdapter context, ParserVisitor visitor)
     {
-    }
-    
-    /**
-     * @throws TemplateInitException
-     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
-     */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
-    {
-    	Object obj = super.init(context, data);
-    	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
-    	return obj;
     }
 }

@@ -60,13 +60,15 @@ public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestB
             Velocity.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, "true");
 
         Velocity.setProperty(
-            Velocity.VM_PERM_INLINE_LOCAL, "true");
+                Velocity.VM_PERM_INLINE_LOCAL, "true");
 
         Velocity.setProperty(
             Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
 
         Velocity.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
+
+        Velocity.setProperty("space.gobbling", "bc");
 
         Velocity.init();
     }

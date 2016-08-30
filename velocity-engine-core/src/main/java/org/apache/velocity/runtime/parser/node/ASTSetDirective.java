@@ -24,6 +24,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.Info;
 
@@ -43,6 +44,8 @@ public class ASTSetDirective extends SimpleNode
     private Node right = null;
     private ASTReference left = null;
     private boolean isInitialized;
+    private String prefix = "";
+    private String postfix = "";
 
     /**
      *  This is really immutable after the init, so keep one for this node
@@ -111,13 +114,71 @@ public class ASTSetDirective extends SimpleNode
              *  grab this now.  No need to redo each time
              */
             leftReference = left.firstImage.substring(1);
-        
+
+            /* handle backward compatible space gobbling if asked so */
+            if (rsvc.getSpaceGobbling() == SpaceGobbling.BC)
+            {
+                Node previousNode = null;
+                for (int brother = 0; brother < parent.jjtGetNumChildren(); ++brother)
+                {
+                    Node node = parent.jjtGetChild(brother);
+                    if (node == this) break;
+                    previousNode = node;
+                }
+                if (previousNode == null) prefix = "";
+                else if (previousNode instanceof ASTText)
+                {
+                    ASTText text = (ASTText)previousNode;
+                    if (text.getCtext().matches("[ \t]*"))
+                    {
+                        text.setCtext("");
+                    }
+                }
+                else prefix = "";
+            }
+
             isInitialized = true;
             
             cleanupParserAndTokens();
         }
             
         return data;
+    }
+
+    /**
+     * set indentation prefix
+     * @param prefix
+     */
+    public void setPrefix(String prefix)
+    {
+        this.prefix = prefix;
+    }
+
+    /**
+     * get indentation prefix
+     * @return indentation prefix
+     */
+    public String getPrefix()
+    {
+        return prefix;
+    }
+
+    /**
+     * set indentation postfix
+     * @param postfix
+     */
+    public void setPostfix(String postfix)
+    {
+        this.postfix = postfix;
+    }
+
+    /**
+     * get indentation postfix
+     * @return indentation prefix
+     */
+    public String getPostfix()
+    {
+        return postfix;
     }
 
     /**
@@ -131,6 +192,18 @@ public class ASTSetDirective extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException
     {
+        SpaceGobbling spaceGobbling = rsvc.getSpaceGobbling();
+
+        /* Velocity 1.x space gobbling for #set is rather wacky:
+           prefix is eaten *only* if previous token is not a text node.
+           We handle this by appropriately emptying the prefix in BC mode.
+         */
+
+        if (spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
+        {
+            writer.write(prefix);
+        }
+
         /*
          *  get the RHS node, and its value
          */
@@ -146,7 +219,13 @@ public class ASTSetDirective extends SimpleNode
             }
             EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
         }
-        
+
+        if (spaceGobbling == SpaceGobbling.NONE)
+        {
+            writer.write(postfix);
+        }
+
+
         return left.setValue(context, value);
     }
     

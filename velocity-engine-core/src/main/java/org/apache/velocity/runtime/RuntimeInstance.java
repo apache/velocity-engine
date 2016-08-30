@@ -55,7 +55,6 @@ import org.apache.velocity.util.introspection.UberspectLoggable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -66,6 +65,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 
 /**
@@ -192,6 +192,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private Map applicationAttributes = null;
     private Uberspect uberSpect;
     private String encoding;
+
+    /*
+     * Space gobbling mode
+     */
+    private SpaceGobbling spaceGobbling;
 
     /**
      * Creates a new RuntimeInstance object.
@@ -334,7 +339,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void initializeSelfProperties()
     {
+        /* initialize string interning (defaults to false) */
         stringInterning = getBoolean(RUNTIME_STRING_INTERNING, true);
+
+        /* initialize indentation mode (defaults to 'lines') */
+        String im = getString(SPACE_GOBBLING, "lines");
+        try
+        {
+            spaceGobbling = SpaceGobbling.valueOf(im.toUpperCase());
+        }
+        catch (NoSuchElementException nse)
+        {
+            spaceGobbling = SpaceGobbling.LINES;
+        }
     }
 
     /**
@@ -1846,5 +1863,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public boolean useStringInterning()
     {
         return stringInterning;
+    }
+
+    /**
+     * get space gobbling mode
+     * @return indentation mode
+     */
+    public SpaceGobbling getSpaceGobbling()
+    {
+        return spaceGobbling;
     }
 }

@@ -25,11 +25,14 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.directive.BlockMacro;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.RuntimeMacro;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.ParserConstants;
+import org.apache.velocity.runtime.parser.Token;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -54,6 +57,9 @@ public class ASTDirective extends SimpleNode
     private String directiveName = "";
     private boolean isDirective;
     private boolean isInitialized;
+
+    private String prefix = "";
+    private String postfix = "";
 
     /**
      * @param id
@@ -121,7 +127,9 @@ public class ASTDirective extends SimpleNode
                             e);
                 }
 
-                directive.setLocation(getLine(), getColumn(), getTemplate());
+                Token t = first;
+                if (t.kind == ParserConstants.WHITESPACE) t = t.next;
+                directive.setLocation(t.beginLine, t.beginColumn, getTemplate());
                 directive.init(rsvc, context, this);
             }
             else if( directiveName.startsWith("@") )
@@ -191,8 +199,54 @@ public class ASTDirective extends SimpleNode
             saveTokenImages();
             cleanupParserAndTokens();
         }
+
+        if (rsvc.getSpaceGobbling() == SpaceGobbling.STRUCTURED && isInitialized && isDirective && directive.getType() == Directive.BLOCK)
+        {
+            NodeUtils.fixIndentation(this, prefix);
+        }
         
         return data;
+    }
+
+    /**
+     * set indentation prefix
+     * @param prefix
+     */
+    public void setPrefix(String prefix)
+    {
+        this.prefix = prefix;
+    }
+
+    /**
+     * get indentation prefix
+     * @return indentation prefix
+     */
+    public String getPrefix()
+    {
+        return prefix;
+    }
+
+    /**
+     * set indentation postfix
+     * @param postfix
+     */
+    public void setPostfix(String postfix)
+    {
+        this.postfix = postfix;
+    }
+
+    public int getDirectiveType()
+    {
+        return directive.getType();
+    }
+
+    /**
+     * get indentation postfix
+     * @return indentation prefix
+     */
+    public String getPostfix()
+    {
+        return postfix;
     }
 
     /**
@@ -201,18 +255,31 @@ public class ASTDirective extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException,MethodInvocationException, ResourceNotFoundException, ParseErrorException
     {
+        SpaceGobbling spaceGobbling = rsvc.getSpaceGobbling();
         /*
          *  normal processing
          */
 
         if (isDirective)
         {
+            if (spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
+            {
+                writer.write(prefix);
+            }
+
             directive.render(context, writer, this);
+
+            if (spaceGobbling == SpaceGobbling.NONE)
+            {
+                writer.write(postfix);
+            }
         }
         else
         {
+            writer.write(prefix);
             writer.write( "#");
-            writer.write( directiveName );
+            writer.write(directiveName);
+            writer.write(postfix);
         }
 
         return true;

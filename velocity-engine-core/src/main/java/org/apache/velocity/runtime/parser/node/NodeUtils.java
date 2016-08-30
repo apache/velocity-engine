@@ -147,4 +147,17 @@ public class NodeUtils
             return t.image;
         }
     }
+
+    /**
+     * Fix children indentation in structured space gobbling mode.
+     * @param parent
+     * @param parentIndentation
+     * @param extraIndentation
+     * @return
+     */
+    public static void fixIndentation(SimpleNode parent, String parentIndentation)
+    {
+        IndentationFixer fixer = new IndentationFixer(parentIndentation);
+        parent.childrenAccept(fixer, null);
+    }
 }
