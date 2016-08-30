@@ -237,9 +237,16 @@ public class ASTMethod extends SimpleNode
     private Object handleInvocationException(Object o, InternalContextAdapter context, Throwable t)
     {
         /*
+         * Errors should not be wrapped
+         */
+        if (t instanceof Error)
+        {
+            throw (Error)t;
+        }
+        /*
          * We let StopCommands go up to the directive they are for/from
          */
-        if (t instanceof StopCommand)
+        else if (t instanceof StopCommand)
         {
             throw (StopCommand)t;
         }
