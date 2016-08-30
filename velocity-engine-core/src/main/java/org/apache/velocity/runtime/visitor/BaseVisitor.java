@@ -266,6 +266,15 @@ public abstract class BaseVisitor implements ParserVisitor
     }
 
     /**
+     * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTIndex, java.lang.Object)
+     */
+    public Object visit(ASTIndex node, Object data)
+    {
+        data = node.childrenAccept(this, data);
+        return data;
+    }
+
+    /**
      * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTReference, java.lang.Object)
      */
     public Object visit(ASTReference node, Object data)
@@ -347,6 +356,15 @@ public abstract class BaseVisitor implements ParserVisitor
     }
 
     /**
+     * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTTextblock, java.lang.Object)
+     */
+    public Object visit(ASTTextblock node, Object data)
+    {
+        data = node.childrenAccept(this, data);
+        return data;
+    }
+
+    /**
      * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTObjectArray, java.lang.Object)
      */
     public Object visit(ASTObjectArray node, Object data)
@@ -368,6 +386,15 @@ public abstract class BaseVisitor implements ParserVisitor
      * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTSetDirective, java.lang.Object)
      */
     public Object visit(ASTSetDirective node, Object data)
+    {
+        data = node.childrenAccept(this, data);
+        return data;
+    }
+
+    /**
+     * @see org.apache.velocity.runtime.parser.node.ParserVisitor#visit(org.apache.velocity.runtime.parser.node.ASTDirectiveAssign, java.lang.Object)
+     */
+    public Object visit(ASTDirectiveAssign node, Object data)
     {
         data = node.childrenAccept(this, data);
         return data;

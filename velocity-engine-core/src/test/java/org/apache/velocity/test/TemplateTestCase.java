@@ -112,6 +112,8 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         Velocity.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 
+        Velocity.setProperty("space.gobbling", "bc");
+
         Velocity.init();
 
         provider = new TestProvider();

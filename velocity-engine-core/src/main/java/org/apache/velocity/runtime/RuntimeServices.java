@@ -26,6 +26,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -34,7 +35,6 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.slf4j.Logger;
 
@@ -466,4 +466,6 @@ public interface RuntimeServices
     public Directive getDirective(String name);
 
     public boolean useStringInterning();
+
+    public SpaceGobbling getSpaceGobbling();
 }

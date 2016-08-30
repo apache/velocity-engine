@@ -38,6 +38,7 @@ public class Velocity615TestCase extends BaseTestCase
         engine.setProperty("velocimacro.permissions.allow.inline.to.replace.global", "false");
         engine.setProperty("velocimacro.permissions.allow.inline.local.scope", "true");
         engine.setProperty("velocimacro.arguments.strict", "true");
+        engine.setProperty("space.gobbling", "bc");
     }
 
     public void testIt()

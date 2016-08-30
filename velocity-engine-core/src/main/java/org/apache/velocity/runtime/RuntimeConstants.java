@@ -266,6 +266,19 @@ public interface RuntimeConstants
      */
     String PARSER_POOL_SIZE = "parser.pool.size";
 
+    /**
+     * Space gobbling mode
+     */
+    String SPACE_GOBBLING = "space.gobbling";
+
+    /**
+     * Space gobbling modes
+     */
+    public enum SpaceGobbling
+    {
+        NONE, BC, LINES, STRUCTURED
+    }
+
     /*
      * ----------------------------------------------------------------------
      * These constants are used internally by the Velocity runtime i.e.

@@ -70,8 +70,9 @@ options
     /**
      *  for debugging purposes.  Keep false
      */
-    DEBUG_PARSER=false;
-    DEBUG_TOKEN_MANAGER=false;
+    DEBUG_PARSER = false;
+    DEBUG_LOOKAHEAD = false;
+    DEBUG_TOKEN_MANAGER = false;
 }
 
 PARSER_BEGIN(Parser)
@@ -393,7 +394,6 @@ TOKEN_MGR_DECLS:
     public boolean debugPrint = false;
 
     private boolean inReference;
-    public boolean inDirective;
     private boolean inComment;
     public  boolean inSet;
 
@@ -468,7 +468,6 @@ TOKEN_MGR_DECLS:
         lparen = 0;
         rparen = 0;
         inReference = false;
-        inDirective = false;
         inComment = false;
         inSet = false;
 
@@ -544,13 +543,9 @@ TOKEN_MGR_DECLS:
  *
  * Tokens
  *
- *  Note : we now have another state, REFMODIFIER.  This is sort of a
- *  type of REFERENCE state, simply use to use the DIRECTIVE token
- *  set when we are processing a $foo.bar() construct
- *
  * ------------------------------------------------------------------------- */
 
-<REFERENCE, REFMODIFIER>
+<REFERENCE, REFMODIFIER, REFMOD3>
 TOKEN:
 {
    <INDEX_LBRACKET: "[">
@@ -623,10 +618,7 @@ TOKEN:
 <DIRECTIVE>
 TOKEN:
 {
-    /*
-     *  We will eat any whitespace upto and including a newline for directives
-     */
-    <RPAREN: ")" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ))?>
+    <RPAREN: ")">
     {
        RPARENHandler();
     }
@@ -648,7 +640,7 @@ TOKEN:
          * $foo.bar().blargh().woogie().doogie()
          */
 
-        SwitchTo( REFERENCE );
+        SwitchTo( REFMOD3 );
     }
 }
 
@@ -676,11 +668,6 @@ TOKEN:
 
 
 /*
- * needed because #set is so wacky in it's desired behavior.  We want set
- * to eat any preceeding whitespace so it is invisible in formatting.
- * (As it should be.)  If this works well, I am going to chuck the whole MORE:
- * token abomination.
- *
  * We added the lexical states REFERENCE, REFMODIFIER, REFMOD2 to
  * address JIRA issue VELOCITY-631. With SET_DIRECTIVE only in the
  * DEFAULT lexical state the following VTL fails "$a#set($b = 1)"
@@ -695,12 +682,10 @@ TOKEN:
 <DEFAULT, REFERENCE, REFMODIFIER, REFMOD2>
 TOKEN:
 {
-  <SET_DIRECTIVE: (" "|"\t")*  ("#set" | "#{set}")  (" "|"\t")* "(">
+  <SET_DIRECTIVE: ("#set" | "#{set}")  (" "|"\t")* "(">
     {
         if (! inComment)
         {
-            inDirective = true;
-
             if ( debugPrint )
                 System.out.print("#set :  going to " + DIRECTIVE );
 
@@ -833,8 +818,6 @@ MORE :
                 stateStackPop();
             }
 
-            inDirective = true;
-
             if ( debugPrint )
                 System.out.print("# :  going to " + DIRECTIVE );
 
@@ -843,7 +826,6 @@ MORE :
         }
     }
 }
-
 
 // treat the single line comment case separately
 // to avoid ##<EOF> errors
@@ -866,14 +848,6 @@ TOKEN :
         }
      }
 }
-
-TOKEN :
-{
-    <DOUBLE_ESCAPE : "\\\\">
-|   <ESCAPE: "\\" >
-|   <TEXT: (~["$", "#", "\\"])+ >
-}
-
 
 /* -----------------------------------------------------------------------
  *
@@ -939,10 +913,20 @@ MORE :
  *
  * ---------------------------------------------------------------------- */
 
-<DIRECTIVE,REFMOD2,REFINDEX>
+<DEFAULT,REFINDEX,REFMOD2,DIRECTIVE>
 TOKEN:
 {
-    <WHITESPACE : ([" ","\t", "\n", "\r"])+ >
+    <WHITESPACE : ([" ","\t"])+>
+|   <NEWLINE : ("\n" | "\r" | "\r\n") >
+    {
+        if ( debugPrint )
+            System.out.println(" NEWLINE :");
+
+//        stateStackPop();
+
+        if (inSet)
+            inSet = false;
+    }
 }
 
 <DIRECTIVE,REFMOD2,REFINDEX>
@@ -993,25 +977,6 @@ TOKEN:
 |   <FALSE: "false">
 }
 
-<DIRECTIVE>
-TOKEN :
-{
-    <NEWLINE: "\n" | "\r" | "\r\n" >
-    {
-        if ( debugPrint )
-            System.out.println(" NEWLINE :");
-
-        stateStackPop();
-
-        if (inSet)
-            inSet = false;
-
-        if (inDirective)
-            inDirective = false;
-    }
-}
-
-
 <DIRECTIVE,REFMOD2>
 TOKEN :
 {
@@ -1035,10 +1000,8 @@ TOKEN :
 <PRE_DIRECTIVE>
 TOKEN :
 {
-    <END: ( "end" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? )
-          | ("{end}" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? ) >
+    <END: ( "end" | "{end}" )>
     {
-        inDirective = false;
         stateStackPop();
     }
 
@@ -1047,16 +1010,13 @@ TOKEN :
         SwitchTo(DIRECTIVE);
     }
 
-|   <ELSEIF_DIRECTIVE: "elseif" | "{elseif}">
+|   <ELSEIF: "elseif" | "{elseif}">
     {
         SwitchTo(DIRECTIVE);
     }
 
-|   <ELSE_DIRECTIVE:
-          ( "else" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? )
-        | ( "{else}" ( ( " " | "\t" )* ( "\n" | "\r" | "\r\n" ) )? )  >
-     {
-        inDirective = false;
+|   <ELSE: "else" | "{else}">
+    {
         stateStackPop();
     }
 }
@@ -1145,17 +1105,17 @@ TOKEN:
  *  for each state can be different.
  *
  *  $foo.bar( "arg" )
- *  ^   ^   ^
- *  |   |   |
- *  ----------- >  REFERENCE : state initiated by the '$' character.  Continues
- *      |   |       until end of the reference, or the . character.
- *      |------ >  REFMODIFIER : state switched to when the <DOT> is encountered.
- *          |       note that this is a switch, not a push. See notes at bottom
- *          |       re stateStack.
- *          |-- >  REFMOD2 : state switch to when the LPAREN is encountered.
- *                  again, this is a switch, not a push.
+ *  ^   ^   ^       ^
+ *  |   |   |       |
+ *  |_________________ >  REFERENCE : state initiated by the '$' character.  Continues
+ *      |   |       |     until end of the reference, or the . character.
+ *      |_____________ >  REFMODIFIER : state switched to when the <DOT> is encountered.
+ *          |       |     note that this is a switch, not a push. See notes at bottom.
+ *          |_________ >  REFMOD2 : state switch to when the LPAREN is encountered.
+ *                  |     again, this is a switch, not a push.
+ *                  |_ >  REFMOD3 : state only checking for a possible '.' or '['  continuation.
  *
- *  During the REFERENCE or REFMODIFIER lex states we will switch to
+ *  During the REFERENCE, REFMODIFIER or REFMOD3 lex states we will switch to
  *  REFINDEX if a bracket is encountered '['.  for example:  $foo[1]
  *  or $foo.bar[1], $foo.bar( "arg" )[1]
  * ---------------------------------------------------------------------------- */
@@ -1166,7 +1126,12 @@ TOKEN :
     <#ALPHA_CHAR: ["a"-"z", "A"-"Z", "_"] >
 |   <#IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
 |   <IDENTIFIER:  ( <ALPHA_CHAR> ) (<IDENTIFIER_CHAR>)* >
-|   <DOT: "." <ALPHA_CHAR>>
+}
+
+<REFERENCE,REFMODIFIER,REFMOD2,REFMOD3>
+TOKEN:
+{
+   <DOT: "." <ALPHA_CHAR>>
     {
         /*
          * push the alpha char back into the stream so the following identifier
@@ -1189,8 +1154,7 @@ TOKEN :
     }
 }
 
-
-<REFERENCE,REFMODIFIER>
+<REFERENCE,REFMODIFIER,REFMOD3>
 TOKEN :
 {
     <LCURLY: "{">
@@ -1200,7 +1164,7 @@ TOKEN :
     }
 }
 
-<REFERENCE,REFMODIFIER,REFMOD>
+<REFERENCE,REFMODIFIER,REFMOD,REFMOD3>
 SPECIAL_TOKEN :
 {
     <REFERENCE_TERMINATOR: ~[] >
@@ -1229,9 +1193,23 @@ SPECIAL_TOKEN :
             System.out.print("DIRECTIVE_TERM :");
 
         input_stream.backup(1);
-        inDirective = false;
         stateStackPop();
     }
+}
+
+/* TEXT must end with a newline, and contain at least one non-whitespace character in the first line,
+   so that the <WHITESPACE> <NEWLINE> sequence is not read as a TEXT (needed for space gobbling)
+*/
+TOKEN :
+{
+    <DOUBLE_ESCAPE : "\\\\">
+|   <ESCAPE: "\\" >
+|   <TEXT: (~["$", "#", "\\", "\r", "\n"])* (~["$", "#", "\\", "\r", "\n", " ", "\t"])+ (~["$", "#", "\\", "\r", "\n"])* <NEWLINE> ((~["$", "#", "\\", "\r", "\n"])* <NEWLINE>)* >
+}
+
+TOKEN :
+{
+    <INLINE_TEXT: (~["$", "#", "\\", "\r", "\n"])+ >
 }
 
 /**
@@ -1243,9 +1221,12 @@ SPECIAL_TOKEN :
  * which implements the ParserVisitor interface
  * which is generated automatically by JavaCC
  */
-SimpleNode process() : {}
+SimpleNode process() :
 {
-   ( Statement() )* <EOF>
+    boolean afterNewline = true;
+}
+{
+   ( LOOKAHEAD({ getToken(1).kind != EOF }) afterNewline = Statement(afterNewline) )* <EOF>
    { return jjtThis; }
 }
 
@@ -1253,17 +1234,23 @@ SimpleNode process() : {}
  * These are the types of statements that
  * are acceptable in Velocity templates.
  */
-void Statement() #void : {}
+boolean Statement(boolean afterNewline) #void :
 {
-    IfStatement()
-|   LOOKAHEAD(2) Reference()
-|   Comment()
-|   Textblock()
-|   SetDirective()
-|   EscapedDirective()
-|   Escape()
-|   Directive()
-|   Text()
+    boolean b = false;
+}
+{
+    LOOKAHEAD( { getToken(1).kind == IF_DIRECTIVE || afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == IF_DIRECTIVE } ) b = IfStatement() { return b ; }
+|   LOOKAHEAD(2) Reference() { return false; }
+|   LOOKAHEAD(2) Comment() { return false; }
+|   Textblock() { return false; }
+|   LOOKAHEAD( { getToken(1).kind == SET_DIRECTIVE || afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == SET_DIRECTIVE } ) b = SetDirective() { return b; }
+|   EscapedDirective() { return false; }
+|   Escape() { return false; }
+|   LOOKAHEAD( { getToken(1).kind == WORD || getToken(1).kind == BRACKETED_WORD || afterNewline && getToken(1).kind == WHITESPACE && ( getToken(2).kind == WORD || getToken(2).kind == BRACKETED_WORD ) } ) b = Directive() { return b; }
+|   b = Text() { return b; }
+|   (<NEWLINE>) #Text { return true; }
+|   (<INLINE_TEXT> ((<TEXT>)? { b = true; }) ) #Text { return b; }
+|   (<WHITESPACE>) #Text { return false; }
 }
 
 /**
@@ -1314,8 +1301,8 @@ void Escape() : {}
          */
         switch(t.next.kind ) {
             case IF_DIRECTIVE :
-            case ELSE_DIRECTIVE :
-            case ELSEIF_DIRECTIVE :
+            case ELSE :
+            case ELSEIF :
             case END :
                 control = true;
                 break;
@@ -1414,7 +1401,7 @@ int DirectiveArg() #void : {}
     /*
      * Need to put this before the floating point expansion
      */
-|   LOOKAHEAD(  <LBRACKET> [<WHITESPACE>] ( Reference() | IntegerLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
+|   LOOKAHEAD(  <LBRACKET> (<WHITESPACE> | <NEWLINE>)* ( Reference() | IntegerLiteral())     (<WHITESPACE> | <NEWLINE>)* <DOUBLEDOT> ) IntegerRange()
     {
         return ParserTreeConstants.JJTINTEGERRANGE;
     }
@@ -1449,10 +1436,11 @@ void DirectiveAssign() : {}
 /**
  *   Supports the Pluggable Directives
  *     #foo( arg+ )
+ * @returns true if ends with a newline
  */
-SimpleNode Directive() :
+boolean Directive() :
 {
-    Token t = null;
+    Token id = null, t = null, u = null;
     int argType;
     int argPos = 0;
     Directive d;
@@ -1460,23 +1448,32 @@ SimpleNode Directive() :
     boolean isVM = false;
     boolean isMacro = false;
     ArrayList argtypes = new ArrayList(4);
+    boolean newlineAtEnd = false, newlineBeforeStatement = false;
+    String blockPrefix = "";
+    ASTBlock block = null;
 }
 {
-
+    [
+      (t = <WHITESPACE>)
+      {
+          jjtThis.setPrefix(t.image);
+          t = null;
+      }
+    ]
     /*
      * note that if we were escaped, that is now handled by
      * EscapedDirective()
      */
-    ((t = <WORD>) | (t = <BRACKETED_WORD>))
+    ((id = <WORD>) | (id = <BRACKETED_WORD>))
     {
         String directiveName;
-        if (t.kind == ParserConstants.BRACKETED_WORD)
+        if (id.kind == ParserConstants.BRACKETED_WORD)
         {
-            directiveName = t.image.substring(2, t.image.length() - 1);
+            directiveName = id.image.substring(2, id.image.length() - 1);
         }
         else
         {
-            directiveName = t.image.substring(1);
+            directiveName = id.image.substring(1);
         }
 
         d = getDirective(directiveName);
@@ -1526,7 +1523,6 @@ SimpleNode Directive() :
          */
 
         token_source.SwitchTo(DIRECTIVE);
-
         argPos = 0;
     }
 
@@ -1538,14 +1534,16 @@ SimpleNode Directive() :
     /*
      *  if this is indeed a token, match the #foo ( arg ) pattern
      */
-    ([<WHITESPACE>] <LPAREN> ( LOOKAHEAD(2) [<WHITESPACE>] [<COMMA> [<WHITESPACE>]]
+    ((<WHITESPACE> | <NEWLINE>)* <LPAREN> ( LOOKAHEAD(2) (<WHITESPACE> | <NEWLINE>)* [<COMMA> (<WHITESPACE> | <NEWLINE>)*]
        (
            [LOOKAHEAD( { isMacro && isAssignment() })
-              DirectiveAssign() [<WHITESPACE>] <EQUALS> [<WHITESPACE>]
+            DirectiveAssign() (<WHITESPACE> | <NEWLINE>)* <EQUALS> ( <WHITESPACE> | <NEWLINE> )*
            {
                argtypes.add(ParserTreeConstants.JJTDIRECTIVEASSIGN);
            }
            ]
+           LOOKAHEAD( { getToken(1).kind != RPAREN } )
+           (
             argType = DirectiveArg()
             {
                 argtypes.add(argType);
@@ -1554,48 +1552,84 @@ SimpleNode Directive() :
                     if (isVM)
                     {
                         throw new MacroParseException("Invalid argument "
-                        + (argPos+1) + " in macro call " + t.image, currentTemplate.getName(), t);
+                          + (argPos+1) + " in macro call " + id.image, currentTemplate.getName(), id);
                     }
                 }
 
                 argPos++;
             }
+           )
         |
         {
           if (!isMacro)
           {
               // We only allow line comments in macro definitions for now
-              throw new MacroParseException("A Line comment is not allowed in " + t.image
-              + " arguments", currentTemplate.getName(), t);
+              throw new MacroParseException("A Line comment is not allowed in " + id.image
+                + " arguments", currentTemplate.getName(), id);
           }
         }
 
          <SINGLE_LINE_COMMENT_START> [<SINGLE_LINE_COMMENT>]
       )
-    )* [<WHITESPACE>] <RPAREN>)
+    )* (<WHITESPACE> | <NEWLINE>)* <RPAREN>
+     [
+       LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+       {
+           if (directiveType == Directive.LINE)
+           {
+               jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
+               newlineAtEnd = true;
+           }
+           else
+           {
+               blockPrefix = (t == null ? u.image : t.image + u.image);
+               newlineBeforeStatement = true;
+           }
+           t = u = null;
+       }
+     ]
+     )
     |
     {
         token_source.stateStackPop();
-        token_source.inDirective = false;
     }
     )
     {
         if (d != null)
         {
-            d.checkArgs(argtypes, t, currentTemplate.getName());
+            d.checkArgs(argtypes, id, currentTemplate.getName());
         }
-
         if (directiveType  == Directive.LINE)
         {
-            return jjtThis;
+            return newlineAtEnd;
         }
     }
     /*
      *  and the following block if the PD needs it
      */
-
-    ( Statement() )* #Block
-    <END>
+    ((( 
+        LOOKAHEAD( { getToken(1).kind != END && ( !newlineBeforeStatement || getToken(1).kind != WHITESPACE || getToken(2).kind != END ) }) newlineBeforeStatement = Statement(newlineBeforeStatement))* 
+        {
+            block = jjtThis;
+            block.setPrefix(blockPrefix);
+        })
+        #Block)
+    [ LOOKAHEAD( 1, { newlineBeforeStatement })
+     (t = <WHITESPACE>)
+      {
+          block.setPostfix(t.image);
+          t = null;
+      }
+    ]
+    (<END>
+     [ LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+     {
+         jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
+         t = u = null;
+         newlineAtEnd = true;
+     }
+     ]
+    )
     {
         /*
          *  VM : if we are processing a #macro directive, we need to
@@ -1615,14 +1649,14 @@ SimpleNode Directive() :
 
         if (d != null)
         {
-            d.checkArgs(argtypes, t, currentTemplate.getName());
+            d.checkArgs(argtypes, id, currentTemplate.getName());
         }
 
         /*
          *  VM : end
          */
 
-        return jjtThis;
+        return newlineAtEnd;
     }
 }
 
@@ -1637,7 +1671,7 @@ void Map() : {}
     (
       LOOKAHEAD(2) Parameter() <COLON> Parameter() (<COMMA> Parameter() <COLON> Parameter() )*
       |
-      [ <WHITESPACE> ]
+      ( <WHITESPACE> | <NEWLINE> )*
      )
 
      /** note: need both tokens as they are generated in different states **/
@@ -1657,11 +1691,11 @@ void ObjectArray() : {}
  */
 void IntegerRange() : {}
 {
-    <LBRACKET> [<WHITESPACE>]
+    <LBRACKET> (<WHITESPACE> | <NEWLINE>)*
     ( Reference() | IntegerLiteral())
-    [<WHITESPACE>] <DOUBLEDOT> [<WHITESPACE>]
+    (<WHITESPACE>|<NEWLINE>)* <DOUBLEDOT> (<WHITESPACE>|<NEWLINE>)*
     (Reference() | IntegerLiteral())
-    [<WHITESPACE>] <RBRACKET>
+    (<WHITESPACE>|<NEWLINE>)* <RBRACKET>
 }
 
 
@@ -1670,7 +1704,7 @@ void IntegerRange() : {}
  */
 void IndexParameter() #void: {}
 {
-    [<WHITESPACE>]
+    (<WHITESPACE>|<NEWLINE>)*
     (
         StringLiteral()
         | IntegerLiteral()
@@ -1678,7 +1712,7 @@ void IndexParameter() #void: {}
         | False()
         | Reference()
         )
-    [ <WHITESPACE>]
+    (<WHITESPACE>|<NEWLINE>)*
 }
 
 
@@ -1689,11 +1723,11 @@ void IndexParameter() #void: {}
  */
 void Parameter() #void: {}
 {
-    [<WHITESPACE>]
+    (<WHITESPACE>|<NEWLINE>)*
     (
         StringLiteral()
         | IntegerLiteral()
-        | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | IntegerLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
+        | LOOKAHEAD(  <LBRACKET> ( <WHITESPACE> | <NEWLINE> )*    ( Reference() | IntegerLiteral())     ( <WHITESPACE> | <NEWLINE> )* <DOUBLEDOT> ) IntegerRange()
         | Map()
         | ObjectArray()
         | True()
@@ -1768,20 +1802,21 @@ TOKEN :
  * This method is responsible for allowing
  * all non-grammar text to pass through
  * unscathed.
+ * @returns true if last read token was a newline
  */
-void Text() : {}
+boolean Text() : {}
 {
-    <TEXT>
-|   <DOT>
-|   <RPAREN>
-|   <LPAREN>
-|   <INTEGER_LITERAL>
-|   <FLOATING_POINT_LITERAL>
-|   <STRING_LITERAL>
-|   <ESCAPE>
-|   <LCURLY>
-|   <RCURLY>
-|   <EMPTY_INDEX>
+    <TEXT> { return true; }
+  |  <DOT> { return false; }
+  |  <RPAREN> { return false; }
+  |  <LPAREN> { return false; }
+  |  <INTEGER_LITERAL> { return false; }
+  |  <FLOATING_POINT_LITERAL> { return false; }
+  |  <STRING_LITERAL> { return false; }
+  |  <ESCAPE> { return false; }
+  |  <LCURLY> { return false; }
+  |  <RCURLY> { return false; }
+  |  <EMPTY_INDEX> { return false; }
 }
 
 /* -----------------------------------------------------------------------
@@ -1790,26 +1825,130 @@ void Text() : {}
  *
  * ----------------------------------------------------------------------*/
 
-void IfStatement() : {}
+boolean IfStatement() :
 {
-    <IF_DIRECTIVE> [<WHITESPACE>] <LPAREN> Expression() <RPAREN>
-    ( Statement() )* #Block
-    [ LOOKAHEAD(1) ( ElseIfStatement() )+ ]
-    [ LOOKAHEAD(1) ElseStatement() ]
+    Token t = null, u = null;
+    ASTBlock lastBlock = null;
+    boolean afterNewline = false, newlineAtEnd = false;
+}
+{
+    [ ( t = <WHITESPACE> )
+        {
+            jjtThis.setPrefix(t.image);
+            t = null;
+        }
+    ]
+    <IF_DIRECTIVE> ( <WHITESPACE> | <NEWLINE> )* <LPAREN> Expression() <RPAREN>
+    (
+      [
+        LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+        {
+            jjtThis.setPrefix(t == null ? u.image : t.image + u.image);
+            t = u = null;
+            afterNewline = true;
+        }
+      ]
+      ( LOOKAHEAD(
+        {
+            (getToken(1).kind != ELSEIF && getToken(1).kind != ELSE && getToken(1).kind != END) && 
+              (!afterNewline || getToken(1).kind != WHITESPACE || (getToken(2).kind != ELSEIF && getToken(2).kind != ELSE && getToken(2).kind != END))
+        }) 
+        afterNewline = Statement(afterNewline) )*
+        {
+            lastBlock = jjtThis;
+        }
+    ) #Block
+    [ LOOKAHEAD( { getToken(1).kind == ELSEIF || (afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == ELSEIF) })
+      ( LOOKAHEAD( { getToken(1).kind == ELSEIF || (afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == ELSEIF) }) ( lastBlock = ElseIfStatement(lastBlock) { afterNewline = lastBlock.endsWithNewline; } ))+ ]
+    [ LOOKAHEAD( { getToken(1).kind == ELSE || (afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == ELSE) } ) lastBlock = ElseStatement(lastBlock) { afterNewline = lastBlock.endsWithNewline; } ]
+    [ LOOKAHEAD( 1, { afterNewline } ) ( t = <WHITESPACE> )
+        {
+            lastBlock.setPostfix(t.image);
+            t = null;
+        }
+    ]
     <END>
+    [
+        LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+        {
+             jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
+             newlineAtEnd = true;
+        }
+    ]
+    {
+        return newlineAtEnd;
+    }
 }
 
-void ElseStatement() : {}
+ASTBlock ElseStatement(ASTBlock previousBlock) :
 {
-   <ELSE_DIRECTIVE>
-    ( Statement() )* #Block
+    Token t = null, u = null;
+    ASTBlock block = null;
+    boolean afterNewline = false;
+}
+{
+   [ ( t = <WHITESPACE> )
+     {
+         previousBlock.setPostfix(t.image);
+         t = null;
+     }
+   ]
+   <ELSE>
+   (
+     [
+       LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+       {
+           jjtThis.setPrefix(t == null ? u.image : t.image + u.image);
+           t = u = null;
+           afterNewline = true;
+       }
+     ]
+     ( LOOKAHEAD( { getToken(1).kind != END && (!afterNewline || getToken(1).kind != WHITESPACE || getToken(2).kind != END) }) afterNewline = Statement(afterNewline) )*
+     {
+         block = jjtThis;
+         block.endsWithNewline = afterNewline;
+     }
+    )
+    #Block
+    {
+        return block;
+    }
 }
 
-void ElseIfStatement() : {}
+ASTBlock ElseIfStatement(ASTBlock previousBlock) :
 {
-    <ELSEIF_DIRECTIVE> [<WHITESPACE>]
-    <LPAREN> Expression() <RPAREN>
-    ( Statement() )* #Block
+    Token t = null, u = null;
+    ASTBlock block = null;
+    boolean afterNewline = false;
+}
+{
+  [ ( t = <WHITESPACE> )
+    {
+        previousBlock.setPostfix(t.image);
+        t = null;
+    }
+  ]
+  <ELSEIF> ( <WHITESPACE> | <NEWLINE> )*
+  <LPAREN> Expression() <RPAREN>
+  (
+    [
+      LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+      {
+          jjtThis.setPrefix(t == null ? u.image : t.image + u.image);
+          t = u = null;
+          afterNewline = true;
+      }
+    ]
+    ( LOOKAHEAD( { (getToken(1).kind != ELSEIF && getToken(1).kind != ELSE && getToken(1).kind != END) && (!afterNewline || getToken(1).kind != WHITESPACE || (getToken(2).kind != ELSEIF && getToken(2).kind != ELSE && getToken(2).kind != END)) }) afterNewline = Statement(afterNewline) )*
+    {
+        block = jjtThis;
+        block.endsWithNewline = afterNewline;
+    }
+  )
+  #Block
+  {
+      return block;
+  }
 }
 
 /**
@@ -1817,9 +1956,19 @@ void ElseIfStatement() : {}
  *   #set( expr )
  *   #set expr
  */
-void SetDirective() : {}
+boolean SetDirective() :
 {
-    <SET_DIRECTIVE>([<WHITESPACE>] Reference() [<WHITESPACE>] <EQUALS>  Expression() <RPAREN>
+    Token t = null, u = null;
+    boolean endsWithNewline = false;
+}
+{
+    [ ( t = <WHITESPACE> )
+        {
+            jjtThis.setPrefix(t.image);
+            t = null;
+        }
+    ]
+    <SET_DIRECTIVE>(( <WHITESPACE> | <NEWLINE> )* Reference() ( <WHITESPACE> | <NEWLINE> )* <EQUALS>  Expression() <RPAREN>
     {
         /*
          * ensure that inSet is false.  Leads to some amusing bugs...
@@ -1827,7 +1976,16 @@ void SetDirective() : {}
 
         token_source.inSet = false;
     }
-    [<NEWLINE>] )
+    [
+        LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+        {
+             jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
+             endsWithNewline = true;
+        }
+    ] )
+    {
+        return endsWithNewline;
+    }
 }
 
 /* -----------------------------------------------------------------------
@@ -1902,18 +2060,21 @@ void MultiplicativeExpression() #void : {}
 
 void UnaryExpression() #void : {}
 {
-     LOOKAHEAD(2)  [<WHITESPACE>]  <LOGICAL_NOT>  UnaryExpression() #NotNode(1)
-|   PrimaryExpression()
+    ( <WHITESPACE> | <NEWLINE> )*
+    (
+          <LOGICAL_NOT>  UnaryExpression() #NotNode(1)
+      |   PrimaryExpression()
+    )
 }
 
 void PrimaryExpression() #void : {}
 {
-    [<WHITESPACE>]
+    ( <WHITESPACE> | <NEWLINE> )*
     (
      StringLiteral()
     | Reference()
     | IntegerLiteral()
-    | LOOKAHEAD(  <LBRACKET> [<WHITESPACE>]    ( Reference() | IntegerLiteral())     [<WHITESPACE>] <DOUBLEDOT> ) IntegerRange()
+    | LOOKAHEAD(  <LBRACKET> ( <WHITESPACE> | <NEWLINE> )*    ( Reference() | IntegerLiteral())     ( <WHITESPACE> | <NEWLINE> )* <DOUBLEDOT> ) IntegerRange()
     | FloatingPointLiteral()
     | Map()
     | ObjectArray()
@@ -1921,7 +2082,7 @@ void PrimaryExpression() #void : {}
     | False()
     | <LPAREN>  Expression()  <RPAREN>
      )
-    [<WHITESPACE>]
+    ( <WHITESPACE> | <NEWLINE> )*
 }
 
 

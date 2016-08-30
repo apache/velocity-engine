@@ -24,6 +24,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.parser.Parser;
 
 import java.io.IOException;
@@ -35,6 +36,12 @@ import java.io.Writer;
  */
 public class ASTBlock extends SimpleNode
 {
+    private String prefix = "";
+    private String postfix = "";
+
+    // used during parsing
+    public boolean endsWithNewline = false;
+    
     /**
      * @param id
      */
@@ -61,29 +68,76 @@ public class ASTBlock extends SimpleNode
     }
 
     /**
+     * @throws TemplateInitException
+     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
+     */
+    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    {
+        Object obj = super.init(context, data);
+        cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
+        return obj;
+    }
+
+    /**
+     * set indentation prefix
+     * @param prefix
+     */
+    public void setPrefix(String prefix)
+    {
+        this.prefix = prefix;
+    }
+
+    /**
+     * get indentation prefix
+     * @return indentation prefix
+     */
+    public String getPrefix()
+    {
+        return prefix;
+    }
+
+    /**
+     * set indentation postfix
+     * @param postfix
+     */
+    public void setPostfix(String postfix)
+    {
+        this.postfix = postfix;
+    }
+
+    /**
+     * get indentation postfix
+     * @return indentation prefix
+     */
+    public String getPostfix()
+    {
+        return postfix;
+    }
+
+    /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException,
         	ResourceNotFoundException, ParseErrorException
     {
+        SpaceGobbling spaceGobbling = rsvc.getSpaceGobbling();
+
+        if (spaceGobbling == SpaceGobbling.NONE)
+        {
+            writer.write(prefix);
+        }
+
         int i, k = jjtGetNumChildren();
 
         for (i = 0; i < k; i++)
             jjtGetChild(i).render(context, writer);
 
+        if (spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
+        {
+            writer.write(postfix);
+        }
+
         return true;
     }
-    
-    /**
-     * @throws TemplateInitException
-     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
-     */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
-    {
-    	Object obj = super.init(context, data);
-    	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
-    	return obj;
-    }
-    
 }
