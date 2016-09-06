@@ -28,17 +28,29 @@
     <release version="2.0" date="In Subversion">
 
       <action type="add" dev="cbrisson">
+        Add a configurable space gobbling feature, to control indentation in the generated code.
+        <br/>
+        Possible values for the 'space.gobbling' configuration key:
+        <ul>
+          <li><code>none</code> : no space gobbling at all</li>
+          <li><code>bc</code> : Velocity 1.x backward compatible space gobbling</li>
+          <li><code>lines</code> (the default) : gobbles whitespaces and endline from lines containing a single VTL directive</li>
+          <li><code>structured</code> : like 'lines', but also fixes indentation in children text blocks</li>
+        </ul>
+      </action>
+
+      <action type="add" dev="cbrisson">
         added a new pluggable ConversionHandler class which, by default, converts method arguments as needed between main basic Java data types (boolean, numbers and strings)
       </action>
-      
+
       <action type="add" dev="cbrisson">
         added a runtime.string.interning option to trigger Java String interning on or off
       </action>
-      
+
       <action type="add" dev="cbrisson" issue="VELOCITY-841" due-to="Jarkko Viinamäki">
         applied Jarkko memory-saving patch which frees tokens while parsing
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-843">
         support $array.empty, as for $list.empty
       </action>
