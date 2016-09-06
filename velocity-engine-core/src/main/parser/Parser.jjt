@@ -679,7 +679,7 @@ TOKEN:
  *  http://www.engr.mun.ca/~theo/JavaCC-FAQ/javacc-faq-ie.htm#tth_sEc3.12
  *
  */
-<DEFAULT, REFERENCE, REFMODIFIER, REFMOD2>
+<DEFAULT, PRE_REFERENCE, REFERENCE, REFMODIFIER, REFMOD2>
 TOKEN:
 {
   <SET_DIRECTIVE: ("#set" | "#{set}")  (" "|"\t")* "(">
@@ -725,11 +725,11 @@ MORE :
         if (! inComment)
         {
             /*
-             * if we find ourselves in REFERENCE, we need to pop down
+             * if we find ourselves in REFERENCE or PRE_REFERENCE, we need to pop down
              * to end the previous ref
              */
 
-            if (curLexState == REFERENCE)
+            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE)
             {
                 inReference = false;
                 stateStackPop();
@@ -738,10 +738,10 @@ MORE :
             inReference = true;
 
             if ( debugPrint )
-                System.out.print( "$  : going to " + REFERENCE );
+                System.out.print( "$  : going to " + PRE_REFERENCE );
 
             stateStackPush();
-            SwitchTo(REFERENCE);
+            SwitchTo(PRE_REFERENCE);
         }
     }
 
@@ -750,11 +750,11 @@ MORE :
         if (! inComment)
         {
             /*
-             * if we find ourselves in REFERENCE, we need to pop down
+             * if we find ourselves in REFERENCE or PRE_REFERENCE, we need to pop down
              * to end the previous ref
              */
 
-            if (curLexState == REFERENCE)
+            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE)
             {
                 inReference = false;
                 stateStackPop();
@@ -763,10 +763,10 @@ MORE :
             inReference = true;
 
             if ( debugPrint )
-                System.out.print( "$!  : going to " + REFERENCE );
+                System.out.print( "$!  : going to " + PRE_REFERENCE );
 
             stateStackPush();
-            SwitchTo(REFERENCE);
+            SwitchTo(PRE_REFERENCE);
         }
     }
 
@@ -812,7 +812,7 @@ MORE :
              * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
-            if (curLexState == REFERENCE || curLexState == REFMODIFIER )
+            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == REFMODIFIER )
             {
                 inReference = false;
                 stateStackPop();
@@ -824,19 +824,19 @@ MORE :
             stateStackPush();
             SwitchTo(PRE_DIRECTIVE);
         }
-    }
+  }
 }
 
 // treat the single line comment case separately
 // to avoid ##<EOF> errors
-<DEFAULT,PRE_DIRECTIVE,DIRECTIVE,REFERENCE>
+<DEFAULT,PRE_DIRECTIVE,DIRECTIVE,REFERENCE,PRE_REFERENCE>
 TOKEN :
 {
    <SINGLE_LINE_COMMENT_START: "##">
    {
         if (!inComment)
         {
-            if (curLexState == REFERENCE)
+            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE)
             {
                 inReference = false;
                 stateStackPop();
@@ -926,6 +926,19 @@ TOKEN:
 
         if (inSet)
             inSet = false;
+    }
+}
+
+/* needed for stuff like #foo() followed by ( '$' | '#' )* followed by ( <WHITESPACE> | <ENDLINE> )
+   so that directive postfix doesn't eat the '$'s and '#'s
+*/
+<PRE_DIRECTIVE, PRE_REFERENCE>
+TOKEN:
+{
+  <SUFFIX: ([" ","\t"])* ("\n" | "\r" | "\r\n")>
+  {
+    inReference = false;
+    stateStackPop();
     }
 }
 
@@ -1105,9 +1118,11 @@ TOKEN:
  *  for each state can be different.
  *
  *  $foo.bar( "arg" )
- *  ^   ^   ^       ^
- *  |   |   |       |
- *  |_________________ >  REFERENCE : state initiated by the '$' character.  Continues
+ *  ^ ^ ^   ^       ^
+ *  | | |   |       |
+ *  |_________________ >  PRE_REFERENCE : state initiated by the '$' character.
+ *  | | |   |       |
+ *  |__________________>  REFERENCE : state initiated by the identifier. Continues
  *      |   |       |     until end of the reference, or the . character.
  *      |_____________ >  REFMODIFIER : state switched to when the <DOT> is encountered.
  *          |       |     note that this is a switch, not a push. See notes at bottom.
@@ -1120,12 +1135,18 @@ TOKEN:
  *  or $foo.bar[1], $foo.bar( "arg" )[1]
  * ---------------------------------------------------------------------------- */
 
-<REFERENCE,REFMODIFIER,REFMOD2>
+<PRE_REFERENCE,REFMODIFIER,REFMOD2>
 TOKEN :
 {
     <#ALPHA_CHAR: ["a"-"z", "A"-"Z", "_"] >
 |   <#IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
 |   <IDENTIFIER:  ( <ALPHA_CHAR> ) (<IDENTIFIER_CHAR>)* >
+    {
+        if (curLexState == PRE_REFERENCE)
+        {
+            SwitchTo(REFERENCE);
+        }
+    }
 }
 
 <REFERENCE,REFMODIFIER,REFMOD2,REFMOD3>
@@ -1154,7 +1175,7 @@ TOKEN:
     }
 }
 
-<REFERENCE,REFMODIFIER,REFMOD3>
+<PRE_REFERENCE,REFERENCE,REFMODIFIER,REFMOD3>
 TOKEN :
 {
     <LCURLY: "{">
@@ -1164,7 +1185,7 @@ TOKEN :
     }
 }
 
-<REFERENCE,REFMODIFIER,REFMOD,REFMOD3>
+<PRE_REFERENCE,REFERENCE,REFMODIFIER,REFMOD,REFMOD3>
 SPECIAL_TOKEN :
 {
     <REFERENCE_TERMINATOR: ~[] >
@@ -1251,6 +1272,7 @@ boolean Statement(boolean afterNewline) #void :
 |   (<NEWLINE>) #Text { return true; }
 |   (<INLINE_TEXT> ((<TEXT>)? { b = true; }) ) #Text { return b; }
 |   (<WHITESPACE>) #Text { return false; }
+|   (<SUFFIX>) #Text { return true; }
 }
 
 /**
@@ -1796,7 +1818,7 @@ void False() : {}
  * with the LOOKAHEAD in Reference, but I never found a way to resolve
  * it in a more fashionable way..
  */
-<DEFAULT,REFERENCE>
+<DEFAULT,PRE_REFERENCE>
 TOKEN :
 {
   <EMPTY_INDEX : ("$[" | "$![" | "$\\![" | "$.")>

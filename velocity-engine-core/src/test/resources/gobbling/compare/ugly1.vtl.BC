@@ -1,0 +1,16 @@
+---
+ $
+ #
+ $$foo$
+ $$foo#
+ $#foo 
+ $#foo$
+ $#foo#
+ $#foo 
+ #$foo$
+ #$foo#
+ #$foo 
+ $#@foo()hop#end$
+ $#@foo()hop#end#
+ $#@foo()hop#end 
+---
