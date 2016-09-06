@@ -42,6 +42,11 @@ public class ASTBlock extends SimpleNode
     // used during parsing
     public boolean endsWithNewline = false;
     
+    /*
+     * '#' and '$' prefix characters eaten by javacc MORE mode, prefixing the '#' ending the block
+     */
+    private String morePostfix = "";
+
     /**
      * @param id
      */
@@ -96,6 +101,11 @@ public class ASTBlock extends SimpleNode
         return prefix;
     }
 
+    public void setMorePostfix(String morePosffix)
+    {
+        this.morePostfix = morePosffix;
+    }
+
     /**
      * set indentation postfix
      * @param postfix
@@ -133,10 +143,12 @@ public class ASTBlock extends SimpleNode
         for (i = 0; i < k; i++)
             jjtGetChild(i).render(context, writer);
 
-        if (spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
+        if (morePostfix.length() > 0 || spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
         {
             writer.write(postfix);
         }
+
+        writer.write(morePostfix);
 
         return true;
     }

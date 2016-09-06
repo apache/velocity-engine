@@ -1440,7 +1440,7 @@ void DirectiveAssign() : {}
  */
 boolean Directive() :
 {
-    Token id = null, t = null, u = null;
+    Token id = null, t = null, u = null, end = null;
     int argType;
     int argPos = 0;
     Directive d;
@@ -1467,13 +1467,14 @@ boolean Directive() :
     ((id = <WORD>) | (id = <BRACKETED_WORD>))
     {
         String directiveName;
+        int p = id.image.lastIndexOf('#');
         if (id.kind == ParserConstants.BRACKETED_WORD)
         {
-            directiveName = id.image.substring(2, id.image.length() - 1);
+            directiveName = id.image.substring(p + 2, id.image.length() - 1);
         }
         else
         {
-            directiveName = id.image.substring(1);
+            directiveName = id.image.substring(p + 1);
         }
 
         d = getDirective(directiveName);
@@ -1621,7 +1622,7 @@ boolean Directive() :
           t = null;
       }
     ]
-    (<END>
+    ((end = <END>)
      [ LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
      {
          jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
@@ -1629,6 +1630,10 @@ boolean Directive() :
          newlineAtEnd = true;
      }
      ]
+     {
+         int pos = end.image.lastIndexOf('#');
+         if (pos > 0) block.setMorePostfix(end.image.substring(0, pos));
+     }
     )
     {
         /*
@@ -1827,7 +1832,7 @@ boolean Text() : {}
 
 boolean IfStatement() :
 {
-    Token t = null, u = null;
+    Token t = null, u = null, end = null;
     ASTBlock lastBlock = null;
     boolean afterNewline = false, newlineAtEnd = false;
 }
@@ -1867,7 +1872,7 @@ boolean IfStatement() :
             t = null;
         }
     ]
-    <END>
+    (end = <END>)
     [
         LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
         {
@@ -1876,13 +1881,18 @@ boolean IfStatement() :
         }
     ]
     {
+        int pos = end.image.lastIndexOf('#');
+        if (pos > 0)
+        {
+            lastBlock.setMorePostfix(end.image.substring(0, pos));
+        }
         return newlineAtEnd;
     }
 }
 
 ASTBlock ElseStatement(ASTBlock previousBlock) :
 {
-    Token t = null, u = null;
+    Token t = null, u = null, _else = null;
     ASTBlock block = null;
     boolean afterNewline = false;
 }
@@ -1893,7 +1903,7 @@ ASTBlock ElseStatement(ASTBlock previousBlock) :
          t = null;
      }
    ]
-   <ELSE>
+   (_else = <ELSE>)
    (
      [
        LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
@@ -1911,13 +1921,18 @@ ASTBlock ElseStatement(ASTBlock previousBlock) :
     )
     #Block
     {
+        int pos = _else.image.lastIndexOf('#');
+        if (pos > 0)
+        {
+            previousBlock.setMorePostfix(_else.image.substring(0, pos));
+        }
         return block;
     }
 }
 
 ASTBlock ElseIfStatement(ASTBlock previousBlock) :
 {
-    Token t = null, u = null;
+    Token t = null, u = null, elseif = null;
     ASTBlock block = null;
     boolean afterNewline = false;
 }
@@ -1928,7 +1943,7 @@ ASTBlock ElseIfStatement(ASTBlock previousBlock) :
         t = null;
     }
   ]
-  <ELSEIF> ( <WHITESPACE> | <NEWLINE> )*
+  (elseif = <ELSEIF>) ( <WHITESPACE> | <NEWLINE> )*
   <LPAREN> Expression() <RPAREN>
   (
     [
@@ -1947,6 +1962,11 @@ ASTBlock ElseIfStatement(ASTBlock previousBlock) :
   )
   #Block
   {
+      int pos = elseif.image.lastIndexOf('#');
+      if (pos > 0)
+      {
+          previousBlock.setMorePostfix(elseif.image.substring(0, pos));
+      }
       return block;
   }
 }
