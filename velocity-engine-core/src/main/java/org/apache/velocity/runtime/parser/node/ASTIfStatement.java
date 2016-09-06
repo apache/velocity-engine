@@ -36,6 +36,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.Token;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -48,6 +49,11 @@ public class ASTIfStatement extends SimpleNode
 {
     private String prefix = "";
     private String postfix = "";
+
+    /*
+     * '#' and '$' prefix characters eaten by javacc MORE mode
+     */
+    private String morePrefix = "";
 
     /**
      * @param id
@@ -81,6 +87,20 @@ public class ASTIfStatement extends SimpleNode
     public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
     {
         Object obj = super.init(context, data);
+
+        /*
+         * handle '$' and '#' chars prefix
+         */
+        Token t = getFirstToken();
+        int pos = -1;
+        while (t != null && (pos = t.image.lastIndexOf('#')) == -1)
+        {
+            t = t.next;
+        }
+        if (t != null && pos > 0)
+        {
+            morePrefix = t.image.substring(0, pos);
+        }
 
         /* handle structured space gobbling */
         if (rsvc.getSpaceGobbling() == SpaceGobbling.STRUCTURED && postfix.length() > 0)
@@ -137,49 +157,50 @@ public class ASTIfStatement extends SimpleNode
     {
         SpaceGobbling spaceGobbling = rsvc.getSpaceGobbling();
 
-        if (spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
+        if (morePrefix.length() > 0 || spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
         {
             writer.write(prefix);
         }
 
+        writer.write(morePrefix);
+
         /*
          * Check if the #if(expression) construct evaluates to true:
-         * if so render and leave immediately because there
-         * is nothing left to do!
          */
         if (jjtGetChild(0).evaluate(context))
         {
             jjtGetChild(1).render(context, writer);
-            return true;
         }
-
-        int totalNodes = jjtGetNumChildren();
-
-        /*
-         * Now check the remaining nodes left in the
-         * if construct. The nodes are either elseif
-         *  nodes or else nodes. Each of these node
-         * types knows how to evaluate themselves. If
-         * a node evaluates to true then the node will
-         * render itself and this method will return
-         * as there is nothing left to do.
-         */
-        for (int i = 2; i < totalNodes; i++)
+        else
         {
-            if (jjtGetChild(i).evaluate(context))
+            int totalNodes = jjtGetNumChildren();
+
+            /*
+             * Now check the remaining nodes left in the
+             * if construct. The nodes are either elseif
+             *  nodes or else nodes. Each of these node
+             * types knows how to evaluate themselves. If
+             * a node evaluates to true then the node will
+             * render itself and this method will return
+             * as there is nothing left to do.
+             */
+            for (int i = 2; i < totalNodes; i++)
             {
-                jjtGetChild(i).render(context, writer);
-                break;
+                if (jjtGetChild(i).evaluate(context))
+                {
+                    jjtGetChild(i).render(context, writer);
+                    break;
+                }
             }
         }
 
-        if (spaceGobbling == SpaceGobbling.NONE)
+        if (morePrefix.length() > 0 || spaceGobbling == SpaceGobbling.NONE)
         {
             writer.write(postfix);
         }
 
         /*
-         * This is reached without rendering anything when an ASTIfStatement
+         * This is reached without rendering anything (other than potential suffix/prefix) when an ASTIfStatement
          * consists of an if/elseif sequence where none of the nodes evaluate to true.
          */
 

@@ -61,6 +61,11 @@ public class ASTDirective extends SimpleNode
     private String prefix = "";
     private String postfix = "";
 
+    /*
+     * '#' and '$' prefix characters eaten by javacc MORE mode
+     */
+    private String morePrefix = "";
+
     /**
      * @param id
      */
@@ -93,11 +98,27 @@ public class ASTDirective extends SimpleNode
     public synchronized Object init( InternalContextAdapter context, Object data)
     throws TemplateInitException
     {
+        Token t;
+
         /** method is synchronized to avoid concurrent directive initialization **/
 
         if (!isInitialized)
         {
             super.init( context, data );
+
+            /*
+             * handle '$' and '#' chars prefix
+             */
+            t = getFirstToken();
+            int pos = -1;
+            while (t != null && (pos = t.image.lastIndexOf('#')) == -1)
+            {
+                t = t.next;
+            }
+            if (t != null && pos > 0)
+            {
+                morePrefix = t.image.substring(0, pos);
+            }
 
             /*
              *  only do things that are not context dependent
@@ -127,7 +148,7 @@ public class ASTDirective extends SimpleNode
                             e);
                 }
 
-                Token t = first;
+                t = getFirstToken();
                 if (t.kind == ParserConstants.WHITESPACE) t = t.next;
                 directive.setLocation(t.beginLine, t.beginColumn, getTemplate());
                 directive.init(rsvc, context, this);
@@ -200,7 +221,7 @@ public class ASTDirective extends SimpleNode
             cleanupParserAndTokens();
         }
 
-        if (rsvc.getSpaceGobbling() == SpaceGobbling.STRUCTURED && isInitialized && isDirective && directive.getType() == Directive.BLOCK)
+        if (morePrefix.length() == 0 && rsvc.getSpaceGobbling() == SpaceGobbling.STRUCTURED && isInitialized && isDirective && directive.getType() == Directive.BLOCK)
         {
             NodeUtils.fixIndentation(this, prefix);
         }
@@ -262,14 +283,16 @@ public class ASTDirective extends SimpleNode
 
         if (isDirective)
         {
-            if (spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
+            if (morePrefix.length() > 0 || spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
             {
                 writer.write(prefix);
             }
 
+            writer.write(morePrefix);
+
             directive.render(context, writer, this);
 
-            if (spaceGobbling == SpaceGobbling.NONE)
+            if (morePrefix.length() > 0 || spaceGobbling == SpaceGobbling.NONE)
             {
                 writer.write(postfix);
             }
@@ -277,6 +300,7 @@ public class ASTDirective extends SimpleNode
         else
         {
             writer.write(prefix);
+            writer.write(morePrefix);
             writer.write( "#");
             writer.write(directiveName);
             writer.write(postfix);

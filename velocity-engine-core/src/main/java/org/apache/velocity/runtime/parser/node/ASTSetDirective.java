@@ -26,6 +26,7 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.introspection.Info;
 
 import java.io.IOException;
@@ -46,6 +47,12 @@ public class ASTSetDirective extends SimpleNode
     private boolean isInitialized;
     private String prefix = "";
     private String postfix = "";
+
+    /*
+     * '#' and '$' prefix characters eaten by javacc MORE mode
+     */
+    private String morePrefix = "";
+
 
     /**
      *  This is really immutable after the init, so keep one for this node
@@ -102,6 +109,21 @@ public class ASTSetDirective extends SimpleNode
     
             super.init( context, data );
     
+            /*
+             * handle '$' and '#' chars prefix
+             */
+            Token t = getFirstToken();
+            int pos = -1;
+            while (t != null && (pos = t.image.lastIndexOf('#')) == -1)
+            {
+                t = t.next;
+            }
+            if (t != null && pos > 0)
+            {
+                morePrefix = t.image.substring(0, pos);
+            }
+
+
             uberInfo = new Info(getTemplateName(),
                     getLine(), getColumn());
     
@@ -199,10 +221,12 @@ public class ASTSetDirective extends SimpleNode
            We handle this by appropriately emptying the prefix in BC mode.
          */
 
-        if (spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
+        if (morePrefix.length() > 0 || spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
         {
             writer.write(prefix);
         }
+
+        writer.write(morePrefix);
 
         /*
          *  get the RHS node, and its value
@@ -220,11 +244,10 @@ public class ASTSetDirective extends SimpleNode
             EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
         }
 
-        if (spaceGobbling == SpaceGobbling.NONE)
+        if (morePrefix.length() > 0 || spaceGobbling == SpaceGobbling.NONE)
         {
             writer.write(postfix);
         }
-
 
         return left.setValue(context, value);
     }
