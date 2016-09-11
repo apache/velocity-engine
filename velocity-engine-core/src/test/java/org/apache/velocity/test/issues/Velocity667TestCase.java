@@ -33,7 +33,7 @@ public class Velocity667TestCase extends BaseTestCase
   
     public void test667()
     {
-          assertEvalExceptionAt("#macro", 1, 1);
-          assertEvalExceptionAt("#macro #macro", 1, 1);
+          assertEvalExceptionAt("#macro", 1, 6);
+          assertEvalExceptionAt("#macro #macro", 1, 7);
     }
 }

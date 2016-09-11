@@ -740,7 +740,11 @@ MORE :
             if ( debugPrint )
                 System.out.print( "$  : going to " + PRE_REFERENCE );
 
-            stateStackPush();
+            /* do not push PRE states */
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            {
+                stateStackPush();
+            }
             SwitchTo(PRE_REFERENCE);
         }
     }
@@ -765,7 +769,11 @@ MORE :
             if ( debugPrint )
                 System.out.print( "$!  : going to " + PRE_REFERENCE );
 
-            stateStackPush();
+            /* do not push PRE states */
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            {
+                stateStackPush();
+            }
             SwitchTo(PRE_REFERENCE);
         }
     }
@@ -775,7 +783,11 @@ MORE :
        if (!inComment)
        {
            inComment = true;
-           stateStackPush();
+            /* do not push PRE states */
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            {
+                stateStackPush();
+            }
            SwitchTo( IN_TEXTBLOCK );
        }
     }
@@ -784,10 +796,14 @@ MORE :
     {
     	if (!inComment)
     	{
-	        input_stream.backup(1);
-	        inComment = true;
+	    input_stream.backup(1);
+	    inComment = true;
+            /* do not push PRE states */
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            {
 	        stateStackPush();
-	        SwitchTo( IN_FORMAL_COMMENT);
+            }
+	    SwitchTo( IN_FORMAL_COMMENT);
     	}
     }
 
@@ -795,9 +811,13 @@ MORE :
     {
     	if (!inComment)
     	{
-	        inComment=true;
+	    inComment=true;
+            /* do not push PRE states */
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            {
 	        stateStackPush();
-	        SwitchTo( IN_MULTI_LINE_COMMENT );
+            }
+	    SwitchTo( IN_MULTI_LINE_COMMENT );
     	}
     }
 
@@ -821,7 +841,11 @@ MORE :
             if ( debugPrint )
                 System.out.print("# :  going to " + DIRECTIVE );
 
-            stateStackPush();
+            /* do not push PRE states */
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            {
+                stateStackPush();
+            }
             SwitchTo(PRE_DIRECTIVE);
         }
   }
@@ -1595,6 +1619,12 @@ boolean Directive() :
          <SINGLE_LINE_COMMENT_START> [<SINGLE_LINE_COMMENT>]
       )
     )* (<WHITESPACE> | <NEWLINE>)* <RPAREN>
+     )
+    |
+    {
+        token_source.stateStackPop();
+    }
+    )
      [
        LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
        {
@@ -1611,12 +1641,6 @@ boolean Directive() :
            t = u = null;
        }
      ]
-     )
-    |
-    {
-        token_source.stateStackPop();
-    }
-    )
     {
         if (d != null)
         {
