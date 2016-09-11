@@ -256,11 +256,6 @@ public class ASTDirective extends SimpleNode
         this.postfix = postfix;
     }
 
-    public int getDirectiveType()
-    {
-        return directive.getType();
-    }
-
     /**
      * get indentation postfix
      * @return indentation prefix
@@ -268,6 +263,20 @@ public class ASTDirective extends SimpleNode
     public String getPostfix()
     {
         return postfix;
+    }
+
+    /**
+     * more prefix getter
+     * @return more prefix
+     */
+    public String getMorePrefix()
+    {
+        return morePrefix;
+    }
+
+    public int getDirectiveType()
+    {
+        return directive.getType();
     }
 
     /**

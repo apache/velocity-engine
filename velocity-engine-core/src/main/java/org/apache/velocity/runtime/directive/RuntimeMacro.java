@@ -28,9 +28,11 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.util.StringUtils;
 
@@ -174,28 +176,56 @@ public class RuntimeMacro extends Directive
 
     /**
      * It is probably quite rare that we need to render the macro literal
-     * so do it only on-demand and then cache the value. This tactic helps to
-     * reduce memory usage a bit.
+     * but since we won't keep the tokens in memory, we need to calculate it
+     * at parsing time.
      */
     private String getLiteral()
     {
+        SpaceGobbling spaceGobbling = rsvc.getSpaceGobbling();
+        ASTDirective directive = (ASTDirective)node;
+
+        String morePrefix = directive.getMorePrefix();
+
         if (literal == null)
         {
             StringBuilder buffer = new StringBuilder();
             Token t = node.getFirstToken();
 
+            /* avoid outputting twice the prefix and the 'MORE' prefix,
+             * but still display the prefix in the cases where the ASTDirective would hide it */
+            int pos = -1;
             while (t != null && t != node.getLastToken())
             {
-                buffer.append(t.image);
+                if (pos == -1) pos = t.image.lastIndexOf('#');
+                if (pos != -1)
+                {
+                    buffer.append(t.image.substring(pos));
+                    pos = 0;
+                }
+                else if (morePrefix.length() == 0 && spaceGobbling.compareTo(SpaceGobbling.LINES) >= 0)
+                {
+                    buffer.append(t.image);
+                }
                 t = t.next;
             }
 
             if (t != null)
             {
-                buffer.append(t.image);
+                if (pos == -1) pos = t.image.lastIndexOf('#');
+                if (pos != -1)
+                {
+                    buffer.append(t.image.substring(pos));
+                }
             }
 
             literal = buffer.toString();
+            /* avoid outputting twice the postfix, but still display it in the cases
+             * where the ASTDirective would hide it */
+            String postfix = directive.getPostfix();
+            if ((morePrefix.length() > 0 || spaceGobbling == SpaceGobbling.NONE) && literal.endsWith(postfix))
+            {
+                literal = literal.substring(0, literal.length() - postfix.length());
+            }
         }
         return literal;
     }

@@ -22,6 +22,7 @@ line4
   
 block foo
 
+
   </b>
 </a>
 
@@ -39,5 +40,6 @@ line4
       
 block foo
 
-      </b>
+    
+  </b>
 </a>

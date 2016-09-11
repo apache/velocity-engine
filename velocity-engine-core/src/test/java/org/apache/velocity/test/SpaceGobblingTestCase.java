@@ -123,7 +123,7 @@ public class SpaceGobblingTestCase extends BaseTestCase
         writer.flush();
         writer.close();
 
-        if (false)//!isMatch(RESULT_DIR, COMPARE_DIR, templateFile, mode.toString(), mode.toString()))
+        if (!isMatch(RESULT_DIR, COMPARE_DIR, templateFile, mode.toString(), mode.toString()))
         {
             String result = getFileContents(RESULT_DIR, templateFile, mode.toString());
             String compare = getFileContents(COMPARE_DIR, templateFile, mode.toString());
