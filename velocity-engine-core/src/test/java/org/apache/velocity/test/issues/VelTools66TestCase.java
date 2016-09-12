@@ -78,10 +78,19 @@ public class VelTools66TestCase
     public void testVelTools66()
             throws Exception
     {
+        /* the testcase is obsolete in JDK 8, as SystemManager.checkMemberAccess is not anymore called
+         * by Class.getMethods() */
+        
+        int javaVersion = Integer.parseInt(System.getProperty("java.version").split("\\.")[1]);
+        if (javaVersion >= 8)
+        {
+            return;
+        }
+
         Method verifyMethod = TestInterface.class.getMethod("getTestValue", new Class[0]);
 
         RuntimeInstance ri = new RuntimeInstance();
-        log = new TestLogger();
+        log = new TestLogger(false, false);
         Introspector introspector = new Introspector(log);
 
         Method testMethod = introspector.getMethod(TestObject.class, "getTestValue", new Object[0]);
