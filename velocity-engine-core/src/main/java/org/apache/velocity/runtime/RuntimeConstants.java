@@ -115,7 +115,16 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /**  */
+    /**
+     * The <code>resource.manager.instance</code> property specifies an existing instance of a
+     * {@link org.apache.velocity.runtime.resource.ResourceManager} implementation to use
+     */
+    String RESOURCE_MANAGER_INSTANCE = "resource.manager.instance";
+
+    /**
+    * The <code>resource.manager.class</code> property specifies the name of the
+    * {@link org.apache.velocity.runtime.resource.ResourceManager} implementation to use.
+    */
     String RESOURCE_MANAGER_CLASS = "resource.manager.class";
 
     /**
