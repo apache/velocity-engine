@@ -41,6 +41,18 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <debug>false</debug>
+          <optimize>true</optimize>
+          <showDeprecation>true</showDeprecation>
+          <showWarning>true</showWarning>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <version>2.4.3</version>
         <configuration>
@@ -103,6 +115,10 @@
             <property>
               <name>test.result.dir</name>
               <value>${project.build.directory}/results</value>
+            </property>
+            <property>
+              <name>org.slf4j.simpleLogger.defaultLogLevel</name>
+              <value>warn</value>
             </property>
           </systemProperties>          
         </configuration>
