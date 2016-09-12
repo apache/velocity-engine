@@ -752,9 +752,24 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /*
          * Which resource manager?
          */
+        Object inst = getProperty(RuntimeConstants.RESOURCE_MANAGER_INSTANCE);
         String rm = getString(RuntimeConstants.RESOURCE_MANAGER_CLASS);
 
-        if (rm != null && rm.length() > 0)
+        if (inst != null)
+        {
+            if (ResourceManager.class.isAssignableFrom(inst.getClass()))
+            {
+                resourceManager = (ResourceManager)inst;
+                resourceManager.initialize(this);
+            }
+            else
+            {
+                String msg = inst.getClass().getName() + " object set as resource.manager.instance is not a valid org.apache.velocity.runtime.resource.ResourceManager.";
+                log.error(msg);
+                throw new VelocityException(msg);
+            }
+        }
+        else if (rm != null && rm.length() > 0)
         {
             /*
              *  if something was specified, then make one.
@@ -795,8 +810,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
 
             resourceManager = (ResourceManager) o;
-
             resourceManager.initialize(this);
+            setProperty(RESOURCE_MANAGER_INSTANCE, resourceManager);
          }
          else
          {
@@ -804,7 +819,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
              *  someone screwed up.  Lets not fool around...
              */
 
-            String err = "It appears that no class was specified as the"
+            String err = "It appears that no class or instance was specified as the"
             + " ResourceManager.  Please ensure that all configuration"
             + " information is correct.";
 
