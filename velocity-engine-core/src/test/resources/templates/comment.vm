@@ -64,3 +64,15 @@ Test of multiline/singleline combo
 with some closing text
 
 ##test
+
+
+Test for Velocity-783:
+
+#set( $map = { 'foo' : 'bar' })
+$map.size()## ok
+$map.foo## not ok before bugfix
+$map.foo ## ok with a space behind
+${map.foo}## ok with curly braces
+$map## ok
+schmoo## ok
+

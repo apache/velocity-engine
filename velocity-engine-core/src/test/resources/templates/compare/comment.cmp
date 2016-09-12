@@ -28,3 +28,8 @@ Test of multiline/singleline combo
 
 with some closing text
 
+
+
+Test for Velocity-783:
+
+1barbar bar{foo=bar}schmoo
