@@ -48,7 +48,7 @@
       </action>
 
       <action type="add" dev="cbrisson" issue="VELOCITY-841" due-to="Jarkko Viinamäki">
-        applied Jarkko memory-saving patch which frees tokens while parsing
+        Applied Jarkko memory-saving patch which frees tokens while parsing. Macros now use a call by sharing convention.
       </action>
 
       <action type="fix" dev="cbrisson" issue="VELOCITY-843">
