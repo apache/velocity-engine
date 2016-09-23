@@ -247,11 +247,18 @@ public class ASTReference extends SimpleNode
              * do not trigger an invalid reference if the reference is present, but with a null value
              * don't either for a quiet reference or inside an #if/#elseif evaluation context
              */
-            if (!context.containsKey(rootString) && referenceType != QUIET_REFERENCE && !onlyTestingReference)
+            if (referenceType != QUIET_REFERENCE  &&
+                    (numChildren > 0 ||
+                            !context.containsKey(rootString) && !onlyTestingReference))
             {
                 return EventHandlerUtil.invalidGetMethod(rsvc, context,
                         "$" + rootString, null, null, uberInfo);
             }
+            
+            /*
+             * otherwise, simply return null
+             */
+            return null;
         }
 
         /*
