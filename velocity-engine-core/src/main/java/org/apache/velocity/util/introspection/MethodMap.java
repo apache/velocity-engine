@@ -238,6 +238,7 @@ public class MethodMap
                                                 bestMatchTypes = methodTypes;
                                                 bestMatchComp = compare(bestMatchTypes, unboxedArgs);
                                                 equivalentMatches = null;
+                                                ambiguities = 0;
                                             }
                                             break;
                                     }
@@ -246,6 +247,24 @@ public class MethodMap
                             break;
 
                         case INCOMPARABLE:
+                            /* do not retain method if it's more specific than (or incomparable to) provided (unboxed) arguments
+                             * while best batch is less specific
+                             */
+                            if (bestMatchComp == LESS_SPECIFIC && compare(methodTypes, unboxedArgs) != LESS_SPECIFIC)
+                            {
+                                break;
+                            }
+                            /* retain it anyway if less specific than (unboxed) provided args while
+                             * bestmatch is more specific or incomparable
+                             */
+                            if (bestMatchComp != LESS_SPECIFIC && compare(methodTypes, unboxedArgs) == LESS_SPECIFIC)
+                            {
+                                bestMatch = method;
+                                bestMatchTypes = methodTypes;
+                                bestMatchComp = compare(bestMatchTypes, unboxedArgs);
+                                equivalentMatches = null;
+                                break;
+                            }
                             if (equivalentMatches == null)
                             {
                                 equivalentMatches = new ArrayList(bestMatchTypes.length);
@@ -255,9 +274,9 @@ public class MethodMap
 
                         case LESS_SPECIFIC:
                             /* retain it anyway if less specific than (unboxed) provided args while
-                             * bestmatch is more specific
+                             * bestmatch is more specific or incomparable
                              */
-                            if (bestMatchComp == MORE_SPECIFIC && compare(methodTypes, unboxedArgs) == LESS_SPECIFIC)
+                            if (bestMatchComp != LESS_SPECIFIC && compare(methodTypes, unboxedArgs) == LESS_SPECIFIC)
                             {
                                 bestMatch = method;
                                 bestMatchTypes = methodTypes;

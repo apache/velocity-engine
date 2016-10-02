@@ -77,7 +77,7 @@ public class UberspectorTestCase
 
         // Don't screw up on empty properties. That should map to get("")
         assertNotNull(getter);
-        assertEquals("Found wrong method", "get", getter. getMethodName());
+        assertEquals("Found wrong method", "get", getter.getMethodName());
     }
 
     public void testEmptyPropertySetter()
@@ -259,6 +259,24 @@ public class UberspectorTestCase
         assertEquals("Found wrong method", "setpremium", setter.getMethodName());
     }
 
+    public void testDisambiguation()
+            throws Exception
+    {
+        VelPropertySet setter;
+
+        Uberspect u = ri.getUberspect();
+        UberspectorTestObject uto = new UberspectorTestObject();
+
+        // setUnambigous() - String
+        setter = u.getPropertySet(uto, "unambiguous", "string", null);
+        assertNotNull(setter);
+        setter.invoke(uto, "string");
+
+        // setUnambigous() - HashMap
+        setter = u.getPropertySet(uto, "unambiguous", new HashMap(), null);
+        assertNotNull(setter);
+        setter.invoke(uto, new HashMap());
+    }
 
     /*
      *
