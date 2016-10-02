@@ -19,6 +19,8 @@ package org.apache.velocity.test.misc;
  * under the License.    
  */
 
+import java.util.Map;
+
 public class UberspectorTestObject
 {
     private String regular;
@@ -29,6 +31,8 @@ public class UberspectorTestObject
 
     private String ambigous;
 
+    private String unambiguous;
+    
     /**
      * @return the premium
      */
@@ -115,5 +119,15 @@ public class UberspectorTestObject
     public void setAmbigous(StringBuffer ambigous)
     {
         this.ambigous = ambigous.toString();
+    }
+
+    public void setUnambiguous(String unambiguous)
+    {
+        this.unambiguous = unambiguous;
+    }
+
+    public void setUnambiguous(Map unambiguous)
+    {
+        this.unambiguous = unambiguous.toString();
     }
 }
