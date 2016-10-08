@@ -70,6 +70,12 @@ public class ASTMulNode extends ASTMathNode
     	return obj;
     }
     
+    @Override
+    public String getLiteralOperator()
+    {
+        return "*";
+    }
+
 }
 
 

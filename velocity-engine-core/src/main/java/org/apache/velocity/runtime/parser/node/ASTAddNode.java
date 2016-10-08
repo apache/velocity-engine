@@ -75,6 +75,12 @@ public class ASTAddNode extends ASTMathNode
         return null;
     }
 
+    @Override
+    public String getLiteralOperator()
+    {
+        return "+";
+    }
+
     public Number perform(Number left, Number right, InternalContextAdapter context)
     {
         return MathUtils.add(left, right);

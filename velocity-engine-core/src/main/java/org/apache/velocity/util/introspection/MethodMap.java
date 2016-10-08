@@ -19,8 +19,6 @@ package org.apache.velocity.util.introspection;
  * under the License.    
  */
 
-import org.apache.commons.lang3.Conversion;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;

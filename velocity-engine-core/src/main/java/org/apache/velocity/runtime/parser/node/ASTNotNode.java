@@ -86,4 +86,10 @@ public class ASTNotNode extends SimpleNode
     	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
     	return obj;
     }
+
+    @Override
+    public String literal()
+    {
+        return "!" + jjtGetChild(0).literal();
+    }
 }

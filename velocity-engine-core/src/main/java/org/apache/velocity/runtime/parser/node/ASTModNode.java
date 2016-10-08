@@ -88,5 +88,11 @@ public class ASTModNode extends ASTMathNode
     	return obj;
     }
     
+    @Override
+    public String getLiteralOperator()
+    {
+        return "%";
+    }
+
 }
 

@@ -21,7 +21,6 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
 
 /**
@@ -32,7 +31,7 @@ import org.apache.velocity.runtime.parser.Parser;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
 */
-public class ASTOrNode extends SimpleNode
+public class ASTOrNode extends ASTLogicalOperator
 {
     /**
      * @param id
@@ -49,6 +48,12 @@ public class ASTOrNode extends SimpleNode
     public ASTOrNode(Parser p, int id)
     {
         super(p, id);
+    }
+
+    @Override
+    public String getLiteralOperator()
+    {
+        return "||";
     }
 
     /**
@@ -106,18 +111,6 @@ public class ASTOrNode extends SimpleNode
 
         return false;
     }
-    
-    /**
-     * @throws TemplateInitException
-     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
-     */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
-    {
-    	Object obj = super.init(context, data);
-    	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
-    	return obj;
-    }
-
 }
 
 

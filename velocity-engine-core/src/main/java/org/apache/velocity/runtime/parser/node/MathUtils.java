@@ -213,7 +213,7 @@ public abstract class MathUtils
         {
             return Long.valueOf(value);
         }
-        return BigInteger.valueOf( value);
+        return BigInteger.valueOf(value);
     }
 
     /**
@@ -228,9 +228,9 @@ public abstract class MathUtils
     {
         if ( typesBySize.indexOf( op1.getClass()) > typesBySize.indexOf( op2.getClass()))
         {
-            return wrapPrimitive( value, op1.getClass());
+            return wrapPrimitive(value, op1.getClass());
         }
-        return wrapPrimitive( value, op2.getClass());
+        return wrapPrimitive(value, op2.getClass());
     }
 
     /**
@@ -261,6 +261,31 @@ public abstract class MathUtils
         }
 
         if ((op1 instanceof Double) || (op2 instanceof Double))
+        {
+            return BASE_DOUBLE;
+        }
+        return BASE_FLOAT;
+    }
+
+    /**
+     * Find the Number-type to be used for a single number
+     *
+     * @param op operand
+     * @return constant indicating type of Number to use in calculations
+     */
+    public static int findCalculationBase(Number op)
+    {
+        if (isInteger(op))
+        {
+            if (op instanceof BigInteger)
+            {
+                return BASE_BIGINTEGER;
+            }
+            return BASE_LONG;
+        } else if (op instanceof BigDecimal)
+        {
+            return BASE_BIGDECIMAL;
+        } else if (op instanceof Double)
         {
             return BASE_DOUBLE;
         }
@@ -478,6 +503,37 @@ public abstract class MathUtils
             // Default is BigDecimal operation
             default:
                 return toBigDecimal( op1 ).compareTo( toBigDecimal ( op2 ));
+        }
+    }
+
+    /**
+     * Negate a number
+     * @param op n
+     * @return -n (unary negation of n)
+     */
+    public static Number negate(Number op)
+    {
+        int calcBase = findCalculationBase( op);
+        switch (calcBase) {
+            case BASE_BIGINTEGER:
+                return toBigInteger(op).negate();
+            case BASE_LONG:
+                long l = op.longValue();
+                /* overflow check */
+                if (l == Long.MIN_VALUE)
+                {
+                    return toBigInteger(l).negate();
+                }
+                return wrapPrimitive(-l, op.getClass());
+            case BASE_FLOAT:
+                float f = op.floatValue();
+                return -f;
+            case BASE_DOUBLE:
+                double d = op.doubleValue();
+                return -d;
+            // Default is BigDecimal operation
+            default:
+                return toBigDecimal(op).negate();
         }
     }
 }

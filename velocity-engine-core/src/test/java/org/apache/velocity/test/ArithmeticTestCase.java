@@ -64,8 +64,8 @@ public class ArithmeticTestCase extends TestCase
     private void addHelper (Number n1, Number n2, double expectedResult, Class expectedResultType)
     {
         Number result = MathUtils.add( n1, n2);
-        assertEquals ("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
-        assertEquals ("ResultType does not match.", expectedResultType, result.getClass());
+        assertEquals("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
+        assertEquals("ResultType does not match.", expectedResultType, result.getClass());
     }
 
     public void testSubtract()
@@ -79,15 +79,15 @@ public class ArithmeticTestCase extends TestCase
 
         // Test overflow
         subtractHelper (new Integer(Integer.MIN_VALUE), new Short( (short)20), (double)Integer.MIN_VALUE-20, Long.class);
-        subtractHelper (new Integer (-20), new Long(Long.MAX_VALUE), -20d-(double)Long.MAX_VALUE, BigInteger.class);
-        subtractHelper (new Integer (Integer.MAX_VALUE), new Long(Long.MIN_VALUE), (double)Long.MAX_VALUE+(double)Integer.MAX_VALUE, BigInteger.class);
+        subtractHelper(new Integer(-20), new Long(Long.MAX_VALUE), -20d - (double) Long.MAX_VALUE, BigInteger.class);
+        subtractHelper(new Integer(Integer.MAX_VALUE), new Long(Long.MIN_VALUE), (double) Long.MAX_VALUE + (double) Integer.MAX_VALUE, BigInteger.class);
     }
 
     private void subtractHelper (Number n1, Number n2, double expectedResult, Class expectedResultType)
     {
         Number result = MathUtils.subtract( n1, n2);
-        assertEquals ("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
-        assertEquals ("ResultType does not match.", expectedResultType, result.getClass());
+        assertEquals("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
+        assertEquals("ResultType does not match.", expectedResultType, result.getClass());
     }
 
     public void testMultiply()
@@ -102,15 +102,15 @@ public class ArithmeticTestCase extends TestCase
 
         // Test overflow
         multiplyHelper (new Integer(Integer.MAX_VALUE), new Short( (short)10), (double)Integer.MAX_VALUE*10d, Long.class);
-        multiplyHelper (new Integer(Integer.MAX_VALUE), new Short( (short)-10), (double)Integer.MAX_VALUE*-10d, Long.class);
-        multiplyHelper (new Integer (20), new Long(Long.MAX_VALUE), 20d*(double)Long.MAX_VALUE, BigInteger.class);
+        multiplyHelper(new Integer(Integer.MAX_VALUE), new Short((short) -10), (double) Integer.MAX_VALUE * -10d, Long.class);
+        multiplyHelper(new Integer(20), new Long(Long.MAX_VALUE), 20d * (double) Long.MAX_VALUE, BigInteger.class);
     }
 
     private void multiplyHelper (Number n1, Number n2, double expectedResult, Class expectedResultType)
     {
         Number result = MathUtils.multiply( n1, n2);
-        assertEquals ("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
-        assertEquals ("ResultType does not match.", expectedResultType, result.getClass());
+        assertEquals("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
+        assertEquals("ResultType does not match.", expectedResultType, result.getClass());
     }
 
     public void testDivide()
@@ -120,23 +120,23 @@ public class ArithmeticTestCase extends TestCase
         divideHelper (BigInteger.valueOf(10), new Short( (short)2), 5, BigInteger.class);
         divideHelper (new Integer(10), new Short( (short)4), 2, Integer.class);
         divideHelper (new Integer(10), new Float( 2.5f), 4, Float.class);
-        divideHelper (new Integer(10), new Double( 2.5), 4, Double.class);
-        divideHelper (new Integer(10), new BigDecimal( 2.5), 4, BigDecimal.class);
+        divideHelper(new Integer(10), new Double(2.5), 4, Double.class);
+        divideHelper(new Integer(10), new BigDecimal(2.5), 4, BigDecimal.class);
     }
 
     private void divideHelper (Number n1, Number n2, double expectedResult, Class expectedResultType)
     {
         Number result = MathUtils.divide( n1, n2);
-        assertEquals ("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
-        assertEquals ("ResultType does not match.", expectedResultType, result.getClass());
+        assertEquals("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
+        assertEquals("ResultType does not match.", expectedResultType, result.getClass());
     }
 
     public void testModulo()
     {
         moduloHelper (new Integer(10), new Short( (short)2), 0, Integer.class);
         moduloHelper (new Byte((byte)10), new Short( (short)3), 1, Short.class);
-        moduloHelper (BigInteger.valueOf(10), new Short( (short)4), 2, BigInteger.class);
-        moduloHelper (new Integer(10), new Float( 5.5f), 4.5, Float.class);
+        moduloHelper(BigInteger.valueOf(10), new Short((short) 4), 2, BigInteger.class);
+        moduloHelper(new Integer(10), new Float(5.5f), 4.5, Float.class);
 
         try
         {
@@ -152,8 +152,8 @@ public class ArithmeticTestCase extends TestCase
     private void moduloHelper (Number n1, Number n2, double expectedResult, Class expectedResultType)
     {
         Number result = MathUtils.modulo( n1, n2);
-        assertEquals ("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
-        assertEquals ("ResultType does not match.", expectedResultType, result.getClass());
+        assertEquals("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
+        assertEquals("ResultType does not match.", expectedResultType, result.getClass());
     }
 
     public void testCompare()
@@ -162,14 +162,32 @@ public class ArithmeticTestCase extends TestCase
         compareHelper (new Integer(10), new Short( (short)11), -1);
         compareHelper (BigInteger.valueOf(10), new Short( (short)11), -1);
         compareHelper (new Byte((byte)10), new Short( (short)3), 1);
-        compareHelper (new Float(10), new Short( (short)11), -1);
-        compareHelper (new Double(10), new Short( (short)11), -1);
+        compareHelper(new Float(10), new Short((short) 11), -1);
+        compareHelper(new Double(10), new Short((short) 11), -1);
     }
 
     private void compareHelper (Number n1, Number n2, int expectedResult)
     {
         int result = MathUtils.compare( n1, n2 );
-        assertEquals ("The arithmetic operation produced an unexpected result.", expectedResult, result);
+        assertEquals("The arithmetic operation produced an unexpected result.", expectedResult, result);
+    }
+
+    public void testNegate()
+    {
+        negateHelper(new Byte((byte) 1), -1, Byte.class);
+        negateHelper(new Short((short) 1), -1, Short.class);
+        negateHelper(new Integer(1), -1, Integer.class);
+        negateHelper(new Long(1), -1, Long.class);
+        negateHelper(BigInteger.valueOf(1), -1, BigInteger.class);
+        negateHelper(BigDecimal.valueOf(1), -1, BigDecimal.class);
+        negateHelper(new Long(Long.MIN_VALUE), BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.valueOf(1)).doubleValue(), BigInteger.class);
+    }
+
+    private void negateHelper(Number n, double expectedResult, Class expectedResultType)
+    {
+        Number result = MathUtils.negate(n);
+        assertEquals ("The arithmetic operation produced an unexpected result.", expectedResult, result.doubleValue(), 0.01);
+        assertEquals ("ResultType does not match.", expectedResultType, result.getClass());
     }
 
 /*
