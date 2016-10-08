@@ -121,5 +121,24 @@ public class SetTestCase extends BaseTestCase
         }
     }
 
+    public void testInvalidSet() throws Exception
+    {
+        /* the purpose of this test is to check that in case of error, the calculation of the
+         literal representation of the expression, which is displayed in the logs, does not raise a null exception
+          */
+        assertEvalEquals("", "#set($c = $a - $b - $c)");
+        assertEvalEquals("", "#set($c = $a + $b + $c)");
+        assertEvalEquals("", "#set($c = $a * $b * $c)");
+        assertEvalEquals("", "#set($c = $a / $b / $c)");
+        assertEvalEquals("", "#set($c = $a % $b % $c)");
+        assertEvalEquals("", "#set($c = $a && $b && $c)");
+        assertEvalEquals("", "#set($c = $a || $b || $c)");
+        assertEvalEquals("", "#set($c = $a + $b + !$c)");
+        assertEvalEquals("", "#set($c = $a + $b + (-$c))");
+        assertEvalEquals("", "#set($c = $a && ($b < $c))");
+        assertEvalEquals("", "#set($c = !$a)");
+        assertEvalEquals("", "#set($c = ($a < $b) - ($c < $d))");
+        assertEvalEquals("","#set($b = !$a)");
+    }
 }
 

@@ -54,6 +54,12 @@ public class ASTDivNode extends ASTMathNode
         super(p, id);
     }
 
+    @Override
+    public String getLiteralOperator()
+    {
+        return "/";
+    }
+
     public Number perform(Number left, Number right, InternalContextAdapter context)
     {
         /*

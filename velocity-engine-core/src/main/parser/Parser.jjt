@@ -2129,6 +2129,7 @@ void UnaryExpression() #void : {}
     ( <WHITESPACE> | <NEWLINE> )*
     (
           <LOGICAL_NOT>  UnaryExpression() #NotNode(1)
+     |   <MINUS> PrimaryExpression() #NegateNode(1)
       |   PrimaryExpression()
     )
 }

@@ -36,6 +36,12 @@ public class ASTGTNode extends ASTComparisonNode
         super(p, id);
     }
 
+    @Override
+    public String getLiteralOperator()
+    {
+        return ">";
+    }
+
     public boolean numberTest(int compareResult)
     {
         return compareResult == 1;

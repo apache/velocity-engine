@@ -40,7 +40,7 @@ import org.apache.velocity.util.DuckType;
  * @author Nathan Bubna
  * @version $Id: ASTMathNode.java 517553 2007-03-13 06:09:58Z wglass $
  */
-public abstract class ASTMathNode extends SimpleNode
+public abstract class ASTMathNode extends ASTBinaryOperator
 {
     protected boolean strictMode = false;
 

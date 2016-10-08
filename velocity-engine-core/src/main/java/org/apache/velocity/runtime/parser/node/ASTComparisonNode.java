@@ -21,7 +21,6 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
@@ -35,7 +34,7 @@ import org.apache.velocity.util.StringUtils;
  * @author <a href="mailto:pero@antaramusic.de">Peter Romianowski</a>
  * @author Nathan Bubna
  */
-public abstract class ASTComparisonNode extends SimpleNode
+public abstract class ASTComparisonNode extends ASTBinaryOperator
 {
     /**
      * @param id
@@ -123,6 +122,17 @@ public abstract class ASTComparisonNode extends SimpleNode
         return null;
     }
 
+    /**
+     * get the string representing the mathematical operator
+     * @return operator string
+     */
+    public abstract String getLiteralOperator();
+
+    /**
+     * performs the actual comparison
+     * @param compareResult
+     * @return comparison result
+     */
     public abstract boolean numberTest(int compareResult);
 
     public boolean compareNonNumber(Object left, Object right)
@@ -151,17 +161,4 @@ public abstract class ASTComparisonNode extends SimpleNode
     {
         return Boolean.valueOf(evaluate(context));
     }
-    
-    /**
-     * @throws TemplateInitException
-     * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
-     */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
-    {
-    	Object obj = super.init(context, data);
-    	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
-    	return obj;
-    }
-    
-
 }

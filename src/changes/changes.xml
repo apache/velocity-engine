@@ -28,6 +28,10 @@
     <release version="2.0" date="In Subversion">
 
       <action type="add" dev="cbrisson">
+	Added unary negate math operator
+      </action>
+      
+      <action type="add" dev="cbrisson">
         Add a configurable space gobbling feature, to control indentation in the generated code.
         <br/>
         Possible values for the 'space.gobbling' configuration key:

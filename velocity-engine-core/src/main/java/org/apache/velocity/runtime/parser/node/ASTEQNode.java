@@ -51,6 +51,12 @@ public class ASTEQNode extends ASTComparisonNode
         return left == right || DuckType.asNull(left == null ? right : left);
     }
 
+    @Override
+    public String getLiteralOperator()
+    {
+        return "==";
+    }
+
     public boolean numberTest(int compareResult)
     {
         return compareResult == 0;
