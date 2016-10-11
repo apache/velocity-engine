@@ -103,10 +103,6 @@
         <Bug pattern="NP_LOAD_OF_KNOWN_NULL_VALUE"/>
     </Match>
     <Match>
-        <Class name="org.apache.velocity.runtime.log.Log4JLogChute"/>
-        <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
-    </Match>
-    <Match>
         <Class name="org.apache.velocity.util.MapFactory"/>
         <Or>
             <Bug pattern="DE_MIGHT_IGNORE"/>
