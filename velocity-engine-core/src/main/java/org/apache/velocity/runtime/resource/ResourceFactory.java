@@ -20,6 +20,7 @@ package org.apache.velocity.runtime.resource;
  */
 
 import org.apache.velocity.Template;
+import org.apache.velocity.exception.VelocityException;
 
 /**
  * Class responsible for instantiating <code>Resource</code> objects,
@@ -49,6 +50,8 @@ public class ResourceFactory
             case ResourceManager.RESOURCE_CONTENT:
                 resource = new ContentResource();
                 break;
+            default:
+                throw new VelocityException("invalide resource type");
         }
 
         return resource;

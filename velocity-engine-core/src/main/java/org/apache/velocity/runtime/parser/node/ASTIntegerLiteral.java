@@ -86,7 +86,7 @@ public class ASTIntegerLiteral extends SimpleNode
          {
             try
             {
-                value = new Long( str );
+                value = Long.valueOf( str );
             }
             catch ( NumberFormatException E2 )
             {

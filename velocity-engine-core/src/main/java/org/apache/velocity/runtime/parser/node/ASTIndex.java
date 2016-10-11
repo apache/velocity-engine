@@ -54,7 +54,7 @@ import org.apache.velocity.util.introspection.VelMethod;
 
 public class ASTIndex extends SimpleNode
 {
-    private final String methodName = "get";
+    private static final String methodName = "get";
 
     /**
      * Indicates if we are running in strict reference mode.
