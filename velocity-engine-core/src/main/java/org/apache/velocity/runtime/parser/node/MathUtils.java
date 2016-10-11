@@ -67,7 +67,7 @@ public abstract class MathUtils
     /**
      * The <code>Class</code>-object is key, the maximum-value is the value
      */
-    protected static final Map ints = new HashMap();
+    private static final Map ints = new HashMap();
     static
     {
         ints.put (Byte.class, BigDecimal.valueOf (Byte.MAX_VALUE));
@@ -80,7 +80,7 @@ public abstract class MathUtils
     /**
      * The "size" of the number-types - ascending.
      */
-    protected static final List typesBySize = new ArrayList();
+    private static final List typesBySize = new ArrayList();
     static
     {
         typesBySize.add (Byte.class);

@@ -1174,7 +1174,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * object that is not a Boolean.
      */
     public boolean getBoolean(String key, boolean defaultValue) {
-        return getBoolean(key, new Boolean(defaultValue)).booleanValue();
+        return getBoolean(key, Boolean.valueOf(defaultValue)).booleanValue();
     }
 
     /**
@@ -1196,7 +1196,7 @@ public class ExtProperties extends Hashtable<String,Object> {
             
         } else if (value instanceof String) {
             String s = testBoolean(((String) value).trim());
-            Boolean b = new Boolean(s);
+            Boolean b = Boolean.valueOf(s);
             put(key, b);
             return b;
             
@@ -1268,7 +1268,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public byte getByte(String key, byte defaultValue) {
-        return getByte(key, new Byte(defaultValue)).byteValue();
+        return getByte(key, Byte.valueOf(defaultValue)).byteValue();
     }
 
     /**
@@ -1290,7 +1290,7 @@ public class ExtProperties extends Hashtable<String,Object> {
             return (Byte) value;
             
         } else if (value instanceof String) {
-            Byte b = new Byte((String) value);
+            Byte b = Byte.valueOf((String) value);
             put(key, b);
             return b;
             
@@ -1338,7 +1338,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public short getShort(String key, short defaultValue) {
-        return getShort(key, new Short(defaultValue)).shortValue();
+        return getShort(key, Short.valueOf(defaultValue)).shortValue();
     }
 
     /**
@@ -1360,7 +1360,7 @@ public class ExtProperties extends Hashtable<String,Object> {
             return (Short) value;
             
         } else if (value instanceof String) {
-            Short s = new Short((String) value);
+            Short s = Short.valueOf((String) value);
             put(key, s);
             return s;
             
@@ -1458,7 +1458,7 @@ public class ExtProperties extends Hashtable<String,Object> {
             return (Integer) value;
             
         } else if (value instanceof String) {
-            Integer i = new Integer((String) value);
+            Integer i = Integer.valueOf((String) value);
             put(key, i);
             return i;
             
@@ -1506,7 +1506,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public long getLong(String key, long defaultValue) {
-        return getLong(key, new Long(defaultValue)).longValue();
+        return getLong(key, Long.valueOf(defaultValue)).longValue();
     }
 
     /**
@@ -1528,7 +1528,7 @@ public class ExtProperties extends Hashtable<String,Object> {
             return (Long) value;
             
         } else if (value instanceof String) {
-            Long l = new Long((String) value);
+            Long l = Long.valueOf((String) value);
             put(key, l);
             return l;
             
