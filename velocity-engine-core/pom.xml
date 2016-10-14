@@ -190,7 +190,7 @@
                   <replacevalue>package org.apache.velocity.runtime.parser; import org.apache.velocity.runtime.parser.node.Node;</replacevalue>
                 </replace>
                  <!-- if we just generated AST Node classes by JavaCC, end the build here and give instructions -->
-                <condition property="stop"><istrue value="${parser.nodefiles}"/></condition>
+                <condition property="stop"><istrue value="${parser.nodefiles}" /></condition>
                 <fail if="stop"><![CDATA[-
 -------------------------------------------------------------------------------
 Velocity AST Node classes created to src/main/java/org/apache/velocity/runtime/parser
@@ -232,7 +232,7 @@ Velocity AST Node classes created to src/main/java/org/apache/velocity/runtime/p
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     <dependency>
