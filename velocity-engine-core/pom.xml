@@ -42,7 +42,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.4.3</version>
+        <version>3.0.1</version>
         <configuration>
           <useDefaultDelimiters>false</useDefaultDelimiters>
           <delimiters>
@@ -53,7 +53,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>1.4</version>
+        <version>2.4.3</version>
         <executions>
           <execution>
             <id>shade</id>
@@ -89,6 +89,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.plugin.version}</version>
         <configuration>
           <skip>${maven.test.skip}</skip>
           <systemProperties>
@@ -108,7 +109,7 @@
               <name>org.slf4j.simpleLogger.defaultLogLevel</name>
               <value>warn</value>
             </property>
-          </systemProperties>          
+          </systemProperties>
         </configuration>
         <executions>
           <execution>
@@ -143,7 +144,7 @@
           <debugParser>false</debugParser>
           <debugLookAhead>false</debugLookAhead>
           <debugTokenManager>false</debugTokenManager>
-          <jdkVersion>1.4</jdkVersion>
+          <jdkVersion>1.7</jdkVersion>
           <nodeUsesParser>true</nodeUsesParser>
           <nodePackage>org.apache.velocity.runtime.parser</nodePackage>
           <sourceDirectory>${basedir}/src/main/parser</sourceDirectory>
@@ -153,7 +154,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.7</version>
+        <version>1.8</version>
         <executions>
           <execution>
             <id>parser-init</id>
@@ -227,30 +228,30 @@ Velocity AST Node classes created to src/main/java/org/apache/velocity/runtime/p
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.12</version>
+      <version>${slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>hsqldb</groupId>
+      <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
-      <version>1.7.1</version>
+      <version>2.3.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.4</version>
+      <version>2.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.12</version>
+      <version>${slf4j.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -260,7 +261,7 @@ Velocity AST Node classes created to src/main/java/org/apache/velocity/runtime/p
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.3.1</version>
+        <version>3.0.4</version>
         <configuration>
           <xmlOutput>true</xmlOutput>
           <threshold>Low</threshold>

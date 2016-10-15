@@ -109,7 +109,7 @@ public class DataSourceResourceLoaderTestCase
         Velocity.setProperty( "ds.resource.loader.resource.timestampcolumn", "timestamp");
 
         Velocity.setProperty(
-                Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
+                Velocity.RUNTIME_LOG_INSTANCE, new TestLogger(false, false));
 
         Velocity.init();
     }
