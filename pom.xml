@@ -40,6 +40,14 @@
   <inceptionYear>2000</inceptionYear>
   <packaging>pom</packaging>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.12</junit.version>
+    <slf4j.version>1.7.21</slf4j.version>
+    <surefire.plugin.version>2.19.1</surefire.plugin.version>
+    <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
+  </properties>
+  
   <build>
     <defaultGoal>install</defaultGoal>
     <pluginManagement>
@@ -93,10 +101,6 @@
     <tag>HEAD</tag>
     <url>http://svn.apache.org/viewvc/velocity/engine/trunk</url>
   </scm>
-
-  <properties>
-    <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
-  </properties>
 
   <issueManagement>
     <system>JIRA</system>
