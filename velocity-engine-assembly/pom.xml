@@ -85,7 +85,7 @@
                             <execution>
                                 <id>make-assembly</id>
                                 <goals>
-                                    <goal>attached</goal>
+                                    <goal>single</goal>
                                 </goals>
                                 <phase>package</phase>
                             </execution>
@@ -107,7 +107,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
+                        <version>1.3</version>
                         <executions>
                             <execution>
                                 <phase>deploy</phase>
@@ -139,7 +139,6 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>wagon-maven-plugin</artifactId>
-                        <version>1.0</version>
                         <executions>
                             <execution>
                                 <phase>deploy</phase>

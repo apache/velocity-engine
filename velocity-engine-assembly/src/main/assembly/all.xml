@@ -19,103 +19,101 @@
     under the License.
 
 -->
-<assembly>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd">
     <id>all</id>
     <formats>
         <format>tar.gz</format>
         <format>zip</format>
     </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
     <dependencySets>
         <dependencySet>
-            <outputDirectory>/lib</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>lib</outputDirectory>
+            <unpack>false</unpack>
             <excludes>
                 <exclude>org.apache.velocity:*</exclude>
-                <exclude>org.jdom:jdom</exclude>
+                <exclude>org.jdom:*</exclude>
             </excludes>
         </dependencySet>
         <dependencySet>
-            <outputDirectory>/</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory></outputDirectory>
             <includes>
-                <include>org.apache.velocity:velocity-engine*</include>
+                <include>org.apache.velocity:velocity-engine-core</include>
+                <include>org.apache.velocity:velocity-engine-scripting</include>
             </includes>
-            <excludes>
-                <exclude>org.apache.velocity:velocity-engine-examples</exclude>
-            </excludes>
         </dependencySet>
         <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>/examples</outputDirectory>
             <includes>
                 <include>org.apache.velocity:velocity-engine-examples</include>
             </includes>
         </dependencySet>
         <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>/examples/lib</outputDirectory>
-            <includes>
-                <include>org.jdom:jdom</include>
-            </includes>
         </dependencySet>
     </dependencySets>
-
     <fileSets>
         <fileSet>
             <directory>..</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory></outputDirectory>
             <includes>
                 <include>*LICENSE*</include>
                 <include>NOTICE</include>
                 <include>README.txt</include>
-                <include>CONTRIBUTORS</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>../</directory>
-            <outputDirectory>src/</outputDirectory>
+            <outputDirectory>src</outputDirectory>
             <includes>
                 <include>pom.xml</include>
-                <include>src/</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../src</directory>
+            <outputDirectory>src</outputDirectory>
+            <includes>
+                <include>changes/*</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>../velocity-engine-core</directory>
-            <outputDirectory>src/velocity-engine-core</outputDirectory>
+            <outputDirectory>src/core</outputDirectory>
             <includes>
                 <include>pom.xml</include>
-                <include>src/</include>
             </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-core/src</directory>
+            <outputDirectory>src/core</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-scripting</directory>
+            <outputDirectory>src/scripting</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../velocity-engine-scripting/src</directory>
+            <outputDirectory>src/scripting</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>../velocity-engine-examples</directory>
-            <outputDirectory>src/velocity-engine-examples
-            </outputDirectory>
+            <outputDirectory>src/examples</outputDirectory>
             <includes>
                 <include>pom.xml</include>
-                <include>src/</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../velocity-engine-assembly</directory>
-            <outputDirectory>src/velocity-engine-assembly
-            </outputDirectory>
-            <includes>
-                <include>pom.xml</include>
-                <include>src/</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../target/site</directory>
-            <outputDirectory>docs</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>../velocity-engine-core/target/site</directory>
-            <outputDirectory>docs/velocity-engine-core</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>../velocity-engine-examples/target/site</directory>
-            <outputDirectory>docs/velocity-engine-examples</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>../velocity-engine-assembly/target/site</directory>
-            <outputDirectory>docs/velocity-engine-assembly</outputDirectory>
+            <directory>../velocity-engine-examples/src</directory>
+            <outputDirectory>src/examples</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>../velocity-engine-examples/src/etc</directory>
