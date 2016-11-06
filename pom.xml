@@ -56,7 +56,7 @@
           <version>2.5.3</version>
           <configuration>
             <useReleaseProfile>false</useReleaseProfile>
-            <autoversionsubmodules>true</autoversionsubmodules>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
             <goals>deploy</goals>
             <arguments>-Papache-release</arguments>
           </configuration>
