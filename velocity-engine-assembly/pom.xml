@@ -123,9 +123,9 @@
                                             <fileset
                                                 dir="${settings.localRepository}/org/apache/velocity/${project.artifactId}/${project.version}">
                                                 <include
-                                                    name="${project.artifactId}-${project.version}-all.zip*" />
+                                                    name="${project.artifactId}-${project.version}-dist.zip*" />
                                                 <include
-                                                    name="${project.artifactId}-${project.version}-all.tar.gz*" />
+                                                    name="${project.artifactId}-${project.version}-dist.tar.gz*" />
                                             </fileset>
                                             <mapper type="glob"
                                                 from="${project.artifactId}-*"
@@ -139,6 +139,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>wagon-maven-plugin</artifactId>
+                        <version>1.0</version>
                         <executions>
                             <execution>
                                 <phase>deploy</phase>
