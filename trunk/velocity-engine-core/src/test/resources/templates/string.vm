@@ -1,0 +1,49 @@
+## now lets try some string concatenation
+
+#set($stringy = "This is a very long string"
+ + " that we are breaking up into multiple"
+ + " lines for testing."
+)
+$stringy
+
+#set($stringy = "This is a string. The number 2 = " + 2)
+$stringy
+
+#set($three = 3)
+#set($stringy = "This is a string."
++ " The value = " 
++ $three
+)
+$stringy
+
+#set($haiku =
+"
+  New language feature
+allows newlines in the strings
+  might make some happy"
+)
+$haiku
+
+#set($shape = 
+"
+V    V  EEEEE  L    OOOOO  CCCCC  I TTTTT Y   Y
+ V  V   E      L    O   O  C      I   T    Y Y
+ V  V   EEE    L    O   O  C      I   T     Y
+  VV    E      L    O   O  C      I   T     Y
+  V     EEEEE  LLLL OOOOO  CCCCC  I   T     Y
+"
+)
+$shape
+
+#set($shape =
+'
+RRRRR  OOOOO  CCCCC  K   K   SSSSS
+R    R O   O  C      K  K   S
+RRRR   O   O  C      KK      SSSS
+R R    O   O  C      K K         S
+R  R   O   O  C      K  K        S
+R   R  OOOOO  CCCCC  K   K   SSSS
+'
+)
+$shape
+

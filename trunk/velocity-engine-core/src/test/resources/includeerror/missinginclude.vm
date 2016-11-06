@@ -1,0 +1,8 @@
+## tests to see if
+## missing include throws an error
+
+text
+
+#include("doesntexist.vm")
+
+text

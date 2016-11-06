@@ -1,0 +1,4 @@
+Test File 3
+#include("include-a.vm")
+
+#parse("parse-a.vm")

@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <style type="text/css">
+    table
+    {
+        border: solid 1px black;
+        border-collapse: collapse;
+    }
+	td, th
+    {
+        border: solid 1px black;
+    }
+
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>
+            strict<br/>
+            implicit<br/>
+            explicit
+          </th>
+#foreach($col in $types)          
+          <th>$col</th>
+#end
+          <th>null</th>
+        </tr>
+#foreach($row in $types)          
+        <tr>
+          <th>formal: $row</th>
+  #foreach($col in $types)
+          <td>
+            $introspect.isStrictlyConvertible($row, $col)<br/>
+            $introspect.isImplicitlyConvertible($row, $col)<br/>
+            $introspect.isExplicitlyConvertible($row, $col)
+          </td>
+  #end
+  #if($row.isPrimitive())          
+          <td>&nbsp;</td>
+  #else
+          <td>
+            $introspect.isStrictlyConvertible($row, $null)<br/>
+            $introspect.isImplicitlyConvertible($row, $null)<br/>
+            $introspect.isExplicitlyConvertible($row, $null)
+          </td>
+  #end
+        </tr>
+#end        
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </body>
+</html>
+
+    

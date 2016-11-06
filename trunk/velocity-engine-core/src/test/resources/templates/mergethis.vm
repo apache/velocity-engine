@@ -1,0 +1,1 @@
+#macro(floog $foo $bar)Hello $foo! Nice $bar!#{end}#floog($name $Floog)

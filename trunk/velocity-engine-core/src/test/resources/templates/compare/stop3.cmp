@@ -1,0 +1,4 @@
+This test checks the stop directive when included from a parse directive.
+
+Foo is: stop3-include.vm
+A line from stop3-include.vm
