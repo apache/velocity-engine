@@ -1801,7 +1801,7 @@ void Parameter() #void: {}
         | Reference()
         | FloatingPointLiteral()
         )
-    [ <WHITESPACE>]
+    (<WHITESPACE>|<NEWLINE>)*
 }
 
 /**
