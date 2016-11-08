@@ -1,3 +1,6 @@
+
+
+
 <html>
   <head>
     <style type="text/css">
@@ -10,6 +13,22 @@
     {
         border: solid 1px black;
     }
+    .strict
+    {
+        color: green;
+    }
+    .implicit
+    {
+        color: blue;
+    }
+    .explicit
+    {
+        color: magenta;
+    }
+    .none
+    {
+        color: red;
+    }
 
     </style>
   </head>
@@ -18,1577 +37,504 @@
       <thead>
         <tr>
           <th>
-            strict<br/>
-            implicit<br/>
-            explicit
+            provided &rarr;<br/>
+            expected &darr;
           </th>
-          <th>boolean</th>
-          <th>char</th>
-          <th>byte</th>
-          <th>short</th>
-          <th>int</th>
-          <th>long</th>
-          <th>float</th>
-          <th>double</th>
-          <th>class java.lang.Boolean</th>
-          <th>class java.lang.Character</th>
-          <th>class java.lang.Byte</th>
-          <th>class java.lang.Short</th>
-          <th>class java.lang.Integer</th>
-          <th>class java.lang.Long</th>
-          <th>class java.lang.Float</th>
-          <th>class java.lang.Double</th>
-          <th>class java.lang.Object</th>
+          <th>  boolean
+</th>
+          <th>  char
+</th>
+          <th>  byte
+</th>
+          <th>  short
+</th>
+          <th>  int
+</th>
+          <th>  long
+</th>
+          <th>  float
+</th>
+          <th>  double
+</th>
+          <th>  Boolean
+</th>
+          <th>  Character
+</th>
+          <th>  Byte
+</th>
+          <th>  Short
+</th>
+          <th>  Integer
+</th>
+          <th>  Long
+</th>
+          <th>  Float
+</th>
+          <th>  Double
+</th>
+          <th>  Number
+</th>
+          <th>  String
+</th>
+          <th>  Object
+</th>
           <th>null</th>
         </tr>
         <tr>
-          <th>formal: boolean</th>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>&nbsp;</td>
+          <th>  boolean
+</th>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>formal: char</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>&nbsp;</td>
+          <th>  char
+</th>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>formal: byte</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>&nbsp;</td>
+          <th>  byte
+</th>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>formal: short</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>&nbsp;</td>
+          <th>  short
+</th>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>formal: int</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>&nbsp;</td>
+          <th>  int
+</th>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>formal: long</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>&nbsp;</td>
+          <th>  long
+</th>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>formal: float</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>&nbsp;</td>
+          <th>  float
+</th>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>formal: double</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>&nbsp;</td>
+          <th>  double
+</th>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>formal: class java.lang.Boolean</th>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
+          <th>  Boolean
+</th>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>formal: class java.lang.Character</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
+          <th>  Character
+</th>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>formal: class java.lang.Byte</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
+          <th>  Byte
+</th>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>formal: class java.lang.Short</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
+          <th>  Short
+</th>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>formal: class java.lang.Integer</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
+          <th>  Integer
+</th>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>formal: class java.lang.Long</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
+          <th>  Long
+</th>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>formal: class java.lang.Float</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            true
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
+          <th>  Float
+</th>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>formal: class java.lang.Double</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
+          <th>  Double
+</th>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>formal: class java.lang.Object</th>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            false<br/>
-            false<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
-          <td>
-            true<br/>
-            true<br/>
-            false
-          </td>
+          <th>  Number
+</th>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="none">none</span></td>
+          <td> <span class="strict">strict</span></td>
+        </tr>
+        <tr>
+          <th>  String
+</th>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="explicit">explicit</span></td>
+          <td> <span class="strict">strict</span></td>
+        </tr>
+        <tr>
+          <th>  Object
+</th>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td>  <span class="implicit">implicit</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
+          <td> <span class="strict">strict</span></td>
         </tr>
       </thead>
       <tbody>

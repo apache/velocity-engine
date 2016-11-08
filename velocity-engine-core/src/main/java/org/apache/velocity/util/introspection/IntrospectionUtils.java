@@ -131,7 +131,7 @@ public class IntrospectionUtils
         if (!formal.isPrimitive() && actual.isPrimitive())
         {
             Class boxed = boxingMap.get(actual);
-            if (boxed != null && boxed == formal) return true;
+            if (boxed != null && boxed == formal || formal.isAssignableFrom(boxed)) return true;
         }
 
         if (formal.isPrimitive())
