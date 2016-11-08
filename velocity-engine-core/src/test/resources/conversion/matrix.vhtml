@@ -1,3 +1,21 @@
+#macro(print,$type)
+  #set($string = "$type")
+  #if($string.startsWith("class java.lang."))
+    #set($string = $string.substring(16))
+  #end
+  $string
+#end
+
+#macro(cell,$type)<span class="$type">$type</span>#end
+
+#macro(check,$row,$col)
+  #if($introspect.isStrictlyConvertible($row, $col)) #cell('strict')
+  #elseif($introspect.isImplicitlyConvertible($row, $col))  #cell('implicit')
+  #elseif($introspect.isExplicitlyConvertible($row, $col)) #cell('explicit')
+  #else #cell('none')
+  #end
+#end
+
 <html>
   <head>
     <style type="text/css">
@@ -10,6 +28,22 @@
     {
         border: solid 1px black;
     }
+    .strict
+    {
+        color: green;
+    }
+    .implicit
+    {
+        color: blue;
+    }
+    .explicit
+    {
+        color: magenta;
+    }
+    .none
+    {
+        color: red;
+    }
 
     </style>
   </head>
@@ -18,33 +52,24 @@
       <thead>
         <tr>
           <th>
-            strict<br/>
-            implicit<br/>
-            explicit
+            provided &rarr;<br/>
+            expected &darr;
           </th>
-#foreach($col in $types)          
-          <th>$col</th>
+#foreach($col in $types)
+          <th>#print($col)</th>
 #end
           <th>null</th>
         </tr>
 #foreach($row in $types)          
         <tr>
-          <th>formal: $row</th>
+          <th>#print($row)</th>
   #foreach($col in $types)
-          <td>
-            $introspect.isStrictlyConvertible($row, $col)<br/>
-            $introspect.isImplicitlyConvertible($row, $col)<br/>
-            $introspect.isExplicitlyConvertible($row, $col)
-          </td>
+          <td>#check($row,$col)</td>
   #end
   #if($row.isPrimitive())          
-          <td>&nbsp;</td>
+          <td>#cell('none')</td>
   #else
-          <td>
-            $introspect.isStrictlyConvertible($row, $null)<br/>
-            $introspect.isImplicitlyConvertible($row, $null)<br/>
-            $introspect.isExplicitlyConvertible($row, $null)
-          </td>
+          <td>#check($row, $null)</td>
   #end
         </tr>
 #end        

@@ -255,6 +255,8 @@ public class ConversionHandlerTestCase extends BaseTestCase
                         Long.class,
                         Float.class,
                         Double.class,
+                        Number.class,
+                        String.class,
                         Object.class
                 };
         context.put("types", types);
