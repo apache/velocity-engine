@@ -98,7 +98,6 @@
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/tags/2.0</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/tags/2.0</developerConnection>
-    <tag>HEAD</tag>
     <url>http://svn.apache.org/viewvc/velocity/engine/tags/2.0</url>
   </scm>
 

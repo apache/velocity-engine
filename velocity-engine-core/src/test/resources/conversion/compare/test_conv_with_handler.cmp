@@ -126,10 +126,10 @@ E. short Value java.lang.Short 125
   Boolean ok: true
   Byte ok: 125
   Short ok: 125
-  $target.objectInt($value)
-  $target.objectLong($value)
-  $target.objectFloat($value)
-  $target.objectDouble($value)
+  Integer ok: 125
+  Long ok: 125
+  Float ok: 125.0
+  Double ok: 125.0
   $target.objectCharacter($value)
   Number ok: 125
   Object ok: 125
@@ -156,9 +156,9 @@ F. int Value java.lang.Integer 24323
   objectByte -> NumberFormatException: value out of range for byte type: 24323
   Short ok: 24323
   Integer ok: 24323
-  $target.objectLong($value)
-  $target.objectFloat($value)
-  $target.objectDouble($value)
+  Long ok: 24323
+  Float ok: 24323.0
+  Double ok: 24323.0
   $target.objectCharacter($value)
   Number ok: 24323
   Object ok: 24323
@@ -186,8 +186,8 @@ G. long Value java.lang.Long 5235235
   objectShort -> NumberFormatException: value out of range for short type: 5235235
   Integer ok: 5235235
   Long ok: 5235235
-  $target.objectFloat($value)
-  $target.objectDouble($value)
+  Float ok: 5235235.0
+  Double ok: 5235235.0
   $target.objectCharacter($value)
   Number ok: 5235235
   Object ok: 5235235
@@ -216,7 +216,7 @@ H. float Value java.lang.Float 34523.344
   Integer ok: 34523
   Long ok: 34523
   Float ok: 34523.344
-  $target.objectDouble($value)
+  Double ok: 34523.34375
   $target.objectCharacter($value)
   Number ok: 34523.344
   Object ok: 34523.344

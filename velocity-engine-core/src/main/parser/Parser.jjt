@@ -885,6 +885,11 @@ TOKEN :
   {
      inComment = false;
      stateStackPop();
+     if (curLexState == REFERENCE || curLexState == REFMOD3)
+     {
+       // end of reference: pop again
+       stateStackPop();
+     }
   }
 
 }
@@ -896,6 +901,11 @@ TOKEN :
   {
     inComment = false;
     stateStackPop();
+     if (curLexState == REFERENCE || curLexState == REFMOD3)
+     {
+       // end of reference: pop again
+       stateStackPop();
+     }
   }
 }
 
@@ -906,6 +916,11 @@ TOKEN :
   {
     inComment = false;
     stateStackPop();
+     if (curLexState == REFERENCE || curLexState == REFMOD3)
+     {
+       // end of reference: pop again
+       stateStackPop();
+     }
   }
 }
 
@@ -1786,7 +1801,7 @@ void Parameter() #void: {}
         | Reference()
         | FloatingPointLiteral()
         )
-    [ <WHITESPACE>]
+    (<WHITESPACE>|<NEWLINE>)*
 }
 
 /**
