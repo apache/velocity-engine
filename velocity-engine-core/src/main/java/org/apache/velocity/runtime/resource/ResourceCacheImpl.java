@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.resource;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.slf4j.Logger;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -95,6 +96,8 @@ public class ResourceCacheImpl implements ResourceCache
      */
     protected RuntimeServices rsvc = null;
 
+    protected Logger log;
+
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#initialize(org.apache.velocity.runtime.RuntimeServices)
      */
@@ -112,8 +115,8 @@ public class ResourceCacheImpl implements ResourceCache
             lruCache.putAll(cache);
             cache = lruCache;
         }
-        rsvc.getLog().debug("ResourceCache: initialized ("+this.getClass()+") with "+
-               cache.getClass()+" cache map.");
+        rsvc.getLog().debug("initialized (" + this.getClass() + ") with " +
+                cache.getClass() + " cache map.");
     }
 
     /**

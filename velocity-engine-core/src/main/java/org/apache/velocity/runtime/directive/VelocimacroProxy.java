@@ -137,7 +137,8 @@ public class VelocimacroProxy extends Directive
      */
     public void init(RuntimeServices rs)
     {
-        rsvc = rs; // CB TODO - why not super.init(rs) ?
+        rsvc = rs;
+        log = rs.getLog("macro");
       
         // this is a very expensive call (ExtendedProperties is very slow)
         strictArguments = rsvc.getConfiguration().getBoolean(
@@ -202,7 +203,7 @@ public class VelocimacroProxy extends Directive
         catch (Exception e)
         {
             String msg = "VelocimacroProxy.render() : exception VM = #" + macroName + "()";
-            rsvc.getLog().error(msg, e);
+            log.error(msg, e);
             throw new VelocityException(msg, e);
         }
         finally
@@ -256,10 +257,10 @@ public class VelocimacroProxy extends Directive
                     + macroArgs.get(0).name + " accepts at most " + (macroArgs.size()-1)
                     + " at " + StringUtils.formatFileString(node));
             }
-            else if (rsvc.getLog().isDebugEnabled())
+            else if (log.isDebugEnabled())
             {
                 // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
-                rsvc.getLog().debug("VM #" + macroArgs.get(0).name 
+                log.debug("VM #" + macroArgs.get(0).name
                     + ": too many arguments to macro. Wanted " + (macroArgs.size()-1) 
                     + " got " + callArgNum);
             }
@@ -289,7 +290,7 @@ public class VelocimacroProxy extends Directive
                 out.append(stack[i]);
             }
             out.append(" at " + StringUtils.formatFileString(this));
-            rsvc.getLog().error(out.toString());
+            log.error(out.toString());
             
             // clean out the macro stack, since we just broke it
             while (context.getCurrentMacroCallDepth() > 0)
@@ -346,9 +347,9 @@ public class VelocimacroProxy extends Directive
             else
             {
                 // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
-                if (rsvc.getLog().isDebugEnabled())
+                if (log.isDebugEnabled())
                 {
-                    rsvc.getLog().debug("VM #" + macroArgs.get(0).name 
+                    log.debug("VM #" + macroArgs.get(0).name
                      + ": too few arguments to macro. Wanted " + (macroArgs.size()-1) 
                      + " got " + callArgNum);
                 }
