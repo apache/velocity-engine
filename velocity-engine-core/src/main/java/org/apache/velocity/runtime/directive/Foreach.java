@@ -187,7 +187,7 @@ public class Foreach extends Directive
             {
                 String msg = "Error getting iterator for #foreach parameter "
                     + node.literal() + " at " + StringUtils.formatFileString(node);
-                rsvc.getLog().error(msg, ee);
+                log.error(msg, ee);
                 throw new VelocityException(msg, ee);
             }
 
@@ -196,7 +196,7 @@ public class Foreach extends Directive
                 String msg = "#foreach parameter " + node.literal() + " at "
                     + StringUtils.formatFileString(node) + " is of type " + iterable.getClass().getName()
                     + " and cannot be iterated by " + rsvc.getUberspect().getClass().getName();
-                rsvc.getLog().error(msg);
+                log.error(msg);
                 throw new VelocityException(msg);
             }
         }

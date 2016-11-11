@@ -1428,7 +1428,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             catch(Exception e)
             {
                 String msg = "RuntimeInstance.render(): init exception for tag = "+logTag;
-                getLog().error(msg, e);
+                log.error(msg, e);
                 throw new VelocityException(msg, e);
             }
 
@@ -1452,9 +1452,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 {
                     throw stop;
                 }
-                else if (getLog().isDebugEnabled())
+                else if (log.isDebugEnabled())
                 {
-                    getLog().debug(stop.getMessage());
+                    log.debug(stop.getMessage());
                 }
             }
             catch (IOException e)
@@ -1517,7 +1517,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (vmName == null || context == null || writer == null)
         {
             String msg = "RuntimeInstance.invokeVelocimacro() : invalid call : vmName, context, and writer must not be null";
-            getLog().error(msg);
+            log.error(msg);
             throw new NullPointerException(msg);
         }
 
@@ -1536,7 +1536,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             String msg = "RuntimeInstance.invokeVelocimacro() : VM '" + vmName
                          + "' is not registered.";
-            getLog().error(msg);
+            log.error(msg);
             throw new VelocityException(msg);
         }
 

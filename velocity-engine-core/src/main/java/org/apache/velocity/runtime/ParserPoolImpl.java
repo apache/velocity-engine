@@ -22,6 +22,7 @@ package org.apache.velocity.runtime;
 import org.apache.velocity.runtime.parser.CharStream;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.SimplePool;
+import org.slf4j.Logger;
 
 /**
  * This wraps the original parser SimplePool class.  It also handles
@@ -35,6 +36,7 @@ public class ParserPoolImpl implements ParserPool {
 
     SimplePool pool = null;
     int max = RuntimeConstants.NUMBER_OF_PARSERS;
+    Logger log;
 
     /**
      * Create the underlying "pool".
@@ -42,6 +44,7 @@ public class ParserPoolImpl implements ParserPool {
      */
     public void initialize(RuntimeServices rsvc)
     {
+        log = rsvc.getLog("parser");
         max = rsvc.getInt(RuntimeConstants.PARSER_POOL_SIZE, RuntimeConstants.NUMBER_OF_PARSERS);
         pool = new SimplePool(max);
 
@@ -50,9 +53,9 @@ public class ParserPoolImpl implements ParserPool {
             pool.put(rsvc.createNewParser());
         }
 
-        if (rsvc.getLog().isDebugEnabled())
+        if (log.isDebugEnabled())
         {
-            rsvc.getLog().debug("Created '" + max + "' parsers.");
+            log.debug("Created '" + max + "' parsers.");
         }
     }
 

@@ -149,9 +149,9 @@ public class Parse extends InputBase
          *  does it have a value?  If you have a null reference, then no.
          */
         Object value =  node.jjtGetChild(0).value( context );
-        if (value == null && rsvc.getLog().isDebugEnabled())
+        if (value == null && log.isDebugEnabled())
         {
-            rsvc.getLog().debug("#parse(): null argument at " +
+            log.debug("#parse(): null argument at " +
                                 StringUtils.formatFileString(this));
         }
 
@@ -198,7 +198,7 @@ public class Parse extends InputBase
                 {
                     path.append( " > " + templateStack[i] );
                 }
-                rsvc.getLog().error("Max recursion depth reached (" +
+                log.error("Max recursion depth reached (" +
                                     templateStack.length + ')' + " File stack:" +
                                     path);
                 return false;
@@ -220,7 +220,7 @@ public class Parse extends InputBase
             /*
              * the arg wasn't found.  Note it and throw
              */
-            rsvc.getLog().error("#parse(): cannot find template '" + arg +
+            log.error("#parse(): cannot find template '" + arg +
                                 "', called at " + StringUtils.formatFileString(this));
             throw rnfe;
         }
@@ -230,7 +230,7 @@ public class Parse extends InputBase
              * the arg was found, but didn't parse - syntax error
              *  note it and throw
              */
-            rsvc.getLog().error("#parse(): syntax error in #parse()-ed template '"
+            log.error("#parse(): syntax error in #parse()-ed template '"
                                 + arg + "', called at " + StringUtils.formatFileString(this));
             throw pee;
         }
@@ -239,7 +239,7 @@ public class Parse extends InputBase
          */
         catch( RuntimeException e )
         {
-            rsvc.getLog().error("Exception rendering #parse(" + arg + ") at " +
+            log.error("Exception rendering #parse(" + arg + ") at " +
                                 StringUtils.formatFileString(this));
             throw e;
         }
@@ -247,7 +247,7 @@ public class Parse extends InputBase
         {
             String msg = "Exception rendering #parse(" + arg + ") at " +
                          StringUtils.formatFileString(this);
-            rsvc.getLog().error(msg, e);
+            log.error(msg, e);
             throw new VelocityException(msg, e);
         }
 
@@ -294,7 +294,7 @@ public class Parse extends InputBase
             /**
              * Log #parse errors so the user can track which file called which.
              */
-            rsvc.getLog().error("Exception rendering #parse(" + arg + ") at " +
+            log.error("Exception rendering #parse(" + arg + ") at " +
                                 StringUtils.formatFileString(this));
             throw e;
         }
@@ -302,7 +302,7 @@ public class Parse extends InputBase
         {
             String msg = "Exception rendering #parse(" + arg + ") at " +
                          StringUtils.formatFileString(this);
-            rsvc.getLog().error(msg, e);
+            log.error(msg, e);
             throw new VelocityException(msg, e);
         }
         finally
