@@ -38,6 +38,7 @@ import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.EnumerationIterator;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
@@ -54,7 +55,7 @@ import java.util.Map;
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  */
-public class UberspectImpl implements Uberspect, UberspectLoggable, RuntimeServicesAware
+public class UberspectImpl implements Uberspect, RuntimeServicesAware
 {
     /**
      *  Our runtime logger.
@@ -70,6 +71,11 @@ public class UberspectImpl implements Uberspect, UberspectLoggable, RuntimeServi
      * the conversion handler
      */
     protected ConversionHandler conversionHandler;
+
+    /**
+     * runtime services
+     */
+    protected RuntimeServices rsvc;
 
     /**
      *  init - generates the Introspector. As the setup code
@@ -92,6 +98,9 @@ public class UberspectImpl implements Uberspect, UberspectLoggable, RuntimeServi
      */
     public void setRuntimeServices(RuntimeServices rs)
     {
+        rsvc = rs;
+        log = rsvc.getLog("rendering");
+
         String conversionHandlerClass = rs.getString(RuntimeConstants.CONVERSION_HANDLER_CLASS);
         if (conversionHandlerClass == null || conversionHandlerClass.equals("none"))
         {
@@ -141,6 +150,7 @@ public class UberspectImpl implements Uberspect, UberspectLoggable, RuntimeServi
      *
      * @param log The logger instance to use.
      * @since 1.5
+     * @Deprecated logger is now set by default to the namespace logger "velocity.rendering".
      */
     public void setLog(Logger log)
     {

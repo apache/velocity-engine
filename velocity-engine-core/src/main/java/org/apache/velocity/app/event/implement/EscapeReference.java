@@ -20,9 +20,13 @@ package org.apache.velocity.app.event.implement;
  */
 
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.regex.PatternSyntaxException;
 
@@ -57,6 +61,8 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
     private RuntimeServices rs;
 
     private String matchRegExp = null;
+
+    protected Logger log;
 
     /**
      * Escape the given text.  Override this in a subclass to do the actual
@@ -115,6 +121,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
     public void setRuntimeServices(RuntimeServices rs)
     {
         this.rs = rs;
+        log = rs.getLog("event");
 
         // Get the regular expression pattern.
         matchRegExp = StringUtils.nullTrim(rs.getConfiguration().getString(getMatchAttribute()));
@@ -132,8 +139,8 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
             }
             catch (PatternSyntaxException E)
             {
-                rs.getLog().error("Invalid regular expression '" + matchRegExp
-                                  + "'.  No escaping will be performed.", E);
+                log.error("Invalid regular expression '" + matchRegExp
+                        + "'.  No escaping will be performed.", E);
                 matchRegExp = null;
             }
         }

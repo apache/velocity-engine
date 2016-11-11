@@ -19,8 +19,10 @@
 
 package org.apache.velocity.util.introspection;
 
+import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.PublicFieldExecutor;
 import org.apache.velocity.runtime.parser.node.SetPublicFieldExecutor;
+import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.introspection.UberspectImpl.VelGetterImpl;
 import org.apache.velocity.util.introspection.UberspectImpl.VelSetterImpl;
 import org.slf4j.Logger;
@@ -34,7 +36,7 @@ import java.util.Iterator;
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @author <a href="mailto:cdauth@cdauth.eu">Candid Dauth</a>
  */
-public class UberspectPublicFields implements Uberspect, UberspectLoggable
+public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
 {
     /**
      *  Our runtime logger.
@@ -54,18 +56,6 @@ public class UberspectPublicFields implements Uberspect, UberspectLoggable
     public void init()
     {
         introspector = new Introspector(log);
-    }
-
-    /**
-     *  Sets the runtime logger - this must be called before anything
-     *  else.
-     *
-     * @param log The logger instance to use.
-     * @since 1.5
-     */
-    public void setLog(Logger log)
-    {
-        this.log = log;
     }
 
     /**
@@ -123,4 +113,8 @@ public class UberspectPublicFields implements Uberspect, UberspectLoggable
         return null;
     }
 
+    public void setRuntimeServices(RuntimeServices rs)
+    {
+        log = rs.getLog("rendering");
+    }
 }

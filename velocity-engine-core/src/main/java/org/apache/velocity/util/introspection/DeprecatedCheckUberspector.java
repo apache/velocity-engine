@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
  * @version $Id:$
  * @see ChainableUberspector
  */
-public class DeprecatedCheckUberspector extends AbstractChainableUberspector implements Uberspect, UberspectLoggable
+public class DeprecatedCheckUberspector extends AbstractChainableUberspector implements Uberspect
 {
     @Override
     public void init()
