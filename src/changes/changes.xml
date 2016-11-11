@@ -28,7 +28,20 @@
     <release version="2.0" date="In Subversion">
 
       <action type="add" dev="cbrisson">
-	Added unary negate math operator
+          Make Velocity use the base logger namespace 'org.apache.velocity' unless specified with runtime.log.name in the configuration, and have the runtime instance log with this base namespace, and other modules log with children namespaces:
+          <ul>
+              <li>directive, and velocity.directive.[directivename]</li>
+              <li>parser</li>
+              <li>loader and loader.[loadername]</li>
+              <li>macro</li>
+              <li>rendering</li>
+              <li>event</li>
+          </ul>
+          Get rid of UberspectLoggable interface.
+      </action>
+        
+      <action type="add" dev="cbrisson">
+	      Added unary negate math operator
       </action>
       
       <action type="add" dev="cbrisson">
