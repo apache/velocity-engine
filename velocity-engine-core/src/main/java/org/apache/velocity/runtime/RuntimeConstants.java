@@ -50,16 +50,6 @@ public interface RuntimeConstants
     /** externally provided logger name. */
     String RUNTIME_LOG_NAME = "runtime.log.name";
 
-    /**
-     * Properties referenced in the template are required to exist the object
-     */
-    String RUNTIME_REFERENCES_STRICT = "runtime.references.strict";
-    
-    /**
-     * Indicates we are going to use modified escape behavior in strict mode
-     */
-    String RUNTIME_REFERENCES_STRICT_ESCAPE = "runtime.references.strict.escape";
-
     /** Logging of invalid references. */
     String RUNTIME_LOG_REFERENCE_LOG_INVALID = "runtime.log.invalid.references";
 
@@ -230,7 +220,23 @@ public interface RuntimeConstants
      * @since 1.7
      */
     String VM_BODY_REFERENCE = "velocimacro.body.reference";
-    
+
+    /*
+     * ----------------------------------------------------------------------
+     * S T I C T   M O D E  B E H A V I O U R
+     * ----------------------------------------------------------------------
+     */
+
+    /**
+     * Properties referenced in the template are required to exist the object
+     */
+    String RUNTIME_REFERENCES_STRICT = "runtime.references.strict";
+
+    /**
+     * Indicates we are going to use modified escape behavior in strict mode
+     */
+    String RUNTIME_REFERENCES_STRICT_ESCAPE = "runtime.references.strict.escape";
+
     /*
      * ----------------------------------------------------------------------
      * G E N E R A L  R U N T I M E  C O N F I G U R A T I O N
@@ -301,6 +307,12 @@ public interface RuntimeConstants
 
     /** Default Runtime properties. */
     String DEFAULT_RUNTIME_DIRECTIVES = "org/apache/velocity/runtime/defaults/directive.properties";
+
+    /** externally provided logger name. */
+    String DEFAULT_RUNTIME_LOG_NAME = "org.apache.velocity";
+
+    /** token used to identify the loader internally. */
+    String RESOURCE_LOADER_IDENTIFIER = "_RESOURCE_LOADER_IDENTIFIER_";
 
     /**
      * The default number of parser instances to create. Configurable via the parameter named by the {@link #PARSER_POOL_SIZE}

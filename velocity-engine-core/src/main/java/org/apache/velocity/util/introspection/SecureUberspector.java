@@ -40,15 +40,8 @@ import java.util.Iterator;
  * @version $Id$
  * @since 1.5
  */
-public class SecureUberspector extends UberspectImpl implements RuntimeServicesAware
+public class SecureUberspector extends UberspectImpl
 {
-    RuntimeServices runtimeServices;
-    
-    public SecureUberspector()
-    {
-        super();
-    }
-
     /**
      *  init - generates the Introspector. As the setup code
      *  makes sure that the log gets set before this is called,
@@ -56,10 +49,10 @@ public class SecureUberspector extends UberspectImpl implements RuntimeServicesA
      */
     public void init()
     {
-        String [] badPackages = runtimeServices.getConfiguration()
+        String [] badPackages = rsvc.getConfiguration()
                         .getStringArray(RuntimeConstants.INTROSPECTOR_RESTRICT_PACKAGES);
 
-        String [] badClasses = runtimeServices.getConfiguration()
+        String [] badClasses = rsvc.getConfiguration()
                         .getStringArray(RuntimeConstants.INTROSPECTOR_RESTRICT_CLASSES);
         
         introspector = new SecureIntrospectorImpl(badClasses, badPackages, log);
@@ -89,15 +82,4 @@ public class SecureUberspector extends UberspectImpl implements RuntimeServicesA
         }
         return null;
     }
-
-    /**
-     * Store the RuntimeServices before the object is initialized..
-     * @param rs RuntimeServices object for initialization
-     */
-    public void setRuntimeServices(RuntimeServices rs)
-    {
-        this.runtimeServices = rs;
-    }
-    
-    
 }

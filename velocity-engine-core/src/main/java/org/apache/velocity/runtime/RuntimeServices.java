@@ -440,6 +440,15 @@ public interface RuntimeServices
     public Logger getLog();
 
     /**
+     * Get a logger for the specified child namespace.
+     * If a logger was configured using the runtime.log.instance configuration property, returns this instance.
+     * Otherwise, uses SLF4J LoggerFactory on baseNamespace + childNamespace.
+     * @param childNamespace
+     * @return
+     */
+    public Logger getLog(String childNamespace);
+
+    /**
      * Returns the event handlers for the application.
      * @return The event handlers for the application.
      */
@@ -465,7 +474,15 @@ public interface RuntimeServices
      */
     public Directive getDirective(String name);
 
+    /**
+     * Check whether the engine uses string interning
+     * @return true if string interning is active
+     */
     public boolean useStringInterning();
 
+    /**
+     * get space gobbling mode
+     * @return space gobbling mode
+     */
     public SpaceGobbling getSpaceGobbling();
 }
