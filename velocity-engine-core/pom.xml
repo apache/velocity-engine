@@ -109,6 +109,10 @@
               <name>org.slf4j.simpleLogger.defaultLogLevel</name>
               <value>warn</value>
             </property>
+            <property>
+                <name>org.slf4j.simpleLogger.logFile</name>
+                <value>${project.build.directory}/velocity.log</value>
+            </property>
           </systemProperties>
         </configuration>
         <executions>

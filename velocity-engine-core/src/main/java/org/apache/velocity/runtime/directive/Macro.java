@@ -231,8 +231,7 @@ public class Macro extends Directive
             StringBuffer msg = new StringBuffer("Macro.getArgArray() : nbrArgs=");
             msg.append(numArgs).append(" : ");
             macroToString(msg, macroArgs);
-            rsvc.getLog().debug(msg.toString());
-            System.out.println("---- >  macro:  " + msg);
+            rsvc.getLog("macro").debug(msg.toString());
         }
 
         return macroArgs;

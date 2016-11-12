@@ -24,6 +24,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
+import org.slf4j.Logger;
 
 /**
  * This class represent a general text resource that
@@ -37,6 +38,7 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
 public abstract class Resource
 {
     protected RuntimeServices rsvc = null;
+    protected Logger log = null;
 
     /**
      * The template loader that initially loaded the input
@@ -100,6 +102,7 @@ public abstract class Resource
     public void setRuntimeServices( RuntimeServices rs )
     {
         rsvc = rs;
+        log = rsvc.getLog("loader");
     }
 
     /**

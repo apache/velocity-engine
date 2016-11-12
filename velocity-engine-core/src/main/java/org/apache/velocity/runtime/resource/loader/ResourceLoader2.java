@@ -27,7 +27,9 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceCacheImpl;
 import org.apache.velocity.util.ExtProperties;
+
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,7 +80,8 @@ public abstract class ResourceLoader2
     public void commonInit(RuntimeServices rs, ExtProperties configuration)
     {
         this.rsvc = rs;
-        this.log = rsvc.getLog();
+        String loaderName = configuration.getString(RuntimeConstants.RESOURCE_LOADER_IDENTIFIER);
+        log = rsvc.getLog("loader." + (loaderName == null ? this.getClass().getSimpleName() : loaderName));
 
         /*
          *  these two properties are not required for all loaders.
@@ -246,7 +249,7 @@ public abstract class ResourceLoader2
             if (log.isDebugEnabled())
             {
                 log.debug("Could not load resource '{}' from ResourceLoader {}",
-                        resourceName, this.getClass().getName(), e);
+                        resourceName, this.getClass().getName());
             }
         }
         finally

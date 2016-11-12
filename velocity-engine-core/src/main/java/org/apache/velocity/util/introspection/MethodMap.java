@@ -462,6 +462,7 @@ public class MethodMap
                     return false;
                 }
             }
+            return true;
         }
         else if (methodArgs.length > 0) // more arguments given than the method accepts; check for varargs
         {
@@ -490,9 +491,9 @@ public class MethodMap
                     return false;
                 }
             }
+            return true;
         }
-
-        return true;
+        return false;
     }
 
     /**

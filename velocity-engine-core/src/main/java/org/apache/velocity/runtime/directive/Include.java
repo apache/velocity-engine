@@ -169,7 +169,7 @@ public class Include extends InputBase
             {
                 String msg = "invalid #include() argument '" 
                   + n.toString() + "' at " + StringUtils.formatFileString(this);
-                rsvc.getLog().error(msg);
+                log.error(msg);
                 outputErrorToStream( writer, "error with arg " + i
                     + " please see log.");
                 throw new VelocityException(msg);
@@ -197,7 +197,7 @@ public class Include extends InputBase
     {
         if ( node == null )
         {
-            rsvc.getLog().error("#include() null argument");
+            log.error("#include() null argument");
             return false;
         }
 
@@ -207,7 +207,7 @@ public class Include extends InputBase
         Object value = node.value( context );
         if ( value == null)
         {
-            rsvc.getLog().error("#include() null argument");
+            log.error("#include() null argument");
             return false;
         }
 
@@ -242,7 +242,7 @@ public class Include extends InputBase
             /*
              * the arg wasn't found.  Note it and throw
              */
-            rsvc.getLog().error("#include(): cannot find resource '" + arg +
+            log.error("#include(): cannot find resource '" + arg +
                                 "', called at " + StringUtils.formatFileString(this));
             throw rnfe;
         }
@@ -252,7 +252,7 @@ public class Include extends InputBase
          */
         catch( RuntimeException e )
         {
-            rsvc.getLog().error("#include(): arg = '" + arg +
+            log.error("#include(): arg = '" + arg +
                                 "', called at " + StringUtils.formatFileString(this));
             throw e;
         }
@@ -260,7 +260,7 @@ public class Include extends InputBase
         {
             String msg = "#include(): arg = '" + arg +
                         "', called at " + StringUtils.formatFileString(this);
-            rsvc.getLog().error(msg, e);
+            log.error(msg, e);
             throw new VelocityException(msg, e);
         }
 

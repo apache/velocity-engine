@@ -137,7 +137,7 @@ public class JarResourceLoader extends ResourceLoader2
         closeJar( path );
 
         // Create a new JarHolder
-        JarHolder temp = new JarHolder( rsvc,  path );
+        JarHolder temp = new JarHolder( rsvc,  path, log );
         // Add it's entries to the entryCollection
         addEntries(temp.getEntries());
         // Add it to the Jar table

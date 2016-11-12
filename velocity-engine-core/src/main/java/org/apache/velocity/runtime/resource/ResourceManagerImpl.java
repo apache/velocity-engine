@@ -30,6 +30,7 @@ import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.StringUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -56,9 +57,6 @@ public class ResourceManagerImpl
 
     /** A static content resource. */
     public static final int RESOURCE_CONTENT = 2;
-
-    /** token used to identify the loader internally. */
-    private static final String RESOURCE_LOADER_IDENTIFIER = "_RESOURCE_LOADER_IDENTIFIER_";
 
     /** Object implementing ResourceCache to be our resource manager's Resource cache. */
     protected ResourceCache globalCache = null;
@@ -93,7 +91,7 @@ public class ResourceManagerImpl
      *
      * @param  rsvc  The Runtime Services object which is associated with this Resource Manager.
      */
-    public synchronized void initialize(final RuntimeServices rsvc)
+    public synchronized void initialize(final RuntimeServices rs)
     {
         if (isInit)
         {
@@ -103,8 +101,8 @@ public class ResourceManagerImpl
 
         ResourceLoader2 resourceLoader = null;
 
-        this.rsvc = rsvc;
-        log = rsvc.getLog();
+        rsvc = rs;
+        log = rsvc.getLog("loader");
 
         log.trace("ResourceManager initializing: {}", this.getClass());
 
@@ -132,7 +130,7 @@ public class ResourceManagerImpl
             else
             {
                 String msg = "Unable to find '" +
-                          configuration.getString(RESOURCE_LOADER_IDENTIFIER) +
+                          configuration.getString(RuntimeConstants.RESOURCE_LOADER_IDENTIFIER) +
                           ".resource.loader.class' specification in configuration." +
                           " This is a critical value.  Please adjust configuration.";
                 log.error(msg);
@@ -250,7 +248,7 @@ public class ResourceManagerImpl
              *  in the 'name' field
              */
 
-            loaderConfiguration.setProperty(RESOURCE_LOADER_IDENTIFIER, loaderName);
+            loaderConfiguration.setProperty(RuntimeConstants.RESOURCE_LOADER_IDENTIFIER, loaderName);
 
             /*
              * Add resources to the list of resource loader
@@ -364,7 +362,7 @@ public class ResourceManagerImpl
             }
             catch (ParseErrorException pee)
             {
-                log.error("ResourceManager.getResource() parse exception", pee);
+                log.error("ResourceManager: parse exception: {}", pee.getMessage());
                 throw pee;
             }
             catch (RuntimeException re)

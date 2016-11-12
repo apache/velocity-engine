@@ -51,7 +51,6 @@ import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.ChainableUberspector;
 import org.apache.velocity.util.introspection.LinkingUberspector;
 import org.apache.velocity.util.introspection.Uberspect;
-import org.apache.velocity.util.introspection.UberspectLoggable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,9 +108,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private  VelocimacroFactory vmFactory = null;
 
     /**
-     * The Runtime logger.  The default instance is the "Velocity" logger.
+     * The Runtime logger.  The default instance is the "org.apache.velocity" logger.
      */
-    private Logger log = LoggerFactory.getLogger("Velocity");
+    private Logger log = LoggerFactory.getLogger(DEFAULT_RUNTIME_LOG_NAME);
 
     /**
      * The Runtime parser pool
@@ -328,7 +327,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch (Exception e)
             {
-                getLog().error("Could not auto-initialize Velocity", e);
+                log.error("Could not auto-initialize Velocity", e);
                 throw new RuntimeException("Velocity could not be initialized!", e);
             }
         }
@@ -397,11 +396,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
 
             Uberspect u = (Uberspect)o;
-
-            if (u instanceof UberspectLoggable)
-            {
-                ((UberspectLoggable)u).setLog(getLog());
-            }
 
             if (u instanceof RuntimeServicesAware)
             {
@@ -1434,7 +1428,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             catch(Exception e)
             {
                 String msg = "RuntimeInstance.render(): init exception for tag = "+logTag;
-                getLog().error(msg, e);
+                log.error(msg, e);
                 throw new VelocityException(msg, e);
             }
 
@@ -1458,9 +1452,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 {
                     throw stop;
                 }
-                else if (getLog().isDebugEnabled())
+                else if (log.isDebugEnabled())
                 {
-                    getLog().debug(stop.getMessage());
+                    log.debug(stop.getMessage());
                 }
             }
             catch (IOException e)
@@ -1523,7 +1517,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (vmName == null || context == null || writer == null)
         {
             String msg = "RuntimeInstance.invokeVelocimacro() : invalid call : vmName, context, and writer must not be null";
-            getLog().error(msg);
+            log.error(msg);
             throw new NullPointerException(msg);
         }
 
@@ -1542,7 +1536,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             String msg = "RuntimeInstance.invokeVelocimacro() : VM '" + vmName
                          + "' is not registered.";
-            getLog().error(msg);
+            log.error(msg);
             throw new VelocityException(msg);
         }
 
@@ -1692,6 +1686,24 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public Logger getLog()
     {
+        return log;
+    }
+
+    /**
+     * Get a logger for the specified child namespace.
+     * If a logger was configured using the runtime.log.instance configuration property, returns this instance.
+     * Otherwise, uses SLF4J LoggerFactory on baseNamespace + childNamespace.
+     * @param childNamespace
+     * @return
+     */
+    public Logger getLog(String childNamespace)
+    {
+        Logger log = (Logger)getProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE);
+        if (log == null)
+        {
+            String loggerName = getString(RUNTIME_LOG_NAME, DEFAULT_RUNTIME_LOG_NAME) + "." + childNamespace;
+            log = LoggerFactory.getLogger(loggerName);
+        }
         return log;
     }
 

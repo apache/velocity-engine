@@ -31,10 +31,12 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-
 
 /**
  * Base class for all directives used in Velocity.
@@ -49,6 +51,8 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     private int column = 0;
     private boolean provideScope = false;
     private Template template;
+
+    protected Logger log = null;
 
     /**
      *
@@ -155,6 +159,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
         throws TemplateInitException
     {
         rsvc = rs;
+        log = rsvc.getLog("directive." + getName());
 
         String property = getScopeName()+'.'+RuntimeConstants.PROVIDE_SCOPE_CONTROL;
         this.provideScope = rsvc.getBoolean(property, provideScope);

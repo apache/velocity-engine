@@ -26,7 +26,9 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.VelocimacroProxy;
 import org.apache.velocity.runtime.parser.node.Node;
+
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,7 +106,7 @@ public class VelocimacroFactory
     public VelocimacroFactory(final RuntimeServices rsvc)
     {
         this.rsvc = rsvc;
-        this.log = rsvc.getLog();
+        this.log = rsvc.getLog("macro");
 
         /*
          *  we always access in a synchronized(), so we

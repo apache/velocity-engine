@@ -41,7 +41,7 @@
                     <descriptors>
                         <descriptor>src/main/assembly/all.xml</descriptor>
                     </descriptors>
-                    <finalName>velocity-${project.version}</finalName>
+                    <finalName>velocity-engine-${project.version}</finalName>
                     <tarLongFileMode>gnu</tarLongFileMode>
                 </configuration>
             </plugin>

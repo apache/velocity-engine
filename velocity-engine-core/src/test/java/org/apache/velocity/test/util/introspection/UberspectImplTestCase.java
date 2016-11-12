@@ -126,4 +126,32 @@ public class UberspectImplTestCase extends BaseTestCase
             return Arrays.asList("1", "2", "3").iterator();
         }
     }
+
+    public class OverloadedMethods
+    {
+        public String foo() { return "foo0"; }
+        public String foo(String arg1) { return "foo1"; }
+        public String foo(String arg1, String arg2) { return "foo2"; }
+    }
+
+    public void testOverloadedMethods()
+    {
+        VelocityContext context = new VelocityContext();
+        context.put("over", new OverloadedMethods());
+        StringWriter writer = new StringWriter();
+        Velocity.evaluate(context, writer, "test", "$over.foo()");
+        assertEquals(writer.toString(), "foo0");
+        writer = new StringWriter();
+        Velocity.evaluate(context, writer, "test", "$over.foo('a')");
+        assertEquals(writer.toString(), "foo1");
+        writer = new StringWriter();
+        Velocity.evaluate(context, writer, "test", "$over.foo($null)");
+        assertEquals(writer.toString(), "foo1");
+        writer = new StringWriter();
+        Velocity.evaluate(context, writer, "test", "$over.foo('a', 'b')");
+        assertEquals(writer.toString(), "foo2");
+        writer = new StringWriter();
+        Velocity.evaluate(context, writer, "test", "$over.foo('a', $null)");
+        assertEquals(writer.toString(), "foo2");
+    }
 }

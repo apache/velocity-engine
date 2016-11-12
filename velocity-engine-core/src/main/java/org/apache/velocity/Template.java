@@ -33,6 +33,7 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceManager;
+import org.slf4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -324,7 +325,7 @@ public class Template extends Resource
                         /*
                         * the macro lib wasn't found.  Note it and throw
                         */
-                        rsvc.getLog().error("template.merge(): " +
+                        log.error("template.merge(): " +
                                 "cannot find template " +
                                 (String) macroLibraries.get(i));
                         throw re;
@@ -335,9 +336,9 @@ public class Template extends Resource
                         * the macro lib was found, but didn't parse - syntax error
                         *  note it and throw
                         */
-                        rsvc.getLog().error("template.merge(): " +
+                        rsvc.getLog("parser").error("template.merge(): " +
                                 "syntax error in template " +
-                                (String) macroLibraries.get(i) + ".");
+                                (String) macroLibraries.get(i) + ": {}", pe.getMessage(), pe);
                         throw pe;
                     }
                     
@@ -366,9 +367,13 @@ public class Template extends Resource
                 {
                     throw stop;
                 }
-                else if (rsvc.getLog().isDebugEnabled())
+                else
                 {
-                    rsvc.getLog().debug(stop.getMessage());
+                    Logger renderingLog = rsvc.getLog("rendering");
+                    if (renderingLog.isDebugEnabled())
+                    {
+                        renderingLog.debug(stop.getMessage());
+                    }
                 }
             }
             catch (IOException e)
