@@ -214,7 +214,7 @@ public class Parser
         }
         catch (ParseException pe)
         {
-            log.error("{}: {}", currentTemplate.getName(), pe.getMessage(), pe);
+            log.error("{}: {}", currentTemplate.getName(), pe.getMessage());
             throw new TemplateParseException (pe.currentToken,
 				pe.expectedTokenSequences, pe.tokenImage, currentTemplate.getName());
 		}
