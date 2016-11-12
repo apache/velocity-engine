@@ -362,7 +362,7 @@ public class ResourceManagerImpl
             }
             catch (ParseErrorException pee)
             {
-                log.error("ResourceManager.getResource() parse exception", pee);
+                log.error("ResourceManager: parse exception: {}", pee.getMessage());
                 throw pee;
             }
             catch (RuntimeException re)

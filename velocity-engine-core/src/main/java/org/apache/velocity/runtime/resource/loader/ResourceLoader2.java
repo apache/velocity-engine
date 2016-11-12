@@ -249,7 +249,7 @@ public abstract class ResourceLoader2
             if (log.isDebugEnabled())
             {
                 log.debug("Could not load resource '{}' from ResourceLoader {}",
-                        resourceName, this.getClass().getName(), e);
+                        resourceName, this.getClass().getName());
             }
         }
         finally
