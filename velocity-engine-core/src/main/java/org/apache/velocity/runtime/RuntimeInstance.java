@@ -229,8 +229,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 log.debug("Initializing Velocity, Calling init()...");
                 initializing = true;
                 
-                log.trace("*******************************************************************");
-                log.debug("Starting Apache Velocity v2.0-dev (compiled: 2009-02-05 07:40:05)");
+                log.trace("*****************************");
+                log.debug("Starting Apache Velocity v2.0");
                 log.trace("RuntimeInstance initializing.");
                 
                 initializeProperties();
