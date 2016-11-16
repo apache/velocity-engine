@@ -54,7 +54,7 @@ public class VelocimacroFactory
     /**
      *  the log for this instance
      */
-    private final Logger log;
+    private Logger log = null;
 
     /**
      *  VMManager : deal with namespace management
@@ -106,7 +106,6 @@ public class VelocimacroFactory
     public VelocimacroFactory(final RuntimeServices rsvc)
     {
         this.rsvc = rsvc;
-        this.log = rsvc.getLog("macro");
 
         /*
          *  we always access in a synchronized(), so we
@@ -127,6 +126,7 @@ public class VelocimacroFactory
          */
         synchronized(this)
         {
+            log = rsvc.getLog("macro");
             log.trace("initialization starting.");
 
             /*
