@@ -249,7 +249,7 @@ public interface RuntimeConstants
     /** The character encoding for the templates. Used by the parser in processing the input streams. */
     String INPUT_ENCODING = "input.encoding";
 
-    /** Default Encoding is UTF-8 if not found in system. */
+    /** Default Encoding is UTF-8. */
     String ENCODING_DEFAULT = "UTF-8";
 
     /** key name for uberspector. Multiple classnames can be specified,in which case uberspectors will be chained. */

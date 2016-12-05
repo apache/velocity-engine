@@ -28,6 +28,10 @@
     <release version="2.0" date="In Subversion">
 
       <action type="add" dev="cbrisson">
+         Default encoding is now UTF-8.
+      </action>
+        
+      <action type="add" dev="cbrisson">
           Make Velocity use the base logger namespace 'org.apache.velocity' unless specified with runtime.log.name in the configuration, and have the runtime instance log with this base namespace, and other modules log with children namespaces:
           <ul>
               <li>directive, and velocity.directive.[directivename]</li>

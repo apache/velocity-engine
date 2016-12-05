@@ -282,7 +282,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>
-     * property. The default is platform dependant.
+     * property. The default is UTF-8.
      *
      * @param name The file name of the desired template.
      * @return     The template.
