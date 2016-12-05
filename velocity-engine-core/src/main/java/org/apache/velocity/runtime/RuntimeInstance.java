@@ -190,7 +190,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private Map applicationAttributes = null;
     private Uberspect uberSpect;
-    private String encoding;
+    private String defaultEncoding;
 
     /*
      * Space gobbling mode
@@ -279,7 +279,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public synchronized void reset()
     {
         this.configuration = new ExtProperties();
-        this.encoding = null;
+        this.defaultEncoding = null;
         this.evaluateScopeName = "evaluate";
         this.eventCartridge = null;
         this.initialized = false;
@@ -456,6 +456,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 throw new IOException("Resource not found: " + DEFAULT_RUNTIME_PROPERTIES);
 
             configuration.load( inputStream );
+
+            /* populate 'defaultEncoding' member */
+            defaultEncoding = getString(INPUT_ENCODING, ENCODING_DEFAULT);
 
             if (log.isDebugEnabled())
             {
@@ -1560,28 +1563,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private String getDefaultEncoding()
     {
-        if (encoding == null)
-        {
-            /*
-             * first try to get the OS encoding
-             */
-            encoding = System.getProperty("file.encoding");
-            if (encoding == null)
-            {
-                /*
-                 * then fall back to default
-                 */
-                encoding = getString(INPUT_ENCODING, ENCODING_DEFAULT);
-            }
-        }
-        return encoding;
+        return defaultEncoding;
     }
 
     /**
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>
-     * property. The default is platform dependant.
+     * property. The default is UTF-8.
      *
      * @param name The file name of the desired template.
      * @return     The template.
