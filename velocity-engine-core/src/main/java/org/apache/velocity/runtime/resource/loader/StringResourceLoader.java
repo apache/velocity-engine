@@ -113,7 +113,7 @@ import java.util.Map;
  * @version $Id$
  * @since 1.5
  */
-public class StringResourceLoader extends ResourceLoader2
+public class StringResourceLoader extends ResourceLoader
 {
     /**
      * Key to determine whether the repository should be set as the static one or not.
@@ -210,7 +210,7 @@ public class StringResourceLoader extends ResourceLoader2
 
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.velocity.util.ExtProperties)
+     * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
     public void init(final ExtProperties configuration)
     {
@@ -390,7 +390,7 @@ public class StringResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(final Resource resource)
     {
@@ -408,7 +408,7 @@ public class StringResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(final Resource resource)
     {

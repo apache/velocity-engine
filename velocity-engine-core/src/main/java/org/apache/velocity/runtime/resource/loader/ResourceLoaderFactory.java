@@ -37,13 +37,13 @@ public class ResourceLoaderFactory
      * @param loaderClassName
      * @return TemplateLoader
      */
-    public static ResourceLoader2 getLoader(RuntimeServices rs, String loaderClassName)
+    public static ResourceLoader getLoader(RuntimeServices rs, String loaderClassName)
     {
-        ResourceLoader2 loader = null;
+        ResourceLoader loader = null;
 
         try
         {
-            loader = (ResourceLoader2) ClassUtils.getNewInstance( loaderClassName );
+            loader = (ResourceLoader) ClassUtils.getNewInstance( loaderClassName );
 
             rs.getLog().debug("ResourceLoader instantiated: "
                               + loader.getClass().getName());

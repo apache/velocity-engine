@@ -46,7 +46,7 @@ import java.io.UnsupportedEncodingException;
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  * @version $Id$
  */
-public abstract class ResourceLoader2
+public abstract class ResourceLoader
 {
     /**
      * Does this loader want templates produced with it

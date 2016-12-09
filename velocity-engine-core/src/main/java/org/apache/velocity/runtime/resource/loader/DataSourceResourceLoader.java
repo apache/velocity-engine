@@ -126,7 +126,7 @@ import java.sql.Timestamp;
  * @version $Id$
  * @since 1.5
  */
-public class DataSourceResourceLoader extends ResourceLoader2
+public class DataSourceResourceLoader extends ResourceLoader
 {
     private String dataSourceName;
     private String tableName;
@@ -137,7 +137,7 @@ public class DataSourceResourceLoader extends ResourceLoader2
     private DataSource dataSource;
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.velocity.util.ExtProperties)
+     * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
     public void init(ExtProperties configuration)
     {
@@ -186,7 +186,7 @@ public class DataSourceResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(final Resource resource)
     {
@@ -195,7 +195,7 @@ public class DataSourceResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(final Resource resource)
     {

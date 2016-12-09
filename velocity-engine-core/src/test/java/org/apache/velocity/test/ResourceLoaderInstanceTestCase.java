@@ -27,7 +27,7 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.test.misc.TestLogger;
 
 import java.io.BufferedWriter;
@@ -88,7 +88,7 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
             throws Exception
     {
 
-        ResourceLoader2 rl = new FileResourceLoader();
+        ResourceLoader rl = new FileResourceLoader();
 
         // pass in an instance to Velocity
         Velocity.reset();

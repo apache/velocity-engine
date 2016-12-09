@@ -76,7 +76,7 @@ import java.io.Reader;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class ClasspathResourceLoader extends ResourceLoader2
+public class ClasspathResourceLoader extends ResourceLoader
 {
 
     /**
@@ -150,7 +150,7 @@ public class ClasspathResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(Resource resource)
     {
@@ -158,7 +158,7 @@ public class ClasspathResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(Resource resource)
     {

@@ -23,7 +23,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.slf4j.Logger;
 
 /**
@@ -45,7 +45,7 @@ public abstract class Resource
      * stream for this template, and knows how to check the
      * source of the input stream for modification.
      */
-    protected ResourceLoader2 resourceLoader;
+    protected ResourceLoader resourceLoader;
 
     /**
      * The number of milliseconds in a minute, used to calculate the
@@ -237,7 +237,7 @@ public abstract class Resource
      * in the template stream
      * @return The resource loader for this resource.
      */
-    public ResourceLoader2 getResourceLoader()
+    public ResourceLoader getResourceLoader()
     {
         return resourceLoader;
     }
@@ -248,7 +248,7 @@ public abstract class Resource
      * came from the list of possible sources.
      * @param resourceLoader
      */
-    public void setResourceLoader(ResourceLoader2 resourceLoader)
+    public void setResourceLoader(ResourceLoader resourceLoader)
     {
         this.resourceLoader = resourceLoader;
     }
