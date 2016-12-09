@@ -137,7 +137,6 @@
       
       <action type="add" dev="cbrisson" issue="VELOCITY-793">
         The ResourceLoader API now provides a Reader rather than an InputStream.
-        The InputStream getter method has been deprecated.
         Also fixes VELOCITY-599.
       </action>
       
@@ -211,10 +210,6 @@
 
       <action type="add" dev="apetrelli">
         Add SLF4J logging option
-      </action>
-
-      <action type="add" dev="apetrelli" issue="VELOCITY-789">
-        Shading of Commons Lang and Commons Collections
       </action>
 
       <action type="add" dev="apetrelli">

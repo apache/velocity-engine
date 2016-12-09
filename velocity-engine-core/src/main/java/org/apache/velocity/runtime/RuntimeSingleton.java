@@ -19,7 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.
  */
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.exception.ParseErrorException;
@@ -147,29 +146,8 @@ public class RuntimeSingleton implements RuntimeConstants
     }
 
     /**
-     * Allow an external system to set an ExtendedProperties
-     * object to use. This is useful where the external
-     * system also uses the ExtendedProperties class and
-     * the velocity configuration is a subset of
-     * parent application's configuration. This is
-     * the case with Turbine.
-     *
-     * @param configuration
-     * @deprecated use {@link #setConfiguration(ExtProperties)}
-     * @see RuntimeInstance#setConfiguration(ExtendedProperties)
-     */
-    public @Deprecated static void setConfiguration( ExtendedProperties configuration)
-    {
-        ri.setConfiguration(configuration);
-    }
-
-    /**
      * Allow an external system to set an ExtProperties
-     * object to use. This is useful where the external
-     * system also uses the ExtProperties class and
-     * the velocity configuration is a subset of
-     * parent application's configuration. This is
-     * the case with Turbine.
+     * object to use.
      *
      * @param configuration
      * @see RuntimeInstance#setConfiguration(ExtProperties)
