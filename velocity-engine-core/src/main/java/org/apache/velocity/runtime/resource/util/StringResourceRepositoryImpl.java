@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.resource.util;
  * under the License.
  */
 
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
 import java.util.Collections;
@@ -44,7 +45,7 @@ public class StringResourceRepositoryImpl implements StringResourceRepository
     /**
      * Current Repository encoding.
      */
-    private String encoding = StringResourceLoader.REPOSITORY_ENCODING_DEFAULT;
+    private String encoding = RuntimeConstants.ENCODING_DEFAULT;
     
     /**
      * @see StringResourceRepository#getStringResource(java.lang.String)
