@@ -124,7 +124,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
         log = rs.getLog("event");
 
         // Get the regular expression pattern.
-        matchRegExp = StringUtils.nullTrim(rs.getConfiguration().getString(getMatchAttribute()));
+        matchRegExp = StringUtils.nullTrim(rs.getString(getMatchAttribute()));
         if (org.apache.commons.lang3.StringUtils.isEmpty(matchRegExp))
         {
             matchRegExp = null;

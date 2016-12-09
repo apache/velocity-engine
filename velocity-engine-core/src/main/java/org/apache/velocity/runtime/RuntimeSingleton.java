@@ -30,7 +30,6 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.slf4j.Logger;
 
@@ -146,15 +145,15 @@ public class RuntimeSingleton implements RuntimeConstants
     }
 
     /**
-     * Allow an external system to set an ExtProperties
+     * Allow an external system to set a Properties
      * object to use.
      *
      * @param configuration
-     * @see RuntimeInstance#setConfiguration(ExtProperties)
+     * @see RuntimeInstance#setProperties(Properties)
      */
-    public static void setConfiguration( ExtProperties configuration)
+    public static void setProperties(Properties configuration)
     {
-        ri.setConfiguration(configuration);
+        ri.setProperties(configuration);
     }
 
     /**
@@ -222,7 +221,7 @@ public class RuntimeSingleton implements RuntimeConstants
 
     /**
      * Initialize the Velocity Runtime with the name of
-     * ExtProperties object.
+     * a properties file.
      *
      * @param configurationFile
      * @see RuntimeInstance#init(String)
@@ -460,7 +459,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static int getInt( String key )
     {
-        return ri.getInt( key );
+        return ri.getInt(key);
     }
 
     /**
@@ -486,8 +485,19 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static boolean getBoolean( String key, boolean def )
     {
-        return ri.getBoolean( key, def );
+        return ri.getBoolean(key, def);
     }
+
+    /**
+     * Directly set the ExtProperties configuration object
+     *
+     * @see RuntimeInstance#setConfiguration(ExtProperties)
+     */
+    public static void setConfiguration(ExtProperties configuration)
+    {
+        ri.setConfiguration(configuration);
+    }
+
 
     /**
      * Return the velocity runtime configuration object.

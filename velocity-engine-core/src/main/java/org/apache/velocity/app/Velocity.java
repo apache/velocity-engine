@@ -26,7 +26,6 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeSingleton;
-import org.apache.velocity.util.ExtProperties;
 import org.slf4j.Logger;
 
 import java.io.Reader;
@@ -142,9 +141,9 @@ public class Velocity implements RuntimeConstants
      * @since 2.0
      *
      */
-    public static void setExtendedProperties( ExtProperties configuration)
+    public static void setProperties( Properties configuration)
     {
-        RuntimeSingleton.setConfiguration( configuration );
+        RuntimeSingleton.setProperties(configuration);
     }
 
     /**

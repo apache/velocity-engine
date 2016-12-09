@@ -140,7 +140,7 @@ public class VelocimacroProxy extends Directive
         rsvc = rs;
         log = rs.getLog("macro");
       
-        strictArguments = rsvc.getConfiguration().getBoolean(
+        strictArguments = rsvc.getBoolean(
             RuntimeConstants.VM_ARGUMENTS_STRICT, false);
 
         // get the macro call depth limit
