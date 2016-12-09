@@ -22,6 +22,7 @@ package org.apache.velocity.runtime.resource.loader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.util.StringResource;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
@@ -149,10 +150,6 @@ public class StringResourceLoader extends ResourceLoader
 
     /** Key to look up the repository char encoding. */
     public static final String REPOSITORY_ENCODING = "repository.encoding";
-
-    /** The default repository encoding. */
-    public static final String REPOSITORY_ENCODING_DEFAULT = "UTF-8";
-
 
     protected static final Map STATIC_REPOSITORIES =
         Collections.synchronizedMap(new HashMap());
@@ -317,7 +314,7 @@ public class StringResourceLoader extends ResourceLoader
         }
         else
         {
-            repo.setEncoding(REPOSITORY_ENCODING_DEFAULT);
+            repo.setEncoding(RuntimeConstants.ENCODING_DEFAULT);
         }
 
         if (log.isDebugEnabled())
