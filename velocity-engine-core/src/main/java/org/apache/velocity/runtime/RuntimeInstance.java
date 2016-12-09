@@ -680,20 +680,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public void init(Properties p)
     {
-        setProperties(ExtProperties.convertProperties(p));
+        setConfiguration(ExtProperties.convertProperties(p));
         init();
-    }
-
-    private void setProperties(ExtProperties p)
-    {
-        if (overridingProperties == null)
-        {
-            overridingProperties = p;
-        }
-        else
-        {
-            overridingProperties.combine(p);
-        }
     }
 
     /**
@@ -706,7 +694,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         try
         {
-            setProperties(new ExtProperties(configurationFile));
+            setConfiguration(new ExtProperties(configurationFile));
         }
         catch (IOException e)
         {
