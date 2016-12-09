@@ -47,7 +47,7 @@ import java.util.Map;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @version $Id$
  */
-public class FileResourceLoader extends ResourceLoader2
+public class FileResourceLoader extends ResourceLoader
 {
     /**
      * The paths to search for templates.
@@ -63,7 +63,7 @@ public class FileResourceLoader extends ResourceLoader2
     private Map templatePaths = Collections.synchronizedMap(new HashMap());
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.velocity.util.ExtProperties)
+     * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
     public void init( ExtProperties configuration)
     {
@@ -328,7 +328,7 @@ public class FileResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(Resource resource)
     {
