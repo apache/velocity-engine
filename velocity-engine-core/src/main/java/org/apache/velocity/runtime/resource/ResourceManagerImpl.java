@@ -232,7 +232,7 @@ public class ResourceManagerImpl
         		rsvc.getConfiguration().subset(loaderID.toString());
 
             /*
-             *  we can't really count on ExtendedProperties to give us an empty set
+             *  we can't really count on ExtProperties to give us an empty set
              */
             if (loaderConfiguration == null)
             {

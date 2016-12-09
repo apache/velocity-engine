@@ -20,7 +20,7 @@ package org.apache.velocity.test;
  */
 
 import junit.framework.TestSuite;
-import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.util.ExtProperties;
 
 import java.io.FileWriter;
 import java.util.Iterator;
@@ -28,7 +28,7 @@ import java.util.Vector;
 
 
 /**
- * Tests for the Commons ExtendedProperties class. This is an identical
+ * Tests for the ExtProperties class. This is an identical
  *  copy of the ConfigurationTestCase, which will disappear when
  *  the Configuration class does
  *
@@ -78,7 +78,7 @@ public class CommonsExtPropTestCase extends BaseTestCase
     {
             assureResultsDirectoryExists(RESULTS_DIR);
 
-            ExtendedProperties c = new ExtendedProperties(TEST_CONFIG);
+            ExtProperties c = new ExtProperties(TEST_CONFIG);
 
             FileWriter result = new FileWriter(
                 getFileName(RESULTS_DIR, "output", "res"));
@@ -90,7 +90,7 @@ public class CommonsExtPropTestCase extends BaseTestCase
             showVector(result, c.getVector("resource.loader"));
 
             message(result, "Testing subset(prefix).getKeys() ...");
-            ExtendedProperties subset = c.subset("file.resource.loader");
+            ExtProperties subset = c.subset("file.resource.loader");
             showIterator(result, subset.getKeys());
 
             message(result, "Testing getVector(prefix) ...");

@@ -19,7 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.
  */
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.EventHandler;
@@ -546,35 +545,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     * Allow an external system to set an ExtendedProperties
-     * object to use. This is useful where the external
-     * system also uses the ExtendedProperties class and
-     * the velocity configuration is a subset of
-     * parent application's configuration. This is
-     * the case with Turbine.
-     *
-     * @param  configuration
-     * @deprecated use {@link #setConfiguration(ExtProperties)}
-     */
-    public @Deprecated void setConfiguration( ExtendedProperties configuration)
-    {
-        if (overridingProperties == null)
-        {
-            overridingProperties = ExtProperties.convertProperties(configuration);
-        }
-        else
-        {
-            overridingProperties.combine(ExtProperties.convertProperties(configuration));
-        }
-    }
-
-    /**
-     * Allow an external system to set an ExtendedProperties
-     * object to use. This is useful where the external
-     * system also uses the ExtendedProperties class and
-     * the velocity configuration is a subset of
-     * parent application's configuration. This is
-     * the case with Turbine.
+     * Allow an external system to set an ExtProperties
+     * object to use.
      *
      * @param  configuration
      * @since 2.0
@@ -725,8 +697,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     * Initialize the Velocity Runtime with the name of
-     * ExtendedProperties object.
+     * Initialize the Velocity Runtime with a
+     * properties file path.
      *
      * @param configurationFile
      */

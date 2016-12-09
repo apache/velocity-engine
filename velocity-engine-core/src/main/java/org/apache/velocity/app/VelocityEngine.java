@@ -19,7 +19,6 @@ package org.apache.velocity.app;
  * under the License.
  */
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -155,24 +154,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     * Set an entire configuration at once. This is
-     * useful in cases where the parent application uses
-     * the ExtendedProperties class and the velocity configuration
-     * is a subset of the parent application's configuration.
-     *
-     * @param  configuration
-     * @deprecated use {@link #setExtendedProperties(ExtProperties)}
-     */
-    public @Deprecated void setExtendedProperties( ExtendedProperties configuration)
-    {
-        ri.setConfiguration(configuration);
-    }
-
-    /**
-     * Set an entire configuration at once. This is
-     * useful in cases where the parent application uses
-     * the ExtendedProperties class and the velocity configuration
-     * is a subset of the parent application's configuration.
+     * Set an entire configuration at once.
      *
      * @param  configuration
      * @since 2.0
