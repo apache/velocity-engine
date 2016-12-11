@@ -789,6 +789,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
 
         eventCartridge = new EventCartridge();
+        eventCartridge.setRuntimeServices(this);
 
         /**
          * For each type of event handler, get the class name, instantiate it, and store it.
