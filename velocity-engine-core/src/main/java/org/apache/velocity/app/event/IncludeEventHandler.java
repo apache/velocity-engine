@@ -39,6 +39,7 @@ public interface  IncludeEventHandler extends EventHandler
      * registered IncludeEventHandlers are called unless null is returned. If
      * none are registered the template at the includeResourcePath is retrieved.
      *
+     * @param context current context
      * @param includeResourcePath  the path as given in the include directive.
      * @param currentResourcePath the path of the currently rendering template that includes the
      *            include directive.
@@ -48,62 +49,5 @@ public interface  IncludeEventHandler extends EventHandler
      * @return a new resource path for the directive, or null to block the
      *         include from occurring.
      */
-    public String includeEvent( String includeResourcePath, String currentResourcePath, String directiveName );
-
-
-
-    /**
-     * Defines the execution strategy for includeEvent
-     */
-    static class IncludeEventExecutor implements EventHandlerMethodExecutor
-    {
-        private Context context;
-        private String includeResourcePath;
-        private String currentResourcePath;
-        private String directiveName;
-        
-        private boolean executed = false;
-        
-        IncludeEventExecutor(
-                Context context, 
-                String includeResourcePath,
-                String currentResourcePath,
-                String directiveName)
-        {
-            this.context = context;
-            this.includeResourcePath = includeResourcePath;
-            this.currentResourcePath = currentResourcePath;
-            this.directiveName = directiveName;
-        }
-
-        /**
-         * Call the method includeEvent()
-         *  
-         * @param handler call the appropriate method on this handler
-         */
-        public void execute(EventHandler handler)
-        {
-            IncludeEventHandler eh = (IncludeEventHandler) handler;
-            
-            if (eh instanceof ContextAware)
-                ((ContextAware) eh).setContext(context);
-
-            executed = true;
-            includeResourcePath = ((IncludeEventHandler) handler)
-                .includeEvent(includeResourcePath, currentResourcePath, directiveName); 
-        }
-
-        public Object getReturnValue()
-        {
-            return includeResourcePath;
-        }
-
-        public boolean isDone()
-        {
-            return executed && (includeResourcePath == null);
-        }        
-        
-        
-    }
-
+    public String includeEvent(Context context, String includeResourcePath, String currentResourcePath, String directiveName);
 }

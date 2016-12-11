@@ -204,7 +204,7 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
     /**
      * Sample handler with different behaviors for the different tests.
      */
-    public String includeEvent( String includeResourcePath, String currentResourcePath, String directiveName)
+    public String includeEvent( Context context, String includeResourcePath, String currentResourcePath, String directiveName)
     {
         if (EventHandlerBehavior == PASS_THROUGH)
             return includeResourcePath;

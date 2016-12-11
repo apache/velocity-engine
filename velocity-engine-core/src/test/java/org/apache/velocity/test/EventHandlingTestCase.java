@@ -199,7 +199,7 @@ public class EventHandlingTestCase extends BaseTestCase
         /**
          *  Event handler for when a reference is inserted into the output stream.
          */
-        public Object referenceInsert( String reference, Object value  )
+        public Object referenceInsert( Context context, String reference, Object value  )
         {
             // as a test, make sure this EventHandler is initialized
             if (rs == null)
@@ -233,7 +233,7 @@ public class EventHandlingTestCase extends BaseTestCase
         /**
          *  Handles exceptions thrown during in-template method access
          */
-        public Object methodException( Class claz, String method, Exception e, Info info )
+        public Object methodException( Context context, Class claz, String method, Exception e, Info info )
         {
             // as a test, make sure this EventHandler is initialized
             if (rs == null)

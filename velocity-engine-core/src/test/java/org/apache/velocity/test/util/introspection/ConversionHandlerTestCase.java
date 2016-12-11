@@ -24,6 +24,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
+import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.test.BaseTestCase;
@@ -200,7 +201,8 @@ public class ConversionHandlerTestCase extends BaseTestCase
 
     public static class PrintException implements MethodExceptionEventHandler
     {
-        public Object methodException(Class claz,
+        public Object methodException(Context context,
+                                      Class claz,
                                       String method,
                                       Exception e,
                                       Info info)

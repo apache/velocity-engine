@@ -21,6 +21,7 @@ package org.apache.velocity.test.issues;
 
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.IncludeEventHandler;
+import org.apache.velocity.context.Context;
 import org.apache.velocity.test.BaseTestCase;
 
 /**
@@ -52,7 +53,7 @@ public class Velocity758TestCase extends BaseTestCase
 
     public static class Handler implements IncludeEventHandler
     {
-        public String includeEvent(String parsePath, String parentPath, String directive)
+        public String includeEvent(Context context, String parsePath, String parentPath, String directive)
         {
             if (parsePath == null)
             {

@@ -20,6 +20,7 @@ package org.apache.velocity.app.event.implement;
  */
 
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
@@ -90,7 +91,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
      * @param value
      * @return Escaped text.
      */
-    public Object referenceInsert(String reference, Object value)
+    public Object referenceInsert(Context context, String reference, Object value)
     {
         if(value == null)
         {

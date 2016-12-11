@@ -20,6 +20,7 @@ package org.apache.velocity.app.event.implement;
  */
 
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
+import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.introspection.Info;
@@ -57,14 +58,15 @@ public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServ
 
     /**
      * Render the method exception, and optionally the exception message and stack trace.
-     * 
+     *
+     * @param context current context
      * @param claz the class of the object the method is being applied to
      * @param method the method
      * @param e the thrown exception
      * @param info template name and line, column informations
      * @return an object to insert in the page
      */
-    public Object methodException(Class claz, String method, Exception e, Info info)
+    public Object methodException(Context context, Class claz, String method, Exception e, Info info)
     {
         boolean showTemplateInfo = rs.getBoolean(SHOW_TEMPLATE_INFO, false);
         boolean showStackTrace = rs.getBoolean(SHOW_STACK_TRACE,false);
