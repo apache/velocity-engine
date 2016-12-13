@@ -24,11 +24,11 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.util.StringBuilderWriter;
 import org.apache.velocity.util.StringUtils;
 import org.slf4j.Logger;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 
 /**
@@ -172,7 +172,7 @@ public abstract class Block extends Directive
 
         public String toString()
         {
-            Writer writer = new StringWriter();
+            Writer writer = new StringBuilderWriter();
             if (render(context, writer))
             {
                 return writer.toString();
