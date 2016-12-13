@@ -25,11 +25,12 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.util.StringBuilderWriter;
 import org.apache.velocity.util.StringUtils;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * ASTStringLiteral support. Will interpolate!
@@ -306,7 +307,7 @@ public class ASTStringLiteral extends SimpleNode
                  * now render against the real context
                  */
 
-                StringWriter writer = new StringWriter();
+                Writer writer = new StringBuilderWriter();
                 nodeTree.render(context, writer);
 
                 /*

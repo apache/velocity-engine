@@ -21,9 +21,10 @@ package org.apache.velocity.runtime.resource;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.util.StringBuilderWriter;
 
 import java.io.BufferedReader;
-import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * This class represent a general text resource that may have been
@@ -60,7 +61,7 @@ public class ContentResource extends Resource
 
         try
         {
-            StringWriter sw = new StringWriter();
+            Writer sw = new StringBuilderWriter();
 
             reader = new BufferedReader(resourceLoader.getResourceReader(name, encoding));
 
