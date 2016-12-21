@@ -445,8 +445,12 @@ public class ASTReference extends SimpleNode
                 Renderable renderable = (Renderable)value;
                 try
                 {
+                    writer.write(escPrefix);
+                    writer.write(morePrefix);
                     if (renderable.render(context,writer))
+                    {
                       return true;
+                    }
                 }
                 catch(RuntimeException e)
                 {
