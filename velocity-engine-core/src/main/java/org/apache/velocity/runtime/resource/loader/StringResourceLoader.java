@@ -22,6 +22,7 @@ package org.apache.velocity.runtime.resource.loader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.util.StringResource;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
@@ -113,7 +114,7 @@ import java.util.Map;
  * @version $Id$
  * @since 1.5
  */
-public class StringResourceLoader extends ResourceLoader2
+public class StringResourceLoader extends ResourceLoader
 {
     /**
      * Key to determine whether the repository should be set as the static one or not.
@@ -149,10 +150,6 @@ public class StringResourceLoader extends ResourceLoader2
 
     /** Key to look up the repository char encoding. */
     public static final String REPOSITORY_ENCODING = "repository.encoding";
-
-    /** The default repository encoding. */
-    public static final String REPOSITORY_ENCODING_DEFAULT = "UTF-8";
-
 
     protected static final Map STATIC_REPOSITORIES =
         Collections.synchronizedMap(new HashMap());
@@ -210,7 +207,7 @@ public class StringResourceLoader extends ResourceLoader2
 
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.velocity.util.ExtProperties)
+     * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
     public void init(final ExtProperties configuration)
     {
@@ -317,7 +314,7 @@ public class StringResourceLoader extends ResourceLoader2
         }
         else
         {
-            repo.setEncoding(REPOSITORY_ENCODING_DEFAULT);
+            repo.setEncoding(RuntimeConstants.ENCODING_DEFAULT);
         }
 
         if (log.isDebugEnabled())
@@ -390,7 +387,7 @@ public class StringResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(final Resource resource)
     {
@@ -408,7 +405,7 @@ public class StringResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(final Resource resource)
     {

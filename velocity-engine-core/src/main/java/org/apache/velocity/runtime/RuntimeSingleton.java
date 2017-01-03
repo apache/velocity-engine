@@ -19,7 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.
  */
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.exception.ParseErrorException;
@@ -31,7 +30,6 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.introspection.Introspector;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.slf4j.Logger;
 
@@ -147,36 +145,15 @@ public class RuntimeSingleton implements RuntimeConstants
     }
 
     /**
-     * Allow an external system to set an ExtendedProperties
-     * object to use. This is useful where the external
-     * system also uses the ExtendedProperties class and
-     * the velocity configuration is a subset of
-     * parent application's configuration. This is
-     * the case with Turbine.
+     * Allow an external system to set a Properties
+     * object to use.
      *
      * @param configuration
-     * @deprecated use {@link #setConfiguration(ExtProperties)}
-     * @see RuntimeInstance#setConfiguration(ExtendedProperties)
+     * @see RuntimeInstance#setProperties(Properties)
      */
-    public @Deprecated static void setConfiguration( ExtendedProperties configuration)
+    public static void setProperties(Properties configuration)
     {
-        ri.setConfiguration(configuration);
-    }
-
-    /**
-     * Allow an external system to set an ExtProperties
-     * object to use. This is useful where the external
-     * system also uses the ExtProperties class and
-     * the velocity configuration is a subset of
-     * parent application's configuration. This is
-     * the case with Turbine.
-     *
-     * @param configuration
-     * @see RuntimeInstance#setConfiguration(ExtProperties)
-     */
-    public static void setConfiguration( ExtProperties configuration)
-    {
-        ri.setConfiguration(configuration);
+        ri.setProperties(configuration);
     }
 
     /**
@@ -244,7 +221,7 @@ public class RuntimeSingleton implements RuntimeConstants
 
     /**
      * Initialize the Velocity Runtime with the name of
-     * ExtProperties object.
+     * a properties file.
      *
      * @param configurationFile
      * @see RuntimeInstance#init(String)
@@ -282,7 +259,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>
-     * property. The default is platform dependant.
+     * property. The default is UTF-8.
      *
      * @param name The file name of the desired template.
      * @return     The template.
@@ -482,7 +459,7 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static int getInt( String key )
     {
-        return ri.getInt( key );
+        return ri.getInt(key);
     }
 
     /**
@@ -508,8 +485,19 @@ public class RuntimeSingleton implements RuntimeConstants
      */
     public static boolean getBoolean( String key, boolean def )
     {
-        return ri.getBoolean( key, def );
+        return ri.getBoolean(key, def);
     }
+
+    /**
+     * Directly set the ExtProperties configuration object
+     *
+     * @see RuntimeInstance#setConfiguration(ExtProperties)
+     */
+    public static void setConfiguration(ExtProperties configuration)
+    {
+        ri.setConfiguration(configuration);
+    }
+
 
     /**
      * Return the velocity runtime configuration object.

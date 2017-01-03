@@ -297,17 +297,8 @@ public class ASTReference extends SimpleNode
                 if (result == null && !strictRef)  // If strict and null then well catch this
                                                    // next time through the loop
                 {
-                    // do not call bad reference handler if the getter is present
-                    // (it means the getter has been called and returned null)
-                    // do not either for a quiet reference or if the *last* child failed while testing the reference
-                    Object getter = context.icacheGet(jjtGetChild(i));
-                    if (getter == null &&
-                            referenceType != QUIET_REFERENCE  &&
-                            (!onlyTestingReference || i < jjtGetNumChildren() - 1))
-                    {
-                        failedChild = i;
-                        break;
-                    }
+                    failedChild = i;
+                    break;
                 }
             }
 
@@ -328,31 +319,41 @@ public class ASTReference extends SimpleNode
                 }
                 else
                 {
-                    StringBuffer name = new StringBuffer("$").append(rootString);
-                    for (int i = 0; i <= failedChild; i++)
+                    Node child = jjtGetChild(failedChild);
+                    // do not call bad reference handler if the getter is present
+                    // (it means the getter has been called and returned null)
+                    // do not either for a quiet reference or if the *last* child failed while testing the reference
+                    Object getter = context.icacheGet(child);
+                    if (getter == null &&
+                        referenceType != QUIET_REFERENCE  &&
+                        (!onlyTestingReference || failedChild < jjtGetNumChildren() - 1))
                     {
-                        Node node = jjtGetChild(i);
-                        if (node instanceof ASTMethod)
+                        StringBuffer name = new StringBuffer("$").append(rootString);
+                        for (int i = 0; i <= failedChild; i++)
                         {
-                            name.append(".").append(((ASTMethod) node).getMethodName()).append("()");
+                            Node node = jjtGetChild(i);
+                            if (node instanceof ASTMethod)
+                            {
+                                name.append(".").append(((ASTMethod) node).getMethodName()).append("()");
+                            }
+                            else
+                            {
+                                name.append(".").append(node.getFirstTokenImage());
+                            }
+                        }
+
+                        if (child instanceof ASTMethod)
+                        {
+                            String methodName = ((ASTMethod) jjtGetChild(failedChild)).getMethodName();
+                            result = EventHandlerUtil.invalidMethod(rsvc, context,
+                                name.toString(), previousResult, methodName, uberInfo);
                         }
                         else
                         {
-                            name.append(".").append(node.getFirstTokenImage());
+                            String property = jjtGetChild(failedChild).getFirstTokenImage();
+                            result = EventHandlerUtil.invalidGetMethod(rsvc, context,
+                                name.toString(), previousResult, property, uberInfo);
                         }
-                    }
-                    
-                    if (jjtGetChild(failedChild) instanceof ASTMethod)
-                    {
-                        String methodName = ((ASTMethod) jjtGetChild(failedChild)).getMethodName();
-                        result = EventHandlerUtil.invalidMethod(rsvc, context,
-                                name.toString(), previousResult, methodName, uberInfo);                                                                
-                    }
-                    else
-                    {
-                        String property = jjtGetChild(failedChild).getFirstTokenImage();
-                        result = EventHandlerUtil.invalidGetMethod(rsvc, context, 
-                                name.toString(), previousResult, property, uberInfo);                        
                     }
                 }
                 
@@ -444,8 +445,12 @@ public class ASTReference extends SimpleNode
                 Renderable renderable = (Renderable)value;
                 try
                 {
+                    writer.write(escPrefix);
+                    writer.write(morePrefix);
                     if (renderable.render(context,writer))
+                    {
                       return true;
+                    }
                 }
                 catch(RuntimeException e)
                 {

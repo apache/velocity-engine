@@ -64,7 +64,7 @@ import java.util.Vector;
  * @author <a href="mailto:daveb@miceda-data.com">Dave Bryson</a>
  * @version $Id$
  */
-public class JarResourceLoader extends ResourceLoader2
+public class JarResourceLoader extends ResourceLoader
 {
     /**
      * Maps entries to the parent JAR File
@@ -245,7 +245,7 @@ public class JarResourceLoader extends ResourceLoader2
     // TODO: SHOULD BE DELEGATED TO THE JARHOLDER
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#isSourceModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(Resource resource)
     {
@@ -253,7 +253,7 @@ public class JarResourceLoader extends ResourceLoader2
     }
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#getLastModified(org.apache.velocity.runtime.resource.Resource)
+     * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(Resource resource)
     {

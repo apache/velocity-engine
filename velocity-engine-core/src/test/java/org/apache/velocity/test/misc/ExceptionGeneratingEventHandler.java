@@ -22,6 +22,7 @@ package org.apache.velocity.test.misc;
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.context.Context;
 import org.apache.velocity.util.introspection.Info;
 
 /**
@@ -35,15 +36,15 @@ public class ExceptionGeneratingEventHandler implements IncludeEventHandler,
         MethodExceptionEventHandler, ReferenceInsertionEventHandler
 {
 
-    public String includeEvent(String includeResourcePath, String currentResourcePath,
+    public String includeEvent(Context context, String includeResourcePath, String currentResourcePath,
             String directiveName)
     {
         throw new RuntimeException("exception");
     }
 
-    public Object methodException(Class claz, String method, Exception e, Info info) { throw new RuntimeException("exception"); }
+    public Object methodException(Context context, Class claz, String method, Exception e, Info info) { throw new RuntimeException("exception"); }
 
-    public Object referenceInsert(String reference, Object value)
+    public Object referenceInsert(Context context, String reference, Object value)
     {
         throw new RuntimeException("exception");
     }

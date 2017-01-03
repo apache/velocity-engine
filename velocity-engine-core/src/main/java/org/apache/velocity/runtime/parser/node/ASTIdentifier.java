@@ -218,8 +218,7 @@ public class ASTIdentifier extends SimpleNode
 
                 /**
                  * If the event handler throws an exception, then wrap it
-                 * in a MethodInvocationException.  Don't pass through RuntimeExceptions like other
-                 * similar catchall code blocks.
+                 * in a MethodInvocationException.
                  */
                 catch( Exception e )
                 {

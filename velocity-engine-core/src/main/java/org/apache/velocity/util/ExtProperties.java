@@ -127,7 +127,7 @@ import java.util.Vector;
  * it, go ahead and tune it up!
  *
  * This class is a clone of org.apache.commons.collections.ExtendedProperties
- * (which has been removed from commons-collections-4.0)
+ * (which has been removed from commons-collections-4.x)
  *
  * @since 2.0
  * @version $Revision: $

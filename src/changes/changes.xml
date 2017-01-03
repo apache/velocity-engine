@@ -28,6 +28,22 @@
     <release version="2.0" date="In Subversion">
 
       <action type="add" dev="cbrisson">
+        Reviewed event handling API:
+        <ul>
+          <li>added a Context argument for all events</li>
+          <li>got rid of the Executor pattern ; event handlers are directly called by the cartridge</li>
+        </ul>
+      </action>
+
+      <action type="add" dev="cbrisson">
+        Removed references to ExtProperties from the engine configuration API.
+      </action>
+
+      <action type="add" dev="cbrisson">
+         Default encoding is now UTF-8.
+      </action>
+        
+      <action type="add" dev="cbrisson">
           Make Velocity use the base logger namespace 'org.apache.velocity' unless specified with runtime.log.name in the configuration, and have the runtime instance log with this base namespace, and other modules log with children namespaces:
           <ul>
               <li>directive, and velocity.directive.[directivename]</li>
@@ -133,7 +149,6 @@
       
       <action type="add" dev="cbrisson" issue="VELOCITY-793">
         The ResourceLoader API now provides a Reader rather than an InputStream.
-        The InputStream getter method has been deprecated.
         Also fixes VELOCITY-599.
       </action>
       
@@ -207,10 +222,6 @@
 
       <action type="add" dev="apetrelli">
         Add SLF4J logging option
-      </action>
-
-      <action type="add" dev="apetrelli" issue="VELOCITY-789">
-        Shading of Commons Lang and Commons Collections
       </action>
 
       <action type="add" dev="apetrelli">

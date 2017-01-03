@@ -41,6 +41,7 @@ public interface MethodExceptionEventHandler extends EventHandler
      * Only the first registered MethodExceptionEventHandler is called.  If
      * none are registered a MethodInvocationException is thrown.
      *
+     * @param context current context
      * @param claz the class of the object the method is being applied to
      * @param method the method
      * @param e the thrown exception
@@ -48,70 +49,5 @@ public interface MethodExceptionEventHandler extends EventHandler
      * @return an object to insert in the page
      * @throws RuntimeException an exception to be thrown instead inserting an object
      */
-    public Object methodException( Class claz, String method, Exception e, Info info );
-
-    /**
-     * Defines the execution strategy for methodException
-     * @since 1.5
-     */
-    static class MethodExceptionExecutor implements EventHandlerMethodExecutor
-    {
-        private Context context;
-        private Class claz;
-        private String method;
-        private Exception e;
-        private Info info;
-        
-        private Object result;
-        private boolean executed = false;
-    
-        MethodExceptionExecutor(
-                Context context, 
-                Class claz,
-                String method,
-                Exception e,
-                Info info)
-        {
-            this.context = context;
-            this.claz = claz;
-            this.method = method;
-            this.e = e;
-            this.info = info;
-        }
-
-        /**
-         * Call the method methodException()
-         *  
-         * @param handler call the appropriate method on this handler
-         * @exception Exception generic exception thrown by methodException event handler method call
-         */
-        public void execute(EventHandler handler)
-        {
-            MethodExceptionEventHandler eh = (MethodExceptionEventHandler) handler;
-            
-            if (eh instanceof ContextAware)
-                ((ContextAware) eh).setContext(context);
-
-            executed = true;
-            result = ((MethodExceptionEventHandler) handler).methodException(claz, method, e, info);
-        }
-
-        public Object getReturnValue()
-        {
-            return result;
-        }
-
-        /**
-         * Only run the first MethodExceptionEventHandler
-         * 
-         * @return true after this is executed once.
-         */
-        public boolean isDone()
-        {
-           return executed;
-        }        
-        
-        
-    }
-
+    public Object methodException(Context context, Class claz, String method, Exception e, Info info);
 }

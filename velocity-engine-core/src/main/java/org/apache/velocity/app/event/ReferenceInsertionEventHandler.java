@@ -20,7 +20,6 @@ package org.apache.velocity.app.event;
  */
 
 import org.apache.velocity.context.Context;
-import org.apache.velocity.util.ContextAware;
 
 /**
  *  Reference 'Stream insertion' event handler.  Called with object
@@ -41,66 +40,14 @@ public interface  ReferenceInsertionEventHandler extends EventHandler
      * ReferenceInsertionEventHandlers are are registered then reference value
      * is inserted into the output stream as is.
      *
+     *
+     * @param context current context
      * @param reference Reference from template about to be inserted.
      * @param value Value about to be inserted (after its <code>toString()</code>
      *            method is called).
      * @return Object on which <code>toString()</code> should be called for
      *         output.
      */
-    public Object referenceInsert( String reference, Object value  );
-
-    /**
-     * Defines the execution strategy for referenceInsert
-     * @since 1.5
-     */
-    static class referenceInsertExecutor implements EventHandlerMethodExecutor
-    {
-        private Context context;
-        private String reference;
-        private Object value;
-
-        referenceInsertExecutor(
-                Context context, 
-                String reference, 
-                Object value)
-        {
-            this.context = context;
-            this.reference = reference;
-            this.value = value;
-        }
-
-        /**
-         * Call the method referenceInsert()
-         *  
-         * @param handler call the appropriate method on this handler
-         */
-        public void execute(EventHandler handler)
-        {
-            ReferenceInsertionEventHandler eh = (ReferenceInsertionEventHandler) handler;
-            
-            if (eh instanceof ContextAware)
-                ((ContextAware) eh).setContext(context);
-
-            /**
-             * Every successive call will alter the same value
-             */
-            value = ((ReferenceInsertionEventHandler) handler).referenceInsert(reference, value); 
-        }
-
-        public Object getReturnValue()
-        {
-            return value;
-        }
-
-        /**
-         * Continue to end of event handler iteration
-         * 
-         * @return always returns false
-         */
-        public boolean isDone()
-        {
-            return false;
-        }        
-    }
+    public Object referenceInsert( Context context, String reference, Object value  );
 
 }

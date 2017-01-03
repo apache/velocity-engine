@@ -19,7 +19,6 @@ package org.apache.velocity.runtime;
  * under the License.
  */
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.EventHandler;
@@ -190,7 +189,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private Map applicationAttributes = null;
     private Uberspect uberSpect;
-    private String encoding;
+    private String defaultEncoding;
 
     /*
      * Space gobbling mode
@@ -279,7 +278,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public synchronized void reset()
     {
         this.configuration = new ExtProperties();
-        this.encoding = null;
+        this.defaultEncoding = null;
         this.evaluateScopeName = "evaluate";
         this.eventCartridge = null;
         this.initialized = false;
@@ -457,6 +456,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             configuration.load( inputStream );
 
+            /* populate 'defaultEncoding' member */
+            defaultEncoding = getString(INPUT_ENCODING, ENCODING_DEFAULT);
+
             if (log.isDebugEnabled())
             {
                 log.debug("Default Properties resource: {}", DEFAULT_RUNTIME_PROPERTIES);
@@ -543,35 +545,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     * Allow an external system to set an ExtendedProperties
-     * object to use. This is useful where the external
-     * system also uses the ExtendedProperties class and
-     * the velocity configuration is a subset of
-     * parent application's configuration. This is
-     * the case with Turbine.
-     *
-     * @param  configuration
-     * @deprecated use {@link #setConfiguration(ExtProperties)}
-     */
-    public @Deprecated void setConfiguration( ExtendedProperties configuration)
-    {
-        if (overridingProperties == null)
-        {
-            overridingProperties = ExtProperties.convertProperties(configuration);
-        }
-        else
-        {
-            overridingProperties.combine(ExtProperties.convertProperties(configuration));
-        }
-    }
-
-    /**
-     * Allow an external system to set an ExtendedProperties
-     * object to use. This is useful where the external
-     * system also uses the ExtendedProperties class and
-     * the velocity configuration is a subset of
-     * parent application's configuration. This is
-     * the case with Turbine.
+     * Allow an external system to set an ExtProperties
+     * object to use.
      *
      * @param  configuration
      * @since 2.0
@@ -705,25 +680,13 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public void init(Properties p)
     {
-        setProperties(ExtProperties.convertProperties(p));
+        setConfiguration(ExtProperties.convertProperties(p));
         init();
     }
 
-    private void setProperties(ExtProperties p)
-    {
-        if (overridingProperties == null)
-        {
-            overridingProperties = p;
-        }
-        else
-        {
-            overridingProperties.combine(p);
-        }
-    }
-
     /**
-     * Initialize the Velocity Runtime with the name of
-     * ExtendedProperties object.
+     * Initialize the Velocity Runtime with a
+     * properties file path.
      *
      * @param configurationFile
      */
@@ -731,7 +694,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         try
         {
-            setProperties(new ExtProperties(configurationFile));
+            setConfiguration(new ExtProperties(configurationFile));
         }
         catch (IOException e)
         {
@@ -826,6 +789,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
 
         eventCartridge = new EventCartridge();
+        eventCartridge.setRuntimeServices(this);
 
         /**
          * For each type of event handler, get the class name, instantiate it, and store it.
@@ -1560,28 +1524,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private String getDefaultEncoding()
     {
-        if (encoding == null)
-        {
-            /*
-             * first try to get the OS encoding
-             */
-            encoding = System.getProperty("file.encoding");
-            if (encoding == null)
-            {
-                /*
-                 * then fall back to default
-                 */
-                encoding = getString(INPUT_ENCODING, ENCODING_DEFAULT);
-            }
-        }
-        return encoding;
+        return defaultEncoding;
     }
 
     /**
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the
      * template is set by the <code>input.encoding</code>
-     * property. The default is platform dependant.
+     * property. The default is UTF-8.
      *
      * @param name The file name of the desired template.
      * @return     The template.

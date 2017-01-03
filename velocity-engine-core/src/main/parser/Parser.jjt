@@ -1171,8 +1171,8 @@ TOKEN:
  *  ^ ^ ^   ^       ^
  *  | | |   |       |
  *  |_________________ >  PRE_REFERENCE : state initiated by the '$' character.
- *  | | |   |       |
- *  |__________________>  REFERENCE : state initiated by the identifier. Continues
+ *    | |   |       |
+ *    |________________>  REFERENCE : state initiated by the identifier. Continues
  *      |   |       |     until end of the reference, or the . character.
  *      |_____________ >  REFMODIFIER : state switched to when the <DOT> is encountered.
  *          |       |     note that this is a switch, not a push. See notes at bottom.

@@ -74,6 +74,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
      * @return message.
      */
     public String includeEvent(
+        Context context,
         String includeResourcePath,
         String currentResourcePath,
         String directiveName)

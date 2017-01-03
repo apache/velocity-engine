@@ -25,11 +25,12 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.util.StringBuilderWriter;
 import org.apache.velocity.util.StringUtils;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * ASTStringLiteral support. Will interpolate!
@@ -46,9 +47,6 @@ public class ASTStringLiteral extends SimpleNode
     private SimpleNode nodeTree = null;
 
     private String image = "";
-
-    /** true if the string contains a line comment (##) */
-    private boolean containsLineComment = false;
 
     /**
      * @param id
@@ -122,39 +120,9 @@ public class ASTStringLiteral extends SimpleNode
         if (interpolate)
         {
             /*
-             * if appropriate, tack a space on the end (dreaded <MORE> kludge)
+             * parse and init the nodeTree
              */
-
-		    String interpolateimage;
-
-	        /**
-             * Note - this should really use a regexp to look for [^\]## but
-             * apparently escaping of line comments isn't working right now anyway.
-             */
-            containsLineComment = (image.indexOf("##") != -1);
-
-            /**
-             * note. A kludge on a kludge. The first part, Geir calls this the
-             * dreaded <MORE> kludge. Basically, the use of the <MORE> token eats
-             * the last character of an interpolated string. EXCEPT when a line
-             * comment (##) is in the string this isn't an issue.
-             *
-             * So, to solve this we look for a line comment. If it isn't found we
-             * add a space here and remove it later.
-             */
-            if (!containsLineComment)
-            {
-                interpolateimage = image + " ";
-            }
-            else
-            {
-                interpolateimage = image;
-            }
-
-            /*
-             * now parse and init the nodeTree
-             */
-            StringReader br = new StringReader(interpolateimage);
+            StringReader br = new StringReader(image);
 
             /*
              * it's possible to not have an initialization context - or we don't
@@ -339,27 +307,14 @@ public class ASTStringLiteral extends SimpleNode
                  * now render against the real context
                  */
 
-                StringWriter writer = new StringWriter();
+                Writer writer = new StringBuilderWriter();
                 nodeTree.render(context, writer);
 
                 /*
                  * and return the result as a String
                  */
 
-                String ret = writer.toString();
-
-                /*
-                 * if appropriate, remove the space from the end (dreaded <MORE>
-                 * kludge part deux)
-                 */
-                if (!containsLineComment && ret.length() > 0)
-                {
-                    return ret.substring(0, ret.length() - 1);
-                }
-                else
-                {
-                    return ret;
-                }
+                return writer.toString();
             }
 
             /**

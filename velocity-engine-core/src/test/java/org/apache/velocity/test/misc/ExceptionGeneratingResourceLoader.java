@@ -21,7 +21,7 @@ package org.apache.velocity.test.misc;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.util.ExtProperties;
 
 import java.io.Reader;
@@ -33,7 +33,7 @@ import java.io.Reader;
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
-public class ExceptionGeneratingResourceLoader extends ResourceLoader2
+public class ExceptionGeneratingResourceLoader extends ResourceLoader
 {
 
     public void init(ExtProperties configuration)

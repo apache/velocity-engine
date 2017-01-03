@@ -61,7 +61,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader2;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
 import javax.script.AbstractScriptEngine;
@@ -298,7 +298,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
     public CompiledScript compile(Reader script) throws ScriptException
     {
         initVelocityEngine(null);
-        ResourceLoader2 resourceLoader = new SingleResourceReader(script);
+        ResourceLoader resourceLoader = new SingleResourceReader(script);
         Template template = new Template();
         template.setRuntimeServices(velocityEngine);
         template.setResourceLoader(resourceLoader);

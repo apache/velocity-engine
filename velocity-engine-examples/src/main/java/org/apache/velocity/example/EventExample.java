@@ -20,6 +20,7 @@ package org.apache.velocity.example;
 
 import java.io.StringWriter;
 
+import org.apache.velocity.context.Context;
 import org.apache.velocity.util.introspection.Info;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
@@ -240,7 +241,7 @@ public class EventExample extends MarkerIgnoringBase
     /**
      *  Event handler for when a reference is inserted into the output stream.
      */
-    public Object referenceInsert( String reference, Object value  )
+    public Object referenceInsert( Context context, String reference, Object value  )
     {
         /*
          *  if we have a value
@@ -281,7 +282,7 @@ public class EventExample extends MarkerIgnoringBase
         return true;
     }
 
-    public Object methodException( Class claz, String method, Exception e, Info info )   {
+    public Object methodException( Context context, Class claz, String method, Exception e, Info info )   {
         /*
          *  only do processing if the switch is on
          */

@@ -41,7 +41,7 @@ import java.util.HashMap;
  * @version $Id: URLResourceLoader.java 191743 2005-06-21 23:22:20Z dlr $
  * @since 1.5
  */
-public class URLResourceLoader extends ResourceLoader2
+public class URLResourceLoader extends ResourceLoader
 {
     private String[] roots = null;
     protected HashMap templateRoots = null;
@@ -49,7 +49,7 @@ public class URLResourceLoader extends ResourceLoader2
     private Method[] timeoutMethods;
 
     /**
-     * @see org.apache.velocity.runtime.resource.loader.ResourceLoader2#init(org.apache.velocity.util.ExtProperties)
+     * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
     public void init(ExtProperties configuration)
     {

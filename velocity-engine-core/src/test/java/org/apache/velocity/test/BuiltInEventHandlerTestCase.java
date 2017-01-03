@@ -175,9 +175,9 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
     public void testEscapeHtml() throws Exception
     {
         EscapeReference esc = new EscapeHtmlReference();
-        assertEquals("test string&amp;another&lt;b&gt;bold&lt;/b&gt;test",esc.referenceInsert("","test string&another<b>bold</b>test"));
-        assertEquals("&lt;&quot;&gt;",esc.referenceInsert("","<\">"));
-        assertEquals("test string",esc.referenceInsert("","test string"));
+        assertEquals("test string&amp;another&lt;b&gt;bold&lt;/b&gt;test",esc.referenceInsert(null,"","test string&another<b>bold</b>test"));
+        assertEquals("&lt;&quot;&gt;",esc.referenceInsert(null,"","<\">"));
+        assertEquals("test string",esc.referenceInsert(null,"","test string"));
 
         log("Correctly escaped HTML");
 
@@ -190,10 +190,10 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
     public void testEscapeXml() throws Exception
     {
         EscapeReference esc = new EscapeXmlReference();
-        assertEquals("test string&amp;another&lt;b&gt;bold&lt;/b&gt;test",esc.referenceInsert("","test string&another<b>bold</b>test"));
-        assertEquals("&lt;&quot;&gt;",esc.referenceInsert("","<\">"));
-        assertEquals("&apos;",esc.referenceInsert("","'"));
-        assertEquals("test string",esc.referenceInsert("","test string"));
+        assertEquals("test string&amp;another&lt;b&gt;bold&lt;/b&gt;test",esc.referenceInsert(null,"","test string&another<b>bold</b>test"));
+        assertEquals("&lt;&quot;&gt;",esc.referenceInsert(null,"","<\">"));
+        assertEquals("&apos;",esc.referenceInsert(null,"","'"));
+        assertEquals("test string",esc.referenceInsert(null,"","test string"));
 
         log("Correctly escaped XML");
 
@@ -206,8 +206,8 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
     public void testEscapeSql() throws Exception
     {
         EscapeReference esc = new EscapeSqlReference();
-        assertEquals("Jimmy''s Pizza",esc.referenceInsert("","Jimmy's Pizza"));
-        assertEquals("test string",esc.referenceInsert("","test string"));
+        assertEquals("Jimmy''s Pizza",esc.referenceInsert(null,"","Jimmy's Pizza"));
+        assertEquals("test string",esc.referenceInsert(null,"","test string"));
 
         log("Correctly escaped SQL");
 
@@ -220,8 +220,8 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
     public void testEscapeJavaScript() throws Exception
     {
         EscapeReference esc = new EscapeJavaScriptReference();
-        assertEquals("Jimmy\\'s Pizza",esc.referenceInsert("","Jimmy's Pizza"));
-        assertEquals("test string",esc.referenceInsert("","test string"));
+        assertEquals("Jimmy\\'s Pizza",esc.referenceInsert(null,"","Jimmy's Pizza"));
+        assertEquals("test string",esc.referenceInsert(null,"","test string"));
 
 
         log("Correctly escaped Javascript");
