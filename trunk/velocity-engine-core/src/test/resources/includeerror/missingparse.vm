@@ -1,8 +1,0 @@
-## tests to see if
-## missing parse throws an error
-
-text
-
-#parse("doesntexist.vm")
-
-text

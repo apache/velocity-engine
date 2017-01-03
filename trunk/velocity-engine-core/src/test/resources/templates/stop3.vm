@@ -1,8 +1,0 @@
-This test checks the stop directive when included from a parse directive.
-
-#set($foo = "stop3-include.vm")
-Foo is: $foo
-#parse("$foo")
-Since the template issued a stop, this line should not be visible.
-#parse("$foo")
-
