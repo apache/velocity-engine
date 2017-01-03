@@ -1,0 +1,236 @@
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.velocity</groupId>
+    <artifactId>velocity-engine-parent</artifactId>
+    <version>2.0</version>
+  </parent>
+
+  <artifactId>velocity-engine-core</artifactId>
+  <name>Apache Velocity - Engine</name>
+
+  <properties>
+    <!-- command line switch -Dparser.create=true generates the parser files -->
+    <parser.create>false</parser.create>
+
+    <!-- command line switch -Dparser.nodefiles=true generates AST Node classes (new structures added to parser) -->
+    <parser.nodefiles>false</parser.nodefiles>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+          <useDefaultDelimiters>false</useDefaultDelimiters>
+          <delimiters>
+            <delimiter>${*}</delimiter>
+          </delimiters>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.plugin.version}</version>
+        <configuration>
+          <skip>${maven.test.skip}</skip>
+          <systemProperties>
+            <property>
+              <name>test</name>
+              <value>${test}</value>
+            </property>
+            <property>
+              <name>test.compare.dir</name>
+              <value>${project.build.testOutputDirectory}</value>
+            </property>
+            <property>
+              <name>test.result.dir</name>
+              <value>${project.build.directory}/results</value>
+            </property>
+            <property>
+              <name>org.slf4j.simpleLogger.defaultLogLevel</name>
+              <value>warn</value>
+            </property>
+            <property>
+                <name>org.slf4j.simpleLogger.logFile</name>
+                <value>${project.build.directory}/velocity.log</value>
+            </property>
+          </systemProperties>
+        </configuration>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <skip>false</skip>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>jjtree-javacc</id>
+            <goals>
+              <goal>jjtree-javacc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <isStatic>false</isStatic>
+          <buildParser>true</buildParser>
+          <buildNodeFiles>${parser.nodefiles}</buildNodeFiles>
+          <multi>true</multi>
+          <debugParser>false</debugParser>
+          <debugLookAhead>false</debugLookAhead>
+          <debugTokenManager>false</debugTokenManager>
+          <jdkVersion>1.7</jdkVersion>
+          <nodeUsesParser>true</nodeUsesParser>
+          <nodePackage>org.apache.velocity.runtime.parser</nodePackage>
+          <sourceDirectory>${basedir}/src/main/parser</sourceDirectory>
+          <interimDirectory>${basedir}/src/main/java</interimDirectory>
+          <outputDirectory>${basedir}/src/main/java</outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <id>parser-init</id>
+            <phase>initialize</phase>
+            <configuration>
+              <target if="${parser.create}">
+                <delete quiet="true" verbose="false">
+                  <fileset dir="${basedir}/src/main/java/org/apache/velocity/runtime/parser" includes="AST*.java,Parser*.java,Token*.java" />
+                </delete>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>parser-cleanup</id>
+            <phase>process-sources</phase>
+            <configuration>
+              <target>
+                <!-- delete unnecessary files generated by JavaCC -->
+                <delete quiet="true" verbose="false">
+                  <fileset dir="${basedir}/src/main/java/org/apache/velocity/runtime/parser" includes="Node.java,ParserVisitor.java,SimpleNode.java" />
+                </delete>
+                <!-- fix JJTParserState class to use our custom Node class -->
+                <replace file="${basedir}/src/main/java/org/apache/velocity/runtime/parser/JJTParserState.java">
+                  <replacetoken>import org.apache.velocity.runtime.parser.node.Node;</replacetoken>
+                  <replacevalue />
+                </replace>
+                <replace file="${basedir}/src/main/java/org/apache/velocity/runtime/parser/JJTParserState.java">
+                  <replacetoken>package org.apache.velocity.runtime.parser;</replacetoken>
+                  <replacevalue>package org.apache.velocity.runtime.parser; import org.apache.velocity.runtime.parser.node.Node;</replacevalue>
+                </replace>
+                 <!-- if we just generated AST Node classes by JavaCC, end the build here and give instructions -->
+                <condition property="stop"><istrue value="${parser.nodefiles}" /></condition>
+                <fail if="stop"><![CDATA[-
+-------------------------------------------------------------------------------
+Velocity AST Node classes created to src/main/java/org/apache/velocity/runtime/parser
+
+1. Delete already existing AST Node classes from this directory
+2. Move the new generated AST Node class(es) to src/main/java/org/apache/velocity/runtime/parser/node
+3. Change the package name of the new AST Node(s) in the source code file
+4. Write the source code to support the new desired functionality of that node
+-------------------------------------------------------------------------------
+]]>
+</fail>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>2.3.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>3.0.4</version>
+        <configuration>
+          <xmlOutput>true</xmlOutput>
+          <threshold>Low</threshold>
+          <effort>Max</effort>
+          <excludeFilterFile>src/etc/build/findbugs-exclude.xml</excludeFilterFile>
+          <xmlOutputDirectory>target/site</xmlOutputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>

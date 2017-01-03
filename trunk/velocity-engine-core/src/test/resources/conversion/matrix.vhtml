@@ -1,0 +1,83 @@
+#macro(print,$type)
+  #set($string = "$type")
+  #if($string.startsWith("class java.lang."))
+    #set($string = $string.substring(16))
+  #end
+  $string
+#end
+
+#macro(cell,$type)<span class="$type">$type</span>#end
+
+#macro(check,$row,$col)
+  #if($introspect.isStrictlyConvertible($row, $col)) #cell('strict')
+  #elseif($introspect.isImplicitlyConvertible($row, $col))  #cell('implicit')
+  #elseif($introspect.isExplicitlyConvertible($row, $col)) #cell('explicit')
+  #else #cell('none')
+  #end
+#end
+
+<html>
+  <head>
+    <style type="text/css">
+    table
+    {
+        border: solid 1px black;
+        border-collapse: collapse;
+    }
+	td, th
+    {
+        border: solid 1px black;
+    }
+    .strict
+    {
+        color: green;
+    }
+    .implicit
+    {
+        color: blue;
+    }
+    .explicit
+    {
+        color: magenta;
+    }
+    .none
+    {
+        color: red;
+    }
+
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>
+            provided &rarr;<br/>
+            expected &darr;
+          </th>
+#foreach($col in $types)
+          <th>#print($col)</th>
+#end
+          <th>null</th>
+        </tr>
+#foreach($row in $types)          
+        <tr>
+          <th>#print($row)</th>
+  #foreach($col in $types)
+          <td>#check($row,$col)</td>
+  #end
+  #if($row.isPrimitive())          
+          <td>#cell('none')</td>
+  #else
+          <td>#check($row, $null)</td>
+  #end
+        </tr>
+#end        
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </body>
+</html>
+
+    

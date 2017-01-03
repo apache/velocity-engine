@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.apache.velocity</groupId>
+    <artifactId>velocity-master</artifactId>
+    <version>2</version>
+    <relativePath />
+  </parent>
+
+  <artifactId>velocity-engine-parent</artifactId>
+  <version>2.0</version>
+
+  <name>Apache Velocity</name>
+  <url>http://velocity.apache.org/engine/devel/</url>
+  <description>Apache Velocity is a general purpose template engine.</description>
+  <inceptionYear>2000</inceptionYear>
+  <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.12</junit.version>
+    <slf4j.version>1.7.21</slf4j.version>
+    <surefire.plugin.version>2.19.1</surefire.plugin.version>
+    <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
+  </properties>
+
+  <!-- java 8 doclint checks are too strict for our current javadoc state... -->
+  <profiles>
+    <profile>
+      <id>doclint-java8-disable</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <properties>
+        <javadoc.opts>-Xdoclint:none</javadoc.opts>
+      </properties>
+    </profile>
+  </profiles>
+  
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.3</version>
+          <configuration>
+            <useReleaseProfile>false</useReleaseProfile>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <goals>deploy</goals>
+            <arguments>-Papache-release</arguments>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <debug>true</debug>
+          <optimize>false</optimize>
+          <showDeprecation>true</showDeprecation>
+          <showWarning>true</showWarning>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.4</version>
+        <configuration>
+          <aggregate>true</aggregate>
+          <additionalparam>${javadoc.opts}</additionalparam>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <distributionManagement>
+    <site>
+      <id>velocity.apache.org</id>
+      <url>scpexe://people.apache.org/www/velocity.apache.org/engine/devel/
+      </url>
+    </site>
+  </distributionManagement>
+
+  <scm>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/tags/2.0</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/tags/2.0</developerConnection>
+    <url>http://svn.apache.org/viewvc/velocity/engine/tags/2.0</url>
+  </scm>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>${jira.browse.url}/VELOCITY</url>
+  </issueManagement>
+  <modules>
+    <module>velocity-engine-core</module>
+    <module>velocity-engine-examples</module>
+    <module>velocity-engine-assembly</module>
+    <module>velocity-engine-scripting</module>
+  </modules>
+
+  <!-- This project is an effort by many people. If you feel that your name
+     should be in here and has been omitted in error, please open an issue
+     with the Apache Velocity Issue tracker. -->
+  <contributors>
+    <contributor>
+      <name>Adrian Tarau</name>
+    </contributor>
+    <contributor>
+      <name>Aki Nieminen</name>
+    </contributor>
+    <contributor>
+      <name>Alexey Pachenko</name>
+    </contributor>
+    <contributor>
+      <name>Anil K. Vijendran</name>
+    </contributor>
+    <contributor>
+      <name>Attila Szegedi</name>
+    </contributor>
+    <contributor>
+      <name>Bob McWhirter</name>
+    </contributor>
+    <contributor>
+      <name>Byron Foster</name>
+    </contributor>
+    <contributor>
+      <name>Christoph Reck</name>
+    </contributor>
+    <contributor>
+      <name>Dave Bryson</name>
+    </contributor>
+    <contributor>
+      <name>David Kinnvall</name>
+    </contributor>
+    <contributor>
+      <name>Eelco Hillenius</name>
+    </contributor>
+    <contributor>
+      <name>Fedor Karpelevitch</name>
+    </contributor>
+    <contributor>
+      <name>Gal Shachor</name>
+    </contributor>
+    <contributor>
+      <name>Hervé Boutemy</name>
+    </contributor>
+    <contributor>
+      <name>Jarkko Viinamäki</name>
+    </contributor>
+    <contributor>
+      <name>Jeff Bowden</name>
+    </contributor>
+    <contributor>
+      <name>Jose Alberto Fernandez</name>
+    </contributor>
+    <contributor>
+      <name>Kasper Nielsen</name>
+    </contributor>
+    <contributor>
+      <name>Kent Johnson</name>
+    </contributor>
+    <contributor>
+      <name>Kyle F. Downey</name>
+    </contributor>
+    <contributor>
+      <name>Leon Messerschmidt</name>
+    </contributor>
+    <contributor>
+      <name>Llewellyn Falco</name>
+    </contributor>
+    <contributor>
+      <name>Matt Raible</name>
+    </contributor>
+    <contributor>
+      <name>Matthijs Lambooy</name>
+    </contributor>
+    <contributor>
+      <name>Paulo Gaspar</name>
+    </contributor>
+    <contributor>
+      <name>Peter Romianowski</name>
+    </contributor>
+    <contributor>
+      <name>Robert Burrell Donkin</name>
+    </contributor>
+    <contributor>
+      <name>Sam Ruby</name>
+    </contributor>
+    <contributor>
+      <name>Sean Legassick</name>
+    </contributor>
+    <contributor>
+      <name>Serge Knystautas</name>
+    </contributor>
+    <contributor>
+      <name>Stephane Bailliez</name>
+    </contributor>
+    <contributor>
+      <name>Stephen Habermann</name>
+    </contributor>
+    <contributor>
+      <name>Sylwester Lachiewicz</name>
+    </contributor>
+  </contributors>
+</project>

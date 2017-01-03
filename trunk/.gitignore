@@ -1,0 +1,26 @@
+#maven
+target
+
+#idea
+*.iml
+.idea
+
+#eclipse
+bin
+.project
+.classpath
+.settings
+
+# OSX
+.DS_Store
+
+# Generated sources
+velocity-engine-core/src/main/java/org/apache/velocity/runtime/parser/JJTParserState.java
+velocity-engine-core/src/main/java/org/apache/velocity/runtime/parser/Parser.java
+velocity-engine-core/src/main/java/org/apache/velocity/runtime/parser/ParserConstants.java
+velocity-engine-core/src/main/java/org/apache/velocity/runtime/parser/ParserTokenManager.java
+velocity-engine-core/src/main/java/org/apache/velocity/runtime/parser/ParserTreeConstants.java
+velocity-engine-core/src/main/java/org/apache/velocity/runtime/parser/Token.java
+velocity-engine-core/src/main/java/org/apache/velocity/runtime/parser/TokenMgrError.java
+
+.java-version

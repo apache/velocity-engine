@@ -1,0 +1,7 @@
+## ambiguous method -- should not be processed
+$test.overloadedMethod($nullValue)
+
+## is the correct method cached after null parameter
+$test.overloadedMethod2( $nullValue )
+$test.overloadedMethod2( "a string" )
+$test.overloadedMethod2( 1234 )
