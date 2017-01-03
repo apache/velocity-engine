@@ -46,6 +46,19 @@
     <surefire.plugin.version>2.19.1</surefire.plugin.version>
     <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
   </properties>
+
+  <!-- java 8 doclint checks are too strict for our current javadoc state... -->
+  <profiles>
+    <profile>
+      <id>doclint-java8-disable</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <properties>
+        <javadoc.opts>-Xdoclint:none</javadoc.opts>
+      </properties>
+    </profile>
+  </profiles>
   
   <build>
     <defaultGoal>install</defaultGoal>
@@ -68,8 +81,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <debug>false</debug>
-          <optimize>true</optimize>
+          <debug>true</debug>
+          <optimize>false</optimize>
           <showDeprecation>true</showDeprecation>
           <showWarning>true</showWarning>
           <source>1.7</source>
@@ -82,6 +95,7 @@
         <version>2.10.4</version>
         <configuration>
           <aggregate>true</aggregate>
+          <additionalparam>${javadoc.opts}</additionalparam>
         </configuration>
       </plugin>
     </plugins>
