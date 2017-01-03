@@ -28,6 +28,18 @@
     <release version="2.0" date="In Subversion">
 
       <action type="add" dev="cbrisson">
+        Reviewed event handling API:
+        <ul>
+          <li>added a Context argument for all events</li>
+          <li>got rid of the Executor pattern ; event handlers are directly called by the cartridge</li>
+        </ul>
+      </action>
+
+      <action type="add" dev="cbrisson">
+        Removed references to ExtProperties from the engine configuration API.
+      </action>
+
+      <action type="add" dev="cbrisson">
          Default encoding is now UTF-8.
       </action>
         
