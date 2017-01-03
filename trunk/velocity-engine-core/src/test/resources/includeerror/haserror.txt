@@ -1,7 +1,0 @@
-## This file has a Velocity error.
-## It's intentionally not saved with a 'vm' suffix
-## to avoid errors in IDE
-
-#foreach($i in (1..10)
-
-$i

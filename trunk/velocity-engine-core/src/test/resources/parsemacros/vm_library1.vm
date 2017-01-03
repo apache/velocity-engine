@@ -1,7 +1,0 @@
-#macro(bar $a)
-#if($a)#set($a = $a + $a)$a#end
-#end
-
-#macro(foo $a)
-#if($a)#set($a = $a + 1)$a#end
-#end

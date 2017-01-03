@@ -1,5 +1,0 @@
-$event;
-
-Event Created by $event.getName()
-Event Created on $event.getDate()
-Event ID is $event.getID()
