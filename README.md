@@ -19,7 +19,7 @@ Here's a description of the top level directories:
 
 Apache Velocity will run with any Java runtime engine v1.7 or greater.
 
-Building from source requires Java development kit v1.7 or greater and Maven 2.
+Building from source requires Java development kit v1.7 or greater and Maven 3 (3.3.3 at the time of writing).
 
 At compile time, Maven should fetch all needed dependencies, which are:
 * commons-lang v3.5
