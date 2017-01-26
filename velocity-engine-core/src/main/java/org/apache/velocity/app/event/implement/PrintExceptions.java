@@ -71,7 +71,7 @@ public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServ
         boolean showTemplateInfo = rs.getBoolean(SHOW_TEMPLATE_INFO, false);
         boolean showStackTrace = rs.getBoolean(SHOW_STACK_TRACE,false);
 
-        StringBuffer st = new StringBuffer();
+        StringBuilder st = new StringBuilder();
         st.append("Exception while executing method ").append(claz.toString()).append(".").append(method);
         st.append(": ").append(e.getClass().getName()).append(": ").append(e.getMessage());
 

@@ -136,7 +136,7 @@ public class VarargMethodsTestCase extends BaseTestCase
     {
         public String var(String[] ss)
         {
-            StringBuffer out = new StringBuffer();
+            StringBuilder out = new StringBuilder();
             for (int i=0; i < ss.length; i++)
             {
                 out.append(ss[i]);
@@ -220,7 +220,7 @@ public class VarargMethodsTestCase extends BaseTestCase
             {
                 return null;
             }
-            StringBuffer o = new StringBuffer("[");
+            StringBuilder o = new StringBuilder("[");
             for (int i=0; i < array.length; i++)
             {
                 if (i > 0)

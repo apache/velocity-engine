@@ -228,7 +228,7 @@ public class Macro extends Directive
 
         if (debugMode)
         {
-            StringBuffer msg = new StringBuffer("Macro.getArgArray() : nbrArgs=");
+            StringBuilder msg = new StringBuilder("Macro.getArgArray() : nbrArgs=");
             msg.append(numArgs).append(" : ");
             macroToString(msg, macroArgs);
             rsvc.getLog("macro").debug(msg.toString());
@@ -260,17 +260,17 @@ public class Macro extends Directive
      * For debugging purposes.  Formats the arguments from
      * <code>argArray</code> and appends them to <code>buf</code>.
      *
-     * @param buf A StringBuffer. If null, a new StringBuffer is allocated.
+     * @param buf A StringBuilder. If null, a new StringBuilder is allocated.
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
-     * @return A StringBuffer containing the formatted arguments. If a StringBuffer
+     * @return A StringBuilder containing the formatted arguments. If a StringBuilder
      *         has passed in as buf, this method returns it.
      * @since 1.5
      */
-    public static final StringBuffer macroToString(final StringBuffer buf,
+    public static final StringBuilder macroToString(final StringBuilder buf,
                                                    List<MacroArg> macroArgs)
     {
-        StringBuffer ret = (buf == null) ? new StringBuffer() : buf;
+        StringBuilder ret = (buf == null) ? new StringBuilder() : buf;
 
         ret.append('#').append(macroArgs.get(0).name).append("( ");
         for (MacroArg marg : macroArgs)
@@ -285,5 +285,5 @@ public class Macro extends Directive
         ret.append(" )");
         return ret;
     }
-
+    
 }

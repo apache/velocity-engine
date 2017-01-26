@@ -328,7 +328,7 @@ public class ASTReference extends SimpleNode
                         referenceType != QUIET_REFERENCE  &&
                         (!onlyTestingReference || failedChild < jjtGetNumChildren() - 1))
                     {
-                        StringBuffer name = new StringBuffer("$").append(rootString);
+                        StringBuilder name = new StringBuilder("$").append(rootString);
                         for (int i = 0; i <= failedChild; i++)
                         {
                             Node node = jjtGetChild(i);
