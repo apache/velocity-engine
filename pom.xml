@@ -122,7 +122,6 @@
   <modules>
     <module>velocity-engine-core</module>
     <module>velocity-engine-examples</module>
-    <module>velocity-engine-assembly</module>
     <module>velocity-engine-scripting</module>
   </modules>
 
