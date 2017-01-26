@@ -19,6 +19,7 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Field;
@@ -84,31 +85,21 @@ public abstract class IntrospectorBase
      *               the parameters
      *
      * @return The desired Method object.
-     * @throws IllegalArgumentException When the parameters passed in can not be used for introspection.
+     * @throws NullPointerException When the parameters passed in can not be used for introspection because null.
      * @throws MethodMap.AmbiguousException When the method map contains more than one match for the requested signature.
      */
     public Method getMethod(final Class c, final String name, final Object[] params)
-            throws IllegalArgumentException,MethodMap.AmbiguousException
+            throws MethodMap.AmbiguousException
     {
-        if (c == null)
-        {
-            throw new IllegalArgumentException ("class object is null!");
-        }
-
-        if (params == null)
-        {
-            throw new IllegalArgumentException("params object is null!");
-        }
-
         IntrospectorCache ic = getIntrospectorCache();
 
-        ClassMap classMap = ic.get(c);
+        ClassMap classMap = ic.get(Validate.notNull(c, "class object is null!"));
         if (classMap == null)
         {
             classMap = ic.put(c);
         }
 
-        return classMap.findMethod(name, params);
+        return classMap.findMethod(name, Validate.notNull(params, "params object is null!"));
     }
 
     /**
@@ -123,14 +114,9 @@ public abstract class IntrospectorBase
     public Field getField(final Class c, final String name)
             throws IllegalArgumentException
     {
-        if (c == null)
-        {
-            throw new IllegalArgumentException("class object is null!");
-        }
-
         IntrospectorCache ic = getIntrospectorCache();
 
-        ClassFieldMap classFieldMap = ic.getFieldMap(c);
+        ClassFieldMap classFieldMap = ic.getFieldMap(Validate.notNull(c, "class object is null!"));
         if (classFieldMap == null)
         {
             ic.put(c);

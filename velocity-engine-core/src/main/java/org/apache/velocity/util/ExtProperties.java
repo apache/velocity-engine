@@ -1002,7 +1002,7 @@ public class ExtProperties extends Hashtable<String,Object> {
                 String pvalue = token.substring(equalSign + 1).trim();
                 props.put(pkey, pvalue);
             } else {
-                throw new IllegalArgumentException('\'' + token + "' does not contain " + "an equals sign");
+                throw new IllegalArgumentException('\'' + token + "' does not contain an equals sign");
             }
         }
         return props;
