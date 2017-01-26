@@ -30,7 +30,7 @@ import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;

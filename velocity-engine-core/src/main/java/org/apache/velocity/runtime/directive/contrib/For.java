@@ -24,7 +24,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.MacroParseException;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
