@@ -30,6 +30,7 @@ import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.StringUtils;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -459,7 +460,46 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
     protected String getFileContents(String dir, String baseFileName, String ext)
     {
         String fileName = getFileName(dir, baseFileName, ext, true);
-        return StringUtils.fileContentsToString(fileName);
+        return getFileContents(fileName);
+    }
+
+    protected String getFileContents(String file)
+    {
+        String contents = "";
+
+        File f = null;
+        try
+        {
+            f = new File(file);
+
+            if (f.exists())
+            {
+                FileReader fr = null;
+                try
+                {
+                    fr = new FileReader(f);
+                    char[] template = new char[(int) f.length()];
+                    fr.read(template);
+                    contents = new String(template);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                finally
+                {
+                    if (fr != null)
+                    {
+                        fr.close();
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return contents;
     }
 
     /**
