@@ -1224,7 +1224,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * text maps to a boolean value, or <code>null</code> otherwise.
      */
     public String testBoolean(String value) {
-        String s = value.toLowerCase();
+        String s = value.toLowerCase(Locale.ROOT);
 
         if (s.equals("true") || s.equals("on") || s.equals("yes")) {
             return "true";
