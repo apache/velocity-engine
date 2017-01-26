@@ -441,7 +441,7 @@ public class ResourceManagerImpl
                      *  multi-path support - will revisit and fix
                      */
 
-                    if (logWhenFound && log.isDebugEnabled())
+                    if (logWhenFound)
                     {
                         log.debug("ResourceManager: found {} with loader {}",
                                   resourceName, resourceLoader.getClassName());

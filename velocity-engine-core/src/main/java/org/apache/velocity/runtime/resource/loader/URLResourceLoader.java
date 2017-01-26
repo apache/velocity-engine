@@ -122,7 +122,7 @@ public class URLResourceLoader extends ResourceLoader
 
                 if (reader != null)
                 {
-                    if (log.isDebugEnabled()) log.debug("URLResourceLoader: Found '{}' at '{}'", name, roots[i]);
+                    log.debug("URLResourceLoader: Found '{}' at '{}'", name, roots[i]);
 
                     // save this root for later re-use
                     templateRoots.put(name, roots[i]);
@@ -139,7 +139,7 @@ public class URLResourceLoader extends ResourceLoader
                     }
                     catch (IOException e) {}
                 }
-                if (log.isDebugEnabled()) log.debug("URLResourceLoader: Exception when looking for '{}' at '{}'", name, roots[i], ioe);
+                log.debug("URLResourceLoader: Exception when looking for '{}' at '{}'", name, roots[i], ioe);
 
                 // only save the first one for later throwing
                 if (exception == null)

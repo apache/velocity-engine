@@ -109,10 +109,7 @@ public class JarResourceLoader extends ResourceLoader
 
     private void loadJar( String path )
     {
-        if (log.isDebugEnabled())
-        {
-            log.debug("JarResourceLoader : trying to load \"{}\"", path);
-        }
+        log.debug("JarResourceLoader : trying to load \"{}\"", path);
 
         // Check path information
         if ( path == null )
