@@ -201,7 +201,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
         for (int i = 0; i < statements.length; i++)
         {
             buf.append(statements[i]);
-            buf.append("\n");
+            buf.append(System.lineSeparator());
         }
         return buf.toString();
     }
