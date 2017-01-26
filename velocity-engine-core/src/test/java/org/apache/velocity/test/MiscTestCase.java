@@ -60,27 +60,8 @@ public class MiscTestCase extends BaseTestCase
          *  some StringUtils tests
          */
 
-        String eol = "XY";
-
-        String arg = "XY";
-        String res = StringUtils.chop(arg, 1, eol );
-        assertTrue( "Test 1", res.equals("") );
-
-        arg = "X";
-        res = StringUtils.chop( arg, 1, eol );
-        assertTrue( "Test 2", res.equals("") );
-
-        arg = "ZXY";
-        res = StringUtils.chop( arg, 1, eol );
-        assertTrue( "Test 3", res.equals("Z") );
-
-
-        arg = "Hello!";
-        res = StringUtils.chop( arg, 2, eol );
-        assertTrue( "Test 4", res.equals("Hell"));
-
-        arg = null;
-        res = StringUtils.nullTrim(arg);
+        String arg = null;
+        String res = StringUtils.nullTrim(arg);
         assertNull(arg);
 
         arg = " test ";
