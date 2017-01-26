@@ -151,8 +151,7 @@ public class Parse extends InputBase
         Object value =  node.jjtGetChild(0).value( context );
         if (value == null && log.isDebugEnabled())
         {
-            log.debug("#parse(): null argument at " +
-                                StringUtils.formatFileString(this));
+            log.debug("#parse(): null argument at {}", StringUtils.formatFileString(this));
         }
 
         /*
@@ -198,9 +197,9 @@ public class Parse extends InputBase
                 {
                     path.append( " > " + templateStack[i] );
                 }
-                log.error("Max recursion depth reached (" +
-                                    templateStack.length + ')' + " File stack:" +
-                                    path);
+                log.error("Max recursion depth reached ({}) File stack: {}",
+                          templateStack.length, path);
+                
                 return false;
             }
         }
@@ -220,8 +219,8 @@ public class Parse extends InputBase
             /*
              * the arg wasn't found.  Note it and throw
              */
-            log.error("#parse(): cannot find template '" + arg +
-                                "', called at " + StringUtils.formatFileString(this));
+            log.error("#parse(): cannot find template '{}', called at {}",
+                      arg, StringUtils.formatFileString(this));
             throw rnfe;
         }
         catch ( ParseErrorException pee )
@@ -230,8 +229,8 @@ public class Parse extends InputBase
              * the arg was found, but didn't parse - syntax error
              *  note it and throw
              */
-            log.error("#parse(): syntax error in #parse()-ed template '"
-                                + arg + "', called at " + StringUtils.formatFileString(this));
+            log.error("#parse(): syntax error in #parse()-ed template '{}', called at {}",
+                      arg, StringUtils.formatFileString(this));
             throw pee;
         }
         /**
@@ -239,11 +238,11 @@ public class Parse extends InputBase
          */
         catch( RuntimeException e )
         {
-            log.error("Exception rendering #parse(" + arg + ") at " +
-                                StringUtils.formatFileString(this));
+            log.error("Exception rendering #parse({}) at {}",
+                      arg, StringUtils.formatFileString(this));
             throw e;
         }
-        catch ( Exception e)
+        catch ( Exception e )
         {
             String msg = "Exception rendering #parse(" + arg + ") at " +
                          StringUtils.formatFileString(this);
@@ -294,8 +293,8 @@ public class Parse extends InputBase
             /**
              * Log #parse errors so the user can track which file called which.
              */
-            log.error("Exception rendering #parse(" + arg + ") at " +
-                                StringUtils.formatFileString(this));
+            log.error("Exception rendering #parse({}) at {}",
+                      arg, StringUtils.formatFileString(this));
             throw e;
         }
         catch ( Exception e )

@@ -242,8 +242,8 @@ public class Include extends InputBase
             /*
              * the arg wasn't found.  Note it and throw
              */
-            log.error("#include(): cannot find resource '" + arg +
-                                "', called at " + StringUtils.formatFileString(this));
+            log.error("#include(): cannot find resource '{}', called at {}",
+                      arg, StringUtils.formatFileString(this));
             throw rnfe;
         }
 
@@ -252,8 +252,8 @@ public class Include extends InputBase
          */
         catch( RuntimeException e )
         {
-            log.error("#include(): arg = '" + arg +
-                                "', called at " + StringUtils.formatFileString(this));
+            log.error("#include(): arg = '{}', called at {}",
+                      arg, StringUtils.formatFileString(this));
             throw e;
         }
         catch (Exception e)

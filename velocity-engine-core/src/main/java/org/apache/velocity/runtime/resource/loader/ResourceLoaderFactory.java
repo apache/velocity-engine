@@ -45,8 +45,7 @@ public class ResourceLoaderFactory
         {
             loader = (ResourceLoader) ClassUtils.getNewInstance( loaderClassName );
 
-            rs.getLog().debug("ResourceLoader instantiated: "
-                              + loader.getClass().getName());
+            rs.getLog().debug("ResourceLoader instantiated: {}", loader.getClass().getName());
 
             return loader;
         }

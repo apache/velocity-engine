@@ -125,7 +125,7 @@ public class FileResourceLoader extends ResourceLoader
                     " contains .. and may be trying to access " +
                     "content outside of template root.  Rejected.";
 
-            log.error("FileResourceLoader : " + msg);
+            log.error("FileResourceLoader : {}", msg);
 
             throw new ResourceNotFoundException ( msg );
         }
