@@ -32,6 +32,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -90,7 +91,7 @@ import java.util.Vector;
  *
  *   Then "additional.properties" is expected to be in the same
  *   directory as the parent configuration file.
- * 
+ *
  *   Duplicate name values will be replaced, so be careful.
  *
  *  </li>
@@ -150,7 +151,7 @@ import java.util.Vector;
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  */
 public class ExtProperties extends Hashtable<String,Object> {
-    
+
     /**
      * Default configurations repository.
      */
@@ -305,9 +306,9 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         return result.toString();
     }
-    
+
     /**
-     * Inserts a backslash before every comma and backslash. 
+     * Inserts a backslash before every comma and backslash.
      */
     private static String escape(String s) {
         StringBuffer buf = new StringBuffer(s);
@@ -320,9 +321,9 @@ public class ExtProperties extends Hashtable<String,Object> {
         }
         return buf.toString();
     }
-    
+
     /**
-     * Removes a backslash from every pair of backslashes. 
+     * Removes a backslash from every pair of backslashes.
      */
     private static String unescape(String s) {
         StringBuffer buf = new StringBuffer(s);
@@ -351,7 +352,7 @@ public class ExtProperties extends Hashtable<String,Object> {
     }
 
     /**
-     * Checks if the line ends with odd number of backslashes 
+     * Checks if the line ends with odd number of backslashes
      */
     private static boolean endsWithSlash(String line) {
         if (!line.endsWith("\\")) {
@@ -552,16 +553,16 @@ public class ExtProperties extends Hashtable<String,Object> {
         if (enc != null) {
             try {
                 reader = new PropertiesReader(new InputStreamReader(input, enc));
-                
+
             } catch (UnsupportedEncodingException ex) {
                 // Another try coming up....
             }
         }
-        
+
         if (reader == null) {
             try {
                 reader = new PropertiesReader(new InputStreamReader(input, "8859_1"));
-                
+
             } catch (UnsupportedEncodingException ex) {
                 // ISO8859-1 support is required on java platforms but....
                 // If it's not supported, use the system default encoding
@@ -593,9 +594,9 @@ public class ExtProperties extends Hashtable<String,Object> {
                         if (value.startsWith(fileSeparator)) {
                             // We have an absolute path so we'll use this
                             file = new File(value);
-                            
+
                         } else {
-                            // We have a relative path, and we have two 
+                            // We have a relative path, and we have two
                             // possible forms here. If we have the "./" form
                             // then just strip that off first before continuing.
                             if (value.startsWith("." + fileSeparator)) {
@@ -640,7 +641,7 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         return obj;
     }
-    
+
     /**
      * Add a property to the configuration. If it already
      * exists then the value stated here will be added
@@ -717,11 +718,11 @@ public class ExtProperties extends Hashtable<String,Object> {
             values.add(current);
             values.add(value);
             put(key, values);
-            
+
         } else if (current instanceof List) {
             // already a list - just add the new token
             ((List) current).add(value);
-            
+
         } else {
             // brand new key - store in keysAsListed to retain order
             if (!containsKey(key)) {
@@ -743,7 +744,7 @@ public class ExtProperties extends Hashtable<String,Object> {
         clearProperty(key);
         addProperty(key, value);
     }
-    
+
     /**
      * Save the properties to the given output stream.
      * <p>
@@ -761,7 +762,7 @@ public class ExtProperties extends Hashtable<String,Object> {
         if (header != null) {
             theWrtr.println(header);
         }
-        
+
         Enumeration theKeys = keys();
         while (theKeys.hasMoreElements()) {
             String key = (String) theKeys.nextElement();
@@ -773,7 +774,7 @@ public class ExtProperties extends Hashtable<String,Object> {
                     currentOutput.append("=");
                     currentOutput.append(escape((String) value));
                     theWrtr.println(currentOutput.toString());
-                    
+
                 } else if (value instanceof List) {
                     List values = (List) value;
                     for (Iterator it = values.iterator(); it.hasNext(); ) {
@@ -804,7 +805,7 @@ public class ExtProperties extends Hashtable<String,Object> {
             setProperty(key, props.get(key));
         }
     }
-    
+
     /**
      * Clear a property in the configuration.
      *
@@ -890,7 +891,7 @@ public class ExtProperties extends Hashtable<String,Object> {
                 }
 
                 /*
-                 *  use addPropertyDirect() - this will plug the data as 
+                 *  use addPropertyDirect() - this will plug the data as
                  *  is into the Map, but will also do the right thing
                  *  re key accounting
                  */
@@ -945,7 +946,7 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof String) {
             return interpolate((String) value);
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return interpolate(defaults.getString(key, defaultValue));
@@ -1023,10 +1024,10 @@ public class ExtProperties extends Hashtable<String,Object> {
         if (value instanceof String) {
             values = new Vector(1);
             values.add(value);
-            
+
         } else if (value instanceof List) {
             values = (List) value;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getStringArray(key);
@@ -1075,13 +1076,13 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof List) {
             return new Vector((List) value);
-            
+
         } else if (value instanceof String) {
             Vector values = new Vector(1);
             values.add(value);
             put(key, values);
             return values;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getVector(key, defaultValue);
@@ -1127,13 +1128,13 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof List) {
             return new ArrayList((List) value);
-            
+
         } else if (value instanceof String) {
             List values = new ArrayList(1);
             values.add(value);
             put(key, values);
             return values;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getList(key, defaultValue);
@@ -1193,13 +1194,13 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof Boolean) {
             return (Boolean) value;
-            
+
         } else if (value instanceof String) {
             String s = testBoolean(((String) value).trim());
             Boolean b = Boolean.valueOf(s);
             put(key, b);
             return b;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getBoolean(key, defaultValue);
@@ -1288,12 +1289,12 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof Byte) {
             return (Byte) value;
-            
+
         } else if (value instanceof String) {
             Byte b = Byte.valueOf((String) value);
             put(key, b);
             return b;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getByte(key, defaultValue);
@@ -1358,12 +1359,12 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof Short) {
             return (Short) value;
-            
+
         } else if (value instanceof String) {
             Short s = Short.valueOf((String) value);
             put(key, s);
             return s;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getShort(key, defaultValue);
@@ -1456,12 +1457,12 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof Integer) {
             return (Integer) value;
-            
+
         } else if (value instanceof String) {
             Integer i = Integer.valueOf((String) value);
             put(key, i);
             return i;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getInteger(key, defaultValue);
@@ -1526,12 +1527,12 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof Long) {
             return (Long) value;
-            
+
         } else if (value instanceof String) {
             Long l = Long.valueOf((String) value);
             put(key, l);
             return l;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getLong(key, defaultValue);
@@ -1596,12 +1597,12 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof Float) {
             return (Float) value;
-            
+
         } else if (value instanceof String) {
             Float f = new Float((String) value);
             put(key, f);
             return f;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getFloat(key, defaultValue);
@@ -1666,12 +1667,12 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         if (value instanceof Double) {
             return (Double) value;
-            
+
         } else if (value instanceof String) {
             Double d = new Double((String) value);
             put(key, d);
             return d;
-            
+
         } else if (value == null) {
             if (defaults != null) {
                 return defaults.getDouble(key, defaultValue);
