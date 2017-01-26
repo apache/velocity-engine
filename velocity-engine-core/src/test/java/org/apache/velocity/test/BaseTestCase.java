@@ -27,7 +27,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.apache.velocity.test.misc.TestLogger;
-import org.apache.velocity.util.StringUtils;
 
 import java.io.File;
 import java.io.FileReader;

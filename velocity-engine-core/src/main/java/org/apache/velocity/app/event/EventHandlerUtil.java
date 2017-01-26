@@ -24,8 +24,6 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.introspection.Info;
 
-import java.util.Iterator;
-
 
 /**
  * Calls on request all registered event handlers for a particular event. Each

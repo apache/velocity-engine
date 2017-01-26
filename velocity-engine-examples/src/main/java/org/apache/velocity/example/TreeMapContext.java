@@ -18,11 +18,11 @@ package org.apache.velocity.example;
  * under the License.
  */
 
-import java.util.Set;
-import java.util.TreeMap;
-
 import org.apache.velocity.context.AbstractContext;
 import org.apache.velocity.context.Context;
+
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  *   Example context impl that uses a TreeMap

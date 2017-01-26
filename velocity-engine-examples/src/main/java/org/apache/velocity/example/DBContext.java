@@ -18,6 +18,9 @@ package org.apache.velocity.example;
  * under the License.
  */
 
+import org.apache.velocity.context.AbstractContext;
+import org.apache.velocity.context.Context;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -26,9 +29,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
-import org.apache.velocity.context.AbstractContext;
-import org.apache.velocity.context.Context;
 
 /**
  *   Example context impl that uses a database to store stuff :)

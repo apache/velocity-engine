@@ -18,14 +18,14 @@ package org.apache.velocity.example;
  * under the License.
  */
 
+import org.apache.velocity.Template;
+import org.apache.velocity.runtime.RuntimeSingleton;
+
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Hashtable;
 import java.util.Properties;
-
-import org.apache.velocity.Template;
-import org.apache.velocity.runtime.RuntimeSingleton;
 
 /**
  *  the ultimate in silliness...

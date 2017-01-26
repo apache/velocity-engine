@@ -21,14 +21,12 @@ package org.apache.velocity.app.event.implement;
 
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.ContextAware;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Simple event handler that checks to see if an included page is available.

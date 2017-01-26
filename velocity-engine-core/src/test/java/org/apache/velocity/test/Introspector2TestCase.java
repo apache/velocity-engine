@@ -22,7 +22,6 @@ package org.apache.velocity.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.introspection.Introspector;
 

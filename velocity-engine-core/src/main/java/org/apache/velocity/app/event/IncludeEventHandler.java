@@ -1,7 +1,6 @@
 package org.apache.velocity.app.event;
 
 import org.apache.velocity.context.Context;
-import org.apache.velocity.util.ContextAware;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
