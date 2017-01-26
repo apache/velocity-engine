@@ -115,8 +115,7 @@ public class ResourceCacheImpl implements ResourceCache
             lruCache.putAll(cache);
             cache = lruCache;
         }
-        rsvc.getLog().debug("initialized (" + this.getClass() + ") with " +
-                cache.getClass() + " cache map.");
+        rsvc.getLog().debug("initialized ({}) with {} cache map.", this.getClass(), cache.getClass());
     }
 
     /**

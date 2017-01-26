@@ -342,14 +342,14 @@ public class RuntimeMacro extends Directive
                  * especially important for multiple macro call levels.
                  * this is also true for the following catch blocks.
                  */
-                log.error("Exception in macro #" + macroName + " called at " +
-                  StringUtils.formatFileString(node));
+                log.error("Exception in macro #{} called at {}",
+                          macroName, StringUtils.formatFileString(node));
                 throw e;
             }
             catch (IOException e)
             {
-                log.error("Exception in macro #" + macroName + " called at " +
-                  StringUtils.formatFileString(node));
+                log.error("Exception in macro #{} called at {}",
+                          macroName, StringUtils.formatFileString(node));
                 throw e;
             }
             finally

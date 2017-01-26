@@ -96,7 +96,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
                 /**
                  * can't find not found, so display nothing
                  */
-                log.error("Can't find include not found page: " + notfound);
+                log.error("Can't find include not found page: {}", notfound);
                 return null;
             }
         }

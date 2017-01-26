@@ -256,13 +256,9 @@ public class VelocimacroProxy extends Directive
                     + macroArgs.get(0).name + " accepts at most " + (macroArgs.size()-1)
                     + " at " + StringUtils.formatFileString(node));
             }
-            else if (log.isDebugEnabled())
-            {
-                // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
-                log.debug("VM #" + macroArgs.get(0).name
-                    + ": too many arguments to macro. Wanted " + (macroArgs.size()-1) 
-                    + " got " + callArgNum);
-            }
+            // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
+            log.debug("VM #{}: too many arguments to macro. Wanted {} got {}",
+                      macroArgs.get(0).name, macroArgs.size() - 1, callArgNum);
         }
     }
 
@@ -346,12 +342,8 @@ public class VelocimacroProxy extends Directive
             else
             {
                 // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
-                if (log.isDebugEnabled())
-                {
-                    log.debug("VM #" + macroArgs.get(0).name
-                     + ": too few arguments to macro. Wanted " + (macroArgs.size()-1) 
-                     + " got " + callArgNum);
-                }
+                log.debug("VM #{}: too few arguments to macro. Wanted {} got {}",
+                          macroArgs.get(0).name, macroArgs.size() - 1, callArgNum);
                 break;
             }
 

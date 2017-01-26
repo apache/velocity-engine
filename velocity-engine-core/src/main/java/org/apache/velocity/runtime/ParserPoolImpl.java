@@ -55,7 +55,7 @@ public class ParserPoolImpl implements ParserPool {
 
         if (log.isDebugEnabled())
         {
-            log.debug("Created '" + max + "' parsers.");
+            log.debug("Created '{}' parsers.", max);
         }
     }
 

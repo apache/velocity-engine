@@ -140,8 +140,8 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
             }
             catch (PatternSyntaxException E)
             {
-                log.error("Invalid regular expression '" + matchRegExp
-                        + "'.  No escaping will be performed.", E);
+                log.error("Invalid regular expression '{}'. No escaping will be performed.",
+                          matchRegExp, E);
                 matchRegExp = null;
             }
         }

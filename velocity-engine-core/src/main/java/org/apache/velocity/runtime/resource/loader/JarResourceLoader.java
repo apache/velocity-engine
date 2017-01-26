@@ -195,7 +195,7 @@ public class JarResourceLoader extends ResourceLoader
                     " contains .. and may be trying to access " +
                     "content outside of template root.  Rejected.";
 
-            log.error( "JarResourceLoader : " + msg );
+            log.error( "JarResourceLoader : {}", msg );
 
             throw new ResourceNotFoundException ( msg );
         }
