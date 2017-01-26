@@ -20,7 +20,6 @@ package org.apache.velocity.runtime.resource.util;
  */
 
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
 import java.util.Collections;
 import java.util.HashMap;

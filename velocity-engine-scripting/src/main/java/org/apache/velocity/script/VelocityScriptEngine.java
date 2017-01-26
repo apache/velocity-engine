@@ -49,18 +49,10 @@ package org.apache.velocity.script;
  * @version $Id: VelocityScriptEngine.java$
  */
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Properties;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
@@ -73,6 +65,13 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Properties;
 
 public class VelocityScriptEngine extends AbstractScriptEngine implements Compilable
 {

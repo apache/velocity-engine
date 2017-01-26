@@ -20,8 +20,6 @@ package org.apache.velocity.util.introspection;
  */
 
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.util.RuntimeServicesAware;
 
 import java.util.Iterator;
 

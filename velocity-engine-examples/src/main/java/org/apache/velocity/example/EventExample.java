@@ -18,21 +18,21 @@ package org.apache.velocity.example;
  * under the License.
  */
 
-import java.io.StringWriter;
-
-import org.apache.velocity.context.Context;
-import org.apache.velocity.util.introspection.Info;
-import org.slf4j.helpers.FormattingTuple;
-import org.slf4j.helpers.MarkerIgnoringBase;
-import org.slf4j.helpers.MessageFormatter;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
+import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.util.introspection.Info;
+
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MarkerIgnoringBase;
+import org.slf4j.helpers.MessageFormatter;
+
+import java.io.StringWriter;
 
 /**
  *   This class is a simple demonstration of how the event handling

@@ -1,7 +1,6 @@
 package org.apache.velocity.app.event;
 
 import org.apache.velocity.context.Context;
-import org.apache.velocity.util.ContextAware;
 import org.apache.velocity.util.introspection.Info;
 
 /*

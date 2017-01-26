@@ -31,14 +31,13 @@ import org.apache.velocity.runtime.parser.node.PropertyExecutor;
 import org.apache.velocity.runtime.parser.node.PutExecutor;
 import org.apache.velocity.runtime.parser.node.SetExecutor;
 import org.apache.velocity.runtime.parser.node.SetPropertyExecutor;
-import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ArrayIterator;
 import org.apache.velocity.util.ArrayListWrapper;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.EnumerationIterator;
 import org.apache.velocity.util.RuntimeServicesAware;
+
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;

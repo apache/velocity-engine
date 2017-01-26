@@ -18,16 +18,16 @@ package org.apache.velocity.example;
  * under the License.
  */
 
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import org.jdom.Document;
 import org.jdom.input.SAXBuilder;
+
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 
 /**

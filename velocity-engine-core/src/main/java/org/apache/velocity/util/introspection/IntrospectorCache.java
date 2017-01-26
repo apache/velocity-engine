@@ -19,7 +19,6 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
-import org.apache.commons.lang3.Conversion;
 import org.slf4j.Logger;
 
 import java.util.HashMap;

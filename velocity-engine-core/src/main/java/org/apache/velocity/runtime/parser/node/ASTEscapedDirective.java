@@ -20,14 +20,11 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
+import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
 
 import java.io.IOException;
 import java.io.Writer;
-
-import org.apache.velocity.context.InternalContextAdapter;
-import org.apache.velocity.exception.TemplateInitException;
-import org.apache.velocity.runtime.parser.Parser;
 
 /**
  * This class is responsible for handling EscapedDirectives

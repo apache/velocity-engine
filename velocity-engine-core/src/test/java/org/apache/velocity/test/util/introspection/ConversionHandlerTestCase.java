@@ -28,7 +28,6 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.introspection.ConversionHandler;
 import org.apache.velocity.util.introspection.ConversionHandlerImpl;
 import org.apache.velocity.util.introspection.Converter;

@@ -19,7 +19,6 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.
  */
 
-import org.apache.velocity.exception.VelocityException;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Method;

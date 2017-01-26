@@ -26,7 +26,6 @@ import javax.script.CompiledScript;
 import javax.script.ScriptContext;
 import javax.script.ScriptException;
 import java.io.StringWriter;
-import java.io.Writer;
 
 public class ScriptEngineTest extends AbstractScriptTest {
 
