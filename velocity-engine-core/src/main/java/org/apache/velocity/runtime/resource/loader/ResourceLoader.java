@@ -246,11 +246,8 @@ public abstract class ResourceLoader
         }
         catch (ResourceNotFoundException e)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("Could not load resource '{}' from ResourceLoader {}",
-                        resourceName, this.getClass().getName());
-            }
+            log.debug("Could not load resource '{}' from ResourceLoader {}",
+                      resourceName, this.getClass().getName());
         }
         finally
         {
@@ -263,14 +260,11 @@ public abstract class ResourceLoader
             }
             catch (Exception e)
             {
-                if (log.isErrorEnabled())
-                {
-                    String msg = "While closing InputStream for resource '" +
-                            resourceName + "' from ResourceLoader " +
-                            this.getClass().getName();
-                    log.error(msg, e);
-                    throw new VelocityException(msg, e);
-                }
+                String msg = "While closing InputStream for resource '" +
+                    resourceName + "' from ResourceLoader " +
+                    this.getClass().getName();
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
             }
         }
         return (reader != null);

@@ -181,24 +181,18 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         }
         else if (obj instanceof Iterator)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("The iterative object in the #foreach() loop at {}" +
-                          " is of type java.util.Iterator.  Because " +
-                          "it is not resettable, if used in more than once it " +
-                          "may lead to unexpected results.", i);
-            }
+            log.debug("The iterative object in the #foreach() loop at {}" +
+                      " is of type java.util.Iterator.  Because " +
+                      "it is not resettable, if used in more than once it " +
+                      "may lead to unexpected results.", i);
             return ((Iterator) obj);
         }
         else if (obj instanceof Enumeration)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("The iterative object in the #foreach() loop at {}" +
-                          " is of type java.util.Enumeration.  Because " +
-                          "it is not resettable, if used in more than once it " +
-                          "may lead to unexpected results.", i);
-            }
+            log.debug("The iterative object in the #foreach() loop at {}" +
+                      " is of type java.util.Enumeration.  Because " +
+                      "it is not resettable, if used in more than once it " +
+                      "may lead to unexpected results.", i);
             return new EnumerationIterator((Enumeration) obj);
         }
         else

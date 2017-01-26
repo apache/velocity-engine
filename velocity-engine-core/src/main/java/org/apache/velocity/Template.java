@@ -368,10 +368,7 @@ public class Template extends Resource
                 else
                 {
                     Logger renderingLog = rsvc.getLog("rendering");
-                    if (renderingLog.isDebugEnabled())
-                    {
-                        renderingLog.debug(stop.getMessage());
-                    }
+                    renderingLog.debug(stop.getMessage());
                 }
             }
             catch (IOException e)

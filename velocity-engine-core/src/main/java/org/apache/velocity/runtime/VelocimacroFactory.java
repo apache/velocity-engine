@@ -376,10 +376,7 @@ public class VelocimacroFactory
         {
             vmManager.addVM(name, macroBody, macroArgs, definingTemplate, replaceAllowed);
         }
-        if (log.isDebugEnabled())
-        {
-            log.debug("added VM {}: source={}", name, definingTemplate);
-        }
+        log.debug("added VM {}: source={}", name, definingTemplate);
         return true;
     }
 
@@ -437,8 +434,7 @@ public class VelocimacroFactory
                  * causes false alarms when several concurrent threads simultaneously (re)parse
                  * some macro
                  */
-                if (log.isDebugEnabled())
-                    log.debug("VM addition rejected : {} : inline not allowed to replace existing VM", name);
+                log.debug("VM addition rejected : {} : inline not allowed to replace existing VM", name);
                 return false;
             }
         }

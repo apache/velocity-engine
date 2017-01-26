@@ -149,7 +149,7 @@ public class Parse extends InputBase
          *  does it have a value?  If you have a null reference, then no.
          */
         Object value =  node.jjtGetChild(0).value( context );
-        if (value == null && log.isDebugEnabled())
+        if (value == null)
         {
             log.debug("#parse(): null argument at {}", StringUtils.formatFileString(this));
         }
