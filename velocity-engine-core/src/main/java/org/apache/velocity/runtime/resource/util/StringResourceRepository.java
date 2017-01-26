@@ -58,18 +58,18 @@ public interface StringResourceRepository
      * @param name The string name to remove from the repository.
      */
     void removeStringResource(String name);
-    
+
     /**
      * Sets the default encoding of the repository. Encodings can also be stored per
      * template string. The default implementation does this correctly.
-     * 
+     *
      * @param encoding The encoding to use.
      */
     void setEncoding(String encoding);
-    
+
     /**
      * Returns the current encoding of this repository.
-     * 
+     *
      * @return The current encoding of this repository.
      */
     String getEncoding();

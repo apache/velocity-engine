@@ -116,10 +116,10 @@
           <nodeUsesParser>true</nodeUsesParser>
           <nodePackage>org.apache.velocity.runtime.parser.node</nodePackage>
           <sourceDirectory>${basedir}/src/main/parser</sourceDirectory>
-<!--          
+<!--
           <interimDirectory>${basedir}/src/main/java</interimDirectory>
           <outputDirectory>${basedir}/src/main/java</outputDirectory>
--->          
+-->
         </configuration>
       </plugin>
     </plugins>

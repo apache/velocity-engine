@@ -82,7 +82,7 @@ public class Template extends Resource
     public Template()
     {
         super();
-        
+
         setType(ResourceManager.RESOURCE_TEMPLATE);
     }
 
@@ -185,7 +185,7 @@ public class Template extends Resource
                     if (errorCondition == null)
                     {
                          throw new VelocityException(e);
-                    }                    
+                    }
                 }
             }
         }
@@ -264,7 +264,7 @@ public class Template extends Resource
         merge(context, writer, null);
     }
 
-    
+
     /**
      * The AST node structure is merged with the
      * context to produce the final output.
@@ -339,7 +339,7 @@ public class Template extends Resource
                                                     (String)macroLibraries.get(i), pe.getMessage(), pe);
                         throw pe;
                     }
-                    
+
                     catch (Exception e)
                     {
                         throw new RuntimeException("Template.merge(): parse failed in template  " +

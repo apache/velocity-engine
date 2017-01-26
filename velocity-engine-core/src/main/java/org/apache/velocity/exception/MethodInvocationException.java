@@ -42,7 +42,7 @@ public class MethodInvocationException extends VelocityException implements Exte
     private String referenceName = "";
 
     private final String methodName;
-    
+
     private final int lineNumber;
     private final int columnNumber;
     private final String templateName;

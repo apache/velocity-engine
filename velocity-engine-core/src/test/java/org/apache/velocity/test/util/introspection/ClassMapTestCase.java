@@ -16,7 +16,7 @@ package org.apache.velocity.test.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import junit.framework.Test;
@@ -50,7 +50,7 @@ public class ClassMapTestCase
         Velocity.setProperty(Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 	Velocity.init();
     }
-    
+
     public void tearDown()
     {
     }
@@ -59,7 +59,7 @@ public class ClassMapTestCase
     	throws Exception
     {
         Logger log = Velocity.getLog();
-	
+
         ClassMap c = new ClassMap(TestClassMap.class, log);
         assertNotNull(c.findMethod("setBoolean",   new Object[] { Boolean.TRUE }));
         assertNotNull(c.findMethod("setByte",      new Object[] { new Byte((byte) 4)}));

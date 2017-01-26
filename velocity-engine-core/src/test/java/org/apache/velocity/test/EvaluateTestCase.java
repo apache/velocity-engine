@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.Template;
@@ -38,13 +38,13 @@ import java.util.Map;
 
 /**
  * Test #evaluate directive.
- * 
+ *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
 public class EvaluateTestCase extends BaseTestCase
 {
-    
+
     /**
     * VTL file extension.
     */
@@ -142,7 +142,7 @@ public class EvaluateTestCase extends BaseTestCase
 
     /**
      * Test that the event handlers work in #evaluate (since they are
-     * attached to the context).  Only need to check one - they all 
+     * attached to the context).  Only need to check one - they all
      * work the same.
      * @throws Exception
      */
@@ -152,17 +152,17 @@ public class EvaluateTestCase extends BaseTestCase
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, EscapeHtmlReference.class.getName());
         ve.init();
-        
+
         Context context = new VelocityContext();
         context.put("lt","<");
         context.put("gt",">");
         StringWriter writer = new StringWriter();
         ve.evaluate(context, writer, "test","${lt}test${gt} #evaluate('${lt}test2${gt}')");
         assertEquals("&lt;test&gt; &lt;test2&gt;", writer.toString());
-        
+
     }
-    
-    
+
+
     /**
      * Test errors are thrown
      * @throws Exception
@@ -172,12 +172,12 @@ public class EvaluateTestCase extends BaseTestCase
     {
         VelocityEngine ve = new VelocityEngine();
         ve.init();
-        
+
         Context context = new VelocityContext();
-        
+
         // no arguments
         StringWriter writer = new StringWriter();
-        try 
+        try
         {
             ve.evaluate(context, writer, "test",
                               "#evaluate()");
@@ -189,10 +189,10 @@ public class EvaluateTestCase extends BaseTestCase
             assertEquals(1,e.getLineNumber());
             assertEquals(1,e.getColumnNumber());
         }
-        
+
         // too many arguments
         writer = new StringWriter();
-        try 
+        try
         {
             ve.evaluate(context, writer, "test",
                               "#evaluate('aaa' 'bbb')");
@@ -204,10 +204,10 @@ public class EvaluateTestCase extends BaseTestCase
             assertEquals(1,e.getLineNumber());
             assertEquals(17,e.getColumnNumber());
         }
-        
+
         // argument not a string or reference
         writer = new StringWriter();
-        try 
+        try
         {
             ve.evaluate(context, writer, "test",
                               "#evaluate(10)");
@@ -219,10 +219,10 @@ public class EvaluateTestCase extends BaseTestCase
             assertEquals(1,e.getLineNumber());
             assertEquals(11,e.getColumnNumber());
         }
-        
+
         // checking line/col for parse error
         writer = new StringWriter();
-        try 
+        try
         {
             String eval = "this is a multiline\n\n\n\n\n test #foreach() with an error";
             context.put("eval",eval);
@@ -236,9 +236,9 @@ public class EvaluateTestCase extends BaseTestCase
             assertEquals("test",e.getTemplateName());
             assertEquals(2,e.getLineNumber());
             assertEquals(15,e.getColumnNumber());
-        }        
+        }
     }
-    
+
     /**
      * Test a file parses with no errors and compare to existing file.
      * @param basefilename
@@ -250,7 +250,7 @@ public class EvaluateTestCase extends BaseTestCase
         info("Test file: "+basefilename);
         VelocityEngine ve = engine;
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
-     
+
         for (Iterator i = properties.keySet().iterator(); i.hasNext();)
         {
             String key = (String) i.next();
@@ -258,24 +258,24 @@ public class EvaluateTestCase extends BaseTestCase
             ve.addProperty(key, value);
             info("Add property: "+key+" = "+value);
         }
-        
+
         ve.init();
-        
+
         Template template;
         FileOutputStream fos;
         Writer fwriter;
-        
+
         template = ve.getTemplate( getFileName(null, basefilename, TMPL_FILE_EXT) );
-        
+
         fos = new FileOutputStream (
                 getFileName(RESULTS_DIR, basefilename, RESULT_FILE_EXT));
-        
+
         fwriter = new BufferedWriter( new OutputStreamWriter(fos) );
-        
+
         template.merge(context, fwriter);
         fwriter.flush();
         fwriter.close();
-        
+
         if (!isMatch(RESULTS_DIR, COMPARE_DIR, basefilename, RESULT_FILE_EXT, CMP_FILE_EXT))
         {
             String result = getFileContents(RESULTS_DIR, basefilename, RESULT_FILE_EXT);
@@ -285,7 +285,7 @@ public class EvaluateTestCase extends BaseTestCase
                 "-----Result-----\n"+ result +
                 "----Expected----\n"+ compare +
                 "----------------";
-            
+
             fail(msg);
         }
     }

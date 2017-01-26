@@ -227,11 +227,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             {
                 log.debug("Initializing Velocity, Calling init()...");
                 initializing = true;
-                
+
                 log.trace("*****************************");
                 log.debug("Starting Apache Velocity v2.0");
                 log.trace("RuntimeInstance initializing.");
-                
+
                 initializeProperties();
                 initializeSelfProperties();
                 initializeLog();
@@ -239,7 +239,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 initializeDirectives();
                 initializeEventHandlers();
                 initializeParserPool();
-                
+
                 initializeIntrospection();
                 initializeEvaluateScopeSettings();
                 /*
@@ -247,9 +247,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                  * accessible from Runtime, so keep this here at the end.
                  */
                 vmFactory.initVelocimacro();
-                
+
                 log.trace("RuntimeInstance successfully initialized.");
-                
+
                 initialized = true;
                 initializing = false;
             }

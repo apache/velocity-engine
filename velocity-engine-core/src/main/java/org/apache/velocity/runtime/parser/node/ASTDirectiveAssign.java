@@ -34,7 +34,7 @@ public class ASTDirectiveAssign extends SimpleNode
   {
     super(p, i);
   }
-  
+
   /**
    * @throws TemplateInitException
    * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
@@ -46,6 +46,6 @@ public class ASTDirectiveAssign extends SimpleNode
   	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
   	return obj;
   }
-  
+
 
 }

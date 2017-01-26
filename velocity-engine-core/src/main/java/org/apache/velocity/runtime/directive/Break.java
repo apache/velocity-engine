@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -102,7 +102,7 @@ public class Break extends Directive
                 + StringUtils.formatFileString(this));
         }
     }
-    
+
     /**
      * Called by the parser to validate the argument types
      */
@@ -114,6 +114,6 @@ public class Break extends Directive
             throw new MacroParseException("The #break directive takes only a single, optional Scope argument",
                templateName, t);
         }
-    }    
-    
+    }
+
 }

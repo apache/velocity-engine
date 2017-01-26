@@ -44,7 +44,7 @@ import org.apache.velocity.util.introspection.VelMethod;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 /**
@@ -70,45 +70,45 @@ public class ASTIndex extends SimpleNode
     {
         super(p, i);
     }
-  
+
     public Object init(InternalContextAdapter context, Object data)
         throws TemplateInitException
     {
-        super.init(context, data);    
+        super.init(context, data);
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
         cleanupParserAndTokens();
         return data;
-    }  
+    }
 
 
-    
+
     private final static Object[] noParams = {};
-    private final static Class[] noTypes = {};      
+    private final static Class[] noTypes = {};
     /**
-     * If argument is an Integer and negative, then return (o.size() - argument). 
+     * If argument is an Integer and negative, then return (o.size() - argument).
      * Otherwise return the original argument.  We use this to calculate the true
      * index of a negative index e.g., $foo[-1]. If no size() method is found on the
      * 'o' object, then we throw an VelocityException.
      * @param context Used to access the method cache.
      * @param node  ASTNode used for error reporting.
      */
-    public static Object adjMinusIndexArg(Object argument, Object o, 
+    public static Object adjMinusIndexArg(Object argument, Object o,
                                InternalContextAdapter context, SimpleNode node)
     {
       if (argument instanceof Integer && ((Integer)argument).intValue() < 0)
       {
           // The index value is a negative number, $foo[-1], so we want to actually
           // Index [size - value], so try and call the size method.
-          VelMethod method = ClassUtils.getMethod("size", noParams, noTypes, 
+          VelMethod method = ClassUtils.getMethod("size", noParams, noTypes,
                              o, context, node, false);
           if (method == null)
           {
               // The object doesn't have a size method, so there is no notion of "at the end"
               throw new VelocityException(
                 "A 'size()' method required for negative value "
-                 + ((Integer)argument).intValue() + " does not exist for class '" 
+                 + ((Integer)argument).intValue() + " does not exist for class '"
                  + o.getClass().getName() + "' at " + StringUtils.formatFileString(node));
-          }             
+          }
 
           Object size = null;
           try
@@ -120,8 +120,8 @@ public class ASTIndex extends SimpleNode
               throw new VelocityException("Error trying to calls the 'size()' method on '"
                 + o.getClass().getName() + "' at " + StringUtils.formatFileString(node), e);
           }
-          
-          int sizeint = 0;          
+
+          int sizeint = 0;
           try
           {
               sizeint = ((Integer)size).intValue();
@@ -129,18 +129,18 @@ public class ASTIndex extends SimpleNode
           catch (ClassCastException e)
           {
               // If size() doesn't return an Integer we want to report a pretty error
-              throw new VelocityException("Method 'size()' on class '" 
+              throw new VelocityException("Method 'size()' on class '"
                   + o.getClass().getName() + "' returned '" + size.getClass().getName()
                   + "' when Integer was expected at " + StringUtils.formatFileString(node));
           }
-          
+
           argument = Integer.valueOf(sizeint + ((Integer)argument).intValue());
       }
-      
+
       // Nothing to do, return the original argument
       return argument;
     }
-    
+
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
@@ -150,11 +150,11 @@ public class ASTIndex extends SimpleNode
         Object [] params = {argument};
         Class[] paramClasses = {argument == null ? null : argument.getClass()};
 
-        VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses, 
+        VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
                                                 o, context, this, strictRef);
 
         if (method == null) return null;
-    
+
         try
         {
             /*
@@ -187,11 +187,11 @@ public class ASTIndex extends SimpleNode
         catch( Exception e )
         {
             String msg = "Error invoking method 'get("
-              + (argument == null ? "null" : argument.getClass().getName()) 
+              + (argument == null ? "null" : argument.getClass().getName())
               + ")' in " + o.getClass().getName()
               + " at " + StringUtils.formatFileString(this);
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }
-    }  
+    }
 }

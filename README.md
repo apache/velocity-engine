@@ -14,7 +14,7 @@ Here's a description of the top level directories:
     velocity-engine-examples/   Several simple examples
     velocity-engine-scripting/  JSR-223 implementation for Velocity scripting
     src/                        Source for parent modules, mainly changelog
-            
+
 ## REQUIREMENTS
 
 Apache Velocity will run with any Java runtime engine v1.7 or greater.

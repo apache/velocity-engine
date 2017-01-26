@@ -24,7 +24,7 @@ import java.util.Iterator;
 /**
  * Default implementation of a {@link ChainableUberspector chainable uberspector} that forwards all calls to the wrapped
  * uberspector (when that is possible). It should be used as the base class for all chainable uberspectors.
- * 
+ *
  * @version $Id: $
  * @since 1.6
  * @see ChainableUberspector
@@ -36,7 +36,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see ChainableUberspector#wrap(org.apache.velocity.util.introspection.Uberspect)
      * @see #inner
      */
@@ -47,7 +47,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
 
     /**
      * init - the chainable uberspector is responsible for the initialization of the wrapped uberspector
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#init()
      */
     //@Override
@@ -65,7 +65,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#getIterator(java.lang.Object,
      *      org.apache.velocity.util.introspection.Info)
      */
@@ -78,7 +78,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#getMethod(java.lang.Object, java.lang.String,
      *      java.lang.Object[], org.apache.velocity.util.introspection.Info)
      */
@@ -90,7 +90,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#getPropertyGet(java.lang.Object, java.lang.String,
      *      org.apache.velocity.util.introspection.Info)
      */
@@ -102,7 +102,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#getPropertySet(java.lang.Object, java.lang.String,
      *      java.lang.Object, org.apache.velocity.util.introspection.Info)
      */

@@ -1680,8 +1680,8 @@ boolean Directive() :
     /*
      *  and the following block if the PD needs it
      */
-    ((( 
-        LOOKAHEAD( { getToken(1).kind != END && ( !newlineBeforeStatement || getToken(1).kind != WHITESPACE || getToken(2).kind != END ) }) newlineBeforeStatement = Statement(newlineBeforeStatement))* 
+    (((
+        LOOKAHEAD( { getToken(1).kind != END && ( !newlineBeforeStatement || getToken(1).kind != WHITESPACE || getToken(2).kind != END ) }) newlineBeforeStatement = Statement(newlineBeforeStatement))*
         {
             block = jjtThis;
             block.setPrefix(blockPrefix);
@@ -1927,9 +1927,9 @@ boolean IfStatement() :
       ]
       ( LOOKAHEAD(
         {
-            (getToken(1).kind != ELSEIF && getToken(1).kind != ELSE && getToken(1).kind != END) && 
+            (getToken(1).kind != ELSEIF && getToken(1).kind != ELSE && getToken(1).kind != END) &&
               (!afterNewline || getToken(1).kind != WHITESPACE || (getToken(2).kind != ELSEIF && getToken(2).kind != ELSE && getToken(2).kind != END))
-        }) 
+        })
         afterNewline = Statement(afterNewline) )*
         {
             lastBlock = jjtThis;
@@ -2295,4 +2295,3 @@ void PrimaryExpression() #void : {}
         ------
 
 */
-

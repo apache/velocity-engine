@@ -16,7 +16,7 @@ package org.apache.velocity.runtime;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.Template;
@@ -55,7 +55,7 @@ public class VelocimacroManager
 
     /** set of names of library tempates/namespaces */
     private final Map libraries = new ConcurrentHashMap(17, 0.5f, 20);
-    
+
     private RuntimeServices rsvc = null;
 
     /*
@@ -81,9 +81,9 @@ public class VelocimacroManager
 
     /**
      * Adds a VM definition to the cache.
-     * 
+     *
      * Called by VelocimacroFactory.addVelociMacro (after parsing and discovery in Macro directive)
-     * 
+     *
      * @param vmName Name of the new VelociMacro.
      * @param macroBody String representation of the macro body.
      * @param macroArgs  Array of macro arguments, containing the
@@ -105,7 +105,7 @@ public class VelocimacroManager
         MacroEntry me = new MacroEntry(vmName, macroBody, macroArgs, definingTemplate.getName(), rsvc);
 
         me.setFromLibrary(registerFromLib);
-        
+
         /*
          *  the client (VMFactory) will signal to us via
          *  registerFromLib that we are in startup mode registering
@@ -116,7 +116,7 @@ public class VelocimacroManager
         boolean isLib = true;
 
         MacroEntry exist = (MacroEntry) globalNamespace.get(vmName);
-        
+
         if (registerFromLib)
         {
            libraries.put(definingTemplate.getName(), definingTemplate);
@@ -295,7 +295,7 @@ public class VelocimacroManager
 
         return null;
     }
-    
+
     /**
      * @since 1.6
      */
@@ -333,7 +333,7 @@ public class VelocimacroManager
             vp.setLocation(macro.getLine(), macro.getColumn(), macro.getTemplate());
             vp.init(rsvc);
         }
-        
+
         /**
          * Has the macro been registered from a library.
          * @param fromLibrary True if the macro was registered from a Library.
@@ -363,5 +363,3 @@ public class VelocimacroManager
         }
     }
 }
-
-

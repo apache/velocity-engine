@@ -73,7 +73,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
     {
         return new TestSuite(ConversionHandlerTestCase.class);
     }
-    
+
     public void testConversionsWithoutHandler()
     throws Exception
     {
@@ -169,7 +169,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
                 "-----Result-----\n"+ result +
                 "----Expected----\n"+ compare +
                 "----------------";
-            
+
             fail(msg);
         }
     }
@@ -195,7 +195,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
             ve.setProperty(RuntimeConstants.CONVERSION_HANDLER_CLASS, "none");
         }
         ve.init();
-        
+
         return ve;
     }
 

@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.Template;
@@ -67,12 +67,12 @@ import java.util.List;
 public class Parse extends InputBase
 {
     private int maxDepth;
-    
+
     /**
      * Indicates if we are running in strict reference mode.
      */
-    public boolean strictRef = false;    
-    
+    public boolean strictRef = false;
+
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -114,8 +114,8 @@ public class Parse extends InputBase
         super.init(rs, context, node);
 
         this.maxDepth = rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 10);
-        
-        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);        
+
+        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
     }
 
     /**
@@ -186,7 +186,7 @@ public class Parse extends InputBase
 
         if (maxDepth > 0)
         {
-            /* 
+            /*
              * see if we have exceeded the configured depth.
              */
             String[] templateStack = context.getTemplateNameStack();
@@ -199,7 +199,7 @@ public class Parse extends InputBase
                 }
                 log.error("Max recursion depth reached ({}) File stack: {}",
                           templateStack.length, path);
-                
+
                 return false;
             }
         }
@@ -317,7 +317,7 @@ public class Parse extends InputBase
 
         return true;
     }
-    
+
     /**
      * Called by the parser to validate the argument types
      */
@@ -329,12 +329,11 @@ public class Parse extends InputBase
             throw new MacroParseException("The #parse directive requires one argument",
                templateName, t);
         }
-        
+
         if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("The argument to #parse is of the wrong type",
-                templateName, t);          
+                templateName, t);
         }
     }
 }
-

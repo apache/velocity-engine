@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 /**
@@ -146,7 +146,7 @@ implements CharStream
         }
 
         int i;
-        try 
+        try
         {
             if ((i = inputStream.read(buffer, maxNextCharInd,
                     available - maxNextCharInd)) == -1)
@@ -160,7 +160,7 @@ implements CharStream
             }
             return;
         }
-        catch(java.io.IOException e) 
+        catch(java.io.IOException e)
         {
             --bufpos;
             backup(0);
@@ -258,7 +258,7 @@ implements CharStream
     /**
      * @see org.apache.velocity.runtime.parser.CharStream#getEndColumn()
      */
-    public final int getEndColumn() 
+    public final int getEndColumn()
     {
         return bufcolumn[bufpos];
     }
@@ -266,7 +266,7 @@ implements CharStream
     /**
      * @see org.apache.velocity.runtime.parser.CharStream#getEndLine()
      */
-    public final int getEndLine() 
+    public final int getEndLine()
     {
         return bufline[bufpos];
     }
@@ -274,7 +274,7 @@ implements CharStream
     /**
      * @see org.apache.velocity.runtime.parser.CharStream#getBeginColumn()
      */
-    public final int getBeginColumn() 
+    public final int getBeginColumn()
     {
         return bufcolumn[tokenBegin];
     }
@@ -282,7 +282,7 @@ implements CharStream
     /**
      * @see org.apache.velocity.runtime.parser.CharStream#getBeginLine()
      */
-    public final int getBeginLine() 
+    public final int getBeginLine()
     {
         return bufline[tokenBegin];
     }
@@ -290,7 +290,7 @@ implements CharStream
     /**
      * @see org.apache.velocity.runtime.parser.CharStream#backup(int)
      */
-    public final void backup(int amount) 
+    public final void backup(int amount)
     {
 
         inBuf += amount;

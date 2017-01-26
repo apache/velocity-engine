@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -52,7 +52,7 @@ public class MacroDefaultArgTestCase extends BaseTestCase
 
       assertEvalEquals("3 2 5 2 5 [1, 2] ", "#macro(foo, $a=$x $b =2 )$a $b #end#set($x=3)#foo()#foo(5)#foo(5 [1,2])");
       assertEvalEquals("{a=3} 2 5 2 5 [1, 2] ", "#macro(foo, $a = {\"a\":$x} $b =2 )$a $b #end#set($x=3)#foo()#foo(5)#foo(5 [1,2])");
-     
+
       assertEvalEquals("3 2 5 2 5 [1, 2] ", "#macro(foo, $a = \"$x\" $b =2 )$a $b #end#set($x=3)#foo()#foo(5)#foo(5 [1,2])");
       assertEvalEquals("3$y 2 5 2 5 [1, 2] ", "#macro(foo, $a = \"$x\\$y\" $b =2 )$a $b #end#set($x=3)#foo()#foo(5)#foo(5 [1,2])");
       assertEvalEquals("5 3 2 5 [1, 2] 2 ", "#macro(foo, $c $a = \"$x\" $b =2 )$c $a $b #end#set($x=3)#foo(5)#foo(5 [1,2])");
@@ -61,7 +61,7 @@ public class MacroDefaultArgTestCase extends BaseTestCase
 
       assertEvalEquals("xy", "#macro(foo $a=\"$b$c\"##\n)$a#end#set($b=\"x\")#set($c=\"y\")#foo()");
     }
-    
+
     public void testErrors()
     {
       assertEvalException("#macro(foo $a = 1 $b)#end");

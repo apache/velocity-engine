@@ -16,7 +16,7 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.util.Iterator;
@@ -29,7 +29,7 @@ import java.util.Iterator;
  * then this utility class is used to provide a basic default chaining where the
  * first non-null result is kept for each introspection call.
  * </p>
- * 
+ *
  * @since 1.6
  * @see ChainableUberspector
  * @version $Id: LinkingUberspector.java 10959 2008-07-01 00:12:29Z sdumitriu $
@@ -52,7 +52,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      * <p>
      * Init both wrapped uberspectors
      * </p>
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#init()
      */
     //@Override
@@ -64,7 +64,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#getIterator(java.lang.Object,
      *      org.apache.velocity.util.introspection.Info)
      */
@@ -78,7 +78,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#getMethod(java.lang.Object, java.lang.String,
      *      java.lang.Object[], org.apache.velocity.util.introspection.Info)
      */
@@ -91,7 +91,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#getPropertyGet(java.lang.Object, java.lang.String,
      *      org.apache.velocity.util.introspection.Info)
      */
@@ -104,7 +104,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.apache.velocity.util.introspection.Uberspect#getPropertySet(java.lang.Object, java.lang.String,
      *      java.lang.Object, org.apache.velocity.util.introspection.Info)
      */

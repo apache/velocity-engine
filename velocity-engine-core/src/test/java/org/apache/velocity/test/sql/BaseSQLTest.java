@@ -16,7 +16,7 @@ package org.apache.velocity.test.sql;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.test.BaseTestCase;
@@ -49,7 +49,7 @@ public abstract class BaseSQLTest
             hsqlDB = new HsqlDB("jdbc:hsqldb:.", path + "/create-db.sql");
         }
     }
-    
+
     public void executeSQL(String sql)
     throws SQLException
     {

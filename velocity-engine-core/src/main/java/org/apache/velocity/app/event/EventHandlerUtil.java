@@ -16,7 +16,7 @@ package org.apache.velocity.app.event;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -39,12 +39,12 @@ import java.util.Iterator;
  * @since 1.5
  */
 public class EventHandlerUtil {
-    
-    
+
+
     /**
      * Called before a reference is inserted. All event handlers are called in
      * sequence. The default implementation inserts the reference as is.
-     * 
+     *
      * This is a major hotspot method called by ASTReference render.
      *
      * @param reference reference from template about to be inserted
@@ -124,7 +124,7 @@ public class EventHandlerUtil {
         /* default behaviour is to re-throw exception */
         throw e;
     }
-    
+
     /**
      * Called when an include-type directive is encountered (#include or
      * #parse). All the registered event handlers are called unless null is
@@ -169,11 +169,11 @@ public class EventHandlerUtil {
             throw new VelocityException("Exception in event handler.",e);
         }
     }
-   
+
 
     /**
      * Called when an invalid get method is encountered.
-     * 
+     *
      * @param rsvc current instance of RuntimeServices
      * @param context the context when the reference was found invalid
      * @param reference complete invalid reference
@@ -183,7 +183,7 @@ public class EventHandlerUtil {
      * @return substitute return value for missing reference, or null if no substitute
      */
     public static Object invalidGetMethod(RuntimeServices rsvc,
-            InternalContextAdapter context, String reference, 
+            InternalContextAdapter context, String reference,
             Object object, String property, Info info)
     {
         try
@@ -209,7 +209,7 @@ public class EventHandlerUtil {
 
    /**
      * Called when an invalid set method is encountered.
-     * 
+     *
      * @param rsvc current instance of RuntimeServices
      * @param context the context when the reference was found invalid
      * @param leftreference left reference being assigned to
@@ -217,7 +217,7 @@ public class EventHandlerUtil {
      * @param info contains info on template, line, col
      */
     public static void invalidSetMethod(RuntimeServices rsvc,
-            InternalContextAdapter context, String leftreference, 
+            InternalContextAdapter context, String leftreference,
             String rightreference, Info info)
     {
         try
@@ -241,10 +241,10 @@ public class EventHandlerUtil {
             throw new VelocityException("Exception in event handler.",e);
         }
     }
-    
+
     /**
      * Called when an invalid method is encountered.
-     * 
+     *
      * @param rsvc current instance of RuntimeServices
      * @param context the context when the reference was found invalid
      * @param reference complete invalid reference

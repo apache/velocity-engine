@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.VelocityException;
@@ -26,14 +26,14 @@ import java.util.Map;
 
 /**
  * SetExecutor that is smart about Maps. If it detects one, it does not
- * use Reflection but a cast to access the setter. 
+ * use Reflection but a cast to access the setter.
  *
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  * @since 1.5
  */
 public class MapSetExecutor
-        extends SetExecutor 
+        extends SetExecutor
 {
     private final String property;
 
@@ -79,5 +79,5 @@ public class MapSetExecutor
     public Object execute(final Object o, final Object arg)
     {
         return ((Map) o).put(property, arg);
-    } 
+    }
 }

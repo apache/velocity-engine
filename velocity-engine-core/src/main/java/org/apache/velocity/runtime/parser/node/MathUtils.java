@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.math.BigDecimal;
@@ -218,7 +218,7 @@ public abstract class MathUtils
 
     /**
      * Wrap the result in the object of the bigger type.
-     * 
+     *
      * @param value result of operation (as a long) - used to check size
      * @param op1 first operand of binary operation
      * @param op2 second operand of binary operation
@@ -235,7 +235,7 @@ public abstract class MathUtils
 
     /**
      * Find the common Number-type to be used in calculations.
-     * 
+     *
      * @param op1 first operand of binary operation
      * @param op2 second operand of binary operation
      * @return constant indicating type of Number to use in calculations

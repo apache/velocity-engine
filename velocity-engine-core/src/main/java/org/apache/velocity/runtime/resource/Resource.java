@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.resource;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.ParseErrorException;
@@ -272,7 +272,7 @@ public abstract class Resource
     {
         return data;
     }
-    
+
     /**
      * Sets the type of this Resource (RESOURCE_TEMPLATE or RESOURCE_CONTENT)
      * @since 1.6
@@ -281,7 +281,7 @@ public abstract class Resource
     {
         this.type = type;
     }
-    
+
     /**
      * @return type code of the Resource
      * @since 1.6

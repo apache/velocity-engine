@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import junit.framework.Test;
@@ -29,7 +29,7 @@ import java.io.StringWriter;
 
 /**
  * Test comments
- * 
+ *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
@@ -40,7 +40,7 @@ public class CommentsTestCase extends BaseTestCase
     {
        return new TestSuite(CommentsTestCase.class);
     }
-    
+
     /**
      * Default constructor.
      * @param name
@@ -50,7 +50,7 @@ public class CommentsTestCase extends BaseTestCase
         super(name);
     }
 
-    
+
     /**
      * Test multiline comments
      * @throws Exception
@@ -60,8 +60,8 @@ public class CommentsTestCase extends BaseTestCase
     {
         VelocityEngine ve = new VelocityEngine();
         ve.init();
-        
-        Context context = new VelocityContext();        
+
+        Context context = new VelocityContext();
         StringWriter writer = new StringWriter();
         ve.evaluate(context, writer, "test","abc #* test\r\ntest2*#\r\ndef");
         assertEquals("abc \r\ndef", writer.toString());
@@ -76,17 +76,17 @@ public class CommentsTestCase extends BaseTestCase
     {
         VelocityEngine ve = new VelocityEngine();
         ve.init();
-        
-        Context context = new VelocityContext();        
+
+        Context context = new VelocityContext();
         StringWriter writer = new StringWriter();
         ve.evaluate(context, writer, "test","123 ## test test\r\nabc");
-        assertEquals("123 abc", writer.toString());        
-    
-        context = new VelocityContext();        
+        assertEquals("123 abc", writer.toString());
+
+        context = new VelocityContext();
         writer = new StringWriter();
         ve.evaluate(context, writer, "test","123 \r\n## test test\r\nabc");
-        assertEquals("123 \r\nabc", writer.toString());        
-    
+        assertEquals("123 \r\nabc", writer.toString());
+
     }
 
     /**
@@ -98,11 +98,11 @@ public class CommentsTestCase extends BaseTestCase
     {
         VelocityEngine ve = new VelocityEngine();
         ve.init();
-        
-        Context context = new VelocityContext();        
+
+        Context context = new VelocityContext();
         StringWriter writer = new StringWriter();
         ve.evaluate(context, writer, "test","test\r\n## #* *# ${user \r\nabc");
-        assertEquals("test\r\nabc", writer.toString());        
-    
+        assertEquals("test\r\nabc", writer.toString());
+
     }
 }

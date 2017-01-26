@@ -46,7 +46,7 @@ public class StringResourceRepositoryImpl implements StringResourceRepository
      * Current Repository encoding.
      */
     private String encoding = RuntimeConstants.ENCODING_DEFAULT;
-    
+
     /**
      * @see StringResourceRepository#getStringResource(java.lang.String)
      */

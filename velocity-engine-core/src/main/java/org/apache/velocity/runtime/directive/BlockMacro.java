@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -31,13 +31,13 @@ import java.io.Writer;
 /**
  * BlockMacro directive is used to invoke Velocity macros with normal parameters and a macro body.
  * <p>
- * The macro can then refer to the passed body AST. This directive can be used as a 
+ * The macro can then refer to the passed body AST. This directive can be used as a
  * "decorator". Body AST can contain any valid Velocity syntax.
  *
  * An example:
  * <pre>
  * #set($foobar = "yeah!")
- * 
+ *
  * #macro(strong $txt)
  * &lt;strong&gt;$bodyContent&lt;/strong&gt; $txt
  * #end
@@ -50,7 +50,7 @@ import java.io.Writer;
  * <pre>
  * &lt;strong&gt;&lt;u&gt;This text is underlined and bold&lt;u&gt;&lt;/strong&gt; yeah!
  * </pre>
- * 
+ *
  * bodyContent reference name is configurable (see velocity.properties).
  *
  * @author <a href="mailto:wyla@removethis.sci.fi">Jarkko Viinamaki</a>
@@ -79,7 +79,7 @@ public class BlockMacro extends Block
 
     /**
      * Initializes the directive.
-     * 
+     *
      * @param rs
      * @param context
      * @param node
