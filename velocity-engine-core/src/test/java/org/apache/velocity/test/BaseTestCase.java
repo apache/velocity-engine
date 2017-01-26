@@ -344,7 +344,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
     protected String getFileName(final String dir, final String base, final String ext, final boolean mustExist)
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         try
         {
             File baseFile = new File(base);
@@ -537,7 +537,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      */
     protected static final String getTestCaseName(String s)
     {
-        StringBuffer name = new StringBuffer();
+        StringBuilder name = new StringBuilder();
         name.append(Character.toTitleCase(s.charAt(0)));
         name.append(s.substring(1, s.length()).toLowerCase(Locale.ROOT));
         return name.toString();

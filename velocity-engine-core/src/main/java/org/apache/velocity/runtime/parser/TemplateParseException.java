@@ -162,14 +162,14 @@ public class TemplateParseException
     {
         if (!specialConstructor)
         {
-            StringBuffer sb = new StringBuffer(super.getMessage());
+            StringBuilder sb = new StringBuilder(super.getMessage());
             appendTemplateInfo(sb);
             return sb.toString();
         }
 
         int maxSize = 0;
 
-        StringBuffer expected = new StringBuffer();
+        StringBuilder expected = new StringBuilder();
 
         for (int i = 0; i < expectedTokenSequences.length; i++)
         {
@@ -191,7 +191,7 @@ public class TemplateParseException
             expected.append(eol).append("    ");
         }
 
-        StringBuffer retval = new StringBuffer("Encountered \"");
+        StringBuilder retval = new StringBuilder("Encountered \"");
         Token tok = currentToken.next;
 
         for (int i = 0; i < maxSize; i++)
@@ -231,7 +231,7 @@ public class TemplateParseException
     /**
      * @param sb
      */
-    protected void appendTemplateInfo(final StringBuffer sb)
+    protected void appendTemplateInfo(final StringBuilder sb)
     {
         sb.append(StringUtils.formatFileString(getTemplateName(), getLineNumber(), getColumnNumber()));
         sb.append(eol);
