@@ -32,7 +32,7 @@ public final class StringResource
 {
     /** template body */
     private String body;
-    
+
     /** encoding */
     private String encoding;
 
@@ -88,7 +88,7 @@ public final class StringResource
 
     /**
      * Returns the encoding of this String resource.
-     * 
+     *
      * @return The encoding of this String resource.
      */
     public String getEncoding() {
@@ -97,7 +97,7 @@ public final class StringResource
 
     /**
      * Sets the encoding of this string resource.
-     * 
+     *
      * @param encoding The new encoding of this resource.
      */
     public void setEncoding(final String encoding)

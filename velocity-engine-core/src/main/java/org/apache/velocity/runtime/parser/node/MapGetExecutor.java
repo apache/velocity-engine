@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.VelocityException;
@@ -27,14 +27,14 @@ import java.util.Map;
 
 /**
  * GetExecutor that is smart about Maps. If it detects one, it does not
- * use Reflection but a cast to access the getter. 
+ * use Reflection but a cast to access the getter.
  *
  * @author <a href="mailto:henning@apache.org">Henning P. Schmiedehausen</a>
  * @version $Id$
  * @since 1.5
  */
 public class MapGetExecutor
-        extends AbstractExecutor 
+        extends AbstractExecutor
 {
     private final String property;
     private final boolean isAlive;
@@ -101,5 +101,5 @@ public class MapGetExecutor
         {
             return instance;
         }
-    } 
+    }
 }

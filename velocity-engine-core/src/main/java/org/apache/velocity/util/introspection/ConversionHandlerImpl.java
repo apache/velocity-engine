@@ -286,7 +286,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         };
         standardConverterMap.put(new Pair<>(Integer.class, String.class), stringToInteger);
         standardConverterMap.put(new Pair<>(Integer.TYPE, String.class), stringToInteger);
-        
+
         /* narrowing towards long */
         Converter<Long> narrowingToLong = new Converter<Long>()
         {
@@ -337,7 +337,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         };
         standardConverterMap.put(new Pair<>(Long.class, String.class), stringToLong);
         standardConverterMap.put(new Pair<>(Long.TYPE, String.class), stringToLong);
-        
+
         /* narrowing towards float */
         Converter<Float> narrowingToFloat = new Converter<Float>()
         {
@@ -467,7 +467,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Long.class, Boolean.TYPE), booleanToLong);
         standardConverterMap.put(new Pair<>(Long.TYPE, Boolean.class), booleanToLong);
         standardConverterMap.put(new Pair<>(Long.TYPE, Boolean.TYPE), booleanToLong);
-        
+
         /* to string */
         toString = new Converter<String>()
         {

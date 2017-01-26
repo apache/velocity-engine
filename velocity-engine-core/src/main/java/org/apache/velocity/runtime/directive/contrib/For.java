@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * that tracks the loop iterations. e.g.; #for($user in $users index $i).
  * As $user iterates through $users the index reference $i will be equal to
  * 0, 1, 2, etc..
- * @see org.apache.velocity.runtime.directive.Foreach 
+ * @see org.apache.velocity.runtime.directive.Foreach
  */
 public class For extends Foreach
 {
@@ -59,7 +59,7 @@ public class For extends Foreach
   public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
       throws TemplateInitException
   {
-    super.init(rs, context, node);    
+    super.init(rs, context, node);
     // If we have more then 3 argument then the user has specified an
     // index value, i.e.; #foreach($a in $b index $c)
     if (node.jjtGetNumChildren() > 4)
@@ -114,7 +114,7 @@ public class For extends Foreach
       String templateName) throws ParseException
   {
     super.checkArgs(argtypes, t, templateName);
-    
+
     // If #foreach is defining an index variable make sure it has the 'index
     // $var' combo.
     if (argtypes.size() > 3)
@@ -124,8 +124,8 @@ public class For extends Foreach
         throw new MacroParseException(
             "Expected word 'index' at argument position 4 in #foreach",
             templateName, t);
-      } 
-      else if (argtypes.size() == 4 
+      }
+      else if (argtypes.size() == 4
           || argtypes.get(4) != ParserTreeConstants.JJTREFERENCE)
       {
         throw new MacroParseException(

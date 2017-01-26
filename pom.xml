@@ -59,7 +59,7 @@
       </properties>
     </profile>
   </profiles>
-  
+
   <build>
     <defaultGoal>install</defaultGoal>
     <pluginManagement>

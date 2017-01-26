@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import junit.framework.Test;
@@ -48,23 +48,23 @@ extends TestCase
     // @@ VELOCITY-553
     public class TestObject {
         private String nullValueAttribute = null;
-        
+
         public String getNullValueAttribute() {
             return nullValueAttribute;
-        }	
+        }
 
         public String getRealString() {
             return new String("helloFooRealStr");
-        }	
-        
+        }
+
         public String getString() {
             return new String("helloFoo");
         }
 
         public String getNullString() {
             return null;
-        }	
-        
+        }
+
         public java.util.Date getNullDate() {
             return null;
         }
@@ -80,7 +80,7 @@ extends TestCase
     }
     // @@ VELOCITY-553
 
-    
+
     /**
      * Default constructor.
      */
@@ -88,39 +88,39 @@ extends TestCase
     {
         super(name);
     }
-    
+
     public static Test suite ()
     {
         return new TestSuite(InvalidEventHandlerTestCase.class);
     }
-    
+
     public void testManualEventHandlers()
     throws Exception
     {
         TestEventCartridge te = new TestEventCartridge();
-        
+
         /**
          * Test attaching the event cartridge to the context
          */
         VelocityEngine ve = new VelocityEngine();
         ve.init();
-        
+
         /*
          *  lets make a Context and add the event cartridge
          */
-        
+
         VelocityContext inner = new VelocityContext();
-        
+
         /*
          *  Now make an event cartridge, register all the
          *  event handlers (at once) and attach it to the
          *  Context
          */
-        
+
         EventCartridge ec = new EventCartridge();
         ec.addEventHandler(te);
         ec.attachToContext( inner );
-        
+
         doTestInvalidReferenceEventHandler0(ve, inner);
         doTestInvalidReferenceEventHandler1(ve, inner);
         doTestInvalidReferenceEventHandler2(ve, inner);
@@ -162,22 +162,22 @@ extends TestCase
         Tree test2 = new Tree();
         test2.setField("12");
         test.setChild(test2);
-        
+
         context.put("tree",test);
         String s;
         Writer w;
-        
+
         // show work fine
         s = "$tree.Field $tree.field $tree.child.Field";
         w = new StringWriter();
         ve.evaluate(context, w, "mystring", s);
-        
+
         s = "$tree.x $tree.field.x $tree.child.y $tree.child.Field.y";
         w = new StringWriter();
         ve.evaluate(context, w, "mystring", s);
-        
+
     }
-    
+
     /**
      * Test invalid #set
      * @param ve
@@ -191,10 +191,10 @@ extends TestCase
         context.put("a1", new Integer(5));
         context.put("a4", new Integer(5));
         context.put("b1","abc");
-        
+
         String s;
         Writer w;
-        
+
         // good object, bad right hand side
         s = "#set($xx = $a1.afternoon())";
         w = new StringWriter();
@@ -202,7 +202,7 @@ extends TestCase
             ve.evaluate( context, w, "mystring", s );
             fail("Expected exception.");
         } catch (RuntimeException e) {}
-        
+
         // good object, bad right hand reference
         s = "#set($yy = $q1)";
         w = new StringWriter();
@@ -210,7 +210,7 @@ extends TestCase
             ve.evaluate( context, w, "mystring", s );
             fail("Expected exception.");
         } catch (RuntimeException e) {}
-        
+
     }
 
     /**
@@ -226,10 +226,10 @@ extends TestCase
         context.put("a1",new Integer(5));
         context.put("a4",new Integer(5));
         context.put("b1","abc");
-        
+
         String s;
         Writer w;
-        
+
         // good object, bad method
         s = "$a1.afternoon()";
         w = new StringWriter();
@@ -262,9 +262,9 @@ extends TestCase
         s = "$b1.baby()";
         w = new StringWriter();
         ve.evaluate( context, w, "mystring", s );
-        assertEquals("www",w.toString());        
+        assertEquals("www",w.toString());
     }
-    
+
     /**
      * Test invalid gets/references
      * @param ve
@@ -275,17 +275,17 @@ extends TestCase
     throws Exception
     {
         String result;
-        
+
         VelocityContext context = new VelocityContext(vc);
         context.put("a1",new Integer(5));
         context.put("a4",new Integer(5));
         context.put("b1","abc");
-        
+
         // normal - should be no calls to handler
         String s = "$a1 $a1.intValue() $b1 $b1.length() #set($c1 = '5')";
         Writer w = new StringWriter();
         ve.evaluate(context, w, "mystring", s);
-        
+
         // good object, bad property
         s = "$a1.foobar";
         w = new StringWriter();
@@ -307,7 +307,7 @@ extends TestCase
         assertEquals("no",w.toString());
 
 
-        // bad object, bad property            
+        // bad object, bad property
         s = "$a2.foobar";
         w = new StringWriter();
         try {
@@ -335,7 +335,7 @@ extends TestCase
         ve.evaluate( context, w, "mystring", s );
         assertEquals("no", w.toString());
 
-        // bad object, no property            
+        // bad object, no property
         s = "$a3";
         w = new StringWriter();
         try {
@@ -363,7 +363,7 @@ extends TestCase
         ve.evaluate( context, w, "mystring", s );
         result = w.toString();
         assertEquals("zzz", result);
-        
+
     }
 
     /**
@@ -458,17 +458,17 @@ extends TestCase
     /**
      * Test assigning the event handlers via properties
      */
-    
+
     public static class TestEventCartridge
     implements InvalidReferenceEventHandler,
     RuntimeServicesAware
     {
         private RuntimeServices rs;
-        
+
         public TestEventCartridge()
         {
         }
-        
+
         /**
          * Required by EventHandler
          */
@@ -477,18 +477,18 @@ extends TestCase
             // make sure this is only called once
             if (this.rs == null)
                 this.rs = rs;
-            
+
             else
                 fail("initialize called more than once.");
         }
-        
-        
+
+
         public Object invalidGetMethod(Context context, String reference, Object object, String property, Info info)
         {
             // as a test, make sure this EventHandler is initialized
             if (rs == null)
                 fail ("Event handler not initialized!");
-            
+
             // good object, bad property
             if (reference.equals("$a1.foobar"))
             {
@@ -496,23 +496,23 @@ extends TestCase
                 assertEquals("foobar",property);
                 throw new RuntimeException("expected exception");
             }
-            
-            // bad object, bad property            
+
+            // bad object, bad property
             else if (reference.equals("$a2"))
             {
                 assertNull(object);
                 assertNull(property);
                 throw new RuntimeException("expected exception");
             }
-            
-            // bad object, no property            
+
+            // bad object, no property
             else if (reference.equals("$a3"))
             {
                 assertNull(object);
                 assertNull(property);
                 throw new RuntimeException("expected exception");
             }
-            
+
             // good object, bad property; change the value
             else if (reference.equals("$a4.foobar"))
             {
@@ -535,7 +535,7 @@ extends TestCase
 
             }
 
-            
+
             else if (reference.equals("$tree.x"))
             {
                 assertEquals("x",property);
@@ -550,19 +550,19 @@ extends TestCase
             {
                 assertEquals("y",property);
             }
-            
+
             else if (reference.equals("$tree.child.Field.y"))
             {
                 assertEquals("y",property);
             }
-            
+
             else
             {
                 fail("invalidGetMethod: unexpected reference: " + reference);
             }
             return null;
         }
-        
+
         public Object invalidMethod(Context context, String reference, Object object, String method, Info info)
         {
             // as a test, make sure this EventHandler is initialized
@@ -583,13 +583,13 @@ extends TestCase
             }
 
             else
-            { 
+            {
                 fail("Unexpected invalid method.  " + method);
             }
 
             return null;
-        }        
-    
+        }
+
 
         public boolean invalidSetMethod(Context context, String leftreference, String rightreference, Info info)
         {
@@ -610,10 +610,10 @@ extends TestCase
                 throw new RuntimeException("expected exception");
             }
             else
-            { 
+            {
                 fail("Unexpected left hand side.  " + leftreference);
             }
-            
+
             return false;
         }
 
@@ -623,10 +623,10 @@ extends TestCase
     {
         String field;
         Tree child;
-        
+
         public Tree()
         {
-            
+
         }
 
         public String getField()
@@ -649,10 +649,10 @@ extends TestCase
             this.child = child;
         }
 
-        public String testMethod() 
+        public String testMethod()
         {
             return "123";
         }
     }
-    
+
 }

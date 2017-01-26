@@ -94,5 +94,5 @@ public class ScriptEngineTest extends AbstractScriptTest {
         String result = engine.eval(script).toString();
         assertEquals("javax.script.SimpleScriptContext java.io.StringWriter java.io.InputStreamReader java.io.PrintWriter", result);
     }
-    
+
 }

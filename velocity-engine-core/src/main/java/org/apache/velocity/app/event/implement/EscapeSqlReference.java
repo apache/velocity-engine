@@ -21,7 +21,7 @@ package org.apache.velocity.app.event.implement;
 
 /**
  * Escapes the characters in a String to be suitable to pass to an SQL query.
- * 
+ *
  * @author wglass
  * @since 1.5
  */

@@ -45,31 +45,31 @@ public class Velocity544TestCase
     {
         context.put("foobarTrue", new Foobar(true));
         context.put("foobarFalse", new Foobar(false));
-        
+
         String template = "$foobarTrue.True $foobarFalse.True $foobarTrue.TrueObject $foobarFalse.TrueObject";
-        
+
         String result = evaluate(template);
-        
+
         super.assertEquals("true false true false", result);
     }
-    
+
     public static class Foobar
     {
         private boolean value;
-        
+
         public Foobar(boolean value)
         {
             this.value = value;
         }
-        
+
         public boolean isTrue()
         {
             return(value);
         }
-        
+
         public Boolean isTrueObject()
         {
             return(new Boolean(value));
-        }   
+        }
     }
 }

@@ -27,7 +27,7 @@ Change to the /build directory in the Velocity distribution and then type:
 
 This will invoke ant and tell it to build the examples for you.
 
-Finally, note that more examples of using Velocity can be found in the 
+Finally, note that more examples of using Velocity can be found in the
 Velocity-Tools subject.  Of special note is the VelocityViewServlet,
 a quick and easy way to build a web application that uses Velocity.
 
@@ -37,7 +37,7 @@ a quick and easy way to build a web application that uses Velocity.
 Velocity Examples
 =================
 
-app_example1 
+app_example1
 ------------
 This simple example shows how to use the Velocity Template Engine
 in a standalone program.  It should be pre-compiled for you. Run it using the example
@@ -45,7 +45,7 @@ template provided (example.vm):
 
   ./example.sh
 
-app_example2 
+app_example2
 ------------
 Another simple example showing how to use Velocity in a standalone
 program.  This examples uses the org.apache.velocity.util.Velocity application utility
@@ -58,26 +58,24 @@ context_example
 --------------
 This is a demonstration of 2 different context implementations :
  - a context implementation that uses a database as the storage.
-   Use the DBContextTest program to test.  See the DBContextTest.java file for the 
-   db table info.  Unsupported demonstration code.  You may need to futz with 
-   it to get it to work in your environment.  To run, use the dbcontexttest.sh 
+   Use the DBContextTest program to test.  See the DBContextTest.java file for the
+   db table info.  Unsupported demonstration code.  You may need to futz with
+   it to get it to work in your environment.  To run, use the dbcontexttest.sh
    script.
  - a context implementation that uses a TreeMap for storage.  Very simple.
 
 xmlapp_example
 --------------
-This is simple example that demonstrates direct access of XML data via 
+This is simple example that demonstrates direct access of XML data via
 Velocity templates, as well as Velocimacro recursion.
 
 event_example
 -------------
 This is a more advanced example, and shows how to use the event handling
-features of Velocity.  This is an advanced topic, so if you are just 
+features of Velocity.  This is an advanced topic, so if you are just
 starting with Velocity, you can come back to it later.
 
 
 Thanks for using Velocity!
 
 - the Velocity team
-
-

@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -35,7 +35,7 @@ public class BlockMacroTestCase extends BaseTestCase
     {
         String template = "#macro(foo $txt) Yeah, $txt! $bodyContent $bodyContent#end #@foo(\"woohoo\")jee#end";
         String result = "  Yeah, woohoo! jee jee";
-    
+
         assertEvalEquals(result, template);
     }
 
@@ -43,7 +43,7 @@ public class BlockMacroTestCase extends BaseTestCase
     {
         String template = "#macro(foo $txt) Yeah, $txt! $bodyContent#end #@foo(\"woohoo\")#foreach($i in [1..3])$i:#{end}#end";
         String result = "  Yeah, woohoo! 1:2:3:";
-    
+
         assertEvalEquals(result, template);
     }
 
@@ -51,7 +51,7 @@ public class BlockMacroTestCase extends BaseTestCase
     {
         String template = "#macro(foo $txt) Yeah, $txt! $bodyContent#end #@foo(\"woohoo\")#end";
         String result = "  Yeah, woohoo! ";
-    
+
         assertEvalEquals(result, template);
     }
 
@@ -59,7 +59,7 @@ public class BlockMacroTestCase extends BaseTestCase
     {
         String template = "#macro(foo) Yeah! $bodyContent#end #@foo()#end";
         String result = "  Yeah! ";
-    
+
         assertEvalEquals(result, template);
     }
 
@@ -68,7 +68,7 @@ public class BlockMacroTestCase extends BaseTestCase
         engine.setProperty(RuntimeConstants.VM_BODY_REFERENCE, "myBody");
         String template = "#macro(foo) Yeah! $myBody#end #@foo()#end";
         String result = "  Yeah! ";
-    
+
         assertEvalEquals(result, template);
     }
 
@@ -86,7 +86,7 @@ public class BlockMacroTestCase extends BaseTestCase
         assertEvalException("#@foo#end");
         assertEvalException("#@foo()#end");
     }
-    
+
     public void testVelocity690()
     {
         assertEvalEquals(" output ", "#macro(foo) output #end#@foo #end");
@@ -94,12 +94,12 @@ public class BlockMacroTestCase extends BaseTestCase
         assertEvalEquals("#[output)", "#macro(foo2)#[$bodyContent)#end#{@foo2}output#end");
         assertEvalException("#macro(foo) output #end#@foo");
     }
-    
+
     public void testVelocity675() throws Exception
     {
-      assertEvalEquals("#@foo#end", "#@foo#end"); 
+      assertEvalEquals("#@foo#end", "#@foo#end");
     }
-    
+
     public void testVelocity685() throws Exception
     {
         engine.setProperty(RuntimeConstants.VM_ARGUMENTS_STRICT, Boolean.TRUE);
@@ -139,4 +139,3 @@ public class BlockMacroTestCase extends BaseTestCase
         assertTmplEquals("cbabc", "a");
     }
 }
-

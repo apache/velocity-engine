@@ -16,12 +16,12 @@ package org.apache.velocity.exception;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 /**
-*  Base class for Velocity runtime exceptions thrown to the 
- * application layer.    
+*  Base class for Velocity runtime exceptions thrown to the
+ * application layer.
  *
  * @author <a href="mailto:kdowney@amberarcher.com">Kyle F. Downey</a>
  * @version $Id$

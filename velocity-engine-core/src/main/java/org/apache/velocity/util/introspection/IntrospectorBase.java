@@ -16,7 +16,7 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.slf4j.Logger;
@@ -73,7 +73,7 @@ public abstract class IntrospectorBase
         introspectorCache = new IntrospectorCache(log, conversionHandler);
         this.conversionHandler = conversionHandler;
     }
-    
+
     /**
      * Gets the method defined by <code>name</code> and
      * <code>params</code> for the Class <code>c</code>.
@@ -94,7 +94,7 @@ public abstract class IntrospectorBase
         {
             throw new IllegalArgumentException ("class object is null!");
         }
-        
+
         if (params == null)
         {
             throw new IllegalArgumentException("params object is null!");
@@ -142,7 +142,7 @@ public abstract class IntrospectorBase
 
     /**
      * Return the internal IntrospectorCache object.
-     * 
+     *
      * @return The internal IntrospectorCache object.
      * @since 1.5
      */

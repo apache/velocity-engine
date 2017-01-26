@@ -16,7 +16,7 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.parser.node.Node;
@@ -51,14 +51,14 @@ public class Info
     {
       this(node.getTemplateName(), node.getLine(), node.getColumn());
     }
-    
+
     /**
      * Force callers to set the location information.
      */
     private Info()
     {
     }
-    
+
     /**
      * @return The template name.
      */

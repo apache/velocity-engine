@@ -20,9 +20,9 @@ context_example
 
 This is a demonstration of 2 different context implementations :
  - a context implementation that uses a database as the storage.
-   Use the DBContextTest program to test.  See the DBContextTest.java file for the 
-   db table info.  Unsupported demonstration code.  You may need to futz with 
-   it to get it to work in your environment.  To run, use the dbcontexttest.sh 
+   Use the DBContextTest program to test.  See the DBContextTest.java file for the
+   db table info.  Unsupported demonstration code.  You may need to futz with
+   it to get it to work in your environment.  To run, use the dbcontexttest.sh
    script.
  - a context implementation that uses a TreeMap for storage.  Very simple.
 
@@ -30,4 +30,3 @@ This is a demonstration of 2 different context implementations :
 Thanks for using Velocity!
 
 - the Velocity team
-

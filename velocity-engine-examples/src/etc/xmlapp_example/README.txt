@@ -15,14 +15,14 @@ As always, the if you have any questions :
    and then follow the links to join the lists.
 
 
-xmlapp_example 
+xmlapp_example
 --------------
 
 Another simple example showing how to use Velocity in a standalone
-program.  This example shows how to use Velocity to access XML data 
+program.  This example shows how to use Velocity to access XML data
 directly from an XML input file within the template.  It also
 demonstrates velocimacro recursion.
 
-  ./xmlapp_example.sh 
-or 
+  ./xmlapp_example.sh
+or
    xmlapp_example.bat

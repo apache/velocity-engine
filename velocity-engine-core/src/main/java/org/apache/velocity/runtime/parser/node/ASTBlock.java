@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -41,7 +41,7 @@ public class ASTBlock extends SimpleNode
 
     // used during parsing
     public boolean endsWithNewline = false;
-    
+
     /*
      * '#' and '$' prefix characters eaten by javacc MORE mode, prefixing the '#' ending the block
      */

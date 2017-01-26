@@ -15,7 +15,7 @@ As always, the if you have any questions :
    and then follow the links to join the lists.
 
 
-app_example1 
+app_example1
 ------------
 
 This simple example shows how to use the Velocity Template Engine

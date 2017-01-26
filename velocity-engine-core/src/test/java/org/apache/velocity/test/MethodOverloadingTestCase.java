@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import junit.framework.Test;
@@ -34,17 +34,17 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
- * Test a reported bug in which method overloading throws IllegalArgumentException 
+ * Test a reported bug in which method overloading throws IllegalArgumentException
  * after a null return value.
  * (VELOCITY-132).
- * 
+ *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
 public class MethodOverloadingTestCase extends BaseTestCase
 {
     String logData;
-    
+
     /**
     * VTL file extension.
     */
@@ -112,11 +112,11 @@ public class MethodOverloadingTestCase extends BaseTestCase
          * test overloading in a file included with #parse
          */
         testFile("main");
-        
+
         assertTrue(logData.indexOf("IllegalArgumentException") == -1);
-        
+
     }
-    
+
     public void testFile(String basefilename)
     throws Exception
     {
@@ -125,19 +125,19 @@ public class MethodOverloadingTestCase extends BaseTestCase
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
         ve.setProperty(VelocityEngine.RUNTIME_LOG_INSTANCE, logger );
         ve.init();
-        
+
         Template template;
         FileOutputStream fos;
         Writer fwriter;
         Context context;
-        
+
         template = ve.getTemplate( getFileName(null, basefilename, TMPL_FILE_EXT) );
-        
+
         fos = new FileOutputStream (
                 getFileName(RESULTS_DIR, basefilename, RESULT_FILE_EXT));
-        
+
         fwriter = new BufferedWriter( new OutputStreamWriter(fos) );
-        
+
         context = new VelocityContext();
         setupContext(context);
         logger.on();
@@ -145,37 +145,37 @@ public class MethodOverloadingTestCase extends BaseTestCase
         logger.off();
         fwriter.flush();
         fwriter.close();
-        
+
         if (!isMatch(RESULTS_DIR, COMPARE_DIR, basefilename, RESULT_FILE_EXT, CMP_FILE_EXT))
         {
             fail("Output incorrect.");
         }
         logData = logger.getLog();
     }
-        
+
     public void setupContext(Context context)
     {
       context.put("test", this);
-      context.put("nullValue", null);  
-    } 
-    
-    
+      context.put("nullValue", null);
+    }
+
+
     public String overloadedMethod ( Integer s )
     {
         return "Integer";
     }
-    
+
     public String overloadedMethod ( String s )
     {
         return "String";
     }
-    
-    
+
+
     public String overloadedMethod2 ( Integer s )
     {
         return "Integer";
     }
-    
+
     public String overloadedMethod2 ( String i )
     {
         return "String";

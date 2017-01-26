@@ -16,7 +16,7 @@ package org.apache.velocity.app.event.implement;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.IncludeEventHandler;
@@ -35,7 +35,7 @@ public class IncludeRelativePath implements IncludeEventHandler {
 
     /**
      * Return path relative to the current template's path.
-     * 
+     *
      * @param includeResourcePath  the path as given in the include directive.
      * @param currentResourcePath the path of the currently rendering template that includes the
      *            include directive.

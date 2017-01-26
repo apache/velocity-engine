@@ -16,7 +16,7 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.commons.lang3.Conversion;
@@ -60,7 +60,7 @@ public final class IntrospectorCache
      * Keep the names of the classes in another map. This is needed for a multi-classloader environment where it is possible
      * to have Class 'Foo' loaded by a classloader and then get asked to introspect on 'Foo' from another class loader. While these
      * two Class objects have the same name, a <code>classMethodMaps.get(Foo.class)</code> will return null. For that case, we
-     * keep a set of class names to recognize this case.  
+     * keep a set of class names to recognize this case.
      */
     private final Set classNameCache = new HashSet();
 

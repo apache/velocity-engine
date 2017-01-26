@@ -59,7 +59,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
     {
         return new TestSuite(ParseWithMacroLibsTestCase.class);
     }
-    
+
     public void testParseMacroLocalCacheOn()
     throws Exception
     {
@@ -71,7 +71,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         // render twice to make sure there is no difference with cached templates
         testParseMacro(ve, "vm_library1.vm", "parseMacro1_1", false);
         testParseMacro(ve, "vm_library1.vm", "parseMacro1_1", false);
-        
+
         // run again with different macro library
         testParseMacro(ve, "vm_library2.vm", "parseMacro1_1b", false);
         testParseMacro(ve, "vm_library2.vm", "parseMacro1_1b", false);
@@ -110,7 +110,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         testParseMacro(ve, "vm_library2.vm", "parseMacro1_3b", false);
         testParseMacro(ve, "vm_library2.vm", "parseMacro1_3b", false);
     }
-    
+
     public void testParseMacroGlobalCacheOff()
     throws Exception
     {
@@ -120,12 +120,12 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         VelocityEngine ve = createEngine(false, false);
 
         testParseMacro(ve, "vm_library1.vm", "parseMacro1_4", true);
-        
+
         // run again with different macro library
         testParseMacro(ve, "vm_library2.vm", "parseMacro1_4b", true);
 
     }
-    
+
     /**
      * Test #parse with macros.  Can be used to test different engine configurations
      * @param ve
@@ -165,7 +165,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
                 "-----Result-----\n"+ result +
                 "----Expected----\n"+ compare +
                 "----------------";
-            
+
             fail(msg);
         }
 
@@ -199,11 +199,11 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/parsemacros");
         ve.init();
-        
+
         return ve;
     }
-    
-    
+
+
     /**
      * Test whether the literal text is given if a definition cannot be
      * found for a macro.
@@ -217,7 +217,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
          *  ve1: local scope, cache on
          */
         VelocityEngine ve1 = new VelocityEngine();
-        
+
         ve1.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve1.setProperty("velocimacro.permissions.allow.inline.to.replace.global",
                 Boolean.FALSE);
@@ -228,7 +228,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         ve1.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/parsemacros");
         ve1.init();
-        
+
         assureResultsDirectoryExists(RESULT_DIR);
 
         FileOutputStream fos = new FileOutputStream (getFileName(
@@ -267,7 +267,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
          *  ve1: local scope, cache on
          */
         VelocityEngine ve1 = new VelocityEngine();
-        
+
         ve1.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve1.setProperty("velocimacro.permissions.allow.inline.to.replace.global",
                 Boolean.FALSE);
@@ -278,7 +278,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         ve1.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/parsemacros");
         ve1.init();
-        
+
         assureResultsDirectoryExists(RESULT_DIR);
 
         FileOutputStream fos = new FileOutputStream (getFileName(

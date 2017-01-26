@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -76,7 +76,7 @@ public class ASTModNode extends ASTMathNode
         }
         return MathUtils.modulo(left, right);
     }
-    
+
     /**
      * @throws TemplateInitException
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
@@ -87,7 +87,7 @@ public class ASTModNode extends ASTMathNode
     	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
     	return obj;
     }
-    
+
     @Override
     public String getLiteralOperator()
     {
@@ -95,4 +95,3 @@ public class ASTModNode extends ASTMathNode
     }
 
 }
-

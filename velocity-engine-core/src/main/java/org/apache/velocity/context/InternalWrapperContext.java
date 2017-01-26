@@ -16,7 +16,7 @@ package org.apache.velocity.context;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 /**
@@ -27,7 +27,7 @@ package org.apache.velocity.context;
  */
 public interface InternalWrapperContext
 {
-    
+
     /**
      * Returns the wrapped user context.
      * @return The wrapped user context.
@@ -45,15 +45,15 @@ public interface InternalWrapperContext
      * Retrieve the specified key value pair from the given scope.
      */
     Object put(String key, Object value);
-    
+
     /**
      * Place key value pair into the context of the specified scope.
      */
     Object get(String key);
-    
+
     /**
      * Tests if the key exists in the specified scope
      */
     boolean containsKey(String key);
-        
+
 }

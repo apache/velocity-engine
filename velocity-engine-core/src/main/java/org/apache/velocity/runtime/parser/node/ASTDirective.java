@@ -212,11 +212,11 @@ public class ASTDirective extends SimpleNode
                             die.getLineNumber() + getLine());
                 }
                 isDirective = true;
-                
+
             }
 
             isInitialized = true;
-            
+
             saveTokenImages();
             cleanupParserAndTokens();
         }
@@ -225,7 +225,7 @@ public class ASTDirective extends SimpleNode
         {
             NodeUtils.fixIndentation(this, prefix);
         }
-        
+
         return data;
     }
 
@@ -345,6 +345,3 @@ public class ASTDirective extends SimpleNode
     }
 
 }
-
-
-

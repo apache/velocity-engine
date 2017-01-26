@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.ParseErrorException;
@@ -35,7 +35,7 @@ public class MacroCommentsTestCase extends BaseTestCase
     {
         super.setUp();
     }
-    
+
     public void testComments()
     {
       assertEvalEquals("ab","#macro(foo ##\n $bar \n ## blaa\n $bar2##\n)$bar$bar2#end#foo(\"a\" \"b\")");
@@ -44,7 +44,7 @@ public class MacroCommentsTestCase extends BaseTestCase
       assertEvalEquals("","#macro(foo4 ## test\n  ## test2  ## test3 \n)#end#foo4()");
       assertEvalEquals("","#macro(foo4 ## test\n  $x = 5 ## test2  ## test3 \n)#end#foo4()");
     }
-    
+
     public void testErrors()
     {
       // We only allow comment lines in macro definitions

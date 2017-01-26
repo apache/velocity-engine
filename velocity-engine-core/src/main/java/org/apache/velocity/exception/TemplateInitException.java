@@ -16,7 +16,7 @@ package org.apache.velocity.exception;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.parser.ParseException;
@@ -29,19 +29,19 @@ import org.apache.velocity.runtime.parser.ParseException;
  * @version $Id$
  * @since 1.5
  */
-public class TemplateInitException extends VelocityException 
+public class TemplateInitException extends VelocityException
         implements ExtendedParseException
 {
     private final String templateName;
     private final int col;
     private final int line;
-    
+
     /**
      * Version Id for serializable
      */
     private static final long serialVersionUID = -4985224672336070621L;
 
-    public TemplateInitException(final String msg, 
+    public TemplateInitException(final String msg,
             final String templateName, final int col, final int line)
     {
         super(msg);
@@ -86,7 +86,7 @@ public class TemplateInitException extends VelocityException
         return col;
     }
 
-    
-    
-    
+
+
+
 }

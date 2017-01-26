@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.EventHandlerUtil;
@@ -167,7 +167,7 @@ public class Include extends InputBase
             }
             else
             {
-                String msg = "invalid #include() argument '" 
+                String msg = "invalid #include() argument '"
                   + n.toString() + "' at " + StringUtils.formatFileString(this);
                 log.error(msg);
                 outputErrorToStream( writer, "error with arg " + i

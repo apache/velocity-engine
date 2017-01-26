@@ -42,7 +42,7 @@
       <action type="add" dev="cbrisson">
          Default encoding is now UTF-8.
       </action>
-        
+
       <action type="add" dev="cbrisson">
           Make Velocity use the base logger namespace 'org.apache.velocity' unless specified with runtime.log.name in the configuration, and have the runtime instance log with this base namespace, and other modules log with children namespaces:
           <ul>
@@ -55,11 +55,11 @@
           </ul>
           Get rid of UberspectLoggable interface.
       </action>
-        
+
       <action type="add" dev="cbrisson">
 	      Added unary negate math operator
       </action>
-      
+
       <action type="add" dev="cbrisson">
         Add a configurable space gobbling feature, to control indentation in the generated code.
         <br/>
@@ -87,115 +87,115 @@
       <action type="fix" dev="cbrisson" issue="VELOCITY-843">
         support $array.empty, as for $list.empty
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-833" due-to="Jarkko Viinamäki">
         avoid useless string calculation in ASTStringLiteral
       </action>
-      
+
       <action type="add" dev="cbrisson">
         nicified AST tree debug output
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-830">
         fix parsing of $obj._method()
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-827" due-to="Dawid Weiss">
         loading default properties should not prepend '/' and should use classloader to get resource stream
       </action>
-      
+
       <action type="add" dev="cbrisson" issue="VELOCITY-825">
          Allow conversion of method args from String to Enum constant
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-815" due-to="Oswaldo Hernandez">
         Applied performance patch for MapGetExecutor: it's faster to directly use object
         instance rather than to inspect all public interfaces
       </action>
-      
+
       <action type="add" dev="cbrisson" issue="VELOCITY-799">
         The new configuration property context.autoreference.key, if present, allows to specify the name
         of the reference under which the context is accessible in itself
       </action>
-      
+
       <action type="add" dev="cbrisson" issue="VELOCITY-746">
         MethodExceptionEventHandler now provide template location infos
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-797" due-to="Jarkko Viinamäki">
         Attach macros to their defining template. Also fixes VELOCITY-776. Thanks to Simon Kitching for the multithreading testcase.
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-820" due-to="Robert Fuller">
         have #foreach honnor the Closeable interface on the iterator
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-804" due-to="Felipe Maschio">
         Don't leave 'initializing' to true if a problem occurs during initialization.
       </action>
-      
+
       <action type="add" dev="cbrisson" issue="VELOCITY-790">
         Remove dependency upon commons-collections-3 (except at compile-time for deprecated methods and classes
         which are needed for backward compatibility), use our own ExtProperties object.
       </action>
-      
+
       <action type="add" dev="cbrisson" issue="VELOCITY-735" due-to="Dishara Wijewardana">
         Add a first implementation for the JSR 223 standard scripting interface.
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-809">
         Fix Template default encoding initialization problem.
       </action>
-      
+
       <action type="add" dev="cbrisson" issue="VELOCITY-793">
         The ResourceLoader API now provides a Reader rather than an InputStream.
         Also fixes VELOCITY-599.
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-553">
         InvalidReferenceHandler events should not be triggered by quiet references, null values,
         or by references testing inside #if / #elseif. Thanks to Renato Steiner
         for his testcase.
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-266">
         Take advantage of the major version jump to enforce String keys
         in internal Context API
       </action>
-      
+
       <action type="fix" dev="sdimitriu" issue="VELOCITY-863" due-to="Mike Kienenberger">
         Fix regression: #set&lt;tab&gt;left-paren no longer valid grammar
         Patch from Mike Kienenberger applied + added test
       </action>
-      
+
       <action type="add" dev="cbrisson">
         switch to slf4j logging facade
       </action>
-      
+
       <action type="fix" dev="cbrisson">
         fix parser for '$map{key}' text rendering (StackOverflow 32805217)
       </action>
-      
+
       <action type="fix" dev="sdimitriu" issue="VELOCITY-869">
         Vulnerability in dependency: commons-collections: 3.2.1
       </action>
-      
+
       <action type="fix" dev="sdimitriu" issue="VELOCITY-870">
         Exception displayed when trying to loop over an Iterable private class
       </action>
-      
+
       <action type="fix" dev="sdimitriu" issue="VELOCITY-871">
         #foreach should work over any Iterable class
       </action>
-      
+
       <action type="fix" dev="sdimitriu">
         Catch exceptions raised during chainable uberspector initialization
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-542">
         Hypen is no more allowed in variable names
       </action>
-      
+
       <action type="add" dev="cbrisson" issue="VELOCITY-706">
         Method arguments can now be expressions
       </action>
@@ -259,16 +259,16 @@
 	  Add ability to specify default values for macro parameters, e.g.;
 	  #macro(foo bar=1)
 	</action>
-      
+
         <action type="add" dev="byron" issue="VELOCITY-695">
 	  Add ability to place line comments next to macro parameter definitions.
 	</action>
-      
+
         <action type="add" dev="byron" issue="VELOCITY-690">
 	  Block directives no longer require parenthesis so #@foo #end is now allowed.
 	  Also, brackets now work with Block Macros so #{@foo}bar#end works.
 	</action>
-      
+
         <action type="fix" dev="nbubna">
           Removed all deprecations (Anakia, Texen, VelocityServlet, etc.)
         </action>
@@ -413,7 +413,7 @@
 	the exception and render nothing then the reference can be
 	preceeded with '$!' as in $!foo.
       </action>
-      
+
       <action type="add" dev="byron"  issue="VELOCITY-673">
 	The non default VelocityEngine construtors now do not initialize the runtime
 	system so that properties may be set after construction.  Also fixes an
@@ -429,7 +429,7 @@
 	slash before a reference or macro always escapes the reference or macro and
 	absorbs the forward slash regardless if the reference or macro is defined.
       </action>
-      
+
       <action type="fix" dev="nbubna" issue="VELOCITY-676" due-to="Jarkko Viinamäki">
         Fix StringIndexOutOfBoundsException caused by #[[##x]]# (line comment on
         same line as end of textblock).
@@ -442,7 +442,7 @@
       <action type="add" dev="byron" issue="VELOCITY-668" due-to="Jarkko Viinamäki">
 	Minor performance tweaks based on Findbugs findings
       </action>
-      
+
       <action type="fix" dev="byron" issue="VELOCITY-667">
 	Pre 1.6 behavior of specifying #macro without parenthesis
 	would throw a VelocityException has been restored.
@@ -467,20 +467,20 @@
 	Also addresses a performance bottleneck detected in the old implementation.
 	#stop is a general use directive now, and not just for debugging.
       </action>
-      
+
       <action type="add" dev="byron" issue="VELOCITY-662">
 	Reduce performance bottleneck with the referenceInsert event handler call
       </action>
-      
+
       <action type="add" dev="byron" issue="VELOCITY-656">
 	Better error reporting when toString() throw an exception when testing
 	an #if conditional. For example #if($foo)
       </action>
-      
+
       <action type="add" dev="byron" issue="VELOCITY-406">
  	  Added bracketed index syntax, $foo[0], or #set($foo[0] = 1)
       </action>
-      
+
       <action type="add" dev="byron" issue="VELOCITY-659">
           Removed java.lang.Exception from throws clause of Velocity
           and VelocityEngine API. Also removed IOException so that all
@@ -557,7 +557,7 @@
          Pre 1.6 behavior of specifying #macro without parenthesis
          would throw a VelocityException has been restored.
       </action>
-      
+
       <action type="add" dev="byron" issue="VELOCITY-656">
      Better error reporting when toString() throw an exception
      when testing an #if conditional. For example #if($foo)
@@ -571,7 +571,7 @@
           Throw an exception in strict mode when >=, &lt;=, &lt; or >
           comparisons can't be made.
       </action>
-      
+
       <action type="fix" dev="cbrisson" issue="VELOCITY-657">
           Fix $velocityHasNext so it is not always true.
       </action>
@@ -758,7 +758,7 @@
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-566" due-to="Etienne Massip">
-          Prevent exception due to simultaneous rendering of macros.  
+          Prevent exception due to simultaneous rendering of macros.
       </action>
 
       <action type="add" dev="nbubna" issue="VELOCITY-533" due-to="Christopher Schultz">
@@ -770,7 +770,7 @@
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-536" due-to="Lei Gu, Dima Tkach">
-          Prevent NPE when template is parsed simultaneously by multiple users.  (may apply only to macros).  
+          Prevent NPE when template is parsed simultaneously by multiple users.  (may apply only to macros).
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-362" due-to="Supun Kamburugamuva">
@@ -825,7 +825,7 @@
       <action type="update" dev="wglass">
         Deprecate integrated texen and anakia, factor it out into separate jars.
       </action>
- 
+
       <action type="add" dev="wglass" issue="VELOCITY-509">
         Added new directive #evaluate() to dynamically evaluate VTL.
       </action>
@@ -844,7 +844,7 @@
       </action>
 
     </release>
-    
+
     <release version="1.5-beta2" date="2006-11-24">
 
       <action type="add" dev="henning" issue="VELOCITY-183" due-to="Eelco Hillenius">
@@ -889,7 +889,7 @@
       </action>
 
       <action type="fix" dev="henning" issue="VELOCITY-449" due-to="Alexey Panchenko">
-    Add an additional pair of Executors that are smart about Map. 
+    Add an additional pair of Executors that are smart about Map.
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-453" due-to="Alexey Panchenko">
@@ -897,7 +897,7 @@
       </action>
 
       <action type="fix" dev="wglass" issue="VELOCITY-459" due-to="Stephen Haberman">
-    Change the meaning of localscope for macros to allow access to references from 
+    Change the meaning of localscope for macros to allow access to references from
     calling context.
       </action>
 

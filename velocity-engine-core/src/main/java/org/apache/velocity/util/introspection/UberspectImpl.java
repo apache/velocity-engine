@@ -16,7 +16,7 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.VelocityException;
@@ -216,14 +216,14 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
                     try
                     {
                         return (Iterator)iter.invoke(obj);
-                    } 
+                    }
                     catch (IllegalAccessException e)
                     {
                         // Cannot invoke this method, just give up
                     }
                     catch (Exception e)
                     {
-                        throw new VelocityException("Error invoking the method 'iterator' on class '" 
+                        throw new VelocityException("Error invoking the method 'iterator' on class '"
                             + obj.getClass().getName() +"'", e);
                     }
                 }
@@ -343,7 +343,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /*
          * Let's see if we are a map...
          */
-        if (!executor.isAlive()) 
+        if (!executor.isAlive())
         {
             executor = new MapGetExecutor(log, obj, identifier);
         }

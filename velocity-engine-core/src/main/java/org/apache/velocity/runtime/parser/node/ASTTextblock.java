@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -71,17 +71,17 @@ public class ASTTextblock extends SimpleNode
     throws TemplateInitException
     {
         Token t = getFirstToken();
-        
+
         String text = t.image;
-        
+
         // t.image is in format: #[[ <string> ]]#
         // we must strip away the hash tags
         text = text.substring(START.length(), text.length() - END.length());
 
         ctext = text.toCharArray();
-        
+
         cleanupParserAndTokens();
-        
+
         return data;
     }
 

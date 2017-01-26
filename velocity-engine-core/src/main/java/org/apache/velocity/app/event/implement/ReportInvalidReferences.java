@@ -16,7 +16,7 @@ package org.apache.velocity.app.event.implement;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.InvalidReferenceEventHandler;
@@ -30,41 +30,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Use this event handler to flag invalid references.  Since this 
+ * Use this event handler to flag invalid references.  Since this
  * is intended to be used for a specific request, this should be
  * used as a local event handler attached to a specific context
  * instead of being globally defined in the Velocity properties file.
- * 
+ *
  * <p>
  * Note that InvalidReferenceHandler can be used
  * in two modes.  If the Velocity properties file contains the following:
  * <pre>
  * eventhandler.invalidreference.exception = true
  * </pre>
- * then the event handler will throw a ParseErrorRuntimeException upon 
- * hitting the first invalid reference.  This stops processing and is 
+ * then the event handler will throw a ParseErrorRuntimeException upon
+ * hitting the first invalid reference.  This stops processing and is
  * passed through to the application code.  The ParseErrorRuntimeException
  * contain information about the template name, line number, column number,
  * and invalid reference.
- * 
+ *
  * <p>
- * If this configuration setting is false or omitted then the page 
+ * If this configuration setting is false or omitted then the page
  * will be processed as normal, but all invalid references will be collected
  * in a List of InvalidReferenceInfo objects.
- * 
+ *
  * <p>This feature should be regarded as experimental.
- * 
+ *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  * @since 1.5
  */
-public class ReportInvalidReferences implements 
+public class ReportInvalidReferences implements
     InvalidReferenceEventHandler, RuntimeServicesAware
 {
 
     public static final String EVENTHANDLER_INVALIDREFERENCE_EXCEPTION = "eventhandler.invalidreference.exception";
-    
-    /** 
+
+    /**
      * List of InvalidReferenceInfo objects
      */
     List invalidReferences = new ArrayList();
@@ -73,8 +73,8 @@ public class ReportInvalidReferences implements
      * If true, stop at the first invalid reference and throw an exception.
      */
     private boolean stopOnFirstInvalidReference = false;
-    
-       
+
+
     /**
      * Collect the error and/or throw an exception, depending on configuration.
      *
@@ -86,7 +86,7 @@ public class ReportInvalidReferences implements
      * @return always returns null
      * @throws ParseErrorException
      */
-    public Object invalidGetMethod(Context context, String reference, Object object, 
+    public Object invalidGetMethod(Context context, String reference, Object object,
             String property, Info info)
     {
         reportInvalidReference(reference, info);
@@ -104,7 +104,7 @@ public class ReportInvalidReferences implements
      * @return always returns null
      * @throws ParseErrorException
      */
-    public Object invalidMethod(Context context, String reference, Object object, 
+    public Object invalidMethod(Context context, String reference, Object object,
             String method, Info info)
     {
         if (reference == null)
@@ -135,9 +135,9 @@ public class ReportInvalidReferences implements
 
 
     /**
-     * Check for an invalid reference and collect the error or throw an exception 
+     * Check for an invalid reference and collect the error or throw an exception
      * (depending on configuration).
-     * 
+     *
      * @param reference the invalid reference
      * @param info line, column, template name
      */
@@ -145,7 +145,7 @@ public class ReportInvalidReferences implements
     {
         InvalidReferenceInfo invalidReferenceInfo = new InvalidReferenceInfo(reference, info);
         invalidReferences.add(invalidReferenceInfo);
-        
+
         if (stopOnFirstInvalidReference)
         {
             throw new ParseErrorException(
@@ -164,7 +164,7 @@ public class ReportInvalidReferences implements
     {
         return invalidReferences;
     }
-    
+
 
     /**
      * Called automatically when event cartridge is initialized.
@@ -174,7 +174,7 @@ public class ReportInvalidReferences implements
     {
         stopOnFirstInvalidReference = rs.getConfiguration().getBoolean(
                 EVENTHANDLER_INVALIDREFERENCE_EXCEPTION,
-                false);        
+                false);
     }
-    
+
 }
