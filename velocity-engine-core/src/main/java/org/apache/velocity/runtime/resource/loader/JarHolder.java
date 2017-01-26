@@ -16,14 +16,14 @@ package org.apache.velocity.runtime.resource.loader;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
+
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,10 +59,7 @@ public class JarHolder
         this.urlpath=urlpath;
         init();
 
-        if (log.isDebugEnabled())
-        {
-            log.debug("JarHolder: initialized JAR: {}", urlpath);
-        }
+        log.debug("JarHolder: initialized JAR: {}", urlpath);
     }
 
     /**
@@ -72,10 +69,8 @@ public class JarHolder
     {
         try
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("JarHolder: attempting to connect to {}", urlpath);
-            }
+            log.debug("JarHolder: attempting to connect to {}", urlpath);
+
             URL url = new URL( urlpath );
             conn = (JarURLConnection) url.openConnection();
             conn.setAllowUserInteraction(false);
@@ -170,10 +165,3 @@ public class JarHolder
         return urlpath;
     }
 }
-
-
-
-
-
-
-

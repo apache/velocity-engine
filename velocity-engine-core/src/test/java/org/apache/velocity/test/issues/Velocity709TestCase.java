@@ -16,7 +16,7 @@ package org.apache.velocity.test.issues;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.test.BaseTestCase;
@@ -39,13 +39,13 @@ public class Velocity709TestCase extends BaseTestCase
         System.out.println(template);
         assertEvalEquals("\\", template);
     }
-    
+
     public void testEscapedDoubleQuote()
     {
         String template = "#set($foo = \"jeah \"\"baby\"\" jeah! \"\"\"\"\")$foo";
         assertEvalEquals("jeah \"baby\" jeah! \"\"", template);
     }
-    
+
     public void testEscapedSingleQuote()
     {
         String template = "#set($foo = 'jeah ''baby'' jeah!')$foo";

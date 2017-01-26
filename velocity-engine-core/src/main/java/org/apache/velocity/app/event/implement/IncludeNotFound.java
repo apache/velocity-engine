@@ -16,19 +16,17 @@ package org.apache.velocity.app.event.implement;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.IncludeEventHandler;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.ContextAware;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.StringUtils;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Simple event handler that checks to see if an included page is available.
@@ -43,9 +41,9 @@ import org.slf4j.LoggerFactory;
  * </PRE>
  * </code>
  * </p><p>
- * The name of the missing resource is put into the Velocity context, under the 
- * key "missingResource", so that the "notfound" template can report the missing 
- * resource with a Velocity reference, like: 
+ * The name of the missing resource is put into the Velocity context, under the
+ * key "missingResource", so that the "notfound" template can report the missing
+ * resource with a Velocity reference, like:
  * <code>$missingResource</code>
  * </p>
  *
@@ -67,7 +65,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
      * Check to see if included file exists, and display "not found" page if it
      * doesn't. If "not found" page does not exist, log an error and return
      * null.
-     * 
+     *
      * @param includeResourcePath
      * @param currentResourcePath
      * @param directiveName
@@ -96,7 +94,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
                 /**
                  * can't find not found, so display nothing
                  */
-                log.error("Can't find include not found page: " + notfound);
+                log.error("Can't find include not found page: {}", notfound);
                 return null;
             }
         }
@@ -115,9 +113,9 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
          notfound = StringUtils.nullTrim(rs.getString(PROPERTY_NOT_FOUND, DEFAULT_NOT_FOUND));
     }
 
-    /** 
+    /**
      * @see org.apache.velocity.util.ContextAware#setContext(org.apache.velocity.context.Context)
-     */ 
+     */
     public void setContext(Context context)
     {
         this.context = context;

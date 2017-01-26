@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.EventHandlerUtil;
@@ -106,9 +106,9 @@ public class ASTSetDirective extends SimpleNode
             /*
              *  init the tree correctly
              */
-    
+
             super.init( context, data );
-    
+
             /*
              * handle '$' and '#' chars prefix
              */
@@ -126,12 +126,12 @@ public class ASTSetDirective extends SimpleNode
 
             uberInfo = new Info(getTemplateName(),
                     getLine(), getColumn());
-    
+
             right = getRightHandSide();
             left = getLeftHandSide();
-    
+
             strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
-            
+
             /*
              *  grab this now.  No need to redo each time
              */
@@ -160,10 +160,10 @@ public class ASTSetDirective extends SimpleNode
             }
 
             isInitialized = true;
-            
+
             cleanupParserAndTokens();
         }
-            
+
         return data;
     }
 
@@ -251,11 +251,11 @@ public class ASTSetDirective extends SimpleNode
 
         return left.setValue(context, value);
     }
-    
-    
+
+
     /**
      *  returns the ASTReference that is the LHS of the set statememt
-     *  
+     *
      *  @return left hand side of #set statement
      */
     private ASTReference getLeftHandSide()
@@ -265,7 +265,7 @@ public class ASTSetDirective extends SimpleNode
 
     /**
      *  returns the RHS Node of the set statement
-     *  
+     *
      *  @return right hand side of #set statement
      */
     private Node getRightHandSide()

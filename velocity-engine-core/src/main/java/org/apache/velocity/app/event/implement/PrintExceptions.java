@@ -16,7 +16,7 @@ package org.apache.velocity.app.event.implement;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
@@ -71,7 +71,7 @@ public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServ
         boolean showTemplateInfo = rs.getBoolean(SHOW_TEMPLATE_INFO, false);
         boolean showStackTrace = rs.getBoolean(SHOW_STACK_TRACE,false);
 
-        StringBuffer st = new StringBuffer();
+        StringBuilder st = new StringBuilder();
         st.append("Exception while executing method ").append(claz.toString()).append(".").append(method);
         st.append(": ").append(e.getClass().getName()).append(": ").append(e.getMessage());
 
@@ -81,7 +81,7 @@ public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServ
         }
         if (showStackTrace)
         {
-            st.append("\n").append(getStackTrace(e));
+            st.append(System.lineSeparator()).append(getStackTrace(e));
         }
         return st.toString();
 

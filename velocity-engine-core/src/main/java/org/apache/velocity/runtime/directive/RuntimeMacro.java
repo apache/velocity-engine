@@ -30,11 +30,13 @@ import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.lang3.Validate;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -124,13 +126,8 @@ public class RuntimeMacro extends Directive
     {
         super.init(rs, context, node);
 
-        macroName = name;
-        if (macroName == null)
-        {
-            throw new IllegalArgumentException("Null arguments");
-        }
-
-        this.macroName = rsvc.useStringInterning() ? macroName.intern() : macroName;
+        macroName = Validate.notNull(name);
+        macroName = rsvc.useStringInterning() ? macroName.intern() : macroName;
         this.node = node;
 
         /**
@@ -342,14 +339,14 @@ public class RuntimeMacro extends Directive
                  * especially important for multiple macro call levels.
                  * this is also true for the following catch blocks.
                  */
-                log.error("Exception in macro #" + macroName + " called at " +
-                  StringUtils.formatFileString(node));
+                log.error("Exception in macro #{} called at {}",
+                          macroName, StringUtils.formatFileString(node));
                 throw e;
             }
             catch (IOException e)
             {
-                log.error("Exception in macro #" + macroName + " called at " +
-                  StringUtils.formatFileString(node));
+                log.error("Exception in macro #{} called at {}",
+                          macroName, StringUtils.formatFileString(node));
                 throw e;
             }
             finally

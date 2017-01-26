@@ -16,7 +16,7 @@ package org.apache.velocity.test.provider;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.util.ArrayList;
@@ -211,7 +211,7 @@ public class TestProvider
 
     public String concat(Object[] strings)
     {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < strings.length; i++)
         {
@@ -223,7 +223,7 @@ public class TestProvider
 
     public String concat(List strings)
     {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < strings.size(); i++)
         {
@@ -235,7 +235,7 @@ public class TestProvider
 
     public String objConcat(List objects)
     {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < objects.size(); i++)
         {

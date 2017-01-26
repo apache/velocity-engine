@@ -16,7 +16,7 @@ package org.apache.velocity.util;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -168,7 +168,7 @@ public class ClassUtils {
    * @param node ASTNode, used for error reporting.
    * @param strictRef If no method is found, throw an exception, never return null in this case
    * @return VelMethod object if the object is found, null if not matching method is found
-   */    
+   */
   public static VelMethod getMethod(String methodName, Object[] params,
                                     Class[] paramClasses, Object o, InternalContextAdapter context,
                                     SimpleNode node, boolean strictRef)
@@ -193,7 +193,7 @@ public class ClassUtils {
          * get the method from the cache
          */
         method = (VelMethod) icd.thingy;
-      } 
+      }
       else
       {
         /*
@@ -221,7 +221,7 @@ public class ClassUtils {
         if (strictRef)
         {
           // Create a parameter list for the exception error message
-          StringBuffer plist = new StringBuffer();
+          StringBuilder plist = new StringBuilder();
           for (int i = 0; i < params.length; i++)
           {
             Class param = paramClasses[i];
@@ -233,14 +233,14 @@ public class ClassUtils {
               + o.getClass().getName() + "' does not contain method "
               + methodName + "(" + plist + ")", null, methodName, node
                .getTemplateName(), node.getLine(), node.getColumn());
-        } 
+        }
         else
         {
           return null;
         }
       }
 
-    } 
+    }
     catch (MethodInvocationException mie)
     {
       /*
@@ -250,14 +250,14 @@ public class ClassUtils {
        */
 
       throw mie;
-    }    
+    }
     catch (RuntimeException e)
     {
       /**
        * pass through application level runtime exceptions
        */
       throw e;
-    } 
+    }
     catch (Exception e)
     {
       /*
@@ -269,5 +269,5 @@ public class ClassUtils {
 
     return method;
   }
-    
+
 }

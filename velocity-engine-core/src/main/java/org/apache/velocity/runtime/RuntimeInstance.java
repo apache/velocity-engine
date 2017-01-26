@@ -227,11 +227,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             {
                 log.debug("Initializing Velocity, Calling init()...");
                 initializing = true;
-                
+
                 log.trace("*****************************");
                 log.debug("Starting Apache Velocity v2.0");
                 log.trace("RuntimeInstance initializing.");
-                
+
                 initializeProperties();
                 initializeSelfProperties();
                 initializeLog();
@@ -239,7 +239,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 initializeDirectives();
                 initializeEventHandlers();
                 initializeParserPool();
-                
+
                 initializeIntrospection();
                 initializeEvaluateScopeSettings();
                 /*
@@ -247,9 +247,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                  * accessible from Runtime, so keep this here at the end.
                  */
                 vmFactory.initVelocimacro();
-                
+
                 log.trace("RuntimeInstance successfully initialized.");
-                
+
                 initialized = true;
                 initializing = false;
             }
@@ -459,10 +459,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             /* populate 'defaultEncoding' member */
             defaultEncoding = getString(INPUT_ENCODING, ENCODING_DEFAULT);
 
-            if (log.isDebugEnabled())
-            {
-                log.debug("Default Properties resource: {}", DEFAULT_RUNTIME_PROPERTIES);
-            }
+            log.debug("Default Properties resource: {}", DEFAULT_RUNTIME_PROPERTIES);
         }
         catch (IOException ioe)
         {
@@ -1028,10 +1025,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         for( int i = 0; i < userdirective.length; i++)
         {
             loadDirective(userdirective[i]);
-            if (log.isDebugEnabled())
-            {
-                log.debug("Loaded User Directive: {}", userdirective[i]);
-            }
+            log.debug("Loaded User Directive: {}", userdirective[i]);
         }
 
     }
@@ -1229,12 +1223,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             /*
              *  if we couldn't get a parser from the pool make one and log it.
              */
-            if (log.isInfoEnabled())
-            {
-                log.info("Runtime : ran out of parsers. Creating a new one. "
-                      + " Please increment the parser.pool.size property."
-                      + " The current value is too small.");
-            }
+            log.info("Runtime : ran out of parsers. Creating a new one. "
+                     + " Please increment the parser.pool.size property."
+                     + " The current value is too small.");
             parser = createNewParser();
             keepParser = false;
         }
@@ -1416,7 +1407,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 {
                     throw stop;
                 }
-                else if (log.isDebugEnabled())
+                else
                 {
                     log.debug(stop.getMessage());
                 }

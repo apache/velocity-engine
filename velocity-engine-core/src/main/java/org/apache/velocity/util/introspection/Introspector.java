@@ -16,7 +16,7 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.slf4j.Logger;
@@ -98,7 +98,7 @@ public class Introspector extends IntrospectorBase
              *  whoops.  Ambiguous.  Make a nice log message and return null...
              */
 
-            StringBuffer msg = new StringBuffer("Introspection Error : Ambiguous method invocation ")
+            StringBuilder msg = new StringBuilder("Introspection Error : Ambiguous method invocation ")
                     .append(name)
                     .append("(");
 

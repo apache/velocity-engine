@@ -223,7 +223,7 @@ public class StringResourceLoader extends ResourceLoader
         if (isStatic)
         {
             this.repository = getRepository(repoName);
-            if (repository != null && log.isDebugEnabled())
+            if (repository != null)
             {
                 log.debug("Loaded repository '{}' from static repo store", repoName);
             }
@@ -231,7 +231,7 @@ public class StringResourceLoader extends ResourceLoader
         else
         {
             this.repository = (StringResourceRepository)rsvc.getApplicationAttribute(repoName);
-            if (repository != null && log.isDebugEnabled())
+            if (repository != null)
             {
                 log.debug("Loaded repository '{}' from application attributes", repoName);
             }
@@ -267,11 +267,8 @@ public class StringResourceLoader extends ResourceLoader
             if (encoding != null &&
                 !this.repository.getEncoding().equals(encoding))
             {
-                if (log.isDebugEnabled())
-                {
-                    log.debug("Changing the default encoding of string repository '{}' from {} to {}",
-                              repoName, this.repository.getEncoding(), encoding);
-                }
+                log.debug("Changing the default encoding of string repository '{}' from {} to {}",
+                          repoName, this.repository.getEncoding(), encoding);
                 this.repository.setEncoding(encoding);
             }
         }
@@ -285,10 +282,7 @@ public class StringResourceLoader extends ResourceLoader
     public StringResourceRepository createRepository(final String className,
                                                      final String encoding)
     {
-        if (log.isDebugEnabled())
-        {
-            log.debug("Creating string repository using class {}...", className);
-        }
+        log.debug("Creating string repository using class {}...", className);
 
         StringResourceRepository repo;
         try
@@ -317,10 +311,7 @@ public class StringResourceLoader extends ResourceLoader
             repo.setEncoding(RuntimeConstants.ENCODING_DEFAULT);
         }
 
-        if (log.isDebugEnabled())
-        {
-            log.debug("Default repository encoding is {}", repo.getEncoding());
-        }
+        log.debug("Default repository encoding is {}", repo.getEncoding());
         return repo;
     }
 

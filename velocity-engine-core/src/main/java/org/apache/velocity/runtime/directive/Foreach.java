@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -25,10 +25,10 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Info;
@@ -116,14 +116,14 @@ public class Foreach extends Directive
         }
         skipInvalidIterator =
             rsvc.getBoolean(RuntimeConstants.SKIP_INVALID_ITERATOR, true);
-        
+
         if (rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false))
         {
           // If we are in strict mode then the default for skipInvalidItarator
           // is true.  However, if the property is explicitly set, then honor the setting.
           skipInvalidIterator = rsvc.getBoolean(RuntimeConstants.SKIP_INVALID_ITERATOR, false);
         }
-                
+
         /*
          *  this is really the only thing we can do here as everything
          *  else is context sensitive
@@ -141,11 +141,11 @@ public class Foreach extends Directive
              */
         	elementKey = sn.getFirstTokenImage().substring(1);
         }
-        
+
         /*
          * make an uberinfo - saves new's later on
          */
-        
+
         uberInfo = new Info(this.getTemplateName(),
                 getLine(),getColumn());
     }
@@ -224,7 +224,7 @@ public class Foreach extends Directive
 
         // Get the block ast tree which is always the last child
         Node block = node.jjtGetChild(node.jjtGetNumChildren()-1);
-        
+
         /*
          * save the element key if there is one
          */
@@ -307,7 +307,7 @@ public class Foreach extends Directive
         // clean up after the ForeachScope
         postRender(context);
     }
-    
+
     /**
      * We do not allow a word token in any other arg position except for the 2nd since
      * we are looking for the pattern #foreach($foo in $bar).
@@ -317,23 +317,23 @@ public class Foreach extends Directive
     {
         if (argtypes.size() < 3)
         {
-            throw new MacroParseException("Too few arguments to the #foreach directive", 
+            throw new MacroParseException("Too few arguments to the #foreach directive",
               templateName, t);
-        }        
+        }
         else if (argtypes.get(0) != ParserTreeConstants.JJTREFERENCE)
         {
             throw new MacroParseException("Expected argument 1 of #foreach to be a reference",
                 templateName, t);
-        }      
+        }
         else if (argtypes.get(1) != ParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("Expected word 'in' at argument position 2 in #foreach",
                 templateName, t);
-        }        
+        }
         else if (argtypes.get(2) == ParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("Argument 3 of #foreach is of the wrong type",
                 templateName, t);
         }
-    }        
+    }
 }

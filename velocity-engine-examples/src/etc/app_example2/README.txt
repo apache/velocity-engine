@@ -15,12 +15,12 @@ As always, the if you have any questions :
    and then follow the links to join the lists.
 
 
-app_example2 
+app_example2
 ------------
 
 Another simple example showing how to use Velocity in a standalone
 program.  This examples uses the org.apache.velocity.util.Velocity application utility
-class, which provides a few convenient methods for application programmers. 
+class, which provides a few convenient methods for application programmers.
 
 Please see the build instructions found in examples/README.txt
 
@@ -31,4 +31,3 @@ To run :
 or
 
   example2.bat
-

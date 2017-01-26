@@ -85,10 +85,7 @@ public class ClasspathResourceLoader extends ResourceLoader
      */
     public void init( ExtProperties configuration)
     {
-        if (log.isTraceEnabled())
-        {
-            log.trace("ClasspathResourceLoader : initialization complete.");
-        }
+        log.trace("ClasspathResourceLoader : initialization complete.");
     }
 
     /**

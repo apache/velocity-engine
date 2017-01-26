@@ -67,7 +67,7 @@ public class ClassFieldMap
         this.clazz = clazz;
         this.log = log;
 
-        if (debugReflection && log.isDebugEnabled())
+        if (debugReflection)
         {
             log.debug("=================================================================");
             log.debug("== Class: {}", clazz);
@@ -75,7 +75,7 @@ public class ClassFieldMap
 
         fieldCache = createFieldCache();
 
-        if (debugReflection && log.isDebugEnabled())
+        if (debugReflection)
         {
             log.debug("=================================================================");
         }
@@ -148,7 +148,7 @@ public class ClassFieldMap
 
     private void populateFieldCacheWith(Map fieldCache, Class classToReflect)
     {
-        if (debugReflection && log.isDebugEnabled())
+        if (debugReflection)
         {
             log.debug("Reflecting {}", classToReflect);
         }
@@ -167,10 +167,7 @@ public class ClassFieldMap
         }
         catch (SecurityException se) // Everybody feels better with...
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("While accessing fields of {}:", classToReflect, se);
-            }
+            log.debug("While accessing fields of {}:", classToReflect, se);
         }
     }
 

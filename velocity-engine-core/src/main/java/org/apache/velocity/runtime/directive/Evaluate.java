@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.Template;
@@ -27,8 +27,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.introspection.Info;
 
@@ -80,44 +80,44 @@ public class Evaluate extends Directive
 
         /**
          * Check that there is exactly one argument and it is a string or reference.
-         */  
-        
+         */
+
         int argCount = node.jjtGetNumChildren();
         if (argCount == 0)
         {
             throw new TemplateInitException(
-                    "#" + getName() + "() requires exactly one argument", 
+                    "#" + getName() + "() requires exactly one argument",
                     context.getCurrentTemplateName(),
                     node.getColumn(),
-                    node.getLine());            
+                    node.getLine());
         }
         if (argCount > 1)
         {
-            /* 
+            /*
              * use line/col of second argument
              */
-            
+
             throw new TemplateInitException(
-                    "#" + getName() + "() requires exactly one argument", 
+                    "#" + getName() + "() requires exactly one argument",
                     context.getCurrentTemplateName(),
                     node.jjtGetChild(1).getColumn(),
                     node.jjtGetChild(1).getLine());
         }
-        
+
         Node childNode = node.jjtGetChild(0);
         if ( childNode.getType() !=  ParserTreeConstants.JJTSTRINGLITERAL &&
              childNode.getType() !=  ParserTreeConstants.JJTREFERENCE )
         {
            throw new TemplateInitException(
-                   "#" + getName() + "()  argument must be a string literal or reference", 
+                   "#" + getName() + "()  argument must be a string literal or reference",
                    context.getCurrentTemplateName(),
                    childNode.getColumn(),
                    childNode.getLine());
         }
     }
-    
+
     /**
-     * Evaluate the argument, convert to a String, and evaluate again 
+     * Evaluate the argument, convert to a String, and evaluate again
      * (with the same context).
      * @param context
      * @param writer
@@ -125,7 +125,7 @@ public class Evaluate extends Directive
      * @return True if the directive rendered successfully.
      * @throws IOException
      * @throws ResourceNotFoundException
-     * @throws ParseErrorException 
+     * @throws ParseErrorException
      * @throws MethodInvocationException
      */
     public boolean render(InternalContextAdapter context, Writer writer,
@@ -137,18 +137,18 @@ public class Evaluate extends Directive
          * Evaluate the string with the current context.  We know there is
          * exactly one argument and it is a string or reference.
          */
-        
+
         Object value = node.jjtGetChild(0).value( context );
         String sourceText;
         if ( value != null )
         {
             sourceText = value.toString();
-        } 
+        }
         else
         {
             sourceText = "";
         }
-        
+
         /*
          * The new string needs to be parsed since the text has been dynamically generated.
          */
@@ -198,7 +198,7 @@ public class Evaluate extends Directive
                     throw  new ParseErrorException( pex.getMessage(), info );
                 }
 
-                try 
+                try
                 {
                     preRender(context);
 

@@ -16,7 +16,7 @@ package org.apache.velocity.test.misc;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.slf4j.helpers.FormattingTuple;
@@ -65,7 +65,7 @@ public class TestLogger extends MarkerIgnoringBase
             startCapture();
         }
     }
-    
+
     public static final int LOG_LEVEL_TRACE = LocationAwareLogger.TRACE_INT;
     public static final int LOG_LEVEL_DEBUG = LocationAwareLogger.DEBUG_INT;
     public static final int LOG_LEVEL_INFO = LocationAwareLogger.INFO_INT;
@@ -133,7 +133,7 @@ public class TestLogger extends MarkerIgnoringBase
     {
         return !suppress && level >= enabledLevel;
     }
-            
+
     /**
      * Return the captured log messages to date.
      * @return log messages

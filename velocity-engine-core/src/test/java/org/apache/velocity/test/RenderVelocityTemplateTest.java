@@ -45,8 +45,8 @@ public class RenderVelocityTemplateTest
             return stringWriter.toString();
         }
     }
-    
-    
+
+
     private static final String templateString = "" + //
         "#macro (showhelloworld $foo)\n" + //
         "Hello, World\n" + //
@@ -61,7 +61,7 @@ public class RenderVelocityTemplateTest
         "<p>#showhelloworld ($foo)</p>\n" + //
         "</body>\n" + //
         "</html>";
-    
+
     public void testMultipleEvals()
         throws Exception
     {
@@ -71,18 +71,18 @@ public class RenderVelocityTemplateTest
         for (int i = 0; i < 1000; ++i)
         {
             result = template.getContent();
-            
+
             // Verify that the original macro invocation has been replaced with its result.
             int index = result.indexOf("#showhelloworld");
             if (index != -1)
             {
                 throw new AssertionError("Failed to substitute macro:\n" + result);
             }
-            
+
             // Verify that the macro did indeed expand.
             int indexHW = result.indexOf("<p>Hello, World");
             Assert.assertTrue(indexHW >= 0);
-            
+
             // Assert.assertEquals("", result); // enable to show what we really get
         }
     }
@@ -138,7 +138,7 @@ public class RenderVelocityTemplateTest
         {
             t.start();
         }
-        
+
         for (Thread t : threads)
         {
             t.join();

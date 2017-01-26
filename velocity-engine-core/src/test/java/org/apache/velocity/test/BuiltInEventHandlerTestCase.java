@@ -296,10 +296,10 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals("Jimmy\\'s",writer.toString());
 
         **/
-        
+
         log("Escape selected references (global configuration)");
 
-        
+
 
     }
 

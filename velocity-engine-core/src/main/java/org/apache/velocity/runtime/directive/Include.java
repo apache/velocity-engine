@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.EventHandlerUtil;
@@ -27,8 +27,8 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.StringUtils;
 
@@ -167,7 +167,7 @@ public class Include extends InputBase
             }
             else
             {
-                String msg = "invalid #include() argument '" 
+                String msg = "invalid #include() argument '"
                   + n.toString() + "' at " + StringUtils.formatFileString(this);
                 log.error(msg);
                 outputErrorToStream( writer, "error with arg " + i
@@ -242,8 +242,8 @@ public class Include extends InputBase
             /*
              * the arg wasn't found.  Note it and throw
              */
-            log.error("#include(): cannot find resource '" + arg +
-                                "', called at " + StringUtils.formatFileString(this));
+            log.error("#include(): cannot find resource '{}', called at {}",
+                      arg, StringUtils.formatFileString(this));
             throw rnfe;
         }
 
@@ -252,8 +252,8 @@ public class Include extends InputBase
          */
         catch( RuntimeException e )
         {
-            log.error("#include(): arg = '" + arg +
-                                "', called at " + StringUtils.formatFileString(this));
+            log.error("#include(): arg = '{}', called at {}",
+                      arg, StringUtils.formatFileString(this));
             throw e;
         }
         catch (Exception e)

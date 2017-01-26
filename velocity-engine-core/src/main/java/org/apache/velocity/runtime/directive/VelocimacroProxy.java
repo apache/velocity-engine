@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -73,7 +73,7 @@ public class VelocimacroProxy extends Directive
 
     /**
      * sets the directive name of this VM
-     * 
+     *
      * @param name
      */
     public void setName(String name)
@@ -89,7 +89,7 @@ public class VelocimacroProxy extends Directive
     public void setMacroArgs(List<Macro.MacroArg> args)
     {
         macroArgs = args;
-        
+
         // for performance reasons we precache these strings - they are needed in
         // "render literal if null" functionality
         literalArgArray = new String[macroArgs.size()];
@@ -113,7 +113,7 @@ public class VelocimacroProxy extends Directive
     {
       return macroArgs;
     }
-    
+
     /**
      * @param tree
      */
@@ -124,7 +124,7 @@ public class VelocimacroProxy extends Directive
 
     /**
      * returns the number of ars needed for this VM
-     * 
+     *
      * @return The number of ars needed for this VM
      */
     public int getNumArgs()
@@ -139,7 +139,7 @@ public class VelocimacroProxy extends Directive
     {
         rsvc = rs;
         log = rs.getLog("macro");
-      
+
         strictArguments = rsvc.getBoolean(
             RuntimeConstants.VM_ARGUMENTS_STRICT, false);
 
@@ -158,7 +158,7 @@ public class VelocimacroProxy extends Directive
 
     /**
      * Renders the macro using the context.
-     * 
+     *
      * @param context Current rendering context
      * @param writer Writer for output
      * @param node AST that calls the macro
@@ -171,8 +171,8 @@ public class VelocimacroProxy extends Directive
         throws IOException
     {
         int callArgNum = node.jjtGetNumChildren();
-        
-        // if this macro was invoked by a call directive, we might have a body AST here. 
+
+        // if this macro was invoked by a call directive, we might have a body AST here.
         Object oldBodyRef = null;
         if (body != null)
         {
@@ -241,7 +241,7 @@ public class VelocimacroProxy extends Directive
             }
         }
     }
-    
+
     /**
      * Check whether the number of arguments given matches the number defined.
      */
@@ -252,17 +252,13 @@ public class VelocimacroProxy extends Directive
         {
             if (strictArguments)
             {
-                throw new VelocityException("Provided " + callArgNum + " arguments but macro #" 
+                throw new VelocityException("Provided " + callArgNum + " arguments but macro #"
                     + macroArgs.get(0).name + " accepts at most " + (macroArgs.size()-1)
                     + " at " + StringUtils.formatFileString(node));
             }
-            else if (log.isDebugEnabled())
-            {
-                // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
-                log.debug("VM #" + macroArgs.get(0).name
-                    + ": too many arguments to macro. Wanted " + (macroArgs.size()-1) 
-                    + " got " + callArgNum);
-            }
+            // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
+            log.debug("VM #{}: too many arguments to macro. Wanted {} got {}",
+                      macroArgs.get(0).name, macroArgs.size() - 1, callArgNum);
         }
     }
 
@@ -276,7 +272,7 @@ public class VelocimacroProxy extends Directive
         {
             String[] stack = context.getMacroNameStack();
 
-            StringBuffer out = new StringBuffer(100)
+            StringBuilder out = new StringBuilder(100)
                 .append("Max calling depth of ").append(maxCallDepth)
                 .append(" was exceeded in macro '").append(macroName)
                 .append("' with Call Stack:");
@@ -290,7 +286,7 @@ public class VelocimacroProxy extends Directive
             }
             out.append(" at " + StringUtils.formatFileString(this));
             log.error(out.toString());
-            
+
             // clean out the macro stack, since we just broke it
             while (context.getCurrentMacroCallDepth() > 0)
             {
@@ -310,7 +306,7 @@ public class VelocimacroProxy extends Directive
     {
     	// Changed two dimensional array to single dimensional to optimize memory lookups
         Object[] values = new Object[macroArgs.size() * 2];
-          
+
         // Move arguments into the macro's context. Start at one to skip macro name
         for (int i = 1; i < macroArgs.size(); i++)
         {
@@ -346,12 +342,8 @@ public class VelocimacroProxy extends Directive
             else
             {
                 // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
-                if (log.isDebugEnabled())
-                {
-                    log.debug("VM #" + macroArgs.get(0).name
-                     + ": too few arguments to macro. Wanted " + (macroArgs.size()-1) 
-                     + " got " + callArgNum);
-                }
+                log.debug("VM #{}: too few arguments to macro. Wanted {} got {}",
+                          macroArgs.get(0).name, macroArgs.size() - 1, callArgNum);
                 break;
             }
 
@@ -362,6 +354,5 @@ public class VelocimacroProxy extends Directive
         // return the array of replaced and new values
         return values;
     }
-    
-}
 
+}

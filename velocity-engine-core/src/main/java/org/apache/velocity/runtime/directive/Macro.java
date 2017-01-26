@@ -16,16 +16,16 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -110,20 +110,20 @@ public class Macro extends Directive
     {
         super.init(rs, context, node);
 
-        
-        // Add this macro to the VelocimacroManager now that it has been initialized.        
+
+        // Add this macro to the VelocimacroManager now that it has been initialized.
         List<MacroArg> macroArgs = getArgArray(node, rsvc);
         int numArgs = node.jjtGetNumChildren();
         rsvc.addVelocimacro(macroArgs.get(0).name, node.jjtGetChild(numArgs - 1),
             macroArgs, node.getTemplate());
     }
-    
+
     /**
      * Check the argument types of a macro call, called by the parser to do validation
      */
     public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
         throws ParseException
-    {        
+    {
         if (argtypes.size() < 1)
         {
             throw new MacroParseException("A macro definition requires at least a macro name"
@@ -140,12 +140,12 @@ public class Macro extends Directive
                     , templateName, t);
         }
 
-        
+
         // We use this to flag if the default arguments are out of order. such as
         // #macro($a $b=1 $c).  We enforce that all default parameters must be
         // specified consecutively, and at the end of the argument list.
         boolean consecutive = false;
-        
+
         // All arguments other then the first must be either a reference
         // or a directiveassign followed by a reference in the case a default
         // value is specified.
@@ -153,8 +153,8 @@ public class Macro extends Directive
         {
             if (argtypes.get(argPos) == ParserTreeConstants.JJTDIRECTIVEASSIGN)
             {
-               // Abosrb next argument type since parser enforces that these are in 
-               // pairs, and we don't need to check the type of the second 
+               // Abosrb next argument type since parser enforces that these are in
+               // pairs, and we don't need to check the type of the second
                // arg becuase it is done by the parser.
                argPos++;
                consecutive = true;
@@ -168,7 +168,7 @@ public class Macro extends Directive
             {
                 // We have already found a default parameter e.g.; $x = 2, but
                 // the next parameter was not a reference.
-                throw new MacroParseException("Macro non-default argument follows a default argument at " 
+                throw new MacroParseException("Macro non-default argument follows a default argument at "
                   , templateName, t);
             }
         }
@@ -195,7 +195,7 @@ public class Macro extends Directive
         numArgs--;  // avoid the block tree...
 
         ArrayList<MacroArg> macroArgs = new ArrayList();
-        
+
         for (int i = 0; i < numArgs; i++)
         {
             Node curnode = node.jjtGetChild(i);
@@ -204,7 +204,7 @@ public class Macro extends Directive
             {
                 // This is an argument with a default value
             	macroArg.name = curnode.getFirstTokenImage();
-            	
+
                 // Inforced by the parser there will be an argument here.
                 i++;
                 curnode = node.jjtGetChild(i);
@@ -215,20 +215,20 @@ public class Macro extends Directive
                 // An argument without a default value
                	macroArg.name = curnode.getFirstTokenImage();
             }
-            
+
             // trim off the leading $ for the args after the macro name.
             // saves everyone else from having to do it
             if (i > 0 && macroArg.name.startsWith("$"))
             {
                 macroArg.name = macroArg.name.substring(1, macroArg.name.length());
             }
-            
+
             macroArgs.add(macroArg);
         }
-        
+
         if (debugMode)
         {
-            StringBuffer msg = new StringBuffer("Macro.getArgArray() : nbrArgs=");
+            StringBuilder msg = new StringBuilder("Macro.getArgArray() : nbrArgs=");
             msg.append(numArgs).append(" : ");
             macroToString(msg, macroArgs);
             rsvc.getLog("macro").debug(msg.toString());
@@ -236,41 +236,41 @@ public class Macro extends Directive
 
         return macroArgs;
     }
-    
+
     /**
-     * MacroArgs holds the information for a single argument in a 
+     * MacroArgs holds the information for a single argument in a
      * macro definition.  The arguments for a macro are passed around as a
      * list of these objects.
      */
     public static class MacroArg
     {
        /**
-        * Name of the argument with '$' stripped off      
+        * Name of the argument with '$' stripped off
         */
-        public String name = null;     
-        
+        public String name = null;
+
         /**
          * If the argument was given a default value, then this contains
          * the base of the AST tree of the value. Otherwise it is null.
          */
-        public Node defaultVal = null; 
+        public Node defaultVal = null;
     }
 
     /**
      * For debugging purposes.  Formats the arguments from
      * <code>argArray</code> and appends them to <code>buf</code>.
      *
-     * @param buf A StringBuffer. If null, a new StringBuffer is allocated.
+     * @param buf A StringBuilder. If null, a new StringBuilder is allocated.
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
-     * @return A StringBuffer containing the formatted arguments. If a StringBuffer
+     * @return A StringBuilder containing the formatted arguments. If a StringBuilder
      *         has passed in as buf, this method returns it.
      * @since 1.5
      */
-    public static final StringBuffer macroToString(final StringBuffer buf,
+    public static final StringBuilder macroToString(final StringBuilder buf,
                                                    List<MacroArg> macroArgs)
     {
-        StringBuffer ret = (buf == null) ? new StringBuffer() : buf;
+        StringBuilder ret = (buf == null) ? new StringBuilder() : buf;
 
         ret.append('#').append(macroArgs.get(0).name).append("( ");
         for (MacroArg marg : macroArgs)
@@ -284,6 +284,6 @@ public class Macro extends Directive
         }
         ret.append(" )");
         return ret;
-    }   
+    }
     
 }

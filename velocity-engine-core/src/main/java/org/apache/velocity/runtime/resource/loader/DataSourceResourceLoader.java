@@ -149,21 +149,15 @@ public class DataSourceResourceLoader extends ResourceLoader
 
         if (dataSource != null)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("DataSourceResourceLoader: using dataSource instance with table \"{}\"", tableName);
-                log.debug("DataSourceResourceLoader: using columns \"{}\", \"{}\" and \"{}\"", keyColumn, templateColumn, timestampColumn);
-            }
+            log.debug("DataSourceResourceLoader: using dataSource instance with table \"{}\"", tableName);
+            log.debug("DataSourceResourceLoader: using columns \"{}\", \"{}\" and \"{}\"", keyColumn, templateColumn, timestampColumn);
 
             log.trace("DataSourceResourceLoader initialized.");
         }
         else if (dataSourceName != null)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("DataSourceResourceLoader: using \"{}\" datasource with table \"{}\"", dataSourceName, tableName);
-                log.debug("DataSourceResourceLoader: using columns \"{}\", \"{}\" and \"{}\"", keyColumn, templateColumn, timestampColumn);
-            }
+            log.debug("DataSourceResourceLoader: using \"{}\" datasource with table \"{}\"", dataSourceName, tableName);
+            log.debug("DataSourceResourceLoader: using columns \"{}\", \"{}\" and \"{}\"", keyColumn, templateColumn, timestampColumn);
 
             log.trace("DataSourceResourceLoader initialized.");
         }

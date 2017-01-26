@@ -20,7 +20,6 @@ package org.apache.velocity.runtime.resource.util;
  */
 
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,7 +45,7 @@ public class StringResourceRepositoryImpl implements StringResourceRepository
      * Current Repository encoding.
      */
     private String encoding = RuntimeConstants.ENCODING_DEFAULT;
-    
+
     /**
      * @see StringResourceRepository#getStringResource(java.lang.String)
      */

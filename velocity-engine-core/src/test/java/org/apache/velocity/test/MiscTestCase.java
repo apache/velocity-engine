@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import junit.framework.Test;
@@ -53,34 +53,15 @@ public class MiscTestCase extends BaseTestCase
         ri.setProperty("baabaa.test","the answer");
         assertEquals("the answer",ri.getProperty("baabaa.test"));
     }
-    
+
     public void testStringUtils()
     {
         /*
          *  some StringUtils tests
          */
 
-        String eol = "XY";
-
-        String arg = "XY";
-        String res = StringUtils.chop(arg, 1, eol );
-        assertTrue( "Test 1", res.equals("") );
-
-        arg = "X";
-        res = StringUtils.chop( arg, 1, eol );
-        assertTrue( "Test 2", res.equals("") );
-
-        arg = "ZXY";
-        res = StringUtils.chop( arg, 1, eol );
-        assertTrue( "Test 3", res.equals("Z") );
-
-
-        arg = "Hello!";
-        res = StringUtils.chop( arg, 2, eol );
-        assertTrue( "Test 4", res.equals("Hell"));
-
-        arg = null;
-        res = StringUtils.nullTrim(arg);
+        String arg = null;
+        String res = StringUtils.nullTrim(arg);
         assertNull(arg);
 
         arg = " test ";

@@ -16,26 +16,24 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.util.RuntimeServicesAware;
 
 import java.util.Iterator;
 
 /**
- * Use a custom introspector that prevents classloader related method 
- * calls.  Use this introspector for situations in which template 
- * writers are numerous or untrusted.  Specifically, this introspector 
+ * Use a custom introspector that prevents classloader related method
+ * calls.  Use this introspector for situations in which template
+ * writers are numerous or untrusted.  Specifically, this introspector
  * prevents creation of arbitrary objects or reflection on objects.
- * 
+ *
  * <p>To use this introspector, set the following property:
  * <pre>
  * runtime.introspector.uberspect = org.apache.velocity.util.introspection.SecureUberspector
  * </pre>
- * 
+ *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  * @since 1.5
@@ -54,14 +52,14 @@ public class SecureUberspector extends UberspectImpl
 
         String [] badClasses = rsvc.getConfiguration()
                         .getStringArray(RuntimeConstants.INTROSPECTOR_RESTRICT_CLASSES);
-        
+
         introspector = new SecureIntrospectorImpl(badClasses, badPackages, log);
     }
-    
+
     /**
      * Get an iterator from the given object.  Since the superclass method
      * this secure version checks for execute permission.
-     * 
+     *
      * @param obj object to iterate over
      * @param i line, column, template info
      * @return Iterator for object

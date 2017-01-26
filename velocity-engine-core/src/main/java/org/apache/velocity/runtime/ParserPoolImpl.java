@@ -16,7 +16,7 @@ package org.apache.velocity.runtime;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.parser.CharStream;
@@ -53,10 +53,7 @@ public class ParserPoolImpl implements ParserPool {
             pool.put(rsvc.createNewParser());
         }
 
-        if (log.isDebugEnabled())
-        {
-            log.debug("Created '" + max + "' parsers.");
-        }
+        log.debug("Created '{}' parsers.", max);
     }
 
     /**

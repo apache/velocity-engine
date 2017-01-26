@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.VelocityException;
@@ -52,7 +52,7 @@ public class StrictCompareTestCase extends BaseTestCase
 
         assertVelocityEx("#if($NULL > $a)#end");
         assertVelocityEx("#if($NULL < $a)#end");
-        assertVelocityEx("#if($NULL >= $a)#end");        
+        assertVelocityEx("#if($NULL >= $a)#end");
         assertVelocityEx("#if($NULL <= $a)#end");
 
         assertVelocityEx("#if($NULL >= $NULL)#end");
@@ -62,9 +62,9 @@ public class StrictCompareTestCase extends BaseTestCase
         assertVelocityEx("#if($a < $b)#end");
 
         assertVelocityEx("#if($a < 5)#end");
-        assertVelocityEx("#if($a > 5)#end");        
+        assertVelocityEx("#if($a > 5)#end");
     }
-    
+
     /**
      * Assert that we get a VelocityException when calling evaluate
      */

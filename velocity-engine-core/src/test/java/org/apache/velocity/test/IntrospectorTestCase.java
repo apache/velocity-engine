@@ -16,12 +16,11 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.introspection.Introspector;
 
@@ -44,7 +43,7 @@ public class IntrospectorTestCase extends BaseTestCase
     private static MethodProvider mp;
 
     private Introspector introspector;
-    
+
     public void setUp()
     {
         mp = new MethodProvider();

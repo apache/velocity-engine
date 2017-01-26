@@ -16,14 +16,14 @@ package org.apache.velocity.test.issues;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.BaseTestCase;
 
 /**
- * This class tests VELOCITY-682. 
+ * This class tests VELOCITY-682.
  */
 public class Velocity682TestCase extends BaseTestCase
 {
@@ -32,10 +32,10 @@ public class Velocity682TestCase extends BaseTestCase
         super(name);
         //DEBUG = true;
     }
-  
+
     public void test682()
     {
-        engine.setProperty(RuntimeConstants.VM_PERM_INLINE_LOCAL, Boolean.TRUE);      
+        engine.setProperty(RuntimeConstants.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         assertEvalEquals("foo1foo2", "#macro(eval $e)#evaluate($e)#end#eval('foo1')#eval('foo2')");
     }
 

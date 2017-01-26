@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -25,9 +25,9 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.util.StringUtils;
 
 import java.io.Writer;
@@ -66,7 +66,7 @@ public class Define extends Block
             throw new VelocityException("parameter missing: block name at "
                  + StringUtils.formatFileString(this));
         }
-        
+
         /*
          * first token is the name of the block. We don't even check the format,
          * just assume it looks like this: $block_name. Should we check if it has
@@ -99,17 +99,17 @@ public class Define extends Block
      */
     public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
     throws ParseException
-    { 
+    {
       if (argtypes.size() != 1)
       {
           throw new MacroParseException("The #define directive requires one argument",
              templateName, t);
       }
-      
+
       if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
       {
           throw new MacroParseException("The argument to #define is of the wrong type",
-              templateName, t);          
+              templateName, t);
       }
     }
 }

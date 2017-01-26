@@ -45,6 +45,8 @@
     <slf4j.version>1.7.21</slf4j.version>
     <surefire.plugin.version>2.19.1</surefire.plugin.version>
     <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
   <!-- java 8 doclint checks are too strict for our current javadoc state... -->
@@ -59,7 +61,7 @@
       </properties>
     </profile>
   </profiles>
-  
+
   <build>
     <defaultGoal>install</defaultGoal>
     <pluginManagement>
@@ -85,8 +87,8 @@
           <optimize>false</optimize>
           <showDeprecation>true</showDeprecation>
           <showWarning>true</showWarning>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -122,7 +124,6 @@
   <modules>
     <module>velocity-engine-core</module>
     <module>velocity-engine-examples</module>
-    <module>velocity-engine-assembly</module>
     <module>velocity-engine-scripting</module>
   </modules>
 
@@ -152,7 +153,13 @@
       <name>Byron Foster</name>
     </contributor>
     <contributor>
+      <name>Candid Dauth</name>
+    </contributor>
+    <contributor>
       <name>Christoph Reck</name>
+    </contributor>
+    <contributor>
+      <name>Darren Cruse</name>
     </contributor>
     <contributor>
       <name>Dave Bryson</name>
@@ -161,10 +168,19 @@
       <name>David Kinnvall</name>
     </contributor>
     <contributor>
+      <name>Dawid Weiss</name>
+    </contributor>
+    <contributor>
+      <name>Dishara Wijewardana</name>
+    </contributor>
+    <contributor>
       <name>Eelco Hillenius</name>
     </contributor>
     <contributor>
       <name>Fedor Karpelevitch</name>
+    </contributor>
+    <contributor>
+      <name>Felipe Maschio</name>
     </contributor>
     <contributor>
       <name>Gal Shachor</name>
@@ -177,6 +193,9 @@
     </contributor>
     <contributor>
       <name>Jeff Bowden</name>
+    </contributor>
+    <contributor>
+      <name>Jorgen Rydenius</name>
     </contributor>
     <contributor>
       <name>Jose Alberto Fernandez</name>
@@ -200,7 +219,13 @@
       <name>Matt Raible</name>
     </contributor>
     <contributor>
+      <name>Matt Ryall</name>
+    </contributor>
+    <contributor>
       <name>Matthijs Lambooy</name>
+    </contributor>
+    <contributor>
+      <name>Oswaldo Hernandez</name>
     </contributor>
     <contributor>
       <name>Paulo Gaspar</name>
@@ -210,6 +235,9 @@
     </contributor>
     <contributor>
       <name>Robert Burrell Donkin</name>
+    </contributor>
+    <contributor>
+      <name>Robert Fuller</name>
     </contributor>
     <contributor>
       <name>Sam Ruby</name>

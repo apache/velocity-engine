@@ -16,7 +16,7 @@ package org.apache.velocity.test.misc;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.VelocityContext;
@@ -27,8 +27,8 @@ import java.util.Map;
 
 /**
  * Used for testing EvaluateContext.  For testing purposes, this is a case insensitive
- * context.  
- * 
+ * context.
+ *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  */
@@ -36,7 +36,7 @@ public class TestContext implements Context
 {
     Context innerContext = new VelocityContext();
     Map<String, String> originalKeys = new HashMap<String, String>();
-    
+
     public boolean containsKey(String key)
     {
         return innerContext.containsKey(normalizeKey(key));

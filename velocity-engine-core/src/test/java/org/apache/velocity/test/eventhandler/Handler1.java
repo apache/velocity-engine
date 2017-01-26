@@ -16,7 +16,7 @@ package org.apache.velocity.test.eventhandler;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.IncludeEventHandler;
@@ -24,6 +24,8 @@ import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.util.introspection.Info;
+
+import java.util.Locale;
 
 /**
  * This is a test set of event handlers, used to test event handler sequences.
@@ -42,7 +44,7 @@ public class Handler1
             if (value == null)
                 return null;
             else
-                return value.toString().toUpperCase() + value.toString().toLowerCase();
+                return value.toString().toUpperCase() + value.toString().toLowerCase(Locale.ROOT);
         }
 
         /**

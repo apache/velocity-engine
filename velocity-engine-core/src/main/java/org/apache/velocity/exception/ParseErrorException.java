@@ -16,7 +16,7 @@ package org.apache.velocity.exception;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.parser.ParseException;
@@ -64,7 +64,7 @@ public class ParseErrorException extends VelocityException
      * If applicable, contains the invalid syntax or reference that triggered this exception
      */
     private String invalidSyntax;
-    
+
     /**
      * If we modify the message, then we set this
      */
@@ -81,7 +81,7 @@ public class ParseErrorException extends VelocityException
     }
 
     private static final Pattern lexError = Pattern.compile("Lexical error.*TokenMgrError.*line (\\d+),.*column (\\d+)\\.(.*)");
-    
+
     /**
      * Create a ParseErrorException with the given ParseException.
      *
@@ -91,7 +91,7 @@ public class ParseErrorException extends VelocityException
     public ParseErrorException(ParseException pex, String templName)
     {
         super(pex.getMessage());
-        
+
         if (templName != null) templateName = templName;
 
         // Don't use a second C'tor, TemplateParseException is a subclass of
@@ -105,20 +105,20 @@ public class ParseErrorException extends VelocityException
             templateName = xpex.getTemplateName();
         }
         else
-        { 
+        {
             // We get here if the the Parser has thrown an exception. Unfortunately,
             // the error message created is hard coded by javacc, so here we alter
-            // the error message, so that it is in our standard format.          
+            // the error message, so that it is in our standard format.
             Matcher match =  lexError.matcher(pex.getMessage());
             if (match.matches())
             {
                lineNumber = Integer.parseInt(match.group(1));
                columnNumber = Integer.parseInt(match.group(2));
                String restOfMsg = match.group(3);
-               msg = "Lexical error, " + restOfMsg + " at " 
+               msg = "Lexical error, " + restOfMsg + " at "
                  + StringUtils.formatFileString(templateName, lineNumber, columnNumber);
             }
-          
+
             //  ugly, ugly, ugly...
 
             if (pex.currentToken != null && pex.currentToken.next != null)
@@ -138,7 +138,7 @@ public class ParseErrorException extends VelocityException
     public ParseErrorException(VelocityException pex, String templName)
     {
         super(pex.getMessage());
-        
+
         if (templName != null) templateName = templName;
 
         // Don't use a second C'tor, TemplateParseException is a subclass of
@@ -166,7 +166,7 @@ public class ParseErrorException extends VelocityException
 
     /**
      * Create a ParseErrorRuntimeException with the given message and info
-     * 
+     *
      * @param exceptionMessage the error exception message
      * @param info an Info object with the current template info
      * @since 1.5
@@ -176,26 +176,26 @@ public class ParseErrorException extends VelocityException
         super(exceptionMessage);
         columnNumber = info.getColumn();
         lineNumber = info.getLine();
-        templateName = info.getTemplateName();        
-    }    
+        templateName = info.getTemplateName();
+    }
 
     /**
      * Create a ParseErrorRuntimeException with the given message and info
-     * 
+     *
      * @param exceptionMessage the error exception message
      * @param info an Info object with the current template info
      * @param invalidSyntax the invalid syntax or reference triggering this exception
      * @since 1.5
      */
-    public ParseErrorException(String exceptionMessage, 
+    public ParseErrorException(String exceptionMessage,
             Info info, String invalidSyntax)
     {
         super(exceptionMessage);
         columnNumber = info.getColumn();
         lineNumber = info.getLine();
-        templateName = info.getTemplateName();  
-        this.invalidSyntax = invalidSyntax;       
-    }    
+        templateName = info.getTemplateName();
+        this.invalidSyntax = invalidSyntax;
+    }
 
 
     /**
@@ -236,7 +236,7 @@ public class ParseErrorException extends VelocityException
     /**
      * Return the invalid syntax or reference that triggered this error, or null
      * if not defined.
-     * 
+     *
      * @return Return the invalid syntax or reference that triggered this error, or null
      * if not defined
      * @since 1.5

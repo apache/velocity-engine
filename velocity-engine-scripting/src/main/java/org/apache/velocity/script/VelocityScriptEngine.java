@@ -1,24 +1,24 @@
 package org.apache.velocity.script;
 
 /*
- * Copyright 2006 Sun Microsystems, Inc. All rights reserved. 
+ * Copyright 2006 Sun Microsystems, Inc. All rights reserved.
  * Use is subject to license terms.
  *
- * Redistribution and use in source and binary forms, with or without modification, are 
- * permitted provided that the following conditions are met: Redistributions of source code 
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met: Redistributions of source code
  * must retain the above copyright notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list of 
- * conditions and the following disclaimer in the documentation and/or other materials 
- * provided with the distribution. Neither the name of the Sun Microsystems nor the names of 
- * is contributors may be used to endorse or promote products derived from this software 
- * without specific prior written permission. 
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ * conditions and the following disclaimer in the documentation and/or other materials
+ * provided with the distribution. Neither the name of the Sun Microsystems nor the names of
+ * is contributors may be used to endorse or promote products derived from this software
+ * without specific prior written permission.
 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY 
- * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER 
- * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
@@ -49,18 +49,10 @@ package org.apache.velocity.script;
  * @version $Id: VelocityScriptEngine.java$
  */
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Properties;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
@@ -73,6 +65,13 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Properties;
 
 public class VelocityScriptEngine extends AbstractScriptEngine implements Compilable
 {
@@ -123,7 +122,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
      */
     public Object eval(String str, ScriptContext ctx)
                        throws ScriptException
-    {	
+    {
         return eval(new StringReader(str), ctx);
     }
 
@@ -138,7 +137,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
      */
     public Object eval(Reader reader, ScriptContext ctx)
                        throws ScriptException
-    { 
+    {
         initVelocityEngine(ctx);
         String fileName = getFilename(ctx);
         VelocityContext vctx = getVelocityContext(ctx);
@@ -229,7 +228,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
     protected static VelocityContext getVelocityContext(ScriptContext ctx)
     {
         ctx.setAttribute("context", ctx, ScriptContext.ENGINE_SCOPE);
-        Bindings globalScope = ctx.getBindings(ScriptContext.GLOBAL_SCOPE);        
+        Bindings globalScope = ctx.getBindings(ScriptContext.GLOBAL_SCOPE);
         Bindings engineScope = ctx.getBindings(ScriptContext.ENGINE_SCOPE);
         if (globalScope != null)
         {
@@ -267,14 +266,14 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
                         Properties p = new Properties();
                         p.load(new FileInputStream(propsFile));
                         return p;
-                    }               
+                    }
                 }
             }
         }
         catch (Exception exp)
         {
             System.err.println(exp);
-        }            
+        }
         return null;
     }
 

@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.context.InternalContextAdapter;
@@ -48,7 +48,7 @@ public class Stop extends Directive
     {
         return "stop";
     }
-  
+
     /**
      * Return type of this directive.
      * @return The type of this directive.
@@ -73,7 +73,7 @@ public class Stop extends Directive
 
         hasMessage = (node.jjtGetNumChildren() == 1);
     }
-    
+
     @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
     {
@@ -87,7 +87,7 @@ public class Stop extends Directive
         // stop all and use specified message
         throw new StopCommand(String.valueOf(argument));
     }
-    
+
     /**
      * Called by the parser to check the argument types
      */
@@ -100,6 +100,6 @@ public class Stop extends Directive
             throw new MacroParseException("The #stop directive only accepts a single message parameter",
                templateName, t);
         }
-    }    
+    }
 
 }

@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.directive;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.Template;
@@ -30,9 +30,9 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 
@@ -67,12 +67,12 @@ import java.util.List;
 public class Parse extends InputBase
 {
     private int maxDepth;
-    
+
     /**
      * Indicates if we are running in strict reference mode.
      */
-    public boolean strictRef = false;    
-    
+    public boolean strictRef = false;
+
     /**
      * Return name of this directive.
      * @return The name of this directive.
@@ -114,8 +114,8 @@ public class Parse extends InputBase
         super.init(rs, context, node);
 
         this.maxDepth = rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 10);
-        
-        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);        
+
+        strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
     }
 
     /**
@@ -149,10 +149,9 @@ public class Parse extends InputBase
          *  does it have a value?  If you have a null reference, then no.
          */
         Object value =  node.jjtGetChild(0).value( context );
-        if (value == null && log.isDebugEnabled())
+        if (value == null)
         {
-            log.debug("#parse(): null argument at " +
-                                StringUtils.formatFileString(this));
+            log.debug("#parse(): null argument at {}", StringUtils.formatFileString(this));
         }
 
         /*
@@ -187,20 +186,20 @@ public class Parse extends InputBase
 
         if (maxDepth > 0)
         {
-            /* 
+            /*
              * see if we have exceeded the configured depth.
              */
             String[] templateStack = context.getTemplateNameStack();
             if (templateStack.length >= maxDepth)
             {
-                StringBuffer path = new StringBuffer();
+                StringBuilder path = new StringBuilder();
                 for( int i = 0; i < templateStack.length; ++i)
                 {
                     path.append( " > " + templateStack[i] );
                 }
-                log.error("Max recursion depth reached (" +
-                                    templateStack.length + ')' + " File stack:" +
-                                    path);
+                log.error("Max recursion depth reached ({}) File stack: {}",
+                          templateStack.length, path);
+
                 return false;
             }
         }
@@ -220,8 +219,8 @@ public class Parse extends InputBase
             /*
              * the arg wasn't found.  Note it and throw
              */
-            log.error("#parse(): cannot find template '" + arg +
-                                "', called at " + StringUtils.formatFileString(this));
+            log.error("#parse(): cannot find template '{}', called at {}",
+                      arg, StringUtils.formatFileString(this));
             throw rnfe;
         }
         catch ( ParseErrorException pee )
@@ -230,8 +229,8 @@ public class Parse extends InputBase
              * the arg was found, but didn't parse - syntax error
              *  note it and throw
              */
-            log.error("#parse(): syntax error in #parse()-ed template '"
-                                + arg + "', called at " + StringUtils.formatFileString(this));
+            log.error("#parse(): syntax error in #parse()-ed template '{}', called at {}",
+                      arg, StringUtils.formatFileString(this));
             throw pee;
         }
         /**
@@ -239,11 +238,11 @@ public class Parse extends InputBase
          */
         catch( RuntimeException e )
         {
-            log.error("Exception rendering #parse(" + arg + ") at " +
-                                StringUtils.formatFileString(this));
+            log.error("Exception rendering #parse({}) at {}",
+                      arg, StringUtils.formatFileString(this));
             throw e;
         }
-        catch ( Exception e)
+        catch ( Exception e )
         {
             String msg = "Exception rendering #parse(" + arg + ") at " +
                          StringUtils.formatFileString(this);
@@ -294,8 +293,8 @@ public class Parse extends InputBase
             /**
              * Log #parse errors so the user can track which file called which.
              */
-            log.error("Exception rendering #parse(" + arg + ") at " +
-                                StringUtils.formatFileString(this));
+            log.error("Exception rendering #parse({}) at {}",
+                      arg, StringUtils.formatFileString(this));
             throw e;
         }
         catch ( Exception e )
@@ -318,7 +317,7 @@ public class Parse extends InputBase
 
         return true;
     }
-    
+
     /**
      * Called by the parser to validate the argument types
      */
@@ -330,12 +329,11 @@ public class Parse extends InputBase
             throw new MacroParseException("The #parse directive requires one argument",
                templateName, t);
         }
-        
+
         if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("The argument to #parse is of the wrong type",
-                templateName, t);          
+                templateName, t);
         }
     }
 }
-

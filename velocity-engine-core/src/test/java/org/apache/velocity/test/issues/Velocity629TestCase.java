@@ -16,7 +16,7 @@ package org.apache.velocity.test.issues;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.test.BaseTestCase;
@@ -31,7 +31,7 @@ public class Velocity629TestCase extends BaseTestCase
     {
         super(name);
     }
-  
+
     public void test629()
     {
         String template = "##\n"+

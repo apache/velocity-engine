@@ -16,22 +16,14 @@ package org.apache.velocity.util;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.util.introspection.Info;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileReader;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
 
 /**
  * This class provides some methods for dynamically
@@ -48,420 +40,6 @@ public class StringUtils
      * Line separator for the OS we are operating on.
      */
     private static final String EOL = System.getProperty("line.separator");
-
-    /**
-     * Concatenates a list of objects as a String.
-     *
-     * @param list The list of objects to concatenate.
-     * @return     A text representation of the concatenated objects.
-     */
-    public String concat(List list)
-    {
-        StringBuffer sb = new StringBuffer();
-        int size = list.size();
-
-        for (int i = 0; i < size; i++)
-        {
-            sb.append(list.get(i).toString());
-        }
-        return sb.toString();
-    }
-
-    /**
-     * Return a package name as a relative path name
-     *
-     * @param pckge package name to convert to a directory.
-     * @return String directory path.
-     */
-    static public String getPackageAsPath(String pckge)
-    {
-        return pckge.replace( '.', File.separator.charAt(0) ) + File.separator;
-    }
-
-    /**
-     * <p>
-     *  'Camels Hump' replacement of underscores.
-     * </p>
-     *
-     * <p>
-     * Remove underscores from a string but leave the capitalization of the
-     * other letters unchanged.
-     * </p>
-     *
-     * <p>
-     * For example <code>foo_barBar</code> becomes <code>FooBarBar</code>.
-     * </p>
-     *
-     * @param data string to hump
-     * @return String
-     */
-    static public String removeAndHump (String data)
-    {
-        return removeAndHump(data,"_");
-    }
-
-    /**
-     * <p>
-     * 'Camels Hump' replacement.
-     * </p>
-     *
-     * <p>
-     * Remove one string from another string but leave the capitalization of the
-     * other letters unchanged.
-     * </p>
-     *
-     * <p>
-     * For example, removing "_" from <code>foo_barBar</code> becomes <code>FooBarBar</code>.
-     * </p>
-     *
-     * @param data string to hump
-     * @param replaceThis string to be replaced
-     * @return String
-     */
-    static public String removeAndHump (String data,String replaceThis)
-    {
-        String temp = null;
-        StringBuffer out = new StringBuffer();
-        temp = data;
-
-        StringTokenizer st = new StringTokenizer(temp, replaceThis);
-
-        while (st.hasMoreTokens())
-        {
-            String element = (String) st.nextElement();
-            out.append ( capitalizeFirstLetter(element));
-        }//while
-
-        return out.toString();
-    }
-
-    /**
-     * <p>
-     *  Makes the first letter caps and the rest lowercase.
-     * </p>
-     *
-     * <p>
-     *  For example <code>fooBar</code> becomes <code>Foobar</code>.
-     * </p>
-     *
-     * @param data capitalize this
-     * @return String
-     */
-    static public String firstLetterCaps ( String data )
-    {
-        String firstLetter = data.substring(0,1).toUpperCase();
-        String restLetters = data.substring(1).toLowerCase();
-        return firstLetter + restLetters;
-    }
-
-    /**
-     * <p>
-     * Capitalize the first letter but leave the rest as they are.
-     * </p>
-     *
-     * <p>
-     *  For example <code>fooBar</code> becomes <code>FooBar</code>.
-     * </p>
-     *
-     * @param data capitalize this
-     * @return String
-     */
-    static public String capitalizeFirstLetter ( String data )
-    {
-        String firstLetter = data.substring(0,1).toUpperCase();
-        String restLetters = data.substring(1);
-        return firstLetter + restLetters;
-    }
-
-    /**
-     * Create a string array from a string separated by delim
-     *
-     * @param line the line to split
-     * @param delim the delimter to split by
-     * @return a string array of the split fields
-     */
-    public static String [] split(String line, String delim)
-    {
-        List list = new ArrayList();
-        StringTokenizer t = new StringTokenizer(line, delim);
-        while (t.hasMoreTokens())
-        {
-            list.add(t.nextToken());
-        }
-        return (String []) list.toArray(new String[list.size()]);
-    }
-
-    /**
-     * Chop i characters off the end of a string.
-     * This method assumes that any EOL characters in String s
-     * and the platform EOL will be the same.
-     * A 2 character EOL will count as 1 character.
-     *
-     * @param s String to chop.
-     * @param i Number of characters to chop.
-     * @return String with processed answer.
-     */
-    public static String chop(String s, int i)
-    {
-        return chop(s, i, EOL);
-    }
-
-    /**
-     * Chop i characters off the end of a string.
-     * A 2 character EOL will count as 1 character.
-     *
-     * @param s String to chop.
-     * @param i Number of characters to chop.
-     * @param eol A String representing the EOL (end of line).
-     * @return String with processed answer.
-     */
-    public static String chop(String s, int i, String eol)
-    {
-        if ( i == 0 || s == null || eol == null )
-        {
-           return s;
-        }
-
-        int length = s.length();
-
-        /*
-         * if it is a 2 char EOL and the string ends with
-         * it, nip it off.  The EOL in this case is treated like 1 character
-         */
-        if ( eol.length() == 2 && s.endsWith(eol ))
-        {
-            length -= 2;
-            i -= 1;
-        }
-
-        if ( i > 0)
-        {
-            length -= i;
-        }
-
-        if ( length < 0)
-        {
-            length = 0;
-        }
-
-        return s.substring( 0, length);
-    }
-
-    /**
-     * @param argStr
-     * @param vars
-     * @return Substituted String.
-     */
-    public static StringBuffer stringSubstitution( String argStr,
-                                                   Hashtable vars )
-    {
-        return stringSubstitution( argStr, (Map) vars );
-    }
-
-    /**
-     * Perform a series of substitutions. The substitions
-     * are performed by replacing $variable in the target
-     * string with the value of provided by the key "variable"
-     * in the provided hashtable.
-     *
-     * @param argStr target string
-     * @param vars name/value pairs used for substitution
-     * @return String target string with replacements.
-     */
-    public static StringBuffer stringSubstitution(String argStr,
-            Map vars)
-    {
-        StringBuffer argBuf = new StringBuffer();
-
-        for (int cIdx = 0 ; cIdx < argStr.length();)
-        {
-            char ch = argStr.charAt(cIdx);
-
-            switch (ch)
-            {
-                case '$':
-                    StringBuffer nameBuf = new StringBuffer();
-                    for (++cIdx ; cIdx < argStr.length(); ++cIdx)
-                    {
-                        ch = argStr.charAt(cIdx);
-                        if (ch == '_' || Character.isLetterOrDigit(ch))
-                            nameBuf.append(ch);
-                        else
-                            break;
-                    }
-
-                    if (nameBuf.length() > 0)
-                    {
-                        String value =
-                                (String) vars.get(nameBuf.toString());
-
-                        if (value != null)
-                        {
-                            argBuf.append(value);
-                        }
-                    }
-                    break;
-
-                default:
-                    argBuf.append(ch);
-                    ++cIdx;
-                    break;
-            }
-        }
-
-        return argBuf;
-    }
-
-    /**
-     * Read the contents of a file and place them in
-     * a string object.
-     *
-     * @param file path to file.
-     * @return String contents of the file.
-     */
-    public static String fileContentsToString(String file)
-    {
-        String contents = "";
-
-        File f = null;
-        try
-        {
-            f = new File(file);
-
-            if (f.exists())
-            {
-                FileReader fr = null;
-                try
-                {
-                    fr = new FileReader(f);
-                    char[] template = new char[(int) f.length()];
-                    fr.read(template);
-                    contents = new String(template);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-                finally
-                {
-                    if (fr != null)
-                    {
-                        fr.close();
-                    }
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return contents;
-    }
-
-    /**
-     * Remove/collapse multiple newline characters.
-     *
-     * @param argStr string to collapse newlines in.
-     * @return String
-     */
-    public static String collapseNewlines(String argStr)
-    {
-        char last = argStr.charAt(0);
-        StringBuffer argBuf = new StringBuffer();
-
-        for (int cIdx = 0 ; cIdx < argStr.length(); cIdx++)
-        {
-            char ch = argStr.charAt(cIdx);
-            if (ch != '\n' || last != '\n')
-            {
-                argBuf.append(ch);
-                last = ch;
-            }
-        }
-
-        return argBuf.toString();
-    }
-
-    /**
-     * Remove/collapse multiple spaces.
-     *
-     * @param argStr string to remove multiple spaces from.
-     * @return String
-     */
-    public static String collapseSpaces(String argStr)
-    {
-        char last = argStr.charAt(0);
-        StringBuffer argBuf = new StringBuffer();
-
-        for (int cIdx = 0 ; cIdx < argStr.length(); cIdx++)
-        {
-            char ch = argStr.charAt(cIdx);
-            if (ch != ' ' || last != ' ')
-            {
-                argBuf.append(ch);
-                last = ch;
-            }
-        }
-
-        return argBuf.toString();
-    }
-
-    /**
-      * Replaces all instances of oldString with newString in line.
-      * Taken from the Jive forum package.
-      *
-      * @param line original string.
-      * @param oldString string in line to replace.
-      * @param newString replace oldString with this.
-      * @return String string with replacements.
-      */
-    public static final String sub(String line, String oldString,
-            String newString)
-    {
-        int i = 0;
-        if ((i = line.indexOf(oldString, i)) >= 0)
-        {
-            char [] line2 = line.toCharArray();
-            char [] newString2 = newString.toCharArray();
-            int oLength = oldString.length();
-            StringBuffer buf = new StringBuffer(line2.length);
-            buf.append(line2, 0, i).append(newString2);
-            i += oLength;
-            int j = i;
-            while ((i = line.indexOf(oldString, i)) > 0)
-            {
-                buf.append(line2, j, i - j).append(newString2);
-                i += oLength;
-                j = i;
-            }
-            buf.append(line2, j, line2.length - j);
-            return buf.toString();
-        }
-        return line;
-    }
-
-    /**
-     * Returns the output of printStackTrace as a String.
-     *
-     * @param e A Throwable.
-     * @return A String.
-     */
-    public static final String stackTrace(Throwable e)
-    {
-        String foo = null;
-        try
-        {
-            // And show the Error Screen.
-            ByteArrayOutputStream ostr = new ByteArrayOutputStream();
-            e.printStackTrace( new PrintWriter(ostr,true) );
-            foo = ostr.toString();
-        }
-        catch (Exception f)
-        {
-            // Do nothing.
-        }
-        return foo;
-    }
 
     /**
      * Return a context-relative path, beginning with a "/", that represents
@@ -535,48 +113,6 @@ public class StringUtils
     }
 
     /**
-     * If state is true then return the trueString, else
-     * return the falseString.
-     *
-     * @param state
-     * @param trueString
-     * @param falseString
-     * @return Selected result.
-     */
-    public String select(boolean state, String trueString, String falseString)
-    {
-        if (state)
-        {
-            return trueString;
-        }
-        else
-        {
-            return falseString;
-        }
-    }
-
-    /**
-     * Check to see if all the string objects passed
-     * in are empty.
-     *
-     * @param list A list of {@link java.lang.String} objects.
-     * @return     Whether all strings are empty.
-     */
-    public boolean allEmpty(List list)
-    {
-        int size = list.size();
-
-        for (int i = 0; i < size; i++)
-        {
-            if (list.get(i) != null && list.get(i).toString().length() > 0)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Trim all strings in a List.  Changes the strings in the existing list.
      * @param list
      * @return List of trimmed strings.
@@ -613,37 +149,37 @@ public class StringUtils
 
     /**
      * Creates a string that formats the template filename with line number
-     * and column of the given Directive. We use this routine to provide a cosistent format for displaying 
+     * and column of the given Directive. We use this routine to provide a cosistent format for displaying
      * file errors.
      */
     public static final String formatFileString(Directive directive)
     {
-        return formatFileString(directive.getTemplateName(), directive.getLine(), directive.getColumn());      
+        return formatFileString(directive.getTemplateName(), directive.getLine(), directive.getColumn());
     }
 
     /**
      * Creates a string that formats the template filename with line number
-     * and column of the given Node. We use this routine to provide a cosistent format for displaying 
+     * and column of the given Node. We use this routine to provide a cosistent format for displaying
      * file errors.
      */
     public static final String formatFileString(Node node)
     {
-        return formatFileString(node.getTemplateName(), node.getLine(), node.getColumn());      
+        return formatFileString(node.getTemplateName(), node.getLine(), node.getColumn());
     }
-    
+
     /**
      * Simply creates a string that formats the template filename with line number
-     * and column. We use this routine to provide a cosistent format for displaying 
+     * and column. We use this routine to provide a cosistent format for displaying
      * file errors.
      */
     public static final String formatFileString(Info info)
     {
           return formatFileString(info.getTemplateName(), info.getLine(), info.getColumn());
     }
-    
+
     /**
      * Simply creates a string that formats the template filename with line number
-     * and column. We use this routine to provide a cosistent format for displaying 
+     * and column. We use this routine to provide a cosistent format for displaying
      * file errors.
      * @param template File name of template, can be null
      * @param linenum Line number within the file

@@ -16,7 +16,7 @@ package org.apache.velocity.context;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.EventCartridge;
@@ -43,7 +43,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
 {
     /** the parent context */
     protected InternalContextAdapter wrappedContext = null;
-    
+
     /**
      * CTOR, wraps an ICA
      * @param inner context
@@ -52,7 +52,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     {
         wrappedContext = inner;
     }
-    
+
     /**
      * Return the inner / user context.
      * @return The inner / user context.
@@ -215,7 +215,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     {
         wrappedContext.setMacroLibraries(macroLibraries);
     }
-    
+
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
      */

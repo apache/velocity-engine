@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.visitor;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.parser.Token;
@@ -43,7 +43,7 @@ public class NodeViewMode extends BaseVisitor
       */
     private String indentString()
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < indent; ++i)
         {
             sb.append("  ");

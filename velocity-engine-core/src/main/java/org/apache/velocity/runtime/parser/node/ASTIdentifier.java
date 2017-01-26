@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.parser.node;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.EventHandlerUtil;
@@ -56,7 +56,7 @@ public class ASTIdentifier extends SimpleNode
      *  This is really immutable after the init, so keep one for this node
      */
     protected Info uberInfo;
-    
+
     /**
      * Indicates if we are running in strict reference mode.
      */
@@ -106,10 +106,10 @@ public class ASTIdentifier extends SimpleNode
         uberInfo = new Info(getTemplateName(), getLine(), getColumn());
 
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
-        
+
         saveTokenImages();
         cleanupParserAndTokens();
-        
+
         return data;
     }
 
@@ -182,7 +182,7 @@ public class ASTIdentifier extends SimpleNode
         {
             if (strictRef)
             {
-                throw new MethodInvocationException("Object '" + o.getClass().getName() +              
+                throw new MethodInvocationException("Object '" + o.getClass().getName() +
                     "' does not contain property '" + identifier + "'", null, identifier,
                     uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
             }

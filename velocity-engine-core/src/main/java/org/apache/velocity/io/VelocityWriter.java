@@ -16,7 +16,7 @@ package org.apache.velocity.io;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ public final class VelocityWriter extends Writer implements Filter
     public static final int	UNBOUNDED_BUFFER = -2;
 
     private Writer writer = null;
-    
+
     private int     bufferSize;
     private boolean autoFlush;
 
@@ -333,15 +333,15 @@ public final class VelocityWriter extends Writer implements Filter
         this.writer = writer;
         clear();
     }
-    
+
     /**
      * Send the content of a reference, e.g.; $foo, to the writer.
      * The default implementation is to call the wrapped Writer's
-     * write(String) method. 
+     * write(String) method.
      */
     public void writeReference(String ref) throws IOException
     {
         write(ref);
     }
-    
+
 }

@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.VelocityContext;
@@ -136,7 +136,7 @@ public class VarargMethodsTestCase extends BaseTestCase
     {
         public String var(String[] ss)
         {
-            StringBuffer out = new StringBuffer();
+            StringBuilder out = new StringBuilder();
             for (int i=0; i < ss.length; i++)
             {
                 out.append(ss[i]);
@@ -220,7 +220,7 @@ public class VarargMethodsTestCase extends BaseTestCase
             {
                 return null;
             }
-            StringBuffer o = new StringBuffer("[");
+            StringBuilder o = new StringBuilder("[");
             for (int i=0; i < array.length; i++)
             {
                 if (i > 0)
@@ -251,5 +251,3 @@ public class VarargMethodsTestCase extends BaseTestCase
     }
 
 }
-
-

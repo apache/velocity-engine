@@ -16,7 +16,7 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.VelocityException;
@@ -31,14 +31,13 @@ import org.apache.velocity.runtime.parser.node.PropertyExecutor;
 import org.apache.velocity.runtime.parser.node.PutExecutor;
 import org.apache.velocity.runtime.parser.node.SetExecutor;
 import org.apache.velocity.runtime.parser.node.SetPropertyExecutor;
-import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ArrayIterator;
 import org.apache.velocity.util.ArrayListWrapper;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.EnumerationIterator;
 import org.apache.velocity.util.RuntimeServicesAware;
+
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
@@ -181,24 +180,18 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         }
         else if (obj instanceof Iterator)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("The iterative object in the #foreach() loop at {}" +
-                          " is of type java.util.Iterator.  Because " +
-                          "it is not resettable, if used in more than once it " +
-                          "may lead to unexpected results.", i);
-            }
+            log.debug("The iterative object in the #foreach() loop at {}" +
+                      " is of type java.util.Iterator.  Because " +
+                      "it is not resettable, if used in more than once it " +
+                      "may lead to unexpected results.", i);
             return ((Iterator) obj);
         }
         else if (obj instanceof Enumeration)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("The iterative object in the #foreach() loop at {}" +
-                          " is of type java.util.Enumeration.  Because " +
-                          "it is not resettable, if used in more than once it " +
-                          "may lead to unexpected results.", i);
-            }
+            log.debug("The iterative object in the #foreach() loop at {}" +
+                      " is of type java.util.Enumeration.  Because " +
+                      "it is not resettable, if used in more than once it " +
+                      "may lead to unexpected results.", i);
             return new EnumerationIterator((Enumeration) obj);
         }
         else
@@ -216,14 +209,14 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
                     try
                     {
                         return (Iterator)iter.invoke(obj);
-                    } 
+                    }
                     catch (IllegalAccessException e)
                     {
                         // Cannot invoke this method, just give up
                     }
                     catch (Exception e)
                     {
-                        throw new VelocityException("Error invoking the method 'iterator' on class '" 
+                        throw new VelocityException("Error invoking the method 'iterator' on class '"
                             + obj.getClass().getName() +"'", e);
                     }
                 }
@@ -343,7 +336,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /*
          * Let's see if we are a map...
          */
-        if (!executor.isAlive()) 
+        if (!executor.isAlive())
         {
             executor = new MapGetExecutor(log, obj, identifier);
         }

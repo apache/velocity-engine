@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -37,12 +37,12 @@ public class IndexTestCase extends BaseTestCase
     {
         super.setUp();
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
-        
+
         context.put("NULL", null);
         context.put("red", "blue");
-        
+
         int[] a = {1, 2, 3};
-        context.put("a", a);        
+        context.put("a", a);
         String[] str = {"a", "ab", "abc"};
         context.put("str", str);
 
@@ -90,10 +90,10 @@ public class IndexTestCase extends BaseTestCase
         assertEvalEquals("BIG TRUEaBIG FALSE", "$foo[true]a$foo[false]");
         assertEvalEquals("junk foobar ", "$foo[\"junk\"]");
         assertEvalEquals("GOT NULL", "#set($i=$NULL)$boo[$i]");
-        
+
         assertEvalEquals("321", "$a[-1]$a[ -2]$a[-3 ]");
         assertEvalEquals("67xx", "#set($hash={1:11, 5:67, 23:2})$hash[5]$!hash[6]#if(!$hash[1000])xx#end");
-        
+
         // Some cases that should be evaluated as text
         assertEvalEquals("[]", "[]");
         assertEvalEquals("$[]", "$[]");
@@ -121,8 +121,8 @@ public class IndexTestCase extends BaseTestCase
         assertEvalEquals("2112", "#set($a[-1] = 2112)$a[2]");
         assertEvalEquals("3344","#set($hash = {1:11, 2:22, 5:66})#set($hash[2]=33)#set($hash[3]=44)$hash[2]$hash[3]");
     }
-    
-    
+
+
     public void testErrorHandling()
     {
         assertEvalExceptionAt("$boo['throwex']", 1, 5);
@@ -131,8 +131,8 @@ public class IndexTestCase extends BaseTestCase
         assertEvalExceptionAt("#set($foo[1] = 3)", 1, 10);
         assertEvalExceptionAt("$a[500]", 1, 3);
     }
-    
-    
+
+
     public static class Foo
     {
         public Object bar = null;
@@ -148,7 +148,7 @@ public class IndexTestCase extends BaseTestCase
             else
                 return "BIG FALSE";
         }
-        
+
         public String get(String str)
         {
             return str + " foobar ";
@@ -165,6 +165,6 @@ public class IndexTestCase extends BaseTestCase
                 throw new RuntimeException("Generated Exception");
 
             return obj;
-        }        
-    }    
+        }
+    }
 }

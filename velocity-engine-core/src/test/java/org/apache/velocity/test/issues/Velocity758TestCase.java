@@ -16,7 +16,7 @@ package org.apache.velocity.test.issues;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.app.event.EventCartridge;
@@ -43,7 +43,7 @@ public class Velocity758TestCase extends BaseTestCase
     {
         String nullContent = "Parse arg was null";
         addTemplate("null.vm", nullContent);
-        
+
         EventCartridge ec = new EventCartridge();
         ec.addEventHandler(new Handler());
         ec.attachToContext(context);

@@ -109,10 +109,7 @@ public class JarResourceLoader extends ResourceLoader
 
     private void loadJar( String path )
     {
-        if (log.isDebugEnabled())
-        {
-            log.debug("JarResourceLoader : trying to load \"{}\"", path);
-        }
+        log.debug("JarResourceLoader : trying to load \"{}\"", path);
 
         // Check path information
         if ( path == null )
@@ -195,7 +192,7 @@ public class JarResourceLoader extends ResourceLoader
                     " contains .. and may be trying to access " +
                     "content outside of template root.  Rejected.";
 
-            log.error( "JarResourceLoader : " + msg );
+            log.error( "JarResourceLoader : {}", msg );
 
             throw new ResourceNotFoundException ( msg );
         }

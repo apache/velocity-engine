@@ -16,7 +16,7 @@ package org.apache.velocity.test;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.runtime.RuntimeConstants;
@@ -49,9 +49,9 @@ public class ForeachTestCase extends BaseTestCase
         engine.setProperty(RuntimeConstants.MAX_NUMBER_LOOPS,
                              new Integer(3));
 
-        assertEvalEquals("1 2 3 ", "#foreach ($item in [1..10])$item #end");             
+        assertEvalEquals("1 2 3 ", "#foreach ($item in [1..10])$item #end");
     }
-    
+
     /**
      * Tests proper method execution during a Foreach loop over a Collection
      * with items of varying classes.
@@ -65,7 +65,7 @@ public class ForeachTestCase extends BaseTestCase
         context.put("helper", new ForeachMethodCallHelper());
         context.put("col", col);
 
-        assertEvalEquals("int 100 str STRVALUE ", "#foreach ( $item in $col )$helper.getFoo($item) #end");             
+        assertEvalEquals("int 100 str STRVALUE ", "#foreach ( $item in $col )$helper.getFoo($item) #end");
     }
 
     /**
@@ -78,7 +78,7 @@ public class ForeachTestCase extends BaseTestCase
     {
         context.put("iterable", new MyIterable());
 
-        assertEvalEquals("1 2 3 ", "#foreach ($i in $iterable)$i #end");             
+        assertEvalEquals("1 2 3 ", "#foreach ($i in $iterable)$i #end");
     }
 
     public void testNotReallyIterableIteratorMethod()
@@ -86,7 +86,7 @@ public class ForeachTestCase extends BaseTestCase
     {
         context.put("nri", new NotReallyIterable());
 
-        assertEvalEquals("", "#foreach ($i in $nri)$i #end");             
+        assertEvalEquals("", "#foreach ($i in $nri)$i #end");
     }
 
     public void testVelocityHasNextProperty()
@@ -97,8 +97,8 @@ public class ForeachTestCase extends BaseTestCase
         list.add("test2");
         list.add("test3");
         context.put("list", list);
-        assertEvalEquals("test1 SEPARATOR test2 SEPARATOR test3 ", "#foreach ($value in $list)$value #if( $foreach.hasNext )SEPARATOR #end#end");             
-    }    
+        assertEvalEquals("test1 SEPARATOR test2 SEPARATOR test3 ", "#foreach ($value in $list)$value #if( $foreach.hasNext )SEPARATOR #end#end");
+    }
 
     public void testNestedVelocityHasNextProperty()
         throws Exception
@@ -115,9 +115,9 @@ public class ForeachTestCase extends BaseTestCase
         list2.add("a3");
         context.put("list2", list2);
 
-        assertEvalEquals("test1 (a1;a2;a3)-test2 (a1;a2;a3)-test3 (a1;a2;a3)-test4 (a1;a2;a3)", "#foreach ($value in $list)$value (#foreach ($val in $list2)$val#if( $foreach.hasNext );#end#end)#if( $foreach.hasNext )-#end#end");             
-    }    
-    
+        assertEvalEquals("test1 (a1;a2;a3)-test2 (a1;a2;a3)-test3 (a1;a2;a3)-test4 (a1;a2;a3)", "#foreach ($value in $list)$value (#foreach ($val in $list2)$val#if( $foreach.hasNext );#end#end)#if( $foreach.hasNext )-#end#end");
+    }
+
     public static class MyIterable
     {
         private List foo;
@@ -129,7 +129,7 @@ public class ForeachTestCase extends BaseTestCase
             foo.add(new Long(2));
             foo.add("3");
         }
-        
+
         public Iterator iterator()
         {
             return foo.iterator();

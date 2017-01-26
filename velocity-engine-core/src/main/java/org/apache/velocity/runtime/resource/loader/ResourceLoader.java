@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.resource.loader;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -29,7 +29,6 @@ import org.apache.velocity.runtime.resource.ResourceCacheImpl;
 import org.apache.velocity.util.ExtProperties;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -246,11 +245,8 @@ public abstract class ResourceLoader
         }
         catch (ResourceNotFoundException e)
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("Could not load resource '{}' from ResourceLoader {}",
-                        resourceName, this.getClass().getName());
-            }
+            log.debug("Could not load resource '{}' from ResourceLoader {}",
+                      resourceName, this.getClass().getName());
         }
         finally
         {
@@ -263,14 +259,11 @@ public abstract class ResourceLoader
             }
             catch (Exception e)
             {
-                if (log.isErrorEnabled())
-                {
-                    String msg = "While closing InputStream for resource '" +
-                            resourceName + "' from ResourceLoader " +
-                            this.getClass().getName();
-                    log.error(msg, e);
-                    throw new VelocityException(msg, e);
-                }
+                String msg = "While closing InputStream for resource '" +
+                    resourceName + "' from ResourceLoader " +
+                    this.getClass().getName();
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
             }
         }
         return (reader != null);

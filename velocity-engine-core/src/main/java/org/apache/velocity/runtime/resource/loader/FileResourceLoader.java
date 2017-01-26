@@ -67,10 +67,7 @@ public class FileResourceLoader extends ResourceLoader
      */
     public void init( ExtProperties configuration)
     {
-        if (log.isTraceEnabled())
-        {
-            log.trace("FileResourceLoader : initialization starting.");
-        }
+        log.trace("FileResourceLoader : initialization starting.");
 
         paths.addAll( configuration.getVector("path") );
 
@@ -125,7 +122,7 @@ public class FileResourceLoader extends ResourceLoader
                     " contains .. and may be trying to access " +
                     "content outside of template root.  Rejected.";
 
-            log.error("FileResourceLoader : " + msg);
+            log.error("FileResourceLoader : {}", msg);
 
             throw new ResourceNotFoundException ( msg );
         }

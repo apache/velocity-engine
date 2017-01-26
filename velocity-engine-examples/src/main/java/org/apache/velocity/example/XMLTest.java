@@ -15,19 +15,19 @@ package org.apache.velocity.example;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import org.jdom.Document;
 import org.jdom.input.SAXBuilder;
+
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 
 /**
@@ -119,4 +119,3 @@ public class XMLTest
         t = new XMLTest(args[0]);
     }
 }
-

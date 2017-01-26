@@ -27,11 +27,12 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.apache.velocity.test.misc.TestLogger;
-import org.apache.velocity.util.StringUtils;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Locale;
 
 /**
  * Base test case that provides utility methods for
@@ -342,7 +343,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
     protected String getFileName(final String dir, final String base, final String ext, final boolean mustExist)
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         try
         {
             File baseFile = new File(base);
@@ -459,7 +460,46 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
     protected String getFileContents(String dir, String baseFileName, String ext)
     {
         String fileName = getFileName(dir, baseFileName, ext, true);
-        return StringUtils.fileContentsToString(fileName);
+        return getFileContents(fileName);
+    }
+
+    protected String getFileContents(String file)
+    {
+        String contents = "";
+
+        File f = null;
+        try
+        {
+            f = new File(file);
+
+            if (f.exists())
+            {
+                FileReader fr = null;
+                try
+                {
+                    fr = new FileReader(f);
+                    char[] template = new char[(int) f.length()];
+                    fr.read(template);
+                    contents = new String(template);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                finally
+                {
+                    if (fr != null)
+                    {
+                        fr.close();
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return contents;
     }
 
     /**
@@ -496,9 +536,9 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      */
     protected static final String getTestCaseName(String s)
     {
-        StringBuffer name = new StringBuffer();
+        StringBuilder name = new StringBuilder();
         name.append(Character.toTitleCase(s.charAt(0)));
-        name.append(s.substring(1, s.length()).toLowerCase());
+        name.append(s.substring(1, s.length()).toLowerCase(Locale.ROOT));
         return name.toString();
     }
 }

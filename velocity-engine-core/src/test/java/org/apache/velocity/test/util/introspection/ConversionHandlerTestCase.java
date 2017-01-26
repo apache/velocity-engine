@@ -28,7 +28,6 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.introspection.ConversionHandler;
 import org.apache.velocity.util.introspection.ConversionHandlerImpl;
 import org.apache.velocity.util.introspection.Converter;
@@ -73,7 +72,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
     {
         return new TestSuite(ConversionHandlerTestCase.class);
     }
-    
+
     public void testConversionsWithoutHandler()
     throws Exception
     {
@@ -169,7 +168,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
                 "-----Result-----\n"+ result +
                 "----Expected----\n"+ compare +
                 "----------------";
-            
+
             fail(msg);
         }
     }
@@ -195,7 +194,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
             ve.setProperty(RuntimeConstants.CONVERSION_HANDLER_CLASS, "none");
         }
         ve.init();
-        
+
         return ve;
     }
 

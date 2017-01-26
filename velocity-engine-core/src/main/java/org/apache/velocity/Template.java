@@ -82,7 +82,7 @@ public class Template extends Resource
     public Template()
     {
         super();
-        
+
         setType(ResourceManager.RESOURCE_TEMPLATE);
     }
 
@@ -185,7 +185,7 @@ public class Template extends Resource
                     if (errorCondition == null)
                     {
                          throw new VelocityException(e);
-                    }                    
+                    }
                 }
             }
         }
@@ -264,7 +264,7 @@ public class Template extends Resource
         merge(context, writer, null);
     }
 
-    
+
     /**
      * The AST node structure is merged with the
      * context to produce the final output.
@@ -325,9 +325,8 @@ public class Template extends Resource
                         /*
                         * the macro lib wasn't found.  Note it and throw
                         */
-                        log.error("template.merge(): " +
-                                "cannot find template " +
-                                (String) macroLibraries.get(i));
+                        log.error("template.merge(): cannot find template {}",
+                                  (String)macroLibraries.get(i));
                         throw re;
                     }
                     catch (ParseErrorException pe)
@@ -336,12 +335,11 @@ public class Template extends Resource
                         * the macro lib was found, but didn't parse - syntax error
                         *  note it and throw
                         */
-                        rsvc.getLog("parser").error("template.merge(): " +
-                                "syntax error in template " +
-                                (String) macroLibraries.get(i) + ": {}", pe.getMessage(), pe);
+                        rsvc.getLog("parser").error("template.merge(): syntax error in template {}: {}",
+                                                    (String)macroLibraries.get(i), pe.getMessage(), pe);
                         throw pe;
                     }
-                    
+
                     catch (Exception e)
                     {
                         throw new RuntimeException("Template.merge(): parse failed in template  " +
@@ -370,10 +368,7 @@ public class Template extends Resource
                 else
                 {
                     Logger renderingLog = rsvc.getLog("rendering");
-                    if (renderingLog.isDebugEnabled())
-                    {
-                        renderingLog.debug(stop.getMessage());
-                    }
+                    renderingLog.debug(stop.getMessage());
                 }
             }
             catch (IOException e)

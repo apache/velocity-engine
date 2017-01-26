@@ -16,10 +16,11 @@ package org.apache.velocity.util.introspection;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
-import org.apache.commons.lang3.Conversion;
+import org.apache.commons.lang3.Validate;
+
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public final class IntrospectorCache
      * Keep the names of the classes in another map. This is needed for a multi-classloader environment where it is possible
      * to have Class 'Foo' loaded by a classloader and then get asked to introspect on 'Foo' from another class loader. While these
      * two Class objects have the same name, a <code>classMethodMaps.get(Foo.class)</code> will return null. For that case, we
-     * keep a set of class names to recognize this case.  
+     * keep a set of class names to recognize this case.
      */
     private final Set classNameCache = new HashSet();
 
@@ -102,12 +103,7 @@ public final class IntrospectorCache
      */
     public ClassMap get(final Class c)
     {
-        if (c == null)
-        {
-            throw new IllegalArgumentException("class is null!");
-        }
-
-        ClassMap classMap = (ClassMap)classMapCache.get(c);
+        ClassMap classMap = (ClassMap)classMapCache.get(Validate.notNull(c));
         if (classMap == null)
         {
             /*
@@ -137,12 +133,7 @@ public final class IntrospectorCache
      */
     public ClassFieldMap getFieldMap(final Class c)
     {
-        if (c == null)
-        {
-            throw new IllegalArgumentException("class is null!");
-        }
-
-        ClassFieldMap classFieldMap = (ClassFieldMap)classFieldMapCache.get(c);
+        ClassFieldMap classFieldMap = (ClassFieldMap)classFieldMapCache.get(Validate.notNull(c));
         if (classFieldMap == null)
         {
             /*

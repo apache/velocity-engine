@@ -78,7 +78,7 @@ public class ClassMap
         this.clazz = clazz;
         this.log = log;
 
-        if (debugReflection && log.isDebugEnabled())
+        if (debugReflection)
         {
             log.debug("=================================================================");
             log.debug("== Class: {}", clazz);
@@ -86,7 +86,7 @@ public class ClassMap
 
         methodCache = createMethodCache(conversionHandler);
 
-        if (debugReflection && log.isDebugEnabled())
+        if (debugReflection)
         {
             log.debug("=================================================================");
         }
@@ -170,7 +170,7 @@ public class ClassMap
 
     private void populateMethodCacheWith(MethodCache methodCache, Class classToReflect)
     {
-        if (debugReflection && log.isDebugEnabled())
+        if (debugReflection)
         {
             log.debug("Reflecting {}", classToReflect);
         }
@@ -189,10 +189,7 @@ public class ClassMap
         }
         catch (SecurityException se) // Everybody feels better with...
         {
-            if (log.isDebugEnabled())
-            {
-                log.debug("While accessing methods of {}:", classToReflect, se);
-            }
+            log.debug("While accessing methods of {}:", classToReflect, se);
         }
     }
 
@@ -304,7 +301,7 @@ public class ClassMap
             {
                 cache.put(methodKey, method);
                 methodMap.add(method);
-                if (debugReflection && log.isDebugEnabled())
+                if (debugReflection)
                 {
                     log.debug("Adding {}", method);
                 }

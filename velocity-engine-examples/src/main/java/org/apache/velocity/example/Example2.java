@@ -18,12 +18,12 @@ package org.apache.velocity.example;
  * under the License.
  */
 
-import java.io.StringWriter;
-
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
+
+import java.io.StringWriter;
 
 /**
  * This class is a simple demonstration of how the Velocity Template Engine

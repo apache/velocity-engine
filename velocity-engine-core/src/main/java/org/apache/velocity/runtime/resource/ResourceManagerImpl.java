@@ -224,7 +224,7 @@ public class ResourceManagerImpl
              * pertaining to a particular loader.
              */
             String loaderName = (String) it.next();
-            StringBuffer loaderID = new StringBuffer(loaderName);
+            StringBuilder loaderID = new StringBuilder(loaderName);
             loaderID.append(".").append(RuntimeConstants.RESOURCE_LOADER);
 
             ExtProperties loaderConfiguration =
@@ -355,8 +355,7 @@ public class ResourceManagerImpl
             }
             catch (ResourceNotFoundException rnfe)
             {
-                log.error("ResourceManager : unable to find resource '" +
-                          resourceName + "' in any resource loader.");
+                log.error("ResourceManager : unable to find resource '{}' in any resource loader.", resourceName);
                 throw rnfe;
             }
             catch (ParseErrorException pee)
@@ -442,7 +441,7 @@ public class ResourceManagerImpl
                      *  multi-path support - will revisit and fix
                      */
 
-                    if (logWhenFound && log.isDebugEnabled())
+                    if (logWhenFound)
                     {
                         log.debug("ResourceManager: found {} with loader {}",
                                   resourceName, resourceLoader.getClassName());

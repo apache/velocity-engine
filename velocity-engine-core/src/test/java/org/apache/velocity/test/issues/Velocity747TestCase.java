@@ -16,7 +16,7 @@ package org.apache.velocity.test.issues;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.VelocityContext;
@@ -25,7 +25,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.test.misc.TestLogger;
-import org.apache.velocity.util.ExtProperties;
 
 import java.io.FileReader;
 import java.io.StringWriter;

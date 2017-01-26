@@ -16,7 +16,7 @@ package org.apache.velocity.runtime.resource.loader;
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
- * under the License.    
+ * under the License.
  */
 
 import org.apache.velocity.exception.VelocityException;
@@ -45,17 +45,16 @@ public class ResourceLoaderFactory
         {
             loader = (ResourceLoader) ClassUtils.getNewInstance( loaderClassName );
 
-            rs.getLog().debug("ResourceLoader instantiated: "
-                              + loader.getClass().getName());
+            rs.getLog().debug("ResourceLoader instantiated: {}", loader.getClass().getName());
 
             return loader;
         }
         // The ugly three strike again: ClassNotFoundException,IllegalAccessException,InstantiationException
         catch(Exception e)
         {
-            String msg = "Problem instantiating the template loader: "+loaderClassName+".\n" +
-                         "Look at your properties file and make sure the\n" +
-                         "name of the template loader is correct.";
+            String msg = "Problem instantiating the template loader: "+loaderClassName+"." + System.lineSeparator() +
+                "Look at your properties file and make sure the" + System.lineSeparator() +
+                "name of the template loader is correct.";
             rs.getLog().error(msg, e);
             throw new VelocityException(msg, e);
         }
