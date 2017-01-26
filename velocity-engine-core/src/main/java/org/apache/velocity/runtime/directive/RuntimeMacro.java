@@ -36,6 +36,8 @@ import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.util.StringUtils;
 
+import org.apache.commons.lang3.Validate;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
@@ -124,13 +126,8 @@ public class RuntimeMacro extends Directive
     {
         super.init(rs, context, node);
 
-        macroName = name;
-        if (macroName == null)
-        {
-            throw new IllegalArgumentException("Null arguments");
-        }
-
-        this.macroName = rsvc.useStringInterning() ? macroName.intern() : macroName;
+        macroName = Validate.notNull(name);
+        macroName = rsvc.useStringInterning() ? macroName.intern() : macroName;
         this.node = node;
 
         /**

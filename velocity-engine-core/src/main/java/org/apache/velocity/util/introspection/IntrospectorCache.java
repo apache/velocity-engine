@@ -19,6 +19,8 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
+import org.apache.commons.lang3.Validate;
+
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -101,12 +103,7 @@ public final class IntrospectorCache
      */
     public ClassMap get(final Class c)
     {
-        if (c == null)
-        {
-            throw new IllegalArgumentException("class is null!");
-        }
-
-        ClassMap classMap = (ClassMap)classMapCache.get(c);
+        ClassMap classMap = (ClassMap)classMapCache.get(Validate.notNull(c));
         if (classMap == null)
         {
             /*
@@ -136,12 +133,7 @@ public final class IntrospectorCache
      */
     public ClassFieldMap getFieldMap(final Class c)
     {
-        if (c == null)
-        {
-            throw new IllegalArgumentException("class is null!");
-        }
-
-        ClassFieldMap classFieldMap = (ClassFieldMap)classFieldMapCache.get(c);
+        ClassFieldMap classFieldMap = (ClassFieldMap)classFieldMapCache.get(Validate.notNull(c));
         if (classFieldMap == null)
         {
             /*
