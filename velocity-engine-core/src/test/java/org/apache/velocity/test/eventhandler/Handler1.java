@@ -42,7 +42,7 @@ public class Handler1
             if (value == null)
                 return null;
             else
-                return value.toString().toUpperCase() + value.toString().toLowerCase();
+                return value.toString().toUpperCase() + value.toString().toLowerCase(Locale.ROOT);
         }
 
         /**

@@ -538,7 +538,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
     {
         StringBuffer name = new StringBuffer();
         name.append(Character.toTitleCase(s.charAt(0)));
-        name.append(s.substring(1, s.length()).toLowerCase());
+        name.append(s.substring(1, s.length()).toLowerCase(Locale.ROOT));
         return name.toString();
     }
 }
