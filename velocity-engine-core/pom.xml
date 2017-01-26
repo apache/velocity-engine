@@ -112,14 +112,10 @@
           <debugParser>false</debugParser>
           <debugLookAhead>false</debugLookAhead>
           <debugTokenManager>false</debugTokenManager>
-          <jdkVersion>1.7</jdkVersion>
+          <jdkVersion>${maven.compiler.target}</jdkVersion>
           <nodeUsesParser>true</nodeUsesParser>
           <nodePackage>org.apache.velocity.runtime.parser.node</nodePackage>
           <sourceDirectory>${basedir}/src/main/parser</sourceDirectory>
-<!--
-          <interimDirectory>${basedir}/src/main/java</interimDirectory>
-          <outputDirectory>${basedir}/src/main/java</outputDirectory>
--->
         </configuration>
       </plugin>
     </plugins>
