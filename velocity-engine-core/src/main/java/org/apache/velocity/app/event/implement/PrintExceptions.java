@@ -81,7 +81,7 @@ public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServ
         }
         if (showStackTrace)
         {
-            st.append("\n").append(getStackTrace(e));
+            st.append(System.lineSeparator()).append(getStackTrace(e));
         }
         return st.toString();
 

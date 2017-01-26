@@ -52,9 +52,9 @@ public class ResourceLoaderFactory
         // The ugly three strike again: ClassNotFoundException,IllegalAccessException,InstantiationException
         catch(Exception e)
         {
-            String msg = "Problem instantiating the template loader: "+loaderClassName+".\n" +
-                         "Look at your properties file and make sure the\n" +
-                         "name of the template loader is correct.";
+            String msg = "Problem instantiating the template loader: "+loaderClassName+"." + System.lineSeparator() +
+                "Look at your properties file and make sure the" + System.lineSeparator() +
+                "name of the template loader is correct.";
             rs.getLog().error(msg, e);
             throw new VelocityException(msg, e);
         }
