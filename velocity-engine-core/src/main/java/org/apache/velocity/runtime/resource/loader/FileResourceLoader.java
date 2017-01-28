@@ -23,7 +23,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -71,21 +74,14 @@ public class FileResourceLoader extends ResourceLoader
 
         paths.addAll( configuration.getVector("path") );
 
-        // unicode files may have a BOM marker at the start,
-
-        if (log.isDebugEnabled())
+        // trim spaces from all paths
+        for (ListIterator<String> it = paths.listIterator(); it.hasNext(); )
         {
-            // trim spaces from all paths
-            StringUtils.trimStrings(paths);
-
-            // this section lets tell people what paths we will be using
-            int sz = paths.size();
-            for( int i=0; i < sz; i++)
-            {
-                log.debug("FileResourceLoader : adding path '{}'", (String)paths.get(i));
-            }
-            log.trace("FileResourceLoader : initialization complete.");
+            String path = StringUtils.trim(it.next());
+            it.set(path);
+            log.debug("FileResourceLoader : adding path '{}'", path);
         }
+        log.trace("FileResourceLoader : initialization complete.");
     }
 
     /**
@@ -115,7 +111,7 @@ public class FileResourceLoader extends ResourceLoader
                     "Need to specify a file name or file path!");
         }
 
-        String template = StringUtils.normalizePath(templateName);
+        String template = FilenameUtils.normalize( templateName, true );
         if ( template == null || template.length() == 0 )
         {
             String msg = "File resource error : argument " + template +
@@ -179,7 +175,7 @@ public class FileResourceLoader extends ResourceLoader
         {
             return false;
         }
-        name = StringUtils.normalizePath(name);
+        name =  FilenameUtils.normalize(name);
         if (name == null || name.length() == 0)
         {
             return false;

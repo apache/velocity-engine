@@ -46,10 +46,12 @@ import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.RuntimeServicesAware;
-import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.ChainableUberspector;
 import org.apache.velocity.util.introspection.LinkingUberspector;
 import org.apache.velocity.util.introspection.Uberspect;
+
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -636,7 +638,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         if (o instanceof String)
         {
-            return StringUtils.nullTrim((String) o);
+            return StringUtils.trim((String) o);
         }
         else
         {
@@ -1730,7 +1732,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public String getString(String key)
     {
-        return StringUtils.nullTrim(configuration.getString(key));
+        return StringUtils.trim(configuration.getString(key));
     }
 
     /**
