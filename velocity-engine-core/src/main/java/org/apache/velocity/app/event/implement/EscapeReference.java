@@ -23,7 +23,8 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
-import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 
@@ -123,7 +124,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
         log = rs.getLog("event");
 
         // Get the regular expression pattern.
-        matchRegExp = StringUtils.nullTrim(rs.getString(getMatchAttribute()));
+        matchRegExp = StringUtils.trim(rs.getString(getMatchAttribute()));
         if (org.apache.commons.lang3.StringUtils.isEmpty(matchRegExp))
         {
             matchRegExp = null;

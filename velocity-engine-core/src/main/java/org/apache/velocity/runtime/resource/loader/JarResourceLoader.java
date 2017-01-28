@@ -23,15 +23,18 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * <p>
@@ -88,19 +91,17 @@ public class JarResourceLoader extends ResourceLoader
     {
         log.trace("JarResourceLoader : initialization starting.");
 
-        // rest of Velocity engine still use legacy Vector
-        // and Hashtable classes. Classes are implicitly
-        // synchronized even if we don't need it.
-        Vector paths = configuration.getVector("path");
-        StringUtils.trimStrings(paths);
+        List paths = configuration.getList("path");
 
         if (paths != null)
         {
             log.debug("JarResourceLoader # of paths : {}", paths.size() );
 
-            for ( int i=0; i<paths.size(); i++ )
+            for (ListIterator<String> it = paths.listIterator(); it.hasNext(); )
             {
-                loadJar( (String)paths.get(i) );
+                String jar = StringUtils.trim(it.next());
+                it.set(jar);
+                loadJar(jar);
             }
         }
 
@@ -184,7 +185,7 @@ public class JarResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException("Need to have a resource!");
         }
 
-        String normalizedPath = StringUtils.normalizePath( source );
+        String normalizedPath = FilenameUtils.normalize( source, true );
 
         if ( normalizedPath == null || normalizedPath.length() == 0 )
         {

@@ -28,12 +28,15 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Vector;
 
 
@@ -115,7 +118,7 @@ public class ResourceManagerImpl
              */
             ExtProperties configuration = (ExtProperties) it.next();
 
-            String loaderClass = StringUtils.nullTrim(configuration.getString("class"));
+            String loaderClass = StringUtils.trim(configuration.getString("class"));
             ResourceLoader loaderInstance = (ResourceLoader) configuration.get("instance");
 
             if (loaderInstance != null)
@@ -155,7 +158,7 @@ public class ResourceManagerImpl
 
         Object cacheObject = null;
 
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(cacheClassName))
+        if (StringUtils.isNotEmpty(cacheClassName))
         {
             try
             {
@@ -210,11 +213,9 @@ public class ResourceManagerImpl
     private void assembleResourceLoaderInitializers()
     {
         Vector resourceLoaderNames = rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADER);
-        StringUtils.trimStrings(resourceLoaderNames);
 
-        for (Iterator it = resourceLoaderNames.iterator(); it.hasNext(); )
+        for (ListIterator<String> it = resourceLoaderNames.listIterator(); it.hasNext(); )
         {
-
             /*
              * The loader id might look something like the following:
              *
@@ -223,7 +224,8 @@ public class ResourceManagerImpl
              * The loader id is the prefix used for all properties
              * pertaining to a particular loader.
              */
-            String loaderName = (String) it.next();
+            String loaderName = StringUtils.trim(it.next());
+            it.set(loaderName);
             StringBuilder loaderID = new StringBuilder(loaderName);
             loaderID.append(".").append(RuntimeConstants.RESOURCE_LOADER);
 
@@ -529,7 +531,7 @@ public class ResourceManagerImpl
              *  this strikes me as bad...
              */
 
-            if (!org.apache.commons.lang3.StringUtils.equals(resource.getEncoding(), encoding))
+            if (!StringUtils.equals(resource.getEncoding(), encoding))
             {
                 log.warn("Declared encoding for template '{}' is different on reload. Old = '{}' New = '{}'",
                          resource.getName(), resource.getEncoding(), encoding);

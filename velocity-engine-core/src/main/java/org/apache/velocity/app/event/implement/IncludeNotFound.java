@@ -24,7 +24,8 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.ContextAware;
 import org.apache.velocity.util.RuntimeServicesAware;
-import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 
@@ -110,7 +111,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
     {
          this.rs = rs;
          log = rs.getLog("event");
-         notfound = StringUtils.nullTrim(rs.getString(PROPERTY_NOT_FOUND, DEFAULT_NOT_FOUND));
+         notfound = StringUtils.trim(rs.getString(PROPERTY_NOT_FOUND, DEFAULT_NOT_FOUND));
     }
 
     /**
