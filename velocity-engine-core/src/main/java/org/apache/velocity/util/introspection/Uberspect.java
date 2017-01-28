@@ -33,7 +33,7 @@ public interface Uberspect
     /**
      *  Initializer - will be called before use
      */
-    public void init();
+    void init();
 
     /**
      *  To support iteratives - #foreach()
@@ -41,7 +41,7 @@ public interface Uberspect
      * @param info
      * @return An Iterator.
      */
-    public Iterator getIterator(Object obj, Info info);
+    Iterator getIterator(Object obj, Info info);
 
     /**
      *  Returns a general method, corresponding to $foo.bar( $woogie )
@@ -51,7 +51,7 @@ public interface Uberspect
      * @param info
      * @return A Velocity Method.
      */
-    public VelMethod getMethod(Object obj, String method, Object[] args, Info info);
+    VelMethod getMethod(Object obj, String method, Object[] args, Info info);
 
     /**
      * Property getter - returns VelPropertyGet appropos for #set($foo = $bar.woogie)
@@ -60,7 +60,7 @@ public interface Uberspect
      * @param info
      * @return A Velocity Getter.
      */
-    public VelPropertyGet getPropertyGet(Object obj, String identifier, Info info);
+    VelPropertyGet getPropertyGet(Object obj, String identifier, Info info);
 
     /**
      * Property setter - returns VelPropertySet appropos for #set($foo.bar = "geir")
@@ -70,5 +70,5 @@ public interface Uberspect
      * @param info
      * @return A Velocity Setter.
      */
-    public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info info);
+    VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info info);
 }

@@ -50,8 +50,8 @@ public interface InvalidReferenceEventHandler extends EventHandler
      * @param info contains template, line, column details
      * @return substitute return value for missing reference, or null if no substitute
      */
-    public Object invalidGetMethod(Context context, String reference,
-            Object object, String property, Info info);
+    Object invalidGetMethod(Context context, String reference,
+                            Object object, String property, Info info);
 
     /**
      * Called when object is null or there is no setter for the given
@@ -68,8 +68,8 @@ public interface InvalidReferenceEventHandler extends EventHandler
      * @return if true then stop calling invalidSetMethod along the
      * chain.
      */
-    public boolean invalidSetMethod(Context context, String leftreference,
-            String rightreference, Info info);
+    boolean invalidSetMethod(Context context, String leftreference,
+                             String rightreference, Info info);
 
     /**
      * Called when object is null or the given method does not exist.
@@ -83,6 +83,6 @@ public interface InvalidReferenceEventHandler extends EventHandler
      * @param info contains template, line, column details
      * @return substitute return value for missing reference, or null if no substitute
      */
-    public Object invalidMethod(Context context, String reference,
-            Object object, String method, Info info);
+    Object invalidMethod(Context context, String reference,
+                         Object object, String method, Info info);
 }

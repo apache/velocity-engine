@@ -36,8 +36,8 @@ public class StrictMathTestCase extends BaseTestCase
     {
         super.setUp();
         engine.setProperty(RuntimeConstants.STRICT_MATH, Boolean.TRUE);
-        context.put("num", new Integer(5));
-        context.put("zero", new Integer(0));
+        context.put("num", 5);
+        context.put("zero", 0);
     }
 
     protected void assertNullMathEx(String operation)

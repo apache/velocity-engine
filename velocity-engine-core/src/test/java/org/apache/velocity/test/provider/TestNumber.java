@@ -34,7 +34,7 @@ public class TestNumber implements TemplateNumber
 
    public TestNumber(double val)
    {
-       n = new Double(val);
+       n = val;
    }
 
    public Number getAsNumber()

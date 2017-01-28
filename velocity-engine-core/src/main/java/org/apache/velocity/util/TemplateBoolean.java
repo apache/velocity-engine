@@ -33,6 +33,6 @@ public interface TemplateBoolean
     * Returns a boolean that can be used in a template.
     * @return A boolean that can be used in a template.
     */
-   public boolean getAsBoolean();
+   boolean getAsBoolean();
 
 }

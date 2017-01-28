@@ -101,7 +101,7 @@ public class CommonsExtPropTestCase extends BaseTestCase
             result.write("\n\n");
 
             message(result, "Testing getBoolean(key) ...");
-            result.write(new Boolean(c.getBoolean("config.boolean.value")).toString());
+            result.write(Boolean.valueOf(c.getBoolean("config.boolean.value")).toString());
             result.write("\n\n");
 
             message(result, "Testing getByte(key) ...");
@@ -159,9 +159,9 @@ public class CommonsExtPropTestCase extends BaseTestCase
     private void showVector(FileWriter result, Vector v)
         throws Exception
     {
-        for (int j = 0; j < v.size(); j++)
+        for (Object aV : v)
         {
-            result.write((String) v.get(j));
+            result.write((String) aV);
             result.write("\n");
         }
         result.write("\n");

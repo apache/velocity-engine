@@ -37,6 +37,6 @@ public interface  RuntimeServicesAware
      * Called automatically when event cartridge is initialized.
      * @param rs RuntimeServices object assigned during initialization
      */
-    public void setRuntimeServices( RuntimeServices rs );
+    void setRuntimeServices(RuntimeServices rs);
 
 }

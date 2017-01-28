@@ -230,10 +230,10 @@ public class RuntimeMacro extends Directive
 
     /**
      * Velocimacro implementation is not known at the init time. So look for
-     * a implementation in the macro libaries and if finds one renders it. The
+     * a implementation in the macro libraries and if finds one renders it. The
      * actual rendering is delegated to the VelocimacroProxy object. When
      * looking for a macro we first loot at the template with has the
-     * macro call then we look at the macro lbraries in the order they appear
+     * macro call then we look at the macro libraries in the order they appear
      * in the list. If a macro has many definitions above look up will
      * determine the precedence.
      *
@@ -330,7 +330,7 @@ public class RuntimeMacro extends Directive
                 }
                 return true;
             }
-            catch (RuntimeException e)
+            catch (RuntimeException | IOException e)
             {
                 /**
                  * We catch, the exception here so that we can record in
@@ -339,12 +339,6 @@ public class RuntimeMacro extends Directive
                  * especially important for multiple macro call levels.
                  * this is also true for the following catch blocks.
                  */
-                log.error("Exception in macro #{} called at {}",
-                          macroName, StringUtils.formatFileString(node));
-                throw e;
-            }
-            catch (IOException e)
-            {
                 log.error("Exception in macro #{} called at {}",
                           macroName, StringUtils.formatFileString(node));
                 throw e;

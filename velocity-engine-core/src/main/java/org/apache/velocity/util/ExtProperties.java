@@ -776,9 +776,9 @@ public class ExtProperties extends Hashtable<String,Object> {
                     theWrtr.println(currentOutput.toString());
 
                 } else if (value instanceof List) {
-                    List values = (List) value;
-                    for (Iterator it = values.iterator(); it.hasNext(); ) {
-                        String currentElement = (String) it.next();
+                    List<String> values = (List<String>) value;
+                    for (String currentElement : values)
+                    {
                         StringBuilder currentOutput = new StringBuilder();
                         currentOutput.append(key);
                         currentOutput.append("=");
@@ -994,14 +994,16 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         // Each token is of the form 'key=value'.
         Properties props = new Properties(defaults);
-        for (int i = 0; i < tokens.length; i++) {
-            String token = tokens[i];
+        for (String token : tokens)
+        {
             int equalSign = token.indexOf('=');
-            if (equalSign > 0) {
+            if (equalSign > 0)
+            {
                 String pkey = token.substring(0, equalSign).trim();
                 String pvalue = token.substring(equalSign + 1).trim();
                 props.put(pkey, pvalue);
-            } else {
+            } else
+            {
                 throw new IllegalArgumentException('\'' + token + "' does not contain an equals sign");
             }
         }
@@ -1159,7 +1161,7 @@ public class ExtProperties extends Hashtable<String,Object> {
     public boolean getBoolean(String key) {
         Boolean b = getBoolean(key, null);
         if (b != null) {
-            return b.booleanValue();
+            return b;
         } else {
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
@@ -1175,7 +1177,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * object that is not a Boolean.
      */
     public boolean getBoolean(String key, boolean defaultValue) {
-        return getBoolean(key, Boolean.valueOf(defaultValue)).booleanValue();
+        return getBoolean(key, Boolean.valueOf(defaultValue));
     }
 
     /**
@@ -1227,12 +1229,18 @@ public class ExtProperties extends Hashtable<String,Object> {
     public String testBoolean(String value) {
         String s = value.toLowerCase(Locale.ROOT);
 
-        if (s.equals("true") || s.equals("on") || s.equals("yes")) {
-            return "true";
-        } else if (s.equals("false") || s.equals("off") || s.equals("no")) {
-            return "false";
-        } else {
-            return null;
+        switch (s)
+        {
+            case "true":
+            case "on":
+            case "yes":
+                return "true";
+            case "false":
+            case "off":
+            case "no":
+                return "false";
+            default:
+                return null;
         }
     }
 
@@ -1251,7 +1259,7 @@ public class ExtProperties extends Hashtable<String,Object> {
     public byte getByte(String key) {
         Byte b = getByte(key, null);
         if (b != null) {
-            return b.byteValue();
+            return b;
         } else {
             throw new NoSuchElementException('\'' + key + " doesn't map to an existing object");
         }
@@ -1269,7 +1277,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public byte getByte(String key, byte defaultValue) {
-        return getByte(key, Byte.valueOf(defaultValue)).byteValue();
+        return getByte(key, Byte.valueOf(defaultValue));
     }
 
     /**
@@ -1321,7 +1329,7 @@ public class ExtProperties extends Hashtable<String,Object> {
     public short getShort(String key) {
         Short s = getShort(key, null);
         if (s != null) {
-            return s.shortValue();
+            return s;
         } else {
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
@@ -1339,7 +1347,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public short getShort(String key, short defaultValue) {
-        return getShort(key, Short.valueOf(defaultValue)).shortValue();
+        return getShort(key, Short.valueOf(defaultValue));
     }
 
     /**
@@ -1414,7 +1422,7 @@ public class ExtProperties extends Hashtable<String,Object> {
     public int getInteger(String key) {
         Integer i = getInteger(key, null);
         if (i != null) {
-            return i.intValue();
+            return i;
         } else {
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
@@ -1437,7 +1445,7 @@ public class ExtProperties extends Hashtable<String,Object> {
         if (i == null) {
             return defaultValue;
         }
-        return i.intValue();
+        return i;
     }
 
     /**
@@ -1489,7 +1497,7 @@ public class ExtProperties extends Hashtable<String,Object> {
     public long getLong(String key) {
         Long l = getLong(key, null);
         if (l != null) {
-            return l.longValue();
+            return l;
         } else {
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
@@ -1507,7 +1515,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public long getLong(String key, long defaultValue) {
-        return getLong(key, Long.valueOf(defaultValue)).longValue();
+        return getLong(key, Long.valueOf(defaultValue));
     }
 
     /**
@@ -1559,7 +1567,7 @@ public class ExtProperties extends Hashtable<String,Object> {
     public float getFloat(String key) {
         Float f = getFloat(key, null);
         if (f != null) {
-            return f.floatValue();
+            return f;
         } else {
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
@@ -1577,7 +1585,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public float getFloat(String key, float defaultValue) {
-        return getFloat(key, new Float(defaultValue)).floatValue();
+        return getFloat(key, new Float(defaultValue));
     }
 
     /**
@@ -1629,7 +1637,7 @@ public class ExtProperties extends Hashtable<String,Object> {
     public double getDouble(String key) {
         Double d = getDouble(key, null);
         if (d != null) {
-            return d.doubleValue();
+            return d;
         } else {
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
@@ -1647,7 +1655,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public double getDouble(String key, double defaultValue) {
-        return getDouble(key, new Double(defaultValue)).doubleValue();
+        return getDouble(key, new Double(defaultValue));
     }
 
     /**

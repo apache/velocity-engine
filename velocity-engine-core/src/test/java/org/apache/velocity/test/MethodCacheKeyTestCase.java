@@ -81,7 +81,7 @@ public class MethodCacheKeyTestCase extends TestCase
     {
         assertTrue(mck.equals(mck));
         assertTrue(!mck.equals(null));
-        assertTrue(!mck.equals((ASTMethod.MethodCacheKey) null));
+        assertTrue(!mck.equals(null));
     }
 
 

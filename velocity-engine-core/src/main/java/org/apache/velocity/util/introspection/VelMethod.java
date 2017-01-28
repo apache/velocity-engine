@@ -41,7 +41,7 @@ public interface VelMethod
      * @return The resulting object.
      * @throws IllegalAccessException, InvocationTargetException
      */
-    public Object invoke(Object o, Object[] params)
+    Object invoke(Object o, Object[] params)
         throws IllegalAccessException, InvocationTargetException;
 
     /**
@@ -50,24 +50,24 @@ public interface VelMethod
      *
      *  @return true if can be reused for this class, false if not
      */
-    public boolean isCacheable();
+    boolean isCacheable();
 
     /**
      *  returns the method name used
      * @return The method name used
      */
-    public String getMethodName();
+    String getMethodName();
 
     /**
      * returns the underlying Method
      * @return the method
      * @since 2.0
      */
-    public Method getMethod();
+    Method getMethod();
 
     /**
      *  returns the return type of the method invoked
      * @return The return type of the method invoked
      */
-    public Class getReturnType();
+    Class getReturnType();
 }

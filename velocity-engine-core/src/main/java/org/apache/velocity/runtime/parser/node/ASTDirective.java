@@ -100,7 +100,7 @@ public class ASTDirective extends SimpleNode
     {
         Token t;
 
-        /** method is synchronized to avoid concurrent directive initialization **/
+        /* method is synchronized to avoid concurrent directive initialization **/
 
         if (!isInitialized)
         {
@@ -130,17 +130,10 @@ public class ASTDirective extends SimpleNode
 
                 try
                 {
-                    directive = (Directive) parser.getDirective( directiveName )
+                    directive = parser.getDirective( directiveName )
                         .getClass().newInstance();
                 }
-                catch (InstantiationException e)
-                {
-                    throw new VelocityException(
-                            "Couldn't initialize directive of class " +
-                            parser.getDirective(directiveName).getClass().getName(),
-                            e);
-                }
-                catch (IllegalAccessException e)
+                catch (InstantiationException | IllegalAccessException e)
                 {
                     throw new VelocityException(
                             "Couldn't initialize directive of class " +
@@ -186,22 +179,22 @@ public class ASTDirective extends SimpleNode
             }
             else
             {
-                /**
-                 * Create a new RuntimeMacro
+                /*
+                  Create a new RuntimeMacro
                  */
                 directive = new RuntimeMacro();
                 directive.setLocation(getLine(), getColumn(), getTemplate());
 
-                /**
-                 * Initialize it
+                /*
+                  Initialize it
                  */
                 try
                 {
                     ((RuntimeMacro)directive).init( rsvc, directiveName, context, this );
                 }
 
-                /**
-                 * correct the line/column number if an exception is caught
+                /*
+                  correct the line/column number if an exception is caught
                  */
                 catch (TemplateInitException die)
                 {

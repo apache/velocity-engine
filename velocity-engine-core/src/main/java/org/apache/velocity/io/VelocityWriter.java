@@ -120,7 +120,7 @@ public final class VelocityWriter extends Writer implements Filter
      * flushing the stream itself.  This method is non-private only so that it
      * may be invoked by PrintStream.
      */
-    private final void flushBuffer() throws IOException
+    private void flushBuffer() throws IOException
     {
         if (bufferSize == 0)
             return;
@@ -138,7 +138,7 @@ public final class VelocityWriter extends Writer implements Filter
         nextChar = 0;
     }
 
-    private final void bufferOverflow() throws IOException
+    private void bufferOverflow() throws IOException
     {
         throw new IOException("overflow");
     }
@@ -204,7 +204,7 @@ public final class VelocityWriter extends Writer implements Filter
      * <code>java.lang.Math</code> if we've run out of file
      * descriptors and we're trying to print a stack trace.
      */
-    private final int min(int a, int b)
+    private int min(int a, int b)
     {
 	    return (a < b ? a : b);
     }

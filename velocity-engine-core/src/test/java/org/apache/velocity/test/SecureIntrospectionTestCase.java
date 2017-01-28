@@ -116,16 +116,16 @@ public class SecureIntrospectionTestCase extends BaseTestCase
 
         try
         {
-            for (int i=0; i < templateStrings.length; i++)
+            for (String templateString : templateStrings)
             {
-                if (shouldeval && !doesStringEvaluate(ve,c,templateStrings[i]))
+                if (shouldeval && !doesStringEvaluate(ve, c, templateString))
                 {
-                    fail ("Should have evaluated: " + templateStrings[i]);
+                    fail("Should have evaluated: " + templateString);
                 }
 
-                if (!shouldeval && doesStringEvaluate(ve,c,templateStrings[i]))
+                if (!shouldeval && doesStringEvaluate(ve, c, templateString))
                 {
-                    fail ("Should not have evaluated: " + templateStrings[i]);
+                    fail("Should not have evaluated: " + templateString);
                 }
             }
 

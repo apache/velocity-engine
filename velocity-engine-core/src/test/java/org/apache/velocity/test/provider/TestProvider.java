@@ -60,8 +60,7 @@ public class TestProvider
 
     public List getEmptyList()
     {
-        List list = new ArrayList();
-        return list;
+        return new ArrayList();
     }
 
     public List getList()
@@ -213,9 +212,9 @@ public class TestProvider
     {
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < strings.length; i++)
+        for (Object string : strings)
         {
-            result.append((String) strings[i]).append(' ');
+            result.append((String) string).append(' ');
         }
 
         return result.toString();
@@ -225,9 +224,9 @@ public class TestProvider
     {
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < strings.size(); i++)
+        for (Object string : strings)
         {
-            result.append((String) strings.get(i)).append(' ');
+            result.append((String) string).append(' ');
         }
 
         return result.toString();
@@ -237,9 +236,9 @@ public class TestProvider
     {
         StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < objects.size(); i++)
+        for (Object object : objects)
         {
-            result.append(objects.get(i)).append(' ');
+            result.append(object).append(' ');
         }
 
         return result.toString();
@@ -288,8 +287,8 @@ public class TestProvider
     {
         int size = list.length;
 
-        for (int i = 0; i < size; i++)
-            if (list[i].toString().length() > 0)
+        for (Object aList : list)
+            if (aList.toString().length() > 0)
                 return false;
 
         return true;
@@ -318,12 +317,12 @@ public class TestProvider
     public void setBangStart( Integer i )
     {
         System.out.println("SetBangStart() : called with val = " + i );
-        stateint = i.intValue();
+        stateint = i;
     }
     public Integer bang()
     {
         System.out.println("Bang! : " + stateint );
-        Integer ret = new Integer( stateint );
+        Integer ret = stateint;
         stateint++;
         return ret;
     }

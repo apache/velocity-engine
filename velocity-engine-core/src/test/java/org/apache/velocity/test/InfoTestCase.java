@@ -88,13 +88,12 @@ public class InfoTestCase extends BaseTestCase implements TemplateTestBase
             int expectedLine, int expectedCol) throws Exception
     {
         Context context = new VelocityContext();
-        StringWriter writer = new StringWriter();
         Template template = ve.getTemplate(templateName, "UTF-8");
         Info info = null;
 
         context.put("main", this);
 
-        try
+        try (StringWriter writer = new StringWriter())
         {
             template.merge(context, writer);
             writer.flush();
@@ -103,10 +102,6 @@ public class InfoTestCase extends BaseTestCase implements TemplateTestBase
         catch (UberspectTestException E)
         {
             info = E.getInfo();
-        }
-        finally
-        {
-            writer.close();
         }
         assertInfoEqual(info, templateName, expectedLine, expectedCol);
 

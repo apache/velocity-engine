@@ -47,9 +47,9 @@ public class IndexTestCase extends BaseTestCase
         context.put("str", str);
 
         ArrayList alist = new ArrayList();
-        alist.add(new Integer(1));
-        alist.add(new Integer(2));
-        alist.add(new Integer(3));
+        alist.add(1);
+        alist.add(2);
+        alist.add(3);
         alist.add(a);
         alist.add(null);
         context.put("alist", alist);
@@ -143,7 +143,7 @@ public class IndexTestCase extends BaseTestCase
 
         public String get(Boolean bool)
         {
-            if (bool.booleanValue())
+            if (bool)
                 return "BIG TRUE";
             else
                 return "BIG FALSE";

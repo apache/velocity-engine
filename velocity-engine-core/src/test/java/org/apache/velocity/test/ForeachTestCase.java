@@ -47,7 +47,7 @@ public class ForeachTestCase extends BaseTestCase
     {
         // Limit the loop to three iterations.
         engine.setProperty(RuntimeConstants.MAX_NUMBER_LOOPS,
-                             new Integer(3));
+            3);
 
         assertEvalEquals("1 2 3 ", "#foreach ($item in [1..10])$item #end");
     }
@@ -60,7 +60,7 @@ public class ForeachTestCase extends BaseTestCase
         throws Exception
     {
         List col = new ArrayList();
-        col.add(new Integer(100));
+        col.add(100);
         col.add("STRVALUE");
         context.put("helper", new ForeachMethodCallHelper());
         context.put("col", col);
@@ -125,8 +125,8 @@ public class ForeachTestCase extends BaseTestCase
         public MyIterable()
         {
             foo = new ArrayList();
-            foo.add(new Integer(1));
-            foo.add(new Long(2));
+            foo.add(1);
+            foo.add(2L);
             foo.add("3");
         }
 

@@ -125,7 +125,7 @@ public class JarResourceLoader extends ResourceLoader
             log.error(msg);
             throw new RuntimeException(msg);
         }
-        if ( path.indexOf("!/") < 0 )
+        if (!path.contains("!/"))
         {
             path += "!/";
         }

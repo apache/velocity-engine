@@ -123,16 +123,16 @@ public class ClassFieldMap
                 populateFieldCacheWith(fieldCache, classToReflect);
             }
             Class [] interfaces = classToReflect.getInterfaces();
-            for (int i = 0; i < interfaces.length; i++)
+            for (Class anInterface : interfaces)
             {
-                populateFieldCacheWithInterface(fieldCache, interfaces[i]);
+                populateFieldCacheWithInterface(fieldCache, anInterface);
             }
         }
         // return the already initialized cache
         return fieldCache;
     }
 
-    /* recurses up interface heirarchy to get all super interfaces (VELOCITY-689) */
+    /* recurses up interface hierarchy to get all super interfaces (VELOCITY-689) */
     private void populateFieldCacheWithInterface(Map fieldCache, Class iface)
     {
         if (Modifier.isPublic(iface.getModifiers()))
@@ -140,9 +140,9 @@ public class ClassFieldMap
             populateFieldCacheWith(fieldCache, iface);
         }
         Class[] supers = iface.getInterfaces();
-        for (int i=0; i < supers.length; i++)
+        for (Class aSuper : supers)
         {
-            populateFieldCacheWithInterface(fieldCache, supers[i]);
+            populateFieldCacheWithInterface(fieldCache, aSuper);
         }
     }
 
@@ -156,12 +156,12 @@ public class ClassFieldMap
         try
         {
             Field[] fields = classToReflect.getDeclaredFields();
-            for (int i = 0; i < fields.length; i++)
+            for (Field field : fields)
             {
-                int modifiers = fields[i].getModifiers();
+                int modifiers = field.getModifiers();
                 if (Modifier.isPublic(modifiers))
                 {
-                    fieldCache.put(fields[i].getName(), fields[i]);
+                    fieldCache.put(field.getName(), field);
                 }
             }
         }

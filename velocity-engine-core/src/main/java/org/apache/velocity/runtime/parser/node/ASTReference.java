@@ -392,7 +392,7 @@ public class ASTReference extends SimpleNode
         {
           /**
            * If we are in strict mode and the variable is escaped, then don't bother to
-           * retreive the value since we won't use it. And if the var is not defined
+           * retrieve the value since we won't use it. And if the var is not defined
            * it will throw an exception.  Set value to TRUE to fall through below with
            * simply printing $foo, and not \$foo
            */
@@ -824,8 +824,8 @@ public class ASTReference extends SimpleNode
             }
 
             /*
-             *  lets do all the work here.  I would argue that if this occurrs,
-             *  it's not a reference at all, so preceeding \ characters in front
+             *  lets do all the work here.  I would argue that if this occurs,
+             *  it's not a reference at all, so preceding \ characters in front
              *  of the $ are just schmoo.  So we just do the escape processing
              *  trick (even | odd) and move on.  This kind of breaks the rule
              *  pattern of $ and # but '!' really tosses a wrench into things.
@@ -888,7 +888,7 @@ public class ASTReference extends SimpleNode
          *  we need to see if this reference is escaped.  if so
          *  we will clean off the leading \'s and let the
          *  regular behavior determine if we should output this
-         *  as \$foo or $foo later on in render(). Lazyness..
+         *  as \$foo or $foo later on in render(). Laziness..
          */
 
         escaped = false;
@@ -917,7 +917,7 @@ public class ASTReference extends SimpleNode
         }
 
         /*
-         *  Look for preceeding stuff like '#' and '$'
+         *  Look for preceding stuff like '#' and '$'
          *  and snip it off, except for the
          *  last $
          */
@@ -995,7 +995,7 @@ public class ASTReference extends SimpleNode
         {
             /*
              * this is a 'RUNT', which can happen in certain circumstances where
-             *  the parser is fooled into believeing that an IDENTIFIER is a real
+             *  the parser is fooled into believing that an IDENTIFIER is a real
              *  reference.  Another 'dreaded' MORE hack :).
              */
             referenceType = RUNT;

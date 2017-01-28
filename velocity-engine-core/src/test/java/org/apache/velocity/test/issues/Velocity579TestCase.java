@@ -48,7 +48,7 @@ public class Velocity579TestCase extends BaseTestCase
             assertEvalEquals("bar", "$bar.bar()");
     }
 
-    public static interface Foo
+    public interface Foo
     {
         String foo(String s);
     }

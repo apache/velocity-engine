@@ -89,7 +89,7 @@ public class VelocimacroFactory
     /**
      *  vector of the library names
      */
-    private List macroLibVec = null;
+    private List<String> macroLibVec = null;
 
     /**
      *  map of the library Template objects
@@ -164,20 +164,18 @@ public class VelocimacroFactory
 
              if(libfiles != null)
              {
-                 macroLibVec = new ArrayList();
+                 macroLibVec = new ArrayList<>();
                  if (libfiles instanceof Vector)
                  {
-                     macroLibVec.addAll((Vector)libfiles);
+                     macroLibVec.addAll((Vector<String>)libfiles);
                  }
                  else if (libfiles instanceof String)
                  {
-                     macroLibVec.add(libfiles);
+                     macroLibVec.add((String)libfiles);
                  }
 
-                 for(int i = 0, is = macroLibVec.size(); i < is; i++)
+                 for (String lib : macroLibVec)
                  {
-                     String lib = (String) macroLibVec.get(i);
-
                      /*
                       * only if it's a non-empty string do we bother
                       */

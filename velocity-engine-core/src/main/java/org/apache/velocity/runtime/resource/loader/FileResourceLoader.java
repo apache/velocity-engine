@@ -55,7 +55,7 @@ public class FileResourceLoader extends ResourceLoader
     /**
      * The paths to search for templates.
      */
-    private List paths = new ArrayList();
+    private List<String> paths = new ArrayList<>();
 
     /**
      * Used to map the path that a template was found on
@@ -124,9 +124,8 @@ public class FileResourceLoader extends ResourceLoader
         }
 
         int size = paths.size();
-        for (int i = 0; i < size; i++)
+        for (String path : paths)
         {
-            String path = (String) paths.get(i);
             InputStream rawStream = null;
             Reader reader = null;
 
@@ -182,9 +181,8 @@ public class FileResourceLoader extends ResourceLoader
         }
 
         int size = paths.size();
-        for (int i = 0; i < size; i++)
+        for (String path : paths)
         {
-            String path = (String)paths.get(i);
             try
             {
                 File file = getFile(path, name);

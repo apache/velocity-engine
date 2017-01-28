@@ -54,7 +54,7 @@ public class Velocity701TestCase extends BaseTestCase
         assertEvalEquals("foo", "$bar.foo");
     }
 
-    public static enum Bar {
+    public enum Bar {
 
         ONE(){
             public String getFoo() {

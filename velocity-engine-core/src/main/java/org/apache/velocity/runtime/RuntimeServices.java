@@ -71,7 +71,7 @@ public interface RuntimeServices
      *   <li>Velocimacro System</li>
      * </ul>
      */
-    public void init();
+   void init();
 
     /**
      * Allows an external system to set a property in
@@ -80,7 +80,7 @@ public interface RuntimeServices
      * @param key property key
      * @param value property value
      */
-    public  void setProperty(String key, Object value);
+    void setProperty(String key, Object value);
 
     /**
      * Allow an external system to set an ExtProperties
@@ -89,7 +89,7 @@ public interface RuntimeServices
      * @param configuration
      * @since 2.0
      */
-    public void setConfiguration( ExtProperties configuration);
+    void setConfiguration(ExtProperties configuration);
 
  /**
      * Add a property to the configuration. If it already
@@ -110,7 +110,7 @@ public interface RuntimeServices
      * @param key
      * @param value
      */
-    public void addProperty(String key, Object value);
+ void addProperty(String key, Object value);
 
     /**
      * Clear the values pertaining to a particular
@@ -118,7 +118,7 @@ public interface RuntimeServices
      *
      * @param key of property to clear
      */
-    public void clearProperty(String key);
+    void clearProperty(String key);
 
     /**
      *  Allows an external caller to get a property.  The calling
@@ -128,7 +128,7 @@ public interface RuntimeServices
      *  @param key property to return
      * @return The value.
      */
-    public  Object getProperty( String key );
+    Object getProperty(String key);
 
     /**
      * Initialize the Velocity Runtime with a Properties
@@ -136,7 +136,7 @@ public interface RuntimeServices
      *
      * @param p
      */
-    public void init(Properties p);
+    void init(Properties p);
 
     /**
      * Initialize the Velocity Runtime with the name of
@@ -144,7 +144,7 @@ public interface RuntimeServices
      *
      * @param configurationFile
      */
-    public void init(String configurationFile);
+    void init(String configurationFile);
 
     /**
      * Parse the input and return the root of
@@ -163,7 +163,7 @@ public interface RuntimeServices
      * @return The AST representing the template.
      * @throws ParseException
      */
-    public  SimpleNode parse( Reader reader, Template template )
+    SimpleNode parse(Reader reader, Template template)
         throws ParseException;
 
     /**
@@ -185,8 +185,8 @@ public interface RuntimeServices
      * @throws IOException While rendering to the writer, an I/O problem occurred.
      * @since Velocity 1.6
      */
-    public boolean evaluate(Context context, Writer out,
-                            String logTag, String instring);
+    boolean evaluate(Context context, Writer out,
+                     String logTag, String instring);
 
     /**
      * Renders the input reader using the context into the output writer.
@@ -206,8 +206,8 @@ public interface RuntimeServices
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
      * @since Velocity 1.6
      */
-    public boolean evaluate(Context context, Writer writer,
-                            String logTag, Reader reader);
+    boolean evaluate(Context context, Writer writer,
+                     String logTag, Reader reader);
 
     /**
      * Invokes a currently registered Velocimacro with the params provided
@@ -225,9 +225,9 @@ public interface RuntimeServices
      * @return true if Velocimacro exists and successfully invoked, false otherwise.
      * @since 1.6
      */
-    public boolean invokeVelocimacro(final String vmName, String logTag,
-                                     String[] params, final Context context,
-                                     final Writer writer);
+    boolean invokeVelocimacro(final String vmName, String logTag,
+                              String[] params, final Context context,
+                              final Writer writer);
 
     /**
      * Returns a <code>Template</code> from the resource manager.
@@ -242,7 +242,7 @@ public interface RuntimeServices
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      */
-    public Template getTemplate(String name)
+    Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException;
 
     /**
@@ -256,7 +256,7 @@ public interface RuntimeServices
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      */
-    public Template getTemplate(String name, String  encoding)
+    Template getTemplate(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException;
 
     /**
@@ -270,7 +270,7 @@ public interface RuntimeServices
      *          from any available source.
      * @throws ParseErrorException
      */
-    public ContentResource getContent(String name)
+    ContentResource getContent(String name)
         throws ResourceNotFoundException, ParseErrorException;
 
     /**
@@ -284,7 +284,7 @@ public interface RuntimeServices
      *          from any available source.
      * @throws ParseErrorException
      */
-    public ContentResource getContent( String name, String encoding )
+    ContentResource getContent(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException;
 
     /**
@@ -296,7 +296,7 @@ public interface RuntimeServices
      *  @param resourceName Name of template or content resource
      *  @return class name of loader than can provide it
      */
-    public String getLoaderNameForResource( String resourceName );
+    String getLoaderNameForResource(String resourceName);
 
     /**
      * String property accessor method with default to hide the
@@ -307,7 +307,7 @@ public interface RuntimeServices
      *               found in resource manager.
      * @return String  value of key or default
      */
-    public String getString( String key, String defaultValue);
+    String getString(String key, String defaultValue);
 
     /**
      * Returns the appropriate VelocimacroProxy object if strVMname
@@ -321,7 +321,7 @@ public interface RuntimeServices
      *
      * @return VelocimacroProxy
      */
-    public Directive getVelocimacro(String vmName, Template renderingTemplate, Template template);
+    Directive getVelocimacro(String vmName, Template renderingTemplate, Template template);
 
     /**
      * Adds a new Velocimacro. Usually called by Macro only while parsing.
@@ -335,10 +335,10 @@ public interface RuntimeServices
      * @return boolean  True if added, false if rejected for some
      *                  reason (either parameters or permission settings)
      */
-    public boolean addVelocimacro( String name,
-                                   Node macro,
-                                   List<Macro.MacroArg> macroArgs,
-                                   Template definingTemplate );
+    boolean addVelocimacro(String name,
+                           Node macro,
+                           List<Macro.MacroArg> macroArgs,
+                           Template definingTemplate);
 
 
     /**
@@ -348,14 +348,14 @@ public interface RuntimeServices
      * @param template Template "namespace"
      * @return boolean  True if VM by that name exists, false if not
      */
-    public boolean isVelocimacro(String vmName, Template template);
+    boolean isVelocimacro(String vmName, Template template);
 
     /**
      * String property accessor method to hide the configuration implementation
      * @param key  property key
      * @return   value of key or null
      */
-    public String getString(String key);
+    String getString(String key);
 
     /**
      * Int property accessor method to hide the configuration implementation.
@@ -363,7 +363,7 @@ public interface RuntimeServices
      * @param key property key
      * @return int value
      */
-    public int getInt( String key );
+    int getInt(String key);
 
     /**
      * Int property accessor method to hide the configuration implementation.
@@ -372,7 +372,7 @@ public interface RuntimeServices
      * @param defaultValue default value
      * @return int  value
      */
-    public int getInt( String key, int defaultValue );
+    int getInt(String key, int defaultValue);
 
     /**
      * Boolean property accessor method to hide the configuration implementation.
@@ -381,7 +381,7 @@ public interface RuntimeServices
      * @param def default default value if property not found
      * @return boolean  value of key or default value
      */
-    public boolean getBoolean( String key, boolean def );
+    boolean getBoolean(String key, boolean def);
 
     /**
      * Return the velocity runtime configuration object.
@@ -389,7 +389,7 @@ public interface RuntimeServices
      * @return ExtProperties configuration object which houses
      *                       the velocity runtime properties.
      */
-    public ExtProperties getConfiguration();
+    ExtProperties getConfiguration();
 
     /**
      * Return the specified application attribute.
@@ -397,7 +397,7 @@ public interface RuntimeServices
      * @param key The name of the attribute to retrieve.
      * @return The value of the attribute.
      */
-    public Object getApplicationAttribute( Object key );
+    Object getApplicationAttribute(Object key);
 
     /**
      * Set the specified application attribute.
@@ -406,20 +406,20 @@ public interface RuntimeServices
      * @param value The attribute value to set.
      * @return the displaced attribute value
      */
-    public Object setApplicationAttribute( Object key, Object value );
+    Object setApplicationAttribute(Object key, Object value);
 
     /**
      * Returns the configured class introspection/reflection
      * implementation.
      * @return The current Uberspect object.
      */
-    public Uberspect getUberspect();
+    Uberspect getUberspect();
 
     /**
      * Returns a convenient Log instance that wraps the current LogChute.
      * @return A log object.
      */
-    public Logger getLog();
+    Logger getLog();
 
     /**
      * Get a logger for the specified child namespace.
@@ -428,25 +428,25 @@ public interface RuntimeServices
      * @param childNamespace
      * @return
      */
-    public Logger getLog(String childNamespace);
+    Logger getLog(String childNamespace);
 
     /**
      * Returns the event handlers for the application.
      * @return The event handlers for the application.
      */
-    public EventCartridge getApplicationEventCartridge();
+    EventCartridge getApplicationEventCartridge();
 
     /**
      * Returns true if the RuntimeInstance has been successfully initialized.
      * @return True if the RuntimeInstance has been successfully initialized.
      */
-    public boolean isInitialized();
+    boolean isInitialized();
 
     /**
      * Create a new parser instance.
      * @return A new parser instance.
      */
-    public Parser createNewParser();
+    Parser createNewParser();
 
     /**
      * Retrieve a previously instantiated directive.
@@ -454,17 +454,17 @@ public interface RuntimeServices
      * @return the directive with that name, if any
      * @since 1.6
      */
-    public Directive getDirective(String name);
+    Directive getDirective(String name);
 
     /**
      * Check whether the engine uses string interning
      * @return true if string interning is active
      */
-    public boolean useStringInterning();
+    boolean useStringInterning();
 
     /**
      * get space gobbling mode
      * @return space gobbling mode
      */
-    public SpaceGobbling getSpaceGobbling();
+    SpaceGobbling getSpaceGobbling();
 }

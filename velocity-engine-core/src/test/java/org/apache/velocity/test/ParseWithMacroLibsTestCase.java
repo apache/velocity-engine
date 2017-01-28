@@ -191,8 +191,8 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve.setProperty("velocimacro.permissions.allow.inline.to.replace.global",
-                new Boolean(local));
-        ve.setProperty("file.resource.loader.cache", new Boolean(cache));
+            local);
+        ve.setProperty("file.resource.loader.cache", cache);
         ve.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
         ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");

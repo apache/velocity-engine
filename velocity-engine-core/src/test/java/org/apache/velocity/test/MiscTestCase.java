@@ -25,9 +25,6 @@ import org.apache.velocity.runtime.RuntimeInstance;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Test case for any miscellaneous stuff.  If it isn't big, and doesn't fit
  * anywhere else, it goes here

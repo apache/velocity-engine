@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * AST Node for creating a map / dictionary.
  *
- * This class was originally generated from Parset.jjt.
+ * This class was originally generated from Parser.jjt.
  *
  * @version $Id$
  * @since 1.5

@@ -177,7 +177,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
         try
         {
             clone = (VelocityContext) super.clone();
-            clone.context = new HashMap<String, Object>(context);
+            clone.context = new HashMap<>(context);
         }
         catch (CloneNotSupportedException ignored)
         {

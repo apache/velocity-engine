@@ -524,10 +524,10 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
                     Class last = formal[formal.length - 1];
                     // if the last arg is an array, then
                     // we consider this a varargs method
-                    this.isVarArg = Boolean.valueOf(last.isArray());
+                    this.isVarArg = last.isArray();
                 }
             }
-            return isVarArg.booleanValue();
+            return isVarArg;
         }
 
         /**
@@ -580,10 +580,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
 
                 // put all into a new actual array of the appropriate size
                 Object[] newActual = new Object[index + 1];
-                for (int i = 0; i < index; i++)
-                {
-                    newActual[i] = actual[i];
-                }
+                System.arraycopy(actual, 0, newActual, 0, index);
                 newActual[index] = lastActual;
 
                 // replace the old actual array

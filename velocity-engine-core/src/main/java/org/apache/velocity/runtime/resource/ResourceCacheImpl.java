@@ -88,7 +88,7 @@ public class ResourceCacheImpl implements ResourceCache
     /**
      * Cache storage, assumed to be thread-safe.
      */
-    protected Map<Object, Resource> cache = new ConcurrentHashMap<Object, Resource>(512, 0.5f, 30);
+    protected Map<Object, Resource> cache = new ConcurrentHashMap<>(512, 0.5f, 30);
 
     /**
      * Runtime services, generally initialized by the
@@ -123,7 +123,7 @@ public class ResourceCacheImpl implements ResourceCache
      */
     public Resource get( Object key )
     {
-        return (Resource) cache.get( key );
+        return cache.get( key );
     }
 
     /**
@@ -131,7 +131,7 @@ public class ResourceCacheImpl implements ResourceCache
      */
     public Resource put( Object key, Resource value )
     {
-        return (Resource) cache.put( key, value );
+        return cache.put( key, value );
     }
 
     /**
@@ -139,7 +139,7 @@ public class ResourceCacheImpl implements ResourceCache
      */
     public Resource remove( Object key )
     {
-        return (Resource) cache.remove( key );
+        return cache.remove( key );
     }
 
     /**

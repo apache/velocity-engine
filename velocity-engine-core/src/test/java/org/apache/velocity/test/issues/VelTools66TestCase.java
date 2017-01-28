@@ -87,7 +87,7 @@ public class VelTools66TestCase
             return;
         }
 
-        Method verifyMethod = TestInterface.class.getMethod("getTestValue", new Class[0]);
+        Method verifyMethod = TestInterface.class.getMethod("getTestValue");
 
         RuntimeInstance ri = new RuntimeInstance();
         log = new TestLogger(false, false);
@@ -98,7 +98,7 @@ public class VelTools66TestCase
         assertEquals("Method object does not match!", verifyMethod, testMethod);
     }
 
-    public static interface TestInterface
+    public interface TestInterface
     {
         String getTestValue();
 

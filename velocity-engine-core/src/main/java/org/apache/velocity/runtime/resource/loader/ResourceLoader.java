@@ -281,7 +281,7 @@ public abstract class ResourceLoader
      * @since 2.0
      */
     protected Reader buildReader(InputStream rawStream, String encoding)
-            throws IOException, UnsupportedEncodingException
+            throws IOException
     {
         UnicodeInputStream inputStream = new UnicodeInputStream(rawStream);
         /*

@@ -106,9 +106,6 @@ public class ASTOrNode extends ASTLogicalOperator
          *  same for right
          */
 
-        if ( right != null && right.evaluate( context ) )
-            return true;
-
-        return false;
+        return right != null && right.evaluate(context);
     }
 }

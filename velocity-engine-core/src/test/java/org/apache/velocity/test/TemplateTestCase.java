@@ -176,10 +176,10 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         context.put("intarr", intarr );
 
         // Add some Numbers
-        context.put ("int1", new Integer (1000));
-        context.put ("long1", new Long (10000000000l));
-        context.put ("float1", new Float (1000.1234));
-        context.put ("double1", new Double (10000000000d));
+        context.put ("int1", 1000);
+        context.put ("long1", 10000000000l);
+        context.put ("float1", 1000.1234f);
+        context.put ("double1", 10000000000d);
 
         // Add a TemplateNumber
         context.put ("templatenumber1", new TestNumber (999.125));

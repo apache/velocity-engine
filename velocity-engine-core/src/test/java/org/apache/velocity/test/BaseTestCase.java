@@ -534,7 +534,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      * @param s The base file name.
      * @return  The test case name.
      */
-    protected static final String getTestCaseName(String s)
+    protected static String getTestCaseName(String s)
     {
         StringBuilder name = new StringBuilder();
         name.append(Character.toTitleCase(s.charAt(0)));

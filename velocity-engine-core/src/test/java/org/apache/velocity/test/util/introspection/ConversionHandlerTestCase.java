@@ -213,7 +213,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
     private VelocityContext createContext()
     {
         VelocityContext context = new VelocityContext();
-        Map<String, Object> map = new TreeMap<String, Object>();
+        Map<String, Object> map = new TreeMap<>();
         map.put("A. bool-true", true);
         map.put("B. bool-false", false);
         map.put("C. byte-0", (byte)0);
@@ -267,7 +267,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
 
     public static class Obj
     {
-        public enum Color { RED, GREEN };
+        public enum Color { RED, GREEN }
 
         public String integralBoolean(boolean b) { return "boolean ok: " + b; }
         public String integralByte(byte b) { return "byte ok: " + b; }
