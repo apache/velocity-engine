@@ -260,23 +260,14 @@ public class DataSourceResourceLoader extends ResourceLoader
 
             }
         }
-        catch (SQLException sqle)
+        catch (SQLException | NamingException sqle)
         {
             String msg = "DataSourceResourceLoader: database problem while getting resource '"
                     + name + "': ";
 
             log.error(msg, sqle);
             throw new ResourceNotFoundException(msg);
-        }
-        catch (NamingException ne)
-        {
-            String msg = "DataSourceResourceLoader: database problem while getting resource '"
-                    + name + "': ";
-
-            log.error(msg, ne);
-            throw new ResourceNotFoundException(msg);
-        }
-        finally
+        } finally
         {
             closeResultSet(rs);
             closeStatement(ps);
@@ -329,21 +320,13 @@ public class DataSourceResourceLoader extends ResourceLoader
                     throw new ResourceNotFoundException(msg);
                 }
             }
-            catch (SQLException sqle)
+            catch (SQLException | NamingException sqle)
             {
                 String msg = "DataSourceResourceLoader: database problem while "
                             + operation + " of '" + name + "': ";
 
                 log.error(msg, sqle);
                 throw new VelocityException(msg, sqle);
-            }
-            catch (NamingException ne)
-            {
-                String msg = "DataSourceResourceLoader: database problem while "
-                             + operation + " of '" + name + "': ";
-
-                log.error(msg, ne);
-                throw new VelocityException(msg, ne);
             }
             finally
             {

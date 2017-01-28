@@ -57,12 +57,12 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      *  Template name stack. The stack top contains the current template name.
      */
-    private Stack<String> templateNameStack = new Stack<String>();
+    private Stack<String> templateNameStack = new Stack<>();
 
     /**
      *  Velocimacro name stack. The stack top contains the current macro name.
      */
-    private Stack<String> macroNameStack = new Stack<String>();
+    private Stack<String> macroNameStack = new Stack<>();
 
     /**
      *  EventCartridge we are to carry.  Set by application

@@ -35,7 +35,7 @@ import java.io.StringWriter;
  * <P>By default this event handler renders an error message containing the class and method which generated
  * the exception, the exception name and its message.
  *
- * To render the reference and the location in the tempkate, set the property <code>eventhandler.methodexception.templateinfo</code>
+ * To render the reference and the location in the template, set the property <code>eventhandler.methodexception.templateinfo</code>
  * to <code>true</code>.
  *
  * To render the stack trace, set the property <code>eventhandler.methodexception.stacktrace</code>

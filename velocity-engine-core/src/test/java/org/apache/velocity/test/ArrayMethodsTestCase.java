@@ -47,7 +47,7 @@ public class ArrayMethodsTestCase extends BaseTestCase
 
         // test an array of primitive ints
         array = new int[] { 1, 3, 7 };
-        checkResults(array, new Integer(11), false);
+        checkResults(array, 11, false);
 
         // test an array of mixed objects, including null
         array = new Object[] { new Double(2.2), null };
@@ -122,7 +122,7 @@ public class ArrayMethodsTestCase extends BaseTestCase
         {
             // put the index in the context, so we can try
             // both an explicit index and a reference index
-            context.put("index", new Integer(i));
+            context.put("index", i);
 
             Object value = Array.get(array, i);
             String get = "get($index)";

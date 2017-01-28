@@ -38,7 +38,7 @@ public class VarargMethodsTestCase extends BaseTestCase
         context.put("objects", new Object[] { this, VelocityContext.class });
         context.put("strings", new String[] { "one", "two" });
         context.put("doubles", new double[] { 1.5, 2.5 });
-        context.put("float", new Float(1f));
+        context.put("float", 1f);
         context.put("ints", new int[] { 1, 2 });
     }
 
@@ -137,9 +137,9 @@ public class VarargMethodsTestCase extends BaseTestCase
         public String var(String[] ss)
         {
             StringBuilder out = new StringBuilder();
-            for (int i=0; i < ss.length; i++)
+            for (String s : ss)
             {
-                out.append(ss[i]);
+                out.append(s);
             }
             return out.toString();
         }
@@ -147,9 +147,9 @@ public class VarargMethodsTestCase extends BaseTestCase
         public double add(double[] dd)
         {
             double total = 0;
-            for (int i=0; i < dd.length; i++)
+            for (double aDd : dd)
             {
-                total += dd[i];
+                total += aDd;
             }
             return total;
         }
@@ -176,9 +176,9 @@ public class VarargMethodsTestCase extends BaseTestCase
         public int add(int[] ii)
         {
             int total = 0;
-            for (int i=0; i < ii.length; i++)
+            for (int anIi : ii)
             {
-                total += ii[i];
+                total += anIi;
             }
             return total;
         }

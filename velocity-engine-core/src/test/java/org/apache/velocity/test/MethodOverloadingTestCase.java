@@ -102,7 +102,7 @@ public class MethodOverloadingTestCase extends BaseTestCase
          */
         testFile("single");
 
-        assertTrue(logData.indexOf("IllegalArgumentException") == -1);
+        assertTrue(!logData.contains("IllegalArgumentException"));
     }
 
     public void testParsedMethodOverloading()
@@ -113,7 +113,7 @@ public class MethodOverloadingTestCase extends BaseTestCase
          */
         testFile("main");
 
-        assertTrue(logData.indexOf("IllegalArgumentException") == -1);
+        assertTrue(!logData.contains("IllegalArgumentException"));
 
     }
 

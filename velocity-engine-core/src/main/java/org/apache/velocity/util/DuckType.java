@@ -88,13 +88,9 @@ public class DuckType
 
     public static boolean asNull(Object value)
     {
-        if (value == null ||
+        return value == null ||
             get(value, Types.STRING) == null ||
-            get(value, Types.NUMBER) == null)
-        {
-            return true;
-        }
-        return false;
+            get(value, Types.NUMBER) == null;
     }
 
     public static boolean asBoolean(Object value)
@@ -110,12 +106,12 @@ public class DuckType
         }
         if (value instanceof Boolean)
         {
-            return ((Boolean)value).booleanValue();
+            return (Boolean) value;
         }
         Object got = get(value, Types.BOOLEAN);
         if (got != NO_METHOD)
         {
-            return ((Boolean)got).booleanValue();
+            return (Boolean) got;
         }
         if (coerceType)
         {

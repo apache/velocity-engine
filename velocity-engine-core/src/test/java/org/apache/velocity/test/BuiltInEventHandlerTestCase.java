@@ -338,28 +338,28 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         writer = new StringWriter();
         ve1.evaluate(context, writer, "test", "$list.get(0)");
         String result = writer.toString();
-        assertTrue(result.indexOf("IndexOutOfBoundsException") != -1);
-        assertTrue(result.indexOf("Index: 0, Size: 0") != -1);
-        assertTrue(result.indexOf("at test (line 1, column 7)") == -1);
-        assertTrue(result.indexOf("rangeCheck") == -1);
+        assertTrue(result.contains("IndexOutOfBoundsException"));
+        assertTrue(result.contains("Index: 0, Size: 0"));
+        assertTrue(!result.contains("at test (line 1, column 7)"));
+        assertTrue(!result.contains("rangeCheck"));
 
         // exception, message and template info
         writer = new StringWriter();
         ve2.evaluate(context,writer,"test","$list.get(0)");
-        result = writer.toString();;
-        assertTrue(result.indexOf("IndexOutOfBoundsException") != -1);
-        assertTrue(result.indexOf("Index: 0, Size: 0") != -1);
-        assertTrue(result.indexOf("at test (line 1, column 7)") != -1);
-        assertTrue(result.indexOf("rangeCheck") == -1);
+        result = writer.toString();
+        assertTrue(result.contains("IndexOutOfBoundsException"));
+        assertTrue(result.contains("Index: 0, Size: 0"));
+        assertTrue(result.contains("at test (line 1, column 7)"));
+        assertTrue(!result.contains("rangeCheck"));
 
         // exception, message and stack trace
         writer = new StringWriter();
         ve3.evaluate(context,writer,"test","$list.get(0)");
-        result = writer.toString();;
-        assertTrue(result.indexOf("IndexOutOfBoundsException") != -1);
-        assertTrue(result.indexOf("Index: 0, Size: 0") != -1);
-        assertTrue(result.indexOf("at test (line 1, column 7)") == -1);
-        assertTrue(result.indexOf("rangeCheck") != -1);
+        result = writer.toString();
+        assertTrue(result.contains("IndexOutOfBoundsException"));
+        assertTrue(result.contains("Index: 0, Size: 0"));
+        assertTrue(!result.contains("at test (line 1, column 7)"));
+        assertTrue(result.contains("rangeCheck"));
 
         log("PrintException handler successful.");
 

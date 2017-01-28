@@ -53,7 +53,7 @@ public class VelocimacroManager
     /** reference to global namespace hash */
     private final Map globalNamespace;
 
-    /** set of names of library tempates/namespaces */
+    /** set of names of library templates/namespaces */
     private final Map libraries = new ConcurrentHashMap(17, 0.5f, 20);
 
     private RuntimeServices rsvc = null;
@@ -258,12 +258,8 @@ public class VelocimacroManager
          *  currently, we only support the local template namespace idea
          */
 
-        if (inlineLocalMode)
-        {
-            return true;
-        }
+        return inlineLocalMode;
 
-        return false;
     }
 
     /**

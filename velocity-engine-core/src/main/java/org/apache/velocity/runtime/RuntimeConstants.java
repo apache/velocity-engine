@@ -289,7 +289,7 @@ public interface RuntimeConstants
     /**
      * Space gobbling modes
      */
-    public enum SpaceGobbling
+    enum SpaceGobbling
     {
         NONE, BC, LINES, STRUCTURED
     }

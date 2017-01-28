@@ -23,8 +23,6 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.util.introspection.Info;
 
-import java.util.List;
-
 /**
  * This class provides some methods for dynamically
  * invoking methods in objects, and some string
@@ -38,43 +36,43 @@ public class StringUtils
 {
     /**
      * Creates a string that formats the template filename with line number
-     * and column of the given Directive. We use this routine to provide a cosistent format for displaying
+     * and column of the given Directive. We use this routine to provide a consistent format for displaying
      * file errors.
      */
-    public static final String formatFileString(Directive directive)
+    public static String formatFileString(Directive directive)
     {
         return formatFileString(directive.getTemplateName(), directive.getLine(), directive.getColumn());
     }
 
     /**
      * Creates a string that formats the template filename with line number
-     * and column of the given Node. We use this routine to provide a cosistent format for displaying
+     * and column of the given Node. We use this routine to provide a consistent format for displaying
      * file errors.
      */
-    public static final String formatFileString(Node node)
+    public static String formatFileString(Node node)
     {
         return formatFileString(node.getTemplateName(), node.getLine(), node.getColumn());
     }
 
     /**
      * Simply creates a string that formats the template filename with line number
-     * and column. We use this routine to provide a cosistent format for displaying
+     * and column. We use this routine to provide a consistent format for displaying
      * file errors.
      */
-    public static final String formatFileString(Info info)
+    public static String formatFileString(Info info)
     {
           return formatFileString(info.getTemplateName(), info.getLine(), info.getColumn());
     }
 
     /**
      * Simply creates a string that formats the template filename with line number
-     * and column. We use this routine to provide a cosistent format for displaying
+     * and column. We use this routine to provide a consistent format for displaying
      * file errors.
      * @param template File name of template, can be null
      * @param linenum Line number within the file
      * @param colnum Column number withing the file at linenum
      */
-    public static final String formatFileString(String template, int linenum, int colnum)
+    public static String formatFileString(String template, int linenum, int colnum)
     {
         StringBuilder buffer = new StringBuilder();
         if (template == null || template.equals(""))

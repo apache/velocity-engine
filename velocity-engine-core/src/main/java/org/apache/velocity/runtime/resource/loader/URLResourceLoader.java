@@ -58,9 +58,9 @@ public class URLResourceLoader extends ResourceLoader
         roots = configuration.getStringArray("root");
         if (log.isDebugEnabled())
         {
-            for (int i=0; i < roots.length; i++)
+            for (String root : roots)
             {
-                log.debug("URLResourceLoader : adding root '{}'", roots[i]);
+                log.debug("URLResourceLoader : adding root '{}'", root);
             }
         }
 
@@ -109,12 +109,12 @@ public class URLResourceLoader extends ResourceLoader
 
         Reader reader = null;
         Exception exception = null;
-        for(int i=0; i < roots.length; i++)
+        for (String root : roots)
         {
             InputStream rawStream = null;
             try
             {
-                URL u = new URL(roots[i] + name);
+                URL u = new URL(root + name);
                 URLConnection conn = u.openConnection();
                 tryToSetTimeout(conn);
                 rawStream = conn.getInputStream();
@@ -122,14 +122,14 @@ public class URLResourceLoader extends ResourceLoader
 
                 if (reader != null)
                 {
-                    log.debug("URLResourceLoader: Found '{}' at '{}'", name, roots[i]);
+                    log.debug("URLResourceLoader: Found '{}' at '{}'", name, root);
 
                     // save this root for later re-use
-                    templateRoots.put(name, roots[i]);
+                    templateRoots.put(name, root);
                     break;
                 }
             }
-            catch(IOException ioe)
+            catch (IOException ioe)
             {
                 if (rawStream != null)
                 {
@@ -137,9 +137,11 @@ public class URLResourceLoader extends ResourceLoader
                     {
                         rawStream.close();
                     }
-                    catch (IOException e) {}
+                    catch (IOException e)
+                    {
+                    }
                 }
-                log.debug("URLResourceLoader: Exception when looking for '{}' at '{}'", name, roots[i], ioe);
+                log.debug("URLResourceLoader: Exception when looking for '{}' at '{}'", name, root, ioe);
 
                 // only save the first one for later throwing
                 if (exception == null)
@@ -178,12 +180,8 @@ public class URLResourceLoader extends ResourceLoader
     {
         long fileLastModified = getLastModified(resource);
         // if the file is unreachable or otherwise changed
-        if (fileLastModified == 0 ||
-            fileLastModified != resource.getLastModified())
-        {
-            return true;
-        }
-        return false;
+        return fileLastModified == 0 ||
+            fileLastModified != resource.getLastModified();
     }
 
     /**

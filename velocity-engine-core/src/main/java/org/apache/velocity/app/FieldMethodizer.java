@@ -170,15 +170,15 @@ public class FieldMethodizer
     private void inspect(Class clas)
     {
         Field[] fields = clas.getFields();
-        for( int i = 0; i < fields.length; i++)
+        for (Field field : fields)
         {
             /*
              *  only if public and static
              */
-            int mod = fields[i].getModifiers();
-            if ( Modifier.isStatic(mod) && Modifier.isPublic(mod) )
+            int mod = field.getModifiers();
+            if (Modifier.isStatic(mod) && Modifier.isPublic(mod))
             {
-                fieldHash.put(fields[i].getName(), fields[i]);
+                fieldHash.put(field.getName(), field);
             }
         }
     }

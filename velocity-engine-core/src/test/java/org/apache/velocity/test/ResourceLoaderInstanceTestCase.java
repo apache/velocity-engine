@@ -115,9 +115,6 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
     public void testResourceLoaderInstance ()
             throws Exception
     {
-//caveman hacks to get gump to give more info
-try
-{
         assureResultsDirectoryExists(RESULTS_DIR);
 
         Template template = RuntimeSingleton.getTemplate(
@@ -126,8 +123,6 @@ try
         FileOutputStream fos =
                 new FileOutputStream (
                         getFileName(RESULTS_DIR, "testfile", RESULT_FILE_EXT));
-//caveman hack to get gump to give more info
-System.out.println("All needed files exist");
 
         Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
@@ -140,13 +135,6 @@ System.out.println("All needed files exist");
         template.merge(context, writer);
         writer.flush();
         writer.close();
-}
-catch (Exception e)
-{
-    System.out.println("Log was: "+logger.getLog());
-    System.out.println(e);
-    e.printStackTrace();
-}
 
         if ( !isMatch(RESULTS_DIR, COMPARE_DIR, "testfile",
                         RESULT_FILE_EXT, CMP_FILE_EXT) )
@@ -159,9 +147,6 @@ catch (Exception e)
                 "----Expected----\n"+ compare +
                 "----------------";
 
-//caveman hack to get gump to give more info
-System.out.println(msg);
-System.out.println("Log was: "+logger.getLog());
             fail(msg);
         }
     }

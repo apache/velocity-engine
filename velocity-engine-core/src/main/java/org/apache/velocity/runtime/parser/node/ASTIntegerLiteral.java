@@ -90,7 +90,7 @@ public class ASTIntegerLiteral extends SimpleNode
             }
             catch ( NumberFormatException E2 )
             {
-                // if there's still an Exception it will propogate out
+                // if there's still an Exception it will propagate out
                 value = new BigInteger( str );
             }
         }

@@ -23,7 +23,7 @@ package org.apache.velocity.util.introspection;
  * A conversion handler adds admissible conversions between Java types whenever Velocity introspection has to map
  * VTL methods and property accessors to Java methods.
  * Both methods must be consistent: <code>getNeededConverter</code> must not return <code>null</code> whenever
- * <code>isExplicitelyConvertible</code> returned true with the same arguments.
+ * <code>isExplicitlyConvertible</code> returned true with the same arguments.
  *
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  * @version $Id: ConversionHandler.java $
@@ -39,7 +39,7 @@ public interface ConversionHandler
      * @return null if no conversion is needed, or the appropriate Converter object
      * @since 2.0
      */
-    public boolean isExplicitlyConvertible(Class formal, Class actual, boolean possibleVarArg);
+    boolean isExplicitlyConvertible(Class formal, Class actual, boolean possibleVarArg);
 
     /**
      * Returns the appropriate Converter object needed for an explicit conversion
@@ -50,7 +50,7 @@ public interface ConversionHandler
      * @return null if no conversion is needed, or the appropriate Converter object
      * @since 2.0
      */
-    public Converter getNeededConverter(final Class formal, final Class actual);
+    Converter getNeededConverter(final Class formal, final Class actual);
 
     /**
      * Add the given converter to the handler. Implementation should be thread-safe.
@@ -60,5 +60,5 @@ public interface ConversionHandler
      * @param converter converter
      * @since 2.0
      */
-    public void addConverter(Class formal, Class actual, Converter converter);
+    void addConverter(Class formal, Class actual, Converter converter);
 }

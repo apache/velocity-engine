@@ -37,18 +37,18 @@ public interface ResourceManager
     /**
      * A template resources.
      */
-    public static final int RESOURCE_TEMPLATE = 1;
+    int RESOURCE_TEMPLATE = 1;
 
     /**
      * A static content resource.
      */
-    public static final int RESOURCE_CONTENT = 2;
+    int RESOURCE_CONTENT = 2;
 
     /**
      * Initialize the ResourceManager.
      * @param rs
      */
-    public void initialize( RuntimeServices rs );
+    void initialize(RuntimeServices rs);
 
     /**
      * Gets the named resource.  Returned class type corresponds to specified type
@@ -64,7 +64,7 @@ public interface ResourceManager
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      */
-    public Resource getResource(String resourceName, int resourceType, String encoding )
+    Resource getResource(String resourceName, int resourceType, String encoding)
         throws ResourceNotFoundException, ParseErrorException;
 
     /**
@@ -76,6 +76,6 @@ public interface ResourceManager
      *  @param resourceName Name of template or content resource
      *  @return class name of loader than can provide it
      */
-    public String getLoaderNameForResource(String resourceName );
+    String getLoaderNameForResource(String resourceName);
 
 }

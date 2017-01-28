@@ -71,7 +71,7 @@ public class ConversionHandlerImpl implements ConversionHandler
 
     static
     {
-        standardConverterMap = new HashMap<Pair<? extends Class, ? extends Class>, Converter>();
+        standardConverterMap = new HashMap<>();
 
         cacheMiss = new Converter<Object>()
         {
@@ -122,7 +122,7 @@ public class ConversionHandlerImpl implements ConversionHandler
             @Override
             public Boolean convert(Object o)
             {
-                return o == null ? null : ((Character) o).charValue() != 0;
+                return o == null ? null : (Character) o != 0;
             }
         };
         standardConverterMap.put(new Pair<>(Boolean.class, Character.class), charToBoolean);
@@ -418,7 +418,7 @@ public class ConversionHandlerImpl implements ConversionHandler
             @Override
             public Byte convert(Object o)
             {
-                return o == null ? null : ((Boolean)o).booleanValue() ? (byte)1 : (byte)0;
+                return o == null ? null : (Boolean) o ? (byte)1 : (byte)0;
             }
         };
         standardConverterMap.put(new Pair<>(Byte.class, Boolean.class), booleanToByte);
@@ -432,7 +432,7 @@ public class ConversionHandlerImpl implements ConversionHandler
             @Override
             public Short convert(Object o)
             {
-                return o == null ? null : ((Boolean)o).booleanValue() ? (short)1 : (short)0;
+                return o == null ? null : (Boolean) o ? (short)1 : (short)0;
             }
         };
         standardConverterMap.put(new Pair<>(Short.class, Boolean.class), booleanToShort);
@@ -446,7 +446,7 @@ public class ConversionHandlerImpl implements ConversionHandler
             @Override
             public Integer convert(Object o)
             {
-                return o == null ? null : ((Boolean)o).booleanValue() ? (Integer)1 : (Integer)0;
+                return o == null ? null : (Boolean) o ? (Integer)1 : (Integer)0;
             }
         };
         standardConverterMap.put(new Pair<>(Integer.class, Boolean.class), booleanToInteger);
@@ -460,7 +460,7 @@ public class ConversionHandlerImpl implements ConversionHandler
             @Override
             public Long convert(Object o)
             {
-                return o == null ? null : ((Boolean)o).booleanValue() ? 1L : 0L;
+                return o == null ? null : (Boolean) o ? 1L : 0L;
             }
         };
         standardConverterMap.put(new Pair<>(Long.class, Boolean.class), booleanToLong);
@@ -484,7 +484,7 @@ public class ConversionHandlerImpl implements ConversionHandler
      */
     public ConversionHandlerImpl()
     {
-        converterCacheMap = new ConcurrentHashMap<Pair<? extends Class, ? extends Class>, Converter>();
+        converterCacheMap = new ConcurrentHashMap<>();
     }
 
     /**

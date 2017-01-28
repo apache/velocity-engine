@@ -88,7 +88,7 @@ public class Example
              *  of the template and the data to produce the output stream.
              */
 
-            BufferedWriter writer = writer = new BufferedWriter(
+            BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(System.out));
 
             if ( template != null)

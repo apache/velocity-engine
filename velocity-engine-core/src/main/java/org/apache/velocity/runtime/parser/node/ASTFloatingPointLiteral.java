@@ -93,7 +93,7 @@ public class ASTFloatingPointLiteral extends SimpleNode
          } catch ( NumberFormatException E1 )
          {
 
-            // if there's still an Exception it will propogate out
+            // if there's still an Exception it will propqgate out
             value = new BigDecimal( str );
 
         }

@@ -137,7 +137,7 @@ public class ASTIntegerRange extends SimpleNode
 
         for (int i = 0; i < nbrElements; i++)
         {
-            elements.add(Integer.valueOf(value));
+            elements.add(value);
             value += delta;
         }
 

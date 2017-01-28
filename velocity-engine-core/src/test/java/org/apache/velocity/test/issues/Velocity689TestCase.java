@@ -44,17 +44,17 @@ public class Velocity689TestCase extends BaseTestCase
         assertEvalEquals("baz, bar", template);
     }
 
-    public static interface HasMethod
+    public interface HasMethod
     {
         String getBar();
     }
 
-    public static interface HasOtherMethod extends HasMethod
+    public interface HasOtherMethod extends HasMethod
     {
         String getBaz();
     }
 
-    public static interface NoMethod extends HasOtherMethod
+    public interface NoMethod extends HasOtherMethod
     {
         // nada!
     }

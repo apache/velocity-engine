@@ -155,7 +155,7 @@ public class MethodMap
         return getBestMatch(methodList, classes);
     }
 
-    private Method getBestMatch(List methods, Class[] args)
+    private Method getBestMatch(List<Method> methods, Class[] args)
     {
         List equivalentMatches = null;
         Method bestMatch = null;
@@ -166,9 +166,8 @@ public class MethodMap
         {
             unboxedArgs[i] = IntrospectionUtils.getUnboxedClass(args[i]);
         }
-        for (Iterator i = methods.iterator(); i.hasNext(); )
+        for (Method method : methods)
         {
-            Method method = (Method)i.next();
             if (isApplicable(method, args))
             {
                 if (bestMatch == null)
@@ -176,8 +175,7 @@ public class MethodMap
                     bestMatch = method;
                     bestMatchTypes = method.getParameterTypes();
                     bestMatchComp = compare(bestMatchTypes, unboxedArgs);
-                }
-                else
+                } else
                 {
                     Class[] methodTypes = method.getParameterTypes();
                     switch (compare(methodTypes, bestMatchTypes))
@@ -195,14 +193,13 @@ public class MethodMap
                                 bestMatch = method;
                                 bestMatchTypes = methodTypes;
                                 bestMatchComp = compare(bestMatchTypes, unboxedArgs);
-                            }
-                            else
+                            } else
                             {
                                 /* have to beat all other ambiguous ones... */
                                 int ambiguities = equivalentMatches.size();
                                 for (int a = 0; a < ambiguities; a++)
                                 {
-                                    Method other = (Method)equivalentMatches.get(a);
+                                    Method other = (Method) equivalentMatches.get(a);
                                     switch (compare(methodTypes, other.getParameterTypes()))
                                     {
                                         case MORE_SPECIFIC:

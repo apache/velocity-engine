@@ -174,7 +174,7 @@ public class ASTStringLiteral extends SimpleNode
     /**
      * Adjust all the line and column numbers that comprise a node so that they
      * are corrected for the string literals position within the template file.
-     * This is neccessary if an exception is thrown while processing the node so
+     * This is necessary if an exception is thrown while processing the node so
      * that the line and column position reported reflects the error position
      * within the template and not just relative to the error position within
      * the string literal.
@@ -182,7 +182,7 @@ public class ASTStringLiteral extends SimpleNode
     public void adjTokenLineNums(Node node)
     {
         Token tok = node.getFirstToken();
-        // Test against null is probably not neccessary, but just being safe
+        // Test against null is probably not necessary, but just being safe
         while(tok != null && tok != node.getLastToken())
         {
             // If tok is on the first line, then the actual column is
@@ -209,8 +209,8 @@ public class ASTStringLiteral extends SimpleNode
      */
     private String replaceQuotes(String s, char literalQuoteChar)
     {
-        if( (literalQuoteChar == '"' && s.indexOf("\"") == -1) ||
-            (literalQuoteChar == '\'' && s.indexOf("'") == -1) )
+        if( (literalQuoteChar == '"' && !s.contains("\"")) ||
+            (literalQuoteChar == '\'' && !s.contains("'")) )
         {
             return s;
         }

@@ -165,14 +165,9 @@ public class Evaluate extends Directive
         {
             nodeTree = rsvc.parse(new StringReader(sourceText), template);
         }
-        catch (ParseException pex)
+        catch (ParseException | TemplateInitException pex)
         {
             // use the line/column from the template
-            Info info = new Info( templateName, node.getLine(), node.getColumn() );
-            throw  new ParseErrorException( pex.getMessage(), info );
-        }
-        catch (TemplateInitException pex)
-        {
             Info info = new Info( templateName, node.getLine(), node.getColumn() );
             throw  new ParseErrorException( pex.getMessage(), info );
         }

@@ -91,7 +91,7 @@ public class RenderVelocityTemplateTest
     static class ExceptionHandler
         implements Thread.UncaughtExceptionHandler
     {
-        List<Throwable> errors = new ArrayList<Throwable>();
+        List<Throwable> errors = new ArrayList<>();
 
         public void uncaughtException(Thread t, Throwable e)
         {
@@ -126,7 +126,7 @@ public class RenderVelocityTemplateTest
         int nthreads = 4;
         ExceptionHandler eh = new ExceptionHandler();
 
-        List<Thread> threads = new ArrayList<Thread>(nthreads);
+        List<Thread> threads = new ArrayList<>(nthreads);
         for (int i = 0; i < nthreads; ++i)
         {
             Thread t = new RunMultipleEvals();
@@ -148,8 +148,7 @@ public class RenderVelocityTemplateTest
         {
             // Rethrow the first failing exception.
             System.out.println("Failed " + eh.errors.size() + " out of " + nthreads + " template evaluations");
-            Throwable t = eh.errors.get(0);
-            throw t;
+            throw eh.errors.get(0);
         }
     }
 }

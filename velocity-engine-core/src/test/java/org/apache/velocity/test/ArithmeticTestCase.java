@@ -48,17 +48,17 @@ public class ArithmeticTestCase extends TestCase
 
     public void testAdd()
     {
-        addHelper (new Integer(10), new Short( (short)20), 30, Integer.class);
-        addHelper (new Byte((byte)10), new Short( (short)20), 30, Short.class);
-        addHelper (new Float(10), new Short( (short)20), 30, Float.class);
-        addHelper (new Byte((byte)10), new Double( 20), 30, Double.class);
-        addHelper (BigInteger.valueOf(10), new Integer( 20), 30, BigInteger.class);
-        addHelper (new Integer( 20), BigDecimal.valueOf(10),  30, BigDecimal.class);
+        addHelper (10, (short) 20, 30, Integer.class);
+        addHelper ((byte) 10, (short) 20, 30, Short.class);
+        addHelper (10f, (short) 20, 30, Float.class);
+        addHelper ((byte) 10, 20d, 30, Double.class);
+        addHelper (BigInteger.valueOf(10), 20, 30, BigInteger.class);
+        addHelper (20, BigDecimal.valueOf(10),  30, BigDecimal.class);
 
         // Test overflow
-        addHelper (new Integer(Integer.MAX_VALUE), new Short( (short)20), (double)Integer.MAX_VALUE+20, Long.class);
-        addHelper (new Integer (20), new Long(Long.MAX_VALUE), (double)Long.MAX_VALUE+20, BigInteger.class);
-        addHelper (new Integer (-20), new Long(Long.MIN_VALUE), (double)Long.MIN_VALUE-20, BigInteger.class);
+        addHelper (Integer.MAX_VALUE, (short) 20, (double)Integer.MAX_VALUE+20, Long.class);
+        addHelper (20, Long.MAX_VALUE, (double)Long.MAX_VALUE+20, BigInteger.class);
+        addHelper (-20, Long.MIN_VALUE, (double)Long.MIN_VALUE-20, BigInteger.class);
     }
 
     private void addHelper (Number n1, Number n2, double expectedResult, Class expectedResultType)
@@ -70,17 +70,17 @@ public class ArithmeticTestCase extends TestCase
 
     public void testSubtract()
     {
-        subtractHelper (new Integer(100), new Short( (short)20), 80, Integer.class);
-        subtractHelper (new Byte((byte)100), new Short( (short)20), 80, Short.class);
-        subtractHelper (new Float(100), new Short( (short)20), 80, Float.class);
-        subtractHelper (new Byte((byte)100), new Double( 20), 80, Double.class);
-        subtractHelper (BigInteger.valueOf(100), new Integer( 20), 80, BigInteger.class);
-        subtractHelper (new Integer( 100), BigDecimal.valueOf(20),  80, BigDecimal.class);
+        subtractHelper (100, (short) 20, 80, Integer.class);
+        subtractHelper ((byte) 100, (short) 20, 80, Short.class);
+        subtractHelper (100f, (short) 20, 80, Float.class);
+        subtractHelper ((byte) 100, 20d, 80, Double.class);
+        subtractHelper (BigInteger.valueOf(100), 20, 80, BigInteger.class);
+        subtractHelper (100, BigDecimal.valueOf(20),  80, BigDecimal.class);
 
         // Test overflow
-        subtractHelper (new Integer(Integer.MIN_VALUE), new Short( (short)20), (double)Integer.MIN_VALUE-20, Long.class);
-        subtractHelper(new Integer(-20), new Long(Long.MAX_VALUE), -20d - (double) Long.MAX_VALUE, BigInteger.class);
-        subtractHelper(new Integer(Integer.MAX_VALUE), new Long(Long.MIN_VALUE), (double) Long.MAX_VALUE + (double) Integer.MAX_VALUE, BigInteger.class);
+        subtractHelper (Integer.MIN_VALUE, (short) 20, (double)Integer.MIN_VALUE-20, Long.class);
+        subtractHelper(-20, Long.MAX_VALUE, -20d - (double) Long.MAX_VALUE, BigInteger.class);
+        subtractHelper(Integer.MAX_VALUE, Long.MIN_VALUE, (double) Long.MAX_VALUE + (double) Integer.MAX_VALUE, BigInteger.class);
     }
 
     private void subtractHelper (Number n1, Number n2, double expectedResult, Class expectedResultType)
@@ -92,18 +92,18 @@ public class ArithmeticTestCase extends TestCase
 
     public void testMultiply()
     {
-        multiplyHelper (new Integer(10), new Short( (short)20), 200, Integer.class);
-        multiplyHelper (new Byte((byte)100), new Short( (short)20), 2000, Short.class);
-        multiplyHelper (new Byte((byte)100), new Short( (short)2000), 200000, Integer.class);
-        multiplyHelper (new Float(100), new Short( (short)20), 2000, Float.class);
-        multiplyHelper (new Byte((byte)100), new Double( 20), 2000, Double.class);
-        multiplyHelper (BigInteger.valueOf(100), new Integer( 20), 2000, BigInteger.class);
-        multiplyHelper (new Integer( 100), BigDecimal.valueOf(20),  2000, BigDecimal.class);
+        multiplyHelper (10, (short) 20, 200, Integer.class);
+        multiplyHelper ((byte) 100, (short) 20, 2000, Short.class);
+        multiplyHelper ((byte) 100, (short) 2000, 200000, Integer.class);
+        multiplyHelper (100f, (short) 20, 2000, Float.class);
+        multiplyHelper ((byte) 100, 20d, 2000, Double.class);
+        multiplyHelper (BigInteger.valueOf(100), 20, 2000, BigInteger.class);
+        multiplyHelper (100, BigDecimal.valueOf(20),  2000, BigDecimal.class);
 
         // Test overflow
-        multiplyHelper (new Integer(Integer.MAX_VALUE), new Short( (short)10), (double)Integer.MAX_VALUE*10d, Long.class);
-        multiplyHelper(new Integer(Integer.MAX_VALUE), new Short((short) -10), (double) Integer.MAX_VALUE * -10d, Long.class);
-        multiplyHelper(new Integer(20), new Long(Long.MAX_VALUE), 20d * (double) Long.MAX_VALUE, BigInteger.class);
+        multiplyHelper (Integer.MAX_VALUE, (short) 10, (double)Integer.MAX_VALUE*10d, Long.class);
+        multiplyHelper(Integer.MAX_VALUE, (short) -10, (double) Integer.MAX_VALUE * -10d, Long.class);
+        multiplyHelper(20, Long.MAX_VALUE, 20d * (double) Long.MAX_VALUE, BigInteger.class);
     }
 
     private void multiplyHelper (Number n1, Number n2, double expectedResult, Class expectedResultType)
@@ -115,13 +115,13 @@ public class ArithmeticTestCase extends TestCase
 
     public void testDivide()
     {
-        divideHelper (new Integer(10), new Short( (short)2), 5, Integer.class);
-        divideHelper (new Byte((byte)10), new Short( (short)2), 5, Short.class);
-        divideHelper (BigInteger.valueOf(10), new Short( (short)2), 5, BigInteger.class);
-        divideHelper (new Integer(10), new Short( (short)4), 2, Integer.class);
-        divideHelper (new Integer(10), new Float( 2.5f), 4, Float.class);
-        divideHelper(new Integer(10), new Double(2.5), 4, Double.class);
-        divideHelper(new Integer(10), new BigDecimal(2.5), 4, BigDecimal.class);
+        divideHelper (10, (short) 2, 5, Integer.class);
+        divideHelper ((byte) 10, (short) 2, 5, Short.class);
+        divideHelper (BigInteger.valueOf(10), (short) 2, 5, BigInteger.class);
+        divideHelper (10, (short) 4, 2, Integer.class);
+        divideHelper (10, 2.5f, 4, Float.class);
+        divideHelper(10, 2.5, 4, Double.class);
+        divideHelper(10, new BigDecimal(2.5), 4, BigDecimal.class);
     }
 
     private void divideHelper (Number n1, Number n2, double expectedResult, Class expectedResultType)
@@ -133,14 +133,14 @@ public class ArithmeticTestCase extends TestCase
 
     public void testModulo()
     {
-        moduloHelper (new Integer(10), new Short( (short)2), 0, Integer.class);
-        moduloHelper (new Byte((byte)10), new Short( (short)3), 1, Short.class);
-        moduloHelper(BigInteger.valueOf(10), new Short((short) 4), 2, BigInteger.class);
-        moduloHelper(new Integer(10), new Float(5.5f), 4.5, Float.class);
+        moduloHelper (10, (short) 2, 0, Integer.class);
+        moduloHelper ((byte) 10, (short) 3, 1, Short.class);
+        moduloHelper(BigInteger.valueOf(10), (short) 4, 2, BigInteger.class);
+        moduloHelper(10, 5.5f, 4.5, Float.class);
 
         try
         {
-            moduloHelper (new Integer(10), new BigDecimal( 2.5), 4, BigDecimal.class);
+            moduloHelper (10, new BigDecimal( 2.5), 4, BigDecimal.class);
             fail ("Modulo with BigDecimal is not allowed! Should have thrown an ArithmeticException.");
         }
         catch( ArithmeticException e)
@@ -158,12 +158,12 @@ public class ArithmeticTestCase extends TestCase
 
     public void testCompare()
     {
-        compareHelper (new Integer(10), new Short( (short)10), 0);
-        compareHelper (new Integer(10), new Short( (short)11), -1);
-        compareHelper (BigInteger.valueOf(10), new Short( (short)11), -1);
-        compareHelper (new Byte((byte)10), new Short( (short)3), 1);
-        compareHelper(new Float(10), new Short((short) 11), -1);
-        compareHelper(new Double(10), new Short((short) 11), -1);
+        compareHelper (10, (short) 10, 0);
+        compareHelper (10, (short) 11, -1);
+        compareHelper (BigInteger.valueOf(10), (short) 11, -1);
+        compareHelper ((byte) 10, (short) 3, 1);
+        compareHelper(10f, (short) 11, -1);
+        compareHelper(10d, (short) 11, -1);
     }
 
     private void compareHelper (Number n1, Number n2, int expectedResult)
@@ -174,13 +174,13 @@ public class ArithmeticTestCase extends TestCase
 
     public void testNegate()
     {
-        negateHelper(new Byte((byte) 1), -1, Byte.class);
-        negateHelper(new Short((short) 1), -1, Short.class);
-        negateHelper(new Integer(1), -1, Integer.class);
-        negateHelper(new Long(1), -1, Long.class);
+        negateHelper((byte) 1, -1, Byte.class);
+        negateHelper((short) 1, -1, Short.class);
+        negateHelper(1, -1, Integer.class);
+        negateHelper(1L, -1, Long.class);
         negateHelper(BigInteger.valueOf(1), -1, BigInteger.class);
         negateHelper(BigDecimal.valueOf(1), -1, BigDecimal.class);
-        negateHelper(new Long(Long.MIN_VALUE), BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.valueOf(1)).doubleValue(), BigInteger.class);
+        negateHelper(Long.MIN_VALUE, BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.valueOf(1)).doubleValue(), BigInteger.class);
     }
 
     private void negateHelper(Number n, double expectedResult, Class expectedResultType)
@@ -231,13 +231,13 @@ public class ArithmeticTestCase extends TestCase
      */
     public void testIsZero()
     {
-        assertTrue (MathUtils.isZero (new Integer (0)));
-        assertTrue (!MathUtils.isZero (new Integer (1)));
-        assertTrue (!MathUtils.isZero (new Integer (-1)));
+        assertTrue (MathUtils.isZero (0));
+        assertTrue (!MathUtils.isZero (1));
+        assertTrue (!MathUtils.isZero (-1));
 
-        assertTrue (MathUtils.isZero (new Float (0f)));
-        assertTrue (!MathUtils.isZero (new Float (0.00001f)));
-        assertTrue (!MathUtils.isZero (new Float (-0.00001f)));
+        assertTrue (MathUtils.isZero (0f));
+        assertTrue (!MathUtils.isZero (0.00001f));
+        assertTrue (!MathUtils.isZero (-0.00001f));
 
     }
 

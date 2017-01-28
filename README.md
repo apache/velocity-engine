@@ -48,7 +48,7 @@ updates.
 * velocity is now using the SLF4J logging facade. Hence, all methods accepting
 or returning a logger now use the org.slf4j.Logger object. Velocity uses a
 logger name of org.apache.velocity (configurable with the runtime.log.name
-configuration entry), and several other childen loggers.
+configuration entry), and several other children loggers.
 * the internal Context API now enforces String keys everywhere, this may break
 custom Context implementations at compile-time.
 * invalid reference events are now more sparsely sent; they're not sent if any
@@ -71,7 +71,7 @@ encoding).
 providing template name and location infos.
 * Initialization methods in Velocity and VelocityEngine taking an
 ExtendedProperties have been removed (but setProperties(Properties) methods
-are still here). All occurences of the
+are still here). All occurrences of the
 org.apache.commons.collections.ExtendedProperties class in the runtime
 internal initialization API have been replaced by
 org.apache.velocity.util.ExtProperties.
@@ -170,11 +170,11 @@ WEB-INF/lib directory.
 
 ## TRYING THE EXAMPLES
 
-After building Velocity, you can also buld the examples that are
+After building Velocity, you can also build the examples that are
 included with the Velocity distribution. These examples show how to
 use Velocity in your Java applications.
 
 For more information, please see the README.txt in the
-velocity-engine-exemples/src/etc/ directory.
+velocity-engine-examples/src/etc/ directory.
 
 - The Apache Velocity Team

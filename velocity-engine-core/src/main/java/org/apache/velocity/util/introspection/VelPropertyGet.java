@@ -37,7 +37,7 @@ public interface VelPropertyGet
      * @return The resulting Object.
      * @throws Exception
      */
-    public Object invoke(Object o) throws Exception;
+    Object invoke(Object o) throws Exception;
 
     /**
      *  specifies if this VelPropertyGet is cacheable and able to be
@@ -45,11 +45,11 @@ public interface VelPropertyGet
      *
      *  @return true if can be reused for this class, false if not
      */
-    public boolean isCacheable();
+    boolean isCacheable();
 
     /**
      *  returns the method name used to return this 'property'
      * @return The method name used to return this 'property'
      */
-    public String getMethodName();
+    String getMethodName();
 }

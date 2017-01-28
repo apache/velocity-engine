@@ -123,7 +123,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
         Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
         VelocityContext context = new VelocityContext();
-        context.put("first", new Integer(1));
+        context.put("first", 1);
         context.put("second", "two");
 
         template1.merge(context, writer);
@@ -170,7 +170,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
         Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
         VelocityContext context = new VelocityContext();
-        context.put("first", new Integer(1));
+        context.put("first", 1);
         context.put("second", "two");
 
         template.merge(context, writer);

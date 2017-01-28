@@ -284,7 +284,7 @@ public class VelocimacroProxy extends Directive
                 }
                 out.append(stack[i]);
             }
-            out.append(" at " + StringUtils.formatFileString(this));
+            out.append(" at ").append(StringUtils.formatFileString(this));
             log.error(out.toString());
 
             // clean out the macro stack, since we just broke it

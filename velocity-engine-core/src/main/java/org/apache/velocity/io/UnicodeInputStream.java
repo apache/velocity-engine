@@ -194,7 +194,7 @@ public class UnicodeInputStream
         return (encoding != null) ? encoding.getEncoding() : null;
     }
 
-    private final UnicodeBOM match(final UnicodeBOM matchEncoding, final UnicodeBOM noMatchEncoding)
+    private UnicodeBOM match(final UnicodeBOM matchEncoding, final UnicodeBOM noMatchEncoding)
         throws IOException
     {
         byte [] bom = matchEncoding.getBytes();
@@ -218,7 +218,7 @@ public class UnicodeInputStream
         return matchEncoding;
     }
 
-    private final boolean readByte()
+    private boolean readByte()
             throws IOException
     {
         int res = inputStream.read();
@@ -236,7 +236,7 @@ public class UnicodeInputStream
         return true;
     }
 
-    private final void pushback(final UnicodeBOM matchBOM)
+    private void pushback(final UnicodeBOM matchBOM)
         throws IOException
     {
         int count = pos; // By default, all bytes are pushed back.

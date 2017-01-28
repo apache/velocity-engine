@@ -85,7 +85,7 @@ public class ASTElseIfStatement extends SimpleNode
      * where this node was originally asked to evaluate
      * itself.
      * @param context
-     * @return True if all childs are true.
+     * @return True if all children are true.
      * @throws MethodInvocationException
      */
     public boolean evaluate ( InternalContextAdapter context)

@@ -35,10 +35,10 @@ public interface InternalEventContext
      * @param ec
      * @return The old EventCartridge.
      */
-    public EventCartridge attachEventCartridge( EventCartridge ec);
+    EventCartridge attachEventCartridge(EventCartridge ec);
 
     /**
      * @return The current EventCartridge.
      */
-    public EventCartridge getEventCartridge();
+    EventCartridge getEventCartridge();
 }

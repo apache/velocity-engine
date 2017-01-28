@@ -35,7 +35,7 @@ import java.util.Map;
 public class TestContext implements Context
 {
     Context innerContext = new VelocityContext();
-    Map<String, String> originalKeys = new HashMap<String, String>();
+    Map<String, String> originalKeys = new HashMap<>();
 
     public boolean containsKey(String key)
     {
