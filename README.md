@@ -23,9 +23,9 @@ Building from source requires Java development kit v1.7 or greater and Maven 3 (
 
 At compile time, Maven should fetch all needed dependencies, which are:
 * commons-lang v3.5
-* slf4j-api v1.7.21
+* slf4j-api v1.7.23
 plus the following ones, needed for the integrated tests:
-* slf4j-simple v1.7.21
+* slf4j-simple v1.7.23
 * junit v4.12
 * hsqldb v2.3.4
 * commons-io 2.5
