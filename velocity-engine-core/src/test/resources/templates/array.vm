@@ -40,3 +40,9 @@ $p.m( [ $A.g(1), $title ])
 $pp.messageFormat( [ $Abc.get($sti), $title, $ti, $sti, 'bodytext' ], $subtopicTemplate)
 #set ($args = [ $pp.nQuestions, $pass, $units ] )
 
+## expression in index
+
+#set($arr = [ 0, 1, 2, 3 ])
+#set($index = 1)
+
+$arr[$index + $index * 2]
