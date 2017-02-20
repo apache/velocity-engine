@@ -348,7 +348,7 @@ public class ASTStringLiteral extends SimpleNode
     public boolean evaluate( InternalContextAdapter context)
     {
         String str = (String)value(context);
-        return str != null && !str.isEmpty();
+        return str != null && (!rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true) || !str.isEmpty());
     }
 
 }
