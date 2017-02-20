@@ -19,7 +19,13 @@ package org.apache.velocity.test;
  * under the License.
  */
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Used to check that empty values are properly handled in #if statements
@@ -37,6 +43,12 @@ public class IfEmptyTestCase extends BaseTestCase
         assertEvalEquals("", "#if( $obj )fail#end");
     }
 
+    protected void assertNotEmpty(Object obj)
+    {
+        context.put("obj", obj);
+        assertEvalEquals("", "#if( !$obj )fail#end");
+    }
+
     public void testNull()
     {
         assertEmpty(null);
@@ -49,13 +61,43 @@ public class IfEmptyTestCase extends BaseTestCase
         assertEmpty(Collections.emptyMap());
         assertEmpty(Collections.emptyList());
         assertEmpty(new Object[]{});
+        List list = new ArrayList();
+        list.add(1);
+        assertNotEmpty(list);
+        Map map = new TreeMap();
+        map.put("foo", 1);
+        assertNotEmpty(map);
     }
 
     public void testString()
     {
         assertEmpty("");
         assertEmpty(new EmptyAsString());
-        assertEmpty(new EmptyToString());
+        assertNotEmpty("hello");
+    }
+
+    public void testNumber()
+    {
+        assertEmpty(0);
+        assertEmpty(0L);
+        assertEmpty(0.0f);
+        assertEmpty(0.0);
+        assertEmpty(BigInteger.ZERO);
+        assertEmpty(BigDecimal.ZERO);
+        assertNotEmpty(1);
+        assertNotEmpty(1L);
+        assertNotEmpty(1.0f);
+        assertNotEmpty(1.0);
+        assertNotEmpty(BigInteger.ONE);
+        assertNotEmpty(BigDecimal.ONE);
+    }
+
+    public void testStringBuilder()
+    {
+        StringBuilder builder = new StringBuilder();
+        assertEmpty(builder);
+        builder.append("yo");
+        assertNotEmpty(builder);
     }
 
     public static class NullAsString
@@ -79,14 +121,6 @@ public class IfEmptyTestCase extends BaseTestCase
         public String getAsNumber()
         {
             return null;
-        }
-    }
-
-    public static class EmptyToString
-    {
-        public String toString()
-        {
-            return "";
         }
     }
 

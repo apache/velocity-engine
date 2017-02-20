@@ -23,8 +23,11 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.apache.velocity.runtime.parser.node.MathUtils.isZero;
 
 /**
  * Support for getAs<Type>() convention for rendering (String), evaluating (Boolean)
@@ -40,7 +43,9 @@ public class DuckType
         STRING("getAsString"),
         NUMBER("getAsNumber"),
         BOOLEAN("getAsBoolean"),
-        EMPTY("isEmpty");
+        EMPTY("isEmpty"),
+        LENGTH("length"),
+        SIZE("size");
 
         final String name;
         final Map<Class,Object> cache = new HashMap();
@@ -93,11 +98,6 @@ public class DuckType
             get(value, Types.NUMBER) == null;
     }
 
-    public static boolean asBoolean(Object value)
-    {
-        return asBoolean(value, true);
-    }
-
     public static boolean asBoolean(Object value, boolean coerceType)
     {
         if (value == null)
@@ -129,23 +129,37 @@ public class DuckType
             return true;
         }
 
-        // empty string
-        if (value instanceof CharSequence)
+        // empty array
+        if (value.getClass().isArray())
         {
-            return ((CharSequence)value).length() == 0;
+            return Array.getLength(value) == 0;// [] is false
         }
 
-        // isEmpty() object
+        // isEmpty() for object / string
         Object isEmpty = get(value, Types.EMPTY);
         if (isEmpty != NO_METHOD)
         {
             return (Boolean)isEmpty;
         }
 
-        // empty array
-        if (value.getClass().isArray())
+        // isEmpty() for object / other char sequences
+        Object length = get(value, Types.LENGTH);
+        if (length != NO_METHOD && length instanceof Number)
         {
-            return Array.getLength(value) == 0;// [] is false
+            return isZero((Number)length);
+        }
+
+        // size() object / collection
+        Object size = get(value, Types.SIZE);
+        if (size != NO_METHOD && size instanceof Number)
+        {
+            return isZero((Number)size);
+        }
+
+        // zero numbers are false
+        if (value instanceof Number)
+        {
+            return isZero((Number)value);
         }
 
         // null getAsString()
@@ -166,10 +180,13 @@ public class DuckType
         {
             return true;
         }
+        // zero numbers are false
+        else if (asNumber != NO_METHOD && asNumber instanceof Number)
+        {
+            return isZero((Number)asNumber);
+        }
 
-        // empty toString()
-        String string = value.toString();
-        return string == null || string.length() == 0;
+        return false;
     }
 
     public static Number asNumber(Object value)
