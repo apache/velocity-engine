@@ -211,7 +211,7 @@ public class StringResourceLoader extends ResourceLoader
      */
     public void init(final ExtProperties configuration)
     {
-        log.trace("StringResourceLoader : initialization starting.");
+        log.trace("StringResourceLoader: initialization starting.");
 
         // get the repository configuration info
         String repoClass = configuration.getString(REPOSITORY_CLASS, REPOSITORY_CLASS_DEFAULT);
@@ -273,7 +273,7 @@ public class StringResourceLoader extends ResourceLoader
             }
         }
 
-        log.trace("StringResourceLoader : initialization complete.");
+        log.trace("StringResourceLoader: initialization complete.");
     }
 
     /**

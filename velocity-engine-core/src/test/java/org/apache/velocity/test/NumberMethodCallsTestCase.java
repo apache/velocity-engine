@@ -86,7 +86,7 @@ public class NumberMethodCallsTestCase extends TestCase
         vc.put("AShort",new Short("10"));
         vc.put("AInteger", 10);
         vc.put("ALong", 10L);
-        vc.put("ADouble", 10d);
+        vc.put("ADouble", 10.0);
         vc.put("AFloat", 10f);
         vc.put("ABigDecimal",new BigDecimal(10));
         vc.put("ABigInteger",new BigInteger("10"));

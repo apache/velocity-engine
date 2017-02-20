@@ -207,7 +207,7 @@ public class ASTSetDirective extends SimpleNode
      *   puts the value of the RHS into the context under the key of the LHS
      * @param context
      * @param writer
-     * @return True if rendering was sucessfull.
+     * @return True if rendering was sucessful.
      * @throws IOException
      * @throws MethodInvocationException
      */

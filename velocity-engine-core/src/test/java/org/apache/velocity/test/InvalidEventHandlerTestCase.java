@@ -513,7 +513,7 @@ extends TestCase
 
                 // good object, bad property; change the value
                 case "$a4.foobar":
-                    assertEquals(new Integer(5), object);
+                    assertEquals(Integer.valueOf(5), object);
                     assertEquals("foobar", property);
                     return "zzz";
 

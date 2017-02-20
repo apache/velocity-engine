@@ -114,7 +114,7 @@ public class IntrospectorTestCase extends BaseTestCase
     {
 
         // Test double primitive.
-        Object[] doubleParams = {(double) 1};
+        Object[] doubleParams = { 1.0 };
         String type = "double";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", doubleParams);
@@ -128,7 +128,7 @@ public class IntrospectorTestCase extends BaseTestCase
     {
 
         // Test float primitive.
-        Object[] floatParams = {(float) 1};
+        Object[] floatParams = { 1.0f };
         String type = "float";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", floatParams);
@@ -142,7 +142,7 @@ public class IntrospectorTestCase extends BaseTestCase
     {
 
         // Test integer primitive.
-        Object[] integerParams = {(int) 1};
+        Object[] integerParams = { 1 };
         String type = "integer";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", integerParams);
@@ -156,7 +156,7 @@ public class IntrospectorTestCase extends BaseTestCase
     {
 
         // Test long primitive.
-        Object[] longParams = {(long) 1};
+        Object[] longParams = { 1L };
         String type = "long";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", longParams);

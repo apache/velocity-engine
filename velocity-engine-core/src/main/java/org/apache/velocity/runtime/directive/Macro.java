@@ -35,7 +35,7 @@ import java.util.List;
 /**
  *  Macro implements the macro definition directive of VTL.
  *
- *  example :
+ *  example:
  *
  *  #macro( isnull $i )
  *     #if( $i )
@@ -95,7 +95,7 @@ public class Macro extends Directive
         throws IOException
     {
         /*
-         *  do nothing : We never render.  The VelocimacroProxy object does that
+         *  do nothing: We never render.  The VelocimacroProxy object does that
          */
 
         return true;
@@ -228,8 +228,8 @@ public class Macro extends Directive
 
         if (debugMode)
         {
-            StringBuilder msg = new StringBuilder("Macro.getArgArray() : nbrArgs=");
-            msg.append(numArgs).append(" : ");
+            StringBuilder msg = new StringBuilder("Macro.getArgArray(): nbrArgs=");
+            msg.append(numArgs).append(": ");
             macroToString(msg, macroArgs);
             rsvc.getLog("macro").debug(msg.toString());
         }

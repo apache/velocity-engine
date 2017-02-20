@@ -406,7 +406,7 @@ public class ASTReference extends SimpleNode
         String localNullString = null;
 
         /*
-         * if this reference is escaped (\$foo) then we want to do one of two things : 1) if this is
+         * if this reference is escaped (\$foo) then we want to do one of two things: 1) if this is
          * a reference in the context, then we want to print $foo 2) if not, then \$foo (its
          * considered schmoo, not VTL)
          */
@@ -514,7 +514,7 @@ public class ASTReference extends SimpleNode
 
             if (logOnNull && referenceType != QUIET_REFERENCE)
             {
-                log.debug("Null reference [template '{}', line {}, column {}] : {} cannot be resolved.",
+                log.debug("Null reference [template '{}', line {}, column {}]: {} cannot be resolved.",
                           getTemplateName(), this.getLine(), this.getColumn(), this.literal());
             }
             return true;
@@ -736,7 +736,7 @@ public class ASTReference extends SimpleNode
 
 
         /*
-         *  We support two ways of setting the value in a #set($ref.foo = $value ) :
+         *  We support two ways of setting the value in a #set($ref.foo = $value ):
          *  1) ref.setFoo( value )
          *  2) ref,put("foo", value ) to parallel the get() map introspection
          */
@@ -770,7 +770,7 @@ public class ASTReference extends SimpleNode
              */
 
             throw  new MethodInvocationException(
-                "ASTReference : Invocation of method '"
+                "ASTReference: Invocation of method '"
                 + identifier + "' in  " + result.getClass()
                 + " threw exception "
                 + ite.getTargetException().toString(),
@@ -788,7 +788,7 @@ public class ASTReference extends SimpleNode
             /*
              *  maybe a security exception?
              */
-            String msg = "ASTReference setValue() : exception : " + e
+            String msg = "ASTReference setValue(): exception: " + e
                           + " template at " + StringUtils.formatFileString(uberInfo);
             log.error(msg, e);
             throw new VelocityException(msg, e);
@@ -832,7 +832,7 @@ public class ASTReference extends SimpleNode
              */
 
              /*
-              *  count the escapes : even # -> not escaped, odd -> escaped
+              *  count the escapes: even # -> not escaped, odd -> escaped
               */
 
             int i = 0;
@@ -843,7 +843,7 @@ public class ASTReference extends SimpleNode
             if (i == -1)
             {
                 /* yikes! */
-                log.error("ASTReference.getRoot() : internal error : "
+                log.error("ASTReference.getRoot(): internal error: "
                             + "no $ found for slashbang.");
                 computableReference = false;
                 nullString = t.image;
@@ -896,7 +896,7 @@ public class ASTReference extends SimpleNode
         if (t.image.startsWith("\\"))
         {
             /*
-             *  count the escapes : even # -> not escaped, odd -> escaped
+             *  count the escapes: even # -> not escaped, odd -> escaped
              */
 
             int i = 0;
@@ -958,7 +958,7 @@ public class ASTReference extends SimpleNode
             if (t.image.startsWith("$!{"))
             {
                 /*
-                 *  ex : $!{provider.Title}
+                 *  ex: $!{provider.Title}
                  */
 
                 return t.next.image;
@@ -966,7 +966,7 @@ public class ASTReference extends SimpleNode
             else
             {
                 /*
-                 *  ex : $!provider.Title
+                 *  ex: $!provider.Title
                  */
 
                 return t.image.substring(2);
@@ -975,7 +975,7 @@ public class ASTReference extends SimpleNode
         else if (t.image.equals("${"))
         {
             /*
-             *  ex : ${provider.Title}
+             *  ex: ${provider.Title}
              */
 
             referenceType = FORMAL_REFERENCE;

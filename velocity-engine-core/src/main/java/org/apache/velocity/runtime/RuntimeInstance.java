@@ -1220,7 +1220,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             /*
              *  if we couldn't get a parser from the pool make one and log it.
              */
-            log.info("Runtime : ran out of parsers. Creating a new one. "
+            log.info("Runtime: ran out of parsers. Creating a new one. "
                      + " Please increment the parser.pool.size property."
                      + " The current value is too small.");
             parser = createNewParser();
@@ -1446,7 +1446,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Invokes a currently registered Velocimacro with the params provided
      * and places the rendered stream into the writer.
      * <br>
-     * Note : currently only accepts args to the VM if they are in the context.
+     * Note: currently only accepts args to the VM if they are in the context.
      * <br>
      * Note: only macros in the global context can be called. This method doesn't find macros defined by
      * templates during previous mergeTemplate calls if Velocity.VM_PERM_INLINE_LOCAL has been enabled.
@@ -1468,7 +1468,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /* check necessary parameters */
         if (vmName == null || context == null || writer == null)
         {
-            String msg = "RuntimeInstance.invokeVelocimacro() : invalid call : vmName, context, and writer must not be null";
+            String msg = "RuntimeInstance.invokeVelocimacro(): invalid call: vmName, context, and writer must not be null";
             log.error(msg);
             throw new NullPointerException(msg);
         }
@@ -1486,7 +1486,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /* does the VM exist? (only global scope is scanned so this doesn't find inline macros in templates) */
         if (!isVelocimacro(vmName, null))
         {
-            String msg = "RuntimeInstance.invokeVelocimacro() : VM '" + vmName
+            String msg = "RuntimeInstance.invokeVelocimacro(): VM '" + vmName
                          + "' is not registered.";
             log.error(msg);
             throw new VelocityException(msg);

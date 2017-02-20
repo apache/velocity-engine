@@ -19,7 +19,7 @@ Here's a description of the top level directories:
 
 Apache Velocity will run with any Java runtime engine v1.7 or greater.
 
-Building from source requires Java development kit v1.7 or greater and Maven 3 (3.3.3 at the time of writing).
+Building from source requires Java development kit v1.7 or greater and Maven 3 (3.0.5+).
 
 At compile time, Maven should fetch all needed dependencies, which are:
 * commons-lang v3.5
@@ -80,7 +80,7 @@ all arguments are evaluated once at start, and that the macro receives a
 copy of the reference to each argument).
 * the UberspectLoggable interface has been removed.
 
-####  VTL Changes:
+#### VTL Changes:
 
 * the hypen ( - ) cannot be used in variable names anymore
 * method arguments can be arithmetic expressions
@@ -93,11 +93,11 @@ following values: none, bc (aka. backward compatible), lines and structured.
 See the related documentation section for details. To maximize backward
 compatibility with 1.x, set it to bc.
 
-####  Dependencies changes:
+#### Dependencies changes:
 
 * Velocity now requires a JDK version of 1.7 or higher.
 * commons-collections and commons-logging aren't needed any more at runtime.
-* there's a new runtime dependency, slf4j-api 1.7.12.
+* there's a new compile-time and runtime dependency, slf4j-api 1.7.12.
 * you'll need an SLF4J binding.
 * commons-lang has to be upgraded to 3.5.
 

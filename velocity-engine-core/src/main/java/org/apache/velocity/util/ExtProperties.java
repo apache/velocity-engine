@@ -550,24 +550,23 @@ public class ExtProperties extends Hashtable<String,Object> {
      */
     public synchronized void load(InputStream input, String enc) throws IOException {
         PropertiesReader reader = null;
-        if (enc != null) {
-            try {
+        if (enc != null)
+        {
+            try
+            {
                 reader = new PropertiesReader(new InputStreamReader(input, enc));
 
-            } catch (UnsupportedEncodingException ex) {
+            }
+            catch (UnsupportedEncodingException ex)
+            {
                 // Another try coming up....
             }
         }
 
-        if (reader == null) {
-            try {
-                reader = new PropertiesReader(new InputStreamReader(input, "8859_1"));
-
-            } catch (UnsupportedEncodingException ex) {
-                // ISO8859-1 support is required on java platforms but....
-                // If it's not supported, use the system default encoding
-                reader = new PropertiesReader(new InputStreamReader(input));
-            }
+        // fall back to UTF-8
+        if (reader == null)
+        {
+            reader = new PropertiesReader(new InputStreamReader(input, StandardCharsets.UTF_8));
         }
 
         try {
@@ -1585,7 +1584,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public float getFloat(String key, float defaultValue) {
-        return getFloat(key, new Float(defaultValue));
+        return getFloat(key, Float.valueOf(defaultValue));
     }
 
     /**
@@ -1655,7 +1654,7 @@ public class ExtProperties extends Hashtable<String,Object> {
      * by the key has not a valid number format.
      */
     public double getDouble(String key, double defaultValue) {
-        return getDouble(key, new Double(defaultValue));
+        return getDouble(key, Double.valueOf(defaultValue));
     }
 
     /**

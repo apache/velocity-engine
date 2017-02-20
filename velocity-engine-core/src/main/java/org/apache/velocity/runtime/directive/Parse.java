@@ -197,7 +197,7 @@ public class Parse extends InputBase
                 {
                     path.append(" > " + aTemplateStack);
                 }
-                log.error("Max recursion depth reached ({}) File stack: {}",
+                log.error("Max recursion depth reached ({}). File stack: {}",
                           templateStack.length, path);
 
                 return false;
