@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Locale;
 
 /**
@@ -467,11 +468,11 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
     protected String getFileContents(String file)
     {
-        String contents;
+        String contents = null;
 
         try
         {
-            contents = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            contents = new String(Files.readAllBytes(Paths.get(file)), StandardCharsets.UTF_8);
         }
         catch (Exception e)
         {

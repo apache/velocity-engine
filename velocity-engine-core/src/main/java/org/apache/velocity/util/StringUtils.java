@@ -23,8 +23,6 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.util.introspection.Info;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * This class provides some methods for dynamically
  * invoking methods in objects, and some string
@@ -77,7 +75,7 @@ public class StringUtils
     public static String formatFileString(String template, int linenum, int colnum)
     {
         StringBuilder buffer = new StringBuilder();
-        if (StringUtils.isEmpty(template))
+        if (org.apache.commons.lang3.StringUtils.isEmpty(template))
         {
             template = "<unknown template>";
         }
