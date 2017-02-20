@@ -100,6 +100,23 @@ public class IfEmptyTestCase extends BaseTestCase
         assertNotEmpty(builder);
     }
 
+    public void testLiterals()
+    {
+        assertEvalEquals("", "#if( 0 )fail#end");
+        assertEvalEquals("", "#if( 0.0 )fail#end");
+        assertEvalEquals("", "#if( '' )fail#end");
+        assertEvalEquals("", "#if( \"\" )fail#end");
+        assertEvalEquals("", "#if( [] )fail#end");
+        assertEvalEquals("", "#if( {} )fail#end");
+
+        assertEvalEquals("", "#if( !1 )fail#end");
+        assertEvalEquals("", "#if( !1.0 )fail#end");
+        assertEvalEquals("", "#if( !'foo' )fail#end");
+        assertEvalEquals("", "#if( !\"foo\" )fail#end");
+        assertEvalEquals("", "#if( ![ 'foo' ] )fail#end");
+        assertEvalEquals("", "#if( !{ 'foo':'bar' } )fail#end");
+    }
+
     public static class NullAsString
     {
         public String getAsString()
