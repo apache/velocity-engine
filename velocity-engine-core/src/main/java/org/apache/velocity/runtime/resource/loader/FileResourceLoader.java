@@ -70,7 +70,7 @@ public class FileResourceLoader extends ResourceLoader
      */
     public void init( ExtProperties configuration)
     {
-        log.trace("FileResourceLoader : initialization starting.");
+        log.trace("FileResourceLoader: initialization starting.");
 
         paths.addAll( configuration.getVector("path") );
 
@@ -79,9 +79,9 @@ public class FileResourceLoader extends ResourceLoader
         {
             String path = StringUtils.trim(it.next());
             it.set(path);
-            log.debug("FileResourceLoader : adding path '{}'", path);
+            log.debug("FileResourceLoader: adding path '{}'", path);
         }
-        log.trace("FileResourceLoader : initialization complete.");
+        log.trace("FileResourceLoader: initialization complete.");
     }
 
     /**
@@ -114,11 +114,11 @@ public class FileResourceLoader extends ResourceLoader
         String template = FilenameUtils.normalize( templateName, true );
         if ( template == null || template.length() == 0 )
         {
-            String msg = "File resource error : argument " + template +
+            String msg = "File resource error: argument " + template +
                     " contains .. and may be trying to access " +
                     "content outside of template root.  Rejected.";
 
-            log.error("FileResourceLoader : {}", msg);
+            log.error("FileResourceLoader: {}", msg);
 
             throw new ResourceNotFoundException ( msg );
         }
@@ -161,7 +161,7 @@ public class FileResourceLoader extends ResourceLoader
          * templates and we didn't find anything so
          * throw an exception.
          */
-        throw new ResourceNotFoundException("FileResourceLoader : cannot find " + template);
+        throw new ResourceNotFoundException("FileResourceLoader: cannot find " + template);
     }
 
     /**

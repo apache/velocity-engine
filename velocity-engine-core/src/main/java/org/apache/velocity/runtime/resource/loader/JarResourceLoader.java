@@ -89,13 +89,13 @@ public class JarResourceLoader extends ResourceLoader
      */
     public void init( ExtProperties configuration)
     {
-        log.trace("JarResourceLoader : initialization starting.");
+        log.trace("JarResourceLoader: initialization starting.");
 
         List paths = configuration.getList("path");
 
         if (paths != null)
         {
-            log.debug("JarResourceLoader # of paths : {}", paths.size() );
+            log.debug("JarResourceLoader # of paths: {}", paths.size() );
 
             for (ListIterator<String> it = paths.listIterator(); it.hasNext(); )
             {
@@ -105,23 +105,23 @@ public class JarResourceLoader extends ResourceLoader
             }
         }
 
-        log.trace("JarResourceLoader : initialization complete.");
+        log.trace("JarResourceLoader: initialization complete.");
     }
 
     private void loadJar( String path )
     {
-        log.debug("JarResourceLoader : trying to load \"{}\"", path);
+        log.debug("JarResourceLoader: trying to load \"{}\"", path);
 
         // Check path information
         if ( path == null )
         {
-            String msg = "JarResourceLoader : can not load JAR - JAR path is null";
+            String msg = "JarResourceLoader: can not load JAR - JAR path is null";
             log.error(msg);
             throw new RuntimeException(msg);
         }
         if ( !path.startsWith("jar:") )
         {
-            String msg = "JarResourceLoader : JAR path must start with jar: -> see java.net.JarURLConnection for information";
+            String msg = "JarResourceLoader: JAR path must start with jar: -> see java.net.JarURLConnection for information";
             log.error(msg);
             throw new RuntimeException(msg);
         }
@@ -189,11 +189,11 @@ public class JarResourceLoader extends ResourceLoader
 
         if ( normalizedPath == null || normalizedPath.length() == 0 )
         {
-            String msg = "JAR resource error : argument " + normalizedPath +
+            String msg = "JAR resource error: argument " + normalizedPath +
                     " contains .. and may be trying to access " +
                     "content outside of template root.  Rejected.";
 
-            log.error( "JarResourceLoader : {}", msg );
+            log.error( "JarResourceLoader: {}", msg );
 
             throw new ResourceNotFoundException ( msg );
         }
@@ -228,7 +228,7 @@ public class JarResourceLoader extends ResourceLoader
                         }
                         catch (IOException ioe) {}
                     }
-                    String msg = "JAR resource error : Exception while loading " + source;
+                    String msg = "JAR resource error: Exception while loading " + source;
                     log.error(msg, e);
                     throw new VelocityException(msg, e);
                 }

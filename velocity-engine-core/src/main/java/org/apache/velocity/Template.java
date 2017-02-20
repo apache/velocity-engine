@@ -325,8 +325,7 @@ public class Template extends Resource
                         /*
                         * the macro lib wasn't found.  Note it and throw
                         */
-                        log.error("template.merge(): cannot find template {}",
-                            macroLibrary);
+                        log.error("cannot find template {}", macroLibrary);
                         throw re;
                     }
                     catch (ParseErrorException pe)
@@ -335,14 +334,14 @@ public class Template extends Resource
                         * the macro lib was found, but didn't parse - syntax error
                         *  note it and throw
                         */
-                        rsvc.getLog("parser").error("template.merge(): syntax error in template {}: {}",
+                        rsvc.getLog("parser").error("syntax error in template {}: {}",
                             macroLibrary, pe.getMessage(), pe);
                         throw pe;
                     }
 
                     catch (Exception e)
                     {
-                        throw new RuntimeException("Template.merge(): parse failed in template  " +
+                        throw new RuntimeException("parse failed in template  " +
                             (String) macroLibrary + ".", e);
                     }
                 }
@@ -411,8 +410,8 @@ public class Template extends Resource
              * this shouldn't happen either, but just in case.
              */
 
-            String msg = "Template.merge() failure. The document is null, " +
-                "most likely due to parsing error.";
+            String msg = "Template merging failed. The document is null, " +
+                "most likely due to a parsing error.";
 
             throw new RuntimeException(msg);
 

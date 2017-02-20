@@ -349,7 +349,7 @@ public class ResourceManagerImpl
             }
             catch (ResourceNotFoundException rnfe)
             {
-                log.error("ResourceManager : unable to find resource '{}' in any resource loader.", resourceName);
+                log.error("ResourceManager: unable to find resource '{}' in any resource loader.", resourceName);
                 throw rnfe;
             }
             catch (ParseErrorException pee)
