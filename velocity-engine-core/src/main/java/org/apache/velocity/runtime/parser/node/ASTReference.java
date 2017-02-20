@@ -579,7 +579,7 @@ public class ASTReference extends SimpleNode
         }
         try
         {
-            return DuckType.asBoolean(value);
+            return DuckType.asBoolean(value, rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true));
         }
         catch(Exception e)
         {
