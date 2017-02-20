@@ -150,7 +150,8 @@ import java.util.Vector;
  * @author <a href="mailto:hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  */
-public class ExtProperties extends Hashtable<String,Object> {
+public class ExtProperties extends Hashtable<String,Object>
+{
 
     /**
      * Default configurations repository.
@@ -176,14 +177,19 @@ public class ExtProperties extends Hashtable<String,Object> {
      */
     protected String fileSeparator;
     {
-        try {
+        try
+        {
             fileSeparator = (String) AccessController.doPrivileged(
-                new java.security.PrivilegedAction() {
-                    public Object run() {
+                new java.security.PrivilegedAction()
+                {
+                    public Object run()
+                    {
                         return System.getProperty("file.separator");
                     }
                 });
-        } catch (SecurityException ex) {
+        }
+        catch (SecurityException ex)
+        {
             fileSeparator = File.separator;
         }
     }
@@ -217,7 +223,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param base string to interpolate
      * @return returns the key name with the ${key} substituted
      */
-    protected String interpolate(String base) {
+    protected String interpolate(String base)
+    {
         // COPIED from [configuration] 2003-12-29
         return (interpolateHelper(base, null));
     }
@@ -236,15 +243,18 @@ public class ExtProperties extends Hashtable<String,Object> {
      *
      * @return the string with the interpolation taken care of
      */
-    protected String interpolateHelper(String base, List priorVariables) {
+    protected String interpolateHelper(String base, List priorVariables)
+    {
         // COPIED from [configuration] 2003-12-29
-        if (base == null) {
+        if (base == null)
+        {
             return null;
         }
 
         // on the first call initialize priorVariables
         // and add base as the first element
-        if (priorVariables == null) {
+        if (priorVariables == null)
+        {
             priorVariables = new ArrayList();
             priorVariables.add(base);
         }
@@ -257,21 +267,25 @@ public class ExtProperties extends Hashtable<String,Object> {
 
         // FIXME: we should probably allow the escaping of the start token
         while (((begin = base.indexOf(START_TOKEN, prec + END_TOKEN.length())) > -1)
-            && ((end = base.indexOf(END_TOKEN, begin)) > -1)) {
+               && ((end = base.indexOf(END_TOKEN, begin)) > -1))
+        {
             result.append(base.substring(prec + END_TOKEN.length(), begin));
             variable = base.substring(begin + START_TOKEN.length(), end);
 
             // if we've got a loop, create a useful exception message and throw
-            if (priorVariables.contains(variable)) {
+            if (priorVariables.contains(variable))
+            {
                 String initialBase = priorVariables.remove(0).toString();
                 priorVariables.add(variable);
                 StringBuilder priorVariableSb = new StringBuilder();
 
                 // create a nice trace of interpolated variables like so:
                 // var1->var2->var3
-                for (Iterator it = priorVariables.iterator(); it.hasNext();) {
+                for (Iterator it = priorVariables.iterator(); it.hasNext();)
+                {
                     priorVariableSb.append(it.next());
-                    if (it.hasNext()) {
+                    if (it.hasNext())
+                    {
                         priorVariableSb.append("->");
                     }
                 }
@@ -280,13 +294,16 @@ public class ExtProperties extends Hashtable<String,Object> {
                     "infinite loop in property interpolation of " + initialBase + ": " + priorVariableSb.toString());
             }
             // otherwise, add this variable to the interpolation list.
-            else {
+            else
+            {
+
                 priorVariables.add(variable);
             }
 
             //QUESTION: getProperty or getPropertyDirect
             Object value = getProperty(variable);
-            if (value != null) {
+            if (value != null)
+            {
                 result.append(interpolateHelper(value.toString(), priorVariables));
 
                 // pop the interpolated variable off the stack
@@ -294,9 +311,14 @@ public class ExtProperties extends Hashtable<String,Object> {
                 // properties with multiple interpolations, e.g.
                 // prop.name=${some.other.prop1}/blahblah/${some.other.prop2}
                 priorVariables.remove(priorVariables.size() - 1);
-            } else if (defaults != null && defaults.getString(variable, null) != null) {
+            }
+            else if (defaults != null && defaults.getString(variable, null) != null)
+            {
                 result.append(defaults.getString(variable));
-            } else {
+            }
+            else
+            {
+
                 //variable not defined - so put it back in the value
                 result.append(START_TOKEN).append(variable).append(END_TOKEN);
             }
@@ -310,11 +332,14 @@ public class ExtProperties extends Hashtable<String,Object> {
     /**
      * Inserts a backslash before every comma and backslash.
      */
-    private static String escape(String s) {
+    private static String escape(String s)
+    {
         StringBuilder buf = new StringBuilder(s);
-        for (int i = 0; i < buf.length(); i++) {
+        for (int i = 0; i < buf.length(); i++)
+        {
             char c = buf.charAt(i);
-            if (c == ',' || c == '\\') {
+            if (c == ',' || c == '\\')
+            {
                 buf.insert(i, '\\');
                 i++;
             }
@@ -325,12 +350,15 @@ public class ExtProperties extends Hashtable<String,Object> {
     /**
      * Removes a backslash from every pair of backslashes.
      */
-    private static String unescape(String s) {
+    private static String unescape(String s)
+    {
         StringBuilder buf = new StringBuilder(s);
-        for (int i = 0; i < buf.length() - 1; i++) {
+        for (int i = 0; i < buf.length() - 1; i++)
+        {
             char c1 = buf.charAt(i);
             char c2 = buf.charAt(i + 1);
-            if (c1 == '\\' && c2 == '\\') {
+            if (c1 == '\\' && c2 == '\\')
+            {
                 buf.deleteCharAt(i);
             }
         }
@@ -341,10 +369,13 @@ public class ExtProperties extends Hashtable<String,Object> {
      * Counts the number of successive times 'ch' appears in the
      * 'line' before the position indicated by the 'index'.
      */
-    private static int countPreceding(String line, int index, char ch) {
+    private static int countPreceding(String line, int index, char ch)
+    {
         int i;
-        for (i = index - 1; i >= 0; i--) {
-            if (line.charAt(i) != ch) {
+        for (i = index - 1; i >= 0; i--)
+        {
+            if (line.charAt(i) != ch)
+            {
                 break;
             }
         }
@@ -354,8 +385,10 @@ public class ExtProperties extends Hashtable<String,Object> {
     /**
      * Checks if the line ends with odd number of backslashes
      */
-    private static boolean endsWithSlash(String line) {
-        if (!line.endsWith("\\")) {
+    private static boolean endsWithSlash(String line)
+    {
+        if (!line.endsWith("\\"))
+        {
             return false;
         }
         return (countPreceding(line, line.length() - 1, '\\') % 2 == 0);
@@ -367,13 +400,15 @@ public class ExtProperties extends Hashtable<String,Object> {
      * backslash sign a the end of the line.  This is used to
      * concatenate multiple lines for readability.
      */
-    static class PropertiesReader extends LineNumberReader {
+    static class PropertiesReader extends LineNumberReader
+    {
         /**
          * Constructor.
          *
          * @param reader A Reader.
          */
-        public PropertiesReader(Reader reader) {
+        public PropertiesReader(Reader reader)
+        {
             super(reader);
         }
 
@@ -383,16 +418,23 @@ public class ExtProperties extends Hashtable<String,Object> {
          * @return a String property
          * @throws IOException if there is difficulty reading the source.
          */
-        public String readProperty() throws IOException {
+        public String readProperty() throws IOException
+        {
             StringBuilder buffer = new StringBuilder();
             String line = readLine();
-            while (line != null) {
+            while (line != null)
+            {
                 line = line.trim();
-                if ((line.length() != 0) && (line.charAt(0) != '#')) {
-                    if (endsWithSlash(line)) {
+                if ((line.length() != 0) && (line.charAt(0) != '#'))
+                {
+                    if (endsWithSlash(line))
+                    {
                         line = line.substring(0, line.length() - 1);
                         buffer.append(line);
-                    } else {
+                    }
+                    else
+                    {
+
                         buffer.append(line);
                         return buffer.toString();  // normal method end
                     }
@@ -408,7 +450,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * separator is "," but commas into the property value are escaped
      * using the backslash in front.
      */
-    static class PropertiesTokenizer extends StringTokenizer {
+    static class PropertiesTokenizer extends StringTokenizer
+    {
         /**
          * The property delimiter used while parsing (a comma).
          */
@@ -419,7 +462,8 @@ public class ExtProperties extends Hashtable<String,Object> {
          *
          * @param string A String.
          */
-        public PropertiesTokenizer(String string) {
+        public PropertiesTokenizer(String string)
+        {
             super(string, DELIMITER);
         }
 
@@ -428,7 +472,8 @@ public class ExtProperties extends Hashtable<String,Object> {
          *
          * @return True if the object has more tokens.
          */
-        public boolean hasMoreTokens() {
+        public boolean hasMoreTokens()
+        {
             return super.hasMoreTokens();
         }
 
@@ -437,15 +482,21 @@ public class ExtProperties extends Hashtable<String,Object> {
          *
          * @return A String.
          */
-        public String nextToken() {
+        public String nextToken()
+        {
             StringBuilder buffer = new StringBuilder();
 
-            while (hasMoreTokens()) {
+            while (hasMoreTokens())
+            {
                 String token = super.nextToken();
-                if (endsWithSlash(token)) {
+                if (endsWithSlash(token))
+                {
                     buffer.append(token.substring(0, token.length() - 1));
                     buffer.append(DELIMITER);
-                } else {
+                }
+                else
+                {
+
                     buffer.append(token);
                     break;
                 }
@@ -458,7 +509,8 @@ public class ExtProperties extends Hashtable<String,Object> {
     /**
      * Creates an empty extended properties object.
      */
-    public ExtProperties() {
+    public ExtProperties()
+    {
         super();
     }
 
@@ -468,7 +520,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param file  the filename to load
      * @throws IOException if a file error occurs
      */
-    public ExtProperties(String file) throws IOException {
+    public ExtProperties(String file) throws IOException
+    {
         this(file, null);
     }
 
@@ -479,25 +532,33 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param defaultFile  a second filename to load default values from
      * @throws IOException if a file error occurs
      */
-    public ExtProperties(String file, String defaultFile) throws IOException {
+    public ExtProperties(String file, String defaultFile) throws IOException
+    {
         this.file = file;
 
         basePath = new File(file).getAbsolutePath();
         basePath = basePath.substring(0, basePath.lastIndexOf(fileSeparator) + 1);
 
         FileInputStream in = null;
-        try {
+        try
+        {
             in = new FileInputStream(file);
             this.load(in);
-        } finally {
-            try {
-                if (in != null) {
+        }
+        finally
+        {
+            try
+            {
+                if (in != null)
+                {
                     in.close();
                 }
-            } catch (IOException ex) {}
+            }
+            catch (IOException ex) {}
         }
 
-        if (defaultFile != null) {
+        if (defaultFile != null)
+        {
             defaults = new ExtProperties(defaultFile);
         }
     }
@@ -506,7 +567,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * Indicate to client code whether property
      * resources have been initialized or not.
      */
-    public boolean isInitialized() {
+    public boolean isInitialized()
+    {
         return isInitialized;
     }
 
@@ -516,7 +578,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      *
      * @return A String.
      */
-    public String getInclude() {
+    public String getInclude()
+    {
         return include;
     }
 
@@ -526,7 +589,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      *
      * @param inc A String.
      */
-    public void setInclude(String inc) {
+    public void setInclude(String inc)
+    {
         include = inc;
     }
 
@@ -536,7 +600,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param input  the InputStream to load from
      * @throws IOException if an IO error occurs
      */
-    public void load(InputStream input) throws IOException {
+    public void load(InputStream input) throws IOException
+    {
         load(input, null);
     }
 
@@ -548,7 +613,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param enc  the encoding to use
      * @throws IOException if an IO error occurs
      */
-    public synchronized void load(InputStream input, String enc) throws IOException {
+    public synchronized void load(InputStream input, String enc) throws IOException
+    {
         PropertiesReader reader = null;
         if (enc != null)
         {
@@ -569,51 +635,68 @@ public class ExtProperties extends Hashtable<String,Object> {
             reader = new PropertiesReader(new InputStreamReader(input, StandardCharsets.UTF_8));
         }
 
-        try {
-            while (true) {
+        try
+        {
+            while (true)
+            {
                 String line = reader.readProperty();
-                if (line == null) {
+                if (line == null)
+                {
                     return;  // EOF
                 }
                 int equalSign = line.indexOf('=');
 
-                if (equalSign > 0) {
+                if (equalSign > 0)
+                {
                     String key = line.substring(0, equalSign).trim();
                     String value = line.substring(equalSign + 1).trim();
 
                     // Configure produces lines like this ... just ignore them
-                    if ("".equals(value)) {
+                    if ("".equals(value))
+                    {
                         continue;
                     }
 
-                    if (getInclude() != null && key.equalsIgnoreCase(getInclude())) {
+                    if (getInclude() != null && key.equalsIgnoreCase(getInclude()))
+                    {
                         // Recursively load properties files.
                         File file = null;
 
-                        if (value.startsWith(fileSeparator)) {
+                        if (value.startsWith(fileSeparator))
+                        {
                             // We have an absolute path so we'll use this
                             file = new File(value);
 
-                        } else {
+                        }
+                        else
+                        {
+
                             // We have a relative path, and we have two
                             // possible forms here. If we have the "./" form
                             // then just strip that off first before continuing.
-                            if (value.startsWith("." + fileSeparator)) {
+                            if (value.startsWith("." + fileSeparator))
+                            {
                                 value = value.substring(2);
                             }
 
                             file = new File(basePath + value);
                         }
 
-                        if (file != null && file.exists() && file.canRead()) {
+                        if (file != null && file.exists() && file.canRead())
+                        {
                             load(new FileInputStream(file));
                         }
-                    } else {
+                    }
+                    else
+                    {
+
                         addProperty(key, value);
                     }
                 }
             }
-        } finally {
+        }
+        finally
+        {
             // Loading is initializing
             isInitialized = true;
         }
@@ -626,14 +709,17 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @return value as object. Will return user value if exists,
      *        if not then default value if exists, otherwise null
      */
-    public Object getProperty(String key) {
+    public Object getProperty(String key)
+    {
         // first, try to get from the 'user value' store
         Object obj = this.get(key);
 
-        if (obj == null) {
+        if (obj == null)
+        {
             // if there isn't a value there, get it from the
             // defaults if we have them
-            if (defaults != null) {
+            if (defaults != null)
+            {
                 obj = defaults.get(key);
             }
         }
@@ -660,21 +746,31 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param key  the key to add
      * @param value  the value to add
      */
-    public void addProperty(String key, Object value) {
-        if (value instanceof String) {
+    public void addProperty(String key, Object value)
+    {
+        if (value instanceof String)
+        {
             String str = (String) value;
-            if (str.indexOf(PropertiesTokenizer.DELIMITER) > 0) {
+            if (str.indexOf(PropertiesTokenizer.DELIMITER) > 0)
+            {
                 // token contains commas, so must be split apart then added
                 PropertiesTokenizer tokenizer = new PropertiesTokenizer(str);
-                while (tokenizer.hasMoreTokens()) {
+                while (tokenizer.hasMoreTokens())
+                {
                     String token = tokenizer.nextToken();
                     addPropertyInternal(key, unescape(token));
                 }
-            } else {
+            }
+            else
+            {
+
                 // token contains no commas, so can be simply added
                 addPropertyInternal(key, unescape(str));
             }
-        } else {
+        }
+        else
+        {
+
             addPropertyInternal(key, value);
         }
 
@@ -689,9 +785,11 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param key  the key to store at
      * @param value  the decoded object to store
      */
-    private void addPropertyDirect(String key, Object value) {
+    private void addPropertyDirect(String key, Object value)
+    {
         // safety check
-        if (!containsKey(key)) {
+        if (!containsKey(key))
+        {
             keysAsListed.add(key);
         }
         put(key, value);
@@ -708,23 +806,31 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param key  the key to store at
      * @param value  the decoded object to store
      */
-    private void addPropertyInternal(String key, Object value) {
+    private void addPropertyInternal(String key, Object value)
+    {
         Object current = this.get(key);
 
-        if (current instanceof String) {
+        if (current instanceof String)
+        {
             // one object already in map - convert it to a vector
             List values = new Vector(2);
             values.add(current);
             values.add(value);
             put(key, values);
 
-        } else if (current instanceof List) {
+        }
+        else if (current instanceof List)
+        {
             // already a list - just add the new token
             ((List) current).add(value);
 
-        } else {
+        }
+        else
+        {
+
             // brand new key - store in keysAsListed to retain order
-            if (!containsKey(key)) {
+            if (!containsKey(key))
+            {
                 keysAsListed.add(key);
             }
             put(key, value);
@@ -739,7 +845,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param key  the key to set
      * @param value  the value to set
      */
-    public void setProperty(String key, Object value) {
+    public void setProperty(String key, Object value)
+    {
         clearProperty(key);
         addProperty(key, value);
     }
@@ -753,28 +860,36 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param header  a textual comment to act as a file header
      * @throws IOException if an IO error occurs
      */
-    public synchronized void save(OutputStream output, String header) throws IOException {
-        if (output == null) {
+    public synchronized void save(OutputStream output, String header) throws IOException
+    {
+        if (output == null)
+        {
             return;
         }
         PrintWriter theWrtr = new PrintWriter(output);
-        if (header != null) {
+        if (header != null)
+        {
             theWrtr.println(header);
         }
 
         Enumeration theKeys = keys();
-        while (theKeys.hasMoreElements()) {
+        while (theKeys.hasMoreElements())
+        {
             String key = (String) theKeys.nextElement();
             Object value = get(key);
-            if (value != null) {
-                if (value instanceof String) {
+            if (value != null)
+            {
+                if (value instanceof String)
+                {
                     StringBuilder currentOutput = new StringBuilder();
                     currentOutput.append(key);
                     currentOutput.append("=");
                     currentOutput.append(escape((String) value));
                     theWrtr.println(currentOutput.toString());
 
-                } else if (value instanceof List) {
+                }
+                else if (value instanceof List)
+                {
                     List<String> values = (List<String>) value;
                     for (String currentElement : values)
                     {
@@ -798,8 +913,10 @@ public class ExtProperties extends Hashtable<String,Object> {
      *
      * @param props  the properties to combine
      */
-    public void combine(ExtProperties props) {
-        for (Iterator it = props.getKeys(); it.hasNext();) {
+    public void combine(ExtProperties props)
+    {
+        for (Iterator it = props.getKeys(); it.hasNext();)
+        {
             String key = (String) it.next();
             setProperty(key, props.get(key));
         }
@@ -810,12 +927,16 @@ public class ExtProperties extends Hashtable<String,Object> {
      *
      * @param key  the property key to remove along with corresponding value
      */
-    public void clearProperty(String key) {
-        if (containsKey(key)) {
+    public void clearProperty(String key)
+    {
+        if (containsKey(key))
+        {
             // we also need to rebuild the keysAsListed or else
             // things get *very* confusing
-            for (int i = 0; i < keysAsListed.size(); i++) {
-                if (( keysAsListed.get(i)).equals(key)) {
+            for (int i = 0; i < keysAsListed.size(); i++)
+            {
+                if (( keysAsListed.get(i)).equals(key))
+                {
                     keysAsListed.remove(i);
                     break;
                 }
@@ -830,7 +951,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      *
      * @return an Iterator over the keys
      */
-    public Iterator getKeys() {
+    public Iterator getKeys()
+    {
         return keysAsListed.iterator();
     }
 
@@ -841,14 +963,17 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param prefix  the prefix to match
      * @return an Iterator of keys that match the prefix
      */
-    public Iterator getKeys(String prefix) {
+    public Iterator getKeys(String prefix)
+    {
         Iterator keys = getKeys();
         ArrayList matchingKeys = new ArrayList();
 
-        while (keys.hasNext()) {
+        while (keys.hasNext())
+        {
             Object key = keys.next();
 
-            if (key instanceof String && ((String) key).startsWith(prefix)) {
+            if (key instanceof String && ((String) key).startsWith(prefix))
+            {
                 matchingKeys.add(key);
             }
         }
@@ -863,16 +988,20 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param prefix  the prefix to get a subset for
      * @return a new independent ExtProperties
      */
-    public ExtProperties subset(String prefix) {
+    public ExtProperties subset(String prefix)
+    {
         ExtProperties c = new ExtProperties();
         Iterator keys = getKeys();
         boolean validSubset = false;
 
-        while (keys.hasNext()) {
+        while (keys.hasNext())
+        {
             Object key = keys.next();
 
-            if (key instanceof String && ((String) key).startsWith(prefix)) {
-                if (!validSubset) {
+            if (key instanceof String && ((String) key).startsWith(prefix))
+            {
+                if (!validSubset)
+                {
                     validSubset = true;
                 }
 
@@ -883,9 +1012,13 @@ public class ExtProperties extends Hashtable<String,Object> {
                  * subset but it is a valid subset.
                  */
                 String newKey = null;
-                if (((String) key).length() == prefix.length()) {
+                if (((String) key).length() == prefix.length())
+                {
                     newKey = prefix;
-                } else {
+                }
+                else
+                {
+
                     newKey = ((String) key).substring(prefix.length() + 1);
                 }
 
@@ -898,9 +1031,13 @@ public class ExtProperties extends Hashtable<String,Object> {
             }
         }
 
-        if (validSubset) {
+        if (validSubset)
+        {
             return c;
-        } else {
+        }
+        else
+        {
+
             return null;
         }
     }
@@ -908,10 +1045,12 @@ public class ExtProperties extends Hashtable<String,Object> {
     /**
      * Display the configuration for debugging purposes to System.out.
      */
-    public void display() {
+    public void display()
+    {
         Iterator i = getKeys();
 
-        while (i.hasNext()) {
+        while (i.hasNext())
+        {
             String key = (String) i.next();
             Object value = get(key);
             System.out.println(key + " => " + value);
@@ -926,7 +1065,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws ClassCastException is thrown if the key maps to an
      * object that is not a String.
      */
-    public String getString(String key) {
+    public String getString(String key)
+    {
         return getString(key, null);
     }
 
@@ -940,21 +1080,34 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws ClassCastException is thrown if the key maps to an
      * object that is not a String.
      */
-    public String getString(String key, String defaultValue) {
+    public String getString(String key, String defaultValue)
+    {
         Object value = get(key);
 
-        if (value instanceof String) {
+        if (value instanceof String)
+        {
             return interpolate((String) value);
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return interpolate(defaults.getString(key, defaultValue));
-            } else {
+            }
+            else
+            {
+
                 return interpolate(defaultValue);
             }
-        } else if (value instanceof List) {
+        }
+        else if (value instanceof List)
+        {
             return interpolate((String) ((List) value).get(0));
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a String object");
         }
     }
@@ -970,7 +1123,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws IllegalArgumentException if one of the tokens is
      * malformed (does not contain an equals sign).
      */
-    public Properties getProperties(String key) {
+    public Properties getProperties(String key)
+    {
         return getProperties(key, new Properties());
     }
 
@@ -985,7 +1139,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws IllegalArgumentException if one of the tokens is
      * malformed (does not contain an equals sign).
      */
-    public Properties getProperties(String key, Properties defaults) {
+    public Properties getProperties(String key, Properties defaults)
+    {
         /*
          * Grab an array of the tokens for this key.
          */
@@ -1001,7 +1156,8 @@ public class ExtProperties extends Hashtable<String,Object> {
                 String pkey = token.substring(0, equalSign).trim();
                 String pvalue = token.substring(equalSign + 1).trim();
                 props.put(pkey, pvalue);
-            } else
+            }
+            else
             {
                 throw new IllegalArgumentException('\'' + token + "' does not contain an equals sign");
             }
@@ -1018,29 +1174,43 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws ClassCastException is thrown if the key maps to an
      * object that is not a String/List.
      */
-    public String[] getStringArray(String key) {
+    public String[] getStringArray(String key)
+    {
         Object value = get(key);
 
         List values;
-        if (value instanceof String) {
+        if (value instanceof String)
+        {
             values = new Vector(1);
             values.add(value);
 
-        } else if (value instanceof List) {
+        }
+        else if (value instanceof List)
+        {
             values = (List) value;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getStringArray(key);
-            } else {
+            }
+            else
+            {
+
                 return new String[0];
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a String/List object");
         }
 
         String[] tokens = new String[values.size()];
-        for (int i = 0; i < tokens.length; i++) {
+        for (int i = 0; i < tokens.length; i++)
+        {
             tokens[i] = (String) values.get(i);
         }
 
@@ -1056,7 +1226,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws ClassCastException is thrown if the key maps to an
      * object that is not a Vector.
      */
-    public Vector getVector(String key) {
+    public Vector getVector(String key)
+    {
         return getVector(key, null);
     }
 
@@ -1072,25 +1243,38 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws ClassCastException is thrown if the key maps to an
      * object that is not a Vector.
      */
-    public Vector getVector(String key, Vector defaultValue) {
+    public Vector getVector(String key, Vector defaultValue)
+    {
         Object value = get(key);
 
-        if (value instanceof List) {
+        if (value instanceof List)
+        {
             return new Vector((List) value);
 
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String)
+        {
             Vector values = new Vector(1);
             values.add(value);
             put(key, values);
             return values;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getVector(key, defaultValue);
-            } else {
+            }
+            else
+            {
+
                 return ((defaultValue == null) ? new Vector() : defaultValue);
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a Vector object");
         }
     }
@@ -1107,7 +1291,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * object that is not a List.
      * @since Commons Collections 3.2
      */
-    public List getList(String key) {
+    public List getList(String key)
+    {
         return getList(key, null);
     }
 
@@ -1124,25 +1309,38 @@ public class ExtProperties extends Hashtable<String,Object> {
      * object that is not a List.
      * @since Commons Collections 3.2
      */
-    public List getList(String key, List defaultValue) {
+    public List getList(String key, List defaultValue)
+    {
         Object value = get(key);
 
-        if (value instanceof List) {
+        if (value instanceof List)
+        {
             return new ArrayList((List) value);
 
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String)
+        {
             List values = new ArrayList(1);
             values.add(value);
             put(key, values);
             return values;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getList(key, defaultValue);
-            } else {
+            }
+            else
+            {
+
                 return ((defaultValue == null) ? new ArrayList() : defaultValue);
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a List object");
         }
     }
@@ -1157,11 +1355,16 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws ClassCastException is thrown if the key maps to an
      * object that is not a Boolean.
      */
-    public boolean getBoolean(String key) {
+    public boolean getBoolean(String key)
+    {
         Boolean b = getBoolean(key, null);
-        if (b != null) {
+        if (b != null)
+        {
             return b;
-        } else {
+        }
+        else
+        {
+
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
     }
@@ -1175,7 +1378,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws ClassCastException is thrown if the key maps to an
      * object that is not a Boolean.
      */
-    public boolean getBoolean(String key, boolean defaultValue) {
+    public boolean getBoolean(String key, boolean defaultValue)
+    {
         return getBoolean(key, Boolean.valueOf(defaultValue));
     }
 
@@ -1189,26 +1393,39 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws ClassCastException is thrown if the key maps to an
      * object that is not a Boolean.
      */
-    public Boolean getBoolean(String key, Boolean defaultValue) {
+    public Boolean getBoolean(String key, Boolean defaultValue)
+    {
 
         Object value = get(key);
 
-        if (value instanceof Boolean) {
+        if (value instanceof Boolean)
+        {
             return (Boolean) value;
 
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String)
+        {
             String s = testBoolean(((String) value).trim());
             Boolean b = Boolean.valueOf(s);
             put(key, b);
             return b;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getBoolean(key, defaultValue);
-            } else {
+            }
+            else
+            {
+
                 return defaultValue;
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a Boolean object");
         }
     }
@@ -1225,7 +1442,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @return <code>true</code> or <code>false</code> if the supplied
      * text maps to a boolean value, or <code>null</code> otherwise.
      */
-    public String testBoolean(String value) {
+    public String testBoolean(String value)
+    {
         String s = value.toLowerCase(Locale.ROOT);
 
         switch (s)
@@ -1255,11 +1473,16 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public byte getByte(String key) {
+    public byte getByte(String key)
+    {
         Byte b = getByte(key, null);
-        if (b != null) {
+        if (b != null)
+        {
             return b;
-        } else {
+        }
+        else
+        {
+
             throw new NoSuchElementException('\'' + key + " doesn't map to an existing object");
         }
     }
@@ -1275,7 +1498,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public byte getByte(String key, byte defaultValue) {
+    public byte getByte(String key, byte defaultValue)
+    {
         return getByte(key, Byte.valueOf(defaultValue));
     }
 
@@ -1291,24 +1515,37 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public Byte getByte(String key, Byte defaultValue) {
+    public Byte getByte(String key, Byte defaultValue)
+    {
         Object value = get(key);
 
-        if (value instanceof Byte) {
+        if (value instanceof Byte)
+        {
             return (Byte) value;
 
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String)
+        {
             Byte b = Byte.valueOf((String) value);
             put(key, b);
             return b;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getByte(key, defaultValue);
-            } else {
+            }
+            else
+            {
+
                 return defaultValue;
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a Byte object");
         }
     }
@@ -1325,11 +1562,16 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public short getShort(String key) {
+    public short getShort(String key)
+    {
         Short s = getShort(key, null);
-        if (s != null) {
+        if (s != null)
+        {
             return s;
-        } else {
+        }
+        else
+        {
+
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
     }
@@ -1345,7 +1587,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public short getShort(String key, short defaultValue) {
+    public short getShort(String key, short defaultValue)
+    {
         return getShort(key, Short.valueOf(defaultValue));
     }
 
@@ -1361,24 +1604,37 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public Short getShort(String key, Short defaultValue) {
+    public Short getShort(String key, Short defaultValue)
+    {
         Object value = get(key);
 
-        if (value instanceof Short) {
+        if (value instanceof Short)
+        {
             return (Short) value;
 
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String)
+        {
             Short s = Short.valueOf((String) value);
             put(key, s);
             return s;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getShort(key, defaultValue);
-            } else {
+            }
+            else
+            {
+
                 return defaultValue;
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a Short object");
         }
     }
@@ -1390,7 +1646,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param name The resource name.
      * @return The value of the resource as an integer.
      */
-    public int getInt(String name) {
+    public int getInt(String name)
+    {
         return getInteger(name);
     }
 
@@ -1402,7 +1659,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param def The default value of the resource.
      * @return The value of the resource as an integer.
      */
-    public int getInt(String name, int def) {
+    public int getInt(String name, int def)
+    {
         return getInteger(name, def);
     }
 
@@ -1418,11 +1676,16 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public int getInteger(String key) {
+    public int getInteger(String key)
+    {
         Integer i = getInteger(key, null);
-        if (i != null) {
+        if (i != null)
+        {
             return i;
-        } else {
+        }
+        else
+        {
+
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
     }
@@ -1438,10 +1701,12 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public int getInteger(String key, int defaultValue) {
+    public int getInteger(String key, int defaultValue)
+    {
         Integer i = getInteger(key, null);
 
-        if (i == null) {
+        if (i == null)
+        {
             return defaultValue;
         }
         return i;
@@ -1459,24 +1724,37 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public Integer getInteger(String key, Integer defaultValue) {
+    public Integer getInteger(String key, Integer defaultValue)
+    {
         Object value = get(key);
 
-        if (value instanceof Integer) {
+        if (value instanceof Integer)
+        {
             return (Integer) value;
 
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String)
+        {
             Integer i = Integer.valueOf((String) value);
             put(key, i);
             return i;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getInteger(key, defaultValue);
-            } else {
+            }
+            else
+            {
+
                 return defaultValue;
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a Integer object");
         }
     }
@@ -1493,11 +1771,16 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public long getLong(String key) {
+    public long getLong(String key)
+    {
         Long l = getLong(key, null);
-        if (l != null) {
+        if (l != null)
+        {
             return l;
-        } else {
+        }
+        else
+        {
+
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
     }
@@ -1513,7 +1796,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public long getLong(String key, long defaultValue) {
+    public long getLong(String key, long defaultValue)
+    {
         return getLong(key, Long.valueOf(defaultValue));
     }
 
@@ -1529,24 +1813,37 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public Long getLong(String key, Long defaultValue) {
+    public Long getLong(String key, Long defaultValue)
+    {
         Object value = get(key);
 
-        if (value instanceof Long) {
+        if (value instanceof Long)
+        {
             return (Long) value;
 
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String)
+        {
             Long l = Long.valueOf((String) value);
             put(key, l);
             return l;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getLong(key, defaultValue);
-            } else {
+            }
+            else
+            {
+
                 return defaultValue;
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a Long object");
         }
     }
@@ -1563,11 +1860,16 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public float getFloat(String key) {
+    public float getFloat(String key)
+    {
         Float f = getFloat(key, null);
-        if (f != null) {
+        if (f != null)
+        {
             return f;
-        } else {
+        }
+        else
+        {
+
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
     }
@@ -1583,7 +1885,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public float getFloat(String key, float defaultValue) {
+    public float getFloat(String key, float defaultValue)
+    {
         return getFloat(key, Float.valueOf(defaultValue));
     }
 
@@ -1599,24 +1902,37 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public Float getFloat(String key, Float defaultValue) {
+    public Float getFloat(String key, Float defaultValue)
+    {
         Object value = get(key);
 
-        if (value instanceof Float) {
+        if (value instanceof Float)
+        {
             return (Float) value;
 
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String)
+        {
             Float f = new Float((String) value);
             put(key, f);
             return f;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getFloat(key, defaultValue);
-            } else {
+            }
+            else
+            {
+
                 return defaultValue;
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a Float object");
         }
     }
@@ -1633,11 +1949,16 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public double getDouble(String key) {
+    public double getDouble(String key)
+    {
         Double d = getDouble(key, null);
-        if (d != null) {
+        if (d != null)
+        {
             return d;
-        } else {
+        }
+        else
+        {
+
             throw new NoSuchElementException('\'' + key + "' doesn't map to an existing object");
         }
     }
@@ -1653,7 +1974,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public double getDouble(String key, double defaultValue) {
+    public double getDouble(String key, double defaultValue)
+    {
         return getDouble(key, Double.valueOf(defaultValue));
     }
 
@@ -1669,24 +1991,37 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @throws NumberFormatException is thrown if the value mapped
      * by the key has not a valid number format.
      */
-    public Double getDouble(String key, Double defaultValue) {
+    public Double getDouble(String key, Double defaultValue)
+    {
         Object value = get(key);
 
-        if (value instanceof Double) {
+        if (value instanceof Double)
+        {
             return (Double) value;
 
-        } else if (value instanceof String) {
+        }
+        else if (value instanceof String)
+        {
             Double d = new Double((String) value);
             put(key, d);
             return d;
 
-        } else if (value == null) {
-            if (defaults != null) {
+        }
+        else if (value == null)
+        {
+            if (defaults != null)
+            {
                 return defaults.getDouble(key, defaultValue);
-            } else {
+            }
+            else
+            {
+
                 return defaultValue;
             }
-        } else {
+        }
+        else
+        {
+
             throw new ClassCastException('\'' + key + "' doesn't map to a Double object");
         }
     }
@@ -1700,10 +2035,12 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param props  the properties object to convert
      * @return new ExtProperties created from props
      */
-    public static ExtProperties convertProperties(Properties props) {
+    public static ExtProperties convertProperties(Properties props)
+    {
         ExtProperties c = new ExtProperties();
 
-        for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
+        for (Enumeration e = props.propertyNames(); e.hasMoreElements();)
+        {
             String s = (String) e.nextElement();
             c.setProperty(s, props.getProperty(s));
         }
@@ -1720,7 +2057,8 @@ public class ExtProperties extends Hashtable<String,Object> {
      * @param props  the Map object to convert
      * @return new ExtProperties created from props
      */
-    public static ExtProperties convertProperties(Map props) {
+    public static ExtProperties convertProperties(Map props)
+    {
         ExtProperties c = new ExtProperties();
 
         for (Map.Entry entry : (Set<Map.Entry>)props.entrySet())
