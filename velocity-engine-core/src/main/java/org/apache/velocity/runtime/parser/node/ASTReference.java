@@ -72,6 +72,8 @@ public class ASTReference extends SimpleNode
     private String morePrefix = "";
     private String identifier = "";
 
+    private boolean checkEmpty;
+
     private String literal = null;
 
     /**
@@ -168,6 +170,12 @@ public class ASTReference extends SimpleNode
          */
         logOnNull =
             rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
+
+        /*
+         * whether to check for emptiness when evaluating
+         */
+        checkEmpty =
+            rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true);
 
         /**
          * In the case we are referencing a variable with #if($foo) or
@@ -579,7 +587,7 @@ public class ASTReference extends SimpleNode
         }
         try
         {
-            return DuckType.asBoolean(value, rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true));
+            return DuckType.asBoolean(value, checkEmpty);
         }
         catch(Exception e)
         {
