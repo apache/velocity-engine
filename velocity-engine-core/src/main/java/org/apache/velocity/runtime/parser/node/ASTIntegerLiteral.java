@@ -106,4 +106,12 @@ public class ASTIntegerLiteral extends SimpleNode
     {
         return value;
     }
+
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
+     */
+    public boolean evaluate( InternalContextAdapter context)
+    {
+        return !MathUtils.isZero(value);
+    }
 }

@@ -97,4 +97,11 @@ public class ASTMap extends SimpleNode
     	return obj;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
+     */
+    public boolean evaluate( InternalContextAdapter context)
+    {
+        return children != null && children.length > 0;
+    }
 }

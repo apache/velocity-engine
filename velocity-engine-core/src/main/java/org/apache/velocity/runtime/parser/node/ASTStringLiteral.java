@@ -341,4 +341,14 @@ public class ASTStringLiteral extends SimpleNode
 
         return image;
     }
+
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
+     */
+    public boolean evaluate( InternalContextAdapter context)
+    {
+        String str = (String)value(context);
+        return str != null && !str.isEmpty();
+    }
+
 }
