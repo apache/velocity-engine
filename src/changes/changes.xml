@@ -163,7 +163,7 @@
         in internal Context API
       </action>
 
-      <action type="fix" dev="sdimitriu" issue="VELOCITY-863" due-to="Mike Kienenberger">
+      <action type="fix" dev="sdumitriu" issue="VELOCITY-863" due-to="Mike Kienenberger">
         Fix regression: #set&lt;tab&gt;left-paren no longer valid grammar
         Patch from Mike Kienenberger applied + added test
       </action>
@@ -176,19 +176,19 @@
         fix parser for '$map{key}' text rendering (StackOverflow 32805217)
       </action>
 
-      <action type="fix" dev="sdimitriu" issue="VELOCITY-869">
+      <action type="fix" dev="sdumitriu" issue="VELOCITY-869">
         Vulnerability in dependency: commons-collections: 3.2.1
       </action>
 
-      <action type="fix" dev="sdimitriu" issue="VELOCITY-870">
+      <action type="fix" dev="sdumitriu" issue="VELOCITY-870">
         Exception displayed when trying to loop over an Iterable private class
       </action>
 
-      <action type="fix" dev="sdimitriu" issue="VELOCITY-871">
+      <action type="fix" dev="sdumitriu" issue="VELOCITY-871">
         #foreach should work over any Iterable class
       </action>
 
-      <action type="fix" dev="sdimitriu">
+      <action type="fix" dev="sdumitriu">
         Catch exceptions raised during chainable uberspector initialization
       </action>
 
