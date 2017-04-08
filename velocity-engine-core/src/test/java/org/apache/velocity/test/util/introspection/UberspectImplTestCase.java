@@ -4,6 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.test.misc.TestLogger;
@@ -49,50 +50,33 @@ public class UberspectImplTestCase extends BaseTestCase
     }
 
     @Override
-    public void setUp()
-        throws Exception
+    protected void setUpEngine(VelocityEngine engine)
     {
-        Velocity.reset();
-        Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, new TestLogger());
-        Velocity.addProperty(RuntimeConstants.UBERSPECT_CLASSNAME,
-            "org.apache.velocity.util.introspection.UberspectImpl");
-        Velocity.init();
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, new TestLogger());
+        engine.addProperty(RuntimeConstants.UBERSPECT_CLASSNAME, "org.apache.velocity.util.introspection.UberspectImpl");
     }
 
     @Override
-    public void tearDown()
+    protected void setUpContext(VelocityContext context)
     {
+        context.put("privateClass", new PrivateClass());
+        context.put("privateMethod", new PrivateMethod());
+        context.put("publicMethod", new PublicMethod());
+        context.put("iterable", new SomeIterable());
+        context.put("over", new OverloadedMethods());
     }
 
     public void testPrivateIterator()
         throws Exception
     {
-        VelocityContext context = new VelocityContext();
-        context.put("privateClass", new PrivateClass());
-        context.put("privateMethod", new PrivateMethod());
-        context.put("publicMethod", new PublicMethod());
-        StringWriter writer = new StringWriter();
-
-        Velocity.evaluate(context, writer, "test", "#foreach($i in $privateClass)$i#end");
-        assertEquals(writer.toString(), "");
-
-        writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test", "#foreach($i in $privateMethod)$i#end");
-        assertEquals(writer.toString(), "");
-
-        writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test", "#foreach($i in $publicMethod)$i#end");
-        assertEquals(writer.toString(), "123");
+        assertEvalEquals("", "#foreach($i in $privateClass)$i#end");
+        assertEvalEquals("", "#foreach($i in $privateMethod)$i#end");
+        assertEvalEquals("123", "#foreach($i in $publicMethod)$i#end");
     }
 
     public void testIterableForeach()
     {
-        VelocityContext context = new VelocityContext();
-        context.put("iterable", new SomeIterable());
-        StringWriter writer = new StringWriter();
-
-        Velocity.evaluate(context, writer, "test", "#foreach($i in $iterable)$i#end");
-        assertEquals(writer.toString(), "123");
+        assertEvalEquals("123", "#foreach($i in $iterable)$i#end");
     }
 
     private class PrivateClass
@@ -132,26 +116,20 @@ public class UberspectImplTestCase extends BaseTestCase
         public String foo() { return "foo0"; }
         public String foo(String arg1) { return "foo1"; }
         public String foo(String arg1, String arg2) { return "foo2"; }
+
+        public String bar(Number n, int i) { return "bar1"; }
+        public String bar(Number n, String s) { return "bar2"; }
     }
 
     public void testOverloadedMethods()
     {
-        VelocityContext context = new VelocityContext();
-        context.put("over", new OverloadedMethods());
-        StringWriter writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test", "$over.foo()");
-        assertEquals(writer.toString(), "foo0");
-        writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test", "$over.foo('a')");
-        assertEquals(writer.toString(), "foo1");
-        writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test", "$over.foo($null)");
-        assertEquals(writer.toString(), "foo1");
-        writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test", "$over.foo('a', 'b')");
-        assertEquals(writer.toString(), "foo2");
-        writer = new StringWriter();
-        Velocity.evaluate(context, writer, "test", "$over.foo('a', $null)");
-        assertEquals(writer.toString(), "foo2");
+        assertEvalEquals("foo0", "$over.foo()");
+        assertEvalEquals("foo1", "$over.foo('a')");
+        assertEvalEquals("foo1", "$over.foo($null)");
+        assertEvalEquals("foo2", "$over.foo('a', 'b')");
+        assertEvalEquals("foo2", "$over.foo('a', $null)");
+        assertEvalEquals("bar1", "$over.bar(1,1)");
+        assertEvalEquals("$over.bar(1,1.1)", "$over.bar(1,1.1)"); // this one is definitely ambiguous
+        assertEvalEquals("bar2", "$over.bar(1,'1.1')");
     }
 }

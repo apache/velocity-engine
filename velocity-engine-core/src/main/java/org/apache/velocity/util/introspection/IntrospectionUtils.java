@@ -216,10 +216,10 @@ public class IntrospectionUtils
                                                               Class actual,
                                                               boolean possibleVarArg)
     {
-        /* we shouldn't get a null into, but if so */
-        if (actual == null && !formal.isPrimitive())
+        /* Check for nullity */
+        if (actual == null)
         {
-            return true;
+            return !formal.isPrimitive();
         }
 
         /* Check for identity or widening reference conversion */
