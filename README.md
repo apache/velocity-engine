@@ -19,13 +19,13 @@ Here's a description of the top level directories:
 
 Apache Velocity will run with any Java runtime engine v1.7 or greater.
 
-Building from source requires Java development kit v1.7 or greater and Maven 3 (3.3.3 at the time of writing).
+Building from source requires Java development kit v1.7 or greater and Maven 3 (3.0.5+).
 
 At compile time, Maven should fetch all needed dependencies, which are:
 * commons-lang v3.5
-* slf4j-api v1.7.21
+* slf4j-api v1.7.25
 plus the following ones, needed for the integrated tests:
-* slf4j-simple v1.7.21
+* slf4j-simple v1.7.25
 * junit v4.12
 * hsqldb v2.3.4
 * commons-io 2.5
@@ -48,7 +48,7 @@ updates.
 * velocity is now using the SLF4J logging facade. Hence, all methods accepting
 or returning a logger now use the org.slf4j.Logger object. Velocity uses a
 logger name of org.apache.velocity (configurable with the runtime.log.name
-configuration entry), and several other childen loggers.
+configuration entry), and several other children loggers.
 * the internal Context API now enforces String keys everywhere, this may break
 custom Context implementations at compile-time.
 * invalid reference events are now more sparsely sent; they're not sent if any
@@ -71,7 +71,7 @@ encoding).
 providing template name and location infos.
 * Initialization methods in Velocity and VelocityEngine taking an
 ExtendedProperties have been removed (but setProperties(Properties) methods
-are still here). All occurences of the
+are still here). All occurrences of the
 org.apache.commons.collections.ExtendedProperties class in the runtime
 internal initialization API have been replaced by
 org.apache.velocity.util.ExtProperties.
@@ -80,7 +80,7 @@ all arguments are evaluated once at start, and that the macro receives a
 copy of the reference to each argument).
 * the UberspectLoggable interface has been removed.
 
-####  VTL Changes:
+#### VTL Changes:
 
 * the hypen ( - ) cannot be used in variable names anymore
 * method arguments can be arithmetic expressions
@@ -93,11 +93,11 @@ following values: none, bc (aka. backward compatible), lines and structured.
 See the related documentation section for details. To maximize backward
 compatibility with 1.x, set it to bc.
 
-####  Dependencies changes:
+#### Dependencies changes:
 
 * Velocity now requires a JDK version of 1.7 or higher.
 * commons-collections and commons-logging aren't needed any more at runtime.
-* there's a new runtime dependency, slf4j-api 1.7.12.
+* there's a new compile-time and runtime dependency, slf4j-api 1.7.12.
 * you'll need an SLF4J binding.
 * commons-lang has to be upgraded to 3.5.
 
@@ -170,11 +170,11 @@ WEB-INF/lib directory.
 
 ## TRYING THE EXAMPLES
 
-After building Velocity, you can also buld the examples that are
+After building Velocity, you can also build the examples that are
 included with the Velocity distribution. These examples show how to
 use Velocity in your Java applications.
 
 For more information, please see the README.txt in the
-velocity-engine-exemples/src/etc/ directory.
+velocity-engine-examples/src/etc/ directory.
 
 - The Apache Velocity Team

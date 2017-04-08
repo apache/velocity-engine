@@ -48,6 +48,6 @@ public interface  ReferenceInsertionEventHandler extends EventHandler
      * @return Object on which <code>toString()</code> should be called for
      *         output.
      */
-    public Object referenceInsert( Context context, String reference, Object value  );
+    Object referenceInsert(Context context, String reference, Object value);
 
 }

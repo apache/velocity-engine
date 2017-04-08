@@ -86,7 +86,7 @@ public class MapGetExecutor
         {
             try
             {
-                instance = Map.class.getMethod("get", new Class[]{Object.class});
+                instance = Map.class.getMethod("get", Object.class);
             }
             catch (final NoSuchMethodException mapGetMethodMissingError)
             {

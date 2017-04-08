@@ -276,10 +276,7 @@ public class EventExample extends MarkerIgnoringBase
      */
     public boolean shouldLogOnNullSet( String lhs, String rhs )
     {
-        if (lhs.equals("$settest"))
-            return false;
-
-        return true;
+        return !lhs.equals("$settest");
     }
 
     public Object methodException( Context context, Class claz, String method, Exception e, Info info )   {

@@ -84,10 +84,10 @@ public class NumberMethodCallsTestCase extends TestCase
         // numbers for context
         vc.put("AByte",new Byte("10"));
         vc.put("AShort",new Short("10"));
-        vc.put("AInteger",new Integer(10));
-        vc.put("ALong",new Long(10));
-        vc.put("ADouble",new Double(10));
-        vc.put("AFloat",new Float(10));
+        vc.put("AInteger", 10);
+        vc.put("ALong", 10L);
+        vc.put("ADouble", 10.0);
+        vc.put("AFloat", 10f);
         vc.put("ABigDecimal",new BigDecimal(10));
         vc.put("ABigInteger",new BigInteger("10"));
 

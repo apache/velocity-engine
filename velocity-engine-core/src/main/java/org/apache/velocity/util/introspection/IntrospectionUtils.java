@@ -44,7 +44,7 @@ public class IntrospectionUtils
 
     static
     {
-        boxingMap = new HashMap<Class, Class>();
+        boxingMap = new HashMap<>();
         boxingMap.put(Boolean.TYPE, Boolean.class);
         boxingMap.put(Character.TYPE, Character.class);
         boxingMap.put(Byte.TYPE, Byte.class);
@@ -54,8 +54,8 @@ public class IntrospectionUtils
         boxingMap.put(Float.TYPE, Float.class);
         boxingMap.put(Double.TYPE, Double.class);
 
-        unboxingMap = new HashMap<Class, Class>();
-        for (Map.Entry<Class,Class> entry : (Set<Map.Entry<Class,Class>>)boxingMap.entrySet())
+        unboxingMap = new HashMap<>();
+        for (Map.Entry<Class,Class> entry : boxingMap.entrySet())
         {
             unboxingMap.put(entry.getValue(), entry.getKey());
         }
@@ -216,10 +216,10 @@ public class IntrospectionUtils
                                                               Class actual,
                                                               boolean possibleVarArg)
     {
-        /* we shouldn't get a null into, but if so */
-        if (actual == null && !formal.isPrimitive())
+        /* Check for nullity */
+        if (actual == null)
         {
-            return true;
+            return !formal.isPrimitive();
         }
 
         /* Check for identity or widening reference conversion */

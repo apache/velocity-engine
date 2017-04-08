@@ -74,7 +74,7 @@ public class IntrospectorTestCase extends BaseTestCase
             throws Exception
     {
         // Test boolean primitive.
-        Object[] booleanParams = { new Boolean(true) };
+        Object[] booleanParams = {Boolean.TRUE};
         String type = "boolean";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", booleanParams);
@@ -100,7 +100,7 @@ public class IntrospectorTestCase extends BaseTestCase
             throws Exception
     {
         // Test char primitive.
-        Object[] characterParams = { new Character('a') };
+        Object[] characterParams = {'a'};
         String type = "character";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", characterParams);
@@ -114,7 +114,7 @@ public class IntrospectorTestCase extends BaseTestCase
     {
 
         // Test double primitive.
-        Object[] doubleParams = { new Double((double)1) };
+        Object[] doubleParams = { 1.0 };
         String type = "double";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", doubleParams);
@@ -128,7 +128,7 @@ public class IntrospectorTestCase extends BaseTestCase
     {
 
         // Test float primitive.
-        Object[] floatParams = { new Float((float)1) };
+        Object[] floatParams = { 1.0f };
         String type = "float";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", floatParams);
@@ -142,7 +142,7 @@ public class IntrospectorTestCase extends BaseTestCase
     {
 
         // Test integer primitive.
-        Object[] integerParams = { new Integer((int)1) };
+        Object[] integerParams = { 1 };
         String type = "integer";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", integerParams);
@@ -156,7 +156,7 @@ public class IntrospectorTestCase extends BaseTestCase
     {
 
         // Test long primitive.
-        Object[] longParams = { new Long((long)1) };
+        Object[] longParams = { 1L };
         String type = "long";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", longParams);
@@ -169,7 +169,7 @@ public class IntrospectorTestCase extends BaseTestCase
             throws Exception
     {
         // Test short primitive.
-        Object[] shortParams = { new Short((short)1) };
+        Object[] shortParams = {(short) 1};
         String type = "short";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", shortParams);

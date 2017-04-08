@@ -43,12 +43,12 @@ public interface Node extends Renderable
 {
     /** This method is called after the node has been made the current
      * node.  It indicates that child nodes can now be added to it. */
-    public void jjtOpen();
+    void jjtOpen();
 
     /** This method is called after all the child nodes have been
       added.
      */
-    public void jjtClose();
+    void jjtClose();
 
     /**
      * This pair of methods are used to inform the node of its
@@ -56,12 +56,12 @@ public interface Node extends Renderable
      * @param n
      *
      */
-    public void jjtSetParent(Node n);
+    void jjtSetParent(Node n);
 
     /**
      * @return The node parent.
      */
-    public Node jjtGetParent();
+    Node jjtGetParent();
 
     /**
      * This method tells the node to add its argument to the node's
@@ -69,7 +69,7 @@ public interface Node extends Renderable
      * @param n
      * @param i
      */
-    public void jjtAddChild(Node n, int i);
+    void jjtAddChild(Node n, int i);
 
     /**
      * This method returns a child node.  The children are numbered
@@ -77,20 +77,20 @@ public interface Node extends Renderable
      * @param i
      * @return A child node.
      */
-    public Node jjtGetChild(int i);
+    Node jjtGetChild(int i);
 
     /**
      * Return the number of children the node has.
      * @return The number of children of this node.
      */
-    public int jjtGetNumChildren();
+    int jjtGetNumChildren();
 
     /**
      * @param visitor
      * @param data
      * @return The Node execution result object.
      */
-    public Object jjtAccept(ParserVisitor visitor, Object data);
+    Object jjtAccept(ParserVisitor visitor, Object data);
 
     /*
      * ========================================================================
@@ -107,20 +107,20 @@ public interface Node extends Renderable
      * @param data
      * @return The node execution result.
      */
-    public Object childrenAccept(ParserVisitor visitor, Object data);
+    Object childrenAccept(ParserVisitor visitor, Object data);
 
     /**
      * @return The first token.
      */
-    public Token getFirstToken();
+    Token getFirstToken();
     /**
      * @return The last token.
      */
-    public Token getLastToken();
+    Token getLastToken();
     /**
      * @return The NodeType.
      */
-    public int getType();
+    int getType();
 
     /**
      * @param context
@@ -128,14 +128,14 @@ public interface Node extends Renderable
      * @return The init result.
      * @throws TemplateInitException
      */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException;
+    Object init(InternalContextAdapter context, Object data) throws TemplateInitException;
 
     /**
      * @param context
      * @return The evaluation result.
      * @throws MethodInvocationException
      */
-    public boolean evaluate( InternalContextAdapter context)
+    boolean evaluate(InternalContextAdapter context)
         throws MethodInvocationException;
 
     /**
@@ -143,7 +143,7 @@ public interface Node extends Renderable
      * @return The node value.
      * @throws MethodInvocationException
      */
-    public Object value( InternalContextAdapter context)
+    Object value(InternalContextAdapter context)
         throws MethodInvocationException;
 
     /**
@@ -155,7 +155,7 @@ public interface Node extends Renderable
      * @throws ParseErrorException
      * @throws ResourceNotFoundException
      */
-    public boolean render( InternalContextAdapter context, Writer writer)
+    boolean render(InternalContextAdapter context, Writer writer)
         throws IOException,MethodInvocationException, ParseErrorException, ResourceNotFoundException;
 
     /**
@@ -164,61 +164,61 @@ public interface Node extends Renderable
      * @return The execution result.
      * @throws MethodInvocationException
      */
-    public Object execute(Object o, InternalContextAdapter context)
+    Object execute(Object o, InternalContextAdapter context)
       throws MethodInvocationException;
 
     /**
      * @param info
      */
-    public void setInfo(int info);
+    void setInfo(int info);
 
     /**
      * @return The current node info.
      */
-    public int getInfo();
+    int getInfo();
 
     /**
      * @return A literal.
      */
-    public String literal();
+    String literal();
 
     /**
      * Mark the node as invalid.
      */
-    public void setInvalid();
+    void setInvalid();
 
     /**
      * @return True if the node is invalid.
      */
-    public boolean isInvalid();
+    boolean isInvalid();
 
     /**
      * @return The current line position.
      */
-    public int getLine();
+    int getLine();
 
     /**
      * @return The current column position.
      */
-    public int getColumn();
+    int getColumn();
 
     /**
      * @return the file name of the template
      */
-    public String getTemplateName();
+    String getTemplateName();
 
     /**
      * @return cached image (String) of the first Token for this Node returned by the Parser
      */
-    public String getFirstTokenImage();
+    String getFirstTokenImage();
 
     /**
      * @return cached image (String) of the last Token for this Node returned by the Parser
      */
-    public String getLastTokenImage();
+    String getLastTokenImage();
 
     /**
      * @return the template this node belongs to
      */
-    public Template getTemplate();
+    Template getTemplate();
 }

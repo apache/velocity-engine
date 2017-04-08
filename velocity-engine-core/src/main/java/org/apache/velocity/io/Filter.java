@@ -28,5 +28,5 @@ import java.io.IOException;
 
 public interface Filter
 {
-    public void writeReference(String ref) throws IOException;
+    void writeReference(String ref) throws IOException;
 }

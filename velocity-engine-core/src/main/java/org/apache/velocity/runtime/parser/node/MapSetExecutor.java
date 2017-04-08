@@ -47,25 +47,25 @@ public class MapSetExecutor
     protected void discover (final Class clazz)
     {
         Class [] interfaces = clazz.getInterfaces();
-        for (int i = 0 ; i < interfaces.length; i++)
+        for (Class anInterface : interfaces)
         {
-            if (interfaces[i].equals(Map.class))
+            if (anInterface.equals(Map.class))
             {
                 try
                 {
                     if (property != null)
                     {
-                        setMethod(Map.class.getMethod("put", new Class [] { Object.class, Object.class }));
+                        setMethod(Map.class.getMethod("put", Object.class, Object.class));
                     }
                 }
                 /**
                  * pass through application level runtime exceptions
                  */
-                catch( RuntimeException e )
+                catch (RuntimeException e)
                 {
                     throw e;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     String msg = "Exception while looking for put('" + property + "') method";
                     log.error(msg, e);

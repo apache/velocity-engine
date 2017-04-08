@@ -202,7 +202,7 @@ public class Template extends Resource
     /**
      *  initializes the document.  init() is not longer
      *  dependant upon context, but we need to let the
-     *  init() carry the template name down throught for VM
+     *  init() carry the template name down through for VM
      *  namespace features
      * @throws TemplateInitException When a problem occurs during the document initialization.
      */
@@ -250,7 +250,7 @@ public class Template extends Resource
      * The AST node structure is merged with the
      * context to produce the final output.
      *
-     *  @param context Conext with data elements accessed by template
+     *  @param context Context with data elements accessed by template
      *  @param writer output writer for rendered template
      *  @throws ResourceNotFoundException if template not found
      *          from any available source.
@@ -269,7 +269,7 @@ public class Template extends Resource
      * The AST node structure is merged with the
      * context to produce the final output.
      *
-     *  @param context Conext with data elements accessed by template
+     *  @param context Context with data elements accessed by template
      *  @param writer output writer for rendered template
      *  @param macroLibraries a list of template files containing macros to be used when merging
      *  @throws ResourceNotFoundException if template not found
@@ -310,14 +310,14 @@ public class Template extends Resource
 
             if (macroLibraries != null)
             {
-                for (int i = 0; i < macroLibraries.size(); i++)
+                for (String macroLibrary : (List<String>)macroLibraries)
                 {
                     /**
                      * Build the macro library
                      */
                     try
                     {
-                        Template t = rsvc.getTemplate((String) macroLibraries.get(i));
+                        Template t = rsvc.getTemplate(macroLibrary);
                         libTemplates.add(t);
                     }
                     catch (ResourceNotFoundException re)
@@ -325,8 +325,7 @@ public class Template extends Resource
                         /*
                         * the macro lib wasn't found.  Note it and throw
                         */
-                        log.error("template.merge(): cannot find template {}",
-                                  (String)macroLibraries.get(i));
+                        log.error("cannot find template {}", macroLibrary);
                         throw re;
                     }
                     catch (ParseErrorException pe)
@@ -335,15 +334,15 @@ public class Template extends Resource
                         * the macro lib was found, but didn't parse - syntax error
                         *  note it and throw
                         */
-                        rsvc.getLog("parser").error("template.merge(): syntax error in template {}: {}",
-                                                    (String)macroLibraries.get(i), pe.getMessage(), pe);
+                        rsvc.getLog("parser").error("syntax error in template {}: {}",
+                            macroLibrary, pe.getMessage(), pe);
                         throw pe;
                     }
 
                     catch (Exception e)
                     {
-                        throw new RuntimeException("Template.merge(): parse failed in template  " +
-                                (String) macroLibraries.get(i) + ".", e);
+                        throw new RuntimeException("parse failed in template  " +
+                            (String) macroLibrary + ".", e);
                     }
                 }
             }
@@ -411,8 +410,8 @@ public class Template extends Resource
              * this shouldn't happen either, but just in case.
              */
 
-            String msg = "Template.merge() failure. The document is null, " +
-                "most likely due to parsing error.";
+            String msg = "Template merging failed. The document is null, " +
+                "most likely due to a parsing error.";
 
             throw new RuntimeException(msg);
 

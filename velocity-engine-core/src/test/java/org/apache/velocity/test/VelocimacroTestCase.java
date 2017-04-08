@@ -56,7 +56,7 @@ public class VelocimacroTestCase extends TestCase
          */
         Velocity.reset();
         Velocity.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
-        Velocity.setProperty( Velocity.VM_MAX_DEPTH, new Integer(5));
+        Velocity.setProperty( Velocity.VM_MAX_DEPTH, 5);
         Velocity.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
         Velocity.init();

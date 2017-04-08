@@ -108,7 +108,7 @@ public class ArrayIterator implements Iterator
     }
 
     /**
-     * No op--merely added to satify the <code>Iterator</code> interface.
+     * No op--merely added to satisfy the <code>Iterator</code> interface.
      */
     public void remove()
     {

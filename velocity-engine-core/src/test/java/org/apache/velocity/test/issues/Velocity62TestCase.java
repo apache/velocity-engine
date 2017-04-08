@@ -47,7 +47,7 @@ public class Velocity62TestCase extends BaseTestCase
 
     public void testRecursive()
     {
-        context.put("i", new Integer(1));
+        context.put("i", 1);
         String template = "#macro(recurse $i)"+
                             "$i"+
                             "#if( $i < 5 )"+

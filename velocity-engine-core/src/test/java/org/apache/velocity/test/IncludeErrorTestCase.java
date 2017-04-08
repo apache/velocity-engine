@@ -100,10 +100,9 @@ public class IncludeErrorTestCase extends BaseTestCase implements TemplateTestBa
     throws Exception
     {
         Context context = new VelocityContext();
-        StringWriter writer = new StringWriter();
         Template template = ve.getTemplate(templateName, "UTF-8");
 
-        try
+        try (StringWriter writer = new StringWriter())
         {
             template.merge(context, writer);
             writer.flush();
@@ -112,10 +111,6 @@ public class IncludeErrorTestCase extends BaseTestCase implements TemplateTestBa
         catch (Exception E)
         {
             assertTrue(exceptionClass.isAssignableFrom(E.getClass()));
-        }
-        finally
-        {
-            writer.close();
         }
 
     }

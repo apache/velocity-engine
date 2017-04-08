@@ -22,6 +22,7 @@ package org.apache.velocity.runtime.parser.node;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 
 import java.util.LinkedHashMap;
@@ -30,7 +31,7 @@ import java.util.Map;
 /**
  * AST Node for creating a map / dictionary.
  *
- * This class was originally generated from Parset.jjt.
+ * This class was originally generated from Parser.jjt.
  *
  * @version $Id$
  * @since 1.5
@@ -97,4 +98,11 @@ public class ASTMap extends SimpleNode
     	return obj;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
+     */
+    public boolean evaluate( InternalContextAdapter context)
+    {
+        return !rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true) || children != null && children.length > 0;
+    }
 }

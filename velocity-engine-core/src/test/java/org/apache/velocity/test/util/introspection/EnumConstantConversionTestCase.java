@@ -43,7 +43,8 @@ public class EnumConstantConversionTestCase extends BaseTestCase {
 
     public static class Obj
     {
-        public enum Color { RED, GREEN };
+        public enum Color { RED, GREEN }
+
         public String getAction(Color color)
         {
             switch (color)

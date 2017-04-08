@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 
 import java.math.BigDecimal;
@@ -93,7 +94,7 @@ public class ASTFloatingPointLiteral extends SimpleNode
          } catch ( NumberFormatException E1 )
          {
 
-            // if there's still an Exception it will propogate out
+            // if there's still an Exception it will propqgate out
             value = new BigDecimal( str );
 
         }
@@ -110,5 +111,12 @@ public class ASTFloatingPointLiteral extends SimpleNode
         return value;
     }
 
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
+     */
+    public boolean evaluate( InternalContextAdapter context)
+    {
+        return !rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true) || !MathUtils.isZero(value);
+    }
 
 }

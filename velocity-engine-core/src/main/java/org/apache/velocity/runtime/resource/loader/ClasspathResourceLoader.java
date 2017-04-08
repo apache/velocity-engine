@@ -35,7 +35,7 @@ import java.io.Reader;
  *  <br>
  *  <br>
  *  Will load templates from  from multiple instances of
- *  and arbitrary combinations of :
+ *  and arbitrary combinations of:
  *  <ul>
  *  <li> jar files
  *  <li> zip files
@@ -44,7 +44,7 @@ import java.io.Reader;
  *  This is a configuration-free loader, in that there are no
  *  parameters to be specified in the configuration properties,
  *  other than specifying this as the loader to use.  For example
- *  the following is all that the loader needs to be functional :
+ *  the following is all that the loader needs to be functional:
  *  <br>
  *  <br>
  *  resource.loader = class
@@ -85,7 +85,7 @@ public class ClasspathResourceLoader extends ResourceLoader
      */
     public void init( ExtProperties configuration)
     {
-        log.trace("ClasspathResourceLoader : initialization complete.");
+        log.trace("ClasspathResourceLoader: initialization complete.");
     }
 
     /**

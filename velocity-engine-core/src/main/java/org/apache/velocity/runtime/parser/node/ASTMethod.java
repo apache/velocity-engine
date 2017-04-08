@@ -368,9 +368,8 @@ public class ASTMethod extends SimpleNode
              * note we skip the null test for methodName and params
              * due to the earlier test in the constructor
              */
-            for (int i = 0; i < params.length; ++i)
+            for (Class param : params)
             {
-                final Class param = params[i];
                 if (param != null)
                 {
                     result = result * 37 + param.hashCode();

@@ -23,15 +23,18 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * <p>
@@ -86,45 +89,43 @@ public class JarResourceLoader extends ResourceLoader
      */
     public void init( ExtProperties configuration)
     {
-        log.trace("JarResourceLoader : initialization starting.");
+        log.trace("JarResourceLoader: initialization starting.");
 
-        // rest of Velocity engine still use legacy Vector
-        // and Hashtable classes. Classes are implicitly
-        // synchronized even if we don't need it.
-        Vector paths = configuration.getVector("path");
-        StringUtils.trimStrings(paths);
+        List paths = configuration.getList("path");
 
         if (paths != null)
         {
-            log.debug("JarResourceLoader # of paths : {}", paths.size() );
+            log.debug("JarResourceLoader # of paths: {}", paths.size() );
 
-            for ( int i=0; i<paths.size(); i++ )
+            for (ListIterator<String> it = paths.listIterator(); it.hasNext(); )
             {
-                loadJar( (String)paths.get(i) );
+                String jar = StringUtils.trim(it.next());
+                it.set(jar);
+                loadJar(jar);
             }
         }
 
-        log.trace("JarResourceLoader : initialization complete.");
+        log.trace("JarResourceLoader: initialization complete.");
     }
 
     private void loadJar( String path )
     {
-        log.debug("JarResourceLoader : trying to load \"{}\"", path);
+        log.debug("JarResourceLoader: trying to load \"{}\"", path);
 
         // Check path information
         if ( path == null )
         {
-            String msg = "JarResourceLoader : can not load JAR - JAR path is null";
+            String msg = "JarResourceLoader: can not load JAR - JAR path is null";
             log.error(msg);
             throw new RuntimeException(msg);
         }
         if ( !path.startsWith("jar:") )
         {
-            String msg = "JarResourceLoader : JAR path must start with jar: -> see java.net.JarURLConnection for information";
+            String msg = "JarResourceLoader: JAR path must start with jar: -> see java.net.JarURLConnection for information";
             log.error(msg);
             throw new RuntimeException(msg);
         }
-        if ( path.indexOf("!/") < 0 )
+        if (!path.contains("!/"))
         {
             path += "!/";
         }
@@ -184,15 +185,15 @@ public class JarResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException("Need to have a resource!");
         }
 
-        String normalizedPath = StringUtils.normalizePath( source );
+        String normalizedPath = FilenameUtils.normalize( source, true );
 
         if ( normalizedPath == null || normalizedPath.length() == 0 )
         {
-            String msg = "JAR resource error : argument " + normalizedPath +
+            String msg = "JAR resource error: argument " + normalizedPath +
                     " contains .. and may be trying to access " +
                     "content outside of template root.  Rejected.";
 
-            log.error( "JarResourceLoader : {}", msg );
+            log.error( "JarResourceLoader: {}", msg );
 
             throw new ResourceNotFoundException ( msg );
         }
@@ -227,7 +228,7 @@ public class JarResourceLoader extends ResourceLoader
                         }
                         catch (IOException ioe) {}
                     }
-                    String msg = "JAR resource error : Exception while loading " + source;
+                    String msg = "JAR resource error: Exception while loading " + source;
                     log.error(msg, e);
                     throw new VelocityException(msg, e);
                 }

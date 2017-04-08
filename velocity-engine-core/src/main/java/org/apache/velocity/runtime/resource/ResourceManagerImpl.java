@@ -28,12 +28,15 @@ import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 import org.apache.velocity.runtime.resource.loader.ResourceLoaderFactory;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Vector;
 
 
@@ -61,7 +64,7 @@ public class ResourceManagerImpl
     protected ResourceCache globalCache = null;
 
     /** The List of templateLoaders that the Runtime will use to locate the InputStream source of a template. */
-    protected final List resourceLoaders = new ArrayList();
+    protected final List<ResourceLoader> resourceLoaders = new ArrayList<>();
 
     /**
      * This is a list of the template input stream source initializers, basically properties for a particular template stream
@@ -69,7 +72,7 @@ public class ResourceManagerImpl
      *
      * <p>&lt;loader-id&gt;.resource.loader.&lt;property&gt; = &lt;value&gt;</p>
      */
-    private final List sourceInitializerList = new ArrayList();
+    private final List<ExtProperties> sourceInitializerList = new ArrayList<>();
 
     /**
      * Has this Manager been initialized?
@@ -88,7 +91,7 @@ public class ResourceManagerImpl
     /**
      * Initialize the ResourceManager.
      *
-     * @param  rsvc  The Runtime Services object which is associated with this Resource Manager.
+     * @param  rs  The Runtime Services object which is associated with this Resource Manager.
      */
     public synchronized void initialize(final RuntimeServices rs)
     {
@@ -107,31 +110,28 @@ public class ResourceManagerImpl
 
         assembleResourceLoaderInitializers();
 
-        for (Iterator it = sourceInitializerList.iterator(); it.hasNext();)
+        for (ExtProperties configuration : sourceInitializerList)
         {
             /**
              * Resource loader can be loaded either via class name or be passed
              * in as an instance.
              */
-            ExtProperties configuration = (ExtProperties) it.next();
 
-            String loaderClass = StringUtils.nullTrim(configuration.getString("class"));
+            String loaderClass = StringUtils.trim(configuration.getString("class"));
             ResourceLoader loaderInstance = (ResourceLoader) configuration.get("instance");
 
             if (loaderInstance != null)
             {
                 resourceLoader = loaderInstance;
-            }
-            else if (loaderClass != null)
+            } else if (loaderClass != null)
             {
                 resourceLoader = ResourceLoaderFactory.getLoader(rsvc, loaderClass);
-            }
-            else
+            } else
             {
                 String msg = "Unable to find '" +
-                          configuration.getString(RuntimeConstants.RESOURCE_LOADER_IDENTIFIER) +
-                          ".resource.loader.class' specification in configuration." +
-                          " This is a critical value.  Please adjust configuration.";
+                    configuration.getString(RuntimeConstants.RESOURCE_LOADER_IDENTIFIER) +
+                    ".resource.loader.class' specification in configuration." +
+                    " This is a critical value.  Please adjust configuration.";
                 log.error(msg);
                 throw new VelocityException(msg);
             }
@@ -155,7 +155,7 @@ public class ResourceManagerImpl
 
         Object cacheObject = null;
 
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(cacheClassName))
+        if (StringUtils.isNotEmpty(cacheClassName))
         {
             try
             {
@@ -210,11 +210,9 @@ public class ResourceManagerImpl
     private void assembleResourceLoaderInitializers()
     {
         Vector resourceLoaderNames = rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADER);
-        StringUtils.trimStrings(resourceLoaderNames);
 
-        for (Iterator it = resourceLoaderNames.iterator(); it.hasNext(); )
+        for (ListIterator<String> it = resourceLoaderNames.listIterator(); it.hasNext(); )
         {
-
             /*
              * The loader id might look something like the following:
              *
@@ -223,7 +221,8 @@ public class ResourceManagerImpl
              * The loader id is the prefix used for all properties
              * pertaining to a particular loader.
              */
-            String loaderName = (String) it.next();
+            String loaderName = StringUtils.trim(it.next());
+            it.set(loaderName);
             StringBuilder loaderID = new StringBuilder(loaderName);
             loaderID.append(".").append(RuntimeConstants.RESOURCE_LOADER);
 
@@ -328,11 +327,6 @@ public class ResourceManagerImpl
 
                 return getResource(resourceName, resourceType, encoding);
             }
-            catch (ParseErrorException pee)
-            {
-                log.error("ResourceManager.getResource() exception", pee);
-                throw pee;
-            }
             catch (RuntimeException re)
             {
                 log.error("ResourceManager.getResource() exception", re);
@@ -355,7 +349,7 @@ public class ResourceManagerImpl
             }
             catch (ResourceNotFoundException rnfe)
             {
-                log.error("ResourceManager : unable to find resource '{}' in any resource loader.", resourceName);
+                log.error("ResourceManager: unable to find resource '{}' in any resource loader.", resourceName);
                 throw rnfe;
             }
             catch (ParseErrorException pee)
@@ -417,9 +411,8 @@ public class ResourceManagerImpl
 
         long howOldItWas = 0;
 
-        for (Iterator it = resourceLoaders.iterator(); it.hasNext();)
+        for (ResourceLoader resourceLoader : resourceLoaders)
         {
-            ResourceLoader resourceLoader = (ResourceLoader) it.next();
             resource.setResourceLoader(resourceLoader);
 
             /*
@@ -444,7 +437,7 @@ public class ResourceManagerImpl
                     if (logWhenFound)
                     {
                         log.debug("ResourceManager: found {} with loader {}",
-                                  resourceName, resourceLoader.getClassName());
+                            resourceName, resourceLoader.getClassName());
                     }
 
                     howOldItWas = resourceLoader.getLastModified(resource);
@@ -529,7 +522,7 @@ public class ResourceManagerImpl
              *  this strikes me as bad...
              */
 
-            if (!org.apache.commons.lang3.StringUtils.equals(resource.getEncoding(), encoding))
+            if (!StringUtils.equals(resource.getEncoding(), encoding))
             {
                 log.warn("Declared encoding for template '{}' is different on reload. Old = '{}' New = '{}'",
                          resource.getName(), resource.getEncoding(), encoding);
@@ -592,9 +585,8 @@ public class ResourceManagerImpl
      */
     private ResourceLoader getLoaderForResource(String resourceName)
     {
-        for (Iterator i = resourceLoaders.iterator(); i.hasNext(); )
+        for (ResourceLoader loader : resourceLoaders)
         {
-            ResourceLoader loader = (ResourceLoader)i.next();
             if (loader.resourceExists(resourceName))
             {
                 return loader;

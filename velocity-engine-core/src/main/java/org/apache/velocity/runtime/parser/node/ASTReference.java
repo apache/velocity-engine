@@ -72,6 +72,8 @@ public class ASTReference extends SimpleNode
     private String morePrefix = "";
     private String identifier = "";
 
+    private boolean checkEmpty;
+
     private String literal = null;
 
     /**
@@ -168,6 +170,12 @@ public class ASTReference extends SimpleNode
          */
         logOnNull =
             rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
+
+        /*
+         * whether to check for emptiness when evaluating
+         */
+        checkEmpty =
+            rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true);
 
         /**
          * In the case we are referencing a variable with #if($foo) or
@@ -392,7 +400,7 @@ public class ASTReference extends SimpleNode
         {
           /**
            * If we are in strict mode and the variable is escaped, then don't bother to
-           * retreive the value since we won't use it. And if the var is not defined
+           * retrieve the value since we won't use it. And if the var is not defined
            * it will throw an exception.  Set value to TRUE to fall through below with
            * simply printing $foo, and not \$foo
            */
@@ -406,7 +414,7 @@ public class ASTReference extends SimpleNode
         String localNullString = null;
 
         /*
-         * if this reference is escaped (\$foo) then we want to do one of two things : 1) if this is
+         * if this reference is escaped (\$foo) then we want to do one of two things: 1) if this is
          * a reference in the context, then we want to print $foo 2) if not, then \$foo (its
          * considered schmoo, not VTL)
          */
@@ -514,7 +522,7 @@ public class ASTReference extends SimpleNode
 
             if (logOnNull && referenceType != QUIET_REFERENCE)
             {
-                log.debug("Null reference [template '{}', line {}, column {}] : {} cannot be resolved.",
+                log.debug("Null reference [template '{}', line {}, column {}]: {} cannot be resolved.",
                           getTemplateName(), this.getLine(), this.getColumn(), this.literal());
             }
             return true;
@@ -579,7 +587,7 @@ public class ASTReference extends SimpleNode
         }
         try
         {
-            return DuckType.asBoolean(value);
+            return DuckType.asBoolean(value, checkEmpty);
         }
         catch(Exception e)
         {
@@ -736,7 +744,7 @@ public class ASTReference extends SimpleNode
 
 
         /*
-         *  We support two ways of setting the value in a #set($ref.foo = $value ) :
+         *  We support two ways of setting the value in a #set($ref.foo = $value ):
          *  1) ref.setFoo( value )
          *  2) ref,put("foo", value ) to parallel the get() map introspection
          */
@@ -770,7 +778,7 @@ public class ASTReference extends SimpleNode
              */
 
             throw  new MethodInvocationException(
-                "ASTReference : Invocation of method '"
+                "ASTReference: Invocation of method '"
                 + identifier + "' in  " + result.getClass()
                 + " threw exception "
                 + ite.getTargetException().toString(),
@@ -788,7 +796,7 @@ public class ASTReference extends SimpleNode
             /*
              *  maybe a security exception?
              */
-            String msg = "ASTReference setValue() : exception : " + e
+            String msg = "ASTReference setValue(): exception: " + e
                           + " template at " + StringUtils.formatFileString(uberInfo);
             log.error(msg, e);
             throw new VelocityException(msg, e);
@@ -824,15 +832,15 @@ public class ASTReference extends SimpleNode
             }
 
             /*
-             *  lets do all the work here.  I would argue that if this occurrs,
-             *  it's not a reference at all, so preceeding \ characters in front
+             *  lets do all the work here.  I would argue that if this occurs,
+             *  it's not a reference at all, so preceding \ characters in front
              *  of the $ are just schmoo.  So we just do the escape processing
              *  trick (even | odd) and move on.  This kind of breaks the rule
              *  pattern of $ and # but '!' really tosses a wrench into things.
              */
 
              /*
-              *  count the escapes : even # -> not escaped, odd -> escaped
+              *  count the escapes: even # -> not escaped, odd -> escaped
               */
 
             int i = 0;
@@ -843,7 +851,7 @@ public class ASTReference extends SimpleNode
             if (i == -1)
             {
                 /* yikes! */
-                log.error("ASTReference.getRoot() : internal error : "
+                log.error("ASTReference.getRoot(): internal error: "
                             + "no $ found for slashbang.");
                 computableReference = false;
                 nullString = t.image;
@@ -888,7 +896,7 @@ public class ASTReference extends SimpleNode
          *  we need to see if this reference is escaped.  if so
          *  we will clean off the leading \'s and let the
          *  regular behavior determine if we should output this
-         *  as \$foo or $foo later on in render(). Lazyness..
+         *  as \$foo or $foo later on in render(). Laziness..
          */
 
         escaped = false;
@@ -896,7 +904,7 @@ public class ASTReference extends SimpleNode
         if (t.image.startsWith("\\"))
         {
             /*
-             *  count the escapes : even # -> not escaped, odd -> escaped
+             *  count the escapes: even # -> not escaped, odd -> escaped
              */
 
             int i = 0;
@@ -917,7 +925,7 @@ public class ASTReference extends SimpleNode
         }
 
         /*
-         *  Look for preceeding stuff like '#' and '$'
+         *  Look for preceding stuff like '#' and '$'
          *  and snip it off, except for the
          *  last $
          */
@@ -958,7 +966,7 @@ public class ASTReference extends SimpleNode
             if (t.image.startsWith("$!{"))
             {
                 /*
-                 *  ex : $!{provider.Title}
+                 *  ex: $!{provider.Title}
                  */
 
                 return t.next.image;
@@ -966,7 +974,7 @@ public class ASTReference extends SimpleNode
             else
             {
                 /*
-                 *  ex : $!provider.Title
+                 *  ex: $!provider.Title
                  */
 
                 return t.image.substring(2);
@@ -975,7 +983,7 @@ public class ASTReference extends SimpleNode
         else if (t.image.equals("${"))
         {
             /*
-             *  ex : ${provider.Title}
+             *  ex: ${provider.Title}
              */
 
             referenceType = FORMAL_REFERENCE;
@@ -995,7 +1003,7 @@ public class ASTReference extends SimpleNode
         {
             /*
              * this is a 'RUNT', which can happen in certain circumstances where
-             *  the parser is fooled into believeing that an IDENTIFIER is a real
+             *  the parser is fooled into believing that an IDENTIFIER is a real
              *  reference.  Another 'dreaded' MORE hack :).
              */
             referenceType = RUNT;

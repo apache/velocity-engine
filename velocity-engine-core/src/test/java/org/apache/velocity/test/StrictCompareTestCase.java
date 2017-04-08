@@ -39,7 +39,7 @@ public class StrictCompareTestCase extends BaseTestCase
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
         context.put("NULL", null);
         context.put("a", "abc");
-        context.put("b", new Integer(3));
+        context.put("b", 3);
         context.put("TRUE", Boolean.TRUE);
     }
 

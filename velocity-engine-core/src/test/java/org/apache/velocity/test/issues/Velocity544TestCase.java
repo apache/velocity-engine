@@ -20,6 +20,7 @@ package org.apache.velocity.test.issues;
  */
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.velocity.test.BaseTestCase;
 
@@ -50,7 +51,7 @@ public class Velocity544TestCase
 
         String result = evaluate(template);
 
-        super.assertEquals("true false true false", result);
+        assertEquals("true false true false", result);
     }
 
     public static class Foobar
@@ -69,7 +70,7 @@ public class Velocity544TestCase
 
         public Boolean isTrueObject()
         {
-            return(new Boolean(value));
+            return(value);
         }
     }
 }

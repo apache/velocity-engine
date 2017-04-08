@@ -46,10 +46,12 @@ import org.apache.velocity.runtime.resource.ResourceManager;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.RuntimeServicesAware;
-import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.ChainableUberspector;
 import org.apache.velocity.util.introspection.LinkingUberspector;
 import org.apache.velocity.util.introspection.Uberspect;
+
+import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -359,14 +361,13 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private void initializeIntrospection()
     {
         String[] uberspectors = configuration.getStringArray(RuntimeConstants.UBERSPECT_CLASSNAME);
-        for (int i=0; i <uberspectors.length;i++)
+        for (String rm : uberspectors)
         {
-            String rm = uberspectors[i];
             Object o = null;
 
             try
             {
-               o = ClassUtils.getNewInstance( rm );
+                o = ClassUtils.getNewInstance(rm);
             }
             catch (ClassNotFoundException cnfe)
             {
@@ -377,11 +378,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch (InstantiationException ie)
             {
-              throw new VelocityException("Could not instantiate class '" + rm + "'", ie);
+                throw new VelocityException("Could not instantiate class '" + rm + "'", ie);
             }
             catch (IllegalAccessException ae)
             {
-              throw new VelocityException("Cannot access class '" + rm + "'", ae);
+                throw new VelocityException("Cannot access class '" + rm + "'", ae);
             }
 
             if (!(o instanceof Uberspect))
@@ -394,27 +395,25 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 throw new VelocityException(err);
             }
 
-            Uberspect u = (Uberspect)o;
+            Uberspect u = (Uberspect) o;
 
             if (u instanceof RuntimeServicesAware)
             {
-                ((RuntimeServicesAware)u).setRuntimeServices(this);
+                ((RuntimeServicesAware) u).setRuntimeServices(this);
             }
 
             if (uberSpect == null)
             {
                 uberSpect = u;
-            }
-            else
+            } else
             {
                 if (u instanceof ChainableUberspector)
                 {
-                    ((ChainableUberspector)u).wrap(uberSpect);
+                    ((ChainableUberspector) u).wrap(uberSpect);
                     uberSpect = u;
-                }
-                else
+                } else
                 {
-                    uberSpect = new LinkingUberspector(uberSpect,u);
+                    uberSpect = new LinkingUberspector(uberSpect, u);
                 }
             }
         }
@@ -636,7 +635,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
         if (o instanceof String)
         {
-            return StringUtils.nullTrim((String) o);
+            return StringUtils.trim((String) o);
         }
         else
         {
@@ -795,9 +794,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         String[] referenceinsertion = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION);
         if ( referenceinsertion != null )
         {
-            for ( int i=0; i < referenceinsertion.length; i++ )
+            for (String aReferenceinsertion : referenceinsertion)
             {
-                EventHandler ev = initializeSpecificEventHandler(referenceinsertion[i],RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION,ReferenceInsertionEventHandler.class);
+                EventHandler ev = initializeSpecificEventHandler(aReferenceinsertion, RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, ReferenceInsertionEventHandler.class);
                 if (ev != null)
                     eventCartridge.addReferenceInsertionEventHandler((ReferenceInsertionEventHandler) ev);
             }
@@ -806,9 +805,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         String[] methodexception = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION);
         if ( methodexception != null )
         {
-            for ( int i=0; i < methodexception.length; i++ )
+            for (String aMethodexception : methodexception)
             {
-                EventHandler ev = initializeSpecificEventHandler(methodexception[i],RuntimeConstants.EVENTHANDLER_METHODEXCEPTION,MethodExceptionEventHandler.class);
+                EventHandler ev = initializeSpecificEventHandler(aMethodexception, RuntimeConstants.EVENTHANDLER_METHODEXCEPTION, MethodExceptionEventHandler.class);
                 if (ev != null)
                     eventCartridge.addMethodExceptionHandler((MethodExceptionEventHandler) ev);
             }
@@ -817,9 +816,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         String[] includeHandler = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_INCLUDE);
         if ( includeHandler != null )
         {
-            for ( int i=0; i < includeHandler.length; i++ )
+            for (String anIncludeHandler : includeHandler)
             {
-                EventHandler ev = initializeSpecificEventHandler(includeHandler[i],RuntimeConstants.EVENTHANDLER_INCLUDE,IncludeEventHandler.class);
+                EventHandler ev = initializeSpecificEventHandler(anIncludeHandler, RuntimeConstants.EVENTHANDLER_INCLUDE, IncludeEventHandler.class);
                 if (ev != null)
                     eventCartridge.addIncludeEventHandler((IncludeEventHandler) ev);
             }
@@ -828,9 +827,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         String[] invalidReferenceSet = configuration.getStringArray(RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES);
         if ( invalidReferenceSet != null )
         {
-            for ( int i=0; i < invalidReferenceSet.length; i++ )
+            for (String anInvalidReferenceSet : invalidReferenceSet)
             {
-                EventHandler ev = initializeSpecificEventHandler(invalidReferenceSet[i],RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES,InvalidReferenceEventHandler.class);
+                EventHandler ev = initializeSpecificEventHandler(anInvalidReferenceSet, RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES, InvalidReferenceEventHandler.class);
                 if (ev != null)
                 {
                     eventCartridge.addInvalidReferenceEventHandler((InvalidReferenceEventHandler) ev);
@@ -1022,10 +1021,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         String[] userdirective = configuration.getStringArray("userdirective");
 
-        for( int i = 0; i < userdirective.length; i++)
+        for (String anUserdirective : userdirective)
         {
-            loadDirective(userdirective[i]);
-            log.debug("Loaded User Directive: {}", userdirective[i]);
+            loadDirective(anUserdirective);
+            log.debug("Loaded User Directive: {}", anUserdirective);
         }
 
     }
@@ -1070,8 +1069,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void updateSharedDirectivesMap()
     {
-        Map tmp = new HashMap(runtimeDirectives);
-        runtimeDirectivesShared = tmp;
+        runtimeDirectivesShared = new HashMap(runtimeDirectives);
     }
 
     /**
@@ -1190,8 +1188,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         requireInitialization();
 
-        Parser parser = new Parser(this);
-        return parser;
+        return new Parser(this);
     }
 
     /**
@@ -1216,14 +1213,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         requireInitialization();
 
-        Parser parser = (Parser) parserPool.get();
+        Parser parser = parserPool.get();
         boolean keepParser = true;
         if (parser == null)
         {
             /*
              *  if we couldn't get a parser from the pool make one and log it.
              */
-            log.info("Runtime : ran out of parsers. Creating a new one. "
+            log.info("Runtime: ran out of parsers. Creating a new one. "
                      + " Please increment the parser.pool.size property."
                      + " The current value is too small.");
             parser = createNewParser();
@@ -1449,7 +1446,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Invokes a currently registered Velocimacro with the params provided
      * and places the rendered stream into the writer.
      * <br>
-     * Note : currently only accepts args to the VM if they are in the context.
+     * Note: currently only accepts args to the VM if they are in the context.
      * <br>
      * Note: only macros in the global context can be called. This method doesn't find macros defined by
      * templates during previous mergeTemplate calls if Velocity.VM_PERM_INLINE_LOCAL has been enabled.
@@ -1471,7 +1468,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /* check necessary parameters */
         if (vmName == null || context == null || writer == null)
         {
-            String msg = "RuntimeInstance.invokeVelocimacro() : invalid call : vmName, context, and writer must not be null";
+            String msg = "RuntimeInstance.invokeVelocimacro(): invalid call: vmName, context, and writer must not be null";
             log.error(msg);
             throw new NullPointerException(msg);
         }
@@ -1489,7 +1486,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /* does the VM exist? (only global scope is scanned so this doesn't find inline macros in templates) */
         if (!isVelocimacro(vmName, null))
         {
-            String msg = "RuntimeInstance.invokeVelocimacro() : VM '" + vmName
+            String msg = "RuntimeInstance.invokeVelocimacro(): VM '" + vmName
                          + "' is not registered.";
             log.error(msg);
             throw new VelocityException(msg);
@@ -1499,11 +1496,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         StringBuilder template = new StringBuilder("#");
         template.append(vmName);
         template.append("(");
-        for( int i = 0; i < params.length; i++)
-        {
-            template.append(" $");
-            template.append(params[i]);
-        }
+         for (String param : params)
+         {
+             template.append(" $");
+             template.append(param);
+         }
         template.append(" )");
 
         return evaluate(context, writer, logTag, template.toString());
@@ -1730,7 +1727,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public String getString(String key)
     {
-        return StringUtils.nullTrim(configuration.getString(key));
+        return StringUtils.trim(configuration.getString(key));
     }
 
     /**

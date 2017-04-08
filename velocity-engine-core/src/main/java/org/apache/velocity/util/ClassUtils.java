@@ -162,9 +162,9 @@ public class ClassUtils {
    * the cache then uses reflections to inspect Object o, for the given method.
    * @param methodName Name of method
    * @param params Array of objects that are parameters to the method
-   * @param paramClasses Array of Classes coresponding to the types in params.
+   * @param paramClasses Array of Classes corresponding to the types in params.
    * @param o Object to introspect for the given method.
-   * @param context Context from which the method cache is aquirred
+   * @param context Context from which the method cache is acquired
    * @param node ASTNode, used for error reporting.
    * @param strictRef If no method is found, throw an exception, never return null in this case
    * @return VelMethod object if the object is found, null if not matching method is found
@@ -245,7 +245,7 @@ public class ClassUtils {
     {
       /*
        * this can come from the doIntrospection(), as the arg values are
-       * evaluated to find the right method signature. We just want to propogate
+       * evaluated to find the right method signature. We just want to propagate
        * it here, not do anything fancy
        */
 

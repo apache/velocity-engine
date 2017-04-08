@@ -134,17 +134,17 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         int dotPos = className.lastIndexOf('.');
         String packageName = (dotPos == -1) ? "" : className.substring(0, dotPos);
 
-        for (int i = 0, size = badPackages.length; i < size; i++)
+        for (String badPackage : badPackages)
         {
-            if (packageName.equals(badPackages[i]))
+            if (packageName.equals(badPackage))
             {
                 return false;
             }
         }
 
-        for (int i = 0, size = badClasses.length; i < size; i++)
+        for (String badClass : badClasses)
         {
-            if (className.equals(badClasses[i]))
+            if (className.equals(badClass))
             {
                 return false;
             }

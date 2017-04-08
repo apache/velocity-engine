@@ -37,7 +37,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  *  Method support for identifiers :  $foo
  *
- *  mainly used by ASTRefrence
+ *  mainly used by ASTReference
  *
  *  Introspection is now moved to 'just in time' or at render / execution
  *  time. There are many reasons why this has to be done, but the
@@ -133,7 +133,7 @@ public class ASTIdentifier extends SimpleNode
             /*
              * if we have the cache data and the class of the object we are
              * invoked with is the same as that in the cache, then we must
-             * be allright.  The last 'variable' is the method name, and
+             * be all right.  The last 'variable' is the method name, and
              * that is fixed in the template :)
              */
 

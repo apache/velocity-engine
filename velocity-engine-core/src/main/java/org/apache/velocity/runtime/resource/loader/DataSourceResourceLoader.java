@@ -23,7 +23,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -141,11 +142,11 @@ public class DataSourceResourceLoader extends ResourceLoader
      */
     public void init(ExtProperties configuration)
     {
-        dataSourceName  = StringUtils.nullTrim(configuration.getString("resource.datasource"));
-        tableName       = StringUtils.nullTrim(configuration.getString("resource.table"));
-        keyColumn       = StringUtils.nullTrim(configuration.getString("resource.keycolumn"));
-        templateColumn  = StringUtils.nullTrim(configuration.getString("resource.templatecolumn"));
-        timestampColumn = StringUtils.nullTrim(configuration.getString("resource.timestampcolumn"));
+        dataSourceName  = StringUtils.trim(configuration.getString("resource.datasource"));
+        tableName       = StringUtils.trim(configuration.getString("resource.table"));
+        keyColumn       = StringUtils.trim(configuration.getString("resource.keycolumn"));
+        templateColumn  = StringUtils.trim(configuration.getString("resource.templatecolumn"));
+        timestampColumn = StringUtils.trim(configuration.getString("resource.timestampcolumn"));
 
         if (dataSource != null)
         {
@@ -209,7 +210,7 @@ public class DataSourceResourceLoader extends ResourceLoader
     public synchronized Reader getResourceReader(final String name, String encoding)
             throws ResourceNotFoundException
     {
-        if (org.apache.commons.lang3.StringUtils.isEmpty(name))
+        if (StringUtils.isEmpty(name))
         {
             throw new ResourceNotFoundException("DataSourceResourceLoader: Template name was empty or null");
         }
@@ -259,23 +260,14 @@ public class DataSourceResourceLoader extends ResourceLoader
 
             }
         }
-        catch (SQLException sqle)
+        catch (SQLException | NamingException sqle)
         {
             String msg = "DataSourceResourceLoader: database problem while getting resource '"
                     + name + "': ";
 
             log.error(msg, sqle);
             throw new ResourceNotFoundException(msg);
-        }
-        catch (NamingException ne)
-        {
-            String msg = "DataSourceResourceLoader: database problem while getting resource '"
-                    + name + "': ";
-
-            log.error(msg, ne);
-            throw new ResourceNotFoundException(msg);
-        }
-        finally
+        } finally
         {
             closeResultSet(rs);
             closeStatement(ps);
@@ -328,21 +320,13 @@ public class DataSourceResourceLoader extends ResourceLoader
                     throw new ResourceNotFoundException(msg);
                 }
             }
-            catch (SQLException sqle)
+            catch (SQLException | NamingException sqle)
             {
                 String msg = "DataSourceResourceLoader: database problem while "
                             + operation + " of '" + name + "': ";
 
                 log.error(msg, sqle);
                 throw new VelocityException(msg, sqle);
-            }
-            catch (NamingException ne)
-            {
-                String msg = "DataSourceResourceLoader: database problem while "
-                             + operation + " of '" + name + "': ";
-
-                log.error(msg, ne);
-                throw new VelocityException(msg, ne);
             }
             finally
             {

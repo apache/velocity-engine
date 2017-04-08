@@ -86,7 +86,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
     private volatile RuntimeInstance velocityEngine;
 
     /**
-     * contructs a new Velocity script engine, linked to the given factory
+     * constructs a new Velocity script engine, linked to the given factory
      * @param factory
      */
     public VelocityScriptEngine(ScriptEngineFactory factory)

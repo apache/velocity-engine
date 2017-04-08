@@ -42,7 +42,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>4.12</junit.version>
-    <slf4j.version>1.7.21</slf4j.version>
+    <slf4j.version>1.7.25</slf4j.version>
     <surefire.plugin.version>2.19.1</surefire.plugin.version>
     <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
     <maven.compiler.source>1.7</maven.compiler.source>
@@ -83,8 +83,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <debug>true</debug>
-          <optimize>false</optimize>
+          <debug>false</debug>
+          <optimize>true</optimize>
           <showDeprecation>true</showDeprecation>
           <showWarning>true</showWarning>
           <source>${maven.compiler.source}</source>
@@ -99,6 +99,47 @@
           <aggregate>true</aggregate>
           <additionalparam>${javadoc.opts}</additionalparam>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-bytecode-version</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <enforceBytecodeVersion>
+                  <maxJdkVersion>${maven.compiler.target}</maxJdkVersion>
+                </enforceBytecodeVersion>
+              </rules>
+              <fail>true</fail>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ban-known-bad-maven-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.0.5,)</version>
+                  <message>Maven minimal expected version is 3.0.5.</message>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>extra-enforcer-rules</artifactId>
+            <version>1.0-beta-6</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>

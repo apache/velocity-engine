@@ -56,7 +56,7 @@ public class VelocimacroFactory
     private Logger log = null;
 
     /**
-     *  VMManager : deal with namespace management
+     *  VMManager: deal with namespace management
      *  and actually keeps all the VM definitions
      */
     private VelocimacroManager vmManager = null;
@@ -89,7 +89,7 @@ public class VelocimacroFactory
     /**
      *  vector of the library names
      */
-    private List macroLibVec = null;
+    private List<String> macroLibVec = null;
 
     /**
      *  map of the library Template objects
@@ -164,20 +164,18 @@ public class VelocimacroFactory
 
              if(libfiles != null)
              {
-                 macroLibVec = new ArrayList();
+                 macroLibVec = new ArrayList<>();
                  if (libfiles instanceof Vector)
                  {
-                     macroLibVec.addAll((Vector)libfiles);
+                     macroLibVec.addAll((Vector<String>)libfiles);
                  }
                  else if (libfiles instanceof String)
                  {
-                     macroLibVec.add(libfiles);
+                     macroLibVec.add((String)libfiles);
                  }
 
-                 for(int i = 0, is = macroLibVec.size(); i < is; i++)
+                 for (String lib : macroLibVec)
                  {
-                     String lib = (String) macroLibVec.get(i);
-
                      /*
                       * only if it's a non-empty string do we bother
                       */
@@ -191,7 +189,7 @@ public class VelocimacroFactory
 
                          vmManager.setRegisterFromLib(true);
 
-                         log.debug("adding VMs from VM library : {}", lib);
+                         log.debug("adding VMs from VM library: {}", lib);
 
                          try
                          {
@@ -210,7 +208,7 @@ public class VelocimacroFactory
                          }
                          catch (Exception e)
                          {
-                             String msg = "Velocimacro : Error using VM library : " + lib;
+                             String msg = "Velocimacro: Error using VM library: " + lib;
                              log.error(msg, e);
                              throw new VelocityException(msg, e);
                          }
@@ -228,7 +226,7 @@ public class VelocimacroFactory
 
 
             /*
-             *  allowinline : anything after this will be an inline macro, I think
+             *  allowinline: anything after this will be an inline macro, I think
              *  there is the question if a #include is an inline, and I think so
              *
              *  default = true
@@ -239,15 +237,15 @@ public class VelocimacroFactory
             {
                 setAddMacroPermission(false);
 
-                log.debug("allowInline = false : VMs can NOT be defined inline in templates");
+                log.debug("allowInline = false: VMs can NOT be defined inline in templates");
             }
             else
             {
-                log.debug("allowInline = true : VMs can be defined inline in templates");
+                log.debug("allowInline = true: VMs can be defined inline in templates");
             }
 
             /*
-             *  allowInlineToReplaceGlobal : allows an inline VM , if allowed at all,
+             *  allowInlineToReplaceGlobal: allows an inline VM , if allowed at all,
              *  to replace an existing global VM
              *
              *  default = false
@@ -259,12 +257,12 @@ public class VelocimacroFactory
             {
                 setReplacementPermission(true);
 
-                log.debug("allowInlineToOverride = true : VMs " +
+                log.debug("allowInlineToOverride = true: VMs " +
                     "defined inline may replace previous VM definitions");
             }
             else
             {
-                log.debug("allowInlineToOverride = false : VMs " +
+                log.debug("allowInlineToOverride = false: VMs " +
                     "defined inline may NOT replace previous VM definitions");
             }
 
@@ -275,19 +273,19 @@ public class VelocimacroFactory
             vmManager.setNamespaceUsage(true);
 
             /*
-             *  template-local inline VM mode : default is off
+             *  template-local inline VM mode: default is off
              */
             setTemplateLocalInline(rsvc.getBoolean(
                 RuntimeConstants.VM_PERM_INLINE_LOCAL, false));
 
             if (getTemplateLocalInline())
             {
-                log.debug("allowInlineLocal = true : VMs " +
+                log.debug("allowInlineLocal = true: VMs " +
                     "defined inline will be local to their defining template only.");
             }
             else
             {
-                log.debug("allowInlineLocal = false : VMs " +
+                log.debug("allowInlineLocal = false: VMs " +
                     "defined inline will be global in scope if allowed.");
             }
 
@@ -300,16 +298,16 @@ public class VelocimacroFactory
 
             if (getAutoload())
             {
-                log.debug("autoload on : VM system " +
+                log.debug("autoload on: VM system " +
                      "will automatically reload global library macros");
             }
             else
             {
-                log.debug("autoload off : VM system " +
+                log.debug("autoload off: VM system " +
                       "will not automatically reload global library macros");
             }
 
-            log.trace("Velocimacro : initialization complete.");
+            log.trace("Velocimacro: initialization complete.");
         }
     }
 
@@ -333,14 +331,14 @@ public class VelocimacroFactory
          * maybe we should throw an exception, maybe just tell
          * the caller like this...
          *
-         * I hate this : maybe exceptions are in order here...
+         * I hate this: maybe exceptions are in order here...
          * They definitely would be if this was only called by directly
          * by users, but Velocity calls this internally.
          */
         if (name == null || macroBody == null || macroArgs == null ||
             definingTemplate == null)
         {
-            String msg = "VM '"+name+"' addition rejected : ";
+            String msg = "VM '"+name+"' addition rejected: ";
             if (name == null)
             {
                 msg += "name";
@@ -409,7 +407,7 @@ public class VelocimacroFactory
          */
         if (!addNewAllowed)
         {
-            log.warn("VM addition rejected : {} : inline VelociMacros not allowed.", name);
+            log.warn("VM addition rejected: {}: inline VelociMacros not allowed.", name);
             return false;
         }
 
@@ -433,7 +431,7 @@ public class VelocimacroFactory
                  * causes false alarms when several concurrent threads simultaneously (re)parse
                  * some macro
                  */
-                log.debug("VM addition rejected : {} : inline not allowed to replace existing VM", name);
+                log.debug("VM addition rejected: {}: inline not allowed to replace existing VM", name);
                 return false;
             }
         }
@@ -454,7 +452,7 @@ public class VelocimacroFactory
     }
 
     /**
-     *  actual factory : creates a Directive that will
+     *  actual factory: creates a Directive that will
      *  behave correctly wrt getting the framework to
      *  dig out the correct # of args
      * @param vmName Name of the Macro.
@@ -508,7 +506,7 @@ public class VelocimacroFactory
 
                             if (ft > tt)
                             {
-                                log.debug("auto-reloading VMs from VM library : {}", lib);
+                                log.debug("auto-reloading VMs from VM library: {}", lib);
 
                                 /*
                                  * when there are VMs in a library that invoke each other, there are
@@ -539,7 +537,7 @@ public class VelocimacroFactory
                     }
                     catch (Exception e)
                     {
-                        String msg = "Velocimacro : Error using VM library : " + lib;
+                        String msg = "Velocimacro: Error using VM library: " + lib;
                         log.error(msg, e);
                         throw new VelocityException(msg, e);
                     }

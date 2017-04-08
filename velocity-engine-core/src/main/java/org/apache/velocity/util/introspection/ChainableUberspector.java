@@ -33,5 +33,5 @@ public interface ChainableUberspector extends Uberspect
      *
      * @param inner The decorated uberspector.
      */
-    public void wrap(Uberspect inner);
+    void wrap(Uberspect inner);
 }

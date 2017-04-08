@@ -88,7 +88,7 @@ public class TemplateTestSuite extends TestSuite implements TemplateTestBase
      * @param nbr The template test number to return a property key for.
      * @return    The property key.
      */
-    private static final String getTemplateTestKey(int nbr)
+    private static String getTemplateTestKey(int nbr)
     {
         return ("test.template." + nbr);
     }

@@ -48,5 +48,5 @@ public interface  IncludeEventHandler extends EventHandler
      * @return a new resource path for the directive, or null to block the
      *         include from occurring.
      */
-    public String includeEvent(Context context, String includeResourcePath, String currentResourcePath, String directiveName);
+    String includeEvent(Context context, String includeResourcePath, String currentResourcePath, String directiveName);
 }

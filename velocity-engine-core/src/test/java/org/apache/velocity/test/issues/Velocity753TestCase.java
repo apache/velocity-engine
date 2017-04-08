@@ -35,7 +35,7 @@ public class Velocity753TestCase extends BaseTestCase
     {
         // verify precedence outside of Velocity
         Tool tool = new Tool();
-        Float f = new Float(5.23);
+        Float f = 5.23f;
         assertEquals("object", tool.test(f));
 
         context.put("tool", tool);

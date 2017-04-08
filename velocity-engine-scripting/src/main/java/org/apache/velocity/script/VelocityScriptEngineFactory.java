@@ -96,7 +96,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
 
     /**
      * get the list of file extensions handled by Velocity: vm, vtl, vhtml
-     * @return extentions list
+     * @return extensions list
      */
     public List<String> getExtensions()
     {
@@ -122,7 +122,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
     }
 
     /**
-     * get Velocity syntax for calling method 'm' on bject 'obj' with provided arguments
+     * get Velocity syntax for calling method 'm' on object 'obj' with provided arguments
      * @param obj
      * @param m
      * @param args
@@ -141,10 +141,10 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
             int i = 0;
             for (; i < args.length - 1; i++)
             {
-                buf.append("$" + args[i]);
+                buf.append("$").append(args[i]);
                 buf.append(", ");
             }
-            buf.append("$" + args[i]);
+            buf.append("$").append(args[i]);
         }
         buf.append(")}");
         return buf.toString();
@@ -198,9 +198,9 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
     public String getProgram(String... statements)
     {
         StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < statements.length; i++)
+        for (String statement : statements)
         {
-            buf.append(statements[i]);
+            buf.append(statement);
             buf.append(System.lineSeparator());
         }
         return buf.toString();

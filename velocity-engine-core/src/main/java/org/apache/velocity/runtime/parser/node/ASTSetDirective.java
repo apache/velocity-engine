@@ -254,7 +254,7 @@ public class ASTSetDirective extends SimpleNode
 
 
     /**
-     *  returns the ASTReference that is the LHS of the set statememt
+     *  returns the ASTReference that is the LHS of the set statement
      *
      *  @return left hand side of #set statement
      */

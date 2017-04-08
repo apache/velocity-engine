@@ -107,8 +107,8 @@ public class TemplateParseException
     }
 
     /**
-     * returns the Template name where this exception occured.
-     * @return The Template name where this exception occured.
+     * returns the Template name where this exception occurred.
+     * @return The Template name where this exception occurred.
      */
     public String getTemplateName()
     {
@@ -116,8 +116,8 @@ public class TemplateParseException
     }
 
     /**
-     * returns the line number where this exception occured.
-     * @return The line number where this exception occured.
+     * returns the line number where this exception occurred.
+     * @return The line number where this exception occurred.
      */
     public int getLineNumber()
     {
@@ -132,8 +132,8 @@ public class TemplateParseException
     }
 
     /**
-     * returns the column number where this exception occured.
-     * @return The column number where this exception occured.
+     * returns the column number where this exception occurred.
+     * @return The column number where this exception occurred.
      */
     public int getColumnNumber()
     {
@@ -171,19 +171,19 @@ public class TemplateParseException
 
         StringBuilder expected = new StringBuilder();
 
-        for (int i = 0; i < expectedTokenSequences.length; i++)
+        for (int[] expectedTokenSequence : expectedTokenSequences)
         {
-            if (maxSize < expectedTokenSequences[i].length)
+            if (maxSize < expectedTokenSequence.length)
             {
-                maxSize = expectedTokenSequences[i].length;
+                maxSize = expectedTokenSequence.length;
             }
 
-            for (int j = 0; j < expectedTokenSequences[i].length; j++)
+            for (int j = 0; j < expectedTokenSequence.length; j++)
             {
-                expected.append(tokenImage[expectedTokenSequences[i][j]]).append(" ");
+                expected.append(tokenImage[expectedTokenSequence[j]]).append(" ");
             }
 
-            if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0)
+            if (expectedTokenSequence[expectedTokenSequence.length - 1] != 0)
             {
                 expected.append("...");
             }

@@ -47,14 +47,14 @@ public class SimplePoolTestCase extends TestCase
 
         for (int i=0; i<10; i++)
         {
-            sp.put(new Integer(i));
+            sp.put(i);
         }
 
         for (int i=9; i>=0; i--)
         {
             Integer obj = (Integer) sp.get();
 
-            assertTrue(i == obj.intValue());
+            assertTrue(i == obj);
         }
 
         Object[] pool = sp.getPool();

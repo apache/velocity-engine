@@ -51,7 +51,7 @@ import java.util.List;
  *  1) The parsed source material can only come from somewhere in
  *    the TemplateRoot tree for security reasons. There is no way
  *    around this.  If you want to include content from elsewhere on
- *    your disk, use a link from somwhere under Template Root to that
+ *    your disk, use a link from somewhere under Template Root to that
  *    content.
  *
  *  2) There is a limited parse depth.  It is set as a property
@@ -193,11 +193,11 @@ public class Parse extends InputBase
             if (templateStack.length >= maxDepth)
             {
                 StringBuilder path = new StringBuilder();
-                for( int i = 0; i < templateStack.length; ++i)
+                for (String aTemplateStack : templateStack)
                 {
-                    path.append( " > " + templateStack[i] );
+                    path.append(" > " + aTemplateStack);
                 }
-                log.error("Max recursion depth reached ({}) File stack: {}",
+                log.error("Max recursion depth reached ({}). File stack: {}",
                           templateStack.length, path);
 
                 return false;

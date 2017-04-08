@@ -133,19 +133,19 @@ public class MacroParseException
 
         StringBuilder expected = new StringBuilder();
 
-        for (int i = 0; i < expectedTokenSequences.length; i++)
+        for (int[] expectedTokenSequence : expectedTokenSequences)
         {
-            if (maxSize < expectedTokenSequences[i].length)
+            if (maxSize < expectedTokenSequence.length)
             {
-                maxSize = expectedTokenSequences[i].length;
+                maxSize = expectedTokenSequence.length;
             }
 
-            for (int j = 0; j < expectedTokenSequences[i].length; j++)
+            for (int j = 0; j < expectedTokenSequence.length; j++)
             {
-                expected.append(tokenImage[expectedTokenSequences[i][j]]).append(" ");
+                expected.append(tokenImage[expectedTokenSequence[j]]).append(" ");
             }
 
-            if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0)
+            if (expectedTokenSequence[expectedTokenSequence.length - 1] != 0)
             {
                 expected.append("...");
             }

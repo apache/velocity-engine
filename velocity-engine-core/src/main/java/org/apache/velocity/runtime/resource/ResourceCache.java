@@ -38,7 +38,7 @@ public interface ResourceCache
      *
      *  @param rs RuntimeServices to use for logging, etc
      */
-    public void initialize( RuntimeServices rs );
+    void initialize(RuntimeServices rs);
 
     /**
      *  retrieves a Resource from the
@@ -47,7 +47,7 @@ public interface ResourceCache
      *  @param resourceKey key for Resource to be retrieved
      *  @return Resource specified or null if not found
      */
-    public Resource get( Object resourceKey );
+    Resource get(Object resourceKey);
 
     /**
      *  stores a Resource in the cache
@@ -56,7 +56,7 @@ public interface ResourceCache
      *  @param resource Resource to be stored
      *  @return existing Resource stored under this key, or null if none
      */
-    public Resource put( Object resourceKey, Resource resource );
+    Resource put(Object resourceKey, Resource resource);
 
     /**
      *  removes a Resource from the cache
@@ -64,18 +64,18 @@ public interface ResourceCache
      *  @param resourceKey resource to be removed
      *  @return stored under key
      */
-    public Resource remove( Object resourceKey );
+    Resource remove(Object resourceKey);
 
     /**
      * Removes all of the resources from this cache.
      * The cache will be empty after this call returns.
      * @since 2.0
      */
-    public void clear();
+    void clear();
 
     /**
      *  returns an Iterator of Keys in the cache.
      * @return An Iterator of Keys in the cache.
      */
-     public Iterator enumerateKeys();
+    Iterator enumerateKeys();
 }

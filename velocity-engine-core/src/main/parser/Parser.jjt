@@ -1040,7 +1040,7 @@ TOKEN:
 |   <FALSE: "false">
 }
 
-<DIRECTIVE,REFMOD2>
+<DIRECTIVE,REFMOD2,REFINDEX>
 TOKEN :
 {
     <MINUS: "-">
@@ -1782,12 +1782,8 @@ void IntegerRange() : {}
 void IndexParameter() #void: {}
 {
     (<WHITESPACE>|<NEWLINE>)*
-    (
-        StringLiteral()
-        | IntegerLiteral()
-        | True()
-        | False()
-        | Reference()
+        (
+            Expression()
         )
     (<WHITESPACE>|<NEWLINE>)*
 }

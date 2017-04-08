@@ -33,6 +33,6 @@ public interface TemplateString
     * Returns a String that can be used in a template.
     * @return A String that can be used in a template.
     */
-   public String getAsString();
+   String getAsString();
 
 }

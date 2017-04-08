@@ -145,9 +145,9 @@ public class ClassMap
                 populateMethodCacheWith(methodCache, classToReflect);
             }
             Class [] interfaces = classToReflect.getInterfaces();
-            for (int i = 0; i < interfaces.length; i++)
+            for (Class anInterface : interfaces)
             {
-                populateMethodCacheWithInterface(methodCache, interfaces[i]);
+                populateMethodCacheWithInterface(methodCache, anInterface);
             }
         }
         // return the already initialized cache
@@ -162,9 +162,9 @@ public class ClassMap
             populateMethodCacheWith(methodCache, iface);
         }
         Class[] supers = iface.getInterfaces();
-        for (int i=0; i < supers.length; i++)
+        for (Class aSuper : supers)
         {
-            populateMethodCacheWithInterface(methodCache, supers[i]);
+            populateMethodCacheWithInterface(methodCache, aSuper);
         }
     }
 
@@ -178,12 +178,12 @@ public class ClassMap
         try
         {
             Method[] methods = classToReflect.getDeclaredMethods();
-            for (int i = 0; i < methods.length; i++)
+            for (Method method : methods)
             {
-                int modifiers = methods[i].getModifiers();
+                int modifiers = method.getModifiers();
                 if (Modifier.isPublic(modifiers))
                 {
-                    methodCache.put(methods[i]);
+                    methodCache.put(method);
                 }
             }
         }
@@ -327,7 +327,7 @@ public class ClassMap
 
             StringBuilder methodKey = new StringBuilder((args+1)*16).append(method.getName());
 
-            for (int j = 0; j < args; j++)
+            for (Class parameterType : parameterTypes)
             {
                 /*
                  * If the argument type is primitive then we want
@@ -339,13 +339,12 @@ public class ClassMap
                  * primitives (boolean, byte, char, double, float, int, long, short)
                  * known to Java. So it should never return null for the key passed in.
                  */
-                if (parameterTypes[j].isPrimitive())
+                if (parameterType.isPrimitive())
                 {
-                    methodKey.append((String) convertPrimitives.get(parameterTypes[j]));
-                }
-                else
+                    methodKey.append((String) convertPrimitives.get(parameterType));
+                } else
                 {
-                    methodKey.append(parameterTypes[j].getName());
+                    methodKey.append(parameterType.getName());
                 }
             }
 
@@ -362,9 +361,8 @@ public class ClassMap
 
             StringBuilder methodKey = new StringBuilder((args+1)*16).append(method);
 
-            for (int j = 0; j < args; j++)
+            for (Object arg : params)
             {
-                Object arg = params[j];
                 if (arg == null)
                 {
                     methodKey.append(NULL_ARG);

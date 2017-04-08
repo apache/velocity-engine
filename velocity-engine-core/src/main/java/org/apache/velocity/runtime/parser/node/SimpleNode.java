@@ -232,9 +232,9 @@ public class SimpleNode implements Node
     {
         if (children != null)
         {
-            for (int i = 0; i < children.length; ++i)
+            for (Node aChildren : children)
             {
-                children[i].jjtAccept(visitor, data);
+                aChildren.jjtAccept(visitor, data);
             }
         }
         return data;

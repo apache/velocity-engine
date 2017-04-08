@@ -58,7 +58,7 @@ import java.util.Properties;
  * -----------------------------------------------------------------------
  * RuntimeSingleton.init(String/Properties)
  *
- * In this case the default velocity properties are layed down
+ * In this case the default velocity properties are laid down
  * first to provide a solid base, then any properties provided
  * in the given properties object will override the corresponding
  * default property.
@@ -407,7 +407,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * @param macro  root AST node of the parsed macro
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
-     * @param definingTemplate Templaite containing the definition of the macro.
+     * @param definingTemplate Template containing the definition of the macro.
      */
     public static boolean addVelocimacro(String name, Node macro,
                                          List<Macro.MacroArg> macroArgs, Template definingTemplate)

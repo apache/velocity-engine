@@ -23,7 +23,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
-import org.apache.velocity.util.StringUtils;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -52,7 +55,7 @@ public class FileResourceLoader extends ResourceLoader
     /**
      * The paths to search for templates.
      */
-    private List paths = new ArrayList();
+    private List<String> paths = new ArrayList<>();
 
     /**
      * Used to map the path that a template was found on
@@ -67,25 +70,18 @@ public class FileResourceLoader extends ResourceLoader
      */
     public void init( ExtProperties configuration)
     {
-        log.trace("FileResourceLoader : initialization starting.");
+        log.trace("FileResourceLoader: initialization starting.");
 
         paths.addAll( configuration.getVector("path") );
 
-        // unicode files may have a BOM marker at the start,
-
-        if (log.isDebugEnabled())
+        // trim spaces from all paths
+        for (ListIterator<String> it = paths.listIterator(); it.hasNext(); )
         {
-            // trim spaces from all paths
-            StringUtils.trimStrings(paths);
-
-            // this section lets tell people what paths we will be using
-            int sz = paths.size();
-            for( int i=0; i < sz; i++)
-            {
-                log.debug("FileResourceLoader : adding path '{}'", (String)paths.get(i));
-            }
-            log.trace("FileResourceLoader : initialization complete.");
+            String path = StringUtils.trim(it.next());
+            it.set(path);
+            log.debug("FileResourceLoader: adding path '{}'", path);
         }
+        log.trace("FileResourceLoader: initialization complete.");
     }
 
     /**
@@ -115,22 +111,21 @@ public class FileResourceLoader extends ResourceLoader
                     "Need to specify a file name or file path!");
         }
 
-        String template = StringUtils.normalizePath(templateName);
+        String template = FilenameUtils.normalize( templateName, true );
         if ( template == null || template.length() == 0 )
         {
-            String msg = "File resource error : argument " + template +
+            String msg = "File resource error: argument " + template +
                     " contains .. and may be trying to access " +
                     "content outside of template root.  Rejected.";
 
-            log.error("FileResourceLoader : {}", msg);
+            log.error("FileResourceLoader: {}", msg);
 
             throw new ResourceNotFoundException ( msg );
         }
 
         int size = paths.size();
-        for (int i = 0; i < size; i++)
+        for (String path : paths)
         {
-            String path = (String) paths.get(i);
             InputStream rawStream = null;
             Reader reader = null;
 
@@ -166,7 +161,7 @@ public class FileResourceLoader extends ResourceLoader
          * templates and we didn't find anything so
          * throw an exception.
          */
-        throw new ResourceNotFoundException("FileResourceLoader : cannot find " + template);
+        throw new ResourceNotFoundException("FileResourceLoader: cannot find " + template);
     }
 
     /**
@@ -179,16 +174,15 @@ public class FileResourceLoader extends ResourceLoader
         {
             return false;
         }
-        name = StringUtils.normalizePath(name);
+        name =  FilenameUtils.normalize(name);
         if (name == null || name.length() == 0)
         {
             return false;
         }
 
         int size = paths.size();
-        for (int i = 0; i < size; i++)
+        for (String path : paths)
         {
-            String path = (String)paths.get(i);
             try
             {
                 File file = getFile(path, name);

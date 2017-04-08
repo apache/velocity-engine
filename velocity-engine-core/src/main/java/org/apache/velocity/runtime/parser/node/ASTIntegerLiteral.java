@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.parser.Parser;
 
 import java.math.BigInteger;
@@ -90,7 +91,7 @@ public class ASTIntegerLiteral extends SimpleNode
             }
             catch ( NumberFormatException E2 )
             {
-                // if there's still an Exception it will propogate out
+                // if there's still an Exception it will propagate out
                 value = new BigInteger( str );
             }
         }
@@ -105,5 +106,13 @@ public class ASTIntegerLiteral extends SimpleNode
     public Object value( InternalContextAdapter context)
     {
         return value;
+    }
+
+    /**
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
+     */
+    public boolean evaluate( InternalContextAdapter context)
+    {
+        return !rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true) || !MathUtils.isZero(value);
     }
 }

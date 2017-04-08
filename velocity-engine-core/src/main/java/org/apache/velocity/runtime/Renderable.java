@@ -38,7 +38,7 @@ import java.io.Writer;
 
 public interface Renderable {
 
-    public boolean render( InternalContextAdapter context, Writer writer)
+    boolean render(InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException;
 
 }

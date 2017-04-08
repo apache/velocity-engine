@@ -32,6 +32,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Locale;
 
 /**
@@ -465,35 +468,11 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
     protected String getFileContents(String file)
     {
-        String contents = "";
+        String contents = null;
 
-        File f = null;
         try
         {
-            f = new File(file);
-
-            if (f.exists())
-            {
-                FileReader fr = null;
-                try
-                {
-                    fr = new FileReader(f);
-                    char[] template = new char[(int) f.length()];
-                    fr.read(template);
-                    contents = new String(template);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-                finally
-                {
-                    if (fr != null)
-                    {
-                        fr.close();
-                    }
-                }
-            }
+            contents = new String(Files.readAllBytes(Paths.get(file)), StandardCharsets.UTF_8);
         }
         catch (Exception e)
         {
@@ -534,7 +513,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      * @param s The base file name.
      * @return  The test case name.
      */
-    protected static final String getTestCaseName(String s)
+    protected static String getTestCaseName(String s)
     {
         StringBuilder name = new StringBuilder();
         name.append(Character.toTitleCase(s.charAt(0)));

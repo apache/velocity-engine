@@ -19,10 +19,13 @@ package org.apache.velocity.test;
  * under the License.
  */
 
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -30,11 +33,17 @@ import java.util.TreeMap;
 /**
  * Used to check that empty values are properly handled in #if statements
  */
-public class IfEmptyTestCase extends BaseTestCase
+public class IfEmptyNoEmptyCheckTestCase extends BaseTestCase
 {
-    public IfEmptyTestCase(final String name)
+    public IfEmptyNoEmptyCheckTestCase(final String name)
     {
         super(name);
+    }
+
+    @Override
+    protected void setUpEngine(VelocityEngine engine)
+    {
+        engine.setProperty(RuntimeConstants.CHECK_EMPTY_OBJECTS, "false");
     }
 
     protected void assertEmpty(Object obj)
@@ -52,69 +61,42 @@ public class IfEmptyTestCase extends BaseTestCase
     public void testNull()
     {
         assertEmpty(null);
-        assertEmpty(new NullAsString());
-        assertEmpty(new NullAsNumber());
+        assertNotEmpty(new NullAsString());
+        assertNotEmpty(new NullAsNumber());
     }
 
     public void testDataStructures()
     {
-        assertEmpty(Collections.emptyMap());
-        assertEmpty(Collections.emptyList());
-        assertEmpty(new Object[]{});
-        List list = new ArrayList();
-        list.add(1);
-        assertNotEmpty(list);
-        Map map = new TreeMap();
-        map.put("foo", 1);
-        assertNotEmpty(map);
+        assertNotEmpty(Collections.emptyMap());
+        assertNotEmpty(Collections.emptyList());
+        assertNotEmpty(new Object[]{});
     }
 
     public void testString()
     {
-        assertEmpty("");
-        assertEmpty(new EmptyAsString());
-        assertNotEmpty("hello");
+        assertNotEmpty("");
+        assertNotEmpty(new EmptyAsString());
     }
 
     public void testNumber()
     {
-        assertEmpty(0);
-        assertEmpty(0L);
-        assertEmpty(0.0f);
-        assertEmpty(0.0);
-        assertEmpty(BigInteger.ZERO);
-        assertEmpty(BigDecimal.ZERO);
-        assertNotEmpty(1);
-        assertNotEmpty(1L);
-        assertNotEmpty(1.0f);
-        assertNotEmpty(1.0);
-        assertNotEmpty(BigInteger.ONE);
-        assertNotEmpty(BigDecimal.ONE);
+        assertNotEmpty(0);
     }
 
     public void testStringBuilder()
     {
         StringBuilder builder = new StringBuilder();
-        assertEmpty(builder);
-        builder.append("yo");
         assertNotEmpty(builder);
     }
 
     public void testLiterals()
     {
-        assertEvalEquals("", "#if( 0 )fail#end");
-        assertEvalEquals("", "#if( 0.0 )fail#end");
-        assertEvalEquals("", "#if( '' )fail#end");
-        assertEvalEquals("", "#if( \"\" )fail#end");
-        assertEvalEquals("", "#if( [] )fail#end");
-        assertEvalEquals("", "#if( {} )fail#end");
-
-        assertEvalEquals("", "#if( !1 )fail#end");
-        assertEvalEquals("", "#if( !1.0 )fail#end");
-        assertEvalEquals("", "#if( !'foo' )fail#end");
-        assertEvalEquals("", "#if( !\"foo\" )fail#end");
-        assertEvalEquals("", "#if( ![ 'foo' ] )fail#end");
-        assertEvalEquals("", "#if( !{ 'foo':'bar' } )fail#end");
+        assertEvalEquals("", "#if( !0 )fail#end");
+        assertEvalEquals("", "#if( !0.0 )fail#end");
+        assertEvalEquals("", "#if( !'' )fail#end");
+        assertEvalEquals("", "#if( !\"\" )fail#end");
+        assertEvalEquals("", "#if( ![] )fail#end");
+        assertEvalEquals("", "#if( !{} )fail#end");
     }
 
     public static class NullAsString

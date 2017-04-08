@@ -280,7 +280,7 @@ public class Scope extends AbstractMap
             {
                 String vtl = getTemplate();
                 sb.append(" template:");
-                if (vtl.indexOf(" ") < 0)
+                if (!vtl.contains(" "))
                 {
                     sb.append(vtl);
                 }

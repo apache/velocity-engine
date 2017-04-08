@@ -329,7 +329,7 @@ public class VelocityEngine implements RuntimeConstants
      *   cannot be used to pre-load the resource cache, as the
      *   previous implementation did as a side-effect.
      *   <br><br>
-     *   The previous implementation exhibited extreme lazyness and
+     *   The previous implementation exhibited extreme laziness and
      *   sloth, and the author has been flogged.
      *
      *   @param resourceName  name of the resource to search for

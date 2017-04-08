@@ -159,6 +159,6 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
      */
     public Object value(InternalContextAdapter context) throws MethodInvocationException
     {
-        return Boolean.valueOf(evaluate(context));
+        return evaluate(context);
     }
 }

@@ -76,6 +76,12 @@ public interface RuntimeConstants
     String SKIP_INVALID_ITERATOR = "directive.foreach.skip.invalid";
 
     /**
+     * An empty object (string, collection) or zero number is false.
+     * @since 2.0
+     */
+    String CHECK_EMPTY_OBJECTS = "directive.if.emptycheck";
+    
+    /**
      * Starting tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
      * and references are allowed.
      */
@@ -98,7 +104,7 @@ public interface RuntimeConstants
      * @since 1.7
      */
     String PROVIDE_SCOPE_CONTROL = "provide.scope.control";
-
+    
     /*
      * ----------------------------------------------------------------------
      *  R E S O U R C E   M A N A G E R   C O N F I G U R A T I O N
@@ -289,7 +295,7 @@ public interface RuntimeConstants
     /**
      * Space gobbling modes
      */
-    public enum SpaceGobbling
+    enum SpaceGobbling
     {
         NONE, BC, LINES, STRUCTURED
     }

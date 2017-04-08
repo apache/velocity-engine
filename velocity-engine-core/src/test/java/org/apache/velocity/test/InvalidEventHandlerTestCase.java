@@ -188,8 +188,8 @@ extends TestCase
     throws Exception
     {
         VelocityContext context = new VelocityContext(vc);
-        context.put("a1", new Integer(5));
-        context.put("a4", new Integer(5));
+        context.put("a1", 5);
+        context.put("a4", 5);
         context.put("b1","abc");
 
         String s;
@@ -223,8 +223,8 @@ extends TestCase
     throws Exception
     {
         VelocityContext context = new VelocityContext(vc);
-        context.put("a1",new Integer(5));
-        context.put("a4",new Integer(5));
+        context.put("a1", 5);
+        context.put("a4", 5);
         context.put("b1","abc");
 
         String s;
@@ -277,8 +277,8 @@ extends TestCase
         String result;
 
         VelocityContext context = new VelocityContext(vc);
-        context.put("a1",new Integer(5));
-        context.put("a4",new Integer(5));
+        context.put("a1", 5);
+        context.put("a4", 5);
         context.put("b1","abc");
 
         // normal - should be no calls to handler
@@ -489,76 +489,61 @@ extends TestCase
             if (rs == null)
                 fail ("Event handler not initialized!");
 
-            // good object, bad property
-            if (reference.equals("$a1.foobar"))
+            switch (reference)
             {
-                assertEquals(new Integer(5),object);
-                assertEquals("foobar",property);
-                throw new RuntimeException("expected exception");
-            }
+                // good object, bad property
+                case "$a1.foobar":
+                    assertEquals(new Integer(5), object);
+                    assertEquals("foobar", property);
+                    throw new RuntimeException("expected exception");
 
-            // bad object, bad property
-            else if (reference.equals("$a2"))
-            {
-                assertNull(object);
-                assertNull(property);
-                throw new RuntimeException("expected exception");
-            }
-
-            // bad object, no property
-            else if (reference.equals("$a3"))
-            {
-                assertNull(object);
-                assertNull(property);
-                throw new RuntimeException("expected exception");
-            }
-
-            // good object, bad property; change the value
-            else if (reference.equals("$a4.foobar"))
-            {
-                assertEquals(new Integer(5),object);
-                assertEquals("foobar",property);
-                return "zzz";
-            }
-
-            // bad object, bad method -- fail on the object
-            else if (reference.equals("$zz"))
-            {
-                assertNull(object);
-                assertNull(property);
-                throw new RuntimeException("expected exception");
-            }
-
-            // pass q1 through
-            else if (reference.equals("$q1"))
-            {
-
-            }
+                // bad object, bad property
+                case "$a2":
+                    assertNull(object);
+                    assertNull(property);
+                    throw new RuntimeException("expected exception");
 
 
-            else if (reference.equals("$tree.x"))
-            {
-                assertEquals("x",property);
-            }
+                // bad object, no property
+                case "$a3":
+                    assertNull(object);
+                    assertNull(property);
+                    throw new RuntimeException("expected exception");
 
-            else if (reference.equals("$tree.field.x"))
-            {
-                assertEquals("x",property);
-            }
 
-            else if (reference.equals("$tree.child.y"))
-            {
-                assertEquals("y",property);
-            }
+                // good object, bad property; change the value
+                case "$a4.foobar":
+                    assertEquals(Integer.valueOf(5), object);
+                    assertEquals("foobar", property);
+                    return "zzz";
 
-            else if (reference.equals("$tree.child.Field.y"))
-            {
-                assertEquals("y",property);
-            }
 
-            else
-            {
-                fail("invalidGetMethod: unexpected reference: " + reference);
+                // bad object, bad method -- fail on the object
+                case "$zz":
+                    assertNull(object);
+                    assertNull(property);
+                    throw new RuntimeException("expected exception");
+
+
+                // pass q1 through
+                case "$q1":
+
+                    break;
+                case "$tree.x":
+                    assertEquals("x", property);
+                    break;
+                case "$tree.field.x":
+                    assertEquals("x", property);
+                    break;
+                case "$tree.child.y":
+                    assertEquals("y", property);
+                    break;
+                case "$tree.child.Field.y":
+                    assertEquals("y", property);
+                    break;
+                default:
+                    fail("invalidGetMethod: unexpected reference: " + reference);
+                    break;
             }
             return null;
         }

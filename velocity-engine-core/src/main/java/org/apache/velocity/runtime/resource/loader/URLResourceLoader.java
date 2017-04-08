@@ -46,46 +46,29 @@ public class URLResourceLoader extends ResourceLoader
     private String[] roots = null;
     protected HashMap templateRoots = null;
     private int timeout = -1;
-    private Method[] timeoutMethods;
 
     /**
      * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
     public void init(ExtProperties configuration)
     {
-        log.trace("URLResourceLoader : initialization starting.");
+        log.trace("URLResourceLoader: initialization starting.");
 
         roots = configuration.getStringArray("root");
         if (log.isDebugEnabled())
         {
-            for (int i=0; i < roots.length; i++)
+            for (String root : roots)
             {
-                log.debug("URLResourceLoader : adding root '{}'", roots[i]);
+                log.debug("URLResourceLoader: adding root '{}'", root);
             }
         }
 
         timeout = configuration.getInt("timeout", -1);
-        if (timeout > 0)
-        {
-            try
-            {
-                Class[] types = new Class[] { Integer.TYPE };
-                Method conn = URLConnection.class.getMethod("setConnectTimeout", types);
-                Method read = URLConnection.class.getMethod("setReadTimeout", types);
-                timeoutMethods = new Method[] { conn, read };
-                log.debug("URLResourceLoader : timeout set to {}", timeout);
-            }
-            catch (NoSuchMethodException nsme)
-            {
-                log.debug("URLResourceLoader : Java 1.5+ is required to customize timeout!", nsme);
-                timeout = -1;
-            }
-        }
 
         // init the template paths map
         templateRoots = new HashMap();
 
-        log.trace("URLResourceLoader : initialization complete.");
+        log.trace("URLResourceLoader: initialization complete.");
     }
 
     /**
@@ -104,32 +87,33 @@ public class URLResourceLoader extends ResourceLoader
     {
         if (StringUtils.isEmpty(name))
         {
-            throw new ResourceNotFoundException("URLResourceLoader : No template name provided");
+            throw new ResourceNotFoundException("URLResourceLoader: No template name provided");
         }
 
         Reader reader = null;
         Exception exception = null;
-        for(int i=0; i < roots.length; i++)
+        for (String root : roots)
         {
             InputStream rawStream = null;
             try
             {
-                URL u = new URL(roots[i] + name);
+                URL u = new URL(root + name);
                 URLConnection conn = u.openConnection();
-                tryToSetTimeout(conn);
+                conn.setConnectTimeout(timeout);
+                conn.setReadTimeout(timeout);
                 rawStream = conn.getInputStream();
                 reader = buildReader(rawStream, encoding);
 
                 if (reader != null)
                 {
-                    log.debug("URLResourceLoader: Found '{}' at '{}'", name, roots[i]);
+                    log.debug("URLResourceLoader: Found '{}' at '{}'", name, root);
 
                     // save this root for later re-use
-                    templateRoots.put(name, roots[i]);
+                    templateRoots.put(name, root);
                     break;
                 }
             }
-            catch(IOException ioe)
+            catch (IOException ioe)
             {
                 if (rawStream != null)
                 {
@@ -137,9 +121,11 @@ public class URLResourceLoader extends ResourceLoader
                     {
                         rawStream.close();
                     }
-                    catch (IOException e) {}
+                    catch (IOException e)
+                    {
+                    }
                 }
-                log.debug("URLResourceLoader: Exception when looking for '{}' at '{}'", name, roots[i], ioe);
+                log.debug("URLResourceLoader: Exception when looking for '{}' at '{}'", name, root, ioe);
 
                 // only save the first one for later throwing
                 if (exception == null)
@@ -155,7 +141,7 @@ public class URLResourceLoader extends ResourceLoader
             String msg;
             if (exception == null)
             {
-                msg = "URLResourceLoader : Resource '" + name + "' not found.";
+                msg = "URLResourceLoader: Resource '" + name + "' not found.";
             }
             else
             {
@@ -178,12 +164,8 @@ public class URLResourceLoader extends ResourceLoader
     {
         long fileLastModified = getLastModified(resource);
         // if the file is unreachable or otherwise changed
-        if (fileLastModified == 0 ||
-            fileLastModified != resource.getLastModified())
-        {
-            return true;
-        }
-        return false;
+        return fileLastModified == 0 ||
+            fileLastModified != resource.getLastModified();
     }
 
     /**
@@ -203,7 +185,8 @@ public class URLResourceLoader extends ResourceLoader
             // get a connection to the URL
             URL u = new URL(root + name);
             URLConnection conn = u.openConnection();
-            tryToSetTimeout(conn);
+            conn.setConnectTimeout(timeout);
+            conn.setReadTimeout(timeout);
             return conn.getLastModified();
         }
         catch (IOException ioe)
@@ -223,24 +206,4 @@ public class URLResourceLoader extends ResourceLoader
     {
         return timeout;
     }
-
-    private void tryToSetTimeout(URLConnection conn)
-    {
-        if (timeout > 0)
-        {
-            Object[] arg = new Object[] { new Integer(timeout) };
-            try
-            {
-                timeoutMethods[0].invoke(conn, arg);
-                timeoutMethods[1].invoke(conn, arg);
-            }
-            catch (Exception e)
-            {
-                String msg = "Unexpected exception while setting connection timeout for "+conn;
-                log.error(msg, e);
-                throw new VelocityException(msg, e);
-            }
-        }
-    }
-
 }

@@ -22,10 +22,8 @@ package org.apache.velocity.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Test case for any miscellaneous stuff.  If it isn't big, and doesn't fit
@@ -61,29 +59,16 @@ public class MiscTestCase extends BaseTestCase
          */
 
         String arg = null;
-        String res = StringUtils.nullTrim(arg);
+        String res = StringUtils.trim(arg);
         assertNull(arg);
 
         arg = " test ";
-        res = StringUtils.nullTrim(arg);
+        res = StringUtils.trim(arg);
         assertEquals("test",res);
 
         arg = "test";
-        res = StringUtils.nullTrim(arg);
+        res = StringUtils.trim(arg);
         assertEquals("test",res);
-
-        List list = null;
-        assertNull(StringUtils.trimStrings(list));
-
-        list = new ArrayList();
-        assertEquals(new ArrayList(),StringUtils.trimStrings(list));
-
-        list.add("test");
-        list.add(" abc");
-        StringUtils.trimStrings(list);
-        assertEquals("test",list.get(0));
-        assertEquals("abc",list.get(1));
-
     }
 
 }

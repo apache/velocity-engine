@@ -95,7 +95,7 @@ public class ASTIndex extends SimpleNode
     public static Object adjMinusIndexArg(Object argument, Object o,
                                InternalContextAdapter context, SimpleNode node)
     {
-      if (argument instanceof Integer && ((Integer)argument).intValue() < 0)
+      if (argument instanceof Integer && (Integer) argument < 0)
       {
           // The index value is a negative number, $foo[-1], so we want to actually
           // Index [size - value], so try and call the size method.
@@ -106,7 +106,7 @@ public class ASTIndex extends SimpleNode
               // The object doesn't have a size method, so there is no notion of "at the end"
               throw new VelocityException(
                 "A 'size()' method required for negative value "
-                 + ((Integer)argument).intValue() + " does not exist for class '"
+                 + (Integer) argument + " does not exist for class '"
                  + o.getClass().getName() + "' at " + StringUtils.formatFileString(node));
           }
 
@@ -124,7 +124,7 @@ public class ASTIndex extends SimpleNode
           int sizeint = 0;
           try
           {
-              sizeint = ((Integer)size).intValue();
+              sizeint = (Integer) size;
           }
           catch (ClassCastException e)
           {
@@ -134,7 +134,7 @@ public class ASTIndex extends SimpleNode
                   + "' when Integer was expected at " + StringUtils.formatFileString(node));
           }
 
-          argument = Integer.valueOf(sizeint + ((Integer)argument).intValue());
+          argument = sizeint + ((Integer) argument).intValue();
       }
 
       // Nothing to do, return the original argument

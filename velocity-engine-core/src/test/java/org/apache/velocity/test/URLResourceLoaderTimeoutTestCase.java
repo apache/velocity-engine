@@ -55,7 +55,7 @@ public class URLResourceLoaderTimeoutTestCase extends BaseTestCase
         super.setUp();
         engine.setProperty("resource.loader", "url");
         engine.setProperty("url.resource.loader.instance", loader);
-        engine.setProperty("url.resource.loader.timeout", new Integer(timeout));
+        engine.setProperty("url.resource.loader.timeout", timeout);
 
         // actual instance of logger
         logger.on();

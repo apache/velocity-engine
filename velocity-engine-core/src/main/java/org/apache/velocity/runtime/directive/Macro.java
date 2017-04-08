@@ -35,7 +35,7 @@ import java.util.List;
 /**
  *  Macro implements the macro definition directive of VTL.
  *
- *  example :
+ *  example:
  *
  *  #macro( isnull $i )
  *     #if( $i )
@@ -95,7 +95,7 @@ public class Macro extends Directive
         throws IOException
     {
         /*
-         *  do nothing : We never render.  The VelocimacroProxy object does that
+         *  do nothing: We never render.  The VelocimacroProxy object does that
          */
 
         return true;
@@ -153,9 +153,9 @@ public class Macro extends Directive
         {
             if (argtypes.get(argPos) == ParserTreeConstants.JJTDIRECTIVEASSIGN)
             {
-               // Abosrb next argument type since parser enforces that these are in
+               // Absorb next argument type since parser enforces that these are in
                // pairs, and we don't need to check the type of the second
-               // arg becuase it is done by the parser.
+               // arg because it is done by the parser.
                argPos++;
                consecutive = true;
             }
@@ -176,7 +176,7 @@ public class Macro extends Directive
 
     /**
      * Creates an array containing the literal text from the macro
-     * arguement(s) (including the macro's name as the first arg).
+     * argument(s) (including the macro's name as the first arg).
      *
      * @param node The parse node from which to grok the argument
      * list.  It's expected to include the block node tree (for the
@@ -228,8 +228,8 @@ public class Macro extends Directive
 
         if (debugMode)
         {
-            StringBuilder msg = new StringBuilder("Macro.getArgArray() : nbrArgs=");
-            msg.append(numArgs).append(" : ");
+            StringBuilder msg = new StringBuilder("Macro.getArgArray(): nbrArgs=");
+            msg.append(numArgs).append(": ");
             macroToString(msg, macroArgs);
             rsvc.getLog("macro").debug(msg.toString());
         }
@@ -267,8 +267,8 @@ public class Macro extends Directive
      *         has passed in as buf, this method returns it.
      * @since 1.5
      */
-    public static final StringBuilder macroToString(final StringBuilder buf,
-                                                   List<MacroArg> macroArgs)
+    public static StringBuilder macroToString(final StringBuilder buf,
+                                              List<MacroArg> macroArgs)
     {
         StringBuilder ret = (buf == null) ? new StringBuilder() : buf;
 

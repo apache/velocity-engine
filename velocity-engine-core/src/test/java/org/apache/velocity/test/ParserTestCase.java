@@ -124,7 +124,7 @@ public class ParserTestCase extends TestCase
     }
 
     /**
-     *  Test to see if don't tolerage passing word tokens in anything but the
+     *  Test to see if don't tolerate passing word tokens in anything but the
      *  0th arg to #macro() and the 1th arg to foreach()
      */
     public void testArgs()
