@@ -28,6 +28,34 @@
     <release version="2.0" date="In Subversion">
 
       <action type="add" dev="cbrisson">
+          Allow expressions inside []: <code>$foo[$bar + 1]</code>
+      </action>
+
+      <action type="add" dev="cbrisson">
+          New strategy for reference boolean evaluation:
+          <ol>
+              <li>return false for a null object</li>
+              <li>return its value for a Boolean object, or the result of the <code>getAsBoolean()</code> method if it exists.</li>
+              <li>if <code>directive.if.emptycheck</code> is false (true by default), stop here and return true.</li>
+              <li>check for emptiness:
+                <ul>
+                    <li>return whether an array is empty.</li>
+                    <li>return whether <code>isEmpty()</code> is false (covers String and all Collection classes).</li>
+                    <li>return whether <code>length()</code> is zero (covers CharSequence classes other than String).</li>
+                    <li>returns whether <code>size()</code> is zero.</li>
+                    <li>return whether a Number <b>strictly</b> equals zero.</li>
+                </ul>
+              </li>
+              <li>check for emptiness after explicit conversion methods:
+                <ul>
+                    <li>return whether the result of <code>getAsString()</code> is empty (and false for a null result) if it exists.</li>
+                    <li>return whether the result of <code>getAsNumber()</code> <b>strictly</b> equals zero (and false for a null result) if it exists.</li>
+                </ul>
+              </li>
+          </ol>
+      </action>
+
+      <action type="add" dev="cbrisson">
         Reviewed event handling API:
         <ul>
           <li>added a Context argument for all events</li>
