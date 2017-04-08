@@ -97,6 +97,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Boolean.class, Long.class), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.class, Float.class), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.class, Double.class), numberToBool);
+        standardConverterMap.put(new Pair<>(Boolean.class, Number.class), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.class, Byte.TYPE), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.class, Short.TYPE), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.class, Integer.TYPE), numberToBool);
@@ -109,6 +110,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Boolean.TYPE, Long.class), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.TYPE, Float.class), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.TYPE, Double.class), numberToBool);
+        standardConverterMap.put(new Pair<>(Boolean.TYPE, Number.class), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.TYPE, Byte.TYPE), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.TYPE, Short.TYPE), numberToBool);
         standardConverterMap.put(new Pair<>(Boolean.TYPE, Integer.TYPE), numberToBool);
@@ -162,6 +164,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Byte.class, Long.class), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.class, Float.class), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.class, Double.class), narrowingToByte);
+        standardConverterMap.put(new Pair<>(Byte.class, Number.class), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.class, Short.TYPE), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.class, Integer.TYPE), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.class, Long.TYPE), narrowingToByte);
@@ -172,6 +175,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Byte.TYPE, Long.class), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.TYPE, Float.class), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.TYPE, Double.class), narrowingToByte);
+        standardConverterMap.put(new Pair<>(Byte.TYPE, Number.class), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.TYPE, Short.TYPE), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.TYPE, Integer.TYPE), narrowingToByte);
         standardConverterMap.put(new Pair<>(Byte.TYPE, Long.TYPE), narrowingToByte);
@@ -209,6 +213,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Short.class, Long.class), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.class, Float.class), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.class, Double.class), narrowingToShort);
+        standardConverterMap.put(new Pair<>(Short.class, Number.class), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.class, Integer.TYPE), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.class, Long.TYPE), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.class, Float.TYPE), narrowingToShort);
@@ -217,6 +222,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Short.TYPE, Long.class), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.TYPE, Float.class), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.TYPE, Double.class), narrowingToShort);
+        standardConverterMap.put(new Pair<>(Short.TYPE, Number.class), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.TYPE, Integer.TYPE), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.TYPE, Long.TYPE), narrowingToShort);
         standardConverterMap.put(new Pair<>(Short.TYPE, Float.TYPE), narrowingToShort);
@@ -252,12 +258,14 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Integer.class, Long.class), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.class, Float.class), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.class, Double.class), narrowingToInteger);
+        standardConverterMap.put(new Pair<>(Integer.class, Number.class), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.class, Long.TYPE), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.class, Float.TYPE), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.class, Double.TYPE), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.TYPE, Long.class), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.TYPE, Float.class), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.TYPE, Double.class), narrowingToInteger);
+        standardConverterMap.put(new Pair<>(Integer.TYPE, Number.class), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.TYPE, Long.TYPE), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.TYPE, Float.TYPE), narrowingToInteger);
         standardConverterMap.put(new Pair<>(Integer.TYPE, Double.TYPE), narrowingToInteger);
@@ -304,10 +312,12 @@ public class ConversionHandlerImpl implements ConversionHandler
         };
         standardConverterMap.put(new Pair<>(Long.class, Float.class), narrowingToLong);
         standardConverterMap.put(new Pair<>(Long.class, Double.class), narrowingToLong);
+        standardConverterMap.put(new Pair<>(Long.class, Number.class), narrowingToLong);
         standardConverterMap.put(new Pair<>(Long.class, Float.TYPE), narrowingToLong);
         standardConverterMap.put(new Pair<>(Long.class, Double.TYPE), narrowingToLong);
         standardConverterMap.put(new Pair<>(Long.TYPE, Float.class), narrowingToLong);
         standardConverterMap.put(new Pair<>(Long.TYPE, Double.class), narrowingToLong);
+        standardConverterMap.put(new Pair<>(Long.TYPE, Number.class), narrowingToLong);
         standardConverterMap.put(new Pair<>(Long.TYPE, Float.TYPE), narrowingToLong);
         standardConverterMap.put(new Pair<>(Long.TYPE, Double.TYPE), narrowingToLong);
 
@@ -348,8 +358,10 @@ public class ConversionHandlerImpl implements ConversionHandler
             }
         };
         standardConverterMap.put(new Pair<>(Float.class, Double.class), narrowingToFloat);
+        standardConverterMap.put(new Pair<>(Float.class, Number.class), narrowingToFloat);
         standardConverterMap.put(new Pair<>(Float.class, Double.TYPE), narrowingToFloat);
         standardConverterMap.put(new Pair<>(Float.TYPE, Double.class), narrowingToFloat);
+        standardConverterMap.put(new Pair<>(Float.TYPE, Number.class), narrowingToFloat);
         standardConverterMap.put(new Pair<>(Float.TYPE, Double.TYPE), narrowingToFloat);
 
         /* exact towards Float */
@@ -497,7 +509,13 @@ public class ConversionHandlerImpl implements ConversionHandler
     @Override
     public boolean isExplicitlyConvertible(Class formal, Class actual, boolean possibleVarArg)
     {
-        if (formal == actual || getNeededConverter(formal, actual) != null)
+        /*
+         * for consistency, we also have to check standard implicit convertibility
+         * since it may not have been checked before by the calling code
+         */
+        if (formal == actual ||
+            IntrospectionUtils.isMethodInvocationConvertible(formal, actual, possibleVarArg) ||
+            getNeededConverter(formal, actual) != null)
         {
             return true;
         }
