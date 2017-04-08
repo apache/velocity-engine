@@ -407,10 +407,12 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Double.class, Integer.class), toDouble);
         standardConverterMap.put(new Pair<>(Double.class, Long.class), toDouble);
         standardConverterMap.put(new Pair<>(Double.class, Float.class), toDouble);
+        standardConverterMap.put(new Pair<>(Double.class, Number.class), toDouble);
         standardConverterMap.put(new Pair<>(Double.class, Short.TYPE), toDouble);
         standardConverterMap.put(new Pair<>(Double.class, Integer.TYPE), toDouble);
         standardConverterMap.put(new Pair<>(Double.class, Long.TYPE), toDouble);
         standardConverterMap.put(new Pair<>(Double.class, Float.TYPE), toDouble);
+        standardConverterMap.put(new Pair<>(Double.TYPE, Number.class), toDouble);
 
         /* string to double */
         Converter<Double> stringToDouble = new Converter<Double>()
