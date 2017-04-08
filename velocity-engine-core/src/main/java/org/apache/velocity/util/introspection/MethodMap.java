@@ -183,12 +183,16 @@ public class MethodMap
          * one of STRICTLY_CONVERTIBLE, IMPLICITLY_CONVERTIBLE and EXPLICITLY_CONVERTIBLE_ */
         int applicability;
 
+        /* whether the method has varrags */
+        boolean varargs;
+
         Match(Method method, int applicability, Class[] unboxedArgs)
         {
             this.method = method;
             this.applicability = applicability;
             this.methodTypes = method.getParameterTypes();
             this.specificity = compare(methodTypes, unboxedArgs);
+            this.varargs = methodTypes.length > 0 && methodTypes[methodTypes.length - 1].isArray();
         }
     }
 
@@ -198,7 +202,7 @@ public class MethodMap
         {
             if (cls != null && cls != Object.class) return false;
         }
-        return true;
+        return args.length > 0;
     }
 
     private Method getBestMatch(List<Method> methods, Class[] args)
@@ -211,7 +215,7 @@ public class MethodMap
         }
         for (Method method : methods)
         {
-            int applicability = getApplicability(method, args);
+            int applicability = getApplicability(method, unboxedArgs);
             if (applicability > NOT_CONVERTIBLE)
             {
                 Match match = new Match(method, applicability, unboxedArgs);
@@ -240,11 +244,35 @@ public class MethodMap
                         {
                             it.remove();
                         }
+                        /* compare applicability */
+                        else if (best.applicability > match.applicability)
+                        {
+                            keepMethod = false;
+                        }
+                        else if (best.applicability < match.applicability)
+                        {
+                            it.remove();
+                        }
                         /* compare methods between them */
                         else
                         {
                             /* but only if some provided args are non null and not Object */
-                            if (!onlyNullOrObjects(args))
+                            if (onlyNullOrObjects(args))
+                            {
+                                /* in this case we only favor non-varrags methods */
+                                if (match.varargs != best.varargs)
+                                {
+                                    if (match.varargs)
+                                    {
+                                        keepMethod = false;
+                                    }
+                                    else if (best.varargs)
+                                    {
+                                        it.remove();
+                                    }
+                                }
+                            }
+                            else
                             {
                                 switch (compare(match.methodTypes, best.methodTypes))
                                 {
@@ -256,14 +284,6 @@ public class MethodMap
                                         break;
                                     case EQUIVALENT:
                                     case INCOMPARABLE:
-                                        /* compare applicability */
-                                        if (best.applicability > match.applicability)
-                                        {
-                                            keepMethod = false;
-                                        } else if (best.applicability < match.applicability)
-                                        {
-                                            it.remove();
-                                        }
                                         /* otherwise it's an equivalent match */
                                         break;
                                 }
