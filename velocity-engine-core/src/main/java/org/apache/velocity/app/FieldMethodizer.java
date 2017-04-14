@@ -20,6 +20,8 @@ package org.apache.velocity.app;
  */
 
 import org.apache.velocity.util.ClassUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -64,6 +66,7 @@ public class FieldMethodizer
 {
     /** Hold the field objects by field name */
     private HashMap fieldHash = new HashMap();
+    private Logger logger = LoggerFactory.getLogger(FieldMethodizer.class);
 
     /**
      * Allow object to be initialized without any data. You would use
@@ -87,9 +90,7 @@ public class FieldMethodizer
         }
         catch( Exception e )
         {
-            System.err.println("Could not add " + s
-                    + " for field methodizing: "
-                    + e.getMessage());
+            logger.error("[FieldMethodizer] Could not add {} for field methodizing", s, e);
         }
     }
 
@@ -109,9 +110,7 @@ public class FieldMethodizer
         }
         catch( Exception e )
         {
-            System.err.println("Could not add " + o
-                    + " for field methodizing: "
-                    + e.getMessage());
+            logger.error("[FieldMethodizer] Could not add {} for field methodizing", o, e);
         }
     }
 
