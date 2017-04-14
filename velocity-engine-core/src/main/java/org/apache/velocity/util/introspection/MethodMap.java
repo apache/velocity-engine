@@ -329,8 +329,8 @@ public class MethodMap
      */
     private int compare(Class[] c1, Class[] c2)
     {
-        boolean c1MoreSpecific = false;
-        boolean c2MoreSpecific = false;
+        boolean c1IsVararag = false;
+        boolean c2IsVararag = false;
         boolean fixedLengths = false;
 
         // compare lengths to handle comparisons where the size of the arrays
@@ -351,10 +351,12 @@ public class MethodMap
             if (itemClass == null)
             {
                 /* by construct, we have c1.length = l2 + 1 */
-                c2[c1.length - 1] = c1[c1.length - 1];
+                c1IsVararag = true;
+                c2[c1.length - 1] = null;
             }
             else
             {
+                c2IsVararag = true;
                 for (int i = l2 - 1; i < c1.length; ++i)
                 {
                 /* also overwrite the vaargs itself */
@@ -378,10 +380,12 @@ public class MethodMap
             if (itemClass == null)
             {
                 /* by construct, we have c2.length = l1 + 1 */
-                c1[c2.length - 1] = c2[c2.length - 1];
+                c2IsVararag = true;
+                c1[c2.length - 1] = null;
             }
             else
             {
+                c1IsVararag = true;
                 for (int i = l1 - 1; i < c2.length; ++i)
                 {
                 /* also overwrite the vaargs itself */
@@ -468,8 +472,8 @@ public class MethodMap
              * If one method accepts varargs and the other does not,
              * call the non-vararg one more specific.
              */
-            boolean last1Array = !fixedLengths && c1[c1.length - 1].isArray();
-            boolean last2Array = !fixedLengths && c2[c2.length - 1].isArray();
+            boolean last1Array = c1IsVararag || !fixedLengths && c1[c1.length - 1].isArray();
+            boolean last2Array = c2IsVararag || !fixedLengths && c2[c2.length - 1].isArray();
             if (last1Array && !last2Array)
             {
                 return LESS_SPECIFIC;
