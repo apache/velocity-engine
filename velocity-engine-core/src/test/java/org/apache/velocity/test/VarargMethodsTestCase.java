@@ -130,7 +130,10 @@ public class VarargMethodsTestCase extends BaseTestCase
         assertEvalEquals("String,List", "$nasty.test651('test',['TEST'])");
     }
 
-
+    public void testMax()
+    {
+        assertEvalEquals("4", "$nasty.max(4, 3.5)");
+    }
 
     public static class NiceTool
     {
@@ -246,6 +249,26 @@ public class VarargMethodsTestCase extends BaseTestCase
         public String test651(String s, java.util.List l)
         {
             return "String,List";
+        }
+
+        public Number max(Number n1, Number n2) { return max(new Number[] { n1, n2 }); }
+
+        public Number max(Number[] numbers)
+        {
+            if (numbers.length == 0) return null;
+            int minindex = -1, i = 0;
+            double val = Double.MIN_VALUE;
+            for (Number n : numbers)
+            {
+                if (n.floatValue() > val)
+                {
+                    minindex = i;
+                    val = n.floatValue();
+                }
+                ++i;
+            }
+            if (minindex < 0) minindex = 0;
+            return numbers[minindex];
         }
 
     }
