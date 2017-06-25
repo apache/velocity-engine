@@ -226,31 +226,14 @@ public class DataSourceResourceLoader extends ResourceLoader
 
             if (rs.next())
             {
-                InputStream rawStream = rs.getAsciiStream(templateColumn);
-                if (rawStream == null)
+                Reader reader = rs.getCharacterStream(templateColumn);
+                if (reader == null)
                 {
                     throw new ResourceNotFoundException("DataSourceResourceLoader: "
                             + "template column for '"
                             + name + "' is null");
                 }
-                try
-                {
-                    return buildReader(rawStream, encoding);
-                }
-                catch (Exception e)
-                {
-                    if (rawStream != null)
-                    {
-                        try
-                        {
-                            rawStream.close();
-                        }
-                        catch(IOException ioe) {}
-                    }
-                    String msg = "Exception while loading Template column for " + name;
-                    log.error(msg, e);
-                    throw new VelocityException(msg, e);
-                }
+                return reader;
             }
             else
             {

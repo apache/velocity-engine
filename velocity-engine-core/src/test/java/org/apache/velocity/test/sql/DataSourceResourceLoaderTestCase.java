@@ -24,9 +24,10 @@ import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeSingleton;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader;
 import org.apache.velocity.test.misc.TestLogger;
+import org.apache.velocity.util.ExtProperties;
 
 import javax.sql.DataSource;
 import java.io.BufferedWriter;
@@ -65,21 +66,16 @@ public class DataSourceResourceLoaderTestCase
      */
     private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/ds/templates";
 
-    /**
-     * String (not containing any VTL) used to test unicode
-     */
-    private String UNICODE_TEMPLATE = "\\u00a9 test \\u0410 \\u0411";
+    /* engine with VARCHAR templates data source */
+    private RuntimeInstance varcharTemplatesEngine = null;
 
-    /**
-     * Name of template for testing unicode.
-     */
-    private String UNICODE_TEMPLATE_NAME = "testUnicode";
+    /* engine with CLOB templates data source */
+    private RuntimeInstance clobTemplatesEngine = null;
 
     public DataSourceResourceLoaderTestCase(final String name)
     	throws Exception
     {
         super(name, DATA_PATH);
-        setUpUnicode();
     }
 
     public static Test suite()
@@ -93,33 +89,33 @@ public class DataSourceResourceLoaderTestCase
 
         assureResultsDirectoryExists(RESULTS_DIR);
 
-	    DataSource ds = new HsqlDataSource("jdbc:hsqldb:.");
+        DataSource ds1 = new TestDataSource(TEST_JDBC_DRIVER_CLASS, TEST_JDBC_URI, TEST_JDBC_LOGIN, TEST_JDBC_PASSWORD);
+        DataSourceResourceLoader rl1 = new DataSourceResourceLoader();
+        rl1.setDataSource(ds1);
 
-        DataSourceResourceLoader rl = new DataSourceResourceLoader();
-        rl.setDataSource(ds);
+        DataSource ds2 = new TestDataSource(TEST_JDBC_DRIVER_CLASS, TEST_JDBC_URI, TEST_JDBC_LOGIN, TEST_JDBC_PASSWORD);
+        DataSourceResourceLoader rl2 = new DataSourceResourceLoader();
+        rl2.setDataSource(ds2);
 
-        // pass in an instance to Velocity
-        Velocity.reset();
-        Velocity.addProperty( "resource.loader", "ds" );
-        Velocity.setProperty( "ds.resource.loader.instance", rl );
+        ExtProperties props = new ExtProperties();
+        props.addProperty( "resource.loader", "ds" );
+        props.setProperty( "ds.resource.loader.instance", rl1);
+        props.setProperty( "ds.resource.loader.resource.table",           "velocity_template_varchar");
+        props.setProperty( "ds.resource.loader.resource.keycolumn",       "vt_id");
+        props.setProperty( "ds.resource.loader.resource.templatecolumn",  "vt_def");
+        props.setProperty( "ds.resource.loader.resource.timestampcolumn", "vt_timestamp");
+        props.setProperty(Velocity.RUNTIME_LOG_INSTANCE, new TestLogger(false, false));
 
-        Velocity.setProperty( "ds.resource.loader.resource.table",           "velocity_template");
-        Velocity.setProperty( "ds.resource.loader.resource.keycolumn",       "id");
-        Velocity.setProperty( "ds.resource.loader.resource.templatecolumn",  "def");
-        Velocity.setProperty( "ds.resource.loader.resource.timestampcolumn", "timestamp");
+        varcharTemplatesEngine = new RuntimeInstance();
+        varcharTemplatesEngine.setConfiguration(props);
+        varcharTemplatesEngine.init();
 
-        Velocity.setProperty(
-                Velocity.RUNTIME_LOG_INSTANCE, new TestLogger(false, false));
-
-        Velocity.init();
-    }
-
-    public void setUpUnicode()
-    throws Exception
-    {
-        String insertString = "insert into velocity_template  (id, timestamp, def) VALUES " +
-        		"( '" + UNICODE_TEMPLATE_NAME + "', NOW(), '" + UNICODE_TEMPLATE + "');";
-        executeSQL(insertString);
+        ExtProperties props2 = (ExtProperties)props.clone();
+        props2.setProperty( "ds.resource.loader.instance", rl2);
+        props2.setProperty( "ds.resource.loader.resource.table",           "velocity_template_clob");
+        clobTemplatesEngine = new RuntimeInstance();
+        clobTemplatesEngine.setConfiguration(props2);
+        clobTemplatesEngine.init();
     }
 
     /**
@@ -129,14 +125,15 @@ public class DataSourceResourceLoaderTestCase
     public void testSimpleTemplate()
             throws Exception
     {
-        Template t = executeTest("testTemplate1");
+        Template t = executeTest("testTemplate1", varcharTemplatesEngine);
         assertFalse("Timestamp is 0", 0 == t.getLastModified());
-    }
+        t = executeTest("testTemplate1", clobTemplatesEngine);
+        assertFalse("Timestamp is 0", 0 == t.getLastModified());    }
 
-    public void testUnicode()
-    throws Exception
+    public void testUnicode(RuntimeInstance engine)
+        throws Exception
     {
-        Template template = RuntimeSingleton.getTemplate(UNICODE_TEMPLATE_NAME);
+        Template template = engine.getTemplate(UNICODE_TEMPLATE_NAME);
 
         Writer writer = new StringWriter();
         VelocityContext context = new VelocityContext();
@@ -160,7 +157,9 @@ public class DataSourceResourceLoaderTestCase
     public void testRenderTool()
             throws Exception
     {
-	Template t = executeTest("testTemplate2");
+        Template t = executeTest("testTemplate2", varcharTemplatesEngine);
+        assertFalse("Timestamp is 0", 0 == t.getLastModified());
+        t = executeTest("testTemplate2", clobTemplatesEngine);
         assertFalse("Timestamp is 0", 0 == t.getLastModified());
     }
 
@@ -170,9 +169,10 @@ public class DataSourceResourceLoaderTestCase
     public void testNullTimestamp()
             throws Exception
     {
-        Template t = executeTest("testTemplate3");
+        Template t = executeTest("testTemplate3", varcharTemplatesEngine);
         assertEquals("Timestamp is not 0", 0, t.getLastModified());
-    }
+        t = executeTest("testTemplate3", clobTemplatesEngine);
+        assertEquals("Timestamp is not 0", 0, t.getLastModified());    }
 
     /**
      * Does it load the global Macros from the DB?
@@ -180,14 +180,16 @@ public class DataSourceResourceLoaderTestCase
     public void testMacroInvocation()
             throws Exception
     {
-        Template t = executeTest("testTemplate4");
+        Template t = executeTest("testTemplate4", varcharTemplatesEngine);
+        assertFalse("Timestamp is 0", 0 == t.getLastModified());
+        t = executeTest("testTemplate4", clobTemplatesEngine);
         assertFalse("Timestamp is 0", 0 == t.getLastModified());
     }
 
-    protected Template executeTest(final String templateName)
+    protected Template executeTest(final String templateName, RuntimeInstance engine)
     	throws Exception
     {
-        Template template = RuntimeSingleton.getTemplate(templateName);
+        Template template = engine.getTemplate(templateName);
 
         FileOutputStream fos =
                 new FileOutputStream (
@@ -213,12 +215,12 @@ public class DataSourceResourceLoaderTestCase
 
     public static final class DSRLTCTool
     {
-	public int add(final int a, final int b)
+        public int add(final int a, final int b)
 	{
 	    return a + b;
 	}
 
-	public String getMessage()
+	    public String getMessage()
 	{
 	    return "And the result is:";
 	}

@@ -20,89 +20,83 @@ package org.apache.velocity.test.sql;
  */
 
 import org.apache.commons.lang3.StringUtils;
-import org.hsqldb.jdbcDriver;
 
 import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class HsqlDB {
+public class DBHelper
+{
     private Connection connection = null;
 
-    public HsqlDB(String uri, String loadFile) throws Exception {
-        Class.forName(jdbcDriver.class.getName());
+    public DBHelper(String driverClass, String uri, String login, String password, String loadFile) throws Exception
+    {
+        Class.forName(driverClass);
 
-        this.connection = DriverManager.getConnection(uri, "sa", "");
+        this.connection = DriverManager.getConnection(uri, login, password);
 
-        if (StringUtils.isNotEmpty(loadFile)) {
+        if (StringUtils.isNotEmpty(loadFile))
+        {
             loadSqlFile(loadFile);
         }
     }
 
-    public Connection getConnection() {
+    public Connection getConnection()
+    {
         return connection;
     }
 
-    public void close() {
+    public void close()
+    {
 
-        try {
+        try
+        {
             connection.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println("While closing Connection" + e.getMessage());
         }
     }
 
-    private void loadSqlFile(String fileName) throws Exception {
+    private void loadSqlFile(String fileName) throws Exception
+    {
         Statement statement = null;
 
-        try {
+        try
+        {
             statement = connection.createStatement();
 
-            String commands = getFileContents(fileName);
+            String commands = new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
 
             for (int targetPos = commands.indexOf(';'); targetPos > -1;
                     targetPos = commands.indexOf(';')) {
                 String cmd = commands.substring(0, targetPos + 1);
 
-                try {
+                try
+                {
                     statement.execute(cmd);
-                } catch (SQLException sqle) {
+                }
+                catch (SQLException sqle)
+                {
                     System.out.println("Statement: " + cmd + ": " +
-                        sqle.getMessage());
+                                       sqle.getMessage());
                 }
 
                 commands = commands.substring(targetPos + 2);
             }
-        } finally {
-
-            if (statement != null) {
-                statement.close();
-            }
         }
-    }
-
-    private String getFileContents(String fileName) throws Exception {
-        FileReader fr = null;
-
-        try {
-            fr = new FileReader(fileName);
-
-            char[] fileBuf = new char[1024];
-            StringBuilder sb = new StringBuilder(1000);
-            int res = -1;
-
-            while ((res = fr.read(fileBuf, 0, 1024)) > -1) {
-                sb.append(fileBuf, 0, res);
-            }
-
-            return sb.toString();
-        } finally {
-
-            if (fr != null) {
-                fr.close();
+        finally
+        {
+            if (statement != null)
+            {
+                statement.close();
             }
         }
     }
