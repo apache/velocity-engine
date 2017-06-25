@@ -15,26 +15,39 @@
 -- specific language governing permissions and limitations
 -- under the License.    
 
-drop table velocity_template if exists;
+drop table if exists velocity_template_1;
+drop table if exists velocity_template_2;
 
-create table velocity_template (
-	id VARCHAR(64) not null,
-	timestamp TIMESTAMP,
-	def VARCHAR(255) not null
+create table velocity_template_varchar
+(
+	vt_id VARCHAR(64) not null primary key,
+	vt_timestamp TIMESTAMP,
+	vt_def VARCHAR(255) not null
 );
 
-insert into velocity_template  (id, timestamp, def) VALUES
+create table velocity_template_clob
+(
+	vt_id VARCHAR(64) not null primary key,
+	vt_timestamp TIMESTAMP,
+	vt_def CLOB not null
+);
+
+insert into velocity_template_varchar (vt_id, vt_timestamp, vt_def) VALUES
 	( 'testTemplate1', NOW(), 'I am a test through the data loader');
 
-insert into velocity_template  (id, timestamp, def) VALUES
+insert into velocity_template_varchar (vt_id, vt_timestamp, vt_def) VALUES
 	( 'testTemplate2', NOW(), '$tool.message $tool.add(23, 19)');
 
-insert into velocity_template  (id, def) VALUES
+insert into velocity_template_varchar (vt_id, vt_def) VALUES
 	( 'testTemplate3', 'This is a template with a null timestamp');
 
-insert into velocity_template  (id, timestamp, def) VALUES
+insert into velocity_template_varchar (vt_id, vt_timestamp, vt_def) VALUES
 	( 'testTemplate4', NOW(), '#testMacro("foo")');
 
-insert into velocity_template  (id, timestamp, def) VALUES
+insert into velocity_template_varchar (vt_id, vt_timestamp, vt_def) VALUES
 	( 'VM_global_library.vm', NOW(), '#macro (testMacro $param) I am a macro using $param #end');
 
+
+-- same templates as clob
+
+insert into velocity_template_clob select * from velocity_template_varchar;

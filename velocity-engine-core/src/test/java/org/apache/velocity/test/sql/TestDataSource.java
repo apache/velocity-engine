@@ -19,8 +19,6 @@ package org.apache.velocity.test.sql;
  * under the License.
  */
 
-import org.hsqldb.jdbcDriver;
-
 import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -29,54 +27,67 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 
-public class HsqlDataSource implements DataSource {
+public class TestDataSource implements DataSource
+{
 
     private final String url;
+    private final String user;
+    private final String password;
 
     private PrintWriter logWriter = null;
 
     private int loginTimeout = 0;
 
-    public HsqlDataSource(final String url) throws Exception {
-	this.url = url;
-	Class.forName(jdbcDriver.class.getName());
+    public TestDataSource(final String driverClass, final String url, final String user, final String password) throws Exception
+    {
+        this.url = url;
+        this.user = user;
+        this.password = password;
+        Class.forName(driverClass);
     }
 
-    public Connection getConnection() throws SQLException {
-	return DriverManager.getConnection(url, "sa", "");
+    public Connection getConnection() throws SQLException
+    {
+        return DriverManager.getConnection(url, user, password);
     }
 
     public Connection getConnection(final String username, final String password)
-	    throws SQLException {
-	return DriverManager.getConnection(url, username, password);
+        throws SQLException
+    {
+        return DriverManager.getConnection(url, username, password);
     }
 
-    public PrintWriter getLogWriter() throws SQLException {
-	return logWriter;
+    public PrintWriter getLogWriter() throws SQLException
+    {
+        return logWriter;
     }
 
-    public int getLoginTimeout() throws SQLException {
-	return loginTimeout;
+    public int getLoginTimeout() throws SQLException
+    {
+        return loginTimeout;
     }
 
-    public void setLogWriter(final PrintWriter logWriter) throws SQLException {
-	this.logWriter = logWriter;
+    public void setLogWriter(final PrintWriter logWriter) throws SQLException
+    {
+        this.logWriter = logWriter;
     }
 
-    public void setLoginTimeout(final int loginTimeout) throws SQLException {
-	this.loginTimeout = loginTimeout;
+    public void setLoginTimeout(final int loginTimeout) throws SQLException
+    {
+        this.loginTimeout = loginTimeout;
     }
 
-    public boolean isWrapperFor(final Class iface) throws SQLException {
-	return false;
+    public boolean isWrapperFor(final Class iface) throws SQLException
+    {
+        return false;
     }
 
-    public Object unwrap(final Class iface) throws SQLException {
-	throw new SQLException("Not implemented");
+    public Object unwrap(final Class iface) throws SQLException
+    {
+        throw new SQLException("Not implemented");
     }
 
-    /* added to be able to compile with jdk 1.7 */
-
+    /* added to be able to compile with jdk 1.7+ */
     public Logger getParentLogger() throws SQLFeatureNotSupportedException
     {
         throw new SQLFeatureNotSupportedException();
