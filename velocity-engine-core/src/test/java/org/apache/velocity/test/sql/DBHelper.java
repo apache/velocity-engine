@@ -76,19 +76,10 @@ public class DBHelper
             String commands = new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
 
             for (int targetPos = commands.indexOf(';'); targetPos > -1;
-                    targetPos = commands.indexOf(';')) {
+                    targetPos = commands.indexOf(';'))
+            {
                 String cmd = commands.substring(0, targetPos + 1);
-
-                try
-                {
-                    statement.execute(cmd);
-                }
-                catch (SQLException sqle)
-                {
-                    System.out.println("Statement: " + cmd + ": " +
-                                       sqle.getMessage());
-                }
-
+                statement.execute(cmd);
                 commands = commands.substring(targetPos + 2);
             }
         }
