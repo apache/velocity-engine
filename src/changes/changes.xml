@@ -27,6 +27,10 @@
   <body>
     <release version="2.0" date="In Subversion">
 
+      <action type="fix" dev="cbrisson">
+          Fix DataSourceResourceLoader for UTF-8 correct handling in VARCHAR/CLOB columns, and for connection / statement / result set life cycle.
+      </action>
+
       <action type="add" dev="cbrisson">
           Allow expressions inside []: <code>$foo[$bar + 1]</code>
       </action>
