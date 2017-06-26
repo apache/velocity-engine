@@ -21,7 +21,6 @@ package org.apache.velocity.test.sql;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -29,14 +28,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class DBHelper
 {
+    private String driverClass = null;
     private Connection connection = null;
 
     public DBHelper(String driverClass, String uri, String login, String password, String loadFile) throws Exception
     {
+        this.driverClass = driverClass;
         Class.forName(driverClass);
 
         this.connection = DriverManager.getConnection(uri, login, password);
@@ -65,22 +68,49 @@ public class DBHelper
         }
     }
 
+    // avoid ';' inside BEGIN/END blocks
+    private static int nextSemiColon(final String cmd)
+    {
+        int start = 0;
+        int ret = -1;
+        while (true)
+        {
+            ret = cmd.indexOf(';', start);
+            if (ret == -1) break;
+            int begin = cmd.lastIndexOf("BEGIN", ret);
+            int end = cmd.lastIndexOf("END;", ret);
+            if (begin == -1) break;
+            if (end > begin) break;
+            start = ret + 1;
+        }
+        return ret;
+    }
+
     private void loadSqlFile(String fileName) throws Exception
     {
         Statement statement = null;
 
         try
         {
-            statement = connection.createStatement();
-
             String commands = new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
-
-            for (int targetPos = commands.indexOf(';'); targetPos > -1;
-                    targetPos = commands.indexOf(';'))
+            // manually eat comments, some engines don't like them
+            Pattern removeComments = Pattern.compile("^--.*$", Pattern.MULTILINE);
+            Matcher matcher = removeComments.matcher(commands);
+            commands = matcher.replaceAll("");
+            for (int targetPos = nextSemiColon(commands); targetPos > -1; targetPos = nextSemiColon(commands))
             {
+                statement = connection.createStatement();
                 String cmd = commands.substring(0, targetPos + 1);
-                statement.execute(cmd);
+                // Oracle doesn't like semi-colons at the end, except for BEGIN/END blocks...
+                // nor does Derby
+                if (driverClass.equals("oracle.jdbc.OracleDriver") && !cmd.endsWith("END;") ||
+                    driverClass.equals("org.apache.derby.jdbc.EmbeddedDriver"))
+                {
+                    cmd = cmd.substring(0, cmd.length() - 1);
+                }
+                statement.executeUpdate(cmd);
                 commands = commands.substring(targetPos + 2);
+                statement.close();
             }
         }
         finally

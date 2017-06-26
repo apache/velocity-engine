@@ -85,6 +85,12 @@ public abstract class BaseSQLTest
     {
         Connection connection = dbHelper.getConnection();
         Statement statement = connection.createStatement();
+        // Oracle and Derby do not want any final ';'
+        if ((TEST_JDBC_DRIVER_CLASS.equals("oracle.jdbc.OracleDriver")
+            || TEST_JDBC_DRIVER_CLASS.equals("org.apache.derby.jdbc.EmbeddedDriver")) && sql.endsWith(";"))
+        {
+            sql = sql.substring(0, sql.length() - 1);
+        }
         statement.executeUpdate(sql);
     }
 }

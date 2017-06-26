@@ -37,7 +37,10 @@
     <parser.nodefiles>false</parser.nodefiles>
     
     <!-- You can modify those properties locally to test
-         the DataSourceResourceLoader against other engines -->
+         the DataSourceResourceLoader against other engines.
+         Please note that you may have to also alter the file
+         src/test/resources/ds/create-db.sql for specific engine SQL grammars.
+    -->
     <test.jdbc.driver.groupId>org.hsqldb</test.jdbc.driver.groupId>
     <test.jdbc.driver.artifactId>hsqldb</test.jdbc.driver.artifactId>
     <test.jdbc.driver.version>2.3.5</test.jdbc.driver.version>
