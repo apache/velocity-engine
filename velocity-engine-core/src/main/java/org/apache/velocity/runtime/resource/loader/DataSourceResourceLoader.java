@@ -262,7 +262,7 @@ public class DataSourceResourceLoader extends ResourceLoader
 
             if (rs.next())
             {
-                Reader reader = rs.getCharacterStream(templateColumn);
+                Reader reader = getReader(rs, templateColumn);
                 if (reader == null)
                 {
                     throw new ResourceNotFoundException("DataSourceResourceLoader: "
@@ -524,6 +524,15 @@ public class DataSourceResourceLoader extends ResourceLoader
     {
         ps.setString(1, templateName);
         return ps.executeQuery();
+    }
+
+    /**
+     * Gets a reader from a result set's column
+     */
+    protected Reader getReader(ResultSet resultSet, String column)
+        throws SQLException
+    {
+        return resultSet.getCharacterStream(column);
     }
 
 }
