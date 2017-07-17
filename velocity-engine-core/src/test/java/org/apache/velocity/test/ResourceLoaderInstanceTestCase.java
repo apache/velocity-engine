@@ -36,7 +36,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
- * Test that an instance of a ResourceLoader2 can be successfully passed in.
+ * Test that an instance of a ResourceLoader can be successfully passed in.
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  * @version $Id$

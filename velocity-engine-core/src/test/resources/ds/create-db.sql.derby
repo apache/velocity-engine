@@ -15,7 +15,7 @@
 -- specific language governing permissions and limitations
 -- under the License.    
 
-drop table if exists velocity_template_varchar;
+-- drop table if exists velocity_template_varchar;
 
 create table velocity_template_varchar
 (
@@ -42,7 +42,7 @@ insert into velocity_template_varchar (vt_id, vt_timestamp, vt_def) VALUES
 
 -- same templates as clob
 
-drop table if exists velocity_template_clob;
+-- drop table if exists velocity_template_clob;
 
 create table velocity_template_clob
 (

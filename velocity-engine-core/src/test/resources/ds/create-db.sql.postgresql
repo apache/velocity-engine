@@ -48,7 +48,7 @@ create table velocity_template_clob
 (
 	vt_id VARCHAR(64) not null primary key,
 	vt_timestamp TIMESTAMP,
-	vt_def CLOB not null
+	vt_def TEXT not null
 );
 
 insert into velocity_template_clob select * from velocity_template_varchar;

@@ -20,7 +20,7 @@ drop table if exists velocity_template_varchar;
 create table velocity_template_varchar
 (
 	vt_id VARCHAR(64) not null primary key,
-	vt_timestamp TIMESTAMP,
+	vt_timestamp DATETIME,
 	vt_def VARCHAR(255) not null
 );
 
@@ -47,8 +47,8 @@ drop table if exists velocity_template_clob;
 create table velocity_template_clob
 (
 	vt_id VARCHAR(64) not null primary key,
-	vt_timestamp TIMESTAMP,
-	vt_def CLOB not null
+	vt_timestamp DATETIME,
+	vt_def TEXT not null
 );
 
 insert into velocity_template_clob select * from velocity_template_varchar;

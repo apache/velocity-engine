@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.io.FilterReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -137,6 +138,44 @@ public class DataSourceResourceLoader extends ResourceLoader
     private InitialContext ctx;
     private DataSource dataSource;
 
+    /*
+        Keep connection and prepared statements open. It's not just an optimization:
+        For several engines, the connection, and/or the statement, and/or the result set
+        must be kept open for the reader to be valid.
+     */
+    private Connection connection = null;
+    private PreparedStatement templatePrepStatement = null;
+    private PreparedStatement timestampPrepStatement = null;
+
+    private static class SelfCleaningReader extends FilterReader
+    {
+        private ResultSet resultSet;
+
+        public SelfCleaningReader(Reader reader, ResultSet resultSet)
+        {
+            super(reader);
+            this.resultSet = resultSet;
+        }
+
+        @Override
+        public void close() throws IOException
+        {
+            super.close();
+            try
+            {
+                resultSet.close();
+            }
+            catch (RuntimeException re)
+            {
+                throw re;
+            }
+            catch (Exception e)
+            {
+                // ignore
+            }
+        }
+    }
+
     /**
      * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
@@ -215,42 +254,22 @@ public class DataSourceResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException("DataSourceResourceLoader: Template name was empty or null");
         }
 
-        Connection conn = null;
         ResultSet rs = null;
-        PreparedStatement ps = null;
         try
         {
-            conn = openDbConnection();
-            ps = getStatement(conn, templateColumn, tableName, keyColumn, name);
-            rs = ps.executeQuery();
+            checkDBConnection();
+            rs = fetchResult(templatePrepStatement, name);
 
             if (rs.next())
             {
-                InputStream rawStream = rs.getAsciiStream(templateColumn);
-                if (rawStream == null)
+                Reader reader = getReader(rs, templateColumn, encoding);
+                if (reader == null)
                 {
                     throw new ResourceNotFoundException("DataSourceResourceLoader: "
                             + "template column for '"
                             + name + "' is null");
                 }
-                try
-                {
-                    return buildReader(rawStream, encoding);
-                }
-                catch (Exception e)
-                {
-                    if (rawStream != null)
-                    {
-                        try
-                        {
-                            rawStream.close();
-                        }
-                        catch(IOException ioe) {}
-                    }
-                    String msg = "Exception while loading Template column for " + name;
-                    log.error(msg, e);
-                    throw new VelocityException(msg, e);
-                }
+                return new SelfCleaningReader(reader, rs);
             }
             else
             {
@@ -267,11 +286,6 @@ public class DataSourceResourceLoader extends ResourceLoader
 
             log.error(msg, sqle);
             throw new ResourceNotFoundException(msg);
-        } finally
-        {
-            closeResultSet(rs);
-            closeStatement(ps);
-            closeDbConnection(conn);
         }
     }
 
@@ -297,15 +311,12 @@ public class DataSourceResourceLoader extends ResourceLoader
         }
         else
         {
-            Connection conn = null;
             ResultSet rs = null;
-            PreparedStatement ps = null;
 
             try
             {
-                conn = openDbConnection();
-                ps = getStatement(conn, timestampColumn, tableName, keyColumn, name);
-                rs = ps.executeQuery();
+                checkDBConnection();
+                rs = fetchResult(timestampPrepStatement, name);
 
                 if (rs.next())
                 {
@@ -331,8 +342,6 @@ public class DataSourceResourceLoader extends ResourceLoader
             finally
             {
                 closeResultSet(rs);
-                closeStatement(ps);
-                closeDbConnection(conn);
             }
         }
         return timeStamp;
@@ -342,45 +351,112 @@ public class DataSourceResourceLoader extends ResourceLoader
      * Gets connection to the datasource specified through the configuration
      * parameters.
      *
-     * @return connection
      */
-    private Connection openDbConnection() throws NamingException, SQLException
+    private void openDBConnection() throws NamingException, SQLException
     {
-         if (dataSource != null)
-         {
-            return dataSource.getConnection();
-         }
+        if (dataSource == null)
+        {
+            if (ctx == null)
+            {
+                ctx = new InitialContext();
+            }
 
-         if (ctx == null)
-         {
-            ctx = new InitialContext();
-         }
+            dataSource = (DataSource) ctx.lookup(dataSourceName);
+        }
 
-         dataSource = (DataSource) ctx.lookup(dataSourceName);
+        if (connection != null)
+        {
+            closeDBConnection();
+        }
 
-         return dataSource.getConnection();
-     }
+        connection = dataSource.getConnection();
+        templatePrepStatement = prepareStatement(connection, templateColumn, tableName, keyColumn);
+        timestampPrepStatement = prepareStatement(connection, timestampColumn, tableName, keyColumn);
+    }
 
     /**
-     * Closes connection to the datasource
+     * Checks the connection is valid
+     *
      */
-    private void closeDbConnection(final Connection conn)
+    private void checkDBConnection() throws NamingException, SQLException
     {
-        if (conn != null)
+        if (connection == null || !connection.isValid(0))
+        {
+            openDBConnection();
+        }
+    }
+
+    /**
+     * Close DB connection on finalization
+     *
+     * @throws Throwable
+     */
+    protected void finalize()
+        throws Throwable
+    {
+        closeDBConnection();
+    }
+
+    /**
+     * Closes the prepared statements and the connection to the datasource
+     */
+    private void closeDBConnection()
+    {
+        if (templatePrepStatement != null)
         {
             try
             {
-                conn.close();
+                templatePrepStatement.close();
             }
             catch (RuntimeException re)
             {
                 throw re;
             }
-            catch (Exception e)
+            catch (SQLException e)
             {
-                String msg = "DataSourceResourceLoader: problem when closing connection";
-                log.error(msg, e);
-                throw new VelocityException(msg, e);
+                // ignore
+            }
+            finally
+            {
+                templatePrepStatement = null;
+            }
+        }
+        if (timestampPrepStatement != null)
+        {
+            try
+            {
+                timestampPrepStatement.close();
+            }
+            catch (RuntimeException re)
+            {
+                throw re;
+            }
+            catch (SQLException e)
+            {
+                // ignore
+            }
+            finally
+            {
+                timestampPrepStatement = null;
+            }
+        }
+        if (connection != null)
+        {
+            try
+            {
+                connection.close();
+            }
+            catch (RuntimeException re)
+            {
+                throw re;
+            }
+            catch (SQLException e)
+            {
+                // ignore
+            }
+            finally
+            {
+                connection = null;
             }
         }
     }
@@ -394,7 +470,7 @@ public class DataSourceResourceLoader extends ResourceLoader
         {
             try
             {
-                rs.close();
+//                rs.close();
             }
             catch (RuntimeException re)
             {
@@ -402,37 +478,10 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
             catch (Exception e)
             {
-                String msg = "DataSourceResourceLoader: problem when closing result set";
-                log.error(msg, e);
-                throw new VelocityException(msg, e);
+                // ignore
             }
         }
     }
-
-    /**
-     * Closes the PreparedStatement.
-     */
-    private void closeStatement(PreparedStatement ps)
-    {
-        if (ps != null)
-        {
-            try
-            {
-                ps.close();
-            }
-            catch (RuntimeException re)
-            {
-                throw re;
-            }
-            catch (Exception e)
-            {
-                String msg = "DataSourceResourceLoader: problem when closing PreparedStatement ";
-                log.error(msg, e);
-                throw new VelocityException(msg, e);
-            }
-        }
-    }
-
 
     /**
      * Creates the following PreparedStatement query :
@@ -446,18 +495,44 @@ public class DataSourceResourceLoader extends ResourceLoader
      * @param columnNames columns to fetch from datasource
      * @param tableName table to fetch from
      * @param keyColumn column whose value should match templateName
-     * @param templateName name of template to fetch
      * @return PreparedStatement
      */
-    protected PreparedStatement getStatement(final Connection conn,
-                               final String columnNames,
-                               final String tableName,
-                               final String keyColumn,
-                               final String templateName) throws SQLException
+    protected PreparedStatement prepareStatement(
+        final Connection conn,
+        final String columnNames,
+        final String tableName,
+        final String keyColumn
+    ) throws SQLException
     {
         PreparedStatement ps = conn.prepareStatement("SELECT " + columnNames + " FROM "+ tableName + " WHERE " + keyColumn + " = ?");
-        ps.setString(1, templateName);
         return ps;
+    }
+
+    /**
+     * Fetches the result for a given template name.
+     * Inherit this method if there is any calculation to perform on the template name.
+     *
+     * @param ps target prepared statement
+     * @param templateName input template name
+     * @return result set
+     * @throws SQLException
+     */
+    protected ResultSet fetchResult(
+        final PreparedStatement ps,
+        final String templateName
+    ) throws SQLException
+    {
+        ps.setString(1, templateName);
+        return ps.executeQuery();
+    }
+
+    /**
+     * Gets a reader from a result set's column
+     */
+    protected Reader getReader(ResultSet resultSet, String column, String encoding)
+        throws SQLException
+    {
+        return resultSet.getCharacterStream(column);
     }
 
 }
