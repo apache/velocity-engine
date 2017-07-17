@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.apache.velocity</groupId>
     <artifactId>velocity-engine-parent</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>2.0</version>
   </parent>
 
   <artifactId>velocity-engine-core</artifactId>
@@ -47,7 +47,7 @@
     <test.jdbc.driver.className>org.hsqldb.jdbcDriver</test.jdbc.driver.className>
     <test.jdbc.uri>jdbc:hsqldb:.</test.jdbc.uri>
     <test.jdbc.login>sa</test.jdbc.login>
-    <test.jdbc.password></test.jdbc.password>
+    <test.jdbc.password />
   </properties>
 
   <build>
