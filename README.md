@@ -95,9 +95,9 @@ compatibility with 1.x, set it to bc.
 
 * Velocity now requires a JDK version of 1.7 or higher.
 * commons-collections and commons-logging aren't needed any more at runtime.
-* there's a new compile-time and runtime dependency, slf4j-api 1.7.12.
+* there's a new compile-time and runtime dependency, slf4j-api 1.7.25.
 * you'll need an SLF4J binding.
-* commons-lang has to be upgraded to 3.5.
+* commons-lang has to be upgraded to 3.7.
 
 ### Upgrading from Velocity 1.6.x to Velocity 1.7.x
 
