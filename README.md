@@ -1,5 +1,3 @@
-Title: Apache Velocity
-
 # Apache Velocity
 
 Welcome to Apache Velocity 2.0! Apache Velocity is a general purpose
