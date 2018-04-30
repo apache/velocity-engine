@@ -1,6 +1,6 @@
 package org.apache.velocity.app.event.implement;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
