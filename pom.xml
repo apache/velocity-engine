@@ -150,7 +150,7 @@
           <dependency>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>extra-enforcer-rules</artifactId>
-            <version>1.0-beta-6</version>
+            <version>1.0-beta-7</version>
           </dependency>
         </dependencies>
       </plugin>
