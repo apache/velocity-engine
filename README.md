@@ -22,16 +22,16 @@ Apache Velocity will run with any Java runtime engine v1.7 or greater.
 Building from source requires Java development kit v1.7 or greater and Maven 3 (3.0.5+).
 
 At compile time, Maven should fetch all needed dependencies, which are:
-* commons-lang v3.5
+* commons-lang v3.7
 * slf4j-api v1.7.25
 plus the following ones, needed for the integrated tests:
 * slf4j-simple v1.7.25
 * junit v4.12
-* hsqldb v2.3.4
-* commons-io 2.5
+* hsqldb v2.3.5
+* commons-io 2.6
 
 At runtime, Velocity only needs:
-* commons-lang v3.5+
+* commons-lang v3.7+
 * slf4j-api and an slf4j binding, v1.7.x
 
 ## UPGRADING FROM EARLIER RELEASES
