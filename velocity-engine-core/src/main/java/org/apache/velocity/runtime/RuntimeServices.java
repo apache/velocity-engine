@@ -426,7 +426,7 @@ public interface RuntimeServices
      * If a logger was configured using the runtime.log.instance configuration property, returns this instance.
      * Otherwise, uses SLF4J LoggerFactory on baseNamespace + childNamespace.
      * @param childNamespace
-     * @return
+     * @return child name space logger
      */
     Logger getLog(String childNamespace);
 

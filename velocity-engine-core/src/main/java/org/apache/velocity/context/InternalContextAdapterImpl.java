@@ -259,7 +259,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     }
 
     /**
-     * @see org.apache.velocity.context.Context#containsKey(java.lang.Object)
+     * @see org.apache.velocity.context.Context#containsKey(java.lang.String)
      */
     public boolean containsKey(String key)
     {
@@ -275,7 +275,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     }
 
     /**
-     * @see org.apache.velocity.context.Context#remove(java.lang.Object)
+     * @see org.apache.velocity.context.Context#remove(java.lang.String)
      */
     public Object remove(String key)
     {

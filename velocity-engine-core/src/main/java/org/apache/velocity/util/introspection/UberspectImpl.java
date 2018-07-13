@@ -98,7 +98,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
     public void setRuntimeServices(RuntimeServices rs)
     {
         rsvc = rs;
-        log = rsvc.getLog("rendering");
+        log = rsvc.getLog("introspection");
 
         String conversionHandlerClass = rs.getString(RuntimeConstants.CONVERSION_HANDLER_CLASS);
         if (conversionHandlerClass == null || conversionHandlerClass.equals("none"))
@@ -149,7 +149,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      *
      * @param log The logger instance to use.
      * @since 1.5
-     * @Deprecated logger is now set by default to the namespace logger "velocity.rendering".
+     * @deprecated logger is now set by default to the namespace logger "velocity.rendering".
      */
     public void setLog(Logger log)
     {
@@ -537,7 +537,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
          *              (This will always be one less than the number of
          *               expected arguments.)
          * @param actual The actual parameters being passed to this method
-         * @returns The actual parameters adjusted for the varargs in order
+         * @return The actual parameters adjusted for the varargs in order
          *          to fit the method declaration.
          */
         private Object[] handleVarArg(final Class type,

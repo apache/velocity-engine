@@ -1508,7 +1508,7 @@ void DirectiveAssign() : {}
 /**
  *   Supports the Pluggable Directives
  *     #foo( arg+ )
- * @returns true if ends with a newline
+ * @return true if ends with a newline
  */
 boolean Directive() :
 {
@@ -1875,7 +1875,7 @@ TOKEN :
  * This method is responsible for allowing
  * all non-grammar text to pass through
  * unscathed.
- * @returns true if last read token was a newline
+ * @return true if last read token was a newline
  */
 boolean Text() : {}
 {
