@@ -70,6 +70,15 @@ public class ASTText extends SimpleNode
     }
 
     /**
+     * text getter
+     * @return literal representation
+     */
+    public String literal()
+    {
+        return ctext;
+    }
+    
+    /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
     public Object jjtAccept(ParserVisitor visitor, Object data)
