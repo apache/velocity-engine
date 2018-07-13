@@ -1630,9 +1630,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Get a logger for the specified child namespace.
      * If a logger was configured using the runtime.log.instance configuration property, returns this instance.
-     * Otherwise, uses SLF4J LoggerFactory on baseNamespace + childNamespace.
+     * Otherwise, uses SLF4J LoggerFactory on baseNamespace '.' childNamespace.
      * @param childNamespace
-     * @return
+     * @return child namespace logger
      */
     public Logger getLog(String childNamespace)
     {
