@@ -79,6 +79,14 @@ public class ASTIdentifier extends SimpleNode
         super(p, id);
     }
 
+    /**
+     * Identifier getter
+     * @returns identifier
+     */
+    public String getIdentifier()
+    {
+        return identifier;
+    }
 
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
