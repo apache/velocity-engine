@@ -19,21 +19,27 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.
  */
 
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.StringUtils;
 
 import org.slf4j.Logger;
-
-import java.io.IOException;
-import java.io.Writer;
 
 /**
  *
@@ -245,11 +251,6 @@ public class SimpleNode implements Node
         your output uses more than one line you should override
         toString(String), otherwise overriding toString() is probably all
         you need to do. */
-
-    //    public String toString()
-    // {
-    //    return ParserTreeConstants.jjtNodeName[id];
-    // }
     /**
      * @param prefix
      * @return String representation of this node.
@@ -260,23 +261,60 @@ public class SimpleNode implements Node
     }
 
     /**
-     * Override this method if you want to customize how the node dumps
-     * out its children.
+     * <p>Dumps nodes tree on System.out.</p>
+     * <p>Override {@link #dump(String, PrintWriter} if you want to customize
+     * how the node dumps out its children.
      *
      * @param prefix
      */
-    public void dump(String prefix)
+    public final void dump(String prefix)
     {
-        System.out.println(toString());
+        dump(prefix, System.out);
+    }
+
+    /**
+     * <p>Dumps nodes tree on System.out.</p>
+     * <p>Override {@link #dump(String, PrintWriter} if you want to customize
+     * how the node dumps out its children.
+     *
+     * @param prefix
+     */
+    public final void dump(String prefix, PrintStream out)
+    {
+        String encoding = rsvc.getString(RuntimeConstants.INPUT_ENCODING);
+        Charset charset = null;
+        try
+        {
+            charset = Charset.forName(encoding);
+        }
+        catch (Exception e) {}
+        if (charset == null)
+        {
+            charset = Charset.defaultCharset();
+        }
+        dump(prefix, new PrintWriter(new OutputStreamWriter(out, charset)));
+    }
+    
+    /**
+     * <p>Dumps nodes tree on System.out.</p>
+     * <p>Override this method if you want to customize how the node dumps
+     * out its children.</p>
+     *
+     * @param Print
+     * @param prefix
+     */
+    public void dump(String prefix, PrintWriter out)
+    {
+        out.println(toString());
         if (children != null)
         {
             for (int i = 0; i < children.length; ++i)
             {
                 SimpleNode n = (SimpleNode) children[i];
-                System.out.print(prefix + " |_");
+                out.print(prefix + " |_");
                 if (n != null)
                 {
-                    n.dump(prefix + ( i == children.length - 1 ? "   " : " | " ));
+                    n.dump(prefix + ( i == children.length - 1 ? "   " : " | " ), out);
                 }
             }
         }
