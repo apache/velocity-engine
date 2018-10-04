@@ -44,6 +44,12 @@ refs \$a=$a \$b=$b [\$a..\$b]
 #foreach($i in [$a..$b]) $i #end
 
 -----
+#set($a = 1)
+#set($b = "5")
+refs \$a=$a \$b="$b" [\$a.."\$b"]
+#foreach($i in [$a..$b]) $i #end
+
+-----
 [\$a.. 7]
 #foreach($i in [$a.. 7]) $i #end
 
