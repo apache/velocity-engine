@@ -23,6 +23,7 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.util.DuckType;
 import org.apache.velocity.util.StringUtils;
 
 import java.util.ArrayList;
@@ -95,14 +96,29 @@ public class ASTIntegerRange extends SimpleNode
         }
 
         /*
-         *  if not a Number, not much we can do either
+         *  if not a Number, try to convert
+         */
+
+        try
+        {
+            left = DuckType.asNumber(left);
+        }
+        catch (NumberFormatException nfe) {}
+
+        try
+        {
+            right = DuckType.asNumber(right);
+        }
+        catch (NumberFormatException nfe) {}
+
+        /*
+         *  if still not a Number, nothing we can do
          */
 
         if ( !( left instanceof Number )  || !( right instanceof Number ))
         {
             log.error((!(left instanceof Number) ? "Left" : "Right")
-                           + " side of range operator is not a valid type. "
-                           + "Currently only integers (1,2,3...) and the Number type are supported. "
+                           + " side of range operator is not convertible to a Number. "
                            + StringUtils.formatFileString(this));
             return null;
         }
