@@ -126,6 +126,11 @@ public class Parser
 
     private RuntimeServices rsvc = null;
 
+    public RuntimeServices getRuntimeServices()
+    {
+        return rsvc;
+    }
+
     private Logger log = null;
 
     /**
@@ -567,7 +572,7 @@ TOKEN_MGR_DECLS:
 /* The VelocityCharStream will send a zero-width whitespace
    just before EOF to let us accept a terminal $ or #
 */
-<PRE_DIRECTIVE,PRE_REFERENCE>
+<PRE_DIRECTIVE,PRE_REFERENCE,PRE_OLD_REFERENCE>
 TOKEN :
 {
     <LONE_SYMBOL: "\u200B" >
@@ -718,7 +723,7 @@ TOKEN:
  *  http://www.engr.mun.ca/~theo/JavaCC-FAQ/javacc-faq-ie.htm#tth_sEc3.12
  *
  */
-<DEFAULT, PRE_REFERENCE, REFERENCE, REFMODIFIER, REFMOD2>
+<DEFAULT, PRE_REFERENCE, PRE_OLD_REFERENCE, REFERENCE, REFMODIFIER, REFMOD2>
 TOKEN:
 {
   <SET_DIRECTIVE: ("#set" | "#{set}")  (" "|"\t")* "(">
@@ -768,7 +773,7 @@ MORE :
              * to end the previous ref
              */
 
-            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE)
+            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE)
             {
                 inReference = false;
                 stateStackPop();
@@ -776,15 +781,17 @@ MORE :
 
             inReference = true;
 
+            int preReferenceState = parser.getRuntimeServices().isDashAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
+
             if ( debugPrint )
-                System.out.println( " $  : going to PRE_REFERENCE" );
+                System.out.println( " $  : going to " + lexStateNames[preReferenceState]);
 
             /* do not push PRE states */
-            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
             {
                 stateStackPush();
             }
-            switchTo(PRE_REFERENCE);
+            switchTo(preReferenceState);
         }
     }
 
@@ -797,7 +804,7 @@ MORE :
              * to end the previous ref
              */
 
-            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE)
+            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE)
             {
                 inReference = false;
                 stateStackPop();
@@ -805,15 +812,17 @@ MORE :
 
             inReference = true;
 
+            int preReferenceState = parser.getRuntimeServices().isDashAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
+
             if ( debugPrint )
-                System.out.println( " $!  : going to PRE_REFERENCE" );
+                System.out.println( " $  : going to " + lexStateNames[preReferenceState]);
 
             /* do not push PRE states */
-            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
             {
                 stateStackPush();
             }
-            switchTo(PRE_REFERENCE);
+            switchTo(preReferenceState);
         }
     }
 
@@ -823,7 +832,7 @@ MORE :
        {
            inComment = true;
             /* do not push PRE states */
-            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
             {
                 stateStackPush();
             }
@@ -838,7 +847,7 @@ MORE :
 	    input_stream.backup(1);
 	    inComment = true;
             /* do not push PRE states */
-            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
             {
 	        stateStackPush();
             }
@@ -852,7 +861,7 @@ MORE :
     	{
 	    inComment=true;
             /* do not push PRE states */
-            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
             {
 	        stateStackPush();
             }
@@ -871,7 +880,7 @@ MORE :
              * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
-            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == REFMODIFIER )
+            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE || curLexState == REFMODIFIER )
             {
                 inReference = false;
                 stateStackPop();
@@ -881,7 +890,7 @@ MORE :
                 System.out.println(" # :  going to PRE_DIRECTIVE" );
 
             /* do not push PRE states */
-            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
+            if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
             {
                 stateStackPush();
             }
@@ -892,14 +901,14 @@ MORE :
 
 // treat the single line comment case separately
 // to avoid ##<EOF> errors
-<DEFAULT,PRE_DIRECTIVE,DIRECTIVE,REFERENCE,PRE_REFERENCE,REFMOD2,REFMOD3,REFMODIFIER>
+<DEFAULT,PRE_DIRECTIVE,DIRECTIVE,REFERENCE,PRE_REFERENCE,PRE_OLD_REFERENCE,REFMOD2,REFMOD3,REFMODIFIER>
 TOKEN :
 {
    <SINGLE_LINE_COMMENT_START: "##">
    {
         if (!inComment)
         {
-            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE)
+            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE)
             {
                 inReference = false;
                 stateStackPop();
@@ -1010,7 +1019,7 @@ TOKEN:
 /* needed for stuff like #foo() followed by ( '$' | '#' )* followed by ( <WHITESPACE> | <ENDLINE> )
    so that directive postfix doesn't eat the '$'s and '#'s
 */
-<PRE_DIRECTIVE, PRE_REFERENCE>
+<PRE_DIRECTIVE, PRE_REFERENCE, PRE_OLD_REFERENCE>
 TOKEN:
 {
   <SUFFIX: ([" ","\t"])* ("\n" | "\r" | "\r\n")>
@@ -1199,7 +1208,7 @@ TOKEN:
  *  ^ ^ ^   ^       ^
  *  | | |   |       |
  *  |_________________ >  PRE_REFERENCE : state initiated by the '$' character.
- *    | |   |       |
+ *    | |   |       |                     (or PRE_OLD_REFERENCE if '-' is allowed in identifiers)
  *    |________________>  REFERENCE : state initiated by the identifier. Continues
  *      |   |       |     until end of the reference, or the . character.
  *      |_____________ >  REFMODIFIER : state switched to when the <DOT> is encountered.
@@ -1227,6 +1236,18 @@ TOKEN :
     }
 }
 
+<PRE_OLD_REFERENCE>
+TOKEN :
+{
+    <#OLD_ALPHA_CHAR: ["a"-"z", "A"-"Z", "_"] >
+|   <#OLD_IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_", "-" ] >
+|   <OLD_IDENTIFIER:  ( <OLD_ALPHA_CHAR> ) (<OLD_IDENTIFIER_CHAR>)* >
+    {
+        switchTo(REFERENCE);
+    }
+}
+
+
 <REFERENCE,REFMODIFIER,REFMOD2,REFMOD3>
 TOKEN:
 {
@@ -1253,7 +1274,7 @@ TOKEN:
     }
 }
 
-<PRE_REFERENCE,REFERENCE,REFMODIFIER,REFMOD3>
+<PRE_REFERENCE,PRE_OLD_REFERENCE,REFERENCE,REFMODIFIER,REFMOD3>
 TOKEN :
 {
     <LCURLY: "{">
@@ -1263,7 +1284,7 @@ TOKEN :
     }
 }
 
-<PRE_REFERENCE,REFERENCE,REFMODIFIER,REFMOD,REFMOD3>
+<PRE_REFERENCE,PRE_OLD_REFERENCE,REFERENCE,REFMODIFIER,REFMOD,REFMOD3>
 SPECIAL_TOKEN :
 {
     <REFERENCE_TERMINATOR: ~[] >
@@ -1468,7 +1489,7 @@ void StringLiteral() : {}
  */
 void Identifier() : {}
 {
-    <IDENTIFIER>
+    <IDENTIFIER> | <OLD_IDENTIFIER>
 }
 
 void Word() : {}
@@ -1862,13 +1883,13 @@ void Reference() : {}
      */
 
       (
-       <IDENTIFIER> (Index())*
+       ( <IDENTIFIER> | <OLD_IDENTIFIER> ) (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
       )
       |
       (
          <LCURLY>
-         <IDENTIFIER> (Index())*
+         ( <IDENTIFIER> | <OLD_IDENTIFIER> ) (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
          <RCURLY>
       )
@@ -1892,7 +1913,7 @@ void False() : {}
  * with the LOOKAHEAD in Reference, but I never found a way to resolve
  * it in a more fashionable way..
  */
-<DEFAULT,PRE_REFERENCE>
+<DEFAULT,PRE_REFERENCE,PRE_OLD_REFERENCE>
 TOKEN :
 {
   <EMPTY_INDEX : ("$[" | "$![" | "$\\![" | "$.")>

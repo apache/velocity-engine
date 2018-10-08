@@ -176,6 +176,7 @@
           <nodeUsesParser>true</nodeUsesParser>
           <nodePackage>org.apache.velocity.runtime.parser.node</nodePackage>
           <sourceDirectory>${basedir}/src/main/parser</sourceDirectory>
+          <tokenManagerUsesParser>true</tokenManagerUsesParser>
         </configuration>
       </plugin>
     </plugins>

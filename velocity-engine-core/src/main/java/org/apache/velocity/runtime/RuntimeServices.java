@@ -467,4 +467,10 @@ public interface RuntimeServices
      * @return space gobbling mode
      */
     SpaceGobbling getSpaceGobbling();
+
+   /**
+    * get whether dashes are allowed in identifiers
+    * @return configured boolean flag
+    */
+   boolean isDashAllowedInIdentifiers();
 }
