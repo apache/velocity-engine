@@ -199,6 +199,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private SpaceGobbling spaceGobbling;
 
     /**
+     * Whether dash is allowed in identifiers
+     */
+    private boolean dashAllowedInIdentifiers;
+
+    /**
      * Creates a new RuntimeInstance object.
      */
     public RuntimeInstance()
@@ -352,6 +357,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             spaceGobbling = SpaceGobbling.LINES;
         }
+
+        /* init parser behavior */
+        dashAllowedInIdentifiers = getBoolean(PARSER_DASH_ALLOWED, false);
     }
 
     /**
@@ -1837,5 +1845,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public SpaceGobbling getSpaceGobbling()
     {
         return spaceGobbling;
+    }
+
+    /**
+     * get whether dashes are allowed in identifiers
+     * @return configured boolean flag
+     */
+    public boolean isDashAllowedInIdentifiers()
+    {
+        return dashAllowedInIdentifiers;
     }
 }

@@ -288,6 +288,11 @@ public interface RuntimeConstants
     String PARSER_POOL_SIZE = "parser.pool.size";
 
     /**
+     * Allow dash in identifiers (backward compatibility option)
+     */
+    String PARSER_DASH_ALLOWED = "parser.allows.dash.in.identifiers";
+
+    /**
      * Space gobbling mode
      */
     String SPACE_GOBBLING = "space.gobbling";
