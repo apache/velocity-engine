@@ -564,6 +564,26 @@ TOKEN_MGR_DECLS:
  *
  * ------------------------------------------------------------------------- */
 
+/* The VelocityCharStream will send a zero-width whitespace
+   just before EOF to let us accept a terminal $ or #
+*/
+<PRE_DIRECTIVE,PRE_REFERENCE>
+TOKEN :
+{
+    <LONE_SYMBOL: "\u200B" >
+    {
+        inReference = false;
+        stateStackPop();
+    }
+}
+
+/* In all other states, drop the zero-width whitespace */
+<REFERENCE,REFMODIFIER,REFMOD3,REFINDEX,DIRECTIVE,REFMOD2,DEFAULT,REFMOD,IN_TEXTBLOCK,IN_MULTILINE_COMMENT,IN_FORMAL_COMMENT,IN_SINGLE_LINE_COMMENT>
+SKIP :
+{
+    <BEFORE_EOF: "\u200B">
+}
+
 <REFERENCE, REFMODIFIER, REFMOD3>
 TOKEN:
 {
@@ -811,7 +831,7 @@ MORE :
        }
     }
 
-|   <"#**" ~["#"]>
+|   <"#**" ~["#","\u200B"]>
     {
     	if (!inComment)
     	{
@@ -962,7 +982,7 @@ SKIP :
 <IN_TEXTBLOCK>
 MORE :
 {
-  < ~[] >
+  < ~["\u200B"] >
 }
 
 /* -----------------------------------------------------------------------
@@ -1006,7 +1026,7 @@ TOKEN :
 //   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
   < STRING_LITERAL:
       ("\""
-        (   (~["\""])
+        (   (~["\"","\u200B"])
           | ("\\"
               ( ["n","t","b","r","f"]
               | ["0"-"7"] ( ["0"-"7"] )?
@@ -1021,7 +1041,7 @@ TOKEN :
       )
     |
     ("\'"
-        (   (~["\'"])
+        (   (~["\'","\u200B"])
           | ("''")
           | ( "\\" (" ")* "\n")
         )*
@@ -1283,12 +1303,12 @@ TOKEN :
 {
     <DOUBLE_ESCAPE : "\\\\">
 |   <ESCAPE: "\\" >
-|   <TEXT: (~["$", "#", "\\", "\r", "\n"])* (~["$", "#", "\\", "\r", "\n", " ", "\t"])+ (~["$", "#", "\\", "\r", "\n"])* <NEWLINE> ((~["$", "#", "\\", "\r", "\n"])* <NEWLINE>)* >
+|   <TEXT: (~["$", "#", "\\", "\r", "\n","\u200B"])* (~["$", "#", "\\", "\r", "\n", " ", "\t","\u200B"])+ (~["$", "#", "\\", "\r", "\n","\u200B"])* <NEWLINE> ((~["$", "#", "\\", "\r", "\n","\u200B"])* <NEWLINE>)* >
 }
 
 TOKEN :
 {
-    <INLINE_TEXT: (~["$", "#", "\\", "\r", "\n"])+ >
+    <INLINE_TEXT: (~["$", "#", "\\", "\r", "\n","\u200B"])+ >
 }
 
 /**
@@ -1885,7 +1905,10 @@ TOKEN :
  * unscathed.
  * @return true if last read token was a newline
  */
-boolean Text() : {}
+boolean Text() :
+{
+    Token t = null;
+}
 {
     <TEXT> { return true; }
   |  <DOT> { return false; }
@@ -1898,6 +1921,11 @@ boolean Text() : {}
   |  <LCURLY> { return false; }
   |  <RCURLY> { return false; }
   |  <EMPTY_INDEX> { return false; }
+  |  t=<LONE_SYMBOL>
+     {
+         /* Drop the ending zero-width whitespace */
+         t.image = t.image.substring(0, t.image.length() - 1); return false;
+     }
 }
 
 /* -----------------------------------------------------------------------

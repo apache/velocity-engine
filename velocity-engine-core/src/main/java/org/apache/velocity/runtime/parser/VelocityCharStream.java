@@ -60,6 +60,11 @@ implements CharStream
     private int maxNextCharInd = 0;
     private int inBuf = 0;
 
+    /* CB - to properly handle EOF *inside* javacc lexer,
+     * we send a 'zero-width whitespace' *just before* EOF
+     */
+    private boolean beforeEOF = false;
+
     private void ExpandBuff(boolean wrapAround)
     {
         char[] newbuffer = new char[bufsize + nextBufExpand];
@@ -151,8 +156,13 @@ implements CharStream
             if ((i = inputStream.read(buffer, maxNextCharInd,
                     available - maxNextCharInd)) == -1)
             {
-                inputStream.close();
-                throw new java.io.IOException();
+                if (beforeEOF)
+                {
+                    inputStream.close();
+                    throw new java.io.IOException();
+                }
+                buffer[maxNextCharInd++] = '\u200B';
+                beforeEOF = true;
             }
             else
             {
@@ -349,6 +359,7 @@ implements CharStream
         prevCharIsLF = prevCharIsCR = false;
         tokenBegin = inBuf = maxNextCharInd = 0;
         bufpos = -1;
+        beforeEOF = false;
     }
 
     /**

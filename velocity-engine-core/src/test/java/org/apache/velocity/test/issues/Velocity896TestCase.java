@@ -22,18 +22,19 @@ package org.apache.velocity.test.issues;
 import org.apache.velocity.test.BaseTestCase;
 
 /**
- * This class tests VELOCITY-667.  Make "#macro" throws a parse exception
+ * This class tests VELOCITY-589.
  */
-public class Velocity667TestCase extends BaseTestCase
+public class Velocity896TestCase extends BaseTestCase
 {
-    public Velocity667TestCase(String name)
+    public Velocity896TestCase(String name)
     {
-        super(name);
+       super(name);
     }
 
-    public void test667()
+    public void testTailingHash()
     {
-          assertEvalExceptionAt("#macro", 1, 7);
-          assertEvalExceptionAt("#macro #macro", 1, 7);
+        assertEvalEquals("#", "#");
+        assertEvalEquals("$", "$");
     }
+
 }
