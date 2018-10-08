@@ -361,6 +361,64 @@ public class Parser
     }
 
     /**
+     * Check whether there is a right parenthesis with leading optional
+     * whitespaces. This method is used in the semantic look ahead of
+     * Directive method. This is done in code instead of as a production
+     * for simplicity and efficiency.
+     */
+    private boolean isRightParenthesis()
+    {
+        char c;
+        int no = -1;
+        try {
+            while(true)
+            {
+                /**
+                 * Read a character
+                 */
+                 if (no == -1)
+                 {
+                     switch (getToken(1).kind)
+                     {
+                        case RPAREN:
+                            return true;
+                        case WHITESPACE:
+                        case NEWLINE:
+                            no = 0;
+                            break;
+                        default:
+                            return false;
+                     }
+                 }
+                c = velcharstream.readChar();
+                no++;
+                if (c == ')')
+                {
+                    return true;
+                }
+                /**
+                 * if not a white space return
+                 */
+                else if (c != ' ' && c != '\n' && c != '\r' && c != '\t')
+                {
+                    return false;
+                }
+            }
+        }
+        catch(IOException e)
+        {
+        }
+        finally
+        {
+            /**
+             * Backup the stream to the initial state
+             */
+            if (no > 0) velcharstream.backup(no);
+        }
+        return false;
+    }
+
+    /**
      * We use this method in a lookahead to determine if we are in a macro
      * default value assignment.  The standard lookahead is not smart enough.
      * here we look for the equals after the reference.
@@ -1652,70 +1710,73 @@ boolean Directive() :
      /**
       * Look for the pattern [WHITESPACE] <LPAREN>
       */
-    (LOOKAHEAD( { isLeftParenthesis() } )
-    /*
-     *  if this is indeed a token, match the #foo ( arg ) pattern
-     */
-    ((<WHITESPACE> | <NEWLINE>)* <LPAREN> ( LOOKAHEAD(2) (<WHITESPACE> | <NEWLINE>)* [<COMMA> (<WHITESPACE> | <NEWLINE>)*]
-       (
-           [LOOKAHEAD( { isMacro && isAssignment() })
-            DirectiveAssign() (<WHITESPACE> | <NEWLINE>)* <EQUALS> ( <WHITESPACE> | <NEWLINE> )*
-           {
-               argtypes.add(ParserTreeConstants.JJTDIRECTIVEASSIGN);
-           }
-           ]
-           LOOKAHEAD( { getToken(1).kind != RPAREN } )
-           (
-            argType = DirectiveArg()
+    (
+      LOOKAHEAD( { isLeftParenthesis() } )
+      /*
+       *  if this is indeed a token, match the #foo ( arg, arg... ) pattern
+       */
+      (
+        (<WHITESPACE> | <NEWLINE>)* <LPAREN>
+        (
+          LOOKAHEAD({ !isRightParenthesis() }) (<WHITESPACE> | <NEWLINE>)* [<COMMA> (<WHITESPACE> | <NEWLINE>)*]
+          (
+            [
+              LOOKAHEAD( { isMacro && isAssignment() })
+              DirectiveAssign() (<WHITESPACE> | <NEWLINE>)* <EQUALS> ( <WHITESPACE> | <NEWLINE> )*
+              {
+                  argtypes.add(ParserTreeConstants.JJTDIRECTIVEASSIGN);
+              }
+            ]
+            LOOKAHEAD( { !isRightParenthesis() } )
+            (
+              argType = DirectiveArg()
+              {
+                  argtypes.add(argType);
+                  if (d == null && argType == ParserTreeConstants.JJTWORD)
+                  {
+                      if (isVM)
+                      {
+                          throw new MacroParseException("Invalid argument "
+                              + (argPos+1) + " in macro call " + id.image, currentTemplate.getName(), id);
+                      }
+                  }
+                  argPos++;
+              }
+            )
+            |
             {
-                argtypes.add(argType);
-                if (d == null && argType == ParserTreeConstants.JJTWORD)
+                if (!isMacro)
                 {
-                    if (isVM)
-                    {
-                        throw new MacroParseException("Invalid argument "
-                          + (argPos+1) + " in macro call " + id.image, currentTemplate.getName(), id);
-                    }
+                    // We only allow line comments in macro definitions for now
+                    throw new MacroParseException("A Line comment is not allowed in " + id.image
+                        + " arguments", currentTemplate.getName(), id);
                 }
-
-                argPos++;
             }
-           )
-        |
-        {
-          if (!isMacro)
-          {
-              // We only allow line comments in macro definitions for now
-              throw new MacroParseException("A Line comment is not allowed in " + id.image
-                + " arguments", currentTemplate.getName(), id);
-          }
-        }
-
-         <SINGLE_LINE_COMMENT_START> [<SINGLE_LINE_COMMENT>]
+            <SINGLE_LINE_COMMENT_START> [<SINGLE_LINE_COMMENT>]
+          )
+        )* (<WHITESPACE> | <NEWLINE>)* <RPAREN>
       )
-    )* (<WHITESPACE> | <NEWLINE>)* <RPAREN>
-     )
-    |
-    {
-        token_source.stateStackPop();
-    }
+      |
+      {
+          token_source.stateStackPop();
+      }
     )
-     [
-       LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
-       {
-           if (directiveType == Directive.LINE)
-           {
-               jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
-               newlineAtEnd = true;
-           }
-           else
-           {
-               blockPrefix = (t == null ? u.image : t.image + u.image);
-               newlineBeforeStatement = true;
-           }
-           t = u = null;
-       }
-     ]
+    [
+      LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+      {
+          if (directiveType == Directive.LINE)
+          {
+              jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
+              newlineAtEnd = true;
+          }
+          else
+          {
+              blockPrefix = (t == null ? u.image : t.image + u.image);
+              newlineBeforeStatement = true;
+          }
+          t = u = null;
+      }
+    ]
     {
         if (d != null)
         {
@@ -1729,32 +1790,40 @@ boolean Directive() :
     /*
      *  and the following block if the PD needs it
      */
-    (((
-        LOOKAHEAD( { getToken(1).kind != END && ( !newlineBeforeStatement || getToken(1).kind != WHITESPACE || getToken(2).kind != END ) }) newlineBeforeStatement = Statement(newlineBeforeStatement))*
+    (
+      (
+        (
+          LOOKAHEAD( { getToken(1).kind != END && ( !newlineBeforeStatement || getToken(1).kind != WHITESPACE || getToken(2).kind != END ) }) newlineBeforeStatement = Statement(newlineBeforeStatement)
+        )*
         {
             block = jjtThis;
             block.setPrefix(blockPrefix);
-        })
-        #Block)
-    [ LOOKAHEAD( 1, { newlineBeforeStatement })
-     (t = <WHITESPACE>)
+        }
+      )
+      #Block
+    )
+    [
+      LOOKAHEAD( 1, { newlineBeforeStatement })
+      (t = <WHITESPACE>)
       {
           block.setPostfix(t.image);
           t = null;
       }
     ]
-    ((end = <END>)
-     [ LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
-     {
-         jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
-         t = u = null;
-         newlineAtEnd = true;
-     }
-     ]
-     {
-         int pos = end.image.lastIndexOf('#');
-         if (pos > 0) block.setMorePostfix(end.image.substring(0, pos));
-     }
+    (
+      (end = <END>)
+      [
+        LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+        {
+            jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
+            t = u = null;
+            newlineAtEnd = true;
+        }
+      ]
+      {
+          int pos = end.image.lastIndexOf('#');
+          if (pos > 0) block.setMorePostfix(end.image.substring(0, pos));
+      }
     )
     {
         /*
@@ -1764,7 +1833,6 @@ boolean Directive() :
          *     as long as things were always defined before use.  This way
          *     we don't have to worry about forward references and such...
          */
-
         if (isMacro)
         {
             // Add the macro name so that we can peform escape processing
@@ -1772,16 +1840,13 @@ boolean Directive() :
             String macroName = jjtThis.jjtGetChild(0).getFirstToken().image;
             macroNames.put(macroName, macroName);
         }
-
         if (d != null)
         {
             d.checkArgs(argtypes, id, currentTemplate.getName());
         }
-
         /*
          *  VM : end
          */
-
         return newlineAtEnd;
     }
 }

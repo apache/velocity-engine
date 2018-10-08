@@ -160,15 +160,6 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         }
     }
 
-    public void testBase()
-    {
-        if (DEBUG && engine != null)
-        {
-            assertSchmoo("");
-            assertSchmoo("abc\n123");
-        }
-    }
-
     /**
      * Compare an expected string with the given loaded template
      */
