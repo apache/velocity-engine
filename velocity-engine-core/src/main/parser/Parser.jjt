@@ -68,11 +68,11 @@ options
     USER_CHAR_STREAM=true;
 
     /**
-     *  for debugging purposes.  Keep false
+     *  for debugging purposes. Those are now handled from within javacc-maven-plugin debugging flags in pom.xml
+    DEBUG_PARSER = true;
+    DEBUG_LOOKAHEAD = true;
+    DEBUG_TOKEN_MANAGER = true;
      */
-    DEBUG_PARSER = false;
-    DEBUG_LOOKAHEAD = false;
-    DEBUG_TOKEN_MANAGER = false;
 }
 
 PARSER_BEGIN(Parser)
@@ -402,6 +402,7 @@ TOKEN_MGR_DECLS:
 
     List stateStack = new ArrayList(50);
 
+    /* More debug output */
     public boolean debugPrint = false;
 
     private boolean inReference;
@@ -409,12 +410,19 @@ TOKEN_MGR_DECLS:
     public  boolean inSet;
 
     /**
-     *  pushes the current state onto the 'state stack',
-     *  and maintains the parens counts
-     *  public because we need it in PD & VM handling
+     * Switches to a new state (add some log to the default method)
+     */
+     public void switchTo(int lexState)
+     {
+        if( debugPrint )
+            System.out.println(" switch to " + lexStateNames[lexState]);
+        SwitchTo(lexState);
+     }
+
+    /**
+     *  pops a state off the stack, and restores paren counts
      *
-     *  @return boolean : success.  It can fail if the state machine
-     *     gets messed up (do don't mess it up :)
+     *  @return boolean : success of operation
      */
     public boolean stateStackPop()
     {
@@ -427,34 +435,34 @@ TOKEN_MGR_DECLS:
         {
             // empty stack
             lparen=0;
-            SwitchTo(DEFAULT);
+            switchTo(DEFAULT);
             return false;
         }
 
         if( debugPrint )
-            System.out.println(
-                " stack pop (" + stateStack.size() + ") : lparen=" +
-                    s.lparen +
-                        " newstate=" + s.lexstate );
+            System.out.println(" stack pop (" + stateStack.size() + ")");
 
         lparen = s.lparen;
         rparen = s.rparen;
 
-        SwitchTo(s.lexstate);
+        switchTo(s.lexstate);
 
         return true;
     }
 
     /**
-     *  pops a state off the stack, and restores paren counts
+     *  pushes the current state onto the 'state stack',
+     *  and maintains the parens counts
+     *  public because we need it in PD & VM handling
      *
-     *  @return boolean : success of operation
+     *  @return boolean : success.  It can fail if the state machine
+     *     gets messed up (do don't mess it up :)
      */
     public boolean stateStackPush()
     {
         if( debugPrint )
             System.out.println(" (" + stateStack.size() + ") pushing cur state : " +
-                curLexState );
+                lexStateNames[curLexState] );
 
         ParserState s = new ParserState();
         s.lparen = lparen;
@@ -562,7 +570,7 @@ TOKEN:
    <INDEX_LBRACKET: "[">
    {
      stateStackPush();
-     SwitchTo(REFINDEX);
+     switchTo(REFINDEX);
    }
 
 }
@@ -618,7 +626,7 @@ TOKEN:
          */
 
         if (curLexState == REFMODIFIER )
-            SwitchTo( REFMOD2 );
+            switchTo( REFMOD2 );
     }
 }
 
@@ -651,7 +659,7 @@ TOKEN:
          * $foo.bar().blargh().woogie().doogie()
          */
 
-        SwitchTo( REFMOD3 );
+        switchTo( REFMOD3 );
     }
 }
 
@@ -698,11 +706,11 @@ TOKEN:
         if (! inComment)
         {
             if ( debugPrint )
-                System.out.print("#set :  going to " + DIRECTIVE );
+                System.out.println(" #set :  going to DIRECTIVE" );
 
             stateStackPush();
             inSet = true;
-            SwitchTo(DIRECTIVE);
+            switchTo(DIRECTIVE);
         }
 
         /*
@@ -719,7 +727,7 @@ TOKEN:
              */
 
             if (curLexState == REFMODIFIER )
-                SwitchTo( REFMOD2 );
+                switchTo( REFMOD2 );
         }
    }
 }
@@ -749,14 +757,14 @@ MORE :
             inReference = true;
 
             if ( debugPrint )
-                System.out.print( "$  : going to " + PRE_REFERENCE );
+                System.out.println( " $  : going to PRE_REFERENCE" );
 
             /* do not push PRE states */
             if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
             {
                 stateStackPush();
             }
-            SwitchTo(PRE_REFERENCE);
+            switchTo(PRE_REFERENCE);
         }
     }
 
@@ -778,14 +786,14 @@ MORE :
             inReference = true;
 
             if ( debugPrint )
-                System.out.print( "$!  : going to " + PRE_REFERENCE );
+                System.out.println( " $!  : going to PRE_REFERENCE" );
 
             /* do not push PRE states */
             if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
             {
                 stateStackPush();
             }
-            SwitchTo(PRE_REFERENCE);
+            switchTo(PRE_REFERENCE);
         }
     }
 
@@ -799,7 +807,7 @@ MORE :
             {
                 stateStackPush();
             }
-           SwitchTo( IN_TEXTBLOCK );
+           switchTo( IN_TEXTBLOCK );
        }
     }
 
@@ -814,7 +822,7 @@ MORE :
             {
 	        stateStackPush();
             }
-	    SwitchTo( IN_FORMAL_COMMENT);
+	    switchTo( IN_FORMAL_COMMENT);
     	}
     }
 
@@ -828,7 +836,7 @@ MORE :
             {
 	        stateStackPush();
             }
-	    SwitchTo( IN_MULTI_LINE_COMMENT );
+	    switchTo( IN_MULTI_LINE_COMMENT );
     	}
     }
 
@@ -850,14 +858,14 @@ MORE :
             }
 
             if ( debugPrint )
-                System.out.print("# :  going to " + DIRECTIVE );
+                System.out.println(" # :  going to PRE_DIRECTIVE" );
 
             /* do not push PRE states */
             if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE)
             {
                 stateStackPush();
             }
-            SwitchTo(PRE_DIRECTIVE);
+            switchTo(PRE_DIRECTIVE);
         }
   }
 }
@@ -879,9 +887,9 @@ TOKEN :
 
             inComment = true;
             stateStackPush();
-            SwitchTo(IN_SINGLE_LINE_COMMENT);
+            switchTo(IN_SINGLE_LINE_COMMENT);
         }
-     }
+   }
 }
 
 /* -----------------------------------------------------------------------
@@ -1070,12 +1078,12 @@ TOKEN :
 
 |   <IF_DIRECTIVE: "if" | "{if}">
     {
-        SwitchTo(DIRECTIVE);
+        switchTo(DIRECTIVE);
     }
 
 |   <ELSEIF: "elseif" | "{elseif}">
     {
-        SwitchTo(DIRECTIVE);
+        switchTo(DIRECTIVE);
     }
 
 |   <ELSE: "else" | "{else}">
@@ -1194,7 +1202,7 @@ TOKEN :
     {
         if (curLexState == PRE_REFERENCE)
         {
-            SwitchTo(REFERENCE);
+            switchTo(REFERENCE);
         }
     }
 }
@@ -1220,7 +1228,7 @@ TOKEN:
 
         if ( debugPrint )
             System.out.print("DOT : switching to " + REFMODIFIER);
-        SwitchTo(REFMODIFIER);
+        switchTo(REFMODIFIER);
 
     }
 }
@@ -1595,7 +1603,7 @@ boolean Directive() :
          *  now, switch us out of PRE_DIRECTIVE
          */
 
-        token_source.SwitchTo(DIRECTIVE);
+        token_source.switchTo(DIRECTIVE);
         argPos = 0;
     }
 
@@ -2173,7 +2181,6 @@ void PrimaryExpression() #void : {}
      )
     ( <WHITESPACE> | <NEWLINE> )*
 }
-
 
 /* ======================================================================
 
