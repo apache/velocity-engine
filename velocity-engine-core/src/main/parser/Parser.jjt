@@ -462,7 +462,7 @@ TOKEN_MGR_DECLS:
 
     private int lparen = 0;
     private int rparen = 0;
-
+    private int curlyLevel = 0;
     List stateStack = new ArrayList(50);
 
     /* More debug output */
@@ -655,7 +655,14 @@ TOKEN:
      stateStackPush();
      switchTo(REFINDEX);
    }
-
+   |
+   <PIPE: "|">
+   {
+       if (curlyLevel > 0)
+       {
+           switchTo(ALT_VAL);
+       }
+   }
 }
 
 <REFINDEX>
@@ -1087,7 +1094,7 @@ TOKEN:
     }
 }
 
-<DIRECTIVE,REFMOD2,REFINDEX>
+<DIRECTIVE,REFMOD2,REFINDEX,ALT_VAL>
 TOKEN :
 {
 //   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
@@ -1128,14 +1135,14 @@ TOKEN :
     }
 }
 
-<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2,REFINDEX>
+<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2,REFINDEX,ALT_VAL>
 TOKEN:
 {
    <TRUE: "true">
 |   <FALSE: "false">
 }
 
-<DIRECTIVE,REFMOD2,REFINDEX>
+<DIRECTIVE,REFMOD2,REFINDEX,ALT_VAL>
 TOKEN :
 {
     <MINUS: "-">
@@ -1179,7 +1186,7 @@ TOKEN :
     }
 }
 
-<PRE_DIRECTIVE,DIRECTIVE,REFMOD2,REFINDEX>
+<PRE_DIRECTIVE,DIRECTIVE,REFMOD2,REFINDEX,ALT_VAL>
 TOKEN:
 {
    <#DIGIT: [ "0"-"9" ] >
@@ -1275,9 +1282,9 @@ TOKEN:
  *                  |     again, this is a switch, not a push.
  *                  |_ >  REFMOD3 : state only checking for a possible '.' or '['  continuation.
  *
- *  During the REFERENCE, REFMODIFIER or REFMOD3 lex states we will switch to
- *  REFINDEX if a bracket is encountered '['.  for example:  $foo[1]
- *  or $foo.bar[1], $foo.bar( "arg" )[1]
+ *  During the REFERENCE, REFMODIFIER or REFMOD3 lex states we will switch to:
+ *  - REFINDEX if a bracket '[' is encountered:  $foo[1], $foo.bar[1], $foo.bar( "arg" )[1]
+ *  - ALT_VAL if a pipe '|' is encountered (only for formal references): ${foo|'foo'}
  * ---------------------------------------------------------------------------- */
 
 <PRE_REFERENCE,REFMODIFIER,REFMOD2>
@@ -1336,8 +1343,12 @@ TOKEN:
 TOKEN :
 {
     <LCURLY: "{">
+    {
+        ++curlyLevel;
+    }
 |   <RCURLY: "}">
     {
+        --curlyLevel;
         stateStackPop();
     }
 }
@@ -1944,7 +1955,7 @@ void Index() : {}
 void Reference() : {}
 {
     /*
-     *  A reference is either ${<FOO>} or  $<FOO>
+     *  A reference is either $<FOO> or ${<FOO>} or ${<FOO>'|'<DEFAULT>)
      */
 
       (
@@ -1956,6 +1967,7 @@ void Reference() : {}
          <LCURLY>
          ( <IDENTIFIER> | <OLD_IDENTIFIER> ) (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
+         [ <PIPE> Expression() ]
          <RCURLY>
       )
 }
@@ -2007,6 +2019,7 @@ boolean Text() :
   |  <LCURLY> { return false; }
   |  <RCURLY> { return false; }
   |  <EMPTY_INDEX> { return false; }
+  |  <PIPE> { return false; }
   |  t=<LONE_SYMBOL>
      {
          /* Drop the ending zero-width whitespace */
@@ -2346,11 +2359,20 @@ void PrimaryExpression() #void : {}
 
     DIRECTIVE : This state is triggered by the a match of a DD or a PD.
 
-    REFERENCE : Triggered by '$'. Analagous to PRE_DIRECTIVE.
+    PRE_REFERENCE : Triggered by '$'. Analagous to PRE_DIRECTIVE. When '-' is
+    allowed in identifiers, this state is called PRE_OLD_REFERENCE.
 
-    REFMODIFIER : Triggered by .<alpha> when in REFERENCE.
+    REFERENCE : Triggered by the <IDENTIFIER>
 
-    REFMOD2 : Triggered by ( when in REFMODIFIER
+    REFMODIFIER : Triggered by .<alpha> when in REFERENCE, REFMODIFIER or REFMOD3
+
+    REFMOD2 : Triggered by '(' when in REFMODIFIER
+
+    REFMOD3 : Triggered by the corresponding ')'
+
+    REFINDEX : Array index. Triggered by '[' in REFERENCE, REFMODIFIER, REFMOD3.
+
+    ALT_VAL : Alternate value. Triggered by '|'  in REFERENCE, REFMODIFIER, REFMOD3.
 
     (cont)
 
