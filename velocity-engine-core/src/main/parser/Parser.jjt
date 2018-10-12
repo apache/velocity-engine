@@ -781,7 +781,7 @@ TOKEN:
  *  http://www.engr.mun.ca/~theo/JavaCC-FAQ/javacc-faq-ie.htm#tth_sEc3.12
  *
  */
-<DEFAULT, PRE_REFERENCE, PRE_OLD_REFERENCE, REFERENCE, REFMODIFIER, REFMOD2>
+<DEFAULT, PRE_REFERENCE, PRE_OLD_REFERENCE, REFERENCE, REFMODIFIER, REFMOD2, REFMOD3>
 TOKEN:
 {
   <SET_DIRECTIVE: ("#set" | "#{set}")  (" "|"\t")* "(">
