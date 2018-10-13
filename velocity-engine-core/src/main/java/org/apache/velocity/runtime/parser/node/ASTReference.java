@@ -88,6 +88,11 @@ public class ASTReference extends SimpleNode
     private ASTIndex astIndex = null;
 
     /**
+     * non null Indicates that an alternate value has been provided
+     */
+    private ASTExpression astAlternateValue = null;
+
+    /**
      * Indicates if we are using modified escape behavior in strict mode.
      * mainly we allow \$abc -> to render as $abc
      */
@@ -149,14 +154,25 @@ public class ASTReference extends SimpleNode
         /*
          * and if appropriate...
          */
-
         if (numChildren > 0 )
         {
             Node lastNode = jjtGetChild(numChildren-1);
             if (lastNode instanceof ASTIndex)
-                astIndex = (ASTIndex)lastNode;
+            {
+                /*
+                 * only used in SetValue, where alternate value is forbidden
+                 */
+                astIndex = (ASTIndex) lastNode;
+            }
+            else if (lastNode instanceof ASTExpression)
+            {
+                astAlternateValue = (ASTExpression) lastNode;
+                --numChildren;
+            }
             else
-            	identifier = lastNode.getFirstTokenImage();
+            {
+                identifier = lastNode.getFirstTokenImage();
+            }
         }
 
 
@@ -172,7 +188,7 @@ public class ASTReference extends SimpleNode
             rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, true);
 
         /*
-         * whether to check for emptiness when evaluating
+         * whether to check for emptiness when evaluatingnumChildren
          */
         checkEmpty =
             rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true);
@@ -247,7 +263,7 @@ public class ASTReference extends SimpleNode
          *  get the root object from the context
          */
 
-        Object result = getVariableValue(context, rootString);
+        Object result = getRootVariableValue(context);
 
         if (result == null && !strictRef)
         {
@@ -259,14 +275,16 @@ public class ASTReference extends SimpleNode
                     (numChildren > 0 ||
                             !context.containsKey(rootString) && !onlyTestingReference))
             {
-                return EventHandlerUtil.invalidGetMethod(rsvc, context,
+                result = EventHandlerUtil.invalidGetMethod(rsvc, context,
                         "$" + rootString, null, null, uberInfo);
             }
 
-            /*
-             * otherwise, simply return null
-             */
-            return null;
+            if (result == null && astAlternateValue != null)
+            {
+                result = astAlternateValue.value(context);
+            }
+
+            return result;
         }
 
         /*
@@ -319,7 +337,7 @@ public class ASTReference extends SimpleNode
                      * don't either for a quiet reference,
                      * or inside an #if/#elseif evaluation context when there's no child
                      */
-                    if (!context.containsKey(rootString) && referenceType != QUIET_REFERENCE && (!onlyTestingReference || jjtGetNumChildren() > 0))
+                    if (!context.containsKey(rootString) && referenceType != QUIET_REFERENCE && (!onlyTestingReference || numChildren > 0))
                     {
                         result = EventHandlerUtil.invalidGetMethod(rsvc, context,
                                 "$" + rootString, previousResult, null, uberInfo);
@@ -334,7 +352,7 @@ public class ASTReference extends SimpleNode
                     Object getter = context.icacheGet(child);
                     if (getter == null &&
                         referenceType != QUIET_REFERENCE  &&
-                        (!onlyTestingReference || failedChild < jjtGetNumChildren() - 1))
+                        (!onlyTestingReference || failedChild < numChildren - 1))
                     {
                         StringBuilder name = new StringBuilder("$").append(rootString);
                         for (int i = 0; i <= failedChild; i++)
@@ -364,7 +382,14 @@ public class ASTReference extends SimpleNode
                         }
                     }
                 }
+            }
 
+            /*
+             * Time to try the alternate value if needed
+             */
+            if (astAlternateValue != null && (result == null || DuckType.asBoolean(result, checkEmpty)))
+            {
+                result = astAlternateValue.value(context);
             }
 
             return result;
@@ -629,7 +654,14 @@ public class ASTReference extends SimpleNode
     public boolean setValue(InternalContextAdapter context, Object value)
       throws MethodInvocationException
     {
-        if (jjtGetNumChildren() == 0)
+        if (astAlternateValue != null)
+        {
+            log.error("reference set cannot have a default value {}",
+                StringUtils.formatFileString(uberInfo));
+            return false;
+        }
+
+        if (numChildren == 0)
         {
             context.put(rootString, value);
             return true;
@@ -641,7 +673,7 @@ public class ASTReference extends SimpleNode
          *  object we will apply reflection to.
          */
 
-        Object result = getVariableValue(context, rootString);
+        Object result = getRootVariableValue(context);
 
         if (result == null)
         {
@@ -1014,31 +1046,30 @@ public class ASTReference extends SimpleNode
 
     /**
      * @param context
-     * @param variable
      * @return The evaluated value of the variable.
      * @throws MethodInvocationException
      */
-    public Object getVariableValue(InternalContextAdapter context, String variable)
+    public Object getRootVariableValue(InternalContextAdapter context)
     {
         Object obj = null;
         try
         {
-            obj = context.get(variable);
+            obj = context.get(rootString);
         }
         catch(RuntimeException e)
         {
             log.error("Exception calling reference ${} at {}",
-                      variable, StringUtils.formatFileString(uberInfo));
+                      rootString, StringUtils.formatFileString(uberInfo));
             throw e;
         }
 
-        if (obj == null && strictRef)
+        if (obj == null && strictRef && astAlternateValue == null)
         {
-          if (!context.containsKey(variable))
+          if (!context.containsKey(rootString))
           {
               log.error("Variable ${} has not been set at {}",
-                        variable, StringUtils.formatFileString(uberInfo));
-              throw new MethodInvocationException("Variable $" + variable +
+                        rootString, StringUtils.formatFileString(uberInfo));
+              throw new MethodInvocationException("Variable $" + rootString +
                   " has not been set", null, identifier,
                   uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
           }
