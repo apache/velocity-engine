@@ -466,7 +466,7 @@ TOKEN_MGR_DECLS:
     List stateStack = new ArrayList(50);
 
     /* More debug output */
-    public boolean debugPrint = false;
+    public boolean debugPrint = true;
 
     private boolean inReference;
     private boolean inComment;
@@ -675,7 +675,7 @@ TOKEN:
 }
 
 
-<DIRECTIVE,REFMOD2>
+<DIRECTIVE,REFMOD2,ALT_VAL>
 TOKEN:
 {
     <LBRACKET: "[">
@@ -683,23 +683,42 @@ TOKEN:
 |   <COMMA:",">
 }
 
-<DIRECTIVE, REFMOD2>
+<DIRECTIVE,REFMOD2,ALT_VAL>
 TOKEN:
 {
   <DOUBLEDOT : ".." >
 }
 
-<DIRECTIVE, REFMOD2>
+<DIRECTIVE, REFMOD2,ALT_VAL>
 TOKEN:
 {
   <COLON : ":" >
 }
 
-<DIRECTIVE, REFMOD2>
+<DIRECTIVE, REFMOD2, ALTVAL>
 TOKEN :
 {
     <LEFT_CURLEY : "{" >
-  | <RIGHT_CURLEY : "}" >
+    {
+        if (curLexState == ALT_VAL)
+        {
+            ++curlyLevel;
+        }
+    }
+  |
+    <RIGHT_CURLEY : "}" >
+    {
+        System.out.println("@@@@ RIGHT_CURLEY, curlyLevel was " + curlyLevel);
+        if (curLexState == ALT_VAL)
+        {
+            if (--curlyLevel == 0)
+            {
+                stateStackPop();
+                System.out.println("@@@@ Poped state to " + lexStateNames[curLexState]);
+            }
+
+        }
+    }
 }
 
 <DIRECTIVE,REFMODIFIER>
@@ -788,7 +807,7 @@ TOKEN:
  *  http://www.engr.mun.ca/~theo/JavaCC-FAQ/javacc-faq-ie.htm#tth_sEc3.12
  *
  */
-<DEFAULT, PRE_REFERENCE, PRE_OLD_REFERENCE, REFERENCE, REFMODIFIER, REFMOD2>
+<DEFAULT, PRE_REFERENCE, PRE_OLD_REFERENCE, REFERENCE, REFMODIFIER, REFMOD2, REFMOD3>
 TOKEN:
 {
   <SET_DIRECTIVE: ("#set" | "#{set}")  (" "|"\t")* "(">
@@ -1065,7 +1084,7 @@ MORE :
  *
  * ---------------------------------------------------------------------- */
 
-<DEFAULT,REFINDEX,REFMOD2,DIRECTIVE>
+<DEFAULT,REFINDEX,REFMOD2,DIRECTIVE,ALT_VAL>
 TOKEN:
 {
     <WHITESPACE : ([" ","\t"])+>
@@ -1073,8 +1092,6 @@ TOKEN:
     {
         if ( debugPrint )
             System.out.println(" NEWLINE :");
-
-//        stateStackPop();
 
         if (inSet)
             inSet = false;
@@ -1348,8 +1365,10 @@ TOKEN :
     }
 |   <RCURLY: "}">
     {
+        System.out.println("@@@@ RCURLY, curlyLevel was " + curlyLevel);
         --curlyLevel;
         stateStackPop();
+        System.out.println("@@@@ Poped state to " + lexStateNames[curLexState]);
     }
 }
 
@@ -1955,7 +1974,7 @@ void Index() : {}
 void Reference() : {}
 {
     /*
-     *  A reference is either $<FOO> or ${<FOO>} or ${<FOO>'|'<DEFAULT>)
+     *  A reference is either $<FOO> or ${<FOO>} or ${<FOO>'|'<ALTERNATE_VALUE>)
      */
 
       (
@@ -1964,11 +1983,11 @@ void Reference() : {}
       )
       |
       (
-         <LCURLY>
+         <LCURLY> { System.out.println("@@@@ INSIDE LCURLY"); }
          ( <IDENTIFIER> | <OLD_IDENTIFIER> ) (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
-         [ <PIPE> Expression() ]
-         <RCURLY>
+         [ <PIPE> { System.out.println("@@@@ FOUND PIPE"); } Expression() { System.out.println("@@@@ FOUND EXPRESSION"); } ]
+         ( <RCURLY> { System.out.println("@@@@ FOUND RCURLY"); } | <RIGHT_CURLEY> { System.out.println("@@@@ FOUND RIGHT_CURLEY"); } )
       )
 }
 
@@ -2421,7 +2440,7 @@ void PrimaryExpression() #void : {}
     So, with a template :
 
         ------
-        #set $foo="foo"
+        #set($foo="foo")
         #if($foo)
         \$foo = $foo
         #end
