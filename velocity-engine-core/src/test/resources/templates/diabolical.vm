@@ -65,3 +65,10 @@ $nullToString
 $nullToString.toString()
 $!nullToString
 $!nullToString.toString()
+
+$#set($foo = $bar)
+$fooo#set($foo = $bar)
+$fooo.#set($foo = $bar)
+$fooo.bar#set($foo = $bar)
+$fooo.bar(#set($foo = $bar)
+$fooo.bar()#set($foo = $bar)
