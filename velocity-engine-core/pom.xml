@@ -169,9 +169,9 @@
           <buildParser>true</buildParser>
           <buildNodeFiles>${parser.nodefiles}</buildNodeFiles>
           <multi>true</multi>
-          <debugParser>true</debugParser>
-          <debugLookAhead>true</debugLookAhead>
-          <debugTokenManager>true</debugTokenManager>
+          <debugParser>false</debugParser>
+          <debugLookAhead>false</debugLookAhead>
+          <debugTokenManager>false</debugTokenManager>
           <jdkVersion>${maven.compiler.target}</jdkVersion>
           <nodeUsesParser>true</nodeUsesParser>
           <nodePackage>org.apache.velocity.runtime.parser.node</nodePackage>

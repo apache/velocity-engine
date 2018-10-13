@@ -711,19 +711,15 @@ TOKEN :
 {
     <LEFT_CURLEY : "{" >
     {
-        System.out.println("@@@ LEFT_CURLEY - state = " + lexStateNames[curLexState] + " - curlyLevel = " + curlyLevel);
         ++curlyLevel;
     }
   |
     <RIGHT_CURLEY : "}" >
     {
-        System.out.println("@@@ RIGHT_CURLEY - state = " + lexStateNames[curLexState] + " - curlyLevel = " + curlyLevel);
         --curlyLevel;
         if (curLexState == ALT_VAL && curlyLevel == 0)
         {
-            System.out.println("@@@@ CLOSING ALT_VAL");
             stateStackPop();
-            System.out.println("@@@@ Poped state to " + lexStateNames[curLexState]);
         }
     }
 }
@@ -1359,16 +1355,13 @@ TOKEN :
 {
     <LCURLY: "{">
     {
-        System.out.println("@@@ LCURLY - state = " + lexStateNames[curLexState] + " - curlyLevel = " + curlyLevel);
         ++curlyLevel;
     }
 |   <RCURLY: "}">
     {
-        System.out.println("@@@ LCURLY - state = " + lexStateNames[curLexState] + " - curlyLevel = " + curlyLevel);
         /* maybe it wasn't for our state */
         while (curlyLevel == 0 && curLexState != DEFAULT)
         {
-            System.out.println("@@@@ RCURLY wasn't for us");
             stateStackPop();
         }
         /* At this point, here are all the possible states:
@@ -1993,11 +1986,11 @@ void Reference() : {}
       )
       |
       (
-         <LCURLY> { System.out.println("@@@@ INSIDE LCURLY"); }
+         <LCURLY>
          ( <IDENTIFIER> | <OLD_IDENTIFIER> ) (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
-         [ <PIPE> { System.out.println("@@@@ FOUND PIPE"); } Expression() { System.out.println("@@@@ FOUND EXPRESSION"); } ]
-         ( <RCURLY> { System.out.println("@@@@ FOUND RCURLY"); } | <RIGHT_CURLEY> { System.out.println("@@@@ FOUND RIGHT_CURLEY"); } )
+         [ <PIPE> Expression() ]
+         ( <RCURLY> | <RIGHT_CURLEY> )
       )
 }
 
