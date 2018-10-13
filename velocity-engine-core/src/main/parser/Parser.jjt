@@ -462,13 +462,12 @@ TOKEN_MGR_DECLS:
 
     private int lparen = 0;
     private int rparen = 0;
-
+    private int curlyLevel = 0;
     List stateStack = new ArrayList(50);
 
     /* More debug output */
     public boolean debugPrint = false;
 
-    private boolean inReference;
     private boolean inComment;
     public  boolean inSet;
 
@@ -504,9 +503,9 @@ TOKEN_MGR_DECLS:
 
         if( debugPrint )
             System.out.println(" stack pop (" + stateStack.size() + ")");
-
         lparen = s.lparen;
         rparen = s.rparen;
+        curlyLevel = s.curlyLevel;
 
         switchTo(s.lexstate);
 
@@ -530,10 +529,13 @@ TOKEN_MGR_DECLS:
         ParserState s = new ParserState();
         s.lparen = lparen;
         s.rparen = rparen;
+        s.curlyLevel = curlyLevel;
         s.lexstate = curLexState;
 
-        lparen = 0;
         stateStack.add(s); // stack.push
+
+        lparen = 0;
+        curlyLevel = 0;
 
         return true;
     }
@@ -549,7 +551,7 @@ TOKEN_MGR_DECLS:
 
         lparen = 0;
         rparen = 0;
-        inReference = false;
+        curlyLevel = 0;
         inComment = false;
         inSet = false;
 
@@ -563,6 +565,7 @@ TOKEN_MGR_DECLS:
     {
         int lparen;
         int rparen;
+        int curlyLevel;
         int lexstate;
     }
 
@@ -635,7 +638,6 @@ TOKEN :
 {
     <LONE_SYMBOL: "\u200B" >
     {
-        inReference = false;
         stateStackPop();
     }
 }
@@ -655,7 +657,23 @@ TOKEN:
      stateStackPush();
      switchTo(REFINDEX);
    }
-
+   |
+   <LOGICAL_OR_2: "||">
+   {
+       stateStackPop();
+   }
+   |
+   <PIPE: "|">
+   {
+       if (curlyLevel == 1)
+       {
+           switchTo(ALT_VAL);
+       }
+       else
+       {
+           stateStackPop();
+       }
+   }
 }
 
 <REFINDEX>
@@ -668,7 +686,7 @@ TOKEN:
 }
 
 
-<DIRECTIVE,REFMOD2>
+<DIRECTIVE,REFMOD2,ALT_VAL>
 TOKEN:
 {
     <LBRACKET: "[">
@@ -676,23 +694,34 @@ TOKEN:
 |   <COMMA:",">
 }
 
-<DIRECTIVE, REFMOD2>
+<DIRECTIVE,REFMOD2,ALT_VAL>
 TOKEN:
 {
   <DOUBLEDOT : ".." >
 }
 
-<DIRECTIVE, REFMOD2>
+<DIRECTIVE, REFMOD2,ALT_VAL>
 TOKEN:
 {
   <COLON : ":" >
 }
 
-<DIRECTIVE, REFMOD2>
+<DIRECTIVE, REFMOD2, ALT_VAL>
 TOKEN :
 {
     <LEFT_CURLEY : "{" >
-  | <RIGHT_CURLEY : "}" >
+    {
+        ++curlyLevel;
+    }
+  |
+    <RIGHT_CURLEY : "}" >
+    {
+        --curlyLevel;
+        if (curLexState == ALT_VAL && curlyLevel == 0)
+        {
+            stateStackPop();
+        }
+    }
 }
 
 <DIRECTIVE,REFMODIFIER>
@@ -833,11 +862,8 @@ MORE :
 
             if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE)
             {
-                inReference = false;
                 stateStackPop();
             }
-
-            inReference = true;
 
             int preReferenceState = parser.getRuntimeServices().isDashAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
 
@@ -864,11 +890,8 @@ MORE :
 
             if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE)
             {
-                inReference = false;
                 stateStackPop();
             }
-
-            inReference = true;
 
             int preReferenceState = parser.getRuntimeServices().isDashAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
 
@@ -940,7 +963,6 @@ MORE :
 
             if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE || curLexState == REFMODIFIER )
             {
-                inReference = false;
                 stateStackPop();
             }
 
@@ -968,7 +990,6 @@ TOKEN :
         {
             if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE)
             {
-                inReference = false;
                 stateStackPop();
             }
 
@@ -1058,7 +1079,7 @@ MORE :
  *
  * ---------------------------------------------------------------------- */
 
-<DEFAULT,REFINDEX,REFMOD2,DIRECTIVE>
+<DEFAULT,REFINDEX,REFMOD2,DIRECTIVE,ALT_VAL>
 TOKEN:
 {
     <WHITESPACE : ([" ","\t"])+>
@@ -1066,8 +1087,6 @@ TOKEN:
     {
         if ( debugPrint )
             System.out.println(" NEWLINE :");
-
-//        stateStackPop();
 
         if (inSet)
             inSet = false;
@@ -1082,12 +1101,11 @@ TOKEN:
 {
   <SUFFIX: ([" ","\t"])* ("\n" | "\r" | "\r\n")>
   {
-    inReference = false;
     stateStackPop();
     }
 }
 
-<DIRECTIVE,REFMOD2,REFINDEX>
+<DIRECTIVE,REFMOD2,REFINDEX,ALT_VAL>
 TOKEN :
 {
 //   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
@@ -1128,14 +1146,14 @@ TOKEN :
     }
 }
 
-<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2,REFINDEX>
+<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2,REFINDEX,ALT_VAL>
 TOKEN:
 {
    <TRUE: "true">
 |   <FALSE: "false">
 }
 
-<DIRECTIVE,REFMOD2,REFINDEX>
+<DIRECTIVE,REFMOD2,REFINDEX,ALT_VAL>
 TOKEN :
 {
     <MINUS: "-">
@@ -1179,7 +1197,7 @@ TOKEN :
     }
 }
 
-<PRE_DIRECTIVE,DIRECTIVE,REFMOD2,REFINDEX>
+<PRE_DIRECTIVE,DIRECTIVE,REFMOD2,REFINDEX,ALT_VAL>
 TOKEN:
 {
    <#DIGIT: [ "0"-"9" ] >
@@ -1205,7 +1223,7 @@ TOKEN:
 
         /*
          * check to see if we are in set
-         *    ex.  #set $foo = $foo + 3
+         *    ex.  #set($foo = $foo + 3)
          *  because we want to handle the \n after
          */
 
@@ -1275,9 +1293,9 @@ TOKEN:
  *                  |     again, this is a switch, not a push.
  *                  |_ >  REFMOD3 : state only checking for a possible '.' or '['  continuation.
  *
- *  During the REFERENCE, REFMODIFIER or REFMOD3 lex states we will switch to
- *  REFINDEX if a bracket is encountered '['.  for example:  $foo[1]
- *  or $foo.bar[1], $foo.bar( "arg" )[1]
+ *  During the REFERENCE, REFMODIFIER or REFMOD3 lex states we will switch to:
+ *  - REFINDEX if a bracket '[' is encountered:  $foo[1], $foo.bar[1], $foo.bar( "arg" )[1]
+ *  - ALT_VAL if a pipe '|' is encountered (only for formal references): ${foo|'foo'}
  * ---------------------------------------------------------------------------- */
 
 <PRE_REFERENCE,REFMODIFIER,REFMOD2>
@@ -1336,9 +1354,26 @@ TOKEN:
 TOKEN :
 {
     <LCURLY: "{">
+    {
+        ++curlyLevel;
+    }
 |   <RCURLY: "}">
     {
-        stateStackPop();
+        /* maybe it wasn't for our state */
+        while (curlyLevel == 0 && curLexState != DEFAULT)
+        {
+            stateStackPop();
+        }
+        /* At this point, here are all the possible states:
+         *   - DEFAULT, which means the '}' is schmoo
+         *   - DIRECTIVE or REFMOD2, which means the '}' is a closing map curly
+         *   - one of the other REFERENCE states or ALT_VAL, which means the '}' ends the reference
+         * If we're in the last case, pop up state.
+         */
+        if (curLexState != DEFAULT && curLexState != DIRECTIVE && curLexState != REFMOD2)
+        {
+            stateStackPop();
+        }
     }
 }
 
@@ -1352,8 +1387,6 @@ SPECIAL_TOKEN :
          */
 
         input_stream.backup(1);
-
-        inReference = false;
 
         if ( debugPrint )
             System.out.print("REF_TERM :");
@@ -1944,7 +1977,7 @@ void Index() : {}
 void Reference() : {}
 {
     /*
-     *  A reference is either ${<FOO>} or  $<FOO>
+     *  A reference is either $<FOO> or ${<FOO>} or ${<FOO>'|'<ALTERNATE_VALUE>)
      */
 
       (
@@ -1956,7 +1989,8 @@ void Reference() : {}
          <LCURLY>
          ( <IDENTIFIER> | <OLD_IDENTIFIER> ) (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
-         <RCURLY>
+         [ <PIPE> Expression() ]
+         ( <RCURLY> | <RIGHT_CURLEY> )
       )
 }
 
@@ -2007,6 +2041,7 @@ boolean Text() :
   |  <LCURLY> { return false; }
   |  <RCURLY> { return false; }
   |  <EMPTY_INDEX> { return false; }
+  |  <PIPE> { return false; }
   |  t=<LONE_SYMBOL>
      {
          /* Drop the ending zero-width whitespace */
@@ -2219,7 +2254,7 @@ void Assignment() #Assignment(2) : {}
 void ConditionalOrExpression() #void : {}
 {
   ConditionalAndExpression()
-  (  <LOGICAL_OR>  ConditionalAndExpression() #OrNode(2) )*
+  (  ( <LOGICAL_OR> | <LOGICAL_OR_2> ) ConditionalAndExpression() #OrNode(2) )*
 }
 
 
@@ -2346,11 +2381,20 @@ void PrimaryExpression() #void : {}
 
     DIRECTIVE : This state is triggered by the a match of a DD or a PD.
 
-    REFERENCE : Triggered by '$'. Analagous to PRE_DIRECTIVE.
+    PRE_REFERENCE : Triggered by '$'. Analagous to PRE_DIRECTIVE. When '-' is
+    allowed in identifiers, this state is called PRE_OLD_REFERENCE.
 
-    REFMODIFIER : Triggered by .<alpha> when in REFERENCE.
+    REFERENCE : Triggered by the <IDENTIFIER>
 
-    REFMOD2 : Triggered by ( when in REFMODIFIER
+    REFMODIFIER : Triggered by .<alpha> when in REFERENCE, REFMODIFIER or REFMOD3
+
+    REFMOD2 : Triggered by '(' when in REFMODIFIER
+
+    REFMOD3 : Triggered by the corresponding ')'
+
+    REFINDEX : Array index. Triggered by '[' in REFERENCE, REFMODIFIER, REFMOD3.
+
+    ALT_VAL : Alternate value. Triggered by '|'  in REFERENCE, REFMODIFIER, REFMOD3.
 
     (cont)
 
@@ -2399,7 +2443,7 @@ void PrimaryExpression() #void : {}
     So, with a template :
 
         ------
-        #set $foo="foo"
+        #set($foo="foo")
         #if($foo)
         \$foo = $foo
         #end
