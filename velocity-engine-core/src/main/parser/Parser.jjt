@@ -85,6 +85,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.Directive;
+import org.apache.velocity.runtime.directive.Foreach;
 import org.apache.velocity.runtime.directive.MacroParseException;
 import org.apache.velocity.runtime.RuntimeConstants;
 
@@ -1652,7 +1653,7 @@ void DirectiveAssign() : {}
  */
 boolean Directive() :
 {
-    Token id = null, t = null, u = null, end = null;
+    Token id = null, t = null, u = null, end = null, _else = null;
     int argType;
     int argPos = 0;
     Directive d;
@@ -1660,9 +1661,9 @@ boolean Directive() :
     boolean isVM = false;
     boolean isMacro = false;
     ArrayList argtypes = new ArrayList(4);
-    boolean newlineAtEnd = false, newlineBeforeStatement = false;
+    boolean afterNewline = false, newlineAtEnd = false;
     String blockPrefix = "";
-    ASTBlock block = null;
+    ASTBlock block = null, elseBlock = null;
 }
 {
     [
@@ -1805,7 +1806,7 @@ boolean Directive() :
           else
           {
               blockPrefix = (t == null ? u.image : t.image + u.image);
-              newlineBeforeStatement = true;
+              afterNewline = true;
           }
           t = u = null;
       }
@@ -1826,21 +1827,68 @@ boolean Directive() :
     (
       (
         (
-          LOOKAHEAD( { getToken(1).kind != END && ( !newlineBeforeStatement || getToken(1).kind != WHITESPACE || getToken(2).kind != END ) }) newlineBeforeStatement = Statement(newlineBeforeStatement)
+          LOOKAHEAD( { getToken(1).kind != END && getToken(1).kind != ELSE && ( !afterNewline || getToken(1).kind != WHITESPACE || getToken(2).kind != END && getToken(2).kind != ELSE ) }) afterNewline = Statement(afterNewline)
         )*
         {
             block = jjtThis;
             block.setPrefix(blockPrefix);
+            blockPrefix = "";
         }
       )
       #Block
     )
     [
-      LOOKAHEAD( 1, { newlineBeforeStatement })
+      LOOKAHEAD( 1, { afterNewline })
       (t = <WHITESPACE>)
       {
           block.setPostfix(t.image);
           t = null;
+      }
+    ]
+    /*
+     *  then an optional #else for the #foreach directive
+     */
+    (
+      [
+        LOOKAHEAD( { d != null && (d instanceof Foreach) && getToken(1).kind == ELSE } )
+        (
+          (_else = <ELSE>)
+          (
+            [
+              LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+              {
+                  jjtThis.setPrefix(t == null ? u.image : t.image + u.image);
+                  t = u = null;
+                  afterNewline = true;
+              }
+            ]
+            (
+              LOOKAHEAD( { getToken(1).kind != END && (!afterNewline || getToken(1).kind != WHITESPACE || getToken(2).kind != END) })
+              afterNewline = Statement(afterNewline)
+            )*
+            {
+                elseBlock = jjtThis;
+            }
+          )
+          #Block
+          {
+              int pos = _else.image.lastIndexOf('#');
+              if (pos > 0)
+              {
+                  block.setMorePostfix(_else.image.substring(0, pos));
+              }
+              block = elseBlock;
+          }
+        )
+      ]
+    )
+    [
+      LOOKAHEAD( 1, { afterNewline })
+      (t = <WHITESPACE>)
+      {
+          block.setPostfix(t.image);
+          t = null;
+          afterNewline = false;
       }
     ]
     (
