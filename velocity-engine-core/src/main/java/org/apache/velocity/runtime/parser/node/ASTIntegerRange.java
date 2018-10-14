@@ -26,8 +26,9 @@ import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.DuckType;
 import org.apache.velocity.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.AbstractList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 /**
  * handles the range 'operator'  [ n .. m ]
@@ -62,6 +63,141 @@ public class ASTIntegerRange extends SimpleNode
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
+    }
+
+    public static class IntegerRange extends AbstractList<Integer>
+    {
+        public class RangeIterator implements ListIterator<Integer>
+        {
+            private int value;
+
+            public RangeIterator()
+            {
+                value = left - delta;
+            }
+
+            public RangeIterator(int startIndex)
+            {
+                value = left + (startIndex - 1) * delta;
+            }
+
+            @Override
+            public Integer next()
+            {
+                value += delta;
+                return value;
+            }
+
+            @Override
+            public boolean hasPrevious()
+            {
+                return value != left - delta;
+            }
+
+            @Override
+            public Integer previous()
+            {
+                value -= delta;
+                return value;
+            }
+
+            @Override
+            public int nextIndex()
+            {
+                return (value + delta - left) * delta;
+            }
+
+            @Override
+            public int previousIndex()
+            {
+                return (value - delta - left) * delta;
+            }
+
+            @Override
+            public void remove()
+            {
+                throw new UnsupportedOperationException("integer range is read only");
+            }
+
+            @Override
+            public void set(Integer integer)
+            {
+                throw new UnsupportedOperationException("integer range is read only");
+            }
+
+            @Override
+            public void add(Integer integer)
+            {
+                throw new UnsupportedOperationException("integer range is read only");
+            }
+
+            @Override
+            public boolean hasNext()
+            {
+                return value != right;
+            }
+        }
+
+        private int left;
+        private int right;
+        private int delta;
+
+        public IntegerRange(int left, int right, int delta)
+        {
+            this.left = left;
+            this.right = right;
+            this.delta = delta;
+        }
+
+        @Override
+        public Iterator<Integer> iterator()
+        {
+            return new RangeIterator();
+        }
+
+        @Override
+        public Integer get(int index)
+        {
+            int ret = left + delta * index;
+            if (delta > 0 && ret > right || delta < 0 && ret < right)
+            {
+                throw new IndexOutOfBoundsException();
+            }
+            return ret;
+        }
+
+        @Override
+        public int indexOf(Object o)
+        {
+            int v = DuckType.asNumber(o).intValue();
+            v -= left;
+            v *= delta;
+            return v >= 0 && v < size() ? v : -1;
+        }
+
+        @Override
+        public int lastIndexOf(Object o)
+        {
+            return indexOf(o);
+        }
+
+        @Override
+        public ListIterator<Integer> listIterator()
+        {
+            return new RangeIterator();
+        }
+
+        @Override
+        public ListIterator<Integer> listIterator(int index)
+        {
+            return new RangeIterator(index);
+        }
+
+        @Override
+        public int size()
+        {
+            return Math.abs(right - left) + 1;
+        }
     }
 
     /**
@@ -123,7 +259,6 @@ public class ASTIntegerRange extends SimpleNode
             return null;
         }
 
-
         /*
          *  get the two integer values of the ends of the range
          */
@@ -132,32 +267,16 @@ public class ASTIntegerRange extends SimpleNode
         int r = ((Number) right).intValue();
 
         /*
-         *  find out how many there are
-         */
-
-        int nbrElements = Math.abs( l - r );
-        nbrElements += 1;
-
-        /*
          *  Determine whether the increment is positive or negative.
          */
 
         int delta = ( l >= r ) ? -1 : 1;
 
         /*
-         * Fill the range with the appropriate values.
+         * Return the corresponding integer range
          */
 
-        List elements = new ArrayList(nbrElements);
-        int value = l;
-
-        for (int i = 0; i < nbrElements; i++)
-        {
-            elements.add(value);
-            value += delta;
-        }
-
-        return elements;
+        return new IntegerRange(l, r, delta);
     }
 
     /**

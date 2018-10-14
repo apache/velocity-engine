@@ -54,4 +54,9 @@ Now some use-case examples.  Suppose we want a table to have 10 rows
 <tr><td>&nbsp;</td></tr>
 <tr><td>&nbsp;</td></tr>
 </table>
+
+----
+Wide loop should not OOM
+that's enough
+
 =done=
