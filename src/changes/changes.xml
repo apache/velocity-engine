@@ -26,6 +26,9 @@
 
   <body>
     <release version="2.1" date="In subversion">
+        <action type="fix" dev="cbrisson" issue="VELOCITY-888">
+            Include proper OSGi bundle informations in manifest files
+        </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-898">
             Alternate reference values: <code>${foo|'foo'}</code> evaluates to false whenever boolean evaluation of $foo is false
         </action>

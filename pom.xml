@@ -76,6 +76,29 @@
             <arguments>-Papache-release</arguments>
           </configuration>
         </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.1.0</version>
+          <configuration>
+            <archive>  
+              <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+            </archive> 
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>3.5.0</version>
+          <executions>
+            <execution>
+              <id>bundle-manifest</id>
+              <phase>process-classes</phase>
+                <goals>    
+                  <goal>manifest</goal>
+                </goals>   
+              </execution>
+            </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
