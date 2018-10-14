@@ -179,6 +179,21 @@
           <tokenManagerUsesParser>true</tokenManagerUsesParser>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Export-Package>
+              org.apache.velocity.*
+            </Export-Package>
+            <Import-Package>
+              !org.apache.commons.io,
+              *
+            </Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
