@@ -80,4 +80,14 @@ Now some use-case examples.  Suppose we want a table to have 10 rows
 <tr><td>&nbsp;</td></tr>
 #end
 </table>
+
+----
+Wide loop should not OOM
+#foreach($i in [0..67000000])
+#if($i == 100)
+that's enough
+#break
+#end
+#end
+
 =done=
