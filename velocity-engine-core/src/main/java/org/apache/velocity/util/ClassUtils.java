@@ -181,12 +181,13 @@ public class ClassUtils {
        */
       MethodCacheKey mck = new MethodCacheKey(methodName, paramClasses);
       IntrospectionCacheData icd = context.icacheGet(mck);
+      Class clazz = o instanceof Class ? (Class)o : o.getClass();
 
       /*
        * like ASTIdentifier, if we have cache information, and the Class of
        * Object o is the same as that in the cache, we are safe.
        */
-      if (icd != null && (o != null && icd.contextData == o.getClass()))
+      if (icd != null && (o != null && icd.contextData == clazz))
       {
 
         /*
@@ -205,7 +206,7 @@ public class ClassUtils {
         if ((method != null) && (o != null))
         {
           icd = new IntrospectionCacheData();
-          icd.contextData = o.getClass();
+          icd.contextData = clazz;
           icd.thingy = method;
 
           context.icachePut(mck, icd);
