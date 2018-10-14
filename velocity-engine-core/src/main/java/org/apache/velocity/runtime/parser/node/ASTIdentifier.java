@@ -137,6 +137,7 @@ public class ASTIdentifier extends SimpleNode
              */
 
             IntrospectionCacheData icd = context.icacheGet(this);
+            Class clazz = o instanceof Class ? (Class)o : o.getClass();
 
             /*
              * if we have the cache data and the class of the object we are
@@ -145,7 +146,7 @@ public class ASTIdentifier extends SimpleNode
              * that is fixed in the template :)
              */
 
-            if ( icd != null && (o != null) && (icd.contextData == o.getClass()) )
+            if ( icd != null && (o != null) && (icd.contextData == clazz) )
             {
                 vg = (VelPropertyGet) icd.thingy;
             }
@@ -161,7 +162,7 @@ public class ASTIdentifier extends SimpleNode
                 if (vg != null && vg.isCacheable() && (o != null))
                 {
                     icd = new IntrospectionCacheData();
-                    icd.contextData = o.getClass();
+                    icd.contextData = clazz;
                     icd.thingy = vg;
                     context.icachePut(this,icd);
                 }
