@@ -252,7 +252,7 @@ public class SimpleNode implements Node
         toString(String), otherwise overriding toString() is probably all
         you need to do. */
     /**
-     * @param prefix
+     * @param prefix display prefix
      * @return String representation of this node.
      */
     public String toString(String prefix)
@@ -277,7 +277,8 @@ public class SimpleNode implements Node
      * <p>Override {@link #dump(String, PrintWriter} if you want to customize
      * how the node dumps out its children.
      *
-     * @param prefix
+     * @param prefix display prefix
+     * @param out output print stream
      */
     public final void dump(String prefix, PrintStream out)
     {
@@ -295,7 +296,9 @@ public class SimpleNode implements Node
         {
             charset = Charset.defaultCharset();
         }
-        dump(prefix, new PrintWriter(new OutputStreamWriter(out, charset)));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(out, charset));
+        dump(prefix, pw);
+        pw.flush();
     }
     
     /**
@@ -303,8 +306,8 @@ public class SimpleNode implements Node
      * <p>Override this method if you want to customize how the node dumps
      * out its children.</p>
      *
-     * @param Print
-     * @param prefix
+     * @param prefix display prefix
+     * @param out output print writer
      */
     public void dump(String prefix, PrintWriter out)
     {
@@ -494,7 +497,7 @@ public class SimpleNode implements Node
 
         for (Token t = getFirstToken(); t != null; )
         {
-            tokens.append("[").append(t.image).append("]");
+            tokens.append("[").append(t.image.replace("\n", "\\n")).append("]");
             if (t.next != null)
             {
                 if (t.equals(getLastToken()))
