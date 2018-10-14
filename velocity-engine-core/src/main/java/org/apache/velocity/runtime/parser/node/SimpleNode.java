@@ -281,13 +281,16 @@ public class SimpleNode implements Node
      */
     public final void dump(String prefix, PrintStream out)
     {
-        String encoding = rsvc.getString(RuntimeConstants.INPUT_ENCODING);
         Charset charset = null;
-        try
+        if (rsvc == null) /* may be null if node isn't yet initialized */
         {
-            charset = Charset.forName(encoding);
+            String encoding = rsvc.getString(RuntimeConstants.INPUT_ENCODING);
+            try
+            {
+                charset = Charset.forName(encoding);
+            }
+            catch (Exception e) {}
         }
-        catch (Exception e) {}
         if (charset == null)
         {
             charset = Charset.defaultCharset();
