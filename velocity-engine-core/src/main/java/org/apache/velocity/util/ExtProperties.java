@@ -1734,6 +1734,10 @@ public class ExtProperties extends Hashtable<String,Object>
             return (Integer) value;
 
         }
+        else if (value instanceof Number)
+        {
+            return ((Number)value).intValue();
+        }
         else if (value instanceof String)
         {
             Integer i = Integer.valueOf((String) value);
@@ -1749,7 +1753,6 @@ public class ExtProperties extends Hashtable<String,Object>
             }
             else
             {
-
                 return defaultValue;
             }
         }
@@ -1821,7 +1824,10 @@ public class ExtProperties extends Hashtable<String,Object>
         if (value instanceof Long)
         {
             return (Long) value;
-
+        }
+        else if (value instanceof Number)
+        {
+            return ((Number)value).longValue();
         }
         else if (value instanceof String)
         {
@@ -1912,6 +1918,10 @@ public class ExtProperties extends Hashtable<String,Object>
             return (Float) value;
 
         }
+        else if (value instanceof Number)
+        {
+            return ((Number)value).floatValue();
+        }
         else if (value instanceof String)
         {
             Float f = new Float((String) value);
@@ -1999,14 +2009,16 @@ public class ExtProperties extends Hashtable<String,Object>
         if (value instanceof Double)
         {
             return (Double) value;
-
+        }
+        else if (value instanceof Number)
+        {
+            return ((Number)value).doubleValue();
         }
         else if (value instanceof String)
         {
             Double d = new Double((String) value);
             put(key, d);
             return d;
-
         }
         else if (value == null)
         {
@@ -2043,7 +2055,12 @@ public class ExtProperties extends Hashtable<String,Object>
         for (Enumeration e = props.propertyNames(); e.hasMoreElements();)
         {
             String s = (String) e.nextElement();
-            c.setProperty(s, props.getProperty(s));
+            /*
+             * We use get() and not getProperty() in case the user didn't
+             * respect the Properties contract of only holding strings.
+             * Sun's fault.
+             */
+            c.setProperty(s, props.get(s));
         }
 
         return c;
