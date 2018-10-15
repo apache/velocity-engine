@@ -227,6 +227,13 @@ public interface RuntimeConstants
      */
     String VM_BODY_REFERENCE = "velocimacro.body.reference";
 
+    /**
+     * When displaying null or invalid non-quiet references, use the argument literal reference
+     * instead of the one in the macro block. Defaults to false.
+     * @since 2.1
+     **/
+    String VM_PRESERVE_ARGUMENTS_LITERALS = "velocimacro.preserve.arguments.literals";
+
     /*
      * ----------------------------------------------------------------------
      * S T I C T   M O D E  B E H A V I O U R
@@ -289,16 +296,19 @@ public interface RuntimeConstants
 
     /**
      * Allow dash in identifiers (backward compatibility option)
+     * @since 2.1
      */
     String PARSER_DASH_ALLOWED = "parser.allows.dash.in.identifiers";
 
     /**
      * Space gobbling mode
+     * @since 2.0
      */
     String SPACE_GOBBLING = "space.gobbling";
 
     /**
      * Space gobbling modes
+     * @since 2.0
      */
     enum SpaceGobbling
     {

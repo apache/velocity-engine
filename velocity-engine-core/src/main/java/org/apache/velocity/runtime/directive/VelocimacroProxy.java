@@ -52,6 +52,7 @@ public class VelocimacroProxy extends Directive
     private boolean strictArguments;
     private int maxCallDepth;
     private String bodyReference;
+    private boolean preserveArgumentsLiterals;
 
     /**
      * Return name of this Velocimacro.
@@ -92,10 +93,13 @@ public class VelocimacroProxy extends Directive
 
         // for performance reasons we precache these strings - they are needed in
         // "render literal if null" functionality
-        literalArgArray = new String[macroArgs.size()];
-        for(int i = 0; i < macroArgs.size(); i++)
+        if (preserveArgumentsLiterals)
         {
-            literalArgArray[i] = ".literal.$" + macroArgs.get(i);
+            literalArgArray = new String[macroArgs.size()];
+            for (int i = 0; i < macroArgs.size(); i++)
+            {
+                literalArgArray[i] = ".literal.$" + macroArgs.get(i).name;
+            }
         }
 
         /*
@@ -148,6 +152,8 @@ public class VelocimacroProxy extends Directive
 
         // get name of the reference that refers to AST block passed to block macro call
         bodyReference = rsvc.getString(RuntimeConstants.VM_BODY_REFERENCE, "bodyContent");
+
+        preserveArgumentsLiterals = rsvc.getBoolean(RuntimeConstants.VM_PRESERVE_ARGUMENTS_LITERALS, false);
     }
 
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
@@ -239,6 +245,15 @@ public class VelocimacroProxy extends Directive
                     }
                 }
             }
+
+            if (preserveArgumentsLiterals)
+            {
+                for (String literalKey : literalArgArray)
+                {
+                    // The behavior is not recursive.
+                    context.remove(literalKey);
+                }
+            }
         }
     }
 
@@ -299,7 +314,8 @@ public class VelocimacroProxy extends Directive
     /**
      * Gets the macro argument values and puts them in the context under
      * the argument names.  Store and return an array of old and new values
-     * paired for each argument name, for later cleanup.
+     * paired for each argument name, for later cleanup. Also, put literal
+     * representations of arguments which evaluate to null in the context.
      */
     protected Object[] handleArgValues(InternalContextAdapter context,
                                          Node node, int callArgNum)
@@ -315,10 +331,12 @@ public class VelocimacroProxy extends Directive
 
             // put the new value in
             Object newVal = null;
+            Node argNode = null;
             if (i - 1 < callArgNum)
             {
                 // There's a calling value.
-                newVal = node.jjtGetChild(i - 1).value(context);
+                argNode = node.jjtGetChild(i - 1);
+                newVal = argNode.value(context);
             }
             else if (macroArg.defaultVal != null)
             {
@@ -349,6 +367,11 @@ public class VelocimacroProxy extends Directive
 
             context.put(macroArg.name, newVal);
             values[(i-1) * 2 + 1] = newVal;
+
+            if (preserveArgumentsLiterals && newVal == null && argNode != null)
+            {
+                context.put(literalArgArray[i], argNode);
+            }
         }
 
         // return the array of replaced and new values

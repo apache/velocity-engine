@@ -68,6 +68,7 @@ public class ASTReference extends SimpleNode
     private boolean escaped = false;
     private boolean computableReference = true;
     private boolean logOnNull = true;
+    private boolean lookupAlternateLiteral = false;
     private String escPrefix = "";
     private String morePrefix = "";
     private String identifier = "";
@@ -137,6 +138,7 @@ public class ASTReference extends SimpleNode
 
         strictEscape = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, false);
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+        lookupAlternateLiteral = rsvc.getBoolean(RuntimeConstants.VM_PRESERVE_ARGUMENTS_LITERALS, false);
 
         /*
          *  the only thing we can do in init() is getRoot()
@@ -585,12 +587,17 @@ public class ASTReference extends SimpleNode
      */
     private String getNullString(InternalContextAdapter context)
     {
-        Object callingArgument = context.get(".literal." + nullString);
+        String ret = nullString;
 
-        if (callingArgument != null)
-            return ((Node) callingArgument).literal();
-        else
-            return nullString;
+        if (lookupAlternateLiteral)
+        {
+            Node callingArgument = (Node)context.get(".literal." + nullString);
+            if (callingArgument != null)
+            {
+                ret = ((Node) callingArgument).literal();
+            }
+        }
+        return ret;
     }
 
     /**

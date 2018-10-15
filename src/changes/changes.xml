@@ -26,7 +26,12 @@
 
   <body>
     <release version="2.1" date="In subversion">
-        <action type="add" dev="cbrisson" issue="VELOCITY-906">
+        <action type="add" dev="cbrisson" issue="VELOCITY-904">
+            Added the <code>velocimacro.preserve.arguments.literals</code> flag (false by default), for backward compatibility.
+            When true, for any macro argument that evaluates to null, the macro will display the provided argument literal representation
+            instead of the literal argument reference.
+        </action>
+        <action type="add" dev="cbrisson" issue="VELOCITY-903">
             Default block for empty loops: <code>#foreach($i in []) loop block #else empty #end</code>
         </action>
         <action type="fix" dev="cbrisson" issue="VELOCITY-888">
