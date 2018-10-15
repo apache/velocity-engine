@@ -42,7 +42,6 @@ public class MacroDefaultArgTestCase extends BaseTestCase
 
     public void testCompare()
     {
-      /*
       assertEvalEquals("121", "#macro(foo $a=1)$a#end#foo()#foo(2)#foo");
       assertEvalEquals("12", "#macro(foo $a = 1)$a#end#foo()#foo(2)");
       assertEvalEquals("12", "#macro(foo $a= 1 )$a#end#foo()#foo(2)");
@@ -52,9 +51,7 @@ public class MacroDefaultArgTestCase extends BaseTestCase
       assertEvalEquals("1 2 5 2 5 [1, 2] ", "#macro(foo, $a=1\n $b =2 )$a $b #end#foo()#foo(5)#foo(5 [1,2])");
 
       assertEvalEquals("3 2 5 2 5 [1, 2] ", "#macro(foo, $a=$x $b =2 )$a $b #end#set($x=3)#foo()#foo(5)#foo(5 [1,2])");
-      */
       assertEvalEquals("{a=3} 2 5 2 5 [1, 2] ", "#macro(foo, $a = {\"a\":$x} $b =2 )$a $b #end#set($x=3)#foo()#foo(5)#foo(5 [1,2])");
-/*
       assertEvalEquals("3 2 5 2 5 [1, 2] ", "#macro(foo, $a = \"$x\" $b =2 )$a $b #end#set($x=3)#foo()#foo(5)#foo(5 [1,2])");
       assertEvalEquals("3$y 2 5 2 5 [1, 2] ", "#macro(foo, $a = \"$x\\$y\" $b =2 )$a $b #end#set($x=3)#foo()#foo(5)#foo(5 [1,2])");
       assertEvalEquals("5 3 2 5 [1, 2] 2 ", "#macro(foo, $c $a = \"$x\" $b =2 )$c $a $b #end#set($x=3)#foo(5)#foo(5 [1,2])");
@@ -62,9 +59,8 @@ public class MacroDefaultArgTestCase extends BaseTestCase
       assertEvalEquals("1xno2xyes", "#macro(foo $a= 1 $b = \"x\")$a$b$bodyContent#end#@foo()no#end#@foo(2)yes#end");
 
       assertEvalEquals("xy", "#macro(foo $a=\"$b$c\"##\n)$a#end#set($b=\"x\")#set($c=\"y\")#foo()");
-      */
     }
-/*
+
     public void testErrors()
     {
       assertEvalException("#macro(foo $a = 1 $b)#end");
@@ -73,5 +69,4 @@ public class MacroDefaultArgTestCase extends BaseTestCase
       assertEvalException("#macro(foo $a $b $c = 4)#end#foo(1)");  // Too few arguments
       assertEvalException("#macro(foo $a = 3)#end#foo(2 3)"); // Too many arguments
     }
-    */
 }
