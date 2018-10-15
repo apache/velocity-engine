@@ -53,4 +53,10 @@ Choose among :
  \$foo2 : $i
 #end
 
+-- Empty array
+#foreach( $i in [] )
+  really?!
+#else
+  empty
+#end
 

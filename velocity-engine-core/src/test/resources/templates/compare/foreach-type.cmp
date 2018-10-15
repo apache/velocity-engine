@@ -7,10 +7,14 @@ Using a Object []
   c
   d
 
+  empty
+
 Using a Map
 
   this is from a hashtable!
   this is from a hashtable too!
+
+  this map was empty
 
 Using a Collection
 
@@ -22,6 +26,7 @@ Using an Iterator
   string1 
   string2 
 
+  empty
 
 Using an Enumeration
 
@@ -36,3 +41,5 @@ Using an array of primitives
   30
   40
   50
+
+  empty

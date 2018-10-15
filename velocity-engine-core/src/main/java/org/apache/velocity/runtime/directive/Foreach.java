@@ -26,10 +26,8 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
-import org.apache.velocity.runtime.parser.node.ASTReference;
-import org.apache.velocity.runtime.parser.node.Node;
+import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
-import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Info;
 
@@ -214,16 +212,29 @@ public class Foreach extends Directive
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
+        // Get the block ast tree which is always the last child ...
+        Node block = node.jjtGetChild(node.jjtGetNumChildren()-1);
+
+        // ... except if there is an #else claude
+        Node elseBlock = null;
+        Node previous = node.jjtGetChild(node.jjtGetNumChildren()-2);
+        if (previous instanceof ASTBlock)
+        {
+            elseBlock = block;
+            block = previous;
+        }
+
         Node iterableNode = node.jjtGetChild(2);
         Object iterable = iterableNode.value(context);
         Iterator i = getIterator(iterable, iterableNode);
-        if (i == null)
+        if (i == null || !i.hasNext())
         {
+            if (elseBlock != null)
+            {
+                renderBlock(context, writer, elseBlock);
+            }
             return false;
         }
-
-        // Get the block ast tree which is always the last child
-        Node block = node.jjtGetChild(node.jjtGetNumChildren()-1);
 
         /*
          * save the element key if there is one
