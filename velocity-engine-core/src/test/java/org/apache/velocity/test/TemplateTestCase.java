@@ -167,6 +167,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
 
         Object[] oarr = { "a","b","c","d" } ;
         int intarr[] = { 10, 20, 30, 40, 50 };
+        int emptyarr[] = {};
 
         context.put( "collection", vec );
         context2.put("iterator", vec.iterator());
@@ -174,6 +175,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         context.put("obarr", oarr );
         context.put("enumerator", vec.elements());
         context.put("intarr", intarr );
+        context.put("emptyarr", emptyarr );
 
         // Add some Numbers
         context.put ("int1", 1000);
