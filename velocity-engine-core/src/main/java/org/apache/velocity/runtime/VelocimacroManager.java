@@ -323,11 +323,11 @@ public class VelocimacroManager
             this.sourceTemplate = sourceTemplate;
 
             vp = new VelocimacroProxy();
+            vp.init(rsvc);
             vp.setName(this.vmName);
             vp.setMacroArgs(this.macroArgs);
             vp.setNodeTree(this.nodeTree);
             vp.setLocation(macro.getLine(), macro.getColumn(), macro.getTemplate());
-            vp.init(rsvc);
         }
 
         /**
