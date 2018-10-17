@@ -19,6 +19,7 @@
 package org.apache.velocity.test.util.introspection;
 
 import junit.framework.TestSuite;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -198,6 +199,15 @@ public class ConversionHandlerTestCase extends BaseTestCase
         }
     }
 
+    public void testOtherConversions() throws Exception
+    {
+        VelocityEngine ve = createEngine(false);
+        VelocityContext context = createContext();
+        StringWriter writer = new StringWriter();
+        ve.evaluate(context, writer,"test", "$strings.join(['foo', 'bar'], ',')");
+        assertEquals("foo,bar", writer.toString());
+    }
+
     /**
      * Return and initialize engine
      * @return
@@ -287,6 +297,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
                 };
         context.put("types", types);
         context.put("introspect", new Introspect());
+        context.put("strings", new StringUtils());
         return context;
     }
 
