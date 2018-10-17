@@ -402,13 +402,15 @@ public class MethodMap
         int fromC2toC1 = STRICTLY_CONVERTIBLE;
         for(int i = 0; i < t1.length; ++i)
         {
+            Class c1 = t1[i] == null ? null : IntrospectionUtils.getTypeClass(t1[i]);
+            Class c2 = t2[i] == null ? null : IntrospectionUtils.getTypeClass(t2[i]);
             boolean last = !fixedLengths && (i == t1.length - 1);
-            if (t1[i] != t2[i])
+            if (t1[i] == null && t2[i] != null || t1[i] != null && t2[i] == null || !t1[i].equals(t2[i]))
             {
                 if (t1[i] == null)
                 {
                     fromC2toC1 = NOT_CONVERTIBLE;
-                    if ((t2[i] instanceof Class) && ((Class)t2[i]).isPrimitive())
+                    if (c2 != null && c2.isPrimitive())
                     {
                         fromC1toC2 = NOT_CONVERTIBLE;
                     }
@@ -416,16 +418,15 @@ public class MethodMap
                 else if (t2[i] == null)
                 {
                     fromC1toC2 = NOT_CONVERTIBLE;
-                    if ((t1[i] instanceof Class) && ((Class)t1[i]).isPrimitive())
+                    if (c1 != null && c1.isPrimitive())
                     {
                         fromC2toC1 = NOT_CONVERTIBLE;
                     }
                 }
                 else
                 {
-                    if (t1[i] instanceof Class)
+                    if (c1 != null)
                     {
-                        Class c1 = (Class)t1[i];
                         switch (fromC1toC2)
                         {
                             case STRICTLY_CONVERTIBLE:
@@ -445,9 +446,8 @@ public class MethodMap
                             Math.min(fromC1toC2, IMPLCITLY_CONVERTIBLE) :
                             NOT_CONVERTIBLE;
                     }
-                    if (t2[i] instanceof Class)
+                    if (c2 != null)
                     {
-                        Class c2 = (Class)t2[i];
                         switch (fromC2toC1)
                         {
                             case STRICTLY_CONVERTIBLE:

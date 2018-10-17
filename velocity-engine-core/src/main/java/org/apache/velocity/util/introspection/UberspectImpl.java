@@ -141,22 +141,25 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
                     @Override
                     public boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
                     {
-                        if (formal instanceof Class) return ch.isExplicitlyConvertible((Class)formal, actual, possibleVarArg);
-                        else throw new UnsupportedOperationException("This conversion handler doesn't handle Types which aren't Classes");
+                        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                        if (formalClass != null) return ch.isExplicitlyConvertible(formalClass, actual, possibleVarArg);
+                        else return false;
                     }
 
                     @Override
                     public Converter getNeededConverter(Type formal, Class actual)
                     {
-                        if (formal instanceof Class) return ch.getNeededConverter((Class)formal, actual);
-                        else throw new UnsupportedOperationException("This conversion handler doesn't handle Types which aren't Classes");
+                        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                        if (formalClass != null) return ch.getNeededConverter(formalClass, actual);
+                        else return null;
                     }
 
                     @Override
                     public void addConverter(Type formal, Class actual, Converter converter)
                     {
-                        if (formal instanceof Class) ch.addConverter((Class)formal, actual, converter);
-                        else throw new UnsupportedOperationException("This conversion handler doesn't handle Types which aren't Classes");
+                        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                        if (formalClass != null) ch.addConverter(formalClass, actual, converter);
+                        else throw new UnsupportedOperationException("This conversion handler doesn't know how to handle Type: " + formal.getTypeName());
                     }
                 };
             }

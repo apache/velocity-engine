@@ -536,7 +536,8 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
          * for consistency, we also have to check standard implicit convertibility
          * since it may not have been checked before by the calling code
          */
-        if ((formal instanceof Class) && (Class)formal == actual ||
+        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+        if (formalClass != null && formalClass == actual ||
             IntrospectionUtils.isMethodInvocationConvertible(formal, actual, possibleVarArg) ||
             getNeededConverter(formal, actual) != null)
         {
@@ -582,15 +583,16 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
             converter = converterCacheMap.get(key);
             if (converter == null)
             {
+                Class formalClass = IntrospectionUtils.getTypeClass(formal);
                 /* check for conversion towards string */
                 if (formal == String.class)
                 {
                     converter = toString;
                 }
                 /* check for String -> Enum constant conversion */
-                else if ((formal instanceof Class) && ((Class)formal).isEnum() && actual == String.class)
+                else if (formalClass != null && formalClass.isEnum() && actual == String.class)
                 {
-                    final Class<Enum> enumClass = (Class<Enum>)formal;
+                    final Class<Enum> enumClass = (Class<Enum>)formalClass;
                     converter = new Converter()
                     {
                         @Override
@@ -620,9 +622,9 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
     {
         Pair<String, String> key = Pair.of(formal.getTypeName(), actual.getTypeName());
         converterCacheMap.put(key, converter);
-        if (formal instanceof Class)
+        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+        if (formalClass != null)
         {
-            Class formalClass = (Class)formal;
             if (formalClass.isPrimitive())
             {
                 key = Pair.of(IntrospectionUtils.getBoxedClass(formalClass).getTypeName(), actual.getTypeName());

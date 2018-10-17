@@ -74,7 +74,7 @@ public class IntrospectionUtils
      * @param clazz input class
      * @return boxed class
      */
-    static Class getBoxedClass(Class clazz)
+    public static Class getBoxedClass(Class clazz)
     {
         Class boxed = boxingMap.get(clazz);
         return boxed == null ? clazz : boxed;
@@ -85,7 +85,7 @@ public class IntrospectionUtils
      * @param clazz input class
      * @return unboxed class
      */
-    static Class getUnboxedClass(Class clazz)
+    public static Class getUnboxedClass(Class clazz)
     {
         Class unboxed = unboxingMap.get(clazz);
         return unboxed == null ? clazz : unboxed;
@@ -93,8 +93,10 @@ public class IntrospectionUtils
 
     /**
      * returns the Class corresponding to a Type, if possible
+     * @param type the input Type
+     * @return found Class, if any
      */
-    static Class getTypeClass(Type type)
+    public static Class getTypeClass(Type type)
     {
         if (type == null)
         {
