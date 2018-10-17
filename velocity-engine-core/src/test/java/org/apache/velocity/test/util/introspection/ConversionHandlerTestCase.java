@@ -19,6 +19,7 @@
 package org.apache.velocity.test.util.introspection;
 
 import junit.framework.TestSuite;
+import org.apache.commons.lang3.reflect.TypeUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -41,6 +42,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -123,11 +126,33 @@ public class ConversionHandlerTestCase extends BaseTestCase
                 return 4.5f;
             }
         });
+        ch.addConverter(TypeUtils.parameterize(List.class, Integer.class), String.class, new Converter<List<Integer>>()
+        {
+            @Override
+            public List<Integer> convert(Object o)
+            {
+                return Arrays.<Integer>asList(1,2,3);
+            }
+        });
+        ch.addConverter(TypeUtils.parameterize(List.class, String.class), String.class, new Converter<List<String>>()
+        {
+            @Override
+            public List<String> convert(Object o)
+            {
+                return Arrays.<String>asList("a", "b", "c");
+            }
+        });
         VelocityContext context = new VelocityContext();
         context.put("obj", new Obj());
         Writer writer = new StringWriter();
         ve.evaluate(context, writer, "test", "$obj.integralFloat($obj) / $obj.objectFloat($obj)");
         assertEquals("float ok: 4.5 / Float ok: 4.5", writer.toString());
+        writer = new StringWriter();
+        ve.evaluate(context, writer, "test", "$obj.iWantAStringList('anything')");
+        assertEquals("correct", writer.toString());
+        writer = new StringWriter();
+        ve.evaluate(context, writer, "test", "$obj.iWantAnIntegerList('anything')");
+        assertEquals("correct", writer.toString());
     }
 
     /**
@@ -291,6 +316,20 @@ public class ConversionHandlerTestCase extends BaseTestCase
         public String objectEnum(Color c) { return "Enum ok: " + c; }
 
         public String toString() { return "instance of Obj"; }
+
+        public String iWantAStringList(List<String> list)
+        {
+            if (list != null && list.size() == 3 && list.get(0).equals("a") && list.get(1).equals("b") && list.get(2).equals("c"))
+                return "correct";
+            else return "wrong";
+        }
+
+        public String iWantAnIntegerList(List<Integer> list)
+        {
+            if (list != null && list.size() == 3 && list.get(0).equals(1) && list.get(1).equals(2) && list.get(2).equals(3))
+                return "correct";
+            else return "wrong";
+        }
     }
 
     public static class Introspect

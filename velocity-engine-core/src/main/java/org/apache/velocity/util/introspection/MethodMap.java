@@ -194,7 +194,7 @@ public class MethodMap
             this.applicability = applicability;
             this.methodTypes = method.getGenericParameterTypes();
             this.specificity = compare(methodTypes, unboxedArgs);
-            this.varargs = methodTypes.length > 0 && (methodTypes[methodTypes.length - 1] instanceof Class) && ((Class)methodTypes[methodTypes.length - 1]).isArray();
+            this.varargs = methodTypes.length > 0 && TypeUtils.isArrayType(methodTypes[methodTypes.length - 1]);
         }
     }
 
@@ -346,7 +346,7 @@ public class MethodMap
                 return MORE_SPECIFIC;
             }
             t2 = Arrays.copyOf(t2, t1.length);
-            Type itemType = t2[l2 - 1] instanceof Class ? ((Class)t2[l2 - 1]).getComponentType() : null;
+            Type itemType = TypeUtils.getArrayComponentType(t2[l2 - 1]);
             /* if item class is null, then it implies the vaarg is #1
              * (and receives an empty array)
              */
@@ -375,7 +375,7 @@ public class MethodMap
                 return LESS_SPECIFIC;
             }
             t1 = Arrays.copyOf(t1, t2.length);
-            Type itemType = t1[l1 - 1] instanceof Class ? ((Class)t1[l1 - 1]).getComponentType() : null;
+            Type itemType = TypeUtils.getArrayComponentType(t1[l1 - 1]);
             /* if item class is null, then it implies the vaarg is #2
              * (and receives an empty array)
              */
@@ -494,8 +494,8 @@ public class MethodMap
              * If one method accepts varargs and the other does not,
              * call the non-vararg one more specific.
              */
-            boolean last1Array = t1IsVararag || !fixedLengths && (t1[t1.length - 1] instanceof Class) && ((Class)t1[t1.length - 1]).isArray();
-            boolean last2Array = t2IsVararag || !fixedLengths && (t2[t2.length - 1] instanceof Class) && ((Class)t2[t2.length - 1]).isArray();
+            boolean last1Array = t1IsVararag || !fixedLengths && TypeUtils.isArrayType (t1[t1.length - 1]);
+            boolean last2Array = t2IsVararag || !fixedLengths && TypeUtils.isArrayType(t2[t2.length - 1]);
             if (last1Array && !last2Array)
             {
                 return LESS_SPECIFIC;
@@ -527,9 +527,7 @@ public class MethodMap
         {
             // if there's just one more methodArg than class arg
             // and the last methodArg is an array, then treat it as a vararg
-            if (methodArgs.length == classes.length + 1 &&
-                (methodArgs[methodArgs.length - 1] instanceof Class) &&
-                ((Class)methodArgs[methodArgs.length - 1]).isArray())
+            if (methodArgs.length == classes.length + 1 && TypeUtils.isArrayType(methodArgs[methodArgs.length - 1]))
             {
                 // all the args preceding the vararg must match
                 for (int i = 0; i < classes.length; i++)
@@ -564,7 +562,7 @@ public class MethodMap
             // (e.g. String when the method is expecting String...)
             for(int i = 0; i < classes.length; ++i)
             {
-                boolean possibleVararg = i == classes.length - 1 && (methodArgs[i] instanceof Class) && ((Class)methodArgs[i]).isArray();
+                boolean possibleVararg = i == classes.length - 1 && TypeUtils.isArrayType(methodArgs[i]);
                 if (!isStrictConvertible(methodArgs[i], classes[i], possibleVararg))
                 {
                     if (isConvertible(methodArgs[i], classes[i], possibleVararg))
@@ -587,7 +585,7 @@ public class MethodMap
         {
             // check that the last methodArg is an array
             Type lastarg = methodArgs[methodArgs.length - 1];
-            if (!(lastarg instanceof Class) || !((Class)lastarg).isArray())
+            if (!TypeUtils.isArrayType(lastarg))
             {
                 return NOT_CONVERTIBLE;
             }
@@ -613,7 +611,7 @@ public class MethodMap
             }
 
             // check that all remaining arguments are convertible to the vararg type
-            Class vararg = ((Class)lastarg).getComponentType();
+            Type vararg = TypeUtils.getArrayComponentType(lastarg);
             for (int i = methodArgs.length - 1; i < classes.length; ++i)
             {
                 if (!isStrictConvertible(vararg, classes[i], false))
