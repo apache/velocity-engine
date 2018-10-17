@@ -19,7 +19,8 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
-import org.apache.velocity.util.Pair;
+import org.apache.commons.lang3.reflect.TypeUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
     /**
      * standard narrowing and string parsing conversions.
      */
-    static Map<Pair<? extends Type, ? extends Class>, Converter> standardConverterMap;
+    static Map<Pair<String, String>, Converter> standardConverterMap;
 
     /**
      * basic toString converter
@@ -68,7 +69,26 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
     /**
      * a converters cache map, initialized with the standard narrowing and string parsing conversions.
      */
-    Map<Pair<? extends Type, ? extends Class>, Converter> converterCacheMap;
+    Map<Pair<String, String>, Converter> converterCacheMap;
+
+    static final String BOOLEAN_TYPE = "boolean";
+    static final String BYTE_TYPE = "byte";
+    static final String SHORT_TYPE = "short";
+    static final String INTEGER_TYPE = "int";
+    static final String LONG_TYPE = "long";
+    static final String FLOAT_TYPE = "float";
+    static final String DOUBLE_TYPE = "double";
+    static final String CHARACTER_TYPE = "char";
+    static final String BOOLEAN_CLASS = "java.lang.Boolean";
+    static final String BYTE_CLASS = "java.lang.Byte";
+    static final String SHORT_CLASS = "java.lang.Short";
+    static final String INTEGER_CLASS = "java.lang.Integer";
+    static final String LONG_CLASS = "java.lang.Long";
+    static final String FLOAT_CLASS = "java.lang.Float";
+    static final String DOUBLE_CLASS = "java.lang.Double";
+    static final String NUMBER_CLASS = "java.lang.Number";
+    static final String CHARACTER_CLASS = "java.lang.Character";
+    static final String STRING_CLASS = "java.lang.String";
 
     static
     {
@@ -92,32 +112,32 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return o == null ? null : ((Number) o).intValue() != 0;
             }
         };
-        standardConverterMap.put(new Pair<>(Boolean.class, Byte.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Short.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Integer.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Long.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Float.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Double.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Number.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Byte.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Short.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Integer.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Long.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Float.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.class, Double.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Byte.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Short.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Integer.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Long.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Float.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Double.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Number.class), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Byte.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Short.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Integer.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Long.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Float.TYPE), numberToBool);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Double.TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, BYTE_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, SHORT_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, INTEGER_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, LONG_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, FLOAT_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, DOUBLE_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, NUMBER_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, BYTE_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, SHORT_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, INTEGER_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, LONG_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, FLOAT_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, DOUBLE_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, BYTE_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, SHORT_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, INTEGER_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, LONG_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, FLOAT_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, DOUBLE_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, NUMBER_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, BYTE_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, SHORT_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, INTEGER_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, LONG_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, FLOAT_TYPE), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, DOUBLE_TYPE), numberToBool);
 
         /* character -> boolean */
         Converter<Boolean> charToBoolean = new Converter<Boolean>()
@@ -128,10 +148,10 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return o == null ? null : (Character) o != 0;
             }
         };
-        standardConverterMap.put(new Pair<>(Boolean.class, Character.class), charToBoolean);
-        standardConverterMap.put(new Pair<>(Boolean.class, Character.TYPE), charToBoolean);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Character.class), charToBoolean);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, Character.TYPE), charToBoolean);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, CHARACTER_CLASS), charToBoolean);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, CHARACTER_TYPE), charToBoolean);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, CHARACTER_CLASS), charToBoolean);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, CHARACTER_TYPE), charToBoolean);
 
         /* string -> boolean */
         Converter<Boolean> stringToBoolean = new Converter<Boolean>()
@@ -142,8 +162,8 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return Boolean.valueOf(String.valueOf(o));
             }
         };
-        standardConverterMap.put(new Pair<>(Boolean.class, String.class), stringToBoolean);
-        standardConverterMap.put(new Pair<>(Boolean.TYPE, String.class), stringToBoolean);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, STRING_CLASS), stringToBoolean);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, STRING_CLASS), stringToBoolean);
 
         /* narrowing towards byte */
         Converter<Byte> narrowingToByte = new Converter<Byte>()
@@ -160,28 +180,28 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return ((Number) o).byteValue();
             }
         };
-        standardConverterMap.put(new Pair<>(Byte.class, Short.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Integer.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Long.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Float.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Double.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Number.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Short.TYPE), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Integer.TYPE), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Long.TYPE), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Float.TYPE), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Double.TYPE), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Short.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Integer.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Long.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Float.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Double.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Number.class), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Short.TYPE), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Integer.TYPE), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Long.TYPE), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Float.TYPE), narrowingToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Double.TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, SHORT_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, INTEGER_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, LONG_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, FLOAT_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, DOUBLE_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, NUMBER_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, SHORT_TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, INTEGER_TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, LONG_TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, FLOAT_TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, DOUBLE_TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, SHORT_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, INTEGER_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, LONG_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, FLOAT_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, DOUBLE_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, NUMBER_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, SHORT_TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, INTEGER_TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, LONG_TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, FLOAT_TYPE), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, DOUBLE_TYPE), narrowingToByte);
 
         /* string to byte */
         Converter<Byte> stringToByte = new Converter<Byte>()
@@ -192,8 +212,8 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return Byte.valueOf(String.valueOf(o));
             }
         };
-        standardConverterMap.put(new Pair<>(Byte.class, String.class), stringToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, String.class), stringToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, STRING_CLASS), stringToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, STRING_CLASS), stringToByte);
 
         /* narrowing towards short */
         Converter<Short> narrowingToShort = new Converter<Short>()
@@ -210,24 +230,24 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return ((Number) o).shortValue();
             }
         };
-        standardConverterMap.put(new Pair<>(Short.class, Integer.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.class, Long.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.class, Float.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.class, Double.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.class, Number.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.class, Integer.TYPE), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.class, Long.TYPE), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.class, Float.TYPE), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.class, Double.TYPE), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Integer.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Long.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Float.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Double.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Number.class), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Integer.TYPE), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Long.TYPE), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Float.TYPE), narrowingToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Double.TYPE), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, INTEGER_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, LONG_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, FLOAT_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, DOUBLE_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, NUMBER_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, INTEGER_TYPE), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, LONG_TYPE), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, FLOAT_TYPE), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, DOUBLE_TYPE), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, INTEGER_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, LONG_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, FLOAT_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, DOUBLE_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, NUMBER_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, INTEGER_TYPE), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, LONG_TYPE), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, FLOAT_TYPE), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, DOUBLE_TYPE), narrowingToShort);
 
         /* string to short */
         Converter<Short> stringToShort = new Converter<Short>()
@@ -238,8 +258,8 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return Short.valueOf(String.valueOf(o));
             }
         };
-        standardConverterMap.put(new Pair<>(Short.class, String.class), stringToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, String.class), stringToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, STRING_CLASS), stringToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, STRING_CLASS), stringToShort);
 
         /* narrowing towards int */
         Converter<Integer> narrowingToInteger = new Converter<Integer>()
@@ -256,20 +276,20 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return ((Number) o).intValue();
             }
         };
-        standardConverterMap.put(new Pair<>(Integer.class, Long.class), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.class, Float.class), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.class, Double.class), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.class, Number.class), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.class, Long.TYPE), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.class, Float.TYPE), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.class, Double.TYPE), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, Long.class), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, Float.class), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, Double.class), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, Number.class), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, Long.TYPE), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, Float.TYPE), narrowingToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, Double.TYPE), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, LONG_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, FLOAT_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, DOUBLE_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, NUMBER_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, LONG_TYPE), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, FLOAT_TYPE), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, DOUBLE_TYPE), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, LONG_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, FLOAT_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, DOUBLE_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, NUMBER_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, LONG_TYPE), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, FLOAT_TYPE), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, DOUBLE_TYPE), narrowingToInteger);
 
         /* widening towards Integer */
         Converter<Integer> wideningToInteger = new Converter<Integer>()
@@ -281,8 +301,8 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return ((Number) o).intValue();
             }
         };
-        standardConverterMap.put(new Pair<>(Integer.class, Short.class), wideningToInteger);
-        standardConverterMap.put(new Pair<>(Integer.class, Short.TYPE), wideningToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, SHORT_CLASS), wideningToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, SHORT_TYPE), wideningToInteger);
 
         /* string to int */
         Converter<Integer> stringToInteger = new Converter<Integer>()
@@ -293,8 +313,8 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return Integer.valueOf(String.valueOf(o));
             }
         };
-        standardConverterMap.put(new Pair<>(Integer.class, String.class), stringToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, String.class), stringToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, STRING_CLASS), stringToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, STRING_CLASS), stringToInteger);
 
         /* narrowing towards long */
         Converter<Long> narrowingToLong = new Converter<Long>()
@@ -311,16 +331,16 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return ((Number) o).longValue();
             }
         };
-        standardConverterMap.put(new Pair<>(Long.class, Float.class), narrowingToLong);
-        standardConverterMap.put(new Pair<>(Long.class, Double.class), narrowingToLong);
-        standardConverterMap.put(new Pair<>(Long.class, Number.class), narrowingToLong);
-        standardConverterMap.put(new Pair<>(Long.class, Float.TYPE), narrowingToLong);
-        standardConverterMap.put(new Pair<>(Long.class, Double.TYPE), narrowingToLong);
-        standardConverterMap.put(new Pair<>(Long.TYPE, Float.class), narrowingToLong);
-        standardConverterMap.put(new Pair<>(Long.TYPE, Double.class), narrowingToLong);
-        standardConverterMap.put(new Pair<>(Long.TYPE, Number.class), narrowingToLong);
-        standardConverterMap.put(new Pair<>(Long.TYPE, Float.TYPE), narrowingToLong);
-        standardConverterMap.put(new Pair<>(Long.TYPE, Double.TYPE), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, FLOAT_CLASS), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, DOUBLE_CLASS), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, NUMBER_CLASS), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, FLOAT_TYPE), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, DOUBLE_TYPE), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, FLOAT_CLASS), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, DOUBLE_CLASS), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, NUMBER_CLASS), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, FLOAT_TYPE), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, DOUBLE_TYPE), narrowingToLong);
 
         /* widening towards Long */
         Converter<Long> wideningToLong = new Converter<Long>()
@@ -332,10 +352,10 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return ((Number) o).longValue();
             }
         };
-        standardConverterMap.put(new Pair<>(Long.class, Short.class), wideningToLong);
-        standardConverterMap.put(new Pair<>(Long.class, Integer.class), wideningToLong);
-        standardConverterMap.put(new Pair<>(Long.class, Short.TYPE), wideningToLong);
-        standardConverterMap.put(new Pair<>(Long.class, Integer.TYPE), wideningToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, SHORT_CLASS), wideningToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, INTEGER_CLASS), wideningToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, SHORT_TYPE), wideningToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, INTEGER_TYPE), wideningToLong);
 
         /* string to long */
         Converter<Long> stringToLong = new Converter<Long>()
@@ -346,8 +366,8 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return Long.valueOf(String.valueOf(o));
             }
         };
-        standardConverterMap.put(new Pair<>(Long.class, String.class), stringToLong);
-        standardConverterMap.put(new Pair<>(Long.TYPE, String.class), stringToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, STRING_CLASS), stringToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, STRING_CLASS), stringToLong);
 
         /* narrowing towards float */
         Converter<Float> narrowingToFloat = new Converter<Float>()
@@ -358,12 +378,12 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return o == null ? null : ((Number) o).floatValue();
             }
         };
-        standardConverterMap.put(new Pair<>(Float.class, Double.class), narrowingToFloat);
-        standardConverterMap.put(new Pair<>(Float.class, Number.class), narrowingToFloat);
-        standardConverterMap.put(new Pair<>(Float.class, Double.TYPE), narrowingToFloat);
-        standardConverterMap.put(new Pair<>(Float.TYPE, Double.class), narrowingToFloat);
-        standardConverterMap.put(new Pair<>(Float.TYPE, Number.class), narrowingToFloat);
-        standardConverterMap.put(new Pair<>(Float.TYPE, Double.TYPE), narrowingToFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, DOUBLE_CLASS), narrowingToFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, NUMBER_CLASS), narrowingToFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, DOUBLE_TYPE), narrowingToFloat);
+        standardConverterMap.put(Pair.of(FLOAT_TYPE, DOUBLE_CLASS), narrowingToFloat);
+        standardConverterMap.put(Pair.of(FLOAT_TYPE, NUMBER_CLASS), narrowingToFloat);
+        standardConverterMap.put(Pair.of(FLOAT_TYPE, DOUBLE_TYPE), narrowingToFloat);
 
         /* exact towards Float */
         Converter<Float> toFloat = new Converter<Float>()
@@ -375,12 +395,12 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return ((Number) o).floatValue();
             }
         };
-        standardConverterMap.put(new Pair<>(Float.class, Short.class), toFloat);
-        standardConverterMap.put(new Pair<>(Float.class, Integer.class), toFloat);
-        standardConverterMap.put(new Pair<>(Float.class, Long.class), toFloat);
-        standardConverterMap.put(new Pair<>(Float.class, Short.TYPE), toFloat);
-        standardConverterMap.put(new Pair<>(Float.class, Integer.TYPE), toFloat);
-        standardConverterMap.put(new Pair<>(Float.class, Long.TYPE), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, SHORT_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, INTEGER_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, LONG_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, SHORT_TYPE), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, INTEGER_TYPE), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, LONG_TYPE), toFloat);
 
         /* string to float */
         Converter<Float> stringToFloat = new Converter<Float>()
@@ -391,8 +411,8 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return Float.valueOf(String.valueOf(o));
             }
         };
-        standardConverterMap.put(new Pair<>(Float.class, String.class), stringToFloat);
-        standardConverterMap.put(new Pair<>(Float.TYPE, String.class), stringToFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, STRING_CLASS), stringToFloat);
+        standardConverterMap.put(Pair.of(FLOAT_TYPE, STRING_CLASS), stringToFloat);
 
         /* exact or widening towards Double */
         Converter<Double> toDouble = new Converter<Double>()
@@ -404,16 +424,16 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return ((Number) o).doubleValue();
             }
         };
-        standardConverterMap.put(new Pair<>(Double.class, Short.class), toDouble);
-        standardConverterMap.put(new Pair<>(Double.class, Integer.class), toDouble);
-        standardConverterMap.put(new Pair<>(Double.class, Long.class), toDouble);
-        standardConverterMap.put(new Pair<>(Double.class, Float.class), toDouble);
-        standardConverterMap.put(new Pair<>(Double.class, Number.class), toDouble);
-        standardConverterMap.put(new Pair<>(Double.class, Short.TYPE), toDouble);
-        standardConverterMap.put(new Pair<>(Double.class, Integer.TYPE), toDouble);
-        standardConverterMap.put(new Pair<>(Double.class, Long.TYPE), toDouble);
-        standardConverterMap.put(new Pair<>(Double.class, Float.TYPE), toDouble);
-        standardConverterMap.put(new Pair<>(Double.TYPE, Number.class), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, SHORT_CLASS), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, INTEGER_CLASS), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, LONG_CLASS), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, FLOAT_CLASS), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, NUMBER_CLASS), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, SHORT_TYPE), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, INTEGER_TYPE), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, LONG_TYPE), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, FLOAT_TYPE), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_TYPE, NUMBER_CLASS), toDouble);
 
         /* string to double */
         Converter<Double> stringToDouble = new Converter<Double>()
@@ -424,8 +444,8 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return Double.valueOf(String.valueOf(o));
             }
         };
-        standardConverterMap.put(new Pair<>(Double.class, String.class), stringToDouble);
-        standardConverterMap.put(new Pair<>(Double.TYPE, String.class), stringToDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, STRING_CLASS), stringToDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_TYPE, STRING_CLASS), stringToDouble);
 
         /* boolean to byte */
         Converter<Byte> booleanToByte = new Converter<Byte>()
@@ -436,10 +456,10 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return o == null ? null : (Boolean) o ? (byte)1 : (byte)0;
             }
         };
-        standardConverterMap.put(new Pair<>(Byte.class, Boolean.class), booleanToByte);
-        standardConverterMap.put(new Pair<>(Byte.class, Boolean.TYPE), booleanToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Boolean.class), booleanToByte);
-        standardConverterMap.put(new Pair<>(Byte.TYPE, Boolean.TYPE), booleanToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, BOOLEAN_CLASS), booleanToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, BOOLEAN_TYPE), booleanToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, BOOLEAN_CLASS), booleanToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, BOOLEAN_TYPE), booleanToByte);
 
         /* boolean to short */
         Converter<Short> booleanToShort = new Converter<Short>()
@@ -450,10 +470,10 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return o == null ? null : (Boolean) o ? (short)1 : (short)0;
             }
         };
-        standardConverterMap.put(new Pair<>(Short.class, Boolean.class), booleanToShort);
-        standardConverterMap.put(new Pair<>(Short.class, Boolean.TYPE), booleanToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Boolean.class), booleanToShort);
-        standardConverterMap.put(new Pair<>(Short.TYPE, Boolean.TYPE), booleanToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, BOOLEAN_CLASS), booleanToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, BOOLEAN_TYPE), booleanToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, BOOLEAN_CLASS), booleanToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, BOOLEAN_TYPE), booleanToShort);
 
         /* boolean to integer */
         Converter<Integer> booleanToInteger = new Converter<Integer>()
@@ -464,10 +484,10 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return o == null ? null : (Boolean) o ? (Integer)1 : (Integer)0;
             }
         };
-        standardConverterMap.put(new Pair<>(Integer.class, Boolean.class), booleanToInteger);
-        standardConverterMap.put(new Pair<>(Integer.class, Boolean.TYPE), booleanToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, Boolean.class), booleanToInteger);
-        standardConverterMap.put(new Pair<>(Integer.TYPE, Boolean.TYPE), booleanToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, BOOLEAN_CLASS), booleanToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, BOOLEAN_TYPE), booleanToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, BOOLEAN_CLASS), booleanToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, BOOLEAN_TYPE), booleanToInteger);
 
         /* boolean to lonf */
         Converter<Long> booleanToLong = new Converter<Long>()
@@ -478,10 +498,10 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 return o == null ? null : (Boolean) o ? 1L : 0L;
             }
         };
-        standardConverterMap.put(new Pair<>(Long.class, Boolean.class), booleanToLong);
-        standardConverterMap.put(new Pair<>(Long.class, Boolean.TYPE), booleanToLong);
-        standardConverterMap.put(new Pair<>(Long.TYPE, Boolean.class), booleanToLong);
-        standardConverterMap.put(new Pair<>(Long.TYPE, Boolean.TYPE), booleanToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, BOOLEAN_CLASS), booleanToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, BOOLEAN_TYPE), booleanToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, BOOLEAN_CLASS), booleanToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, BOOLEAN_TYPE), booleanToLong);
 
         /* to string */
         toString = new Converter<String>()
@@ -524,13 +544,13 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
         }
 
         /* Check var arg */
-        if (possibleVarArg && (formal instanceof Class) && ((Class)formal).isArray())
+        if (possibleVarArg && TypeUtils.isArrayType(formal))
         {
             if (actual.isArray())
             {
                 actual = actual.getComponentType();
             }
-            return isExplicitlyConvertible(((Class)formal).getComponentType(), actual, false);
+            return isExplicitlyConvertible(TypeUtils.getArrayComponentType(formal), actual, false);
         }
         return false;
     }
@@ -548,7 +568,11 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
     @Override
     public Converter getNeededConverter(Type formal, Class actual)
     {
-        Pair<Type, Class> key = new Pair<>(formal, actual);
+        if (actual == null)
+        {
+            return null;
+        }
+        Pair<String, String> key = Pair.of(formal.getTypeName(), actual.getTypeName());
 
         /* first check for a standard conversion */
         Converter converter = standardConverterMap.get(key);
@@ -594,14 +618,14 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
     @Override
     public void addConverter(Type formal, Class actual, Converter converter)
     {
-        Pair<Type, Class> key = new Pair<>(formal, actual);
+        Pair<String, String> key = Pair.of(formal.getTypeName(), actual.getTypeName());
         converterCacheMap.put(key, converter);
         if (formal instanceof Class)
         {
             Class formalClass = (Class)formal;
             if (formalClass.isPrimitive())
             {
-                key = new Pair<>((Type)IntrospectionUtils.getBoxedClass(formalClass), actual);
+                key = Pair.of(IntrospectionUtils.getBoxedClass(formalClass).getTypeName(), actual.getTypeName());
                 converterCacheMap.put(key, converter);
             }
             else
@@ -609,7 +633,7 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 Class unboxedFormal = IntrospectionUtils.getUnboxedClass(formalClass);
                 if (unboxedFormal != formalClass)
                 {
-                    key = new Pair<>((Type)unboxedFormal, actual);
+                    key = Pair.of(unboxedFormal.getTypeName(), actual.getTypeName());
                     converterCacheMap.put(key, converter);
                 }
             }

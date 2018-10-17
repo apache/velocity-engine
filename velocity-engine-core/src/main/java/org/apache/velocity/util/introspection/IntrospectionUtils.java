@@ -21,7 +21,12 @@ package org.apache.velocity.util.introspection;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -87,8 +92,43 @@ public class IntrospectionUtils
     }
 
     /**
-     *
+     * returns the Class corresponding to a Type, if possible
      */
+    static Class getTypeClass(Type type)
+    {
+        if (type == null)
+        {
+            return null;
+        }
+        if (type instanceof Class)
+        {
+            return (Class)type;
+        }
+        else if (type instanceof ParameterizedType)
+        {
+            return (Class)((ParameterizedType)type).getRawType();
+        }
+        else if (type instanceof GenericArrayType)
+        {
+            Type componentType = ((GenericArrayType)type).getGenericComponentType();
+            Class componentClass = getTypeClass(componentType);
+            if (componentClass != null)
+            {
+                return Array.newInstance(componentClass, 0).getClass();
+            }
+        }
+        else if (type instanceof TypeVariable)
+        {
+            Type[] bounds = TypeUtils.getImplicitBounds((TypeVariable)type);
+            if (bounds.length == 1) return getTypeClass(bounds[0]);
+        }
+        else if (type instanceof WildcardType)
+        {
+            Type[] bounds = TypeUtils.getImplicitUpperBounds((WildcardType)type);
+            if (bounds.length == 1) return getTypeClass(bounds[0]);
+        }
+        return null;
+    }
 
     /**
      * Determines whether a type represented by a class object is
@@ -114,9 +154,9 @@ public class IntrospectionUtils
                                                         Class actual,
                                                         boolean possibleVarArg)
     {
-        if (formal instanceof Class)
+        Class formalClass = getTypeClass(formal);
+        if (formalClass != null)
         {
-            Class formalClass = (Class)formal;
             /* if it's a null, it means the arg was null */
             if (actual == null)
             {
@@ -202,7 +242,12 @@ public class IntrospectionUtils
         else
         {
             // no distinction between strict and implicit, not a big deal in this case
-            return TypeUtils.isAssignable(actual, formal);
+            if (TypeUtils.isAssignable(actual, formal))
+            {
+                return true;
+            }
+            return possibleVarArg && TypeUtils.isArrayType(formal) &&
+                TypeUtils.isAssignable(actual, TypeUtils.getArrayComponentType(formal));
         }
     }
 
@@ -226,9 +271,9 @@ public class IntrospectionUtils
                                                               Class actual,
                                                               boolean possibleVarArg)
     {
-        if (formal instanceof Class)
+        Class formalClass = getTypeClass(formal);
+        if (formalClass != null)
         {
-            Class formalClass = (Class) formal;
             /* Check for nullity */
             if (actual == null)
             {
@@ -279,7 +324,12 @@ public class IntrospectionUtils
         else
         {
             // no distinction between strict and implicit, not a big deal in this case
-            return TypeUtils.isAssignable(actual, formal);
+            if (TypeUtils.isAssignable(actual, formal))
+            {
+                return true;
+            }
+            return possibleVarArg && TypeUtils.isArrayType(formal) &&
+                TypeUtils.isAssignable(actual, TypeUtils.getArrayComponentType(formal));
         }
     }
 }
