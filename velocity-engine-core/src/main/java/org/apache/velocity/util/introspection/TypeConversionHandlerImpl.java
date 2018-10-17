@@ -21,6 +21,7 @@ package org.apache.velocity.util.introspection;
 
 import org.apache.velocity.util.Pair;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,16 +32,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * for Velocity.
  *
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
- * @version $Id: ConversionHandlerImpl.java $
+ * @version $Id: TypeConversionHandlerImpl.java $
  * @since 2.0
  */
 
-public class ConversionHandlerImpl implements ConversionHandler
+public class TypeConversionHandlerImpl implements TypeConversionHandler
 {
     /**
      * standard narrowing and string parsing conversions.
      */
-    static Map<Pair<? extends Class, ? extends Class>, Converter> standardConverterMap;
+    static Map<Pair<? extends Type, ? extends Class>, Converter> standardConverterMap;
 
     /**
      * basic toString converter
@@ -67,7 +68,7 @@ public class ConversionHandlerImpl implements ConversionHandler
     /**
      * a converters cache map, initialized with the standard narrowing and string parsing conversions.
      */
-    Map<Pair<? extends Class, ? extends Class>, Converter> converterCacheMap;
+    Map<Pair<? extends Type, ? extends Class>, Converter> converterCacheMap;
 
     static
     {
@@ -496,7 +497,7 @@ public class ConversionHandlerImpl implements ConversionHandler
     /**
      * Constructor
      */
-    public ConversionHandlerImpl()
+    public TypeConversionHandlerImpl()
     {
         converterCacheMap = new ConcurrentHashMap<>();
     }
@@ -505,17 +506,17 @@ public class ConversionHandlerImpl implements ConversionHandler
      * Check to see if the conversion can be done using an explicit conversion
      * @param actual found argument type
      * @param formal expected formal type
-     * @return null if no conversion is needed, or the appropriate Converter object
-     * @since 2.0
+     * @return true if actual class can be explicitely converted to expected formal type
+     * @since 2.1
      */
     @Override
-    public boolean isExplicitlyConvertible(Class formal, Class actual, boolean possibleVarArg)
+    public boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
     {
         /*
          * for consistency, we also have to check standard implicit convertibility
          * since it may not have been checked before by the calling code
          */
-        if (formal == actual ||
+        if ((formal instanceof Class) && (Class)formal == actual ||
             IntrospectionUtils.isMethodInvocationConvertible(formal, actual, possibleVarArg) ||
             getNeededConverter(formal, actual) != null)
         {
@@ -523,13 +524,13 @@ public class ConversionHandlerImpl implements ConversionHandler
         }
 
         /* Check var arg */
-        if (possibleVarArg && formal.isArray())
+        if (possibleVarArg && (formal instanceof Class) && ((Class)formal).isArray())
         {
             if (actual.isArray())
             {
                 actual = actual.getComponentType();
             }
-            return isExplicitlyConvertible(formal.getComponentType(), actual, false);
+            return isExplicitlyConvertible(((Class)formal).getComponentType(), actual, false);
         }
         return false;
     }
@@ -542,12 +543,12 @@ public class ConversionHandlerImpl implements ConversionHandler
      * @param actual found argument type
      * @param formal expected formal type
      * @return null if no conversion is needed, or the appropriate Converter object
-     * @since 2.0
+     * @since 2.1
      */
     @Override
-    public Converter getNeededConverter(final Class formal, final Class actual)
+    public Converter getNeededConverter(Type formal, Class actual)
     {
-        Pair<Class, Class> key = new Pair<>(formal, actual);
+        Pair<Type, Class> key = new Pair<>(formal, actual);
 
         /* first check for a standard conversion */
         Converter converter = standardConverterMap.get(key);
@@ -563,14 +564,15 @@ public class ConversionHandlerImpl implements ConversionHandler
                     converter = toString;
                 }
                 /* check for String -> Enum constant conversion */
-                else if (formal.isEnum() && actual == String.class)
+                else if ((formal instanceof Class) && ((Class)formal).isEnum() && actual == String.class)
                 {
+                    final Class<Enum> enumClass = (Class<Enum>)formal;
                     converter = new Converter()
                     {
                         @Override
                         public Object convert(Object o)
                         {
-                            return Enum.valueOf((Class<Enum>) formal, (String) o);
+                            return Enum.valueOf(enumClass, (String) o);
                         }
                     };
                 }
@@ -587,25 +589,29 @@ public class ConversionHandlerImpl implements ConversionHandler
      * @param formal expected formal type
      * @param actual provided argument type
      * @param converter converter
-     * @since 2.0
+     * @since 2.1
      */
     @Override
-    public void addConverter(Class formal, Class actual, Converter converter)
+    public void addConverter(Type formal, Class actual, Converter converter)
     {
-        Pair<Class, Class> key = new Pair<>(formal, actual);
+        Pair<Type, Class> key = new Pair<>(formal, actual);
         converterCacheMap.put(key, converter);
-        if (formal.isPrimitive())
+        if (formal instanceof Class)
         {
-            key = new Pair<>(IntrospectionUtils.getBoxedClass(formal), actual);
-            converterCacheMap.put(key, converter);
-        }
-        else
-        {
-            Class unboxedFormal = IntrospectionUtils.getUnboxedClass(formal);
-            if (unboxedFormal != formal)
+            Class formalClass = (Class)formal;
+            if (formalClass.isPrimitive())
             {
-                key = new Pair<>(unboxedFormal, actual);
+                key = new Pair<>((Type)IntrospectionUtils.getBoxedClass(formalClass), actual);
                 converterCacheMap.put(key, converter);
+            }
+            else
+            {
+                Class unboxedFormal = IntrospectionUtils.getUnboxedClass(formalClass);
+                if (unboxedFormal != formalClass)
+                {
+                    key = new Pair<>((Type)unboxedFormal, actual);
+                    converterCacheMap.put(key, converter);
+                }
             }
         }
     }

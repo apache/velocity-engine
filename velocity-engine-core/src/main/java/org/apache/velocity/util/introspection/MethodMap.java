@@ -19,9 +19,11 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
+import org.apache.commons.lang3.reflect.TypeUtils;
 import org.apache.velocity.exception.VelocityException;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -54,7 +56,7 @@ public class MethodMap
     private static final int IMPLCITLY_CONVERTIBLE = 2;
     private static final int STRICTLY_CONVERTIBLE = 3;
 
-    ConversionHandler conversionHandler;
+    TypeConversionHandler conversionHandler;
 
     /**
      * Default constructor
@@ -69,7 +71,7 @@ public class MethodMap
      * @param conversionHandler conversion handler
      * @since 2.0
      */
-    public MethodMap(ConversionHandler conversionHandler)
+    public MethodMap(TypeConversionHandler conversionHandler)
     {
         this.conversionHandler = conversionHandler;
     }
@@ -173,7 +175,7 @@ public class MethodMap
         Method method;
 
         /* cache arguments classes array */
-        Class[] methodTypes;
+        Type[] methodTypes;
 
         /* specificity: how does the best match compare to provided arguments
          * one one LESS_SPECIFIC, MORE_SPECIFIC or INCOMPARABLE */
@@ -190,9 +192,9 @@ public class MethodMap
         {
             this.method = method;
             this.applicability = applicability;
-            this.methodTypes = method.getParameterTypes();
+            this.methodTypes = method.getGenericParameterTypes();
             this.specificity = compare(methodTypes, unboxedArgs);
-            this.varargs = methodTypes.length > 0 && methodTypes[methodTypes.length - 1].isArray();
+            this.varargs = methodTypes.length > 0 && (methodTypes[methodTypes.length - 1] instanceof Class) && ((Class)methodTypes[methodTypes.length - 1]).isArray();
         }
     }
 
@@ -322,74 +324,74 @@ public class MethodMap
     /**
      * Determines which method signature (represented by a class array) is more
      * specific. This defines a partial ordering on the method signatures.
-     * @param c1 first signature to compare
-     * @param c2 second signature to compare
+     * @param t1 first signature to compare
+     * @param t2 second signature to compare
      * @return MORE_SPECIFIC if c1 is more specific than c2, LESS_SPECIFIC if
      * c1 is less specific than c2, INCOMPARABLE if they are incomparable.
      */
-    private int compare(Class[] c1, Class[] c2)
+    private int compare(Type[] t1, Type[] t2)
     {
-        boolean c1IsVararag = false;
-        boolean c2IsVararag = false;
+        boolean t1IsVararag = false;
+        boolean t2IsVararag = false;
         boolean fixedLengths = false;
 
         // compare lengths to handle comparisons where the size of the arrays
         // doesn't match, but the methods are both applicable due to the fact
         // that one is a varargs method
-        if (c1.length > c2.length)
+        if (t1.length > t2.length)
         {
-            int l2 = c2.length;
+            int l2 = t2.length;
             if (l2 == 0)
             {
                 return MORE_SPECIFIC;
             }
-            c2 = Arrays.copyOf(c2, c1.length);
-            Class itemClass = c2[l2 - 1].getComponentType();
+            t2 = Arrays.copyOf(t2, t1.length);
+            Type itemType = t2[l2 - 1] instanceof Class ? ((Class)t2[l2 - 1]).getComponentType() : null;
             /* if item class is null, then it implies the vaarg is #1
              * (and receives an empty array)
              */
-            if (itemClass == null)
+            if (itemType == null)
             {
                 /* by construct, we have c1.length = l2 + 1 */
-                c1IsVararag = true;
-                c2[c1.length - 1] = null;
+                t1IsVararag = true;
+                t2[t1.length - 1] = null;
             }
             else
             {
-                c2IsVararag = true;
-                for (int i = l2 - 1; i < c1.length; ++i)
+                t2IsVararag = true;
+                for (int i = l2 - 1; i < t1.length; ++i)
                 {
                 /* also overwrite the vaargs itself */
-                    c2[i] = itemClass;
+                    t2[i] = itemType;
                 }
             }
             fixedLengths = true;
         }
-        else if (c2.length > c1.length)
+        else if (t2.length > t1.length)
         {
-            int l1 = c1.length;
+            int l1 = t1.length;
             if (l1 == 0)
             {
                 return LESS_SPECIFIC;
             }
-            c1 = Arrays.copyOf(c1, c2.length);
-            Class itemClass = c1[l1 - 1].getComponentType();
+            t1 = Arrays.copyOf(t1, t2.length);
+            Type itemType = t1[l1 - 1] instanceof Class ? ((Class)t1[l1 - 1]).getComponentType() : null;
             /* if item class is null, then it implies the vaarg is #2
              * (and receives an empty array)
              */
-            if (itemClass == null)
+            if (itemType == null)
             {
                 /* by construct, we have c2.length = l1 + 1 */
-                c2IsVararag = true;
-                c1[c2.length - 1] = null;
+                t2IsVararag = true;
+                t1[t2.length - 1] = null;
             }
             else
             {
-                c1IsVararag = true;
-                for (int i = l1 - 1; i < c2.length; ++i)
+                t1IsVararag = true;
+                for (int i = l1 - 1; i < t2.length; ++i)
                 {
                 /* also overwrite the vaargs itself */
-                    c1[i] = itemClass;
+                    t1[i] = itemType;
                 }
             }
             fixedLengths = true;
@@ -398,52 +400,72 @@ public class MethodMap
         /* ok, move on and compare those of equal lengths */
         int fromC1toC2 = STRICTLY_CONVERTIBLE;
         int fromC2toC1 = STRICTLY_CONVERTIBLE;
-        for(int i = 0; i < c1.length; ++i)
+        for(int i = 0; i < t1.length; ++i)
         {
-            boolean last = !fixedLengths && (i == c1.length - 1);
-            if (c1[i] != c2[i])
+            boolean last = !fixedLengths && (i == t1.length - 1);
+            if (t1[i] != t2[i])
             {
-                if (c1[i] == null)
+                if (t1[i] == null)
                 {
                     fromC2toC1 = NOT_CONVERTIBLE;
-                    if (c2[i].isPrimitive())
+                    if ((t2[i] instanceof Class) && ((Class)t2[i]).isPrimitive())
                     {
                         fromC1toC2 = NOT_CONVERTIBLE;
                     }
                 }
-                else if (c2[i] == null)
+                else if (t2[i] == null)
                 {
                     fromC1toC2 = NOT_CONVERTIBLE;
-                    if (c1[i].isPrimitive())
+                    if ((t1[i] instanceof Class) && ((Class)t1[i]).isPrimitive())
                     {
                         fromC2toC1 = NOT_CONVERTIBLE;
                     }
                 }
                 else
                 {
-                    switch (fromC1toC2)
+                    if (t1[i] instanceof Class)
                     {
-                        case STRICTLY_CONVERTIBLE:
-                            if (isStrictConvertible(c2[i], c1[i], last)) break;
-                            fromC1toC2 = IMPLCITLY_CONVERTIBLE;
-                        case IMPLCITLY_CONVERTIBLE:
-                            if (isConvertible(c2[i], c1[i], last)) break;
-                            fromC1toC2 = EXPLICITLY_CONVERTIBLE;
-                        case EXPLICITLY_CONVERTIBLE:
-                            if (isExplicitlyConvertible(c2[i], c1[i], last)) break;
-                            fromC1toC2 = NOT_CONVERTIBLE;
+                        Class c1 = (Class)t1[i];
+                        switch (fromC1toC2)
+                        {
+                            case STRICTLY_CONVERTIBLE:
+                                if (isStrictConvertible(t2[i], c1, last)) break;
+                                fromC1toC2 = IMPLCITLY_CONVERTIBLE;
+                            case IMPLCITLY_CONVERTIBLE:
+                                if (isConvertible(t2[i], c1, last)) break;
+                                fromC1toC2 = EXPLICITLY_CONVERTIBLE;
+                            case EXPLICITLY_CONVERTIBLE:
+                                if (isExplicitlyConvertible(t2[i], c1, last)) break;
+                                fromC1toC2 = NOT_CONVERTIBLE;
+                        }
                     }
-                    switch (fromC2toC1)
+                    else if (fromC1toC2 > NOT_CONVERTIBLE)
                     {
-                        case STRICTLY_CONVERTIBLE:
-                            if (isStrictConvertible(c1[i], c2[i], last)) break;
-                            fromC2toC1 = IMPLCITLY_CONVERTIBLE;
-                        case IMPLCITLY_CONVERTIBLE:
-                            if (isConvertible(c1[i], c2[i], last)) break;
-                            fromC2toC1 = EXPLICITLY_CONVERTIBLE;
-                        case EXPLICITLY_CONVERTIBLE:
-                            if (isExplicitlyConvertible(c1[i], c2[i], last)) break;
-                            fromC2toC1 = NOT_CONVERTIBLE;
+                        fromC1toC2 = TypeUtils.isAssignable(t1[i], t2[i]) ?
+                            Math.min(fromC1toC2, IMPLCITLY_CONVERTIBLE) :
+                            NOT_CONVERTIBLE;
+                    }
+                    if (t2[i] instanceof Class)
+                    {
+                        Class c2 = (Class)t2[i];
+                        switch (fromC2toC1)
+                        {
+                            case STRICTLY_CONVERTIBLE:
+                                if (isStrictConvertible(t1[i], c2, last)) break;
+                                fromC2toC1 = IMPLCITLY_CONVERTIBLE;
+                            case IMPLCITLY_CONVERTIBLE:
+                                if (isConvertible(t1[i], c2, last)) break;
+                                fromC2toC1 = EXPLICITLY_CONVERTIBLE;
+                            case EXPLICITLY_CONVERTIBLE:
+                                if (isExplicitlyConvertible(t1[i], c2, last)) break;
+                                fromC2toC1 = NOT_CONVERTIBLE;
+                        }
+                    }
+                    else if (fromC2toC1 > NOT_CONVERTIBLE)
+                    {
+                        fromC2toC1 = TypeUtils.isAssignable(t2[i], t1[i]) ?
+                            Math.min(fromC2toC1, IMPLCITLY_CONVERTIBLE) :
+                            NOT_CONVERTIBLE;
                     }
                 }
             }
@@ -472,8 +494,8 @@ public class MethodMap
              * If one method accepts varargs and the other does not,
              * call the non-vararg one more specific.
              */
-            boolean last1Array = c1IsVararag || !fixedLengths && c1[c1.length - 1].isArray();
-            boolean last2Array = c2IsVararag || !fixedLengths && c2[c2.length - 1].isArray();
+            boolean last1Array = t1IsVararag || !fixedLengths && (t1[t1.length - 1] instanceof Class) && ((Class)t1[t1.length - 1]).isArray();
+            boolean last2Array = t2IsVararag || !fixedLengths && (t2[t2.length - 1] instanceof Class) && ((Class)t2[t2.length - 1]).isArray();
             if (last1Array && !last2Array)
             {
                 return LESS_SPECIFIC;
@@ -499,14 +521,15 @@ public class MethodMap
      */
     private int getApplicability(Method method, Class[] classes)
     {
-        Class[] methodArgs = method.getParameterTypes();
+        Type[] methodArgs = method.getGenericParameterTypes();
         int ret = STRICTLY_CONVERTIBLE;
         if (methodArgs.length > classes.length)
         {
             // if there's just one more methodArg than class arg
             // and the last methodArg is an array, then treat it as a vararg
             if (methodArgs.length == classes.length + 1 &&
-                methodArgs[methodArgs.length - 1].isArray())
+                (methodArgs[methodArgs.length - 1] instanceof Class) &&
+                ((Class)methodArgs[methodArgs.length - 1]).isArray())
             {
                 // all the args preceding the vararg must match
                 for (int i = 0; i < classes.length; i++)
@@ -541,13 +564,14 @@ public class MethodMap
             // (e.g. String when the method is expecting String...)
             for(int i = 0; i < classes.length; ++i)
             {
-                if (!isStrictConvertible(methodArgs[i], classes[i], i == classes.length - 1 && methodArgs[i].isArray()))
+                boolean possibleVararg = i == classes.length - 1 && (methodArgs[i] instanceof Class) && ((Class)methodArgs[i]).isArray();
+                if (!isStrictConvertible(methodArgs[i], classes[i], possibleVararg))
                 {
-                    if (isConvertible(methodArgs[i], classes[i], i == classes.length - 1 && methodArgs[i].isArray()))
+                    if (isConvertible(methodArgs[i], classes[i], possibleVararg))
                     {
                         ret = Math.min(ret, IMPLCITLY_CONVERTIBLE);
                     }
-                    else if (isExplicitlyConvertible(methodArgs[i], classes[i], i == classes.length - 1 && methodArgs[i].isArray()))
+                    else if (isExplicitlyConvertible(methodArgs[i], classes[i], possibleVararg))
                     {
                         ret = Math.min(ret, EXPLICITLY_CONVERTIBLE);
                     }
@@ -562,8 +586,8 @@ public class MethodMap
         else if (methodArgs.length > 0) // more arguments given than the method accepts; check for varargs
         {
             // check that the last methodArg is an array
-            Class lastarg = methodArgs[methodArgs.length - 1];
-            if (!lastarg.isArray())
+            Type lastarg = methodArgs[methodArgs.length - 1];
+            if (!(lastarg instanceof Class) || !((Class)lastarg).isArray())
             {
                 return NOT_CONVERTIBLE;
             }
@@ -589,7 +613,7 @@ public class MethodMap
             }
 
             // check that all remaining arguments are convertible to the vararg type
-            Class vararg = lastarg.getComponentType();
+            Class vararg = ((Class)lastarg).getComponentType();
             for (int i = methodArgs.length - 1; i < classes.length; ++i)
             {
                 if (!isStrictConvertible(vararg, classes[i], false))
@@ -621,7 +645,7 @@ public class MethodMap
      * @param possibleVarArg
      * @return convertible
      */
-    private boolean isConvertible(Class formal, Class actual, boolean possibleVarArg)
+    private boolean isConvertible(Type formal, Class actual, boolean possibleVarArg)
     {
         return IntrospectionUtils.
             isMethodInvocationConvertible(formal, actual, possibleVarArg);
@@ -636,7 +660,7 @@ public class MethodMap
      * @param possibleVarArg
      * @return convertible
      */
-    private static boolean isStrictConvertible(Class formal, Class actual, boolean possibleVarArg)
+    private static boolean isStrictConvertible(Type formal, Class actual, boolean possibleVarArg)
     {
         return IntrospectionUtils.
             isStrictMethodInvocationConvertible(formal, actual, possibleVarArg);
@@ -650,7 +674,7 @@ public class MethodMap
      * @param possibleVarArg
      * @return
      */
-    private boolean isExplicitlyConvertible(Class formal, Class actual, boolean possibleVarArg)
+    private boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
     {
         return conversionHandler != null && conversionHandler.isExplicitlyConvertible(formal, actual, possibleVarArg);
     }

@@ -68,12 +68,12 @@ public final class IntrospectorCache
     /**
      * Conversion handler
      */
-    private final ConversionHandler conversionHandler;
+    private final TypeConversionHandler conversionHandler;
 
     /**
      * C'tor
      */
-    public IntrospectorCache(final Logger log, final ConversionHandler conversionHandler)
+    public IntrospectorCache(final Logger log, final TypeConversionHandler conversionHandler)
     {
         this.log = log;
         this.conversionHandler = conversionHandler;

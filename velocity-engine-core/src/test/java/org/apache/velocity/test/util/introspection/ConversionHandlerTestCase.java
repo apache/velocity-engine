@@ -28,11 +28,11 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.util.introspection.ConversionHandler;
-import org.apache.velocity.util.introspection.ConversionHandlerImpl;
+import org.apache.velocity.util.introspection.TypeConversionHandlerImpl;
 import org.apache.velocity.util.introspection.Converter;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionUtils;
+import org.apache.velocity.util.introspection.TypeConversionHandler;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.UberspectImpl;
 
@@ -113,7 +113,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
         Uberspect uberspect = ve.getUberspect();
         assertTrue(uberspect instanceof UberspectImpl);
         UberspectImpl ui = (UberspectImpl)uberspect;
-        ConversionHandler ch = ui.getConversionHandler();
+        TypeConversionHandler ch = ui.getConversionHandler();
         assertTrue(ch != null);
         ch.addConverter(Float.class, Obj.class, new Converter<Float>()
         {
@@ -295,10 +295,10 @@ public class ConversionHandlerTestCase extends BaseTestCase
 
     public static class Introspect
     {
-        private ConversionHandler handler;
+        private TypeConversionHandler handler;
         public Introspect()
         {
-            handler = new ConversionHandlerImpl();
+            handler = new TypeConversionHandlerImpl();
         }
         public boolean isStrictlyConvertible(Class expected, Class provided)
         {
