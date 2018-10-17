@@ -73,7 +73,7 @@ public class ClassMap
      * @param conversionHandler conversion handler
      * @since 2.0
      */
-    public ClassMap(final Class clazz, final Logger log, final ConversionHandler conversionHandler)
+    public ClassMap(final Class clazz, final Logger log, final TypeConversionHandler conversionHandler)
     {
         this.clazz = clazz;
         this.log = log;
@@ -121,7 +121,7 @@ public class ClassMap
      * are taken from all the public methods
      * that our class, its parents and their implemented interfaces provide.
      */
-    private MethodCache createMethodCache(ConversionHandler conversionHandler)
+    private MethodCache createMethodCache(TypeConversionHandler conversionHandler)
     {
         MethodCache methodCache = new MethodCache(log, conversionHandler);
 	//
@@ -231,7 +231,7 @@ public class ClassMap
         /** Map of methods that are searchable according to method parameters to find a match */
         private final MethodMap methodMap;
 
-        private MethodCache(Logger log, ConversionHandler conversionHandler)
+        private MethodCache(Logger log, TypeConversionHandler conversionHandler)
         {
             this.log = log;
             methodMap = new MethodMap(conversionHandler);

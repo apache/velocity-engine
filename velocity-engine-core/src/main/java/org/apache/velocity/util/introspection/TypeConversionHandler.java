@@ -19,6 +19,8 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
+import java.lang.reflect.Type;
+
 /**
  * A conversion handler adds admissible conversions between Java types whenever Velocity introspection has to map
  * VTL methods and property accessors to Java methods.
@@ -27,23 +29,19 @@ package org.apache.velocity.util.introspection;
  *
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  * @version $Id: ConversionHandler.java $
- * @deprecated use {@link TypeConversionHandler}
- * @see TypeConversionHandler
- * @since 2.0
+ * @since 2.1
  */
 
-@Deprecated
-public interface ConversionHandler
+public interface TypeConversionHandler
 {
     /**
      * Check to see if the conversion can be done using an explicit conversion
-     *
      * @param formal expected formal type
      * @param actual provided argument type
      * @return null if no conversion is needed, or the appropriate Converter object
-     * @since 2.0
+     * @since 2.1
      */
-    boolean isExplicitlyConvertible(Class formal, Class actual, boolean possibleVarArg);
+    boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg);
 
     /**
      * Returns the appropriate Converter object needed for an explicit conversion
@@ -52,18 +50,18 @@ public interface ConversionHandler
      * @param formal expected formal type
      * @param actual provided argument type
      * @return null if no conversion is needed, or the appropriate Converter object
-     * @since 2.0
+     * @since 2.1
      */
-    Converter getNeededConverter(final Class formal, final Class actual);
+    Converter getNeededConverter(Type formal, Class actual);
 
     /**
      * Add the given converter to the handler. Implementation should be thread-safe.
      *
-     * @param formal    expected formal type
-     * @param actual    provided argument type
+     * @param formal expected formal type
+     * @param actual provided argument type
      * @param converter converter
-     * @since 2.0
+     * @since 2.1
      */
-    void addConverter(Class formal, Class actual, Converter converter);
-}
+    void addConverter(Type formal, Class actual, Converter converter);
 
+}
