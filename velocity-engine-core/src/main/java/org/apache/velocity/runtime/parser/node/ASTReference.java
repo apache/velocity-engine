@@ -389,7 +389,7 @@ public class ASTReference extends SimpleNode
             /*
              * Time to try the alternate value if needed
              */
-            if (astAlternateValue != null && (result == null || DuckType.asBoolean(result, checkEmpty)))
+            if (astAlternateValue != null && (result == null || !DuckType.asBoolean(result, checkEmpty)))
             {
                 result = astAlternateValue.value(context);
             }
