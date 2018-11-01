@@ -1228,7 +1228,7 @@ TOKEN:
          *  because we want to handle the \n after
          */
 
-        if ( lparen == 0 && !inSet && curLexState != REFMOD2 && curLexState != REFINDEX)
+        if ( lparen == 0 && !inSet && curLexState != REFMOD2 && curLexState != REFINDEX && curLexState != ALT_VAL)
         {
             stateStackPop();
         }
@@ -1246,7 +1246,7 @@ TOKEN:
          *  because we want to handle the \n after
          */
 
-        if ( lparen == 0 && !inSet && curLexState != REFMOD2)
+        if ( lparen == 0 && !inSet && curLexState != REFMOD2 && curLexState != ALT_VAL)
         {
             stateStackPop();
     }

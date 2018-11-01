@@ -59,6 +59,8 @@ public class AlternateValuesTestCase extends BaseTestCase
         assertEvalEquals("baz", "${foo|${bar|'baz'}}");
         assertEvalEquals("hop", "${foo.bar.baz()[5]|'hop'}");
         assertEvalEquals("{foo}", "{${foo|'foo'}}");
+        assertEvalEquals("<1>", "<${foo|1}>");
+        assertEvalEquals("<1.1>", "<${foo|1.1}>");
     }
 
 }
