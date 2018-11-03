@@ -23,7 +23,6 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,6 +66,15 @@ public class DuckType
     }
 
     protected static final Object NO_METHOD = new Object();
+
+    /**
+     * Clears the internal cache of all the underlying Types.
+     */
+    public static void clearCache() {
+        for(Types type : Types.values()) {
+            type.cache.clear();
+        }
+    }
 
     public static String asString(Object value)
     {
