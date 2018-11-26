@@ -27,6 +27,7 @@ A. bool-true Value java.lang.Boolean true
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 B. bool-false Value java.lang.Boolean false
   boolean ok: false
   byte ok: 0
@@ -56,6 +57,7 @@ B. bool-false Value java.lang.Boolean false
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 C. byte-0 Value java.lang.Byte 0
   boolean ok: false
   byte ok: 0
@@ -85,6 +87,7 @@ C. byte-0 Value java.lang.Byte 0
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 D. byte-1 Value java.lang.Byte 1
   boolean ok: true
   byte ok: 1
@@ -114,6 +117,7 @@ D. byte-1 Value java.lang.Byte 1
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 E. short Value java.lang.Short 125
   boolean ok: true
   byte ok: 125
@@ -143,6 +147,7 @@ E. short Value java.lang.Short 125
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 F. int Value java.lang.Integer 24323
   boolean ok: true
   integralByte -> NumberFormatException: value out of range for byte type: 24323
@@ -172,6 +177,7 @@ F. int Value java.lang.Integer 24323
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 G. long Value java.lang.Long 5235235
   boolean ok: true
   integralByte -> NumberFormatException: value out of range for byte type: 5235235
@@ -201,6 +207,7 @@ G. long Value java.lang.Long 5235235
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 H. float Value java.lang.Float 34523.344
   boolean ok: true
   integralByte -> NumberFormatException: value out of range for byte type: 34523
@@ -230,6 +237,7 @@ H. float Value java.lang.Float 34523.344
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 I. double Value java.lang.Double 54235.3253
   boolean ok: true
   integralByte -> NumberFormatException: value out of range for byte type: 54235
@@ -259,6 +267,7 @@ I. double Value java.lang.Double 54235.3253
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 J. char Value java.lang.Character @
   boolean ok: true
   $target.integralByte($value)
@@ -288,6 +297,7 @@ J. char Value java.lang.Character @
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 K. object Value org.apache.velocity.test.util.introspection.ConversionHandlerTestCase$Obj instance of Obj
   $target.integralBoolean($value)
   $target.integralByte($value)
@@ -317,6 +327,7 @@ K. object Value org.apache.velocity.test.util.introspection.ConversionHandlerTes
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 L. enum Value org.apache.velocity.test.util.introspection.ConversionHandlerTestCase$Obj$Color GREEN
   $target.integralBoolean($value)
   $target.integralByte($value)
@@ -346,6 +357,7 @@ L. enum Value org.apache.velocity.test.util.introspection.ConversionHandlerTestC
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  $target.locale($value)
 M. string Value java.lang.String foo
   boolean ok: false
   integralByte -> NumberFormatException: For input string: "foo"
@@ -375,6 +387,7 @@ M. string Value java.lang.String foo
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  Locale ok: foo
 M. string-green Value java.lang.String green
   boolean ok: false
   integralByte -> NumberFormatException: For input string: "green"
@@ -404,6 +417,7 @@ M. string-green Value java.lang.String green
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  locale -> IllegalArgumentException: Invalid locale format: green
 N. string-empty Value java.lang.String 
   boolean ok: false
   integralByte -> NumberFormatException: For input string: ""
@@ -433,6 +447,7 @@ N. string-empty Value java.lang.String
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  Locale ok: 
 O. string-false Value java.lang.String false
   boolean ok: false
   integralByte -> NumberFormatException: For input string: "false"
@@ -462,6 +477,7 @@ O. string-false Value java.lang.String false
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  locale -> IllegalArgumentException: Invalid locale format: false
 P. string-true Value java.lang.String true
   boolean ok: true
   integralByte -> NumberFormatException: For input string: "true"
@@ -491,6 +507,7 @@ P. string-true Value java.lang.String true
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  locale -> IllegalArgumentException: Invalid locale format: true
 Q. string-zero Value java.lang.String 0
   boolean ok: false
   byte ok: 0
@@ -520,6 +537,7 @@ Q. string-zero Value java.lang.String 0
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  locale -> IllegalArgumentException: Invalid locale format: 0
 R. string-integral Value java.lang.String 123
   boolean ok: false
   byte ok: 123
@@ -549,6 +567,7 @@ R. string-integral Value java.lang.String 123
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  locale -> IllegalArgumentException: Invalid locale format: 123
 S. string-big-integral Value java.lang.String 12345678
   boolean ok: false
   integralByte -> NumberFormatException: Value out of range. Value:"12345678" Radix:10
@@ -578,6 +597,7 @@ S. string-big-integral Value java.lang.String 12345678
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  locale -> IllegalArgumentException: Invalid locale format: 12345678
 T. string-floating Value java.lang.String 123.345
   boolean ok: false
   integralByte -> NumberFormatException: For input string: "123.345"
@@ -607,6 +627,7 @@ T. string-floating Value java.lang.String 123.345
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  locale -> IllegalArgumentException: Invalid locale format: 123.345
 U. null Value $value.class.name $value
   $target.integralBoolean($value)
   $target.integralByte($value)
@@ -636,3 +657,34 @@ U. null Value $value.class.name $value
   $target.valueOfFloat($value)
   $target.valueOfDouble($value)
   $target.valueOfString($value)
+  Locale ok: null
+V. locale Value java.lang.String fr_FR
+  boolean ok: false
+  integralByte -> NumberFormatException: For input string: "fr_FR"
+  integralShort -> NumberFormatException: For input string: "fr_FR"
+  integralInt -> NumberFormatException: For input string: "fr_FR"
+  integralLong -> NumberFormatException: For input string: "fr_FR"
+  integralFloat -> NumberFormatException: For input string: "fr_FR"
+  integralDouble -> NumberFormatException: For input string: "fr_FR"
+  $target.integralChar($value)
+  Boolean ok: false
+  objectByte -> NumberFormatException: For input string: "fr_FR"
+  objectShort -> NumberFormatException: For input string: "fr_FR"
+  objectInt -> NumberFormatException: For input string: "fr_FR"
+  objectLong -> NumberFormatException: For input string: "fr_FR"
+  objectFloat -> NumberFormatException: For input string: "fr_FR"
+  objectDouble -> NumberFormatException: For input string: "fr_FR"
+  $target.objectCharacter($value)
+  $target.objectNumber($value)
+  Object ok: fr_FR
+  objectEnum -> IllegalArgumentException: No enum constant org.apache.velocity.test.util.introspection.ConversionHandlerTestCase.Obj.Color.fr_FR
+  String ok: fr_FR
+  $target.valueOfBoolean($value)
+  $target.valueOfShort($value)
+  $target.valueOfByte($value)
+  $target.valueOfInt($value)
+  $target.valueOfLong($value)
+  $target.valueOfFloat($value)
+  $target.valueOfDouble($value)
+  $target.valueOfString($value)
+  Locale ok: fr_FR

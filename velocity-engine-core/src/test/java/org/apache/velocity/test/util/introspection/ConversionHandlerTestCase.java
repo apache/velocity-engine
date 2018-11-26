@@ -41,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -236,6 +237,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
         map.put("S. string-big-integral", new String("12345678"));
         map.put("T. string-floating", new String("123.345"));
         map.put("U. null", null);
+        map.put("V. locale", "fr_FR");
         context.put("map", map);
         context.put("target", new Obj());
         Class[] types =
@@ -289,6 +291,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
         public String objectObject(Object o) { return "Object ok: " + o; }
         public String objectString(String s) { return "String ok: " + s; }
         public String objectEnum(Color c) { return "Enum ok: " + c; }
+        public String locale(Locale loc) { return "Locale ok: " + loc; }
 
         public String toString() { return "instance of Obj"; }
     }
