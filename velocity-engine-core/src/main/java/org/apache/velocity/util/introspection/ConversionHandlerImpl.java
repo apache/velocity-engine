@@ -19,9 +19,11 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
+import org.apache.commons.lang3.LocaleUtils;
 import org.apache.velocity.util.Pair;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -468,7 +470,7 @@ public class ConversionHandlerImpl implements ConversionHandler
         standardConverterMap.put(new Pair<>(Integer.TYPE, Boolean.class), booleanToInteger);
         standardConverterMap.put(new Pair<>(Integer.TYPE, Boolean.TYPE), booleanToInteger);
 
-        /* boolean to lonf */
+        /* boolean to long */
         Converter<Long> booleanToLong = new Converter<Long>()
         {
             @Override
@@ -491,6 +493,17 @@ public class ConversionHandlerImpl implements ConversionHandler
                 return String.valueOf(o);
             }
         };
+
+        /* string to locale */
+        Converter<Locale> stringToLocale = new Converter<Locale>()
+        {
+            @Override
+            public Locale convert(Object o)
+            {
+                return o == null ? null : LocaleUtils.toLocale((String)o);
+            }
+        };
+        standardConverterMap.put(new Pair<>(Locale.class, String.class), stringToLocale);
     }
 
     /**
