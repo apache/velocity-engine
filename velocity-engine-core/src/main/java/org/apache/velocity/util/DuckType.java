@@ -68,6 +68,17 @@ public class DuckType
 
     protected static final Object NO_METHOD = new Object();
 
+    /**
+     * Clears the internal cache of all the underlying Types.
+     */
+    public static void clearCache()
+    {
+        for(Types type : Types.values())
+        {
+            type.cache.clear();
+        }
+    }
+        
     public static String asString(Object value)
     {
         return asString(value, true);
