@@ -64,6 +64,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -351,7 +352,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         String im = getString(SPACE_GOBBLING, "lines");
         try
         {
-            spaceGobbling = SpaceGobbling.valueOf(im.toUpperCase());
+            spaceGobbling = SpaceGobbling.valueOf(im.toUpperCase(Locale.ROOT));
         }
         catch (NoSuchElementException nse)
         {

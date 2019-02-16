@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
 
+import java.util.Locale;
 
 /**
  * This is an input stream that is unicode BOM aware. This allows you to e.g. read
@@ -344,8 +345,8 @@ public class UnicodeInputStream
      */
     public static boolean sameEncoding(String left, String right)
     {
-        left = left.toUpperCase().replace("-", "").replace("_","");
-        right = right.toUpperCase().replace("-", "").replace("_","");
+        left = left.toUpperCase(Locale.ROOT).replace("-", "").replace("_","");
+        right = right.toUpperCase(Locale.ROOT).replace("-", "").replace("_","");
         return left.equals(right);
     }
 
