@@ -25,6 +25,8 @@ import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.util.introspection.Info;
 
+import java.util.Locale;
+
 /**
  * This is a test set of event handlers, used to test event handler sequences.
  *
@@ -42,7 +44,7 @@ public class Handler2
         if (value == null)
             return null;
         else
-            return value.toString().toUpperCase();
+            return value.toString().toUpperCase(Locale.ROOT);
     }
 
     /**

@@ -23,6 +23,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -73,7 +74,7 @@ public class TestContext implements Context
         }
         else
         {
-            return key.toUpperCase();
+            return key.toUpperCase(Locale.ROOT);
         }
     }
 }
