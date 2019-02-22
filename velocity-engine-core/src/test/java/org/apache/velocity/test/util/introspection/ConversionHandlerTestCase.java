@@ -43,6 +43,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -154,6 +155,60 @@ public class ConversionHandlerTestCase extends BaseTestCase
         writer = new StringWriter();
         ve.evaluate(context, writer, "test", "$obj.iWantAnIntegerList('anything')");
         assertEquals("correct", writer.toString());
+    }
+
+    /* converts *everything* to string "foo" */
+    public static class MyCustomConverter implements TypeConversionHandler
+    {
+        Converter<String> myCustomConverter = new Converter<String>()
+        {
+
+            @Override
+            public String convert(Object o)
+            {
+                return "foo";
+            }
+        };
+
+        @Override
+        public boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
+        {
+            return true;
+        }
+
+        @Override
+        public Converter getNeededConverter(Type formal, Class actual)
+        {
+            return myCustomConverter;
+        }
+
+        @Override
+        public void addConverter(Type formal, Class actual, Converter converter)
+        {
+            throw new RuntimeException("not implemented");
+        }
+    }
+
+    public void testCustomConversionHandlerInstance()
+    {
+        RuntimeInstance ve = new RuntimeInstance();
+        ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
+        ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, TEST_COMPARE_DIR + "/conversion");
+        ve.setProperty(RuntimeConstants.CONVERSION_HANDLER_INSTANCE, new MyCustomConverter());
+        ve.init();
+        Uberspect uberspect = ve.getUberspect();
+        assertTrue(uberspect instanceof UberspectImpl);
+        UberspectImpl ui = (UberspectImpl)uberspect;
+        TypeConversionHandler ch = ui.getConversionHandler();
+        assertTrue(ch != null);
+        assertTrue(ch instanceof MyCustomConverter);
+        VelocityContext context = new VelocityContext();
+        context.put("obj", new Obj());
+        Writer writer = new StringWriter();
+        ve.evaluate(context, writer, "test", "$obj.objectString(1.0)");
+        assertEquals("String ok: foo", writer.toString());
     }
 
     /**

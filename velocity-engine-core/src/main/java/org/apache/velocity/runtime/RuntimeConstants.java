@@ -252,6 +252,28 @@ public interface RuntimeConstants
 
     /*
      * ----------------------------------------------------------------------
+     * I N T R O S P E C T I O N  C O N F I G U R A T I O N
+     * ----------------------------------------------------------------------
+     */
+
+    /** key name for uberspector. Multiple classnames can be specified,in which case uberspectors will be chained. */
+    String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
+
+    /** key for Conversion Manager instance */
+    String CONVERSION_HANDLER_INSTANCE = "runtime.conversion.handler.instance";
+
+    /** key for Conversion Manager class */
+    String CONVERSION_HANDLER_CLASS = "runtime.conversion.handler.class";
+
+    /** A comma separated list of packages to restrict access to in the SecureIntrospector. */
+    String INTROSPECTOR_RESTRICT_PACKAGES = "introspector.restrict.packages";
+
+    /** A comma separated list of classes to restrict access to in the SecureIntrospector. */
+    String INTROSPECTOR_RESTRICT_CLASSES = "introspector.restrict.classes";
+
+
+    /*
+     * ----------------------------------------------------------------------
      * G E N E R A L  R U N T I M E  C O N F I G U R A T I O N
      * ----------------------------------------------------------------------
      */
@@ -264,18 +286,6 @@ public interface RuntimeConstants
 
     /** Default Encoding is UTF-8. */
     String ENCODING_DEFAULT = "UTF-8";
-
-    /** key name for uberspector. Multiple classnames can be specified,in which case uberspectors will be chained. */
-    String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
-
-    /** key for Conversion Manager class */
-    String CONVERSION_HANDLER_CLASS = "runtime.conversion.handler.class";
-
-    /** A comma separated list of packages to restrict access to in the SecureIntrospector. */
-    String INTROSPECTOR_RESTRICT_PACKAGES = "introspector.restrict.packages";
-
-    /** A comma separated list of classes to restrict access to in the SecureIntrospector. */
-    String INTROSPECTOR_RESTRICT_CLASSES = "introspector.restrict.classes";
 
     /** Switch for ignoring nulls in math equations vs throwing exceptions. */
     String STRICT_MATH = "runtime.strict.math";

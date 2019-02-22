@@ -103,39 +103,40 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         rsvc = rs;
         log = rsvc.getLog("introspection");
 
-        String conversionHandlerClass = rs.getString(RuntimeConstants.CONVERSION_HANDLER_CLASS);
-        if (conversionHandlerClass == null || conversionHandlerClass.equals("none"))
+        Object conversionHandlerInstance = rs.getProperty(RuntimeConstants.CONVERSION_HANDLER_INSTANCE);
+        if (conversionHandlerInstance == null)
         {
-            conversionHandler = null;
-        }
-        else
-        {
-            Object o = null;
-
-            try
+            String conversionHandlerClass = rs.getString(RuntimeConstants.CONVERSION_HANDLER_CLASS);
+            if (conversionHandlerClass != null && !conversionHandlerClass.equals("none"))
             {
-                o = ClassUtils.getNewInstance(conversionHandlerClass);
-            }
-            catch (ClassNotFoundException cnfe )
-            {
-                String err = "The specified class for ConversionHandler (" + conversionHandlerClass
+                try
+                {
+                    conversionHandlerInstance = ClassUtils.getNewInstance(conversionHandlerClass);
+                }
+                catch (ClassNotFoundException cnfe )
+                {
+                    String err = "The specified class for ConversionHandler (" + conversionHandlerClass
                         + ") does not exist or is not accessible to the current classloader.";
-                log.error(err);
-                throw new VelocityException(err, cnfe);
+                    log.error(err);
+                    throw new VelocityException(err, cnfe);
+                }
+                catch (InstantiationException ie)
+                {
+                    throw new VelocityException("Could not instantiate class '" + conversionHandlerClass + "'", ie);
+                }
+                catch (IllegalAccessException ae)
+                {
+                    throw new VelocityException("Cannot access class '" + conversionHandlerClass + "'", ae);
+                }
             }
-            catch (InstantiationException ie)
-            {
-                throw new VelocityException("Could not instantiate class '" + conversionHandlerClass + "'", ie);
-            }
-            catch (IllegalAccessException ae)
-            {
-                throw new VelocityException("Cannot access class '" + conversionHandlerClass + "'", ae);
-            }
+        }
 
-            if (o instanceof ConversionHandler)
+        if (conversionHandlerInstance != null)
+        {
+            if (conversionHandlerInstance instanceof ConversionHandler)
             {
                 log.warn("The ConversionHandler interface is deprecated - see the TypeConversionHandler interface");
-                final ConversionHandler ch = (ConversionHandler)o;
+                final ConversionHandler ch = (ConversionHandler)conversionHandlerInstance;
                 conversionHandler = new TypeConversionHandler()
                 {
                     @Override
@@ -163,17 +164,19 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
                     }
                 };
             }
-            else if (!(o instanceof TypeConversionHandler))
+            else if (!(conversionHandlerInstance instanceof TypeConversionHandler))
             {
-                String err = "The specified class for ResourceManager (" + conversionHandlerClass
+                String err = "The specified class or provided instance for the conversion handler (" + conversionHandlerInstance.getClass().getName()
                         + ") does not implement " + TypeConversionHandler.class.getName()
                         + "; Velocity is not initialized correctly.";
 
                 log.error(err);
                 throw new VelocityException(err);
             }
-
-            conversionHandler = (TypeConversionHandler) o;
+            else
+            {
+                conversionHandler = (TypeConversionHandler)conversionHandlerInstance;
+            }
         }
     }
 
