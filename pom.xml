@@ -45,8 +45,8 @@
     <slf4j.version>1.7.25</slf4j.version>
     <surefire.plugin.version>2.19.1</surefire.plugin.version>
     <jira.browse.url>https://issues.apache.org/jira/browse</jira.browse.url>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <!-- java 8 doclint checks are too strict for our current javadoc state... -->
@@ -144,6 +144,9 @@
                 <enforceBytecodeVersion>
                   <maxJdkVersion>${maven.compiler.target}</maxJdkVersion>
                 </enforceBytecodeVersion>
+                <requireJavaVersion>
+                  <version>[1.8,)</version>
+                </requireJavaVersion>
               </rules>
               <fail>true</fail>
             </configuration>
