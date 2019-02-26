@@ -19,6 +19,7 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
+import org.apache.commons.lang3.Conversion;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -42,6 +43,7 @@ import org.slf4j.Logger;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
@@ -69,7 +71,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
     /**
      * the conversion handler
      */
-    protected ConversionHandler conversionHandler;
+    protected TypeConversionHandler conversionHandler;
 
     /**
      * runtime services
@@ -86,7 +88,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         introspector = new Introspector(log, conversionHandler);
     }
 
-    public ConversionHandler getConversionHandler()
+    public TypeConversionHandler getConversionHandler()
     {
         return conversionHandler;
     }
@@ -95,51 +97,86 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      * sets the runtime services
      * @param rs runtime services
      */
+    @SuppressWarnings("deprecation")
     public void setRuntimeServices(RuntimeServices rs)
     {
         rsvc = rs;
         log = rsvc.getLog("introspection");
 
-        String conversionHandlerClass = rs.getString(RuntimeConstants.CONVERSION_HANDLER_CLASS);
-        if (conversionHandlerClass == null || conversionHandlerClass.equals("none"))
+        Object conversionHandlerInstance = rs.getProperty(RuntimeConstants.CONVERSION_HANDLER_INSTANCE);
+        if (conversionHandlerInstance == null)
         {
-            conversionHandler = null;
-        }
-        else
-        {
-            Object o = null;
-
-            try
+            String conversionHandlerClass = rs.getString(RuntimeConstants.CONVERSION_HANDLER_CLASS);
+            if (conversionHandlerClass != null && !conversionHandlerClass.equals("none"))
             {
-                o = ClassUtils.getNewInstance(conversionHandlerClass);
-            }
-            catch (ClassNotFoundException cnfe )
-            {
-                String err = "The specified class for ConversionHandler (" + conversionHandlerClass
+                try
+                {
+                    conversionHandlerInstance = ClassUtils.getNewInstance(conversionHandlerClass);
+                }
+                catch (ClassNotFoundException cnfe )
+                {
+                    String err = "The specified class for ConversionHandler (" + conversionHandlerClass
                         + ") does not exist or is not accessible to the current classloader.";
-                log.error(err);
-                throw new VelocityException(err, cnfe);
+                    log.error(err);
+                    throw new VelocityException(err, cnfe);
+                }
+                catch (InstantiationException ie)
+                {
+                    throw new VelocityException("Could not instantiate class '" + conversionHandlerClass + "'", ie);
+                }
+                catch (IllegalAccessException ae)
+                {
+                    throw new VelocityException("Cannot access class '" + conversionHandlerClass + "'", ae);
+                }
             }
-            catch (InstantiationException ie)
-            {
-                throw new VelocityException("Could not instantiate class '" + conversionHandlerClass + "'", ie);
-            }
-            catch (IllegalAccessException ae)
-            {
-                throw new VelocityException("Cannot access class '" + conversionHandlerClass + "'", ae);
-            }
+        }
 
-            if (!(o instanceof ConversionHandler))
+        if (conversionHandlerInstance != null)
+        {
+            if (conversionHandlerInstance instanceof ConversionHandler)
             {
-                String err = "The specified class for ResourceManager (" + conversionHandlerClass
-                        + ") does not implement " + ConversionHandler.class.getName()
+                log.warn("The ConversionHandler interface is deprecated - see the TypeConversionHandler interface");
+                final ConversionHandler ch = (ConversionHandler)conversionHandlerInstance;
+                conversionHandler = new TypeConversionHandler()
+                {
+                    @Override
+                    public boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
+                    {
+                        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                        if (formalClass != null) return ch.isExplicitlyConvertible(formalClass, actual, possibleVarArg);
+                        else return false;
+                    }
+
+                    @Override
+                    public Converter getNeededConverter(Type formal, Class actual)
+                    {
+                        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                        if (formalClass != null) return ch.getNeededConverter(formalClass, actual);
+                        else return null;
+                    }
+
+                    @Override
+                    public void addConverter(Type formal, Class actual, Converter converter)
+                    {
+                        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                        if (formalClass != null) ch.addConverter(formalClass, actual, converter);
+                        else throw new UnsupportedOperationException("This conversion handler doesn't know how to handle Type: " + formal.getTypeName());
+                    }
+                };
+            }
+            else if (!(conversionHandlerInstance instanceof TypeConversionHandler))
+            {
+                String err = "The specified class or provided instance for the conversion handler (" + conversionHandlerInstance.getClass().getName()
+                        + ") does not implement " + TypeConversionHandler.class.getName()
                         + "; Velocity is not initialized correctly.";
 
                 log.error(err);
                 throw new VelocityException(err);
             }
-
-            conversionHandler = (ConversionHandler) o;
+            else
+            {
+                conversionHandler = (TypeConversionHandler)conversionHandlerInstance;
+            }
         }
     }
 
@@ -256,7 +293,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         Method m = introspector.getMethod(obj.getClass(), methodName, args);
         if (m != null)
         {
-            return new VelMethodImpl(m, false, getNeededConverters(m.getParameterTypes(), args));
+            return new VelMethodImpl(m, false, getNeededConverters(m.getGenericParameterTypes(), args));
         }
 
         Class cls = obj.getClass();
@@ -269,7 +306,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
             {
                 // and create a method that knows to wrap the value
                 // before invoking the method
-                return new VelMethodImpl(m, true, getNeededConverters(m.getParameterTypes(), args));
+                return new VelMethodImpl(m, true, getNeededConverters(m.getGenericParameterTypes(), args));
             }
         }
         // watch for classes, to allow calling their static methods (VELOCITY-102)
@@ -278,7 +315,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
             m = introspector.getMethod((Class)obj, methodName, args);
             if (m != null)
             {
-                return new VelMethodImpl(m, false, getNeededConverters(m.getParameterTypes(), args));
+                return new VelMethodImpl(m, false, getNeededConverters(m.getGenericParameterTypes(), args));
             }
         }
         return null;
@@ -288,7 +325,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      * get the list of needed converters to adapt passed argument types to method types
      * @return null if not conversion needed, otherwise an array containing needed converters
      */
-    private Converter[] getNeededConverters(Class[] expected, Object[] provided)
+    private Converter[] getNeededConverters(Type[] expected, Object[] provided)
     {
         if (conversionHandler == null) return null;
         // var args are not handled here - CB TODO

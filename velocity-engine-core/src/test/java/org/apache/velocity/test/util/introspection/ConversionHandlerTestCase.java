@@ -19,6 +19,8 @@
 package org.apache.velocity.test.util.introspection;
 
 import junit.framework.TestSuite;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.TypeUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -28,11 +30,11 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.util.introspection.ConversionHandler;
-import org.apache.velocity.util.introspection.ConversionHandlerImpl;
 import org.apache.velocity.util.introspection.Converter;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionUtils;
+import org.apache.velocity.util.introspection.TypeConversionHandler;
+import org.apache.velocity.util.introspection.TypeConversionHandlerImpl;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.UberspectImpl;
 
@@ -41,6 +43,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
@@ -114,7 +119,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
         Uberspect uberspect = ve.getUberspect();
         assertTrue(uberspect instanceof UberspectImpl);
         UberspectImpl ui = (UberspectImpl)uberspect;
-        ConversionHandler ch = ui.getConversionHandler();
+        TypeConversionHandler ch = ui.getConversionHandler();
         assertTrue(ch != null);
         ch.addConverter(Float.class, Obj.class, new Converter<Float>()
         {
@@ -124,11 +129,87 @@ public class ConversionHandlerTestCase extends BaseTestCase
                 return 4.5f;
             }
         });
+        ch.addConverter(TypeUtils.parameterize(List.class, Integer.class), String.class, new Converter<List<Integer>>()
+        {
+            @Override
+            public List<Integer> convert(Object o)
+            {
+                return Arrays.<Integer>asList(1,2,3);
+            }
+        });
+        ch.addConverter(TypeUtils.parameterize(List.class, String.class), String.class, new Converter<List<String>>()
+        {
+            @Override
+            public List<String> convert(Object o)
+            {
+                return Arrays.<String>asList("a", "b", "c");
+            }
+        });
         VelocityContext context = new VelocityContext();
         context.put("obj", new Obj());
         Writer writer = new StringWriter();
         ve.evaluate(context, writer, "test", "$obj.integralFloat($obj) / $obj.objectFloat($obj)");
         assertEquals("float ok: 4.5 / Float ok: 4.5", writer.toString());
+        writer = new StringWriter();
+        ve.evaluate(context, writer, "test", "$obj.iWantAStringList('anything')");
+        assertEquals("correct", writer.toString());
+        writer = new StringWriter();
+        ve.evaluate(context, writer, "test", "$obj.iWantAnIntegerList('anything')");
+        assertEquals("correct", writer.toString());
+    }
+
+    /* converts *everything* to string "foo" */
+    public static class MyCustomConverter implements TypeConversionHandler
+    {
+        Converter<String> myCustomConverter = new Converter<String>()
+        {
+
+            @Override
+            public String convert(Object o)
+            {
+                return "foo";
+            }
+        };
+
+        @Override
+        public boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
+        {
+            return true;
+        }
+
+        @Override
+        public Converter getNeededConverter(Type formal, Class actual)
+        {
+            return myCustomConverter;
+        }
+
+        @Override
+        public void addConverter(Type formal, Class actual, Converter converter)
+        {
+            throw new RuntimeException("not implemented");
+        }
+    }
+
+    public void testCustomConversionHandlerInstance()
+    {
+        RuntimeInstance ve = new RuntimeInstance();
+        ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
+        ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, TEST_COMPARE_DIR + "/conversion");
+        ve.setProperty(RuntimeConstants.CONVERSION_HANDLER_INSTANCE, new MyCustomConverter());
+        ve.init();
+        Uberspect uberspect = ve.getUberspect();
+        assertTrue(uberspect instanceof UberspectImpl);
+        UberspectImpl ui = (UberspectImpl)uberspect;
+        TypeConversionHandler ch = ui.getConversionHandler();
+        assertTrue(ch != null);
+        assertTrue(ch instanceof MyCustomConverter);
+        VelocityContext context = new VelocityContext();
+        context.put("obj", new Obj());
+        Writer writer = new StringWriter();
+        ve.evaluate(context, writer, "test", "$obj.objectString(1.0)");
+        assertEquals("String ok: foo", writer.toString());
     }
 
     /**
@@ -172,6 +253,15 @@ public class ConversionHandlerTestCase extends BaseTestCase
 
             fail(msg);
         }
+    }
+
+    public void testOtherConversions() throws Exception
+    {
+        VelocityEngine ve = createEngine(false);
+        VelocityContext context = createContext();
+        StringWriter writer = new StringWriter();
+        ve.evaluate(context, writer,"test", "$strings.join(['foo', 'bar'], ',')");
+        assertEquals("foo,bar", writer.toString());
     }
 
     /**
@@ -264,6 +354,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
                 };
         context.put("types", types);
         context.put("introspect", new Introspect());
+        context.put("strings", new StringUtils());
         return context;
     }
 
@@ -294,14 +385,28 @@ public class ConversionHandlerTestCase extends BaseTestCase
         public String locale(Locale loc) { return "Locale ok: " + loc; }
 
         public String toString() { return "instance of Obj"; }
+
+        public String iWantAStringList(List<String> list)
+        {
+            if (list != null && list.size() == 3 && list.get(0).equals("a") && list.get(1).equals("b") && list.get(2).equals("c"))
+                return "correct";
+            else return "wrong";
+        }
+
+        public String iWantAnIntegerList(List<Integer> list)
+        {
+            if (list != null && list.size() == 3 && list.get(0).equals(1) && list.get(1).equals(2) && list.get(2).equals(3))
+                return "correct";
+            else return "wrong";
+        }
     }
 
     public static class Introspect
     {
-        private ConversionHandler handler;
+        private TypeConversionHandler handler;
         public Introspect()
         {
-            handler = new ConversionHandlerImpl();
+            handler = new TypeConversionHandlerImpl();
         }
         public boolean isStrictlyConvertible(Class expected, Class provided)
         {
