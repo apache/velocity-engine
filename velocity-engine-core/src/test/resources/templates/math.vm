@@ -60,3 +60,12 @@ Test integer division
 Test decimal division
 5 / 2.0 = #set($result = 5 / 2.0)$result
 5.0 / 2 = #set($result = 5.0 / 2)$result
+
+Unary negate
+#set($five = 5)
+#set($a = 0 - $five)
+#set($b = 0-$five)
+#set($c = - $five)
+#set($d = -$five)
+#set($e =-$five)
+-5 = $a = $b = $c = $d = $e

@@ -57,7 +57,7 @@ public class ASTNegateNode extends SimpleNode
     public Object value( InternalContextAdapter context)
             throws MethodInvocationException
     {
-        Object value = jjtGetChild(0).evaluate( context );
+        Object value = jjtGetChild(0).value( context );
         try
         {
             value = DuckType.asNumber(value);
