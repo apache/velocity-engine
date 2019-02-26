@@ -68,7 +68,7 @@ public class Introspector extends IntrospectorBase
      * @param conversionHandler conversion handler
      * @since 2.0
      */
-    public Introspector(final Logger log, ConversionHandler conversionHandler)
+    public Introspector(final Logger log, TypeConversionHandler conversionHandler)
     {
         super(log, conversionHandler);
     }
