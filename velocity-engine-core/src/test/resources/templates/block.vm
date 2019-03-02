@@ -73,22 +73,15 @@ True
 #end
 -----------
 
--- Third Test : tight tight tight.  Note that \#end eats the \n, which is NOT what people expect, I think.
+-- Third Test : tight tight tight.
 -- one blank line follows
 
 blargh #if(true)This follows blargh#end
+
 blargh#if(true)This immedately follows blargh with a following newline
 #end
 
--- Fourth Test : another tight tight tight. If you want the \n, then put one *after* the content, not a space after \#end.
--- one blank line follows
-
-blargh #if(true)This follows blargh
-#end
-blargh#if(true)This immedately follows blargh with a following newline
-#end
-
--- Fifth Test : different kind of tight. blank line follows
+-- Fourth Test : different kind of tight. blank line follows
 
 blargh
 #if(true)

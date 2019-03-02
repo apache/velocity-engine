@@ -1,4 +1,3 @@
-Title: Apache Velocity
 
 # Apache Velocity
 

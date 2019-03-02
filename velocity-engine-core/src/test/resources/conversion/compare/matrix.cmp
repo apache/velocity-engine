@@ -40,501 +40,463 @@
             provided &rarr;<br/>
             expected &darr;
           </th>
-          <th>  boolean
-</th>
-          <th>  char
-</th>
-          <th>  byte
-</th>
-          <th>  short
-</th>
-          <th>  int
-</th>
-          <th>  long
-</th>
-          <th>  float
-</th>
-          <th>  double
-</th>
-          <th>  Boolean
-</th>
-          <th>  Character
-</th>
-          <th>  Byte
-</th>
-          <th>  Short
-</th>
-          <th>  Integer
-</th>
-          <th>  Long
-</th>
-          <th>  Float
-</th>
-          <th>  Double
-</th>
-          <th>  Number
-</th>
-          <th>  String
-</th>
-          <th>  Object
-</th>
+          <th>boolean</th>
+          <th>char</th>
+          <th>byte</th>
+          <th>short</th>
+          <th>int</th>
+          <th>long</th>
+          <th>float</th>
+          <th>double</th>
+          <th>Boolean</th>
+          <th>Character</th>
+          <th>Byte</th>
+          <th>Short</th>
+          <th>Integer</th>
+          <th>Long</th>
+          <th>Float</th>
+          <th>Double</th>
+          <th>Number</th>
+          <th>String</th>
+          <th>Object</th>
           <th>null</th>
         </tr>
         <tr>
-          <th>  boolean
-</th>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
+          <th>boolean</th>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>  char
-</th>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
+          <th>char</th>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>  byte
-</th>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
+          <th>byte</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>  short
-</th>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
+          <th>short</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>  int
-</th>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
+          <th>int</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>  long
-</th>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
+          <th>long</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>  float
-</th>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
+          <th>float</th>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>  double
-</th>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
+          <th>double</th>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
         <tr>
-          <th>  Boolean
-</th>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Boolean</th>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  Character
-</th>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Character</th>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  Byte
-</th>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Byte</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  Short
-</th>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Short</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  Integer
-</th>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Integer</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  Long
-</th>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Long</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  Float
-</th>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Float</th>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  Double
-</th>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Double</th>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  Number
-</th>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="none">none</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Number</th>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  String
-</th>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="explicit">explicit</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>String</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
         <tr>
-          <th>  Object
-</th>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td>  <span class="implicit">implicit</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
-          <td> <span class="strict">strict</span></td>
+          <th>Object</th>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="implicit">implicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
         </tr>
       </thead>
       <tbody>

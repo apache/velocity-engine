@@ -84,10 +84,10 @@ import org.apache.velocity.Template;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.*;
-import org.apache.velocity.runtime.directive.Directive;
-import org.apache.velocity.runtime.directive.Foreach;
+import org.apache.velocity.runtime.directive.*;
 import org.apache.velocity.runtime.directive.MacroParseException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import static org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 
 import org.slf4j.Logger;
 
@@ -107,6 +107,35 @@ import org.slf4j.Logger;
 */
 public class Parser
 {
+    /**
+     * Parser debugging flag.
+     * When debug is active, javacc Parser will contain (among other things)
+     * a trace_call() method. So we use the presence of this method to
+     * initialize our flag.
+     */
+    private static boolean debugParser;
+    static
+    {
+        try
+        {
+            Parser.class.getDeclaredMethod("trace_call", String.class);
+            debugParser = true;
+        }
+        catch(NoSuchMethodException nsfe)
+        {
+            debugParser = false;
+        }
+    }
+
+    /**
+     * Our own trace method. Use sparsingly in production, since each
+     * and every call will introduce an execution branch and slow down parsing.
+     */
+    public static void trace(String message)
+    {
+        if (debugParser) System.out.println(message);
+    }
+
     /**
      * Keep track of defined macros, used for escape processing
      */
@@ -466,19 +495,24 @@ TOKEN_MGR_DECLS:
     private int curlyLevel = 0;
     List stateStack = new ArrayList(50);
 
-    /* More debug output */
-    public boolean debugPrint = false;
-
     private boolean inComment;
     public  boolean inSet;
 
+    /**
+     * Our own trace method. Use sparsingly in production, since each
+     * and every call will introduce an execution branch and slow down parsing.
+     */
+    public static void trace(String message)
+    {
+        Parser.trace(message);
+    }
+    
     /**
      * Switches to a new state (add some log to the default method)
      */
      public void switchTo(int lexState)
      {
-        if( debugPrint )
-            System.out.println(" switch to " + lexStateNames[lexState]);
+        trace(" switch to " + lexStateNames[lexState]);
         SwitchTo(lexState);
      }
 
@@ -502,8 +536,7 @@ TOKEN_MGR_DECLS:
             return false;
         }
 
-        if( debugPrint )
-            System.out.println(" stack pop (" + stateStack.size() + ")");
+        trace(" stack pop (" + stateStack.size() + ")");
         lparen = s.lparen;
         rparen = s.rparen;
         curlyLevel = s.curlyLevel;
@@ -523,9 +556,7 @@ TOKEN_MGR_DECLS:
      */
     public boolean stateStackPush()
     {
-        if( debugPrint )
-            System.out.println(" (" + stateStack.size() + ") pushing cur state : " +
-                lexStateNames[curLexState] );
+        trace(" (" + stateStack.size() + ") pushing cur state : " + lexStateNames[curLexState] );
 
         ParserState s = new ParserState();
         s.lparen = lparen;
@@ -818,8 +849,7 @@ TOKEN:
     {
         if (! inComment)
         {
-            if ( debugPrint )
-                System.out.println(" #set :  going to DIRECTIVE" );
+            trace(" #set :  going to DIRECTIVE" );
 
             stateStackPush();
             inSet = true;
@@ -868,8 +898,7 @@ MORE :
 
             int preReferenceState = parser.getRuntimeServices().isDashAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
 
-            if ( debugPrint )
-                System.out.println( " $  : going to " + lexStateNames[preReferenceState]);
+            trace( " $  : going to " + lexStateNames[preReferenceState]);
 
             /* do not push PRE states */
             if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
@@ -896,8 +925,7 @@ MORE :
 
             int preReferenceState = parser.getRuntimeServices().isDashAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
 
-            if ( debugPrint )
-                System.out.println( " $  : going to " + lexStateNames[preReferenceState]);
+            trace( " $  : going to " + lexStateNames[preReferenceState]);
 
             /* do not push PRE states */
             if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
@@ -967,8 +995,7 @@ MORE :
                 stateStackPop();
             }
 
-            if ( debugPrint )
-                System.out.println(" # :  going to PRE_DIRECTIVE" );
+            trace(" # :  going to PRE_DIRECTIVE" );
 
             /* do not push PRE states */
             if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
@@ -1086,8 +1113,7 @@ TOKEN:
     <WHITESPACE : ([" ","\t"])+>
 |   <NEWLINE : ("\n" | "\r" | "\r\n") >
     {
-        if ( debugPrint )
-            System.out.println(" NEWLINE :");
+        trace(" NEWLINE :");
 
         if (inSet)
             inSet = false;
@@ -1344,8 +1370,7 @@ TOKEN:
 
         matchedToken.image = ".";
 
-        if ( debugPrint )
-            System.out.print("DOT : switching to " + REFMODIFIER);
+        trace("DOT : switching to " + REFMODIFIER);
         switchTo(REFMODIFIER);
 
     }
@@ -1389,8 +1414,7 @@ SPECIAL_TOKEN :
 
         input_stream.backup(1);
 
-        if ( debugPrint )
-            System.out.print("REF_TERM :");
+        trace("REF_TERM :");
 
         stateStackPop();
     }
@@ -1401,8 +1425,7 @@ SPECIAL_TOKEN :
 {
     <DIRECTIVE_TERMINATOR: ~[] >
     {
-        if ( debugPrint )
-            System.out.print("DIRECTIVE_TERM :");
+        trace("DIRECTIVE_TERM :");
 
         input_stream.backup(1);
         stateStackPop();
@@ -1448,20 +1471,19 @@ SimpleNode process() :
  */
 boolean Statement(boolean afterNewline) #void :
 {
-    boolean b = false;
 }
 {
-    LOOKAHEAD( { getToken(1).kind == IF_DIRECTIVE || afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == IF_DIRECTIVE } ) b = IfStatement() { return b ; }
+    LOOKAHEAD( { getToken(1).kind == IF_DIRECTIVE || afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == IF_DIRECTIVE } ) afterNewline = IfStatement(afterNewline) { return afterNewline; }
 |   LOOKAHEAD(2) Reference() { return false; }
-|   LOOKAHEAD(2) Comment() { return false; }
+|   LOOKAHEAD(2) afterNewline = Comment() { return afterNewline; }
 |   Textblock() { return false; }
-|   LOOKAHEAD( { getToken(1).kind == SET_DIRECTIVE || afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == SET_DIRECTIVE } ) b = SetDirective() { return b; }
+|   LOOKAHEAD( { getToken(1).kind == SET_DIRECTIVE || afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == SET_DIRECTIVE } ) afterNewline = SetDirective(afterNewline) { return afterNewline; }
 |   EscapedDirective() { return false; }
 |   Escape() { return false; }
-|   LOOKAHEAD( { getToken(1).kind == WORD || getToken(1).kind == BRACKETED_WORD || afterNewline && getToken(1).kind == WHITESPACE && ( getToken(2).kind == WORD || getToken(2).kind == BRACKETED_WORD ) } ) b = Directive() { return b; }
-|   b = Text() { return b; }
+|   LOOKAHEAD( { getToken(1).kind == WORD || getToken(1).kind == BRACKETED_WORD || afterNewline && getToken(1).kind == WHITESPACE && ( getToken(2).kind == WORD || getToken(2).kind == BRACKETED_WORD ) } ) afterNewline = Directive(afterNewline) { return afterNewline; }
+|   afterNewline = Text() { return afterNewline; }
 |   (<NEWLINE>) #Text { return true; }
-|   (<INLINE_TEXT> ((<TEXT>)? { b = true; }) ) #Text { return b; }
+|   (((<INLINE_TEXT>) { afterNewline = false; } ) ((<TEXT>) { afterNewline = true; })? ) #Text { return afterNewline; }
 |   (<WHITESPACE>) #Text { return false; }
 |   (<SUFFIX>) #Text { return true; }
 }
@@ -1541,11 +1563,11 @@ void Escape() : {}
 
 }
 
-void Comment() : {}
+boolean Comment() : {}
 {
-	<SINGLE_LINE_COMMENT_START> ( <SINGLE_LINE_COMMENT> ) ?
-|   <MULTI_LINE_COMMENT>
-|   <FORMAL_COMMENT>
+	<SINGLE_LINE_COMMENT_START> ( <SINGLE_LINE_COMMENT> ) ? { return true; }
+|   <MULTI_LINE_COMMENT> { return false; }
+|   <FORMAL_COMMENT> { return false; }
 }
 
 void Textblock() : {}
@@ -1651,7 +1673,7 @@ void DirectiveAssign() : {}
  *     #foo( arg+ )
  * @return true if ends with a newline
  */
-boolean Directive() :
+boolean Directive(boolean afterNewline) :
 {
     Token id = null, t = null, u = null, end = null, _else = null;
     int argType;
@@ -1661,14 +1683,15 @@ boolean Directive() :
     boolean isVM = false;
     boolean isMacro = false;
     ArrayList argtypes = new ArrayList(4);
-    boolean afterNewline = false, newlineAtEnd = false;
     String blockPrefix = "";
     ASTBlock block = null, elseBlock = null;
+    boolean newlineAtStart = afterNewline;
 }
 {
     [
       (t = <WHITESPACE>)
       {
+          // only possible if not after new line
           jjtThis.setPrefix(t.image);
           t = null;
       }
@@ -1795,18 +1818,24 @@ boolean Directive() :
           token_source.stateStackPop();
       }
     )
+    { afterNewline = false; }
     [
-      LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+      // Conditions where whitespace and newline postfix is eaten by space gobbling at this point:
+      // - block directive
+      // - new line before directive
+      // - backward compatibility mode
+      // - #include() or #parse()
+      LOOKAHEAD(2, { directiveType != Directive.LINE || newlineAtStart || rsvc.getSpaceGobbling() == SpaceGobbling.BC || d != null && (d instanceof Include || d instanceof Parse) })
+        ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
       {
+          afterNewline = true;
           if (directiveType == Directive.LINE)
           {
               jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
-              newlineAtEnd = true;
           }
           else
           {
               blockPrefix = (t == null ? u.image : t.image + u.image);
-              afterNewline = true;
           }
           t = u = null;
       }
@@ -1818,7 +1847,7 @@ boolean Directive() :
         }
         if (directiveType  == Directive.LINE)
         {
-            return newlineAtEnd;
+            return afterNewline;
         }
     }
     /*
@@ -1893,17 +1922,22 @@ boolean Directive() :
     ]
     (
       (end = <END>)
+      { afterNewline = false; }
       [
-        LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+        LOOKAHEAD(2, { newlineAtStart || rsvc.getSpaceGobbling() == SpaceGobbling.BC })
+          ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
         {
             jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
             t = u = null;
-            newlineAtEnd = true;
+            afterNewline = true;
         }
       ]
       {
           int pos = end.image.lastIndexOf('#');
-          if (pos > 0) block.setMorePostfix(end.image.substring(0, pos));
+          if (pos > 0)
+          {
+              block.setMorePostfix(end.image.substring(0, pos));
+          }
       }
     )
     {
@@ -1928,7 +1962,7 @@ boolean Directive() :
         /*
          *  VM : end
          */
-        return newlineAtEnd;
+        return afterNewline;
     }
 }
 
@@ -2103,15 +2137,16 @@ boolean Text() :
  *
  * ----------------------------------------------------------------------*/
 
-boolean IfStatement() :
+boolean IfStatement(boolean afterNewline) :
 {
     Token t = null, u = null, end = null;
     ASTBlock lastBlock = null;
-    boolean afterNewline = false, newlineAtEnd = false;
+    boolean newlineAtStart = afterNewline;
 }
 {
     [ ( t = <WHITESPACE> )
         {
+            // only possible if not after new line
             jjtThis.setPrefix(t.image);
             t = null;
         }
@@ -2137,8 +2172,8 @@ boolean IfStatement() :
         }
     ) #Block
     [ LOOKAHEAD( { getToken(1).kind == ELSEIF || (afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == ELSEIF) })
-      ( LOOKAHEAD( { getToken(1).kind == ELSEIF || (afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == ELSEIF) }) ( lastBlock = ElseIfStatement(lastBlock) { afterNewline = lastBlock.endsWithNewline; } ))+ ]
-    [ LOOKAHEAD( { getToken(1).kind == ELSE || (afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == ELSE) } ) lastBlock = ElseStatement(lastBlock) { afterNewline = lastBlock.endsWithNewline; } ]
+      ( LOOKAHEAD( { getToken(1).kind == ELSEIF || (afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == ELSEIF) }) ( lastBlock = ElseIfStatement(lastBlock, afterNewline) { afterNewline = lastBlock.endsWithNewline; } ))+ ]
+    [ LOOKAHEAD( { getToken(1).kind == ELSE || (afterNewline && getToken(1).kind == WHITESPACE && getToken(2).kind == ELSE) } ) lastBlock = ElseStatement(lastBlock, afterNewline) { afterNewline = lastBlock.endsWithNewline; } ]
     [ LOOKAHEAD( 1, { afterNewline } ) ( t = <WHITESPACE> )
         {
             lastBlock.setPostfix(t.image);
@@ -2146,11 +2181,13 @@ boolean IfStatement() :
         }
     ]
     (end = <END>)
+    { afterNewline = false; }
     [
-        LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+        LOOKAHEAD(2, { newlineAtStart || rsvc.getSpaceGobbling() == SpaceGobbling.BC } )
+          ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
         {
              jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
-             newlineAtEnd = true;
+             afterNewline = true;
         }
     ]
     {
@@ -2159,15 +2196,14 @@ boolean IfStatement() :
         {
             lastBlock.setMorePostfix(end.image.substring(0, pos));
         }
-        return newlineAtEnd;
+        return afterNewline;
     }
 }
 
-ASTBlock ElseStatement(ASTBlock previousBlock) :
+ASTBlock ElseStatement(ASTBlock previousBlock, boolean afterNewline) :
 {
     Token t = null, u = null, _else = null;
     ASTBlock block = null;
-    boolean afterNewline = false;
 }
 {
    [ ( t = <WHITESPACE> )
@@ -2203,11 +2239,10 @@ ASTBlock ElseStatement(ASTBlock previousBlock) :
     }
 }
 
-ASTBlock ElseIfStatement(ASTBlock previousBlock) :
+ASTBlock ElseIfStatement(ASTBlock previousBlock, boolean afterNewline) :
 {
     Token t = null, u = null, elseif = null;
     ASTBlock block = null;
-    boolean afterNewline = false;
 }
 {
   [ ( t = <WHITESPACE> )
@@ -2249,7 +2284,7 @@ ASTBlock ElseIfStatement(ASTBlock previousBlock) :
  *   #set( expr )
  *   #set expr
  */
-boolean SetDirective() :
+boolean SetDirective(boolean afterNewline) :
 {
     Token t = null, u = null;
     boolean endsWithNewline = false;
@@ -2257,6 +2292,7 @@ boolean SetDirective() :
 {
     [ ( t = <WHITESPACE> )
         {
+            // only possible after new line
             jjtThis.setPrefix(t.image);
             t = null;
         }
@@ -2270,7 +2306,8 @@ boolean SetDirective() :
         token_source.inSet = false;
     }
     [
-        LOOKAHEAD(2) ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
+        LOOKAHEAD(2, { afterNewline || rsvc.getSpaceGobbling() == SpaceGobbling.BC } )
+          ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
         {
              jjtThis.setPostfix(t == null ? u.image : t.image + u.image);
              endsWithNewline = true;

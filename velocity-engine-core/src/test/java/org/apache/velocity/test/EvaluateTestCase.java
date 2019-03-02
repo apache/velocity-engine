@@ -91,6 +91,13 @@ public class EvaluateTestCase extends BaseTestCase
         assureResultsDirectoryExists(RESULTS_DIR);
     }
 
+    @Override
+    protected void setUpEngine(VelocityEngine engine)
+    {
+        // extension hook
+    }
+
+
     /**
      * Test basic functionality.
      * @throws Exception

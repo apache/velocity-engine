@@ -27,6 +27,9 @@
   <body>
     <release version="2.1" date="In subversion">
         <action type="fix" dev="cbrisson">
+            Enhance space gobbling ("lines" mode): do not eat ending newline when directive doesn't start after a newline.
+        </action>
+        <action type="fix" dev="cbrisson">
             Fix unary negate.
         </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-892">
