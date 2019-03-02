@@ -3,7 +3,7 @@
   #if($string.startsWith("class java.lang."))
     #set($string = $string.substring(16))
   #end
-  $string
+$string##
 #end
 
 #macro(cell,$type)<span class="$type">$type</span>#end

@@ -2,7 +2,7 @@
 ## Test evaluate preserves macros 
 ##
 #macro (test $a)
-a: $a
+a: $a##
 #end
 test 1: #test(12)
 #evaluate("basic string")

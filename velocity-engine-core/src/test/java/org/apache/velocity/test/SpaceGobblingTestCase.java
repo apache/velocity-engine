@@ -128,7 +128,7 @@ public class SpaceGobblingTestCase extends BaseTestCase
             String result = getFileContents(RESULT_DIR, templateFile, mode.toString());
             String compare = getFileContents(COMPARE_DIR, templateFile, mode.toString());
 
-            String msg = "Processed template did not match expected output\n"+
+            String msg = "Processed template did not match expected output for template " + templateFile + " and mode " + mode + "\n"+
                     "-----Result-----\n"+ result +
                     "----Expected----\n"+ compare +
                     "----------------";
