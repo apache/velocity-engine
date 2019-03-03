@@ -496,6 +496,8 @@ public class ResourceManagerImpl
          * AST for the resource.
          */
 
+        String resourceKey = resource.getType() + resource.getName();
+
         /*
          *  touch() the resource to reset the counters
          */
@@ -510,7 +512,11 @@ public class ResourceManagerImpl
             String name = resource.getName();
             if (loader != getLoaderForResource(name))
             {
-                return loadResource(name, resource.getType(), encoding);
+                resource = loadResource(name, resource.getType(), encoding);
+                if (resource.getResourceLoader().isCachingOn())
+                {
+                    globalCache.put(resourceKey, resource);
+                }
             }
         }
 
@@ -534,8 +540,6 @@ public class ResourceManagerImpl
              *  processing (=>reading) it
              */
             long howOldItWas = loader.getLastModified(resource);
-
-            String resourceKey = resource.getType() + resource.getName();
 
             /*
              * we create a copy to avoid partially overwriting a
