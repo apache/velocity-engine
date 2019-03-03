@@ -30,6 +30,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.test.BaseTestCase;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.introspection.Converter;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionUtils;
@@ -230,6 +231,8 @@ public class ConversionHandlerTestCase extends BaseTestCase
         VelocityContext context = createContext();
 
         Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+        log.setEnabledLevel(TestLogger.LOG_LEVEL_ERROR);
 
         Template template = ve.getTemplate(templateFile);
         template.merge(context, writer);
