@@ -896,7 +896,7 @@ MORE :
                 stateStackPop();
             }
 
-            int preReferenceState = parser.getRuntimeServices().isDashAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
+            int preReferenceState = parser.getRuntimeServices().isHyphenAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
 
             trace( " $  : going to " + lexStateNames[preReferenceState]);
 
@@ -923,7 +923,7 @@ MORE :
                 stateStackPop();
             }
 
-            int preReferenceState = parser.getRuntimeServices().isDashAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
+            int preReferenceState = parser.getRuntimeServices().isHyphenAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
 
             trace( " $  : going to " + lexStateNames[preReferenceState]);
 

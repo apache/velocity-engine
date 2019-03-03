@@ -469,8 +469,8 @@ public interface RuntimeServices
     SpaceGobbling getSpaceGobbling();
 
    /**
-    * get whether dashes are allowed in identifiers
+    * get whether hyphens are allowed in identifiers
     * @return configured boolean flag
     */
-   boolean isDashAllowedInIdentifiers();
+   boolean isHyphenAllowedInIdentifiers();
 }

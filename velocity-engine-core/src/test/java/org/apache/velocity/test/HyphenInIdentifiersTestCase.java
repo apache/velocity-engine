@@ -26,19 +26,19 @@ import org.apache.velocity.app.VelocityEngine;
  * This class tests passing expressions as method arguments
  */
 
-public class DashInIdentifiersTestCase extends BaseTestCase
+public class HyphenInIdentifiersTestCase extends BaseTestCase
 {
-    public DashInIdentifiersTestCase(final String name)
+    public HyphenInIdentifiersTestCase(final String name)
     {
         super(name);
     }
 
     protected void setUpEngine(VelocityEngine engine)
     {
-        engine.addProperty("parser.allows.dash.in.identifiers", true);
+        engine.addProperty("parser.allow_hyphen_in_identifiers", true);
     }
 
-    public void testDash()
+    public void testHyphen()
     {
         assertEvalEquals("6","#set($var-1 = 7)#set($var-2 = $var-1 - 1)$var-2");
     }
