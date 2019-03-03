@@ -94,6 +94,20 @@ public class DuckType
         {
             return (String)value;
         }
+        if (coerceType && value.getClass().isArray())
+        {
+            // nicify arrays string representation
+            StringBuilder builder = new StringBuilder();
+            builder.append('[');
+            int len = Array.getLength(value);
+            for (int i = 0; i < len; ++i)
+            {
+                if (i > 0) builder.append(", ");
+                builder.append(asString(Array.get(value, i)));
+            }
+            builder.append(']');
+            return builder.toString();
+        }
         Object got = get(value, Types.STRING);
         if (got == NO_METHOD)
         {
