@@ -81,7 +81,7 @@ public class ASTIdentifier extends SimpleNode
 
     /**
      * Identifier getter
-     * @returns identifier
+     * @return identifier
      */
     public String getIdentifier()
     {

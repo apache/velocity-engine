@@ -152,8 +152,6 @@ public class NodeUtils
      * Fix children indentation in structured space gobbling mode.
      * @param parent
      * @param parentIndentation
-     * @param extraIndentation
-     * @return
      */
     public static void fixIndentation(SimpleNode parent, String parentIndentation)
     {
