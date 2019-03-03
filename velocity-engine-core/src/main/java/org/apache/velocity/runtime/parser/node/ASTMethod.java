@@ -165,6 +165,20 @@ public class ASTMethod extends SimpleNode
         VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
             o, context, this, strictRef);
 
+        // warn if method wasn't found (if strictRef is true, then ClassUtils did thorw an exception)
+        if (o != null && method == null)
+        {
+            StringBuilder plist = new StringBuilder();
+            for (int i = 0; i < params.length; i++)
+            {
+                Class param = paramClasses[i];
+                plist.append(param == null ? "null" : param.getName());
+                if (i < params.length - 1)
+                    plist.append(", ");
+            }
+            log.warn("Object '{}' does not contain method {}({}) at {}[line {}, column {}]", o.getClass().getName(), methodName, plist, getTemplateName(), getLine(), getColumn());
+        }
+
         /*
          * The parent class (typically ASTReference) uses the icache entry
          * under 'this' key to distinguish a valid null result from a non-existent method.
