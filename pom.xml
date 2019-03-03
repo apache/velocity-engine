@@ -31,7 +31,7 @@
   </parent>
 
   <artifactId>velocity-engine-parent</artifactId>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.1</version>
 
   <name>Apache Velocity</name>
   <url>http://velocity.apache.org/engine/devel/</url>
@@ -186,9 +186,9 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/velocity/engine/trunk</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/tags/2.1</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/tags/2.1</developerConnection>
+    <url>http://svn.apache.org/viewvc/velocity/engine/tags/2.1</url>
   </scm>
 
   <issueManagement>
