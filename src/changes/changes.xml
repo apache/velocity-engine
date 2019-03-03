@@ -25,27 +25,27 @@
   </properties>
 
   <body>
-    <release version="2.1" date="In subversion">
+    <release version="2.1" date="2019-03-03">
         <action type="fix" dev="cbrisson">
-            Rendering of arrays should display their content, as for lists.
+            Rendering of arrays should display their content, as for lists
         </action>
         <action type="fix" dev="cbrisson">
-            Enhance space gobbling ("lines" mode): do not eat ending newline when directive doesn't start after a newline.
+            Enhance space gobbling ("lines" mode): do not eat ending newline when directive doesn't start after a newline
         </action>
         <action type="fix" dev="cbrisson">
-            Fix unary negate.
+            Fix unary negate
         </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-892">
             Deprecate the Class to Class CoversionHandler in favor of a Class to Type TypeConversionHandler, which allows
-            to specity converters towards generic types specializations. The minimum JDK is now 1.8.
+            to specity converters towards generic types specializations. The minimum JDK is now 1.8
         </action>
         <action type="fix" dev="michaelo" issue="VELOCITY-908">
-            Rely on Locale.ROOT for lowercase/uppercase operations.
+            Rely on Locale.ROOT for lowercase/uppercase operations
         </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-904">
             Added the <code>velocimacro.preserve.arguments.literals</code> flag (false by default), for backward compatibility.
             When true, for any macro argument that evaluates to null, the macro will display the provided argument literal representation
-            instead of the literal argument reference.
+            instead of the literal argument reference
         </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-903">
             Default block for empty loops: <code>#foreach($i in []) loop block #else empty #end</code>
@@ -72,7 +72,7 @@
     <release version="2.0" date="2017-08-06">
 
       <action type="fix" dev="cbrisson">
-          Fix DataSourceResourceLoader for UTF-8 correct handling in VARCHAR/CLOB columns, and for connection / statement / result set life cycle.
+          Fix DataSourceResourceLoader for UTF-8 correct handling in VARCHAR/CLOB columns, and for connection / statement / result set life cycle
       </action>
 
       <action type="add" dev="cbrisson">

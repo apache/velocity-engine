@@ -262,7 +262,7 @@ public class SimpleNode implements Node
 
     /**
      * <p>Dumps nodes tree on System.out.</p>
-     * <p>Override {@link #dump(String, PrintWriter} if you want to customize
+     * <p>Override {@link #dump(String, PrintWriter)} if you want to customize
      * how the node dumps out its children.
      *
      * @param prefix
@@ -274,7 +274,7 @@ public class SimpleNode implements Node
 
     /**
      * <p>Dumps nodes tree on System.out.</p>
-     * <p>Override {@link #dump(String, PrintWriter} if you want to customize
+     * <p>Override {@link #dump(String, PrintWriter)} if you want to customize
      * how the node dumps out its children.
      *
      * @param prefix display prefix
