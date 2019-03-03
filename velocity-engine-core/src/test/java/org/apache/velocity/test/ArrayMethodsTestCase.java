@@ -114,9 +114,13 @@ public class ArrayMethodsTestCase extends BaseTestCase
 
         checkPropertyResult("empty", String.valueOf(isEmpty), compareToList);
 
-        // check that the wrapping doesn't apply to java.lang.Object methods
-        // such as toString() (for backwards compatibility).
-        assertFalse(evaluate("$array").equals(evaluate("$list")));
+        // Since 2.1, arrays are rendered the same way as lists
+        String renderArray = evaluate("$array");
+        String renderList = evaluate("$list");
+        System.err.println("<<< " + renderArray);
+        System.err.println(">>> " + renderList);
+        if (compareToList) assertTrue(renderArray.equals(renderList));
+        else assertFalse(renderArray.equals(renderList));
 
         for (int i=0; i < size; i++)
         {
