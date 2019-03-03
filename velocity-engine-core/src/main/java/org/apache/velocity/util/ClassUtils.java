@@ -156,119 +156,115 @@ public class ClassUtils {
 
     }
 
-  /**
-   * Lookup a VelMethod object given the method signature that is specified in
-   * the passed in parameters.  This method first searches the cache, if not found in
-   * the cache then uses reflections to inspect Object o, for the given method.
-   * @param methodName Name of method
-   * @param params Array of objects that are parameters to the method
-   * @param paramClasses Array of Classes corresponding to the types in params.
-   * @param o Object to introspect for the given method.
-   * @param context Context from which the method cache is acquired
-   * @param node ASTNode, used for error reporting.
-   * @param strictRef If no method is found, throw an exception, never return null in this case
-   * @return VelMethod object if the object is found, null if not matching method is found
-   */
-  public static VelMethod getMethod(String methodName, Object[] params,
+    /**
+    * Lookup a VelMethod object given the method signature that is specified in
+    * the passed in parameters.  This method first searches the cache, if not found in
+    * the cache then uses reflections to inspect Object o, for the given method.
+    * @param methodName Name of method
+    * @param params Array of objects that are parameters to the method
+    * @param paramClasses Array of Classes corresponding to the types in params.
+    * @param o Object to introspect for the given method.
+    * @param context Context from which the method cache is acquired
+    * @param node ASTNode, used for error reporting.
+    * @param strictRef If no method is found, throw an exception, never return null in this case
+    * @return VelMethod object if the object is found, null if not matching method is found
+    */
+    public static VelMethod getMethod(String methodName, Object[] params,
                                     Class[] paramClasses, Object o, InternalContextAdapter context,
                                     SimpleNode node, boolean strictRef)
-  {
-    VelMethod method = null;
-    try
     {
-      /*
-       * check the cache
-       */
-      MethodCacheKey mck = new MethodCacheKey(methodName, paramClasses);
-      IntrospectionCacheData icd = context.icacheGet(mck);
-      Class clazz = o instanceof Class ? (Class)o : o.getClass();
-
-      /*
-       * like ASTIdentifier, if we have cache information, and the Class of
-       * Object o is the same as that in the cache, we are safe.
-       */
-      if (icd != null && (o != null && icd.contextData == clazz))
-      {
-
-        /*
-         * get the method from the cache
-         */
-        method = (VelMethod) icd.thingy;
-      }
-      else
-      {
-        /*
-         * otherwise, do the introspection, and then cache it
-         */
-        method = node.getRuntimeServices().getUberspect().getMethod(o, methodName, params,
-           new Info(node.getTemplateName(), node.getLine(), node.getColumn()));
-
-        if ((method != null) && (o != null))
+        VelMethod method = null;
+        try
         {
-          icd = new IntrospectionCacheData();
-          icd.contextData = clazz;
-          icd.thingy = method;
+            /*
+            * check the cache
+            */
+            MethodCacheKey mck = new MethodCacheKey(methodName, paramClasses);
+            IntrospectionCacheData icd = context.icacheGet(mck);
+            Class clazz = o instanceof Class ? (Class)o : o.getClass();
 
-          context.icachePut(mck, icd);
+            /*
+            * like ASTIdentifier, if we have cache information, and the Class of
+            * Object o is the same as that in the cache, we are safe.
+            */
+            if (icd != null && (o != null && icd.contextData == clazz))
+            {
+                /*
+                * get the method from the cache
+                */
+                method = (VelMethod) icd.thingy;
+            }
+            else
+            {
+                /*
+                * otherwise, do the introspection, and then cache it
+                */
+                method = node.getRuntimeServices().getUberspect().getMethod(o, methodName, params,
+                    new Info(node.getTemplateName(), node.getLine(), node.getColumn()));
+
+                if ((method != null) && (o != null))
+                {
+                    icd = new IntrospectionCacheData();
+                    icd.contextData = clazz;
+                    icd.thingy = method;
+                    context.icachePut(mck, icd);
+                }
+            }
+
+            /*
+            * if we still haven't gotten the method, either we are calling a method
+            * that doesn't exist (which is fine...) or I screwed it up.
+            */
+            if (method == null)
+            {
+                if (strictRef)
+                {
+                    // Create a parameter list for the exception error message
+                    StringBuilder plist = new StringBuilder();
+                    for (int i = 0; i < params.length; i++)
+                    {
+                        Class param = paramClasses[i];
+                        plist.append(param == null ? "null" : param.getName());
+                        if (i < params.length - 1)
+                            plist.append(", ");
+                    }
+                    throw new MethodInvocationException("Object '"
+                        + o.getClass().getName() + "' does not contain method "
+                        + methodName + "(" + plist + ")", null, methodName, node
+                        .getTemplateName(), node.getLine(), node.getColumn());
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
-      }
-
-      /*
-       * if we still haven't gotten the method, either we are calling a method
-       * that doesn't exist (which is fine...) or I screwed it up.
-       */
-      if (method == null)
-      {
-        if (strictRef)
+        catch (MethodInvocationException mie)
         {
-          // Create a parameter list for the exception error message
-          StringBuilder plist = new StringBuilder();
-          for (int i = 0; i < params.length; i++)
-          {
-            Class param = paramClasses[i];
-            plist.append(param == null ? "null" : param.getName());
-            if (i < params.length - 1)
-              plist.append(", ");
-          }
-          throw new MethodInvocationException("Object '"
-              + o.getClass().getName() + "' does not contain method "
-              + methodName + "(" + plist + ")", null, methodName, node
-               .getTemplateName(), node.getLine(), node.getColumn());
+            /*
+            * this can come from the doIntrospection(), as the arg values are
+            * evaluated to find the right method signature. We just want to propagate
+            * it here, not do anything fancy
+            */
+            throw mie;
         }
-        else
+        catch (RuntimeException e)
         {
-          return null;
+            /**
+            * pass through application level runtime exceptions
+            */
+            throw e;
         }
-      }
+        catch (Exception e)
+        {
+            /*
+            * can come from the doIntropection() also, from Introspector
+            */
+            String msg = "ASTMethod.execute() : exception from introspection";
+            throw new VelocityException(msg, e);
+        }
 
+        return method;
     }
-    catch (MethodInvocationException mie)
-    {
-      /*
-       * this can come from the doIntrospection(), as the arg values are
-       * evaluated to find the right method signature. We just want to propagate
-       * it here, not do anything fancy
-       */
-
-      throw mie;
-    }
-    catch (RuntimeException e)
-    {
-      /**
-       * pass through application level runtime exceptions
-       */
-      throw e;
-    }
-    catch (Exception e)
-    {
-      /*
-       * can come from the doIntropection() also, from Introspector
-       */
-      String msg = "ASTMethod.execute() : exception from introspection";
-      throw new VelocityException(msg, e);
-    }
-
-    return method;
-  }
 
 }
