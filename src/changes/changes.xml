@@ -25,7 +25,7 @@
   </properties>
 
   <body>
-    <release version="2.1" date="In subversion">
+    <release version="2.1" date="2019-03-03">
         <action type="fix" dev="cbrisson">
             Rendering of arrays should display their content, as for lists.
         </action>
