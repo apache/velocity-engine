@@ -44,7 +44,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClassMap
 {
     /** Set true if you want to debug the reflection code */
-    private static final boolean debugReflection = true;
+    private static final boolean debugReflection = false;
 
     /** Class logger */
     private final Logger log;
