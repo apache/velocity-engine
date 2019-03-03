@@ -56,7 +56,7 @@ public class BooleanPropertyExecutor extends PropertyExecutor
      * @param introspector
      * @param clazz
      * @param property
-     * @maram wrapArray
+     * @param wrapArray
      * @since 1.5
      */
     public BooleanPropertyExecutor(final Logger log, final Introspector introspector,
