@@ -305,10 +305,10 @@ public interface RuntimeConstants
     String PARSER_POOL_SIZE = "parser.pool.size";
 
     /**
-     * Allow dash in identifiers (backward compatibility option)
+     * Allow hyphen in identifiers (backward compatibility option)
      * @since 2.1
      */
-    String PARSER_DASH_ALLOWED = "parser.allows.dash.in.identifiers";
+    String PARSER_HYPHEN_ALLOWED = "parser.allow_hyphen_in_identifiers";
 
     /**
      * Space gobbling mode

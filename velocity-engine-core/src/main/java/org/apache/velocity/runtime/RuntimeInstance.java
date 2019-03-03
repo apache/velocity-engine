@@ -200,9 +200,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private SpaceGobbling spaceGobbling;
 
     /**
-     * Whether dash is allowed in identifiers
+     * Whether hyphen is allowed in identifiers
      */
-    private boolean dashAllowedInIdentifiers;
+    private boolean hyphenAllowedInIdentifiers;
 
     /**
      * Creates a new RuntimeInstance object.
@@ -360,7 +360,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
 
         /* init parser behavior */
-        dashAllowedInIdentifiers = getBoolean(PARSER_DASH_ALLOWED, false);
+        hyphenAllowedInIdentifiers = getBoolean(PARSER_HYPHEN_ALLOWED, false);
     }
 
     /**
@@ -1849,11 +1849,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     * get whether dashes are allowed in identifiers
+     * get whether hyphens are allowed in identifiers
      * @return configured boolean flag
      */
-    public boolean isDashAllowedInIdentifiers()
+    public boolean isHyphenAllowedInIdentifiers()
     {
-        return dashAllowedInIdentifiers;
+        return hyphenAllowedInIdentifiers;
     }
 }

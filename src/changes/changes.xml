@@ -60,7 +60,7 @@
             Fix parser regression in #macro whitespaces handling
         </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-542">
-            Added a new 'parser.allows.dash.in.identifiers' boolean property (false per default) to (dis)allow '-' in reference identifiers
+            Added a new 'parser.allow_hypen_in_identifiers' boolean property (false per default) to (dis)allow '-' in reference identifiers
         </action>
         <action type="fix" dev="cbrisson" issue="VELOCITY-896">
             Fix parsing of a terminal hash or dollar sign in sing litteral and template
