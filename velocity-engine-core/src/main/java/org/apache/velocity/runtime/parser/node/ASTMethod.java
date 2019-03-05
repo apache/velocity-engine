@@ -176,7 +176,7 @@ public class ASTMethod extends SimpleNode
                 if (i < params.length - 1)
                     plist.append(", ");
             }
-            log.warn("Object '{}' does not contain method {}({}) at {}[line {}, column {}]", o.getClass().getName(), methodName, plist, getTemplateName(), getLine(), getColumn());
+            log.debug("Object '{}' does not contain method {}({}) at {}[line {}, column {}]", o.getClass().getName(), methodName, plist, getTemplateName(), getLine(), getColumn());
         }
 
         /*
