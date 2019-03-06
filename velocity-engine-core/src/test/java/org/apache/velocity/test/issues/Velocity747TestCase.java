@@ -59,7 +59,7 @@ public class Velocity747TestCase extends BaseTestCase
         engine1.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
 
         engine2 = new VelocityEngine();
-        engine2.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,string");
+        engine2.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file,string");
         engine2.addProperty("file.resource.loader.path", TEST_COMPARE_DIR + "/issues/velocity-747/");
         engine2.addProperty("file.resource.loader.cache", "true");
         engine2.addProperty("file.resource.loader.modificationCheckInterval", "-1");

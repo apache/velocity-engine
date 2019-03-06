@@ -92,23 +92,23 @@ public abstract class ResourceLoader
 
         try
         {
-            isCachingOn = configuration.getBoolean("cache", false);
+            isCachingOn = configuration.getBoolean(RuntimeConstants.RESOURCE_LOADER_CACHE, false);
         }
         catch (Exception e)
         {
             isCachingOn = false;
-            String msg = "Exception parsing cache setting: " + configuration.getString("cache");
+            String msg = "Exception parsing cache setting: " + configuration.getString(RuntimeConstants.RESOURCE_LOADER_CACHE);
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }
         try
         {
-            modificationCheckInterval = configuration.getLong("modificationCheckInterval", 0);
+            modificationCheckInterval = configuration.getLong(RuntimeConstants.RESOURCE_LOADER_CHECK_INTERVAL, 0);
         }
         catch (Exception e)
         {
             modificationCheckInterval = 0;
-            String msg = "Exception parsing modificationCheckInterval setting: " + configuration.getString("modificationCheckInterval");
+            String msg = "Exception parsing modificationCheckInterval setting: " + RuntimeConstants.RESOURCE_LOADER_CHECK_INTERVAL;
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }
@@ -119,7 +119,7 @@ public abstract class ResourceLoader
         className = ResourceCacheImpl.class.getName();
         try
         {
-            className = configuration.getString("class", className);
+            className = configuration.getString(RuntimeConstants.RESOURCE_LOADER_CLASS, className);
         }
         catch (Exception e)
         {

@@ -55,7 +55,7 @@ public class MacroAutoReloadTestCase extends BaseTestCase
         engine.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
 
         // use file resource loader
-        engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,string");
+        engine.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file,string");
         engine.addProperty("file.resource.loader.path", RELOAD_TEMPLATE_PATH);
         engine.addProperty("velocimacro.library", "macros2.vtl");
         engine.addProperty("velocimacro.library.autoreload", "true");

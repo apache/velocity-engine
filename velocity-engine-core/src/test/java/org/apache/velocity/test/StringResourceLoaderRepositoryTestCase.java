@@ -50,7 +50,7 @@ public class StringResourceLoaderRepositoryTestCase extends TestCase
     public void setUp() throws Exception
     {
         Velocity.reset();
-        Velocity.setProperty(Velocity.RESOURCE_LOADER, "string");
+        Velocity.setProperty(Velocity.RESOURCE_LOADERS, "string");
         Velocity.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
         Velocity.addProperty("string.resource.loader.modificationCheckInterval", "1");
         Velocity.setProperty(Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
@@ -71,7 +71,7 @@ public class StringResourceLoaderRepositoryTestCase extends TestCase
     {
         VelocityEngine engine = new VelocityEngine();
         TestLogger logger = new TestLogger();
-        engine.setProperty(Velocity.RESOURCE_LOADER, "string");
+        engine.setProperty(Velocity.RESOURCE_LOADERS, "string");
         engine.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
         if (repoName != null)
         {

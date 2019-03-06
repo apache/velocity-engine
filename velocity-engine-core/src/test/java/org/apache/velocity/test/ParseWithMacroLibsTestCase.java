@@ -195,7 +195,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         ve.setProperty("file.resource.loader.cache", cache);
         ve.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
-        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/parsemacros");
         ve.init();
@@ -224,7 +224,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         ve1.setProperty("file.resource.loader.cache", Boolean.TRUE);
         ve1.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
-        ve1.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve1.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve1.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/parsemacros");
         ve1.init();
@@ -274,7 +274,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         ve1.setProperty("file.resource.loader.cache", Boolean.TRUE);
         ve1.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
-        ve1.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve1.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve1.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/parsemacros");
         ve1.init();
