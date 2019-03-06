@@ -158,7 +158,16 @@ public class VelocimacroFactory
                  }
                  else
                  {
-                     log.debug("Default library not found.");
+                     // try the old default library
+                     log.debug("Default library {} not found. Trying old default library: {}", RuntimeConstants.VM_LIBRARY_DEFAULT, DeprecatedRuntimeConstants.OLD_VM_LIBRARY_DEFAULT);
+                     if (rsvc.getLoaderNameForResource(RuntimeConstants.OLD_VM_LIBRARY_DEFAULT) != null)
+                     {
+                         libfiles = RuntimeConstants.OLD_VM_LIBRARY_DEFAULT;
+                     }
+                     else
+                     {
+                         log.debug("Old default library {} not found.", DeprecatedRuntimeConstants.OLD_VM_LIBRARY_DEFAULT);
+                     }
                  }
              }
 

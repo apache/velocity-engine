@@ -29,7 +29,6 @@ import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.apache.velocity.test.misc.TestLogger;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
@@ -72,7 +71,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         ret.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
 
         // use string resource loader by default, instead of file
-        ret.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,string");
+        ret.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file,string");
         ret.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
         ret.addProperty("string.resource.loader.repository.name", stringRepoName);
         ret.addProperty("string.resource.loader.repository.static", "false");

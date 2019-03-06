@@ -60,6 +60,7 @@ public class ASTMethod extends SimpleNode
 
     private String methodName = "";
     private int paramCount = 0;
+    private boolean logOnInvalid = true;
 
     protected Info uberInfo;
 
@@ -120,6 +121,7 @@ public class ASTMethod extends SimpleNode
         paramCount = jjtGetNumChildren() - 1;
 
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
+        logOnInvalid = rsvc.getBoolean(RuntimeConstants.RUNTIME_LOG_METHOD_CALL_LOG_INVALID, true);
 
         cleanupParserAndTokens();
 
@@ -165,8 +167,8 @@ public class ASTMethod extends SimpleNode
         VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
             o, context, this, strictRef);
 
-        // warn if method wasn't found (if strictRef is true, then ClassUtils did thorw an exception)
-        if (o != null && method == null)
+        // warn if method wasn't found (if strictRef is true, then ClassUtils did throw an exception)
+        if (o != null && method == null && logOnInvalid)
         {
             StringBuilder plist = new StringBuilder();
             for (int i = 0; i < params.length; i++)

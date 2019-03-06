@@ -160,8 +160,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
         rsvc = rs;
         log = rsvc.getLog("directive." + getName());
 
-        String property = getScopeName()+'.'+RuntimeConstants.PROVIDE_SCOPE_CONTROL;
-        this.provideScope = rsvc.getBoolean(property, provideScope);
+        provideScope = rsvc.isScopeControlEnabled(getScopeName());
     }
 
     /**

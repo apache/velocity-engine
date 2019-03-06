@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.resource.loader;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
 
@@ -91,7 +92,7 @@ public class JarResourceLoader extends ResourceLoader
     {
         log.trace("JarResourceLoader: initialization starting.");
 
-        List paths = configuration.getList("path");
+        List paths = configuration.getList(RuntimeConstants.RESOURCE_LOADER_PATHS);
 
         if (paths != null)
         {

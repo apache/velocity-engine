@@ -34,7 +34,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
@@ -117,8 +116,8 @@ public class ResourceManagerImpl
              * in as an instance.
              */
 
-            String loaderClass = StringUtils.trim(configuration.getString("class"));
-            ResourceLoader loaderInstance = (ResourceLoader) configuration.get("instance");
+            String loaderClass = StringUtils.trim(configuration.getString(RuntimeConstants.RESOURCE_LOADER_CLASS));
+            ResourceLoader loaderInstance = (ResourceLoader) configuration.get(RuntimeConstants.RESOURCE_LOADER_INSTANCE);
 
             if (loaderInstance != null)
             {
@@ -209,7 +208,7 @@ public class ResourceManagerImpl
      */
     private void assembleResourceLoaderInitializers()
     {
-        Vector resourceLoaderNames = rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADER);
+        Vector resourceLoaderNames = rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADERS);
 
         for (ListIterator<String> it = resourceLoaderNames.listIterator(); it.hasNext(); )
         {
@@ -223,8 +222,8 @@ public class ResourceManagerImpl
              */
             String loaderName = StringUtils.trim(it.next());
             it.set(loaderName);
-            StringBuilder loaderID = new StringBuilder(loaderName);
-            loaderID.append(".").append(RuntimeConstants.RESOURCE_LOADER);
+            StringBuilder loaderID = new StringBuilder();
+            loaderID.append(RuntimeConstants.RESOURCE_LOADER).append('.').append(loaderName);
 
             ExtProperties loaderConfiguration =
         		rsvc.getConfiguration().subset(loaderID.toString());
