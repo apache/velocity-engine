@@ -69,7 +69,7 @@ public class ResourceManagerImpl
      * This is a list of the template input stream source initializers, basically properties for a particular template stream
      * source. The order in this list reflects numbering of the properties i.e.
      *
-     * <p>&lt;loader-id&gt;.resource.loader.&lt;property&gt; = &lt;value&gt;</p>
+     * <p>resource.loader.&lt;loader-id&gt;.&lt;property&gt; = &lt;value&gt;</p>
      */
     private final List<ExtProperties> sourceInitializerList = new ArrayList<>();
 
@@ -127,9 +127,9 @@ public class ResourceManagerImpl
                 resourceLoader = ResourceLoaderFactory.getLoader(rsvc, loaderClass);
             } else
             {
-                String msg = "Unable to find '" +
+                String msg = "Unable to find 'resource.loader." +
                     configuration.getString(RuntimeConstants.RESOURCE_LOADER_IDENTIFIER) +
-                    ".resource.loader.class' specification in configuration." +
+                    ".class' specification in configuration." +
                     " This is a critical value.  Please adjust configuration.";
                 log.error(msg);
                 throw new VelocityException(msg);
@@ -215,7 +215,7 @@ public class ResourceManagerImpl
             /*
              * The loader id might look something like the following:
              *
-             * file.resource.loader
+             * resource.loader.file
              *
              * The loader id is the prefix used for all properties
              * pertaining to a particular loader.

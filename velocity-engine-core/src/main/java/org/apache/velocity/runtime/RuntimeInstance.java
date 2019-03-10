@@ -1543,7 +1543,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the
-     * template is set by the <code>input.encoding</code>
+     * template is set by the <code>resource.default_encoding</code>
      * property. The default is UTF-8.
      *
      * @param name The file name of the desired template.
