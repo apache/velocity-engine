@@ -211,6 +211,11 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
     String RESOURCE_LOADER_CHECK_INTERVAL = "modification_check_interval";
 
+    /** The default character encoding for the templates. Used by the parser in processing the input streams. */
+    String INPUT_ENCODING = "resource.default_encoding";
+
+    /** Default Encoding is UTF-8. */
+    String ENCODING_DEFAULT = "UTF-8";
 
     /*
      * ----------------------------------------------------------------------
@@ -334,12 +339,6 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
 
     /** Switch for the interpolation facility for string literals. */
     String INTERPOLATE_STRINGLITERALS = "runtime.interpolate_string_literals";
-
-    /** The character encoding for the templates. Used by the parser in processing the input streams. */
-    String INPUT_ENCODING = "input.encoding";
-
-    /** Default Encoding is UTF-8. */
-    String ENCODING_DEFAULT = "UTF-8";
 
     /** Switch for ignoring nulls in math equations vs throwing exceptions. */
     String STRICT_MATH = "runtime.strict_math";
