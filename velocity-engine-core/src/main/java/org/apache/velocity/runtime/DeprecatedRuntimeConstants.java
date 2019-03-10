@@ -123,6 +123,9 @@ public interface DeprecatedRuntimeConstants
      */
     String OLD_RESOURCE_LOADER_CHECK_INTERVAL = "modificationCheckInterval";
 
+    /** The default character encoding for the templates. Used by the parser in processing the input streams. */
+    String OLD_INPUT_ENCODING = "input.encoding";
+
     /**
      * The <code>eventhandler.referenceinsertion.class</code> property specifies a list of the
      * {@link org.apache.velocity.app.event.ReferenceInsertionEventHandler} implementations to use.
