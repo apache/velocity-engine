@@ -287,6 +287,7 @@ public class Include extends InputBase
      *  @param writer
      *  @param msg
      *  @throws IOException
+     *  @deprecated if/how errors are displayed is not the concern of the engine, which should throw in all cases
      */
     private void outputErrorToStream( Writer writer, String msg )
         throws IOException
