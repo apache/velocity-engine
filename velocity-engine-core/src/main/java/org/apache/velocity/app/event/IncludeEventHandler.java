@@ -29,7 +29,7 @@ import org.apache.velocity.context.Context;
  * @version $Id$
  * @since 1.5
  */
-public interface  IncludeEventHandler extends EventHandler
+public interface IncludeEventHandler extends EventHandler
 {
     /**
      * Called when an include-type directive is encountered (
