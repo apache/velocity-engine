@@ -123,7 +123,34 @@ public interface DeprecatedRuntimeConstants
      */
     String OLD_RESOURCE_LOADER_CHECK_INTERVAL = "modificationCheckInterval";
 
-    /** The default character encoding for the templates. Used by the parser in processing the input streams. */
+    /**
+     * Datasource loader datasource url
+     * @deprecated see {@link RuntimeConstants#DS_RESOURCE_LOADER_DATASOURCE}
+     */
+    String OLD_DS_RESOURCE_LOADER_DATASOURCE = "ds.resource.loader.resource.datasource";
+
+    /**
+     * Datasource loader template key column
+     * @deprecated see {@link RuntimeConstants#DS_RESOURCE_LOADER_KEY_COLUMN}
+     */
+    String OLD_DS_RESOURCE_LOADER_KEY_COLUMN = "ds.resource.loader.resource.keycolumn";
+
+    /**
+     * Datasource loader template content column
+     * @deprecated see {@link RuntimeConstants#DS_RESOURCE_LOADER_TEMPLATE_COLUMN}
+     */
+    String OLD_DS_RESOURCE_LOADER_TEMPLATE_COLUMN = "ds.resource.loader.resource.templatecolumn";
+
+    /**
+     * Datasource loader template timestamp column
+     * @deprecated see {@link RuntimeConstants#DS_RESOURCE_LOADER_TIMESTAMP_COLUMN}
+     */
+    String OLD_DS_RESOURCE_LOADER_TIMESTAMP_COLUMN = "ds.resource.loader.resource.timestampcolumn";
+
+    /**
+     * The default character encoding for the templates. Used by the parser in processing the input streams.
+     * @deprecated see {@link RuntimeConstants#INPUT_ENCODING}
+     */
     String OLD_INPUT_ENCODING = "input.encoding";
 
     /**

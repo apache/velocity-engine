@@ -732,11 +732,11 @@ public class ExtProperties extends DeprecationAwareExtProperties
      * exists then the value stated here will be added
      * to the configuration entry. For example, if
      *
-     * <code>resource.loader = file</code>
+     * <code>resource.loaders = file</code>
      *
      * is already present in the configuration and you
      *
-     * <code>addProperty("resource.loader", "classpath")</code>
+     * <code>addProperty("resource.loaders", "classpath")</code>
      *
      * Then you will end up with a Vector like the
      * following:

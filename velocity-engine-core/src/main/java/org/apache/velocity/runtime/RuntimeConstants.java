@@ -167,7 +167,7 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
     /**
      * Key used to retrieve the names of the resource loaders to be used. In a properties file they may appear as the following:
      *
-     * <p>resource.loader = file,classpath</p>
+     * <p>resource.loaders = file,classpath</p>
      */
     String RESOURCE_LOADERS = "resource.loaders";
 
@@ -211,6 +211,31 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
     String RESOURCE_LOADER_CHECK_INTERVAL = "modification_check_interval";
 
+    /**
+     * Datasource loader datasource url
+     */
+    String DS_RESOURCE_LOADER_DATASOURCE = "resource.loader.ds.resource.datasource_url";
+
+    /**
+     * Datasource loader templates table
+     */
+    String DS_RESOURCE_LOADER_TABLE = "resource.loader.ds.resource.table";
+
+    /**
+     * Datasource loader template key column
+     */
+    String DS_RESOURCE_LOADER_KEY_COLUMN = "resource.loader.ds.resource.key_column";
+
+    /**
+     * Datasource loader template content column
+     */
+    String DS_RESOURCE_LOADER_TEMPLATE_COLUMN = "resource.loader.ds.resource.template_column";
+
+    /**
+     * Datasource loader template timestamp column
+     */
+    String DS_RESOURCE_LOADER_TIMESTAMP_COLUMN = "resource.loader.ds.resource.timestamp_column";
+
     /** The default character encoding for the templates. Used by the parser in processing the input streams. */
     String INPUT_ENCODING = "resource.default_encoding";
 
@@ -224,25 +249,25 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
 
     /**
-     * The <code>eventhandler.referenceinsertion.class</code> property specifies a list of the
+     * The <code>event_handler.reference_insertion.class</code> property specifies a list of the
      * {@link org.apache.velocity.app.event.ReferenceInsertionEventHandler} implementations to use.
      */
     String EVENTHANDLER_REFERENCEINSERTION = "event_handler.reference_insertion.class";
 
     /**
-     * The <code>eventhandler.methodexception.class</code> property specifies a list of the
+     * The <code>event_handler.method_exception.class</code> property specifies a list of the
      * {@link org.apache.velocity.app.event.MethodExceptionEventHandler} implementations to use.
      */
     String EVENTHANDLER_METHODEXCEPTION = "event_handler.method_exception.class";
 
     /**
-     * The <code>eventhandler.include.class</code> property specifies a list of the
+     * The <code>event_handler.include.class</code> property specifies a list of the
      * {@link org.apache.velocity.app.event.IncludeEventHandler} implementations to use.
      */
     String EVENTHANDLER_INCLUDE = "event_handler.include.class";
 
     /**
-     * The <code>eventhandler.invalidreferences.class</code> property specifies a list of the
+     * The <code>event_handler.invalid_references.class</code> property specifies a list of the
      * {@link org.apache.velocity.app.event.InvalidReferenceEventHandler} implementations to use.
      */
     String EVENTHANDLER_INVALIDREFERENCES = "event_handler.invalid_references.class";
