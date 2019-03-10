@@ -196,14 +196,6 @@ public interface DeprecatedRuntimeConstants
     String OLD_VM_BODY_REFERENCE = "velocimacro.body.reference";
 
     /**
-     * When displaying null or invalid non-quiet references, use the argument literal reference
-     * instead of the one in the macro block. Defaults to false.
-     * @since 2.1
-     * @deprecated see {@link RuntimeConstants#VM_PRESERVE_ARGUMENTS_LITERALS}
-     */
-    String OLD_VM_PRESERVE_ARGUMENTS_LITERALS = "velocimacro.preserve.arguments.literals";
-
-    /**
      * Properties referenced in the template are required to exist the object
      * @deprecated see {@link RuntimeConstants#RUNTIME_REFERENCES_STRICT}
      */
@@ -244,13 +236,6 @@ public interface DeprecatedRuntimeConstants
      * @deprecated see {@link RuntimeConstants#CONTEXT_AUTOREFERENCE_KEY}
      */
     String OLD_CONTEXT_AUTOREFERENCE_KEY = "context.autoreference.key";
-
-    /**
-     * Allow dash in identifiers (backward compatibility option)
-     * @since 2.1
-     * @deprecated see {@link RuntimeConstants#PARSER_HYPHEN_ALLOWED}
-     */
-    String OLD_PARSER_HYPHEN_ALLOWED = "parser.allows.dash.in.identifiers";
 
     /**
      * Space gobbling mode
