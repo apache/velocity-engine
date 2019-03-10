@@ -88,12 +88,14 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
     /**
      * Starting tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
      * and references are allowed.
+     * @deprecated if/how errors are displayed is not the concern of the engine, which should throw in all cases
      */
     String ERRORMSG_START = "directive.include.output_error_start";
 
     /**
      * Ending tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
      * and references are allowed.
+     * @deprecated if/how errors are displayed is not the concern of the engine, which should throw in all cases
      */
     String ERRORMSG_END = "directive.include.output_error_end";
 
