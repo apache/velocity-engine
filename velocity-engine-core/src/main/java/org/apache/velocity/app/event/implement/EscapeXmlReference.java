@@ -22,10 +22,13 @@ import org.apache.commons.lang3.StringEscapeUtils;
  */
 
 /**
- * Escape all XML entities, suitable for placing the output inside an XML (1.0) text node or attribute value.
+ * <p>Escape all XML entities, suitable for placing the output inside an XML (1.0) text node or attribute value.</p>
+ * <p>Warning: escaping references this way, without knowing if they land inside plain text, inside an attribute value or elsewhere, is not usable in production.</p>
+ *
  * @see <a href="http://jakarta.apache.org/commons/lang/api/org/apache/commons/lang/StringEscapeUtils.html#escapeSql(java.lang.String)">StringEscapeUtils</a>
  * @author wglass
  * @since 1.5
+ * @deprecated impractical use
  */
 public class EscapeXmlReference extends EscapeReference
 {
