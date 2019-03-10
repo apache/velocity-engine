@@ -317,7 +317,7 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
 
     /** key name for uberspector. Multiple classnames can be specified,in which case uberspectors will be chained. */
-    String UBERSPECT_CLASSNAME = "introspector.uberspect";
+    String UBERSPECT_CLASSNAME = "introspector.uberspect.class";
 
     /** A comma separated list of packages to restrict access to in the SecureIntrospector. */
     String INTROSPECTOR_RESTRICT_PACKAGES = "introspector.restrict.packages";
