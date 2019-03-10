@@ -22,12 +22,15 @@ import org.apache.commons.lang3.StringEscapeUtils;
  */
 
 /**
- * Escape all HTML entities.
+ * <p>Escape all HTML entities.</p>
+ * <p>Warning: escaping references this way, without knowing if they land inside plain text, inside an attribute value or elsewhere, is not usable in production.</p>
  *
  * @see <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/StringEscapeUtils.html#escapeHtml4%28java.lang.String%29">StringEscapeUtils</a>
  * @author wglass
  * @since 1.5
+ * @deprecated impractical use
  */
+@Deprecated
 public class EscapeHtmlReference extends EscapeReference
 {
 
