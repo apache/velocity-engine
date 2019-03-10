@@ -217,11 +217,11 @@ public interface DeprecatedRuntimeConstants
     String OLD_UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
 
     /**
-     * key for Conversion Manager instance
+     * key for Conversion Manager class
      * @deprecated see {@link RuntimeConstants#CONVERSION_HANDLER_INSTANCE}
      */
-    String OLD_CONVERSION_HANDLER_INSTANCE = "runtime.conversion.handler.instance";
-
+    String OLD_CONVERSION_HANDLER_CLASS = "introspector.conversion_handler.class";
+    
     /**
      * Switch for the interpolation facility for string literals.
      * @deprecated see {@link RuntimeConstants#INTERPOLATE_STRINGLITERALS}
