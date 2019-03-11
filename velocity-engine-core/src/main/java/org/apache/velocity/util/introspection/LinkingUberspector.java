@@ -41,6 +41,8 @@ public class LinkingUberspector extends AbstractChainableUberspector
 
     /**
      * Constructor that takes the two uberspectors to link
+     * @param left left uberspector
+     * @param right right uberspector
      */
     public LinkingUberspector(Uberspect left,Uberspect right) {
         leftUberspect = left;

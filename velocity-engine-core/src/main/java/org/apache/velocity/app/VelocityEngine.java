@@ -65,6 +65,7 @@ public class VelocityEngine implements RuntimeConstants
     /**
      * Construct a VelocityEngine with the initial properties defined in the file
      * propsFilename
+     * @param propsFilename properties filename
      */
     public VelocityEngine(String propsFilename)
     {
@@ -73,6 +74,7 @@ public class VelocityEngine implements RuntimeConstants
 
     /**
      * Construct a VelocityEngine instance with the specified initial properties.
+     * @param p properties
      */
     public VelocityEngine(Properties p)
     {

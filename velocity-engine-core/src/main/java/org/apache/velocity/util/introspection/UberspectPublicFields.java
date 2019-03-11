@@ -64,7 +64,6 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
      * @param identifier
      * @param i
      * @return A Velocity Getter Method.
-     * @throws Exception
      */
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
     {
@@ -87,7 +86,6 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
      * @param arg
      * @param i
      * @return A Velocity Setter method.
-     * @throws Exception
      */
     public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
     {
@@ -103,16 +101,31 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
         return (executor.isAlive()) ? new VelSetterImpl(executor) : null;
     }
 
+    /**
+     * @param obj
+     * @param info
+     * @return iterator
+     */
     public Iterator getIterator(Object obj, Info info)
     {
         return null;
     }
 
+    /**
+     * @param obj
+     * @param method
+     * @param args
+     * @param info
+     * @return method wrapper
+     */
     public VelMethod getMethod(Object obj, String method, Object[] args, Info info)
     {
         return null;
     }
 
+    /**
+     * @param rs RuntimeServices object assigned during initialization
+     */
     public void setRuntimeServices(RuntimeServices rs)
     {
         log = rs.getLog("rendering");

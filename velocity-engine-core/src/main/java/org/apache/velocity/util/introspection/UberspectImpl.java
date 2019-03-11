@@ -471,6 +471,8 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         }
 
         /**
+         * @param method
+         * @param wrapArray
          * @since 1.6
          */
         public VelMethodImpl(Method method, boolean wrapArray)
@@ -479,6 +481,9 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         }
 
         /**
+         * @param method
+         * @param wrapArray
+         * @param converters
          * @since 2.0
          */
         public VelMethodImpl(Method method, boolean wrapArray, Converter[] converters)
@@ -494,6 +499,9 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         }
 
         /**
+         * @param o
+         * @param actual
+         * @return invocation result
          * @see VelMethod#invoke(java.lang.Object, java.lang.Object[])
          */
         public Object invoke(Object o, Object[] actual)
@@ -535,6 +543,11 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
          * Offers an extension point for subclasses (in alternate Uberspects)
          * to alter the invocation after any array wrapping or varargs handling
          * has already been completed.
+         * @param o target object
+         * @param actual arguments
+         * @return invocation result
+         * @throws IllegalAccessException
+         * @throws InvocationTargetException
          * @since 1.6
          */
         protected Object doInvoke(Object o, Object[] actual)

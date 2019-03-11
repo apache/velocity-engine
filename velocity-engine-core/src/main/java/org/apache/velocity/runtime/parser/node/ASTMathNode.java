@@ -137,6 +137,10 @@ public abstract class ASTMathNode extends ASTBinaryOperator
      * Extension hook to allow special behavior by subclasses
      * If this method returns a non-null value, that is returned,
      * rather than the result of the math operation.
+     * @param left
+     * @param right
+     * @param context
+     * @return special value
      * @see ASTAddNode#handleSpecial
      */
     protected Object handleSpecial(Object left, Object right, InternalContextAdapter context)
@@ -147,6 +151,11 @@ public abstract class ASTMathNode extends ASTBinaryOperator
 
     /**
      * Performs the math operation represented by this node.
+     * @param left
+     * @param right
+     * @param context
+     * @return computed value
+     * @see ASTAddNode#perform(Number, Number, InternalContextAdapter)
      */
     public abstract Number perform(Number left, Number right, InternalContextAdapter context);
 

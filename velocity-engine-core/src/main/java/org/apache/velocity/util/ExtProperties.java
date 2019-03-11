@@ -97,9 +97,9 @@ import java.util.Vector;
  *  </li>
  * </ul>
  *
- * <p>Here is an example of a valid extended properties file:
+ * <p>Here is an example of a valid extended properties file:</p>
  *
- * <p><pre>
+ * <pre><code>
  *      # lines starting with # are comments
  *
  *      # This is the simplest property
@@ -118,7 +118,7 @@ import java.util.Vector;
  *
  *      # commas may be escaped in tokens
  *      commas.escaped = Hi\, what'up?
- * </pre>
+ * </code></pre>
  *
  * <p><b>NOTE</b>: this class has <b>not</b> been written for
  * performance nor low memory usage.  In fact, it's way slower than it
@@ -566,6 +566,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
     /**
      * Indicate to client code whether property
      * resources have been initialized or not.
+     * @return initialization status
      */
     public boolean isInitialized()
     {
@@ -1134,6 +1135,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
      * configuration key.
      *
      * @param key The configuration key.
+     * @param defaults default values
      * @return The associated properties if key is found.
      * @throws ClassCastException is thrown if the key maps to an
      * object that is not a String/List.

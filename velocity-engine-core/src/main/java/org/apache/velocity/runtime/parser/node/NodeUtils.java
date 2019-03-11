@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.parser.Token;
 public class NodeUtils
 {
     /**
-     * Collect all the <SPECIAL_TOKEN>s that
+     * Collect all the &lt;SPECIAL_TOKEN&gt;s that
      * are carried along with a token. Special
      * tokens do not participate in parsing but
      * can still trigger certain lexical actions.

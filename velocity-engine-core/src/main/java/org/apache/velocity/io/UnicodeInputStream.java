@@ -87,6 +87,8 @@ public class UnicodeInputStream
      * Creates a new UnicodeInputStream object. Skips a BOM which defines the file encoding.
      *
      * @param  inputStream The input stream to use for reading.
+     * @throws IllegalStateException
+     * @throws IOException
      */
     public UnicodeInputStream(final InputStream inputStream)
             throws IllegalStateException, IOException
@@ -99,6 +101,8 @@ public class UnicodeInputStream
      *
      * @param  inputStream The input stream to use for reading.
      * @param skipBOM If this is set to true, a BOM read from the stream is discarded. This parameter should normally be true.
+     * @throws IllegalStateException
+     * @throws IOException
      */
     public UnicodeInputStream(final InputStream inputStream, boolean skipBOM)
             throws IllegalStateException, IOException
@@ -145,6 +149,7 @@ public class UnicodeInputStream
      * is undefined.
      *
      * @return The encoding of this streams contents as decided by the BOM or null if no BOM was found.
+     * @throws IOException
      */
     protected String readEncoding()
         throws IOException
@@ -261,6 +266,7 @@ public class UnicodeInputStream
     }
 
     /**
+     * @throws IOException
      * @see java.io.InputStream#close()
      */
     public void close()
@@ -270,6 +276,7 @@ public class UnicodeInputStream
     }
 
     /**
+     * @throws IOException
      * @see java.io.InputStream#available()
      */
     public int available()
@@ -279,6 +286,7 @@ public class UnicodeInputStream
     }
 
     /**
+     * @param readlimit
      * @see java.io.InputStream#mark(int)
      */
     public void mark(final int readlimit)
@@ -287,6 +295,7 @@ public class UnicodeInputStream
     }
 
     /**
+     * @return mark supported
      * @see java.io.InputStream#markSupported()
      */
     public boolean markSupported()
@@ -295,6 +304,7 @@ public class UnicodeInputStream
     }
 
     /**
+     * @return read char
      * @see java.io.InputStream#read()
      */
     public int read()
@@ -304,6 +314,8 @@ public class UnicodeInputStream
     }
 
     /**
+     * @param b buffer
+     * @return read chars count
      * @see java.io.InputStream#read(byte[])
      */
     public int read(final byte [] b)
@@ -313,6 +325,10 @@ public class UnicodeInputStream
     }
 
     /**
+     * @param b buffer
+     * @param off offset
+     * @param len length
+     * @return reac char
      * @see java.io.InputStream#read(byte[], int, int)
      */
     public int read(final byte [] b, final int off, final int len)
@@ -331,6 +347,8 @@ public class UnicodeInputStream
     }
 
     /**
+     * @param n
+     * @return skipped count
      * @see java.io.InputStream#skip(long)
      */
     public long skip(final long n)
@@ -342,6 +360,9 @@ public class UnicodeInputStream
 
     /**
      * Helper function to compare encodings
+     * @param left
+     * @param right
+     * @return true for same encoding
      */
     public static boolean sameEncoding(String left, String right)
     {

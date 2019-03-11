@@ -72,6 +72,8 @@ public final class IntrospectorCache
 
     /**
      * C'tor
+     * @param log logger.
+     * @param conversionHandler conversion handler
      */
     public IntrospectorCache(final Logger log, final TypeConversionHandler conversionHandler)
     {

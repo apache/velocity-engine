@@ -36,7 +36,7 @@ public interface VelPropertySet
      *  @param o Object on which the method will be called with the arg
      *  @param arg value to be set
      *  @return the value returned from the set operation (impl specific)
-     * @throws Exception
+     *  @throws Exception
      */
     Object invoke(Object o, Object arg) throws Exception;
 

@@ -42,6 +42,7 @@ public final class StringResource
     /**
      * convenience constructor; sets body to 'body' and sets lastModified to now
      * @param body
+     * @param encoding 
      */
     public StringResource(final String body, final String encoding)
     {

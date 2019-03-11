@@ -38,6 +38,7 @@ public interface TypeConversionHandler
      * Check to see if the conversion can be done using an explicit conversion
      * @param formal expected formal type
      * @param actual provided argument type
+     * @param possibleVarArg whether var arg is possible
      * @return null if no conversion is needed, or the appropriate Converter object
      * @since 2.1
      */

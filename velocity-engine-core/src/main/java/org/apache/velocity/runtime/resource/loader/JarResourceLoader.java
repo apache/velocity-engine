@@ -45,17 +45,16 @@ import java.util.Map;
  * The configuration of the JarResourceLoader is straightforward -
  * You simply add the JarResourceLoader to the configuration via
  * </p>
- * <p><pre>
+ * <pre><code>
  *    resource.loaders = jar
  *    resource.loader.jar.class = org.apache.velocity.runtime.resource.loader.JarResourceLoader
  *    resource.loader.jar.path = list of JAR &lt;URL&gt;s
- * </pre></p>
+ * </code></pre>
  *
- * <p> So for example, if you had a jar file on your local filesystem, you could simply do
- *    <pre>
+ * <p> So for example, if you had a jar file on your local filesystem, you could simply do</p>
+ *    <pre><code>
  *    resource.loader.jar.path = jar:file:/opt/myfiles/jar1.jar
- *    </pre>
- * </p>
+ *    </code></pre>
  * <p> Note that jar specification for the <code>.path</code> configuration property
  * conforms to the same rules for the java.net.JarUrlConnection class.
  * </p>

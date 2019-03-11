@@ -275,6 +275,7 @@ public abstract class Resource
 
     /**
      * Sets the type of this Resource (RESOURCE_TEMPLATE or RESOURCE_CONTENT)
+     * @param type RESOURCE_TEMPLATE or RESOURCE_CONTENT
      * @since 1.6
      */
     public void setType(int type)

@@ -118,6 +118,7 @@ public class RuntimeMacro extends Directive
      * just save the values to use at the render time.
      *
      * @param rs runtime services
+     * @param name macro name
      * @param context InternalContextAdapter
      * @param node node containing the macro call
      */

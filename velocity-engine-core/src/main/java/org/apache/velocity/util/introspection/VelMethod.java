@@ -39,7 +39,8 @@ public interface VelMethod
      * @param o
      * @param params
      * @return The resulting object.
-     * @throws IllegalAccessException, InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
      */
     Object invoke(Object o, Object[] params)
         throws IllegalAccessException, InvocationTargetException;

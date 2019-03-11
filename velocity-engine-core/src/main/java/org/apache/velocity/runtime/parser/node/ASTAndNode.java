@@ -80,9 +80,11 @@ public class ASTAndNode extends ASTLogicalOperator
 
     /**
      * logical and :
-     *   null && right = false
-     *   left && null = false
-     *   null && null = false
+     * <pre>
+     *   null &amp;&amp; right = false
+     *   left &amp;&amp; null = false
+     *   null &amp;&amp; null = false
+     * </pre>
      * @param context
      * @return True if both sides are true.
      * @throws MethodInvocationException

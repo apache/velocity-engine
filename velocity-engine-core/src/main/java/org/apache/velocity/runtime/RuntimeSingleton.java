@@ -38,16 +38,16 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * This is the Runtime system for Velocity. It is the
+ * <p>This is the Runtime system for Velocity. It is the
  * single access point for all functionality in Velocity.
  * It adheres to the mediator pattern and is the only
  * structure that developers need to be familiar with
- * in order to get Velocity to perform.
+ * in order to get Velocity to perform.</p>
  *
- * The Runtime will also cooperate with external
+ * <p>The Runtime will also cooperate with external
  * systems, which can make all needed setProperty() calls
- * before calling init().
- *
+ * before calling init().</p>
+ * <pre>
  * -----------------------------------------------------------------------
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
@@ -419,6 +419,7 @@ public class RuntimeSingleton implements RuntimeConstants
      * @param macroArgs  Array of macro arguments, containing the
      *        #macro() arguments and default values.  the 0th is the name.
      * @param definingTemplate Template containing the definition of the macro.
+     * @return true for success
      */
     public static boolean addVelocimacro(String name, Node macro,
                                          List<Macro.MacroArg> macroArgs, Template definingTemplate)
@@ -501,14 +502,13 @@ public class RuntimeSingleton implements RuntimeConstants
 
     /**
      * Directly set the ExtProperties configuration object
-     *
+     * @param configuration
      * @see RuntimeInstance#setConfiguration(ExtProperties)
      */
     public static void setConfiguration(ExtProperties configuration)
     {
         ri.setConfiguration(configuration);
     }
-
 
     /**
      * Return the velocity runtime configuration object.

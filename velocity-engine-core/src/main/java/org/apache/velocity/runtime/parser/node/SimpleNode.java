@@ -328,6 +328,8 @@ public class SimpleNode implements Node
 
     /**
      * Return a string that tells the current location of this node.
+     * @param context
+     * @return location
      */
     protected String getLocation(InternalContextAdapter context)
     {

@@ -142,6 +142,7 @@ public abstract class ResourceLoader
      * to create a template.
      *
      * @param source
+     * @param encoding
      * @return The reader for the requested resource.
      * @throws ResourceNotFoundException
      * @since 2.0
@@ -277,7 +278,8 @@ public abstract class ResourceLoader
      * @param rawStream The raw input stream.
      * @param encoding  The asked encoding.
      * @return found reader
-     * @throws IOException, UnsupportedEncodingException
+     * @throws IOException
+     * @throws UnsupportedEncodingException
      * @since 2.0
      */
     protected Reader buildReader(InputStream rawStream, String encoding)

@@ -112,6 +112,7 @@ public class VelocimacroProxy extends Directive
 
     /**
      * Return the list of macro arguments associated with this macro
+     * @return macro arguments
      */
     public List<Macro.MacroArg> getMacroArgs()
     {
@@ -128,7 +129,6 @@ public class VelocimacroProxy extends Directive
 
     /**
      * returns the number of ars needed for this VM
-     *
      * @return The number of ars needed for this VM
      */
     public int getNumArgs()
@@ -138,6 +138,7 @@ public class VelocimacroProxy extends Directive
 
     /**
      * Initialize members of VelocimacroProxy.  called from MacroEntry
+     * @param rs runtime services
      */
     public void init(RuntimeServices rs)
     {
@@ -156,6 +157,14 @@ public class VelocimacroProxy extends Directive
         preserveArgumentsLiterals = rsvc.getBoolean(RuntimeConstants.VM_PRESERVE_ARGUMENTS_LITERALS, false);
     }
 
+    /**
+     * Render the macro AST node
+     * @param context
+     * @param writer
+     * @param node
+     * @return success status
+     * @throws IOException
+     */
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
@@ -259,6 +268,8 @@ public class VelocimacroProxy extends Directive
 
     /**
      * Check whether the number of arguments given matches the number defined.
+     * @param node
+     * @param callArgNum
      */
     protected void checkArgumentCount(Node node, int callArgNum)
     {
@@ -280,6 +291,7 @@ public class VelocimacroProxy extends Directive
     /**
      * check that we aren't already at the max call depth and throws
      * a MacroOverflowException if we are there.
+     * @param context
      */
     protected void checkDepth(InternalContextAdapter context)
     {
@@ -316,6 +328,10 @@ public class VelocimacroProxy extends Directive
      * the argument names.  Store and return an array of old and new values
      * paired for each argument name, for later cleanup. Also, put literal
      * representations of arguments which evaluate to null in the context.
+     * @param context
+     * @param node
+     * @param callArgNum
+     * @return macro arguments values
      */
     protected Object[] handleArgValues(InternalContextAdapter context,
                                          Node node, int callArgNum)
