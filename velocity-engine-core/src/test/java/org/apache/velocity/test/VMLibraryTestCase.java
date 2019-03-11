@@ -78,7 +78,7 @@ public class VMLibraryTestCase extends BaseTestCase
         ve1.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 
-        ve1.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve1.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve1.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/macrolibs");
         ve1.init();
@@ -97,7 +97,7 @@ public class VMLibraryTestCase extends BaseTestCase
         ve2.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 
-        ve2.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve2.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve2.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
                 TEST_COMPARE_DIR + "/macrolibs");
         ve2.init();

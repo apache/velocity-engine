@@ -230,8 +230,7 @@ public class Template extends Resource
 
             ((SimpleNode)data).init( ica, rsvc);
 
-            String property = scopeName+'.'+RuntimeConstants.PROVIDE_SCOPE_CONTROL;
-            provideScope = rsvc.getBoolean(property, provideScope);
+            provideScope = rsvc.isScopeControlEnabled(scopeName);
         }
         finally
         {

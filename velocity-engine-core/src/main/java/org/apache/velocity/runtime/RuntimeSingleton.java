@@ -157,6 +157,17 @@ public class RuntimeSingleton implements RuntimeConstants
     }
 
     /**
+     * Set an entire configuration at once from a named properties file
+     *
+     * @param  propsFilename properties filename
+     * @since 2.1
+     */
+    public static void setProperties(String propsFilename)
+    {
+        ri.setProperties(propsFilename);
+    }
+
+    /**
      * Add a property to the configuration. If it already
      * exists then the value stated here will be added
      * to the configuration entry. For example, if
@@ -258,7 +269,7 @@ public class RuntimeSingleton implements RuntimeConstants
     /**
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the
-     * template is set by the <code>input.encoding</code>
+     * template is set by the <code>resource.default_encoding</code>
      * property. The default is UTF-8.
      *
      * @param name The file name of the desired template.

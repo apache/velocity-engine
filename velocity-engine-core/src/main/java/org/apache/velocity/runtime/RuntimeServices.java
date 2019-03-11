@@ -469,8 +469,17 @@ public interface RuntimeServices
     SpaceGobbling getSpaceGobbling();
 
    /**
-    * get whether hyphens are allowed in identifiers
+    * Get whether hyphens are allowed in identifiers
     * @return configured boolean flag
+    * @since 2.1
     */
    boolean isHyphenAllowedInIdentifiers();
+
+   /**
+    * Get whether to provide a scope control object for this scope
+    * @param scopeName
+    * @return scope control enabled
+    * @since 2.1
+    */
+   boolean isScopeControlEnabled(String scopeName);
 }

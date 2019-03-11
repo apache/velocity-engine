@@ -55,7 +55,7 @@ import java.util.List;
  *    content.
  *
  *  2) There is a limited parse depth.  It is set as a property
- *    "directive.parse.max.depth = 10" by default.  This 10 deep
+ *    "directive.parse.max_depth = 10" by default.  This 10 deep
  *    limit is a safety feature to prevent infinite loops.
  * </pre>
  *

@@ -37,7 +37,7 @@ public class Velocity702TestCase extends BaseTestCase
 
     public void setUpEngine(VelocityEngine engine)
     {
-        engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "high,low");
+        engine.setProperty(RuntimeConstants.RESOURCE_LOADERS, "high,low");
         engine.addProperty("high.resource.loader.class", StringResourceLoader.class.getName());
         engine.addProperty("high.resource.loader.cache", "false");
         engine.addProperty("high.resource.loader.repository.name", "high");

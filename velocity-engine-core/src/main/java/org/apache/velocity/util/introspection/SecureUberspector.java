@@ -31,7 +31,7 @@ import java.util.Iterator;
  *
  * <p>To use this introspector, set the following property:
  * <pre>
- * runtime.introspector.uberspect = org.apache.velocity.util.introspection.SecureUberspector
+ * introspector.uberspect.class = org.apache.velocity.util.introspection.SecureUberspector
  * </pre>
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>

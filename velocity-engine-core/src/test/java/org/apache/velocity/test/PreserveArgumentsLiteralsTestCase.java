@@ -20,6 +20,7 @@ package org.apache.velocity.test;
  */
 
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * This class tests the mode where velocimacros do preserve arguments literals
@@ -34,7 +35,7 @@ public class PreserveArgumentsLiteralsTestCase extends BaseTestCase
 
     protected void setUpEngine(VelocityEngine engine)
     {
-        engine.setProperty("velocimacro.preserve.arguments.literals", true);
+        engine.setProperty(RuntimeConstants.VM_PRESERVE_ARGUMENTS_LITERALS, true);
     }
 
     public void testPreserveLiterals()

@@ -114,7 +114,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
         RuntimeInstance ve = new RuntimeInstance();
         ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
-        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, TEST_COMPARE_DIR + "/conversion");
         ve.init();
         Uberspect uberspect = ve.getUberspect();
@@ -196,7 +196,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
         RuntimeInstance ve = new RuntimeInstance();
         ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
-        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, TEST_COMPARE_DIR + "/conversion");
         ve.setProperty(RuntimeConstants.CONVERSION_HANDLER_INSTANCE, new MyCustomConverter());
         ve.init();
@@ -277,7 +277,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
-        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, TEST_COMPARE_DIR + "/conversion");
         if (withConversionsHandler)
         {

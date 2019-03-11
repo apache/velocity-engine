@@ -80,7 +80,7 @@ public class ClasspathResourceTestCase extends BaseTestCase
         assureResultsDirectoryExists(RESULTS_DIR);
 
         Velocity.reset();
-        Velocity.setProperty(Velocity.RESOURCE_LOADER, "classpath");
+        Velocity.setProperty(Velocity.RESOURCE_LOADERS, "classpath");
 
         /*
          * I don't think I should have to do this, these should
