@@ -34,7 +34,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
@@ -70,7 +69,7 @@ public class ResourceManagerImpl
      * This is a list of the template input stream source initializers, basically properties for a particular template stream
      * source. The order in this list reflects numbering of the properties i.e.
      *
-     * <p>&lt;loader-id&gt;.resource.loader.&lt;property&gt; = &lt;value&gt;</p>
+     * <p>resource.loader.&lt;loader-id&gt;.&lt;property&gt; = &lt;value&gt;</p>
      */
     private final List<ExtProperties> sourceInitializerList = new ArrayList<>();
 
@@ -117,8 +116,8 @@ public class ResourceManagerImpl
              * in as an instance.
              */
 
-            String loaderClass = StringUtils.trim(configuration.getString("class"));
-            ResourceLoader loaderInstance = (ResourceLoader) configuration.get("instance");
+            String loaderClass = StringUtils.trim(configuration.getString(RuntimeConstants.RESOURCE_LOADER_CLASS));
+            ResourceLoader loaderInstance = (ResourceLoader) configuration.get(RuntimeConstants.RESOURCE_LOADER_INSTANCE);
 
             if (loaderInstance != null)
             {
@@ -128,9 +127,9 @@ public class ResourceManagerImpl
                 resourceLoader = ResourceLoaderFactory.getLoader(rsvc, loaderClass);
             } else
             {
-                String msg = "Unable to find '" +
+                String msg = "Unable to find 'resource.loader." +
                     configuration.getString(RuntimeConstants.RESOURCE_LOADER_IDENTIFIER) +
-                    ".resource.loader.class' specification in configuration." +
+                    ".class' specification in configuration." +
                     " This is a critical value.  Please adjust configuration.";
                 log.error(msg);
                 throw new VelocityException(msg);
@@ -209,22 +208,22 @@ public class ResourceManagerImpl
      */
     private void assembleResourceLoaderInitializers()
     {
-        Vector resourceLoaderNames = rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADER);
+        Vector resourceLoaderNames = rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADERS);
 
         for (ListIterator<String> it = resourceLoaderNames.listIterator(); it.hasNext(); )
         {
             /*
              * The loader id might look something like the following:
              *
-             * file.resource.loader
+             * resource.loader.file
              *
              * The loader id is the prefix used for all properties
              * pertaining to a particular loader.
              */
             String loaderName = StringUtils.trim(it.next());
             it.set(loaderName);
-            StringBuilder loaderID = new StringBuilder(loaderName);
-            loaderID.append(".").append(RuntimeConstants.RESOURCE_LOADER);
+            StringBuilder loaderID = new StringBuilder();
+            loaderID.append(RuntimeConstants.RESOURCE_LOADER).append('.').append(loaderName);
 
             ExtProperties loaderConfiguration =
         		rsvc.getConfiguration().subset(loaderID.toString());
@@ -480,7 +479,7 @@ public class ResourceManagerImpl
      *
      * @param  resource  resource to refresh
      * @param  encoding  character encoding of the resource to refresh.
-     *
+     * @return resource
      * @throws  ResourceNotFoundException  if template not found from current source for this Resource
      * @throws  ParseErrorException  if template cannot be parsed due to syntax (or other) error.
      */

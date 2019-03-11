@@ -22,7 +22,7 @@ package org.apache.velocity.util.introspection;
 /**
  * Interface used to determine which methods are allowed to be executed.
  *
- * @author <a href="Will Glass-Husain">wglass@forio.com</a>
+ * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @version $Id$
  * @since 1.5
  */

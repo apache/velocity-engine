@@ -293,6 +293,7 @@ public class VelocimacroManager
     }
 
     /**
+     * @param is
      * @since 1.6
      */
     public void setInlineReplacesGlobal(boolean is)

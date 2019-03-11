@@ -92,23 +92,23 @@ public abstract class ResourceLoader
 
         try
         {
-            isCachingOn = configuration.getBoolean("cache", false);
+            isCachingOn = configuration.getBoolean(RuntimeConstants.RESOURCE_LOADER_CACHE, false);
         }
         catch (Exception e)
         {
             isCachingOn = false;
-            String msg = "Exception parsing cache setting: " + configuration.getString("cache");
+            String msg = "Exception parsing cache setting: " + configuration.getString(RuntimeConstants.RESOURCE_LOADER_CACHE);
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }
         try
         {
-            modificationCheckInterval = configuration.getLong("modificationCheckInterval", 0);
+            modificationCheckInterval = configuration.getLong(RuntimeConstants.RESOURCE_LOADER_CHECK_INTERVAL, 0);
         }
         catch (Exception e)
         {
             modificationCheckInterval = 0;
-            String msg = "Exception parsing modificationCheckInterval setting: " + configuration.getString("modificationCheckInterval");
+            String msg = "Exception parsing modificationCheckInterval setting: " + RuntimeConstants.RESOURCE_LOADER_CHECK_INTERVAL;
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }
@@ -119,7 +119,7 @@ public abstract class ResourceLoader
         className = ResourceCacheImpl.class.getName();
         try
         {
-            className = configuration.getString("class", className);
+            className = configuration.getString(RuntimeConstants.RESOURCE_LOADER_CLASS, className);
         }
         catch (Exception e)
         {
@@ -142,6 +142,7 @@ public abstract class ResourceLoader
      * to create a template.
      *
      * @param source
+     * @param encoding
      * @return The reader for the requested resource.
      * @throws ResourceNotFoundException
      * @since 2.0
@@ -277,7 +278,8 @@ public abstract class ResourceLoader
      * @param rawStream The raw input stream.
      * @param encoding  The asked encoding.
      * @return found reader
-     * @throws IOException, UnsupportedEncodingException
+     * @throws IOException
+     * @throws UnsupportedEncodingException
      * @since 2.0
      */
     protected Reader buildReader(InputStream rawStream, String encoding)

@@ -36,7 +36,7 @@ public class ParseException extends Exception {
     private static final long serialVersionUID = -309603325673449381L;
 
     /**
-     * This constructor is used by the method "generateParseException"
+     * <p>This constructor is used by the method "generateParseException"
      * in the generated parser.  Calling this constructor generates
      * a new object of this type with the fields "currentToken",
      * "expectedTokenSequences", and "tokenImage" set.  The boolean
@@ -44,8 +44,13 @@ public class ParseException extends Exception {
      * this constructor was used to create this object.
      * This constructor calls its super class with the empty string
      * to force the "toString" method of parent class "Throwable" to
-     * print the error message in the form:
-     *     ParseException: <result of getMessage>
+     * print the error message in the form:</p>
+     * <pre>
+     *     ParseException: &lt;result of getMessage&gt;
+     * </pre>
+     * @param currentTokenVal
+     * @param expectedTokenSequencesVal
+     * @param tokenImageVal
      */
     public ParseException(Token currentTokenVal,
                           int[][] expectedTokenSequencesVal,
@@ -68,12 +73,21 @@ public class ParseException extends Exception {
      * relevant information.  The JavaCC generated code does not use
      * these constructors.
      */
-
     public ParseException() {
         super();
         specialConstructor = false;
     }
 
+    /**
+     * The following constructors are for use by you for whatever
+     * purpose you can think of.  Constructing the exception in this
+     * manner makes the exception behave in the normal way - i.e., as
+     * documented in the class "Throwable".  The fields "errorToken",
+     * "expectedTokenSequences", and "tokenImage" do not contain
+     * relevant information.  The JavaCC generated code does not use
+     * these constructors.
+     * @param message
+     */
     public ParseException(String message) {
         super(message);
         specialConstructor = false;
@@ -116,6 +130,7 @@ public class ParseException extends Exception {
      * from the parser), then this method is called during the printing
      * of the final stack trace, and hence the correct error message
      * gets displayed.
+     * @return message
      */
     public String getMessage() {
         if (!specialConstructor) {
@@ -170,6 +185,8 @@ public class ParseException extends Exception {
      * Used to convert raw characters to their escaped version
      * when these raw version cannot be used as part of an ASCII
      * string literal.
+     * @param str raw characters
+     * @return escaped string
      */
     protected String add_escapes(String str) {
         StringBuilder retval = new StringBuilder();

@@ -153,6 +153,9 @@ public class Foreach extends Directive
      * are set locally or not. So, those in favor of VELOCITY-285, can
      * make that happen easily by overriding this and having it use
      * context.localPut(k,v). See VELOCITY-630 for more on this.
+     * @param context
+     * @param key
+     * @param value
      */
     protected void put(InternalContextAdapter context, String key, Object value)
     {
@@ -161,6 +164,9 @@ public class Foreach extends Directive
 
     /**
      * Retrieve the contextual iterator.
+     * @param iterable
+     * @param node
+     * @return iterator
      */
     protected Iterator getIterator(Object iterable, Node node)
     {

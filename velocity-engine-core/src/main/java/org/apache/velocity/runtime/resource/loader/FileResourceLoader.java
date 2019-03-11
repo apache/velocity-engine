@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.resource.loader;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
 
@@ -72,7 +73,7 @@ public class FileResourceLoader extends ResourceLoader
     {
         log.trace("FileResourceLoader: initialization starting.");
 
-        paths.addAll( configuration.getVector("path") );
+        paths.addAll( configuration.getVector(RuntimeConstants.RESOURCE_LOADER_PATHS) );
 
         // trim spaces from all paths
         for (ListIterator<String> it = paths.listIterator(); it.hasNext(); )

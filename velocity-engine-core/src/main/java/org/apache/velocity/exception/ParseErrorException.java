@@ -86,6 +86,7 @@ public class ParseErrorException extends VelocityException
      * Create a ParseErrorException with the given ParseException.
      *
      * @param pex the parsing exception
+     * @param templName
      * @since 1.5
      */
     public ParseErrorException(ParseException pex, String templName)
@@ -133,6 +134,7 @@ public class ParseErrorException extends VelocityException
      * Create a ParseErrorException with the given ParseException.
      *
      * @param pex the parsing exception
+     * @param templName
      * @since 1.5
      */
     public ParseErrorException(VelocityException pex, String templName)

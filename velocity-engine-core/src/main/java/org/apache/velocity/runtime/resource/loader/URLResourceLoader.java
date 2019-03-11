@@ -48,6 +48,7 @@ public class URLResourceLoader extends ResourceLoader
     private int timeout = -1;
 
     /**
+     * @param configuration
      * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
     public void init(ExtProperties configuration)
@@ -200,6 +201,7 @@ public class URLResourceLoader extends ResourceLoader
 
     /**
      * Returns the current, custom timeout setting. If negative, there is no custom timeout.
+     * @return  timeout
      * @since 1.6
      */
     public int getTimeout()

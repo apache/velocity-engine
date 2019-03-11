@@ -49,19 +49,6 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
-  <!-- java 8 doclint checks are too strict for our current javadoc state... -->
-  <profiles>
-    <profile>
-      <id>doclint-java8-disable</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <properties>
-        <javadoc.opts>-Xdoclint:none</javadoc.opts>
-      </properties>
-    </profile>
-  </profiles>
-
   <build>
     <defaultGoal>install</defaultGoal>
     <pluginManagement>
@@ -78,7 +65,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.1.1</version>
           <configuration>
             <archive>  
               <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
@@ -115,9 +102,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
+        <version>3.1.0</version>
         <configuration>
-          <additionalparam>${javadoc.opts}</additionalparam>
+            <!-- full checking is left disabled
+            <doclint>html,missing,reference,syntax</doclint>
+            -->
+            <doclint>none</doclint>
         </configuration>
         <executions>
             <execution>
@@ -125,8 +115,6 @@
                 <goals>
                     <goal>aggregate</goal>
                 </goals>
-                <configuration>
-                </configuration>
             </execution>
         </executions>
       </plugin>
@@ -170,7 +158,7 @@
           <dependency>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>extra-enforcer-rules</artifactId>
-            <version>1.0-beta-6</version>
+            <version>1.0-beta-9</version>
           </dependency>
         </dependencies>
       </plugin>

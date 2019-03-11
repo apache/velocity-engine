@@ -90,40 +90,42 @@ public class MultiLoaderTestCase extends BaseTestCase
 
         Velocity.reset();
 
-        Velocity.setProperty(Velocity.RESOURCE_LOADER, "file");
+        Velocity.setProperty(Velocity.RESOURCE_LOADERS, "file");
 
         Velocity.setProperty(
             Velocity.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
 
-        Velocity.addProperty(Velocity.RESOURCE_LOADER, "classpath");
+        Velocity.addProperty(Velocity.RESOURCE_LOADERS, "classpath");
 
-        Velocity.addProperty(Velocity.RESOURCE_LOADER, "jar");
+        Velocity.addProperty(Velocity.RESOURCE_LOADERS, "jar");
 
         /*
          *  Set up the classpath loader.
          */
 
         Velocity.setProperty(
-            "classpath." + Velocity.RESOURCE_LOADER + ".class",
-                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+            Velocity.RESOURCE_LOADER + ".classpath.class",
+            "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
         Velocity.setProperty(
-            "classpath." + Velocity.RESOURCE_LOADER + ".cache", "false");
+            Velocity.RESOURCE_LOADER + ".classpath.cache",
+            "false");
 
         Velocity.setProperty(
-            "classpath." + Velocity.RESOURCE_LOADER + ".modificationCheckInterval",
-                "2");
+            Velocity.RESOURCE_LOADER + ".classpath.modification_check_interval",
+            "2");
 
         /*
          *  setup the Jar loader
          */
 
         Velocity.setProperty(
-                             "jar." + Velocity.RESOURCE_LOADER + ".class",
-                             "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
+            Velocity.RESOURCE_LOADER + ".jar.class",
+            "org.apache.velocity.runtime.resource.loader.JarResourceLoader");
 
-        Velocity.setProperty( "jar." + Velocity.RESOURCE_LOADER + ".path",
-                              "jar:file:" + FILE_RESOURCE_LOADER_PATH + "/test2.jar" );
+        Velocity.setProperty(
+            Velocity.RESOURCE_LOADER + ".jar.path",
+            "jar:file:" + FILE_RESOURCE_LOADER_PATH + "/test2.jar" );
 
 
         Velocity.setProperty(

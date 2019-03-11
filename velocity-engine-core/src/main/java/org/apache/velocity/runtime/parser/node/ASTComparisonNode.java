@@ -84,6 +84,9 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
 
     /**
      * Always false by default, != and == subclasses must override this.
+     * @param left
+     * @param right
+     * @return comparison result
      */
     public boolean compareNull(Object left, Object right)
     {
@@ -101,6 +104,12 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
         return false;
     }
 
+    /**
+     * compare numbers
+     * @param left
+     * @param right
+     * @return comparison result
+     */
     public Boolean compareNumbers(Object left, Object right)
     {
         try

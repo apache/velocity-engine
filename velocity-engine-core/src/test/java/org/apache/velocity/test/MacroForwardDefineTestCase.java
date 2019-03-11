@@ -76,7 +76,7 @@ public class MacroForwardDefineTestCase
 
         // use Velocity.setProperty (instead of properties file) so that we can use actual instance of log
         Velocity.reset();
-        Velocity.setProperty(RuntimeConstants.RESOURCE_LOADER,"file");
+        Velocity.setProperty(RuntimeConstants.RESOURCE_LOADERS,"file");
         Velocity.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH );
         Velocity.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID,"true");
 

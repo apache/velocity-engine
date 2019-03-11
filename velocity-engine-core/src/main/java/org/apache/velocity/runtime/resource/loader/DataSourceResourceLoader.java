@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.resource.loader;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
 
@@ -40,84 +41,86 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 /**
- * <P>This is a simple template file loader that loads templates
- * from a DataSource instead of plain files.
+ * <p>This is a simple template file loader that loads templates
+ * from a DataSource instead of plain files.</p>
  *
- * <P>It can be configured with a datasource name, a table name,
+ * <p>It can be configured with a datasource name, a table name,
  * id column (name), content column (the template body) and a
- * datetime column (for last modification info).
+ * datetime column (for last modification info).</p>
  * <br>
+ * <p>Example configuration snippet for velocity.properties:</p>
  * <br>
- * Example configuration snippet for velocity.properties:
- * <br>
- * <br>
- * resource.loader = file, ds <br>
- * <br>
- * ds.resource.loader.public.name = DataSource <br>
- * ds.resource.loader.description = Velocity DataSource Resource Loader <br>
- * ds.resource.loader.class = org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader <br>
- * ds.resource.loader.resource.datasource = java:comp/env/jdbc/Velocity <br>
- * ds.resource.loader.resource.table = tb_velocity_template <br>
- * ds.resource.loader.resource.keycolumn = id_template <br>
- * ds.resource.loader.resource.templatecolumn = template_definition <br>
- * ds.resource.loader.resource.timestampcolumn = template_timestamp <br>
- * ds.resource.loader.cache = false <br>
- * ds.resource.loader.modificationCheckInterval = 60 <br>
- * <br>
- * <P>Optionally, the developer can instantiate the DataSourceResourceLoader and set the DataSource via code in
- * a manner similar to the following:
- * <BR>
- * <BR>
- * DataSourceResourceLoader ds = new DataSourceResourceLoader();<BR>
- * ds.setDataSource(DATASOURCE);<BR>
- * Velocity.setProperty("ds.resource.loader.instance",ds);<BR>
- * <P> The property <code>ds.resource.loader.class</code> should be left out, otherwise all the other
- * properties in velocity.properties would remain the same.
- * <BR>
- * <BR>
+ * <pre><code>
+ * resource.loaders = file, ds
  *
- * Example WEB-INF/web.xml: <br>
+ * resource.loader.ds.description = Velocity DataSource Resource Loader <br>
+ * resource.loader.ds.class = org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader <br>
+ * resource.loader.ds.resource.datasource_url = java:comp/env/jdbc/Velocity <br>
+ * resource.loader.ds.resource.table = tb_velocity_template <br>
+ * resource.loader.ds.resource.key_column = id_template <br>
+ * resource.loader.ds.resource.template_column = template_definition <br>
+ * resource.loader.ds.resource.timestamp_column = template_timestamp <br>
+ * resource.loader.ds.cache = false <br>
+ * resource.loader.ds.modification_check_interval = 60 <br>
+ * </code></pre>
+ * <p>Optionally, the developer can instantiate the DataSourceResourceLoader and set the DataSource via code in
+ * a manner similar to the following:</p>
  * <br>
- *  <resource-ref> <br>
- *   <description>Velocity template DataSource</description> <br>
- *   <res-ref-name>jdbc/Velocity</res-ref-name> <br>
- *   <res-type>javax.sql.DataSource</res-type> <br>
- *   <res-auth>Container</res-auth> <br>
- *  </resource-ref> <br>
+ * <pre><code>
+ * DataSourceResourceLoader ds = new DataSourceResourceLoader();
+ * ds.setDataSource(DATASOURCE);
+ * Velocity.setProperty("resource.loader.ds.instance",ds);
+ * </code></pre>
+ * <p> The property <code>resource.loader.ds.class</code> should be left out, otherwise all the other
+ * properties in velocity.properties would remain the same.</p>
  * <br>
+ * <p>Example WEB-INF/web.xml:</p>
+ * <br>
+ * <pre><code>
+ *  &lt;resource-ref&gt;
+ *   &lt;description&gt;Velocity template DataSource&lt;/description&gt;
+ *   &lt;res-ref-name&gt;jdbc/Velocity&lt;/res-ref-name&gt;
+ *   &lt;res-type&gt;javax.sql.DataSource&lt;/res-type&gt;
+ *   &lt;res-auth&gt;Container&lt;/res-auth&gt;
+ *  &lt;/resource-ref&gt;
+ * </code></pre>
  *  <br>
  * and Tomcat 4 server.xml file: <br>
- *  [...] <br>
- *  <Context path="/exampleVelocity" docBase="exampleVelocity" debug="0"> <br>
- *  [...] <br>
- *   <ResourceParams name="jdbc/Velocity"> <br>
- *    <parameter> <br>
- *      <name>driverClassName</name> <br>
- *      <value>org.hsql.jdbcDriver</value> <br>
- *    </parameter> <br>
- *    <parameter> <br>
- *     <name>driverName</name> <br>
- *     <value>jdbc:HypersonicSQL:database</value> <br>
- *    </parameter> <br>
- *    <parameter> <br>
- *     <name>user</name> <br>
- *     <value>database_username</value> <br>
- *    </parameter> <br>
- *    <parameter> <br>
- *     <name>password</name> <br>
- *     <value>database_password</value> <br>
- *    </parameter> <br>
- *   </ResourceParams> <br>
- *  [...] <br>
- *  </Context> <br>
- *  [...] <br>
+ * <pre><code>
+ *  [...]
+ *  &lt;Context path="/exampleVelocity" docBase="exampleVelocity" debug="0"&gt;
+ *  [...]
+ *   &lt;ResourceParams name="jdbc/Velocity"&gt;
+ *    &lt;parameter&gt;
+ *      &lt;name&gt;driverClassName&lt;/name&gt;
+ *      &lt;value&gt;org.hsql.jdbcDriver&lt;/value&gt;
+ *    &lt;/parameter&gt;
+ *    &lt;parameter&gt;
+ *     &lt;name&gt;driverName&lt;/name&gt;
+ *     &lt;value&gt;jdbc:HypersonicSQL:database&lt;/value&gt;
+ *    &lt;/parameter&gt;
+ *    &lt;parameter&gt;
+ *     &lt;name&gt;user&lt;/name&gt;
+ *     &lt;value&gt;database_username&lt;/value&gt;
+ *    &lt;/parameter&gt;
+ *    &lt;parameter&gt;
+ *     &lt;name&gt;password&lt;/name&gt;
+ *     &lt;value&gt;database_password&lt;/value&gt;
+ *    &lt;/parameter&gt;
+ *   &lt;/ResourceParams&gt;
+ *  [...]
+ *  &lt;/Context&gt;
+ *  [...]
+ * </code></pre>
  * <br>
- *  Example sql script:<br>
- *  CREATE TABLE tb_velocity_template ( <br>
- *  id_template varchar (40) NOT NULL , <br>
- *  template_definition text (16) NOT NULL , <br>
- *  template_timestamp datetime NOT NULL  <br>
- *  ) <br>
+ *  <p>Example sql script:</p>
+ * <pre><code>
+ *  CREATE TABLE tb_velocity_template (
+ *    id_template varchar (40) NOT NULL ,
+ *    template_definition text (16) NOT NULL ,
+ *    template_timestamp datetime NOT NULL
+ *  );
+ * </code></pre>
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
@@ -181,11 +184,11 @@ public class DataSourceResourceLoader extends ResourceLoader
      */
     public void init(ExtProperties configuration)
     {
-        dataSourceName  = StringUtils.trim(configuration.getString("resource.datasource"));
+        dataSourceName  = StringUtils.trim(configuration.getString("datasource_url"));
         tableName       = StringUtils.trim(configuration.getString("resource.table"));
-        keyColumn       = StringUtils.trim(configuration.getString("resource.keycolumn"));
-        templateColumn  = StringUtils.trim(configuration.getString("resource.templatecolumn"));
-        timestampColumn = StringUtils.trim(configuration.getString("resource.timestampcolumn"));
+        keyColumn       = StringUtils.trim(configuration.getString("resource.key_column"));
+        templateColumn  = StringUtils.trim(configuration.getString("resource.template_column"));
+        timestampColumn = StringUtils.trim(configuration.getString("resource.timestamp_column"));
 
         if (dataSource != null)
         {
@@ -496,6 +499,7 @@ public class DataSourceResourceLoader extends ResourceLoader
      * @param tableName table to fetch from
      * @param keyColumn column whose value should match templateName
      * @return PreparedStatement
+     * @throws SQLException
      */
     protected PreparedStatement prepareStatement(
         final Connection conn,
@@ -528,6 +532,11 @@ public class DataSourceResourceLoader extends ResourceLoader
 
     /**
      * Gets a reader from a result set's column
+     * @param resultSet
+     * @param column
+     * @param encoding
+     * @return reader
+     * @throws SQLException
      */
     protected Reader getReader(ResultSet resultSet, String column, String encoding)
         throws SQLException

@@ -30,7 +30,7 @@ import java.util.Map;
 import static org.apache.velocity.runtime.parser.node.MathUtils.isZero;
 
 /**
- * Support for getAs<Type>() convention for rendering (String), evaluating (Boolean)
+ * Support for getAs&lt;java.lang.reflect.Type&gt;() convention for rendering (String), evaluating (Boolean)
  * or doing math with (Number) references.
  *
  * @author Nathan Bubna

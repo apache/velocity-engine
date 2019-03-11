@@ -103,7 +103,6 @@ public class Template extends Resource
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws IOException problem reading input stream
      */
     public boolean process()
         throws ResourceNotFoundException, ParseErrorException
@@ -230,8 +229,7 @@ public class Template extends Resource
 
             ((SimpleNode)data).init( ica, rsvc);
 
-            String property = scopeName+'.'+RuntimeConstants.PROVIDE_SCOPE_CONTROL;
-            provideScope = rsvc.getBoolean(property, provideScope);
+            provideScope = rsvc.isScopeControlEnabled(scopeName);
         }
         finally
         {

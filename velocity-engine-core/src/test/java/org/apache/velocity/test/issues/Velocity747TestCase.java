@@ -59,12 +59,11 @@ public class Velocity747TestCase extends BaseTestCase
         engine1.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
 
         engine2 = new VelocityEngine();
-        engine2.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,string");
+        engine2.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file,string");
         engine2.addProperty("file.resource.loader.path", TEST_COMPARE_DIR + "/issues/velocity-747/");
         engine2.addProperty("file.resource.loader.cache", "true");
         engine2.addProperty("file.resource.loader.modificationCheckInterval", "-1");
         engine2.addProperty("velocimacro.permissions.allow.inline.local.scope", "true");
-        engine2.addProperty("directive.set.null.allowed", "true");
         engine2.addProperty("velocimacro.max.depth", "-1");
         engine2.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
         engine2.addProperty("string.resource.loader.repository.name", "stringRepo");

@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 /**
  * <p>
- * When the runtime.introspection.uberspect configuration property contains several
+ * When the introspector.uberspect.class configuration property contains several
  * uberspector class names, it means those uberspectors will be chained. When an
  * uberspector in the list other than the leftmost does not implement ChainableUberspector,
  * then this utility class is used to provide a basic default chaining where the
@@ -41,6 +41,8 @@ public class LinkingUberspector extends AbstractChainableUberspector
 
     /**
      * Constructor that takes the two uberspectors to link
+     * @param left left uberspector
+     * @param right right uberspector
      */
     public LinkingUberspector(Uberspect left,Uberspect right) {
         leftUberspect = left;

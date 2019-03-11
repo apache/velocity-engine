@@ -62,24 +62,27 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
+import java.util.Set;
 
 /**
- * This is the Runtime system for Velocity. It is the
+ * <p>This is the Runtime system for Velocity. It is the
  * single access point for all functionality in Velocity.
  * It adheres to the mediator pattern and is the only
  * structure that developers need to be familiar with
- * in order to get Velocity to perform.
+ * in order to get Velocity to perform.</p>
  *
- * The Runtime will also cooperate with external
+ * <p>The Runtime will also cooperate with external
  * systems, which can make all needed setProperty() calls
- * before calling init().
- *
+ * before calling init().</p>
+ * <pre>
  * -----------------------------------------------------------------------
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
@@ -174,35 +177,47 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private EventCartridge eventCartridge = null;
 
-    /*
+    /**
      * Whether to use string interning
      */
     private boolean stringInterning = false;
 
-    /*
-     * Settings for provision of root scope for evaluate(...) calls.
+    /**
+     * Scope name for evaluate(...) calls.
      */
     private String evaluateScopeName = "evaluate";
-    private boolean provideEvaluateScope = false;
 
-    /*
+    /**
+     * Scope names for which to provide scope control objects in the context
+     */
+    private Set<String> enabledScopeControls = new HashSet<String>();
+
+    /**
      *  Opaque reference to something specified by the
      *  application for use in application supplied/specified
      *  pluggable components
      */
     private Map applicationAttributes = null;
+
+    /**
+     *  Uberspector
+     */
     private Uberspect uberSpect;
+
+    /**
+     * Default encoding
+     */
     private String defaultEncoding;
 
-    /*
+    /**
      * Space gobbling mode
      */
     private SpaceGobbling spaceGobbling;
 
     /**
-     * Whether dash is allowed in identifiers
+     * Whether hyphen is allowed in identifiers
      */
-    private boolean dashAllowedInIdentifiers;
+    private boolean hyphenAllowedInIdentifiers;
 
     /**
      * Creates a new RuntimeInstance object.
@@ -249,7 +264,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 initializeParserPool();
 
                 initializeIntrospection();
-                initializeEvaluateScopeSettings();
+                initializeScopeSettings();
                 /*
                  *  initialize the VM Factory.  It will use the properties
                  * accessible from Runtime, so keep this here at the end.
@@ -293,7 +308,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         this.initializing = false;
         this.overridingProperties = null;
         this.parserPool = null;
-        this.provideEvaluateScope = false;
+        this.enabledScopeControls.clear();
         this.resourceManager = null;
         this.runtimeDirectives = new Hashtable();
         this.runtimeDirectivesShared = null;
@@ -360,7 +375,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
 
         /* init parser behavior */
-        dashAllowedInIdentifiers = getBoolean(PARSER_DASH_ALLOWED, false);
+        hyphenAllowedInIdentifiers = getBoolean(PARSER_HYPHEN_ALLOWED, false);
     }
 
     /**
@@ -513,6 +528,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Add all properties contained in the file fileName to the RuntimeInstance properties
+     * @param fileName
      */
     public void setProperties(String fileName)
     {
@@ -538,6 +554,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Add all the properties in props to the RuntimeInstance properties
+     * @param props
      */
     public void setProperties(Properties props)
     {
@@ -697,15 +714,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public void init(String configurationFile)
     {
-        try
-        {
-            setConfiguration(new ExtProperties(configurationFile));
-        }
-        catch (IOException e)
-        {
-            throw new VelocityException("Error reading properties from '"
-                + configurationFile + "'", e);
-        }
+        setProperties(configurationFile);
         init();
     }
 
@@ -1028,7 +1037,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          *  now the user's directives
          */
 
-        String[] userdirective = configuration.getStringArray("userdirective");
+        String[] userdirective = configuration.getStringArray(CUSTOM_DIRECTIVES);
 
         for (String anUserdirective : userdirective)
         {
@@ -1252,10 +1261,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
     }
 
-    private void initializeEvaluateScopeSettings()
+    private void initializeScopeSettings()
     {
-        String property = evaluateScopeName+'.'+PROVIDE_SCOPE_CONTROL;
-        provideEvaluateScope = getBoolean(property, provideEvaluateScope);
+        ExtProperties scopes = configuration.subset(CONTEXT_SCOPE_CONTROL);
+        if (scopes != null)
+        {
+            Iterator<String> scopeIterator = scopes.getKeys();
+            while (scopeIterator.hasNext())
+            {
+                String scope = scopeIterator.next();
+                boolean enabled = scopes.getBoolean(scope);
+                if (enabled) enabledScopeControls.add(scope);
+            }
+        }
     }
 
     /**
@@ -1395,7 +1413,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
             try
             {
-                if (provideEvaluateScope)
+                if (isScopeControlEnabled(evaluateScopeName))
                 {
                     Object previous = ica.get(evaluateScopeName);
                     context.put(evaluateScopeName, new Scope(this, previous));
@@ -1426,7 +1444,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         finally
         {
             ica.popCurrentTemplateName();
-            if (provideEvaluateScope)
+            if (isScopeControlEnabled(evaluateScopeName))
             {
                 Object obj = ica.get(evaluateScopeName);
                 if (obj instanceof Scope)
@@ -1527,7 +1545,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Returns a <code>Template</code> from the resource manager.
      * This method assumes that the character encoding of the
-     * template is set by the <code>input.encoding</code>
+     * template is set by the <code>resource.default_encoding</code>
      * property. The default is UTF-8.
      *
      * @param name The file name of the desired template.
@@ -1849,11 +1867,22 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     * get whether dashes are allowed in identifiers
+     * get whether hyphens are allowed in identifiers
      * @return configured boolean flag
      */
-    public boolean isDashAllowedInIdentifiers()
+    public boolean isHyphenAllowedInIdentifiers()
     {
-        return dashAllowedInIdentifiers;
+        return hyphenAllowedInIdentifiers;
+    }
+
+    /**
+     * Get whether to provide a scope control object for this scope
+     * @param scopeName
+     * @return scope control enabled
+     * @since 2.1
+     */
+    public boolean isScopeControlEnabled(String scopeName)
+    {
+        return enabledScopeControls.contains(scopeName);
     }
 }

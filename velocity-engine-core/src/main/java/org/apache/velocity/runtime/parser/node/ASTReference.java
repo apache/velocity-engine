@@ -95,7 +95,7 @@ public class ASTReference extends SimpleNode
 
     /**
      * Indicates if we are using modified escape behavior in strict mode.
-     * mainly we allow \$abc -> to render as $abc
+     * mainly we allow \$abc -&gt; to render as $abc
      */
     public boolean strictEscape = false;
 
@@ -640,6 +640,8 @@ public class ASTReference extends SimpleNode
 
     /**
      * Utility class to handle nulls when printing a class type
+     * @param clazz
+     * @return class name, or the string "null"
      */
     public static String printClass(Class clazz)
     {

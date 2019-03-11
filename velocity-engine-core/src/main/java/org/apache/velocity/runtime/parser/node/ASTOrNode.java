@@ -80,11 +80,12 @@ public class ASTOrNode extends ASTLogicalOperator
 
     /**
      *  the logical or :
-     *    the rule :
-     *      left || null -> left
-     *      null || right -> right
-     *      null || null -> false
-     *      left || right ->  left || right
+     *    <pre>
+     *      left || null -&gt; left
+     *      null || right -&gt; right
+     *      null || null -&gt; false
+     *      left || right -&gt;  left || right
+     *    </pre>
      * @param context
      * @return The evaluation result.
      * @throws MethodInvocationException

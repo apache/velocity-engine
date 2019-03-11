@@ -26,6 +26,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.util.ExtProperties;
 import org.slf4j.Logger;
 
 import java.io.Reader;
@@ -64,6 +65,7 @@ public class VelocityEngine implements RuntimeConstants
     /**
      * Construct a VelocityEngine with the initial properties defined in the file
      * propsFilename
+     * @param propsFilename properties filename
      */
     public VelocityEngine(String propsFilename)
     {
@@ -72,6 +74,7 @@ public class VelocityEngine implements RuntimeConstants
 
     /**
      * Construct a VelocityEngine instance with the specified initial properties.
+     * @param p properties
      */
     public VelocityEngine(Properties p)
     {
@@ -153,7 +156,7 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     * Set an entire configuration at once.
+     * Set an entire configuration at once from a Properties configuration
      *
      * @param  configuration
      * @since 2.0
@@ -161,6 +164,17 @@ public class VelocityEngine implements RuntimeConstants
     public void setProperties(Properties configuration)
     {
         ri.setProperties( configuration );
+    }
+
+    /**
+     * Set an entire configuration at once from a named properties file
+     *
+     * @param  propsFilename properties filename
+     * @since 2.1
+     */
+    public void setProperties(String propsFilename)
+    {
+        ri.setProperties(propsFilename);
     }
 
     /**

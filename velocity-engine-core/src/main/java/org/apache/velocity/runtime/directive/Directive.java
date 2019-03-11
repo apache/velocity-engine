@@ -85,6 +85,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
      * Allows the template location to be set.
      * @param line
      * @param column
+     * @param template
      */
     public void setLocation(int line, int column, Template template)
     {
@@ -160,8 +161,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
         rsvc = rs;
         log = rsvc.getLog("directive." + getName());
 
-        String property = getScopeName()+'.'+RuntimeConstants.PROVIDE_SCOPE_CONTROL;
-        this.provideScope = rsvc.getBoolean(property, provideScope);
+        provideScope = rsvc.isScopeControlEnabled(getScopeName());
     }
 
     /**
@@ -174,6 +174,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
      * for example ParserTreeConstants.JJTWORD
      * @param t token of directive
      * @param templateName the name of the template this directive is referenced in.
+     * @throws ParseException
      */
     public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
         throws ParseException
@@ -200,6 +201,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     /**
      * This creates and places the scope control for this directive
      * into the context (if scope provision is turned on).
+     * @param context
      */
     protected void preRender(InternalContextAdapter context)
     {
@@ -211,6 +213,10 @@ public abstract class Directive implements DirectiveConstants, Cloneable
         }
     }
 
+    /**
+     * @param prev
+     * @return scope
+     */
     protected Scope makeScope(Object prev)
     {
         return new Scope(this, prev);
@@ -219,6 +225,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
     /**
      * This cleans up any scope control for this directive after rendering,
      * assuming the scope control was turned on.
+     * @param context
      */
     protected void postRender(InternalContextAdapter context)
     {

@@ -103,7 +103,7 @@ public final class VelocityWriter extends Writer implements Filter
      * @param  sz   	Output-buffer size, a positive integer
      * @param autoFlush
      *
-     * @exception  IllegalArgumentException  If sz is <= 0
+     * @exception  IllegalArgumentException  If sz is &lt;= 0
      */
     public VelocityWriter(Writer writer, int sz, boolean autoFlush)
     {

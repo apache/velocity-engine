@@ -178,6 +178,7 @@ public class ASTStringLiteral extends SimpleNode
      * that the line and column position reported reflects the error position
      * within the template and not just relative to the error position within
      * the string literal.
+     * @param node
      */
     public void adjTokenLineNums(Node node)
     {
@@ -238,6 +239,8 @@ public class ASTStringLiteral extends SimpleNode
     }
 
     /**
+     * @param string
+     * @return unescaped string
      * @since 1.6
      */
     public static String unescape(final String string)
@@ -271,6 +274,9 @@ public class ASTStringLiteral extends SimpleNode
 
 
     /**
+     * @param visitor
+     * @param data
+     * @return rendered object
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor,
      *      java.lang.Object)
      */

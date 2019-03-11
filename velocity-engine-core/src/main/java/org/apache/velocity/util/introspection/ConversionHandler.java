@@ -40,6 +40,7 @@ public interface ConversionHandler
      *
      * @param formal expected formal type
      * @param actual provided argument type
+     * @param possibleVarArg whether var arg is possible here
      * @return null if no conversion is needed, or the appropriate Converter object
      * @since 2.0
      */

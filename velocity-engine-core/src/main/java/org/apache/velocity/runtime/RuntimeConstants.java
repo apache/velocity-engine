@@ -28,7 +28,8 @@ package org.apache.velocity.runtime;
  * @author  <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @version  $Id$
  */
-public interface RuntimeConstants
+
+public interface RuntimeConstants extends DeprecatedRuntimeConstants
 {
     /*
      * ----------------------------------------------------------------------
@@ -51,10 +52,13 @@ public interface RuntimeConstants
     String RUNTIME_LOG_NAME = "runtime.log.name";
 
     /** Logging of invalid references. */
-    String RUNTIME_LOG_REFERENCE_LOG_INVALID = "runtime.log.invalid.references";
+    String RUNTIME_LOG_REFERENCE_LOG_INVALID = "runtime.log.log_invalid_references";
+
+    /** Logging of invalid method calls. */
+    String RUNTIME_LOG_METHOD_CALL_LOG_INVALID = "runtime.log.log_invalid_method_calls";
 
     /** Whether to use string interning. */
-    String RUNTIME_STRING_INTERNING = "runtime.string.interning";
+    String RUNTIME_STRING_INTERNING = "runtime.string_interning";
 
     /*
      * ----------------------------------------------------------------------
@@ -67,44 +71,63 @@ public interface RuntimeConstants
      */
 
     /** Maximum allowed number of loops. */
-    String MAX_NUMBER_LOOPS = "directive.foreach.maxloops";
+    String MAX_NUMBER_LOOPS = "directive.foreach.max_loops";
 
     /**
      * Whether to throw an exception or just skip bad iterables. Default is true.
      * @since 1.6
      */
-    String SKIP_INVALID_ITERATOR = "directive.foreach.skip.invalid";
+    String SKIP_INVALID_ITERATOR = "directive.foreach.skip_invalid";
 
     /**
      * An empty object (string, collection) or zero number is false.
      * @since 2.0
      */
-    String CHECK_EMPTY_OBJECTS = "directive.if.emptycheck";
+    String CHECK_EMPTY_OBJECTS = "directive.if.empty_check";
     
     /**
      * Starting tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
      * and references are allowed.
+     * @deprecated if/how errors are displayed is not the concern of the engine, which should throw in all cases
      */
-    String ERRORMSG_START = "directive.include.output.errormsg.start";
+    String ERRORMSG_START = "directive.include.output_error_start";
 
     /**
      * Ending tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
      * and references are allowed.
+     * @deprecated if/how errors are displayed is not the concern of the engine, which should throw in all cases
      */
-    String ERRORMSG_END = "directive.include.output.errormsg.end";
+    String ERRORMSG_END = "directive.include.output_error_end";
 
     /** Maximum recursion depth allowed for the #parse directive. */
-    String PARSE_DIRECTIVE_MAXDEPTH = "directive.parse.max.depth";
+    String PARSE_DIRECTIVE_MAXDEPTH = "directive.parse.max_depth";
 
     /** Maximum recursion depth allowed for the #define directive. */
-    String DEFINE_DIRECTIVE_MAXDEPTH = "directive.define.max.depth";
+    String DEFINE_DIRECTIVE_MAXDEPTH = "directive.define.max_depth";
 
     /**
-     * Used to suppress various scope control objects.
+     * Used to suppress various scope control objects (property suffix).
      * @since 1.7
+     * @deprecated use <code>context.scope_control.&lt;scope_name&gt; = true/false</code>
+     * @see #CONTEXT_SCOPE_CONTROL
      */
+    @Deprecated
     String PROVIDE_SCOPE_CONTROL = "provide.scope.control";
-    
+
+    /**
+     * Used to enable or disable a scope control (false by default):
+     * <code>context.scope_control.&lt;scope_name&gt; = true/false</code>
+     * where <i>scope_name</i> is one of: <code>template, evaluate, foreach, macro, define</code>
+     * or the name of a body macro.
+     * @since 2.1
+     */
+    String CONTEXT_SCOPE_CONTROL = "context.scope_control";
+
+    /**
+     * Vector of custom directives
+     */
+    String CUSTOM_DIRECTIVES = "runtime.custom_directives";
+
     /*
      * ----------------------------------------------------------------------
      *  R E S O U R C E   M A N A G E R   C O N F I G U R A T I O N
@@ -130,7 +153,7 @@ public interface RuntimeConstants
     String RESOURCE_MANAGER_CACHE_CLASS = "resource.manager.cache.class";
 
     /** The <code>resource.manager.cache.size</code> property specifies the cache upper bound (if relevant). */
-    String RESOURCE_MANAGER_DEFAULTCACHE_SIZE = "resource.manager.defaultcache.size";
+    String RESOURCE_MANAGER_DEFAULTCACHE_SIZE = "resource.manager.cache.default_size";
 
     /*
      * ----------------------------------------------------------------------
@@ -139,20 +162,85 @@ public interface RuntimeConstants
      */
 
     /** controls if the finding of a resource is logged. */
-    String RESOURCE_MANAGER_LOGWHENFOUND = "resource.manager.logwhenfound";
+    String RESOURCE_MANAGER_LOGWHENFOUND = "resource.manager.log_when_found";
 
     /**
      * Key used to retrieve the names of the resource loaders to be used. In a properties file they may appear as the following:
      *
-     * <p>resource.loader = file,classpath</p>
+     * <p>resource.loaders = file,classpath</p>
+     */
+    String RESOURCE_LOADERS = "resource.loaders";
+
+    /**
+     * Key prefix for a specific resource loader properties
+     *
+     * <p>resource.loader.file.path = ...</p>
      */
     String RESOURCE_LOADER = "resource.loader";
 
-    /** The public handle for setting a path in the FileResourceLoader. */
-    String FILE_RESOURCE_LOADER_PATH = "file.resource.loader.path";
+    /** The public handle for setting paths in the FileResourceLoader.
+     * (this constant is used by test cases only)
+     */
+    String FILE_RESOURCE_LOADER_PATH = "resource.loader.file.path";
 
     /** The public handle for turning the caching on in the FileResourceLoader. */
-    String FILE_RESOURCE_LOADER_CACHE = "file.resource.loader.cache";
+    String FILE_RESOURCE_LOADER_CACHE = "resource.loader.file.cache";
+
+    /**
+     * Resource loader class property suffix
+     */
+    String RESOURCE_LOADER_CLASS = "class";
+
+    /**
+     * Resource loader instance property suffix
+     */
+    String RESOURCE_LOADER_INSTANCE = "instance";
+
+    /**
+     * Resource loader cache property suffix
+     */
+    String RESOURCE_LOADER_CACHE = "cache";
+
+    /**
+     * File resource loader paths property suffix
+     */
+    String RESOURCE_LOADER_PATHS = "path";
+
+    /**
+     * Resource loader modification check interval property suffix
+     */
+    String RESOURCE_LOADER_CHECK_INTERVAL = "modification_check_interval";
+
+    /**
+     * Datasource loader datasource url
+     */
+    String DS_RESOURCE_LOADER_DATASOURCE = "resource.loader.ds.resource.datasource_url";
+
+    /**
+     * Datasource loader templates table
+     */
+    String DS_RESOURCE_LOADER_TABLE = "resource.loader.ds.resource.table";
+
+    /**
+     * Datasource loader template key column
+     */
+    String DS_RESOURCE_LOADER_KEY_COLUMN = "resource.loader.ds.resource.key_column";
+
+    /**
+     * Datasource loader template content column
+     */
+    String DS_RESOURCE_LOADER_TEMPLATE_COLUMN = "resource.loader.ds.resource.template_column";
+
+    /**
+     * Datasource loader template timestamp column
+     */
+    String DS_RESOURCE_LOADER_TIMESTAMP_COLUMN = "resource.loader.ds.resource.timestamp_column";
+
+    /** The default character encoding for the templates. Used by the parser in processing the input streams. */
+    String INPUT_ENCODING = "resource.default_encoding";
+
+    /** Default Encoding is UTF-8. */
+    String ENCODING_DEFAULT = "UTF-8";
 
     /*
      * ----------------------------------------------------------------------
@@ -161,28 +249,28 @@ public interface RuntimeConstants
      */
 
     /**
-     * The <code>eventhandler.referenceinsertion.class</code> property specifies a list of the
+     * The <code>event_handler.reference_insertion.class</code> property specifies a list of the
      * {@link org.apache.velocity.app.event.ReferenceInsertionEventHandler} implementations to use.
      */
-    String EVENTHANDLER_REFERENCEINSERTION = "eventhandler.referenceinsertion.class";
+    String EVENTHANDLER_REFERENCEINSERTION = "event_handler.reference_insertion.class";
 
     /**
-     * The <code>eventhandler.methodexception.class</code> property specifies a list of the
+     * The <code>event_handler.method_exception.class</code> property specifies a list of the
      * {@link org.apache.velocity.app.event.MethodExceptionEventHandler} implementations to use.
      */
-    String EVENTHANDLER_METHODEXCEPTION = "eventhandler.methodexception.class";
+    String EVENTHANDLER_METHODEXCEPTION = "event_handler.method_exception.class";
 
     /**
-     * The <code>eventhandler.include.class</code> property specifies a list of the
+     * The <code>event_handler.include.class</code> property specifies a list of the
      * {@link org.apache.velocity.app.event.IncludeEventHandler} implementations to use.
      */
-    String EVENTHANDLER_INCLUDE = "eventhandler.include.class";
+    String EVENTHANDLER_INCLUDE = "event_handler.include.class";
 
     /**
-     * The <code>eventhandler.invalidreferences.class</code> property specifies a list of the
+     * The <code>event_handler.invalid_references.class</code> property specifies a list of the
      * {@link org.apache.velocity.app.event.InvalidReferenceEventHandler} implementations to use.
      */
-    String EVENTHANDLER_INVALIDREFERENCES = "eventhandler.invalidreferences.class";
+    String EVENTHANDLER_INVALIDREFERENCES = "event_handler.invalid_references.class";
 
 
     /*
@@ -191,48 +279,45 @@ public interface RuntimeConstants
      * ----------------------------------------------------------------------
      */
 
-    /** Name of local Velocimacro library template. */
-    String VM_LIBRARY = "velocimacro.library";
+    /** Filename of local Velocimacro library template. */
+    String VM_LIBRARY = "velocimacro.library.path";
 
     /** Default Velocimacro library template. */
-    String VM_LIBRARY_DEFAULT = "VM_global_library.vm";
+    String VM_LIBRARY_DEFAULT = "velocimacros.vtl";
 
     /** switch for autoloading library-sourced VMs (for development). */
     String VM_LIBRARY_AUTORELOAD = "velocimacro.library.autoreload";
 
     /** boolean (true/false) default true: allow inline (in-template) macro definitions. */
-    String VM_PERM_ALLOW_INLINE = "velocimacro.permissions.allow.inline";
+    String VM_PERM_ALLOW_INLINE = "velocimacro.inline.allow";
 
     /** boolean (true/false) default false: allow inline (in-template) macro definitions to replace existing. */
-    String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL = "velocimacro.permissions.allow.inline.to.replace.global";
+    String VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL = "velocimacro.inline.replace_global";
 
     /** Switch for forcing inline macros to be local: default false. */
-    String VM_PERM_INLINE_LOCAL = "velocimacro.permissions.allow.inline.local.scope";
-
-    /** Switch for VM blather: default true. */
-    String VM_MESSAGES_ON = "velocimacro.messages.on";
+    String VM_PERM_INLINE_LOCAL = "velocimacro.inline.local_scope";
 
     /** if true, throw an exception for wrong number of arguments **/
     String VM_ARGUMENTS_STRICT = "velocimacro.arguments.strict";
-
-    /**
-     * Specify the maximum depth for macro calls
-     * @since 1.6
-     */
-    String VM_MAX_DEPTH = "velocimacro.max.depth";
-
-    /**
-     * Defines name of the reference that can be used to get the AST block passed to block macro calls.
-     * @since 1.7
-     */
-    String VM_BODY_REFERENCE = "velocimacro.body.reference";
 
     /**
      * When displaying null or invalid non-quiet references, use the argument literal reference
      * instead of the one in the macro block. Defaults to false.
      * @since 2.1
      **/
-    String VM_PRESERVE_ARGUMENTS_LITERALS = "velocimacro.preserve.arguments.literals";
+    String VM_PRESERVE_ARGUMENTS_LITERALS = "velocimacro.arguments.preserve_literals";
+
+    /**
+     * Specify the maximum depth for macro calls
+     * @since 1.6
+     */
+    String VM_MAX_DEPTH = "velocimacro.max_depth";
+
+    /**
+     * Defines name of the reference that can be used to get the AST block passed to block macro calls.
+     * @since 1.7
+     */
+    String VM_BODY_REFERENCE = "velocimacro.body_reference";
 
     /*
      * ----------------------------------------------------------------------
@@ -243,12 +328,12 @@ public interface RuntimeConstants
     /**
      * Properties referenced in the template are required to exist the object
      */
-    String RUNTIME_REFERENCES_STRICT = "runtime.references.strict";
+    String RUNTIME_REFERENCES_STRICT = "runtime.strict_mode.enable";
 
     /**
      * Indicates we are going to use modified escape behavior in strict mode
      */
-    String RUNTIME_REFERENCES_STRICT_ESCAPE = "runtime.references.strict.escape";
+    String RUNTIME_REFERENCES_STRICT_ESCAPE = "runtime.strict_mode.escape";
 
     /*
      * ----------------------------------------------------------------------
@@ -257,13 +342,7 @@ public interface RuntimeConstants
      */
 
     /** key name for uberspector. Multiple classnames can be specified,in which case uberspectors will be chained. */
-    String UBERSPECT_CLASSNAME = "runtime.introspector.uberspect";
-
-    /** key for Conversion Manager instance */
-    String CONVERSION_HANDLER_INSTANCE = "runtime.conversion.handler.instance";
-
-    /** key for Conversion Manager class */
-    String CONVERSION_HANDLER_CLASS = "runtime.conversion.handler.class";
+    String UBERSPECT_CLASSNAME = "introspector.uberspect.class";
 
     /** A comma separated list of packages to restrict access to in the SecureIntrospector. */
     String INTROSPECTOR_RESTRICT_PACKAGES = "introspector.restrict.packages";
@@ -271,6 +350,11 @@ public interface RuntimeConstants
     /** A comma separated list of classes to restrict access to in the SecureIntrospector. */
     String INTROSPECTOR_RESTRICT_CLASSES = "introspector.restrict.classes";
 
+    /** key for Conversion Manager class */
+    String CONVERSION_HANDLER_CLASS = "introspector.conversion_handler.class";
+
+    /** key for Conversion Manager instance */
+    String CONVERSION_HANDLER_INSTANCE = "introspector.conversion_handler.instance";
 
     /*
      * ----------------------------------------------------------------------
@@ -279,19 +363,13 @@ public interface RuntimeConstants
      */
 
     /** Switch for the interpolation facility for string literals. */
-    String INTERPOLATE_STRINGLITERALS = "runtime.interpolate.string.literals";
-
-    /** The character encoding for the templates. Used by the parser in processing the input streams. */
-    String INPUT_ENCODING = "input.encoding";
-
-    /** Default Encoding is UTF-8. */
-    String ENCODING_DEFAULT = "UTF-8";
+    String INTERPOLATE_STRINGLITERALS = "runtime.interpolate_string_literals";
 
     /** Switch for ignoring nulls in math equations vs throwing exceptions. */
-    String STRICT_MATH = "runtime.strict.math";
+    String STRICT_MATH = "runtime.strict_math";
 
     /** Key upon which a context should be accessible within itself */
-    String CONTEXT_AUTOREFERENCE_KEY = "context.autoreference.key";
+    String CONTEXT_AUTOREFERENCE_KEY = "context.self_reference_key";
 
     /**
      * The <code>parser.pool.class</code> property specifies the name of the {@link org.apache.velocity.util.SimplePool}
@@ -305,16 +383,16 @@ public interface RuntimeConstants
     String PARSER_POOL_SIZE = "parser.pool.size";
 
     /**
-     * Allow dash in identifiers (backward compatibility option)
+     * Allow hyphen in identifiers (backward compatibility option)
      * @since 2.1
      */
-    String PARSER_DASH_ALLOWED = "parser.allows.dash.in.identifiers";
+    String PARSER_HYPHEN_ALLOWED = "parser.allow_hyphen_in_identifiers";
 
     /**
      * Space gobbling mode
      * @since 2.0
      */
-    String SPACE_GOBBLING = "space.gobbling";
+    String SPACE_GOBBLING = "parser.space_gobbling";
 
     /**
      * Space gobbling modes

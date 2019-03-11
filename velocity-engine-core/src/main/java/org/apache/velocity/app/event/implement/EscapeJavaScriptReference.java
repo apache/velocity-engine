@@ -22,12 +22,15 @@ import org.apache.commons.lang3.StringEscapeUtils;
  */
 
 /**
- * Escapes the characters in a String to be suitable for use in JavaScript.
+ * <p>Escapes the characters in a String to be suitable for use in JavaScript.</p>
+ * <p>Warning: escaping references this way, without knowing if they land inside or outside Javascript simple-quoted or double-quoted strings, is not usable in production.</p>
  *
  * @see <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/StringEscapeUtils.html#escapeEcmaScript%28java.lang.String%29">StringEscapeUtils</a>
  * @author wglass
  * @since 1.5
+ * @deprecated impractical use
  */
+@Deprecated
 public class EscapeJavaScriptReference extends EscapeReference
 {
 

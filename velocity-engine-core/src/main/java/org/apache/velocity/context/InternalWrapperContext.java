@@ -42,17 +42,24 @@ public interface InternalWrapperContext
     InternalContextAdapter getBaseContext();
 
     /**
-     * Retrieve the specified key value pair from the given scope.
+     * Place a key value pair into the context.
+     * @param key
+     * @param value
+     * @return previous value
      */
     Object put(String key, Object value);
 
     /**
-     * Place key value pair into the context of the specified scope.
+     * Retrieve the specified valuefrom the given key.
+     * @param key
+     * @return found value
      */
     Object get(String key);
 
     /**
      * Tests if the key exists in the specified scope
+     * @param key
+     * @return true if key exists
      */
     boolean containsKey(String key);
 

@@ -96,7 +96,7 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
     throws Exception
     {
         ve = new VelocityEngine();
-        ve.setProperty(RuntimeConstants.RESOURCE_LOADER,"except");
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADERS,"except");
         ve.setProperty("except.resource.loader.class",ExceptionGeneratingResourceLoader.class.getName());
         try
         {

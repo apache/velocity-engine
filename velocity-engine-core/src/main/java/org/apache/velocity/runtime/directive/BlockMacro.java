@@ -81,6 +81,7 @@ public class BlockMacro extends Block
      * Initializes the directive.
      *
      * @param rs
+     * @param macroName
      * @param context
      * @param node
      * @throws TemplateInitException
