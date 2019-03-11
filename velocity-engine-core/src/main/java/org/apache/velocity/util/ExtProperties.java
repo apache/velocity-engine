@@ -30,7 +30,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -151,9 +150,9 @@ import java.util.Vector;
  * @author <a href="mailto:hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @author <a href="mailto:claude.brisson@gmail.com">Claude Brisson</a>
  */
-public class ExtProperties extends Hashtable<String,Object>
+@SuppressWarnings("deprecation")
+public class ExtProperties extends DeprecationAwareExtProperties
 {
-
     /**
      * Default configurations repository.
      */
@@ -212,7 +211,7 @@ public class ExtProperties extends Hashtable<String,Object>
      * you wish to perform operations with configuration
      * information in a particular order.
      */
-    protected ArrayList keysAsListed = new ArrayList();
+    protected ArrayList<String> keysAsListed = new ArrayList<String>();
 
     protected final static String START_TOKEN="${";
     protected final static String END_TOKEN="}";
@@ -733,11 +732,11 @@ public class ExtProperties extends Hashtable<String,Object>
      * exists then the value stated here will be added
      * to the configuration entry. For example, if
      *
-     * <code>resource.loader = file</code>
+     * <code>resource.loaders = file</code>
      *
      * is already present in the configuration and you
      *
-     * <code>addProperty("resource.loader", "classpath")</code>
+     * <code>addProperty("resource.loaders", "classpath")</code>
      *
      * Then you will end up with a Vector like the
      * following:
@@ -791,7 +790,7 @@ public class ExtProperties extends Hashtable<String,Object>
         // safety check
         if (!containsKey(key))
         {
-            keysAsListed.add(key);
+            keysAsListed.add(translateKey(key));
         }
         put(key, value);
     }
@@ -832,7 +831,7 @@ public class ExtProperties extends Hashtable<String,Object>
             // brand new key - store in keysAsListed to retain order
             if (!containsKey(key))
             {
-                keysAsListed.add(key);
+                keysAsListed.add(translateKey(key));
             }
             put(key, value);
         }
@@ -930,6 +929,7 @@ public class ExtProperties extends Hashtable<String,Object>
      */
     public void clearProperty(String key)
     {
+        key = translateKey(key);
         if (containsKey(key))
         {
             // we also need to rebuild the keysAsListed or else
@@ -952,7 +952,7 @@ public class ExtProperties extends Hashtable<String,Object>
      *
      * @return an Iterator over the keys
      */
-    public Iterator getKeys()
+    public Iterator<String> getKeys()
     {
         return keysAsListed.iterator();
     }
@@ -964,16 +964,16 @@ public class ExtProperties extends Hashtable<String,Object>
      * @param prefix  the prefix to match
      * @return an Iterator of keys that match the prefix
      */
-    public Iterator getKeys(String prefix)
+    public Iterator<String> getKeys(String prefix)
     {
-        Iterator keys = getKeys();
-        ArrayList matchingKeys = new ArrayList();
+        Iterator<String> keys = getKeys();
+        ArrayList<String> matchingKeys = new ArrayList();
 
         while (keys.hasNext())
         {
-            Object key = keys.next();
+            String key = keys.next();
 
-            if (key instanceof String && ((String) key).startsWith(prefix))
+            if (key.startsWith(prefix))
             {
                 matchingKeys.add(key);
             }
@@ -2085,5 +2085,4 @@ public class ExtProperties extends Hashtable<String,Object>
         }
         return c;
     }
-
 }

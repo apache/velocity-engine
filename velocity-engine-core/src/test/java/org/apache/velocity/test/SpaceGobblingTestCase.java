@@ -70,7 +70,7 @@ public class SpaceGobblingTestCase extends BaseTestCase
     {
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
-        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, TEST_COMPARE_DIR + "/gobbling");
         ve.setProperty(RuntimeConstants.SPACE_GOBBLING, mode.toString());
         ve.init();

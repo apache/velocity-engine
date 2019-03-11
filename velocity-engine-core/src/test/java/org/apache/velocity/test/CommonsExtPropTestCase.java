@@ -87,10 +87,10 @@ public class CommonsExtPropTestCase extends BaseTestCase
             showIterator(result, c.getKeys());
 
             message(result, "Testing retrieval of CSV values ...");
-            showVector(result, c.getVector("resource.loader"));
+            showVector(result, c.getVector("resource.loaders"));
 
             message(result, "Testing subset(prefix).getKeys() ...");
-            ExtProperties subset = c.subset("file.resource.loader");
+            ExtProperties subset = c.subset("resource.loader.file");
             showIterator(result, subset.getKeys());
 
             message(result, "Testing getVector(prefix) ...");

@@ -164,7 +164,7 @@ public abstract class AbstractContext extends InternalContextBase
         /*
          * We always use string interning here:
          * 1) speed is generally less critical when populating the context than during parsing or rendering
-         * 2) a context key is very likely to be used several times, or even a lot of times, in the template (but does it save memory if runtime.string.interning is false?)
+         * 2) a context key is very likely to be used several times, or even a lot of times, in the template (but does it save memory if runtime.string_interning is false?)
          * 3) last but not least: we don't have access to RuntimeServices from here, the reengineering would be painful...
          */
         return internalPut(key.intern(), value);

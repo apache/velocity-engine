@@ -21,6 +21,7 @@ package org.apache.velocity.runtime.resource.loader;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
 
@@ -45,14 +46,14 @@ import java.util.Map;
  * You simply add the JarResourceLoader to the configuration via
  * </p>
  * <p><pre>
- *    resource.loader = jar
- *    jar.resource.loader.class = org.apache.velocity.runtime.resource.loader.JarResourceLoader
- *    jar.resource.loader.path = list of JAR &lt;URL&gt;s
+ *    resource.loaders = jar
+ *    resource.loader.jar.class = org.apache.velocity.runtime.resource.loader.JarResourceLoader
+ *    resource.loader.jar.path = list of JAR &lt;URL&gt;s
  * </pre></p>
  *
  * <p> So for example, if you had a jar file on your local filesystem, you could simply do
  *    <pre>
- *    jar.resource.loader.path = jar:file:/opt/myfiles/jar1.jar
+ *    resource.loader.jar.path = jar:file:/opt/myfiles/jar1.jar
  *    </pre>
  * </p>
  * <p> Note that jar specification for the <code>.path</code> configuration property
@@ -91,7 +92,7 @@ public class JarResourceLoader extends ResourceLoader
     {
         log.trace("JarResourceLoader: initialization starting.");
 
-        List paths = configuration.getList("path");
+        List paths = configuration.getList(RuntimeConstants.RESOURCE_LOADER_PATHS);
 
         if (paths != null)
         {

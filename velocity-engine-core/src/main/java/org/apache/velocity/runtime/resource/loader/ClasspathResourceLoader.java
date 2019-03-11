@@ -46,10 +46,10 @@ import java.io.Reader;
  *  other than specifying this as the loader to use.  For example
  *  the following is all that the loader needs to be functional:
  *  <br>
- *  <br>
- *  resource.loader = class
- *  class.resource.loader.class =
- *    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+ *  <pre><code>
+ *  resource.loaders = class
+ *  resource.loader.class.class =org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+  * </code></pre>
  *  <br>
  *  <br>
  *  To use, put your template directories, jars
