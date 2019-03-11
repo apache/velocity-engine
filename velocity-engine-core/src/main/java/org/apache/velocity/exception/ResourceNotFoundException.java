@@ -39,6 +39,7 @@ public class ResourceNotFoundException extends VelocityException
     private static final long serialVersionUID = -4287732191458420347L;
 
     /**
+     * @param exceptionMessage
      * @see VelocityException#VelocityException(String)
      */
     public ResourceNotFoundException(final String exceptionMessage)
@@ -47,6 +48,8 @@ public class ResourceNotFoundException extends VelocityException
     }
 
     /**
+     * @param exceptionMessage
+     * @param t
      * @see VelocityException#VelocityException(String, Throwable)
      * @since 1.5
      */
@@ -56,6 +59,7 @@ public class ResourceNotFoundException extends VelocityException
     }
 
     /**
+     * @param t
      * @see VelocityException#VelocityException(Throwable)
      * @since 1.5
      */

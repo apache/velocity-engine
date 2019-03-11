@@ -461,7 +461,7 @@ public abstract class MathUtils
      * Compare two numbers.
      * @param op1
      * @param op2
-     * @return 1 if n1 > n2, -1 if n1 < n2 and 0 if equal.
+     * @return 1 if n1 &gt; n2, -1 if n1 &lt; n2 and 0 if equal.
      */
     public static int compare (Number op1, Number op2) {
 

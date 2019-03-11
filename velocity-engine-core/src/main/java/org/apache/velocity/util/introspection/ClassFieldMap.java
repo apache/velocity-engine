@@ -61,6 +61,7 @@ public class ClassFieldMap
     /**
      * Standard constructor
      * @param clazz The class for which this ClassMap gets constructed.
+     * @param log logger
      */
     public ClassFieldMap(final Class clazz, final Logger log)
     {

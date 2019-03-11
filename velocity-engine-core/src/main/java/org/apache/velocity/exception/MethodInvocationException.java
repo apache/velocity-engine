@@ -51,10 +51,12 @@ public class MethodInvocationException extends VelocityException implements Exte
      *  CTOR - wraps the passed in exception for
      *  examination later
      *
-     *  @param message
-     *  @param e Throwable that we are wrapping
-     *  @param methodName name of method that threw the exception
-     *  @param templateName The name of the template where the exception occurred.
+     * @param message
+     * @param e Throwable that we are wrapping
+     * @param methodName name of method that threw the exception
+     * @param templateName The name of the template where the exception occurred
+     * @param lineNumber line number
+     * @param columnNumber  column number
      */
     public MethodInvocationException(final String message, final Throwable e, final String methodName, final String templateName, final int lineNumber, final int columnNumber)
     {

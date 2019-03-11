@@ -61,16 +61,29 @@ public class ASTIndex extends SimpleNode
      */
     protected boolean strictRef = false;
 
+    /**
+     * @param i
+     */
     public ASTIndex(int i)
     {
         super(i);
     }
 
+    /**
+     * @param p
+     * @param i
+     */
     public ASTIndex(Parser p, int i)
     {
         super(p, i);
     }
 
+    /**
+     * @param context
+     * @param data
+     * @return data
+     * @throws TemplateInitException
+     */
     public Object init(InternalContextAdapter context, Object data)
         throws TemplateInitException
     {
@@ -80,17 +93,19 @@ public class ASTIndex extends SimpleNode
         return data;
     }
 
-
-
     private final static Object[] noParams = {};
     private final static Class[] noTypes = {};
+
     /**
      * If argument is an Integer and negative, then return (o.size() - argument).
      * Otherwise return the original argument.  We use this to calculate the true
      * index of a negative index e.g., $foo[-1]. If no size() method is found on the
      * 'o' object, then we throw an VelocityException.
+     * @param argument
+     * @param o
      * @param context Used to access the method cache.
      * @param node  ASTNode used for error reporting.
+     * @return found object
      */
     public static Object adjMinusIndexArg(Object argument, Object o,
                                InternalContextAdapter context, SimpleNode node)
@@ -141,6 +156,12 @@ public class ASTIndex extends SimpleNode
       return argument;
     }
 
+    /**
+     * @param o
+     * @param context
+     * @return object value
+     * @throws MethodInvocationException
+     */
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {

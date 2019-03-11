@@ -38,6 +38,8 @@ public class StringUtils
      * Creates a string that formats the template filename with line number
      * and column of the given Directive. We use this routine to provide a consistent format for displaying
      * file errors.
+     * @param directive currrent directive
+     * @return formatted string
      */
     public static String formatFileString(Directive directive)
     {
@@ -48,6 +50,8 @@ public class StringUtils
      * Creates a string that formats the template filename with line number
      * and column of the given Node. We use this routine to provide a consistent format for displaying
      * file errors.
+     * @param node current node
+     * @return formatted string
      */
     public static String formatFileString(Node node)
     {
@@ -58,6 +62,8 @@ public class StringUtils
      * Simply creates a string that formats the template filename with line number
      * and column. We use this routine to provide a consistent format for displaying
      * file errors.
+     * @param info template name, line and column infos
+     * @return formatted string
      */
     public static String formatFileString(Info info)
     {
@@ -71,6 +77,7 @@ public class StringUtils
      * @param template File name of template, can be null
      * @param linenum Line number within the file
      * @param colnum Column number withing the file at linenum
+     * @return formatted string
      */
     public static String formatFileString(String template, int linenum, int colnum)
     {

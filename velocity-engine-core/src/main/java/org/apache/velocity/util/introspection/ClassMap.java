@@ -60,6 +60,7 @@ public class ClassMap
     /**
      * Standard constructor
      * @param clazz The class for which this ClassMap gets constructed.
+     * @param log logger
      */
     public ClassMap(final Class clazz, final Logger log)
     {

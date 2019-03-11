@@ -269,7 +269,9 @@ public class EventCartridge
 
     /**
      * Call reference insertion handlers
-     *
+     * @param context
+     * @param reference
+     * @param value
      * @return value returned by handlers
      * @since 2.0
      */
@@ -295,7 +297,11 @@ public class EventCartridge
 
     /**
      * Call method exception event handler
-     *
+     * @param context
+     * @param claz
+     * @param method
+     * @param e exception
+     * @param info template name, line and column infos
      * @return value returned by handler
      * @since 2.0
      */
@@ -311,6 +317,10 @@ public class EventCartridge
     /**
      * Call include event handlers
      *
+     * @param context
+     * @param includeResourcePath
+     * @param currentResourcePath
+     * @param directiveName
      * @return include path
      * @since 2.0
      */
@@ -331,6 +341,11 @@ public class EventCartridge
     /**
      * Call invalid reference handlers for an invalid getter
      *
+     * @param context
+     * @param reference
+     * @param object
+     * @param property
+     * @param info
      * @return value returned by handlers
      * @since 2.0
      */
@@ -352,6 +367,10 @@ public class EventCartridge
     /**
      * Call invalid reference handlers for an invalid setter
      *
+     * @param context
+     * @param leftreference
+     * @param rightreference
+     * @param info
      * @return whether to stop further chaining in the next cartridge
      * @since 2.0
      */
@@ -370,6 +389,11 @@ public class EventCartridge
     /**
      * Call invalid reference handlers for an invalid method call
      *
+     * @param context
+     * @param reference
+     * @param object
+     * @param method
+     * @param info
      * @return value returned by handlers
      * @since 2.0
      */

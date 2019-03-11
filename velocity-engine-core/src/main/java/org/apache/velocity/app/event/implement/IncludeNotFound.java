@@ -35,14 +35,11 @@ import org.slf4j.Logger;
  *
  * <P>By default, the name of the replacement page is "notfound.vm", however this
  * page name can be changed by setting the Velocity property
- * <code>eventhandler.include.notfound</code>, for example:
- * <code>
- * <PRE>
+ * <code>eventhandler.include.notfound</code>, for example:</p>
+ * <pre><code>
  * eventhandler.include.notfound = error.vm
- * </PRE>
- * </code>
- * </p><p>
- * The name of the missing resource is put into the Velocity context, under the
+ * </code></pre>
+ * <p>The name of the missing resource is put into the Velocity context, under the
  * key "missingResource", so that the "notfound" template can report the missing
  * resource with a Velocity reference, like:
  * <code>$missingResource</code>

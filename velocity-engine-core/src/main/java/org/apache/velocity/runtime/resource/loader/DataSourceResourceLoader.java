@@ -499,6 +499,7 @@ public class DataSourceResourceLoader extends ResourceLoader
      * @param tableName table to fetch from
      * @param keyColumn column whose value should match templateName
      * @return PreparedStatement
+     * @throws SQLException
      */
     protected PreparedStatement prepareStatement(
         final Connection conn,
@@ -531,6 +532,11 @@ public class DataSourceResourceLoader extends ResourceLoader
 
     /**
      * Gets a reader from a result set's column
+     * @param resultSet
+     * @param column
+     * @param encoding
+     * @return reader
+     * @throws SQLException
      */
     protected Reader getReader(ResultSet resultSet, String column, String encoding)
         throws SQLException

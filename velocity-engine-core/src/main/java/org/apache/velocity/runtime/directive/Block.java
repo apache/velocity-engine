@@ -51,6 +51,7 @@ public abstract class Block extends Directive
 
     /**
      * Return type of this directive.
+     * @return type, DirectiveConstants.BLOCK or DirectiveConstants.LINE
      */
     public int getType()
     {
@@ -59,6 +60,9 @@ public abstract class Block extends Directive
 
     /**
      *  simple init - get the key
+     *  @param rs
+     *  @param context
+     *  @param node
      */
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
         throws TemplateInitException
@@ -74,6 +78,12 @@ public abstract class Block extends Directive
         block = node.jjtGetChild(node.jjtGetNumChildren() - 1);
     }
 
+    /**
+     * renders block directive
+     * @param context
+     * @param writer
+     * @return success status
+     */
     public boolean render(InternalContextAdapter context, Writer writer)
     {
         preRender(context);
@@ -106,6 +116,8 @@ public abstract class Block extends Directive
      * Creates a string identifying the source and location of the block
      * definition, and the current template being rendered if that is
      * different.
+     * @param context
+     * @return id string
      */
     protected String id(InternalContextAdapter context)
     {
@@ -129,6 +141,10 @@ public abstract class Block extends Directive
         private Block parent;
         private int depth;
 
+        /**
+         * @param context
+         * @param parent
+         */
         public Reference(InternalContextAdapter context, Block parent)
         {
             this.context = context;
@@ -137,6 +153,9 @@ public abstract class Block extends Directive
 
         /**
          * Render the AST of this block into the writer using the context.
+         * @param context
+         * @param writer
+         * @return  success status
          */
         public boolean render(InternalContextAdapter context, Writer writer)
         {
@@ -164,12 +183,16 @@ public abstract class Block extends Directive
 
         /**
          * Makes #if( $blockRef ) true without rendering, so long as we aren't beyond max depth.
+         * @return reference value as boolean
          */
         public boolean getAsBoolean()
         {
             return depth <= parent.maxDepth;
         }
 
+        /**
+         * @return rendered string
+         */
         public String toString()
         {
             Writer writer = new StringBuilderWriter();

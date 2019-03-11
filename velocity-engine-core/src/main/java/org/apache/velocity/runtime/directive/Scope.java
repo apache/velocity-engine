@@ -41,6 +41,10 @@ public class Scope extends AbstractMap
     private Info info;
     protected final Object owner;
 
+    /**
+     * @param owner
+     * @param previous
+     */
     public Scope(Object owner, Object previous)
     {
         this.owner = owner;
@@ -66,11 +70,19 @@ public class Scope extends AbstractMap
         return storage;
     }
 
+    /**
+     * @return entry set
+     */
     public Set entrySet()
     {
         return getStorage().entrySet();
     }
 
+    /**
+     * getter
+     * @param key
+     * @return found value
+     */
     @Override
     public Object get(Object key)
     {
@@ -82,6 +94,12 @@ public class Scope extends AbstractMap
         return o;
     }
 
+    /**
+     * setter
+     * @param key
+     * @param value
+     * @return previous value
+     */
     @Override
     public Object put(Object key, Object value)
     {
@@ -92,6 +110,9 @@ public class Scope extends AbstractMap
      * Convenience method to call put(key,val) in a template
      * without worrying about what is returned/rendered by the call.
      * This should ALWAYS return an empty string.
+     * @param key
+     * @param value
+     * @return empty string
      */
     public String set(Object key, Object value)
     {
@@ -112,6 +133,7 @@ public class Scope extends AbstractMap
      * that are stacked up.  This is the distance between this
      * instance and the topmost instance, plus one. This value
      * will never be negative or zero.
+     * @return depth
      */
     protected int getDepth()
     {
@@ -125,6 +147,7 @@ public class Scope extends AbstractMap
     /**
      * Returns the topmost parent control reference, retrieved
      * by simple recursion on {@link #getParent}.
+     * @return top-most scope
      */
     public Scope getTopmost()
     {
@@ -138,6 +161,7 @@ public class Scope extends AbstractMap
     /**
      * Returns the parent control reference overridden by the placement
      * of this instance in the context.
+     * @return parent scope
      */
     public Scope getParent()
     {
@@ -149,6 +173,7 @@ public class Scope extends AbstractMap
      * of this instance in the context.  If there was none (as is hoped),
      * then this will return null.  This never returns parent controls;
      * those are returned by {@link #getParent}.
+     * @return replaced reference value, or null
      */
     public Object getReplaced()
     {
@@ -161,6 +186,7 @@ public class Scope extends AbstractMap
 
     /**
      * Returns info about the current scope for debugging purposes.
+     * @return template debugging infos
      */
     public Info getInfo()
     {
@@ -181,6 +207,11 @@ public class Scope extends AbstractMap
         private Directive directive;
         private Template template;
 
+        /**
+         * c'tor
+         * @param scope
+         * @param owner
+         */
         public Info(Scope scope, Object owner)
         {
             if (owner instanceof Directive)
@@ -194,6 +225,10 @@ public class Scope extends AbstractMap
             this.scope = scope;
         }
 
+        /**
+         * name getter
+         * @return name
+         */
         public String getName()
         {
             if (directive != null)
@@ -207,6 +242,10 @@ public class Scope extends AbstractMap
             return null;
         }
 
+        /**
+         * type getter
+         * @return scope type
+         */
         public String getType()
         {
             if (directive != null)
@@ -226,11 +265,19 @@ public class Scope extends AbstractMap
             return null;
         }
 
+        /**
+         * current depth
+         * @return depth
+         */
         public int getDepth()
         {
             return scope.getDepth();
         }
 
+        /**
+         * template name getter
+         * @return template name
+         */
         public String getTemplate()
         {
             if (directive != null)
@@ -244,6 +291,10 @@ public class Scope extends AbstractMap
             return null;
         }
 
+        /**
+         * line getter
+         * @return line number
+         */
         public int getLine()
         {
             if (directive != null)
@@ -253,6 +304,10 @@ public class Scope extends AbstractMap
             return 0;
         }
 
+        /**
+         * column getter
+         * @return column number
+         */
         public int getColumn()
         {
             if (directive != null)
@@ -262,6 +317,10 @@ public class Scope extends AbstractMap
             return 0;
         }
 
+        /**
+         * string representation getter
+         * @return string representation
+         */
         public String toString()
         {
             StringBuilder sb = new StringBuilder();

@@ -49,6 +49,8 @@ public class DeprecationAwareExtProperties extends Hashtable<String, Object>
 
     /**
      * Emit a warning in the log for adeprecated property name
+     * @param oldName old property name
+     * @param newName new property name
      */
     protected void warnDeprecated(String oldName, String newName)
     {

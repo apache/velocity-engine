@@ -88,6 +88,7 @@ public class EventHandlerUtil {
      *            Exception thrown by the method
      * @param rsvc current instance of RuntimeServices
      * @param context The internal context adapter.
+     * @param info exception location informations
      * @return Object to return as method result
      * @throws Exception
      *             to be wrapped and propagated to app

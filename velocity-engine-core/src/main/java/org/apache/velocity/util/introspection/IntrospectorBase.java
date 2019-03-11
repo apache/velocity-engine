@@ -64,6 +64,8 @@ public abstract class IntrospectorBase
 
     /**
      * C'tor.
+     * @param log logger
+     * @param conversionHandler conversion handler
      */
     protected IntrospectorBase(final Logger log, final TypeConversionHandler conversionHandler)
     {

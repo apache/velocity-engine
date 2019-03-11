@@ -73,16 +73,16 @@ import java.util.Properties;
 import java.util.Set;
 
 /**
- * This is the Runtime system for Velocity. It is the
+ * <p>This is the Runtime system for Velocity. It is the
  * single access point for all functionality in Velocity.
  * It adheres to the mediator pattern and is the only
  * structure that developers need to be familiar with
- * in order to get Velocity to perform.
+ * in order to get Velocity to perform.</p>
  *
- * The Runtime will also cooperate with external
+ * <p>The Runtime will also cooperate with external
  * systems, which can make all needed setProperty() calls
- * before calling init().
- *
+ * before calling init().</p>
+ * <pre>
  * -----------------------------------------------------------------------
  * N O T E S  O N  R U N T I M E  I N I T I A L I Z A T I O N
  * -----------------------------------------------------------------------
@@ -528,6 +528,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Add all properties contained in the file fileName to the RuntimeInstance properties
+     * @param fileName
      */
     public void setProperties(String fileName)
     {
@@ -553,6 +554,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     /**
      * Add all the properties in props to the RuntimeInstance properties
+     * @param props
      */
     public void setProperties(Properties props)
     {

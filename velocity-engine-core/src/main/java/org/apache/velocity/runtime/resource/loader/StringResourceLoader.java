@@ -75,17 +75,17 @@ import java.util.Map;
  * <pre><code>
  *   StringResourceRepository repo = StringResourceLoader.getRepository("foo");
  * </code></pre>
- * and add string resources to the repo just as in the previous example.
+ * <p>and add string resources to the repo just as in the previous example.
  * </p>
  * <p>If you have concerns about memory leaks or for whatever reason do not wish
  * to have your string repository stored statically as a class member, then you
  * should set 'resource.loader.string.repository.static = false' in your properties.
  * This will tell the resource loader that the string repository should be stored
- * in the Velocity application attributes.  To retrieve the repository, do:
+ * in the Velocity application attributes.  To retrieve the repository, do:</p>
  * <pre><code>
  *   StringResourceRepository repo = velocityEngine.getApplicationAttribute("foo");
  * </code></pre>
- * If you did not specify a name for the repository, then it will be stored under the
+ * <p>If you did not specify a name for the repository, then it will be stored under the
  * class name of the repository implementation class (for which the default is
  * 'org.apache.velocity.runtime.resource.util.StringResourceRepositoryImpl').
  * Incidentally, this is also true for the default statically stored repository.
@@ -98,13 +98,13 @@ import java.util.Map;
  *   repo.magicallyAddSomeStringResources();
  *   StringResourceLoader.setRepository("foo", repo);
  * </code></pre>
- * Or for a non-static repository:
+ * <p>Or for a non-static repository:</p>
  * <pre><code>
  *   StringResourceRepository repo = new MyStringResourceRepository();
  *   repo.magicallyAddSomeStringResources();
  *   velocityEngine.setApplicationAttribute("foo", repo);
  * </code></pre>
- * Then, assuming the 'resource.loader.string.repository.name' property is
+ * <p>Then, assuming the 'resource.loader.string.repository.name' property is
  * set to 'some.name', the StringResourceLoader will use that already created
  * repository, rather than creating a new one.
  * </p>
@@ -157,6 +157,7 @@ public class StringResourceLoader extends ResourceLoader
 
     /**
      * Returns a reference to the default static repository.
+     * @return default static repository
      */
     public static StringResourceRepository getRepository()
     {
@@ -166,6 +167,8 @@ public class StringResourceLoader extends ResourceLoader
     /**
      * Returns a reference to the repository stored statically under the
      * specified name.
+     * @param name
+     * @return named repository
      * @since 1.6
      */
     public static StringResourceRepository getRepository(String name)
@@ -176,6 +179,8 @@ public class StringResourceLoader extends ResourceLoader
     /**
      * Sets the specified {@link StringResourceRepository} in static storage
      * under the specified name.
+     * @param name
+     * @param repo
      * @since 1.6
      */
     public static void setRepository(String name, StringResourceRepository repo)
@@ -186,6 +191,8 @@ public class StringResourceLoader extends ResourceLoader
     /**
      * Removes the {@link StringResourceRepository} stored under the specified
      * name.
+     * @param name
+     * @return removed repository
      * @since 1.6
      */
     public static StringResourceRepository removeRepository(String name)
@@ -203,11 +210,14 @@ public class StringResourceLoader extends ResourceLoader
     }
 
 
-    // the repository used internally by this resource loader
+    /**
+     * the repository used internally by this resource loader
+     */
     protected StringResourceRepository repository;
 
 
     /**
+     * @param configuration
      * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
     public void init(final ExtProperties configuration)
@@ -278,6 +288,9 @@ public class StringResourceLoader extends ResourceLoader
     }
 
     /**
+     * @param className
+     * @param encoding
+     * @return created repository
      * @since 1.6
      */
     public StringResourceRepository createRepository(final String className,
@@ -318,6 +331,8 @@ public class StringResourceLoader extends ResourceLoader
 
     /**
      * Overrides superclass for better performance.
+     * @param name resource name
+     * @return whether resource exists
      * @since 1.6
      */
     public boolean resourceExists(final String name)
@@ -379,6 +394,8 @@ public class StringResourceLoader extends ResourceLoader
     }
 
     /**
+     * @param resource
+     * @return whether resource was modified
      * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
     public boolean isSourceModified(final Resource resource)
@@ -397,6 +414,8 @@ public class StringResourceLoader extends ResourceLoader
     }
 
     /**
+     * @param resource
+     * @return last modified timestamp
      * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
     public long getLastModified(final Resource resource)

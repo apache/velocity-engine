@@ -71,6 +71,7 @@ public class GetExecutor extends AbstractExecutor
     }
 
     /**
+     * @param clazz
      * @since 1.5
      */
     protected void discover(final Class clazz)
@@ -106,6 +107,8 @@ public class GetExecutor extends AbstractExecutor
     }
 
     /**
+     * @param o
+     * @return value
      * @see org.apache.velocity.runtime.parser.node.AbstractExecutor#execute(java.lang.Object)
      */
     public Object execute(final Object o)

@@ -103,7 +103,6 @@ public class Template extends Resource
      *          from any available source.
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
-     * @throws IOException problem reading input stream
      */
     public boolean process()
         throws ResourceNotFoundException, ParseErrorException

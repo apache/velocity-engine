@@ -479,7 +479,7 @@ public class ResourceManagerImpl
      *
      * @param  resource  resource to refresh
      * @param  encoding  character encoding of the resource to refresh.
-     *
+     * @return resource
      * @throws  ResourceNotFoundException  if template not found from current source for this Resource
      * @throws  ParseErrorException  if template cannot be parsed due to syntax (or other) error.
      */

@@ -49,19 +49,6 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
-  <!-- java 8 doclint checks are too strict for our current javadoc state... -->
-  <profiles>
-    <profile>
-      <id>doclint-java8-disable</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <properties>
-        <javadoc.opts>-Xdoclint:none</javadoc.opts>
-      </properties>
-    </profile>
-  </profiles>
-
   <build>
     <defaultGoal>install</defaultGoal>
     <pluginManagement>
@@ -117,7 +104,10 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
-          <additionalparam>${javadoc.opts}</additionalparam>
+            <!-- full checking is left disabled
+            <doclint>html,missing,reference,syntax</doclint>
+            -->
+            <doclint>none</doclint>
         </configuration>
         <executions>
             <execution>
@@ -125,8 +115,6 @@
                 <goals>
                     <goal>aggregate</goal>
                 </goals>
-                <configuration>
-                </configuration>
             </execution>
         </executions>
       </plugin>
