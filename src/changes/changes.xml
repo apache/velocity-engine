@@ -26,6 +26,10 @@
 
   <body>
     <release version="2.1" date="2019-03-03">
+        <action type="fix" dev="cbrisson" issue="VELOCITY-909">
+            Reorganization of configuration properties key names, for clarity and consistency,
+            see the <a href="configuration-property-changes-in-2.1.html">table of correspondance</a>.
+        </action>
         <action type="fix" dev="cbrisson">
             Rendering of arrays should display their content, as for lists
         </action>
