@@ -319,6 +319,13 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
     String VM_BODY_REFERENCE = "velocimacro.body_reference";
 
+    /**
+     * <p>Switch for VM blather: default true. Unused since 2.0.</p>
+     * @deprecated since 2.1
+     */
+    @Deprecated
+    String VM_MESSAGES_ON = "velocimacro.messages.on";
+
     /*
      * ----------------------------------------------------------------------
      * S T I C T   M O D E  B E H A V I O U R

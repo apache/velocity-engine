@@ -356,9 +356,10 @@ public class VelocityEngine implements RuntimeConstants
     }
 
     /**
-     * Returns a convenient Log instance that wraps the current LogChute.
-     * Use this to log error messages. It has the usual methods you'd expect.
-     * @return A log object.
+     * Returns the current slf4j logger. Its namespace defaults to <code>org.apache.velocity</code>
+     * if it hasn't been configured using the property <code>runtime.log.name</code> or the property
+     * <code>runtime.log.instance</code>.
+     * @return A Logger object.
      * @since 1.5
      */
     public Logger getLog()
@@ -372,7 +373,7 @@ public class VelocityEngine implements RuntimeConstants
      *  accessible from any component of the system that gets a
      *  RuntimeServices. This allows communication between the application
      *  environment and custom pluggable components of the Velocity engine,
-     *  such as ResourceLoaders and LogChutes.
+     *  such as ResourceLoaders and Loggers.
      *  </p>
      *
      *  <p>
@@ -398,7 +399,7 @@ public class VelocityEngine implements RuntimeConstants
       *  any component of the system that gets a RuntimeServices.
       *  This allows communication between the application
       *  environment and custom pluggable components of the
-      *  Velocity engine, such as ResourceLoaders and LogChutes.
+      *  Velocity engine, such as ResourceLoaders and Loggers.
       *  </p>
       *
       *  @param key object 'name' under which the object is stored

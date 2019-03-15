@@ -30,7 +30,7 @@ import java.io.PrintStream;
 /**
  * Logger implementation that can easily capture output
  * or suppress it entirely.  By default, both capture and suppress
- * are on. To have this behave like a normal SystemLogChute,
+ * are on. To have this behave like a normal Logger,
  * you must turn it on() and stopCapture().
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
