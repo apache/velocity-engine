@@ -328,10 +328,9 @@ public class Velocity implements RuntimeConstants
     }
 
     /**
-     * Returns a convenient Log instance that wraps the current LogChute.
-     * Use this to log error messages. It has the usual methods.
+     * Returns the current logger.
      *
-     * @return A convenience Log instance that wraps the current LogChute.
+     * @return A convenience Logger instance.
      * @since 1.5
      */
     public static Logger getLog()

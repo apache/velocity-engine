@@ -1643,10 +1643,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     /**
-     * Returns a convenient Log instance that wraps the current LogChute.
-     * Use this to log error messages. It has the usual methods.
+     * Returns the configured logger.
      *
-     * @return A convenience Log instance that wraps the current LogChute.
+     * @return A Logger instance
      * @since 1.5
      */
     public Logger getLog()

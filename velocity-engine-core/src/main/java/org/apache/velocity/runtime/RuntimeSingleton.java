@@ -358,9 +358,9 @@ public class RuntimeSingleton implements RuntimeConstants
 
 
     /**
-     * Returns a convenient Log instance that wraps the current LogChute.
+     * Returns the configured logger.
      *
-     * @return A convenience Log instance that wraps the current LogChute.
+     * @return A Logger instance
      * @see RuntimeInstance#getLog()
      * @since 1.5
      */

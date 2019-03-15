@@ -415,8 +415,8 @@ public interface RuntimeServices
     Uberspect getUberspect();
 
     /**
-     * Returns a convenient Log instance that wraps the current LogChute.
-     * @return A log object.
+     * Returns the configured logger.
+     * @return A Logger object.
      */
     Logger getLog();
 
