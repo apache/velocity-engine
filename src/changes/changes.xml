@@ -25,7 +25,7 @@
   </properties>
 
   <body>
-    <release version="2.1" date="2019-03-03">
+    <release version="2.1" date="2019-03-15">
         <action type="fix" dev="cbrisson" issue="VELOCITY-909">
             Reorganization of configuration properties key names, for clarity and consistency,
             see the <a href="configuration-property-changes-in-2.1.html">table of correspondance</a>.
