@@ -43,9 +43,12 @@ import java.util.Set;
 public class DeprecationAwareExtProperties extends Hashtable<String, Object>
 {
     /**
-     * Logger used to log the use of deprecated properties names
+     * <p>Logger used to log the use of deprecated properties names.</p>
+     * <p>Since at the time Velocity properties are set Velocity is not yet initialized,
+     * this logger namespace can only be a child of the default logger name: <code>org.apache.velocity.deprecation</code>.</p>
+     * <p>It won't honor the <code>runtime.log.instance</code> or <code>runtime.log.name</code> settings.</p>
      */
-    protected static Logger logger = LoggerFactory.getLogger("deprecation");
+    protected static Logger logger = LoggerFactory.getLogger(RuntimeConstants.DEFAULT_RUNTIME_LOG_NAME + ".deprecation");
 
     /**
      * Emit a warning in the log for adeprecated property name
