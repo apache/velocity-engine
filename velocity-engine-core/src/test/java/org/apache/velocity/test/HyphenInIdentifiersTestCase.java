@@ -42,4 +42,9 @@ public class HyphenInIdentifiersTestCase extends BaseTestCase
     {
         assertEvalEquals("6","#set($var-1 = 7)#set($var-2 = $var-1 - 1)$var-2");
     }
+
+    public void testHyphenInCollection()
+    {
+        assertEvalEquals("foofoofoo","#set($map = {'name-with-hyphen':'foo'})$map.name-with-hyphen${map.name-with-hyphen}${map.get('name-with-hyphen')}");
+    }
 }
