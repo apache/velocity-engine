@@ -152,6 +152,12 @@ public class Parser
      */
     public boolean strictEscape = false;
 
+    /**
+     * Set to true if the propoerty
+     * RuntimeConstants.PARSER_HYPHEN_ALLOWED is set to true
+     */
+    public boolean hyphenAllowedInIdentifiers = false;
+
     VelocityCharStream velcharstream = null;
 
     private RuntimeServices rsvc = null;
@@ -195,6 +201,9 @@ public class Parser
 
         strictEscape =
             rs.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, false);
+
+        hyphenAllowedInIdentifiers =
+            rs.getBoolean(RuntimeConstants.PARSER_HYPHEN_ALLOWED, false);
 
         /*
          *  and save the RuntimeServices
@@ -675,13 +684,13 @@ TOKEN :
 }
 
 /* In all other states, drop the zero-width whitespace */
-<REFERENCE,REFMODIFIER,REFMOD3,REFINDEX,DIRECTIVE,REFMOD2,DEFAULT,REFMOD,IN_TEXTBLOCK,IN_MULTILINE_COMMENT,IN_FORMAL_COMMENT,IN_SINGLE_LINE_COMMENT>
+<REFERENCE,REFMODIFIER,OLD_REFMODIFIER,REFMOD3,REFINDEX,DIRECTIVE,REFMOD2,DEFAULT,REFMOD,IN_TEXTBLOCK,IN_MULTILINE_COMMENT,IN_FORMAL_COMMENT,IN_SINGLE_LINE_COMMENT>
 SKIP :
 {
     <BEFORE_EOF: "\u200B">
 }
 
-<REFERENCE, REFMODIFIER, REFMOD3>
+<REFERENCE, REFMODIFIER, OLD_REFMODIFIER, REFMOD3>
 TOKEN:
 {
    <INDEX_LBRACKET: "[">
@@ -756,7 +765,7 @@ TOKEN :
     }
 }
 
-<DIRECTIVE,REFMODIFIER>
+<DIRECTIVE,REFMODIFIER,OLD_REFMODIFIER>
 TOKEN:
 {
     <LPAREN: "(">
@@ -769,7 +778,7 @@ TOKEN:
          * to REFMOD2 -> Modifier()
          */
 
-        if (curLexState == REFMODIFIER )
+        if (curLexState == REFMODIFIER || curLexState == OLD_REFMODIFIER )
             switchTo( REFMOD2 );
     }
 }
@@ -842,7 +851,7 @@ TOKEN:
  *  http://www.engr.mun.ca/~theo/JavaCC-FAQ/javacc-faq-ie.htm#tth_sEc3.12
  *
  */
-<DEFAULT, PRE_REFERENCE, PRE_OLD_REFERENCE, REFERENCE, REFMODIFIER, REFMOD2, REFMOD3>
+<DEFAULT, PRE_REFERENCE, PRE_OLD_REFERENCE, REFERENCE, REFMODIFIER, OLD_REFMODIFIER, REFMOD2, REFMOD3>
 TOKEN:
 {
   <SET_DIRECTIVE: ("#set" | "#{set}")  (" "|"\t")* "(">
@@ -869,7 +878,7 @@ TOKEN:
              * to REFMOD2 -> Modifier()
              */
 
-            if (curLexState == REFMODIFIER )
+            if (curLexState == REFMODIFIER || curLexState == OLD_REFMODIFIER )
                 switchTo( REFMOD2 );
         }
    }
@@ -896,7 +905,7 @@ MORE :
                 stateStackPop();
             }
 
-            int preReferenceState = parser.getRuntimeServices().isHyphenAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
+            int preReferenceState = parser.hyphenAllowedInIdentifiers ? PRE_OLD_REFERENCE : PRE_REFERENCE;
 
             trace( " $  : going to " + lexStateNames[preReferenceState]);
 
@@ -923,7 +932,7 @@ MORE :
                 stateStackPop();
             }
 
-            int preReferenceState = parser.getRuntimeServices().isHyphenAllowedInIdentifiers() ? PRE_OLD_REFERENCE : PRE_REFERENCE;
+            int preReferenceState = parser.hyphenAllowedInIdentifiers ? PRE_OLD_REFERENCE : PRE_REFERENCE;
 
             trace( " $  : going to " + lexStateNames[preReferenceState]);
 
@@ -990,7 +999,7 @@ MORE :
              * you are going into DIRECTIVE while in REFERENCE.  -gmj
              */
 
-            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE || curLexState == REFMODIFIER )
+            if (curLexState == REFERENCE || curLexState == PRE_REFERENCE || curLexState == PRE_OLD_REFERENCE || curLexState == REFMODIFIER || curLexState == OLD_REFMODIFIER )
             {
                 stateStackPop();
             }
@@ -1009,7 +1018,7 @@ MORE :
 
 // treat the single line comment case separately
 // to avoid ##<EOF> errors
-<DEFAULT,PRE_DIRECTIVE,DIRECTIVE,REFERENCE,PRE_REFERENCE,PRE_OLD_REFERENCE,REFMOD2,REFMOD3,REFMODIFIER>
+<DEFAULT,PRE_DIRECTIVE,DIRECTIVE,REFERENCE,PRE_REFERENCE,PRE_OLD_REFERENCE,REFMOD2,REFMOD3,REFMODIFIER,OLD_REFMODIFIER>
 TOKEN :
 {
    <SINGLE_LINE_COMMENT_START: "##">
@@ -1173,7 +1182,7 @@ TOKEN :
     }
 }
 
-<REFERENCE,DIRECTIVE,REFMODIFIER,REFMOD2,REFINDEX,ALT_VAL>
+<REFERENCE,DIRECTIVE,REFMODIFIER,OLD_REFMODIFIER,REFMOD2,REFINDEX,ALT_VAL>
 TOKEN:
 {
    <TRUE: "true">
@@ -1315,6 +1324,7 @@ TOKEN:
  *    |________________>  REFERENCE : state initiated by the identifier. Continues
  *      |   |       |     until end of the reference, or the . character.
  *      |_____________ >  REFMODIFIER : state switched to when the <DOT> is encountered.
+ *          |       |                     (or OLD_REFMODIFIER if '-' is allowed in identifiers)
  *          |       |     note that this is a switch, not a push. See notes at bottom.
  *          |_________ >  REFMOD2 : state switch to when the LPAREN is encountered.
  *                  |     again, this is a switch, not a push.
@@ -1339,19 +1349,22 @@ TOKEN :
     }
 }
 
-<PRE_OLD_REFERENCE>
+<PRE_OLD_REFERENCE,OLD_REFMODIFIER>
 TOKEN :
 {
     <#OLD_ALPHA_CHAR: ["a"-"z", "A"-"Z", "_"] >
 |   <#OLD_IDENTIFIER_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_", "-" ] >
 |   <OLD_IDENTIFIER:  ( <OLD_ALPHA_CHAR> ) (<OLD_IDENTIFIER_CHAR>)* >
     {
-        switchTo(REFERENCE);
+        if (curLexState == PRE_OLD_REFERENCE)
+        {
+            switchTo(REFERENCE);
+        }
     }
 }
 
 
-<REFERENCE,REFMODIFIER,REFMOD2,REFMOD3>
+<REFERENCE,REFMODIFIER,OLD_REFMODIFIER,REFMOD2,REFMOD3>
 TOKEN:
 {
    <DOT: "." <ALPHA_CHAR>>
@@ -1370,13 +1383,15 @@ TOKEN:
 
         matchedToken.image = ".";
 
-        trace("DOT : switching to " + REFMODIFIER);
-        switchTo(REFMODIFIER);
+        int refModifierState = parser.hyphenAllowedInIdentifiers ? OLD_REFMODIFIER : REFMODIFIER;
+
+        trace("DOT : switching to " + lexStateNames[refModifierState]);
+        switchTo(refModifierState);
 
     }
 }
 
-<PRE_REFERENCE,PRE_OLD_REFERENCE,REFERENCE,REFMODIFIER,REFMOD3>
+<PRE_REFERENCE,PRE_OLD_REFERENCE,REFERENCE,REFMODIFIER,OLD_REFMODIFIER,REFMOD3>
 TOKEN :
 {
     <LCURLY: "{">
@@ -1403,7 +1418,7 @@ TOKEN :
     }
 }
 
-<PRE_REFERENCE,PRE_OLD_REFERENCE,REFERENCE,REFMODIFIER,REFMOD,REFMOD3>
+<PRE_REFERENCE,PRE_OLD_REFERENCE,REFERENCE,REFMODIFIER,OLD_REFMODIFIER,REFMOD,REFMOD3>
 SPECIAL_TOKEN :
 {
     <REFERENCE_TERMINATOR: ~[] >
@@ -2471,7 +2486,8 @@ void PrimaryExpression() #void : {}
 
     REFERENCE : Triggered by the <IDENTIFIER>
 
-    REFMODIFIER : Triggered by .<alpha> when in REFERENCE, REFMODIFIER or REFMOD3
+    REFMODIFIER : Triggered by .<alpha> when in REFERENCE, REFMODIFIER or REFMOD3. When '-'
+    is allowed in identifiers, this state is called OLD_REFMODIFIER.
 
     REFMOD2 : Triggered by '(' when in REFMODIFIER
 
