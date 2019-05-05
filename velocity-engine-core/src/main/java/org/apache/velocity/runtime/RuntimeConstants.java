@@ -57,9 +57,11 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
     /** Logging of invalid method calls. */
     String RUNTIME_LOG_METHOD_CALL_LOG_INVALID = "runtime.log.log_invalid_method_calls";
 
-    /** Whether to use string interning. */
-    String RUNTIME_STRING_INTERNING = "runtime.string_interning";
-
+    /** Whether to populate slf4j's MDC with location in template file
+     *  @since 2.2
+     */
+    String RUNTIME_LOG_TRACK_LOCATION = "runtime.log.track_location";
+    
     /*
      * ----------------------------------------------------------------------
      * D I R E C T I V E  C O N F I G U R A T I O N
@@ -369,6 +371,9 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      * ----------------------------------------------------------------------
      */
 
+    /** Whether to use string interning. */
+    String RUNTIME_STRING_INTERNING = "runtime.string_interning";
+    
     /** Switch for the interpolation facility for string literals. */
     String INTERPOLATE_STRINGLITERALS = "runtime.interpolate_string_literals";
 

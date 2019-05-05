@@ -28,6 +28,7 @@ import org.apache.velocity.io.Filter;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.directive.Block.Reference;
+import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.ClassUtils;
@@ -249,157 +250,166 @@ public class ASTReference extends SimpleNode
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
-        /*
-         *  The only case where 'o' is not null is when this method is called by evaluate().
-         *  Its value is not used, but it is a convention meant to allow statements like
-         *  #if($invalidReference) *not* to trigger an invalid reference event.
-         *  Statements like #if($invalidReference.prop) should *still* trigger an invalid reference event.
-         *  Statements like #if($validReference.invalidProp) should not.
-         */
-        boolean onlyTestingReference = (o != null);
-
-        if (referenceType == RUNT)
-            return null;
-
-        /*
-         *  get the root object from the context
-         */
-
-        Object result = getRootVariableValue(context);
-
-        if (result == null && !strictRef)
-        {
-            /*
-             * do not trigger an invalid reference if the reference is present, but with a null value
-             * don't either for a quiet reference or inside an #if/#elseif evaluation context
-             */
-            if (referenceType != QUIET_REFERENCE  &&
-                    (numChildren > 0 ||
-                            !context.containsKey(rootString) && !onlyTestingReference))
-            {
-                result = EventHandlerUtil.invalidGetMethod(rsvc, context,
-                        "$" + rootString, null, null, uberInfo);
-            }
-
-            if (result == null && astAlternateValue != null)
-            {
-                result = astAlternateValue.value(context);
-            }
-
-            return result;
-        }
-
-        /*
-         * Iteratively work 'down' (it's flat...) the reference
-         * to get the value, but check to make sure that
-         * every result along the path is valid. For example:
-         *
-         * $hashtable.Customer.Name
-         *
-         * The $hashtable may be valid, but there is no key
-         * 'Customer' in the hashtable so we want to stop
-         * when we find a null value and return the null
-         * so the error gets logged.
-         */
-
         try
         {
-            Object previousResult = result;
-            int failedChild = -1;
-            for (int i = 0; i < numChildren; i++)
+            rsvc.getLogContext().pushLogContext(this, uberInfo);
+
+            /*
+             *  The only case where 'o' is not null is when this method is called by evaluate().
+             *  Its value is not used, but it is a convention meant to allow statements like
+             *  #if($invalidReference) *not* to trigger an invalid reference event.
+             *  Statements like #if($invalidReference.prop) should *still* trigger an invalid reference event.
+             *  Statements like #if($validReference.invalidProp) should not.
+             */
+            boolean onlyTestingReference = (o != null);
+
+            if (referenceType == RUNT)
+                return null;
+
+            /*
+             *  get the root object from the context
+             */
+
+            Object result = getRootVariableValue(context);
+
+            if (result == null && !strictRef)
             {
-                if (strictRef && result == null)
+                /*
+                 * do not trigger an invalid reference if the reference is present, but with a null value
+                 * don't either for a quiet reference or inside an #if/#elseif evaluation context
+                 */
+                if (referenceType != QUIET_REFERENCE  &&
+                        (numChildren > 0 ||
+                                !context.containsKey(rootString) && !onlyTestingReference))
                 {
-                    /**
-                     * At this point we know that an attempt is about to be made
-                     * to call a method or property on a null value.
-                     */
-                    String name = jjtGetChild(i).getFirstTokenImage();
-                    throw new VelocityException("Attempted to access '"
-                        + name + "' on a null value at "
-                        + StringUtils.formatFileString(uberInfo.getTemplateName(),
-                        + jjtGetChild(i).getLine(), jjtGetChild(i).getColumn()));
+                    result = EventHandlerUtil.invalidGetMethod(rsvc, context,
+                            "$" + rootString, null, null, uberInfo);
                 }
-                previousResult = result;
-                result = jjtGetChild(i).execute(result,context);
-                if (result == null && !strictRef)  // If strict and null then well catch this
-                                                   // next time through the loop
+
+                if (result == null && astAlternateValue != null)
                 {
-                    failedChild = i;
-                    break;
+                    result = astAlternateValue.value(context);
                 }
+
+                return result;
             }
 
-            if (result == null)
+            /*
+             * Iteratively work 'down' (it's flat...) the reference
+             * to get the value, but check to make sure that
+             * every result along the path is valid. For example:
+             *
+             * $hashtable.Customer.Name
+             *
+             * The $hashtable may be valid, but there is no key
+             * 'Customer' in the hashtable so we want to stop
+             * when we find a null value and return the null
+             * so the error gets logged.
+             */
+
+            try
             {
-                if (failedChild == -1)
+                Object previousResult = result;
+                int failedChild = -1;
+                for (int i = 0; i < numChildren; i++)
                 {
-                    /*
-                     * do not trigger an invalid reference if the reference is present, but with a null value
-                     * don't either for a quiet reference,
-                     * or inside an #if/#elseif evaluation context when there's no child
-                     */
-                    if (!context.containsKey(rootString) && referenceType != QUIET_REFERENCE && (!onlyTestingReference || numChildren > 0))
+                    if (strictRef && result == null)
                     {
-                        result = EventHandlerUtil.invalidGetMethod(rsvc, context,
-                                "$" + rootString, previousResult, null, uberInfo);
+                        /**
+                         * At this point we know that an attempt is about to be made
+                         * to call a method or property on a null value.
+                         */
+                        String name = jjtGetChild(i).getFirstTokenImage();
+                        throw new VelocityException("Attempted to access '"
+                            + name + "' on a null value at "
+                            + StringUtils.formatFileString(uberInfo.getTemplateName(),
+                            + jjtGetChild(i).getLine(), jjtGetChild(i).getColumn()));
+                    }
+                    previousResult = result;
+                    result = jjtGetChild(i).execute(result,context);
+                    if (result == null && !strictRef)  // If strict and null then well catch this
+                                                       // next time through the loop
+                    {
+                        failedChild = i;
+                        break;
                     }
                 }
-                else
+
+                if (result == null)
                 {
-                    Node child = jjtGetChild(failedChild);
-                    // do not call bad reference handler if the getter is present
-                    // (it means the getter has been called and returned null)
-                    // do not either for a quiet reference or if the *last* child failed while testing the reference
-                    Object getter = context.icacheGet(child);
-                    if (getter == null &&
-                        referenceType != QUIET_REFERENCE  &&
-                        (!onlyTestingReference || failedChild < numChildren - 1))
+                    if (failedChild == -1)
                     {
-                        StringBuilder name = new StringBuilder("$").append(rootString);
-                        for (int i = 0; i <= failedChild; i++)
+                        /*
+                         * do not trigger an invalid reference if the reference is present, but with a null value
+                         * don't either for a quiet reference,
+                         * or inside an #if/#elseif evaluation context when there's no child
+                         */
+                        if (!context.containsKey(rootString) && referenceType != QUIET_REFERENCE && (!onlyTestingReference || numChildren > 0))
                         {
-                            Node node = jjtGetChild(i);
-                            if (node instanceof ASTMethod)
+                            result = EventHandlerUtil.invalidGetMethod(rsvc, context,
+                                    "$" + rootString, previousResult, null, uberInfo);
+                        }
+                    }
+                    else
+                    {
+                        Node child = jjtGetChild(failedChild);
+                        // do not call bad reference handler if the getter is present
+                        // (it means the getter has been called and returned null)
+                        // do not either for a quiet reference or if the *last* child failed while testing the reference
+                        Object getter = context.icacheGet(child);
+                        if (getter == null &&
+                            referenceType != QUIET_REFERENCE  &&
+                            (!onlyTestingReference || failedChild < numChildren - 1))
+                        {
+                            StringBuilder name = new StringBuilder("$").append(rootString);
+                            for (int i = 0; i <= failedChild; i++)
                             {
-                                name.append(".").append(((ASTMethod) node).getMethodName()).append("()");
+                                Node node = jjtGetChild(i);
+                                if (node instanceof ASTMethod)
+                                {
+                                    name.append(".").append(((ASTMethod) node).getMethodName()).append("()");
+                                }
+                                else
+                                {
+                                    name.append(".").append(node.getFirstTokenImage());
+                                }
+                            }
+
+                            if (child instanceof ASTMethod)
+                            {
+                                String methodName = ((ASTMethod) jjtGetChild(failedChild)).getMethodName();
+                                result = EventHandlerUtil.invalidMethod(rsvc, context,
+                                    name.toString(), previousResult, methodName, uberInfo);
                             }
                             else
                             {
-                                name.append(".").append(node.getFirstTokenImage());
+                                String property = jjtGetChild(failedChild).getFirstTokenImage();
+                                result = EventHandlerUtil.invalidGetMethod(rsvc, context,
+                                    name.toString(), previousResult, property, uberInfo);
                             }
-                        }
-
-                        if (child instanceof ASTMethod)
-                        {
-                            String methodName = ((ASTMethod) jjtGetChild(failedChild)).getMethodName();
-                            result = EventHandlerUtil.invalidMethod(rsvc, context,
-                                name.toString(), previousResult, methodName, uberInfo);
-                        }
-                        else
-                        {
-                            String property = jjtGetChild(failedChild).getFirstTokenImage();
-                            result = EventHandlerUtil.invalidGetMethod(rsvc, context,
-                                name.toString(), previousResult, property, uberInfo);
                         }
                     }
                 }
-            }
 
-            /*
-             * Time to try the alternate value if needed
-             */
-            if (astAlternateValue != null && (result == null || !DuckType.asBoolean(result, checkEmpty)))
+                /*
+                 * Time to try the alternate value if needed
+                 */
+                if (astAlternateValue != null && (result == null || !DuckType.asBoolean(result, checkEmpty)))
+                {
+                    result = astAlternateValue.value(context);
+                }
+
+                return result;
+            }
+            catch(MethodInvocationException mie)
             {
-                result = astAlternateValue.value(context);
+                mie.setReferenceName(rootString);
+                throw mie;
             }
-
-            return result;
         }
-        catch(MethodInvocationException mie)
+        finally
         {
-            mie.setReferenceName(rootString);
-            throw mie;
+            rsvc.getLogContext().popLogContext();
         }
     }
 
@@ -416,161 +426,170 @@ public class ASTReference extends SimpleNode
     public boolean render(InternalContextAdapter context, Writer writer) throws IOException,
             MethodInvocationException
     {
-        if (referenceType == RUNT)
+        try
         {
-            writer.write(literal);
-            return true;
-        }
+            rsvc.getLogContext().pushLogContext(this, uberInfo);
 
-        Object value = null;
-        if (escaped && strictEscape)
-        {
-          /**
-           * If we are in strict mode and the variable is escaped, then don't bother to
-           * retrieve the value since we won't use it. And if the var is not defined
-           * it will throw an exception.  Set value to TRUE to fall through below with
-           * simply printing $foo, and not \$foo
-           */
-          value = Boolean.TRUE;
-        }
-        else
-        {
-          value = execute(null, context);
-        }
-
-        String localNullString = null;
-
-        /*
-         * if this reference is escaped (\$foo) then we want to do one of two things: 1) if this is
-         * a reference in the context, then we want to print $foo 2) if not, then \$foo (its
-         * considered schmoo, not VTL)
-         */
-
-        if (escaped)
-        {
-            localNullString = getNullString(context);
-
-            if (value == null)
+            if (referenceType == RUNT)
             {
-                writer.write(escPrefix);
-                writer.write("\\");
-                writer.write(localNullString);
+                writer.write(literal);
+                return true;
+            }
+
+            Object value = null;
+            if (escaped && strictEscape)
+            {
+              /**
+               * If we are in strict mode and the variable is escaped, then don't bother to
+               * retrieve the value since we won't use it. And if the var is not defined
+               * it will throw an exception.  Set value to TRUE to fall through below with
+               * simply printing $foo, and not \$foo
+               */
+              value = Boolean.TRUE;
             }
             else
             {
-                writer.write(escPrefix);
-                writer.write(localNullString);
+              value = execute(null, context);
             }
-            return true;
-        }
 
-        /*
-         * the normal processing
-         *
-         * if we have an event cartridge, get a new value object
-         */
+            String localNullString = null;
 
-        value = EventHandlerUtil.referenceInsert(rsvc, context, literal, value);
+            /*
+             * if this reference is escaped (\$foo) then we want to do one of two things: 1) if this is
+             * a reference in the context, then we want to print $foo 2) if not, then \$foo (its
+             * considered schmoo, not VTL)
+             */
 
-        String toString = null;
-        if (value != null)
-        {
-            if (value instanceof Renderable)
+            if (escaped)
             {
-                Renderable renderable = (Renderable)value;
-                try
+                localNullString = getNullString(context);
+
+                if (value == null)
                 {
                     writer.write(escPrefix);
-                    writer.write(morePrefix);
-                    if (renderable.render(context,writer))
-                    {
-                      return true;
-                    }
+                    writer.write("\\");
+                    writer.write(localNullString);
                 }
-                catch(RuntimeException e)
+                else
                 {
-                    // We commonly get here when an error occurs within a block reference.
-                    // We want to log where the reference is at so that a developer can easily
-                    // know where the offending call is located.  This can be seen
-                    // as another element of the error stack we report to log.
-                    log.error("Exception rendering "
-                        + ((renderable instanceof Reference)? "block ":"Renderable ")
-                        + rootString + " at " + StringUtils.formatFileString(this));
-                    throw e;
-                }
-            }
-
-            toString = DuckType.asString(value);
-        }
-
-        if (value == null || toString == null)
-        {
-            if (strictRef)
-            {
-                if (referenceType != QUIET_REFERENCE)
-                {
-                  log.error("Prepend the reference with '$!' e.g., $!{}" +
-                            " if you want Velocity to ignore the reference when it evaluates to null",
-                            literal().substring(1));
-                  if (value == null)
-                  {
-                    throw new VelocityException("Reference " + literal()
-                        + " evaluated to null when attempting to render at "
-                        + StringUtils.formatFileString(this));
-                  }
-                  else  // toString == null
-                  {
-                    // This will probably rarely happen, but when it does we want to
-                    // inform the user that toString == null so they don't pull there
-                    // hair out wondering why Velocity thinks the value is null.
-                    throw new VelocityException("Reference " + literal()
-                        + " evaluated to object " + value.getClass().getName()
-                        + " whose toString() method returned null at "
-                        + StringUtils.formatFileString(this));
-                  }
+                    writer.write(escPrefix);
+                    writer.write(localNullString);
                 }
                 return true;
             }
 
             /*
-             * write prefix twice, because it's schmoo, so the \ don't escape each
-             * other...
+             * the normal processing
+             *
+             * if we have an event cartridge, get a new value object
              */
-            localNullString = getNullString(context);
-            if (!strictEscape)
-            {
-                // If in strict escape mode then we only print escape once.
-                // Yea, I know.. brittle stuff
-                writer.write(escPrefix);
-            }
-            writer.write(escPrefix);
-            writer.write(morePrefix);
-            writer.write(localNullString);
 
-            if (logOnNull && referenceType != QUIET_REFERENCE)
+            value = EventHandlerUtil.referenceInsert(rsvc, context, literal, value);
+
+            String toString = null;
+            if (value != null)
             {
-                log.debug("Null reference [template '{}', line {}, column {}]: {} cannot be resolved.",
-                          getTemplateName(), this.getLine(), this.getColumn(), this.literal());
+                if (value instanceof Renderable)
+                {
+                    Renderable renderable = (Renderable)value;
+                    try
+                    {
+                        writer.write(escPrefix);
+                        writer.write(morePrefix);
+                        if (renderable.render(context,writer))
+                        {
+                          return true;
+                        }
+                    }
+                    catch(RuntimeException e)
+                    {
+                        // We commonly get here when an error occurs within a block reference.
+                        // We want to log where the reference is at so that a developer can easily
+                        // know where the offending call is located.  This can be seen
+                        // as another element of the error stack we report to log.
+                        log.error("Exception rendering "
+                            + ((renderable instanceof Reference)? "block ":"Renderable ")
+                            + rootString + " at " + StringUtils.formatFileString(this));
+                        throw e;
+                    }
+                }
+
+                toString = DuckType.asString(value);
             }
-            return true;
-        }
-        else
-        {
-            /*
-             * non-null processing
-             */
-            writer.write(escPrefix);
-            writer.write(morePrefix);
-            if (writer instanceof Filter)
+
+            if (value == null || toString == null)
             {
-                ((Filter)writer).writeReference(toString);
+                if (strictRef)
+                {
+                    if (referenceType != QUIET_REFERENCE)
+                    {
+                      log.error("Prepend the reference with '$!' e.g., $!{}" +
+                                " if you want Velocity to ignore the reference when it evaluates to null",
+                                literal().substring(1));
+                      if (value == null)
+                      {
+                        throw new VelocityException("Reference " + literal()
+                            + " evaluated to null when attempting to render at "
+                            + StringUtils.formatFileString(this));
+                      }
+                      else  // toString == null
+                      {
+                        // This will probably rarely happen, but when it does we want to
+                        // inform the user that toString == null so they don't pull there
+                        // hair out wondering why Velocity thinks the value is null.
+                        throw new VelocityException("Reference " + literal()
+                            + " evaluated to object " + value.getClass().getName()
+                            + " whose toString() method returned null at "
+                            + StringUtils.formatFileString(this));
+                      }
+                    }
+                    return true;
+                }
+
+                /*
+                 * write prefix twice, because it's schmoo, so the \ don't escape each
+                 * other...
+                 */
+                localNullString = getNullString(context);
+                if (!strictEscape)
+                {
+                    // If in strict escape mode then we only print escape once.
+                    // Yea, I know.. brittle stuff
+                    writer.write(escPrefix);
+                }
+                writer.write(escPrefix);
+                writer.write(morePrefix);
+                writer.write(localNullString);
+
+                if (logOnNull && referenceType != QUIET_REFERENCE)
+                {
+                    log.debug("Null reference [template '{}', line {}, column {}]: {} cannot be resolved.",
+                              getTemplateName(), this.getLine(), this.getColumn(), this.literal());
+                }
+                return true;
             }
             else
             {
-                writer.write(toString);
-            }
+                /*
+                 * non-null processing
+                 */
+                writer.write(escPrefix);
+                writer.write(morePrefix);
+                if (writer instanceof Filter)
+                {
+                    ((Filter)writer).writeReference(toString);
+                }
+                else
+                {
+                    writer.write(toString);
+                }
 
-            return true;
+                return true;
+            }
+        }
+        finally
+        {
+            rsvc.getLogContext().popLogContext();
         }
     }
 
@@ -619,12 +638,17 @@ public class ASTReference extends SimpleNode
         }
         try
         {
+            rsvc.getLogContext().pushLogContext(this, uberInfo);
             return DuckType.asBoolean(value, checkEmpty);
         }
         catch(Exception e)
         {
             throw new VelocityException("Reference evaluation threw an exception at "
                 + StringUtils.formatFileString(this), e);
+        }
+        finally
+        {
+            rsvc.getLogContext().popLogContext();
         }
     }
 
@@ -663,187 +687,196 @@ public class ASTReference extends SimpleNode
     public boolean setValue(InternalContextAdapter context, Object value)
       throws MethodInvocationException
     {
-        if (astAlternateValue != null)
+        try
         {
-            log.error("reference set cannot have a default value {}",
-                StringUtils.formatFileString(uberInfo));
-            return false;
-        }
+            rsvc.getLogContext().pushLogContext(this, uberInfo);
 
-        if (numChildren == 0)
-        {
-            context.put(rootString, value);
-            return true;
-        }
+            if (astAlternateValue != null)
+            {
+                log.error("reference set cannot have a default value {}",
+                    StringUtils.formatFileString(uberInfo));
+                return false;
+            }
 
-        /*
-         *  The rootOfIntrospection is the object we will
-         *  retrieve from the Context. This is the base
-         *  object we will apply reflection to.
-         */
+            if (numChildren == 0)
+            {
+                context.put(rootString, value);
+                return true;
+            }
 
-        Object result = getRootVariableValue(context);
+            /*
+             *  The rootOfIntrospection is the object we will
+             *  retrieve from the Context. This is the base
+             *  object we will apply reflection to.
+             */
 
-        if (result == null)
-        {
-            log.error("reference set is not a valid reference at {}",
-                      StringUtils.formatFileString(uberInfo));
-            return false;
-        }
-
-        /*
-         * How many child nodes do we have?
-         */
-
-        for (int i = 0; i < numChildren - 1; i++)
-        {
-            result = jjtGetChild(i).execute(result, context);
+            Object result = getRootVariableValue(context);
 
             if (result == null)
             {
-                if (strictRef)
-                {
-                    String name = jjtGetChild(i+1).getFirstTokenImage();
-                    throw new MethodInvocationException("Attempted to access '"
-                        + name + "' on a null value", null, name, uberInfo.getTemplateName(),
-                        jjtGetChild(i+1).getLine(), jjtGetChild(i+1).getColumn());
-                }
-
                 log.error("reference set is not a valid reference at {}",
                           StringUtils.formatFileString(uberInfo));
                 return false;
             }
-        }
 
-        if (astIndex != null)
-        {
-            // If astIndex is not null then we are actually setting an index reference,
-            // something of the form $foo[1] =, or in general any reference that ends with
-            // the brackets.  This means that we need to call a more general method
-            // of the form set(Integer, <something>), or put(Object, <something), where
-            // the first parameter is the index value and the second is the LHS of the set.
+            /*
+             * How many child nodes do we have?
+             */
 
-            Object argument = astIndex.jjtGetChild(0).value(context);
-            // If negative, turn -1 into (size - 1)
-            argument = ASTIndex.adjMinusIndexArg(argument, result, context, astIndex);
-            Object [] params = {argument, value};
-            Class[] paramClasses = {params[0] == null ? null : params[0].getClass(),
-                                    params[1] == null ? null : params[1].getClass()};
-
-            String methodName = "set";
-            VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
-                result, context, astIndex, false);
-
-            if (method == null)
+            for (int i = 0; i < numChildren - 1; i++)
             {
-                // If we can't find a 'set' method, lets try 'put',  This warrents a little
-                // investigation performance wise... if the user is using the hash
-                // form $foo["blaa"], then it may be expensive to first try and fail on 'set'
-                // then go to 'put'?  The problem is that getMethod will try the cache, then
-                // perform introspection on 'result' for 'set'
-                methodName = "put";
-                method = ClassUtils.getMethod(methodName, params, paramClasses,
-                      result, context, astIndex, false);
-            }
+                result = jjtGetChild(i).execute(result, context);
 
-            if (method == null)
-            {
-                // couldn't find set or put method, so bail
-                if (strictRef)
+                if (result == null)
                 {
-                    throw new VelocityException(
-                        "Found neither a 'set' or 'put' method with param types '("
-                        + printClass(paramClasses[0]) + "," + printClass(paramClasses[1])
-                        + ")' on class '" + result.getClass().getName()
-                        + "' at " + StringUtils.formatFileString(astIndex));
+                    if (strictRef)
+                    {
+                        String name = jjtGetChild(i+1).getFirstTokenImage();
+                        throw new MethodInvocationException("Attempted to access '"
+                            + name + "' on a null value", null, name, uberInfo.getTemplateName(),
+                            jjtGetChild(i+1).getLine(), jjtGetChild(i+1).getColumn());
+                    }
+
+                    log.error("reference set is not a valid reference at {}",
+                              StringUtils.formatFileString(uberInfo));
+                    return false;
                 }
-                return false;
             }
+
+            if (astIndex != null)
+            {
+                // If astIndex is not null then we are actually setting an index reference,
+                // something of the form $foo[1] =, or in general any reference that ends with
+                // the brackets.  This means that we need to call a more general method
+                // of the form set(Integer, <something>), or put(Object, <something), where
+                // the first parameter is the index value and the second is the LHS of the set.
+
+                Object argument = astIndex.jjtGetChild(0).value(context);
+                // If negative, turn -1 into (size - 1)
+                argument = ASTIndex.adjMinusIndexArg(argument, result, context, astIndex);
+                Object [] params = {argument, value};
+                Class[] paramClasses = {params[0] == null ? null : params[0].getClass(),
+                                        params[1] == null ? null : params[1].getClass()};
+
+                String methodName = "set";
+                VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
+                    result, context, astIndex, false);
+
+                if (method == null)
+                {
+                    // If we can't find a 'set' method, lets try 'put',  This warrents a little
+                    // investigation performance wise... if the user is using the hash
+                    // form $foo["blaa"], then it may be expensive to first try and fail on 'set'
+                    // then go to 'put'?  The problem is that getMethod will try the cache, then
+                    // perform introspection on 'result' for 'set'
+                    methodName = "put";
+                    method = ClassUtils.getMethod(methodName, params, paramClasses,
+                          result, context, astIndex, false);
+                }
+
+                if (method == null)
+                {
+                    // couldn't find set or put method, so bail
+                    if (strictRef)
+                    {
+                        throw new VelocityException(
+                            "Found neither a 'set' or 'put' method with param types '("
+                            + printClass(paramClasses[0]) + "," + printClass(paramClasses[1])
+                            + ")' on class '" + result.getClass().getName()
+                            + "' at " + StringUtils.formatFileString(astIndex));
+                    }
+                    return false;
+                }
+
+                try
+                {
+                    method.invoke(result, params);
+                }
+                catch(RuntimeException e)
+                {
+                    // Kludge since invoke throws Exception, pass up Runtimes
+                    throw e;
+                }
+                catch(Exception e)
+                {
+                    throw new MethodInvocationException(
+                      "Exception calling method '"
+                      + methodName + "("
+                      + printClass(paramClasses[0]) + "," + printClass(paramClasses[1])
+                      + ")' in  " + result.getClass(),
+                      e.getCause(), identifier, astIndex.getTemplateName(), astIndex.getLine(),
+                        astIndex.getColumn());
+                }
+
+                return true;
+            }
+
+
+            /*
+             *  We support two ways of setting the value in a #set($ref.foo = $value ):
+             *  1) ref.setFoo( value )
+             *  2) ref,put("foo", value ) to parallel the get() map introspection
+             */
 
             try
             {
-                method.invoke(result, params);
+                VelPropertySet vs =
+                        rsvc.getUberspect().getPropertySet(result, identifier,
+                                value, uberInfo);
+
+                if (vs == null)
+                {
+                    if (strictRef)
+                    {
+                        throw new MethodInvocationException("Object '" + result.getClass().getName() +
+                           "' does not contain property '" + identifier + "'", null, identifier,
+                           uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
+                    }
+                    else
+                    {
+                      return false;
+                    }
+                }
+
+                vs.invoke(result, value);
             }
-            catch(RuntimeException e)
+            catch(InvocationTargetException ite)
             {
-                // Kludge since invoke throws Exception, pass up Runtimes
+                /*
+                 *  this is possible
+                 */
+
+                throw  new MethodInvocationException(
+                    "ASTReference: Invocation of method '"
+                    + identifier + "' in  " + result.getClass()
+                    + " threw exception "
+                    + ite.getTargetException().toString(),
+                   ite.getTargetException(), identifier, getTemplateName(), this.getLine(), this.getColumn());
+            }
+            /**
+             * pass through application level runtime exceptions
+             */
+            catch( RuntimeException e )
+            {
                 throw e;
             }
             catch(Exception e)
             {
-                throw new MethodInvocationException(
-                  "Exception calling method '"
-                  + methodName + "("
-                  + printClass(paramClasses[0]) + "," + printClass(paramClasses[1])
-                  + ")' in  " + result.getClass(),
-                  e.getCause(), identifier, astIndex.getTemplateName(), astIndex.getLine(),
-                    astIndex.getColumn());
+                /*
+                 *  maybe a security exception?
+                 */
+                String msg = "ASTReference setValue(): exception: " + e
+                              + " template at " + StringUtils.formatFileString(uberInfo);
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
             }
 
             return true;
         }
-
-
-        /*
-         *  We support two ways of setting the value in a #set($ref.foo = $value ):
-         *  1) ref.setFoo( value )
-         *  2) ref,put("foo", value ) to parallel the get() map introspection
-         */
-
-        try
+        finally
         {
-            VelPropertySet vs =
-                    rsvc.getUberspect().getPropertySet(result, identifier,
-                            value, uberInfo);
-
-            if (vs == null)
-            {
-                if (strictRef)
-                {
-                    throw new MethodInvocationException("Object '" + result.getClass().getName() +
-                       "' does not contain property '" + identifier + "'", null, identifier,
-                       uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
-                }
-                else
-                {
-                  return false;
-                }
-            }
-
-            vs.invoke(result, value);
+            rsvc.getLogContext().popLogContext();
         }
-        catch(InvocationTargetException ite)
-        {
-            /*
-             *  this is possible
-             */
-
-            throw  new MethodInvocationException(
-                "ASTReference: Invocation of method '"
-                + identifier + "' in  " + result.getClass()
-                + " threw exception "
-                + ite.getTargetException().toString(),
-               ite.getTargetException(), identifier, getTemplateName(), this.getLine(), this.getColumn());
-        }
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch( RuntimeException e )
-        {
-            throw e;
-        }
-        catch(Exception e)
-        {
-            /*
-             *  maybe a security exception?
-             */
-            String msg = "ASTReference setValue(): exception: " + e
-                          + " template at " + StringUtils.formatFileString(uberInfo);
-            log.error(msg, e);
-            throw new VelocityException(msg, e);
-         }
-
-        return true;
     }
 
     private String getRoot()
