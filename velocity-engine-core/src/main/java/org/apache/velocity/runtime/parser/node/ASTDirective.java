@@ -29,10 +29,12 @@ import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.directive.BlockMacro;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.RuntimeMacro;
+import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserConstants;
 import org.apache.velocity.runtime.parser.Token;
+import org.apache.velocity.util.introspection.Info;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -292,7 +294,15 @@ public class ASTDirective extends SimpleNode
 
             writer.write(morePrefix);
 
-            directive.render(context, writer, this);
+            try
+            {
+                rsvc.getLogContext().pushLogContext(this, new Info(getTemplateName(), getLine(), getColumn()));
+                directive.render(context, writer, this);
+            }
+            finally
+            {
+                rsvc.getLogContext().popLogContext();
+            }
 
             if (morePrefix.length() > 0 || spaceGobbling == SpaceGobbling.NONE)
             {

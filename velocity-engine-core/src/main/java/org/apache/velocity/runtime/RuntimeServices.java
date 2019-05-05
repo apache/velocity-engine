@@ -28,6 +28,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
+import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -429,7 +430,14 @@ public interface RuntimeServices
      */
     Logger getLog(String childNamespace);
 
-    /**
+   /**
+    * Get the LogContext object used to tack locations in templates.
+    * @return LogContext object
+    * @since 2.2
+    */
+   LogContext getLogContext();
+
+   /**
      * Returns the event handlers for the application.
      * @return The event handlers for the application.
      */

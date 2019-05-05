@@ -37,6 +37,7 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.Macro;
 import org.apache.velocity.runtime.directive.Scope;
 import org.apache.velocity.runtime.directive.StopCommand;
+import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -120,7 +121,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * The Runtime parser pool
      */
-    private  ParserPool parserPool;
+    private ParserPool parserPool;
 
     /**
      * Indicate whether the Runtime is in the midst of initialization.
@@ -136,7 +137,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * These are the properties that are laid down over top
      * of the default properties when requested.
      */
-    private  ExtProperties overridingProperties = null;
+    private ExtProperties overridingProperties = null;
 
     /**
      * This is a hashtable of initialized directives.
@@ -218,6 +219,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Whether hyphen is allowed in identifiers
      */
     private boolean hyphenAllowedInIdentifiers;
+
+    /**
+     * The LogContext object used to track location in templates
+     */
+    private LogContext logContext;
 
     /**
      * Creates a new RuntimeInstance object.
@@ -952,6 +958,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             /* else keep our default Velocity logger
              */
+
+            /* Initialize LogContext */
+            boolean trackLocation = getBoolean(RUNTIME_LOG_TRACK_LOCATION, false);
+            logContext = new LogContext(trackLocation);
         }
         catch (Exception e)
         {
@@ -1669,6 +1679,16 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             log = LoggerFactory.getLogger(loggerName);
         }
         return log;
+    }
+
+    /**
+     * Get the LogContext object used to tack locations in templates.
+     * @return LogContext object
+     * @since 2.2
+     */
+    public LogContext getLogContext()
+    {
+        return logContext;
     }
 
     /**

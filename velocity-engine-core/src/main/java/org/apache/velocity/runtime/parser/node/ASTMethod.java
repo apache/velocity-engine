@@ -27,6 +27,7 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.directive.StopCommand;
+import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.Info;
@@ -140,113 +141,122 @@ public class ASTMethod extends SimpleNode
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
-        /*
-         *  new strategy (strategery!) for introspection. Since we want
-         *  to be thread- as well as context-safe, we *must* do it now,
-         *  at execution time.  There can be no in-node caching,
-         *  but if we are careful, we can do it in the context.
-         */
-        Object [] params = new Object[paramCount];
-
-          /*
-           * sadly, we do need recalc the values of the args, as this can
-           * change from visit to visit
-           */
-        final Class[] paramClasses =
-            paramCount > 0 ? new Class[paramCount] : EMPTY_CLASS_ARRAY;
-
-        for (int j = 0; j < paramCount; j++)
-        {
-            params[j] = jjtGetChild(j + 1).value(context);
-            if (params[j] != null)
-            {
-                paramClasses[j] = params[j].getClass();
-            }
-        }
-
-        VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
-            o, context, this, strictRef);
-
-        // warn if method wasn't found (if strictRef is true, then ClassUtils did throw an exception)
-        if (o != null && method == null && logOnInvalid)
-        {
-            StringBuilder plist = new StringBuilder();
-            for (int i = 0; i < params.length; i++)
-            {
-                Class param = paramClasses[i];
-                plist.append(param == null ? "null" : param.getName());
-                if (i < params.length - 1)
-                    plist.append(", ");
-            }
-            log.debug("Object '{}' does not contain method {}({}) at {}[line {}, column {}]", o.getClass().getName(), methodName, plist, getTemplateName(), getLine(), getColumn());
-        }
-
-        /*
-         * The parent class (typically ASTReference) uses the icache entry
-         * under 'this' key to distinguish a valid null result from a non-existent method.
-         * So update this dummy cache value if necessary.
-         */
-        IntrospectionCacheData prevICD = context.icacheGet(this);
-        if (method == null)
-        {
-            if (prevICD != null)
-            {
-                context.icachePut(this, null);
-            }
-            return null;
-        }
-        else if (prevICD == null)
-        {
-            context.icachePut(this, new IntrospectionCacheData()); // no need to fill in its members
-        }
-
         try
         {
+            rsvc.getLogContext().pushLogContext(this, uberInfo);
+
             /*
-             *  get the returned object.  It may be null, and that is
-             *  valid for something declared with a void return type.
-             *  Since the caller is expecting something to be returned,
-             *  as long as things are peachy, we can return an empty
-             *  String so ASTReference() correctly figures out that
-             *  all is well.
+             *  new strategy (strategery!) for introspection. Since we want
+             *  to be thread- as well as context-safe, we *must* do it now,
+             *  at execution time.  There can be no in-node caching,
+             *  but if we are careful, we can do it in the context.
              */
+            Object [] params = new Object[paramCount];
 
-            Object obj = method.invoke(o, params);
+              /*
+               * sadly, we do need recalc the values of the args, as this can
+               * change from visit to visit
+               */
+            final Class[] paramClasses =
+                paramCount > 0 ? new Class[paramCount] : EMPTY_CLASS_ARRAY;
 
-            if (obj == null)
+            for (int j = 0; j < paramCount; j++)
             {
-                if( method.getReturnType() == Void.TYPE)
+                params[j] = jjtGetChild(j + 1).value(context);
+                if (params[j] != null)
                 {
-                    return "";
+                    paramClasses[j] = params[j].getClass();
                 }
             }
 
-            return obj;
-        }
-        catch( InvocationTargetException ite )
-        {
-            return handleInvocationException(o, context, ite.getTargetException());
-        }
+            VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
+                o, context, this, strictRef);
 
-        /** Can also be thrown by method invocation **/
-        catch( IllegalArgumentException t )
-        {
-            return handleInvocationException(o, context, t);
-        }
+            // warn if method wasn't found (if strictRef is true, then ClassUtils did throw an exception)
+            if (o != null && method == null && logOnInvalid)
+            {
+                StringBuilder plist = new StringBuilder();
+                for (int i = 0; i < params.length; i++)
+                {
+                    Class param = paramClasses[i];
+                    plist.append(param == null ? "null" : param.getName());
+                    if (i < params.length - 1)
+                        plist.append(", ");
+                }
+                log.debug("Object '{}' does not contain method {}({}) at {}[line {}, column {}]", o.getClass().getName(), methodName, plist, getTemplateName(), getLine(), getColumn());
+            }
 
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch( RuntimeException e )
-        {
-            throw e;
+            /*
+             * The parent class (typically ASTReference) uses the icache entry
+             * under 'this' key to distinguish a valid null result from a non-existent method.
+             * So update this dummy cache value if necessary.
+             */
+            IntrospectionCacheData prevICD = context.icacheGet(this);
+            if (method == null)
+            {
+                if (prevICD != null)
+                {
+                    context.icachePut(this, null);
+                }
+                return null;
+            }
+            else if (prevICD == null)
+            {
+                context.icachePut(this, new IntrospectionCacheData()); // no need to fill in its members
+            }
+
+            try
+            {
+                /*
+                 *  get the returned object.  It may be null, and that is
+                 *  valid for something declared with a void return type.
+                 *  Since the caller is expecting something to be returned,
+                 *  as long as things are peachy, we can return an empty
+                 *  String so ASTReference() correctly figures out that
+                 *  all is well.
+                 */
+
+                Object obj = method.invoke(o, params);
+
+                if (obj == null)
+                {
+                    if( method.getReturnType() == Void.TYPE)
+                    {
+                        return "";
+                    }
+                }
+
+                return obj;
+            }
+            catch( InvocationTargetException ite )
+            {
+                return handleInvocationException(o, context, ite.getTargetException());
+            }
+
+            /** Can also be thrown by method invocation **/
+            catch( IllegalArgumentException t )
+            {
+                return handleInvocationException(o, context, t);
+            }
+
+            /**
+             * pass through application level runtime exceptions
+             */
+            catch( RuntimeException e )
+            {
+                throw e;
+            }
+            catch( Exception e )
+            {
+                String msg = "ASTMethod.execute() : exception invoking method '"
+                             + methodName + "' in " + o.getClass();
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
+            }
         }
-        catch( Exception e )
+        finally
         {
-            String msg = "ASTMethod.execute() : exception invoking method '"
-                         + methodName + "' in " + o.getClass();
-            log.error(msg, e);
-            throw new VelocityException(msg, e);
+            rsvc.getLogContext().popLogContext();
         }
     }
 

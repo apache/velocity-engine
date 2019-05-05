@@ -25,6 +25,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -127,152 +128,160 @@ public class ASTIdentifier extends SimpleNode
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
-
-        VelPropertyGet vg = null;
-
         try
         {
-            /*
-             *  first, see if we have this information cached.
-             */
+            rsvc.getLogContext().pushLogContext(this, uberInfo);
 
-            IntrospectionCacheData icd = context.icacheGet(this);
-            Class clazz = o instanceof Class ? (Class)o : o.getClass();
+            VelPropertyGet vg = null;
 
-            /*
-             * if we have the cache data and the class of the object we are
-             * invoked with is the same as that in the cache, then we must
-             * be all right.  The last 'variable' is the method name, and
-             * that is fixed in the template :)
-             */
-
-            if ( icd != null && (o != null) && (icd.contextData == clazz) )
-            {
-                vg = (VelPropertyGet) icd.thingy;
-            }
-            else
+            try
             {
                 /*
-                 *  otherwise, do the introspection, and cache it.  Use the
-                 *  uberspector
+                 *  first, see if we have this information cached.
                  */
 
-                vg = rsvc.getUberspect().getPropertyGet(o, identifier, uberInfo);
+                IntrospectionCacheData icd = context.icacheGet(this);
+                Class clazz = o instanceof Class ? (Class)o : o.getClass();
 
-                if (vg != null && vg.isCacheable() && (o != null))
+                /*
+                 * if we have the cache data and the class of the object we are
+                 * invoked with is the same as that in the cache, then we must
+                 * be all right.  The last 'variable' is the method name, and
+                 * that is fixed in the template :)
+                 */
+
+                if ( icd != null && (o != null) && (icd.contextData == clazz) )
                 {
-                    icd = new IntrospectionCacheData();
-                    icd.contextData = clazz;
-                    icd.thingy = vg;
-                    context.icachePut(this,icd);
+                    vg = (VelPropertyGet) icd.thingy;
+                }
+                else
+                {
+                    /*
+                     *  otherwise, do the introspection, and cache it.  Use the
+                     *  uberspector
+                     */
+
+                    vg = rsvc.getUberspect().getPropertyGet(o, identifier, uberInfo);
+
+                    if (vg != null && vg.isCacheable() && (o != null))
+                    {
+                        icd = new IntrospectionCacheData();
+                        icd.contextData = clazz;
+                        icd.thingy = vg;
+                        context.icachePut(this,icd);
+                    }
                 }
             }
-        }
 
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch( RuntimeException e )
-        {
-            throw e;
-        }
-        catch(Exception e)
-        {
-            String msg = "ASTIdentifier.execute() : identifier = "+identifier;
-            log.error(msg, e);
-            throw new VelocityException(msg, e);
-        }
-
-        /*
-         *  we have no getter... punt...
-         */
-
-        if (vg == null)
-        {
-            if (strictRef)
+            /**
+             * pass through application level runtime exceptions
+             */
+            catch( RuntimeException e )
             {
-                throw new MethodInvocationException("Object '" + o.getClass().getName() +
-                    "' does not contain property '" + identifier + "'", null, identifier,
-                    uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
+                throw e;
             }
-            else
+            catch(Exception e)
+            {
+                String msg = "ASTIdentifier.execute() : identifier = "+identifier;
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
+            }
+
+            /*
+             *  we have no getter... punt...
+             */
+
+            if (vg == null)
+            {
+                if (strictRef)
+                {
+                    throw new MethodInvocationException("Object '" + o.getClass().getName() +
+                        "' does not contain property '" + identifier + "'", null, identifier,
+                        uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            /*
+             *  now try and execute.  If we get a MIE, throw that
+             *  as the app wants to get these.  If not, log and punt.
+             */
+            try
+            {
+                return vg.invoke(o);
+            }
+            catch(InvocationTargetException ite)
+            {
+                /*
+                 *  if we have an event cartridge, see if it wants to veto
+                 *  also, let non-Exception Throwables go...
+                 */
+
+                Throwable t = ite.getTargetException();
+                if (t instanceof Exception)
+                {
+                    try
+                    {
+                        return EventHandlerUtil.methodException(rsvc, context, o.getClass(), vg.getMethodName(),
+                                (Exception) t, uberInfo);
+                    }
+
+                    /**
+                     * If the event handler throws an exception, then wrap it
+                     * in a MethodInvocationException.
+                     */
+                    catch( Exception e )
+                    {
+                        throw new MethodInvocationException(
+                          "Invocation of method '" + vg.getMethodName() + "'"
+                          + " in  " + o.getClass()
+                          + " threw exception "
+                          + ite.getTargetException().toString(),
+                          ite.getTargetException(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
+                    }
+                }
+                else
+                {
+                    /*
+                     * no event cartridge to override. Just throw
+                     */
+
+                    throw  new MethodInvocationException(
+                    "Invocation of method '" + vg.getMethodName() + "'"
+                    + " in  " + o.getClass()
+                    + " threw exception "
+                    + ite.getTargetException().toString(),
+                    ite.getTargetException(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
+
+
+                }
+            }
+            catch(IllegalArgumentException iae)
             {
                 return null;
             }
-        }
-
-        /*
-         *  now try and execute.  If we get a MIE, throw that
-         *  as the app wants to get these.  If not, log and punt.
-         */
-        try
-        {
-            return vg.invoke(o);
-        }
-        catch(InvocationTargetException ite)
-        {
-            /*
-             *  if we have an event cartridge, see if it wants to veto
-             *  also, let non-Exception Throwables go...
+            /**
+             * pass through application level runtime exceptions
              */
-
-            Throwable t = ite.getTargetException();
-            if (t instanceof Exception)
+            catch( RuntimeException e )
             {
-                try
-                {
-                    return EventHandlerUtil.methodException(rsvc, context, o.getClass(), vg.getMethodName(),
-                            (Exception) t, uberInfo);
-                }
-
-                /**
-                 * If the event handler throws an exception, then wrap it
-                 * in a MethodInvocationException.
-                 */
-                catch( Exception e )
-                {
-                    throw new MethodInvocationException(
-                      "Invocation of method '" + vg.getMethodName() + "'"
-                      + " in  " + o.getClass()
-                      + " threw exception "
-                      + ite.getTargetException().toString(),
-                      ite.getTargetException(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
-                }
+                throw e;
             }
-            else
+            catch(Exception e)
             {
-                /*
-                 * no event cartridge to override. Just throw
-                 */
-
-                throw  new MethodInvocationException(
-                "Invocation of method '" + vg.getMethodName() + "'"
-                + " in  " + o.getClass()
-                + " threw exception "
-                + ite.getTargetException().toString(),
-                ite.getTargetException(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
-
-
+                String msg = "ASTIdentifier() : exception invoking method "
+                            + "for identifier '" + identifier + "' in "
+                            + o.getClass();
+                log.error(msg, e);
+                throw new VelocityException(msg, e);
             }
         }
-        catch(IllegalArgumentException iae)
+        finally
         {
-            return null;
-        }
-        /**
-         * pass through application level runtime exceptions
-         */
-        catch( RuntimeException e )
-        {
-            throw e;
-        }
-        catch(Exception e)
-        {
-            String msg = "ASTIdentifier() : exception invoking method "
-                        + "for identifier '" + identifier + "' in "
-                        + o.getClass();
-            log.error(msg, e);
-            throw new VelocityException(msg, e);
+            rsvc.getLogContext().popLogContext();
         }
     }
 }

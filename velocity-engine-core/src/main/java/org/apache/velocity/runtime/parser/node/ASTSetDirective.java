@@ -25,6 +25,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
+import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.introspection.Info;
@@ -214,44 +215,53 @@ public class ASTSetDirective extends SimpleNode
     public boolean render( InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException
     {
-        SpaceGobbling spaceGobbling = rsvc.getSpaceGobbling();
-
-        /* Velocity 1.x space gobbling for #set is rather wacky:
-           prefix is eaten *only* if previous token is not a text node.
-           We handle this by appropriately emptying the prefix in BC mode.
-         */
-
-        if (morePrefix.length() > 0 || spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
+        try
         {
-            writer.write(prefix);
-        }
+            rsvc.getLogContext().pushLogContext(this, uberInfo);
 
-        writer.write(morePrefix);
+            SpaceGobbling spaceGobbling = rsvc.getSpaceGobbling();
 
-        /*
-         *  get the RHS node, and its value
-         */
+            /* Velocity 1.x space gobbling for #set is rather wacky:
+               prefix is eaten *only* if previous token is not a text node.
+               We handle this by appropriately emptying the prefix in BC mode.
+             */
 
-        Object value = right.value(context);
-
-        if ( value == null && !strictRef)
-        {
-            String rightReference = null;
-            if (right instanceof ASTExpression)
+            if (morePrefix.length() > 0 || spaceGobbling.compareTo(SpaceGobbling.LINES) < 0)
             {
-                rightReference = ((ASTExpression) right).lastImage;
+                writer.write(prefix);
             }
-            EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
-        }
 
-        if (morePrefix.length() > 0 || spaceGobbling == SpaceGobbling.NONE)
+            writer.write(morePrefix);
+
+            /*
+             *  get the RHS node, and its value
+             */
+
+            Object value = right.value(context);
+
+            if ( value == null && !strictRef)
+            {
+                String rightReference = null;
+                if (right instanceof ASTExpression)
+                {
+                    rightReference = ((ASTExpression) right).lastImage;
+                }
+                EventHandlerUtil.invalidSetMethod(rsvc, context, leftReference, rightReference, uberInfo);
+            }
+
+            if (morePrefix.length() > 0 || spaceGobbling == SpaceGobbling.NONE)
+            {
+                writer.write(postfix);
+            }
+
+            return left.setValue(context, value);
+        }
+        finally
         {
-            writer.write(postfix);
+            rsvc.getLogContext().popLogContext();
+            StringBuilder builder;
         }
-
-        return left.setValue(context, value);
     }
-
 
     /**
      *  returns the ASTReference that is the LHS of the set statement
