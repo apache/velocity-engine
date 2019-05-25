@@ -284,9 +284,22 @@ public class MethodMap
                                     case MORE_SPECIFIC:
                                         it.remove();
                                         break;
-                                    case EQUIVALENT:
                                     case INCOMPARABLE:
+                                        /* Java compiler favors non-vararg methods. Let's do the same. */
+                                        if (match.varargs != best.varargs)
+                                        {
+                                            if (match.varargs)
+                                            {
+                                                keepMethod = false;
+                                            }
+                                            else if (best.varargs)
+                                            {
+                                                it.remove();
+                                            }
+                                        }
                                         /* otherwise it's an equivalent match */
+                                        break;
+                                    case EQUIVALENT:
                                         break;
                                 }
                             }
