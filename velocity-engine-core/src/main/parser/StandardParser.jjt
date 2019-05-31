@@ -23,8 +23,9 @@
  */
 options
 {
-    /** The default package for this parser kit */
+    /** The default package for this parser kit. This is now done from Maven.
     NODE_PACKAGE="org.apache.velocity.runtime.parser";
+    */
 
     /** A source file will  be generated for each non-terminal */
     MULTI=true;
@@ -73,9 +74,11 @@ options
     DEBUG_LOOKAHEAD = true;
     DEBUG_TOKEN_MANAGER = true;
      */
+
+
 }
 
-PARSER_BEGIN(Parser)
+PARSER_BEGIN(StandardParser)
 package org.apache.velocity.runtime.parser;
 
 import java.io.*;
@@ -105,7 +108,7 @@ import org.slf4j.Logger;
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
 */
-public class Parser
+public class StandardParser implements Parser
 {
     /**
      * Parser debugging flag.
@@ -118,7 +121,7 @@ public class Parser
     {
         try
         {
-            Parser.class.getDeclaredMethod("trace_call", String.class);
+            StandardParser.class.getDeclaredMethod("trace_call", String.class);
             debugParser = true;
         }
         catch(NoSuchMethodException nsfe)
@@ -162,6 +165,7 @@ public class Parser
 
     private RuntimeServices rsvc = null;
 
+    @Override
     public RuntimeServices getRuntimeServices()
     {
         return rsvc;
@@ -176,7 +180,7 @@ public class Parser
      * object, we satisfy the requirement of an InputStream
      * by using a newline character as an input stream.
      */
-    public Parser( RuntimeServices rs)
+    public StandardParser( RuntimeServices rs)
     {
         /*
          * need to call the CTOR first thing.
@@ -209,6 +213,14 @@ public class Parser
          *  and save the RuntimeServices
          */
         rsvc = rs;
+
+        /*
+         * then initialize customizable characters
+         */
+         dollar = rsvc.dollar();
+         hash = rsvc.hash();
+         arobase = rsvc.arobase();
+         star = rsvc.star();
     }
 
     /**
@@ -220,6 +232,7 @@ public class Parser
      * method and re-initializing the lexer with
      * the new stream that we want parsed.
      */
+    @Override
     public SimpleNode parse( Reader reader, Template template )
         throws ParseException
     {
@@ -281,6 +294,7 @@ public class Parser
     /**
      *  This method gets a Directive from the directives Hashtable
      */
+    @Override
     public Directive getDirective(String directive)
     {
         return (Directive) rsvc.getDirective(directive);
@@ -289,6 +303,7 @@ public class Parser
     /**
      *  This method finds out of the directive exists in the directives Map.
      */
+    @Override
     public boolean isDirective(String directive)
     {
         return rsvc.getDirective(directive) != null;
@@ -491,9 +506,50 @@ public class Parser
 
        return true;
     }
+
+    @Override
+    public Template getCurrentTemplate()
+    {
+        return currentTemplate;
+    }
+
+    @Override
+    public void resetCurrentTemplate()
+    {
+        currentTemplate = null;
+    }
+
+    @Override
+    public char dollar()
+    {
+        return dollar;
+    }
+
+    @Override
+    public char hash()
+    {
+        return hash;
+    }
+
+    @Override
+    public char arobase()
+    {
+        return arobase;
+    }
+
+    @Override
+    public char star()
+    {
+        return star;
+    }
+
+    private char dollar = '$';
+    private char hash = '#';
+    private char arobase = '@';
+    private char star = '*';
 }
 
-PARSER_END(Parser)
+PARSER_END(StandardParser)
 
 TOKEN_MGR_DECLS:
 {
@@ -507,13 +563,18 @@ TOKEN_MGR_DECLS:
     private boolean inComment;
     public  boolean inSet;
 
+    public char dollar = '$';
+    public char hash = '#';
+    public char arobase = '@';
+    public char star = '*';
+
     /**
      * Our own trace method. Use sparsingly in production, since each
      * and every call will introduce an execution branch and slow down parsing.
      */
     public static void trace(String message)
     {
-        Parser.trace(message);
+        StandardParser.trace(message);
     }
     
     /**
@@ -1718,7 +1779,7 @@ boolean Directive(boolean afterNewline) :
     ((id = <WORD>) | (id = <BRACKETED_WORD>))
     {
         String directiveName;
-        int p = id.image.lastIndexOf('#');
+        int p = id.image.lastIndexOf(hash);
         if (id.kind == ParserConstants.BRACKETED_WORD)
         {
             directiveName = id.image.substring(p + 2, id.image.length() - 1);
@@ -1916,7 +1977,7 @@ boolean Directive(boolean afterNewline) :
           )
           #Block
           {
-              int pos = _else.image.lastIndexOf('#');
+              int pos = _else.image.lastIndexOf(hash);
               if (pos > 0)
               {
                   block.setMorePostfix(_else.image.substring(0, pos));
@@ -1948,7 +2009,7 @@ boolean Directive(boolean afterNewline) :
         }
       ]
       {
-          int pos = end.image.lastIndexOf('#');
+          int pos = end.image.lastIndexOf(hash);
           if (pos > 0)
           {
               block.setMorePostfix(end.image.substring(0, pos));
@@ -2206,7 +2267,7 @@ boolean IfStatement(boolean afterNewline) :
         }
     ]
     {
-        int pos = end.image.lastIndexOf('#');
+        int pos = end.image.lastIndexOf(hash);
         if (pos > 0)
         {
             lastBlock.setMorePostfix(end.image.substring(0, pos));
@@ -2245,7 +2306,7 @@ ASTBlock ElseStatement(ASTBlock previousBlock, boolean afterNewline) :
     )
     #Block
     {
-        int pos = _else.image.lastIndexOf('#');
+        int pos = _else.image.lastIndexOf(hash);
         if (pos > 0)
         {
             previousBlock.setMorePostfix(_else.image.substring(0, pos));
@@ -2285,7 +2346,7 @@ ASTBlock ElseIfStatement(ASTBlock previousBlock, boolean afterNewline) :
   )
   #Block
   {
-      int pos = elseif.image.lastIndexOf('#');
+      int pos = elseif.image.lastIndexOf(hash);
       if (pos > 0)
       {
           previousBlock.setMorePostfix(elseif.image.substring(0, pos));

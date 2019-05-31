@@ -283,7 +283,7 @@ public class ASTReference extends SimpleNode
                                 !context.containsKey(rootString) && !onlyTestingReference))
                 {
                     result = EventHandlerUtil.invalidGetMethod(rsvc, context,
-                            "$" + rootString, null, null, uberInfo);
+                            rsvc.dollar() + rootString, null, null, uberInfo);
                 }
 
                 if (result == null && astAlternateValue != null)
@@ -347,7 +347,7 @@ public class ASTReference extends SimpleNode
                         if (!context.containsKey(rootString) && referenceType != QUIET_REFERENCE && (!onlyTestingReference || numChildren > 0))
                         {
                             result = EventHandlerUtil.invalidGetMethod(rsvc, context,
-                                    "$" + rootString, previousResult, null, uberInfo);
+                                    rsvc.dollar() + rootString, previousResult, null, uberInfo);
                         }
                     }
                     else
@@ -361,7 +361,7 @@ public class ASTReference extends SimpleNode
                             referenceType != QUIET_REFERENCE  &&
                             (!onlyTestingReference || failedChild < numChildren - 1))
                         {
-                            StringBuilder name = new StringBuilder("$").append(rootString);
+                            StringBuilder name = new StringBuilder(String.valueOf(rsvc.dollar())).append(rootString);
                             for (int i = 0; i <= failedChild; i++)
                             {
                                 Node node = jjtGetChild(i);
@@ -920,7 +920,7 @@ public class ASTReference extends SimpleNode
             int i = 0;
             int len = t.image.length();
 
-            i = t.image.indexOf('$');
+            i = t.image.indexOf(rsvc.dollar());
 
             if (i == -1)
             {
@@ -1004,7 +1004,7 @@ public class ASTReference extends SimpleNode
          *  last $
          */
 
-        int loc1 = t.image.lastIndexOf('$');
+        int loc1 = t.image.lastIndexOf(rsvc.dollar());
 
         /*
          *  if we have extra stuff, loc > 0

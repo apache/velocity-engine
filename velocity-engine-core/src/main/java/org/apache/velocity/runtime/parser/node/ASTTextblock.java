@@ -35,17 +35,9 @@ import java.io.Writer;
  */
 public class ASTTextblock extends SimpleNode
 {
-    public static final String START = "#[[";
-    public static final String END = "]]#";
+    public final String START;
+    public final String END;
     private char[] ctext;
-
-    /**
-     * @param id
-     */
-    public ASTTextblock(int id)
-    {
-        super(id);
-    }
 
     /**
      * @param p
@@ -54,6 +46,8 @@ public class ASTTextblock extends SimpleNode
     public ASTTextblock(Parser p, int id)
     {
         super(p, id);
+        START = parser.hash() + "[[";
+        END = "]]" + parser.hash();
     }
 
     /**
