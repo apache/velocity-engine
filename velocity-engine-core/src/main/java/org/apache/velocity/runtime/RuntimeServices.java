@@ -489,4 +489,32 @@ public interface RuntimeServices
     * @since 2.1
     */
    boolean isScopeControlEnabled(String scopeName);
+
+    /**
+     * Get the character configured for '$'
+     * @return configured character for '$', or '$'
+     * @since 2.2
+     */
+    char dollar();
+
+    /**
+     * Get the character configured for '#'
+     * @return configured character for '#', or '#'
+     * @since 2.2
+     */
+    char hash();
+
+    /**
+     * Get the character configured for '@'
+     * @return configured character for '@', or '@'
+     * @since 2.2
+     */
+    char arobase();
+
+    /**
+     * Get the character configured for '*'
+     * @return configured character for '*', or '*'
+     * @since 2.2
+     */
+    char star();
 }

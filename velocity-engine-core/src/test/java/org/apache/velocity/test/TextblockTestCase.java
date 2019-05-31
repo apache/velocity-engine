@@ -19,7 +19,11 @@ package org.apache.velocity.test;
  * under the License.
  */
 
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.ASTTextblock;
+
+import java.lang.reflect.Field;
 
 /**
  * This class tests the Textblock directive.
@@ -28,17 +32,36 @@ public class TextblockTestCase extends BaseTestCase
 {
     // these are all here so that the test case adapts instantly
     // to changes in the textblock start/end sequences
-    private static final String START = ASTTextblock.START;
-    private static final String END = ASTTextblock.END;
-    private static final String PARTIAL_START = START.substring(0, START.length() - 1);
-    private static final String PARTIAL_END = END.substring(1, END.length());
-    private static final String END_OF_START = START.substring(START.length() - 1, START.length());
-    private static final String START_OF_END = END.substring(0, 1);
+    private String START = null;
+    private String END = null;
+    private String PARTIAL_START = null;
+    private String PARTIAL_END = null;
+    private String END_OF_START = null;
+    private String START_OF_END = null;
 
     public TextblockTestCase(String name)
     {
         super(name);
         //DEBUG = true;
+    }
+
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+
+        // get a valid parser instance to initialize string constants
+        Field riField = engine.getClass().getDeclaredField("ri");
+        riField.setAccessible(true);
+        RuntimeInstance ri = (RuntimeInstance)riField.get(engine);
+        Parser parser = ri.createNewParser();
+        ASTTextblock astTextblock = new ASTTextblock(parser, 0);
+        START = astTextblock.START;
+        END = astTextblock.END;
+        PARTIAL_START = START.substring(0, START.length() - 1);
+        PARTIAL_END = END.substring(1);
+        END_OF_START = START.substring(START.length() - 1);
+        START_OF_END = END.substring(0, 1);
     }
 
     public String textblock(String s)

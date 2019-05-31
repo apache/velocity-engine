@@ -96,8 +96,8 @@ public class ASTStringLiteral extends SimpleNode
         interpolate = rsvc.getBoolean(
                 RuntimeConstants.INTERPOLATE_STRINGLITERALS, true)
                 && getFirstToken().image.startsWith("\"")
-                && ((getFirstToken().image.indexOf('$') != -1) || (getFirstToken().image
-                        .indexOf('#') != -1));
+                && ((getFirstToken().image.indexOf(rsvc.dollar()) != -1) || (getFirstToken().image
+                        .indexOf(rsvc.hash()) != -1));
 
         /*
          * get the contents of the string, minus the '/" at each end

@@ -113,7 +113,7 @@ public class ASTDirective extends SimpleNode
              */
             t = getFirstToken();
             int pos = -1;
-            while (t != null && (pos = t.image.lastIndexOf('#')) == -1)
+            while (t != null && (pos = t.image.lastIndexOf(rsvc.hash())) == -1)
             {
                 t = t.next;
             }
@@ -148,7 +148,7 @@ public class ASTDirective extends SimpleNode
                 directive.setLocation(t.beginLine, t.beginColumn, getTemplate());
                 directive.init(rsvc, context, this);
             }
-            else if( directiveName.startsWith("@") )
+            else if( directiveName.startsWith(String.valueOf(rsvc.arobase())) )
             {
                 if( this.jjtGetNumChildren() > 0 )
                 {
@@ -313,7 +313,7 @@ public class ASTDirective extends SimpleNode
         {
             writer.write(prefix);
             writer.write(morePrefix);
-            writer.write( "#");
+            writer.write(rsvc.hash());
             writer.write(directiveName);
             writer.write(postfix);
         }

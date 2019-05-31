@@ -40,6 +40,7 @@ import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.StandardParser;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
@@ -61,6 +62,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -226,6 +228,31 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private LogContext logContext;
 
     /**
+     * Configured '$' character
+     * @since 2.2
+     */
+    private char dollar = '$';
+
+    /**
+     * Configured '#' character
+     * @since 2.2
+     */
+    private char hash = '$';
+
+    /**
+     * Configured '@' character
+     * @since 2.2
+     */
+    private char arobase = '$';
+
+    /**
+     * Configured '*' character
+     * @since 2.2
+     */
+    private char star = '$';
+
+
+    /**
      * Creates a new RuntimeInstance object.
      */
     public RuntimeInstance()
@@ -320,6 +347,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         this.runtimeDirectivesShared = null;
         this.uberSpect = null;
         this.stringInterning = false;
+        this.dollar = '$';
+        this.hash = '#';
+        this.arobase = '@';
+        this.star = '*';
 
         /*
          *  create a VM factory, introspector, and application attributes
@@ -382,6 +413,24 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         /* init parser behavior */
         hyphenAllowedInIdentifiers = getBoolean(PARSER_HYPHEN_ALLOWED, false);
+        dollar = getConfiguredCharacter(PARSER_DOLLAR, '$');
+        hash = getConfiguredCharacter(PARSER_HASH, '#');
+        arobase = getConfiguredCharacter(PARSER_AROBASE, '@');
+        star = getConfiguredCharacter(PARSER_STAR, '*');
+    }
+
+    private char getConfiguredCharacter(String configKey, char defaultChar)
+    {
+        String configuredChar = getString(configKey);
+        if (configuredChar != null)
+        {
+            if (configuredChar.length() != 2 || configuredChar.getBytes(StandardCharsets.UTF_8).length != 1)
+            {
+                throw new RuntimeException(configKey + " must be a single byte UTF-8 character");
+            }
+            return configuredChar.charAt(0);
+        }
+        return defaultChar;
     }
 
     /**
@@ -1216,7 +1265,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     {
         requireInitialization();
 
-        return new Parser(this);
+        return new StandardParser(this);
     }
 
     /**
@@ -1264,7 +1313,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             if (keepParser)
             {
                 /* drop the parser Template reference to allow garbage collection */
-                parser.currentTemplate = null;
+                parser.resetCurrentTemplate();
                 parserPool.put(parser);
             }
 
@@ -1530,7 +1579,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
 
         /* now just create the VM call, and use evaluate */
-        StringBuilder template = new StringBuilder("#");
+        StringBuilder template = new StringBuilder(String.valueOf(hash));
         template.append(vmName);
         template.append("(");
          for (String param : params)
@@ -1903,5 +1952,29 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public boolean isScopeControlEnabled(String scopeName)
     {
         return enabledScopeControls.contains(scopeName);
+    }
+
+    @Override
+    public char dollar()
+    {
+        return dollar;
+    }
+
+    @Override
+    public char hash()
+    {
+        return hash;
+    }
+
+    @Override
+    public char arobase()
+    {
+        return arobase;
+    }
+
+    @Override
+    public char star()
+    {
+        return star;
     }
 }

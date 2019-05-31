@@ -26,6 +26,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.Renderable;
+import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 
 import java.io.IOException;
@@ -221,4 +222,10 @@ public interface Node extends Renderable
      * @return the template this node belongs to
      */
     Template getTemplate();
+
+    /**
+     * @return the parser which generated this node
+     * @since 2.2
+     */
+    Parser getParser();
 }
