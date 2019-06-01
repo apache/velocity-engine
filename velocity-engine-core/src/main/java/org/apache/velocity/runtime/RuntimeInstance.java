@@ -243,13 +243,13 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Configured '@' character
      * @since 2.2
      */
-    private char arobase = '$';
+    private char at = '@';
 
     /**
      * Configured '*' character
      * @since 2.2
      */
-    private char star = '$';
+    private char asterisk = '*';
 
 
     /**
@@ -349,8 +349,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         this.stringInterning = false;
         this.dollar = '$';
         this.hash = '#';
-        this.arobase = '@';
-        this.star = '*';
+        this.at = '@';
+        this.asterisk = '*';
 
         /*
          *  create a VM factory, introspector, and application attributes
@@ -413,10 +413,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         /* init parser behavior */
         hyphenAllowedInIdentifiers = getBoolean(PARSER_HYPHEN_ALLOWED, false);
-        dollar = getConfiguredCharacter(PARSER_DOLLAR, '$');
-        hash = getConfiguredCharacter(PARSER_HASH, '#');
-        arobase = getConfiguredCharacter(PARSER_AROBASE, '@');
-        star = getConfiguredCharacter(PARSER_STAR, '*');
+        dollar = getConfiguredCharacter(PARSER_CHAR_DOLLAR, '$');
+        hash = getConfiguredCharacter(PARSER_CHAR_HASH, '#');
+        at = getConfiguredCharacter(PARSER_CHAR_AT, '@');
+        asterisk = getConfiguredCharacter(PARSER_CHAR_ASTERISK, '*');
     }
 
     private char getConfiguredCharacter(String configKey, char defaultChar)
@@ -1967,14 +1967,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     @Override
-    public char arobase()
+    public char at()
     {
-        return arobase;
+        return at;
     }
 
     @Override
-    public char star()
+    public char asterisk()
     {
-        return star;
+        return asterisk;
     }
 }

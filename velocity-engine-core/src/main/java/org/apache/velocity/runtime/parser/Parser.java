@@ -39,8 +39,8 @@ public interface Parser
 
     char dollar();
     char hash();
-    char arobase();
-    char star();
+    char at();
+    char asterisk();
 
     default String lineComment()
     {
@@ -49,6 +49,6 @@ public interface Parser
 
     default String blockComment()
     {
-        return String.valueOf(hash()) + star();
+        return String.valueOf(hash()) + asterisk();
     }
 }
