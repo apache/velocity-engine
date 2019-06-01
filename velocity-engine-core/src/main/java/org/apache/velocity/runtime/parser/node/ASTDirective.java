@@ -29,7 +29,6 @@ import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.directive.BlockMacro;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.RuntimeMacro;
-import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.ParserConstants;
@@ -148,7 +147,7 @@ public class ASTDirective extends SimpleNode
                 directive.setLocation(t.beginLine, t.beginColumn, getTemplate());
                 directive.init(rsvc, context, this);
             }
-            else if( directiveName.startsWith(String.valueOf(rsvc.arobase())) )
+            else if( directiveName.startsWith(String.valueOf(rsvc.at())) )
             {
                 if( this.jjtGetNumChildren() > 0 )
                 {

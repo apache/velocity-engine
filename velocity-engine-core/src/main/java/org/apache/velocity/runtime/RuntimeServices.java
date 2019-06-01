@@ -509,12 +509,12 @@ public interface RuntimeServices
      * @return configured character for '@', or '@'
      * @since 2.2
      */
-    char arobase();
+    char at();
 
     /**
      * Get the character configured for '*'
      * @return configured character for '*', or '*'
      * @since 2.2
      */
-    char star();
+    char asterisk();
 }

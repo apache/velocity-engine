@@ -219,8 +219,8 @@ public class StandardParser implements Parser
          */
          dollar = rsvc.dollar();
          hash = rsvc.hash();
-         arobase = rsvc.arobase();
-         star = rsvc.star();
+         at = rsvc.at();
+         asterisk = rsvc.asterisk();
     }
 
     /**
@@ -532,21 +532,21 @@ public class StandardParser implements Parser
     }
 
     @Override
-    public char arobase()
+    public char at()
     {
-        return arobase;
+        return at;
     }
 
     @Override
-    public char star()
+    public char asterisk()
     {
-        return star;
+        return asterisk;
     }
 
     private char dollar = '$';
     private char hash = '#';
-    private char arobase = '@';
-    private char star = '*';
+    private char at = '@';
+    private char asterisk = '*';
 }
 
 PARSER_END(StandardParser)

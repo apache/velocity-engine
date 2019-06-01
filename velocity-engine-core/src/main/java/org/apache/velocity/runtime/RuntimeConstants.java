@@ -392,25 +392,25 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      * Set the character (onlysingle byte UTF-8 supported at present) to use instead of '$' for references.
      * @since 2.2
      */
-    String PARSER_DOLLAR = "parser.character.dollar";
+    String PARSER_CHAR_DOLLAR = "parser.character.dollar";
 
     /**
      * Set the character (onlysingle byte UTF-8 supported at present) to use instead of '#' for directives, macros and comments.
      * @since 2.2
      */
-    String PARSER_HASH = "parser.character.hash";
+    String PARSER_CHAR_HASH = "parser.character.hash";
 
     /**
      * Set the character (onlysingle byte UTF-8 supported at present) to use instead of '@' for '#@' block macros.
      * @since 2.2
      */
-    String PARSER_AROBASE = "parser.character.arobase";
+    String PARSER_CHAR_AT = "parser.character.at";
 
     /**
      * Set the character (onlysingle byte UTF-8 supported at present) to use instead of '*' for '#* *#' block comments.
      * @since 2.2
      */
-    String PARSER_STAR = "parser.character.star";
+    String PARSER_CHAR_ASTERISK = "parser.character.asterisk";
 
     /*
      * ----------------------------------------------------------------------
