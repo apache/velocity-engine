@@ -563,11 +563,6 @@ TOKEN_MGR_DECLS:
     private boolean inComment;
     private boolean inSet;
 
-    public char dollar = '$';
-    public char hash = '#';
-    public char arobase = '@';
-    public char star = '*';
-
     /**
      * Our own trace method. Use sparsingly in production, since each
      * and every call will introduce an execution branch and slow down parsing.
@@ -1826,7 +1821,7 @@ boolean Directive(boolean afterNewline) :
 
         if ( d == null)
         {
-            if( directiveName.startsWith("@") )
+            if( directiveName.charAt(0) == at )
             {
                 // block macro call of type: #@foobar($arg1 $arg2) astBody #end
                 directiveType = Directive.BLOCK;
