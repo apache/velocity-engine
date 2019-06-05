@@ -128,9 +128,10 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
 
         context.put("a1","test");
         context.put("b1","test");
+        context.put("n1", null);
         Writer writer = new StringWriter();
 
-        ve.evaluate(context,writer,"test","$a1 $c1 $a1.length() $a1.foobar()");
+        ve.evaluate(context,writer,"test","$a1 $c1 $a1.length() $a1.foobar() $!c1 $n1 $!n1 #if($c1) nop #end");
 
         List errors = reporter.getInvalidReferences();
         assertEquals(2,errors.size());
@@ -143,7 +144,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
     public void testReportInvalidReferences2() throws Exception
     {
         VelocityEngine ve = new VelocityEngine();
-        ve.setProperty("eventhandler.invalidreference.exception","true");
+        ve.setProperty("event_handler.invalid_references.exception","true");
         ReportInvalidReferences reporter = new ReportInvalidReferences();
         ve.init();
 
@@ -166,6 +167,137 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
 
         log("Caught invalid references (global configuration).");
 
+    }
+
+    /**
+     * Test reporting of invalid syntax
+     * @throws Exception
+     */
+    public void testReportQuietInvalidReferences() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty("event_handler.invalid_references.quiet","true");
+        ReportInvalidReferences reporter = new ReportInvalidReferences();
+        ve.init();
+
+        VelocityContext context = new VelocityContext();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(reporter);
+        ec.attachToContext(context);
+
+        context.put("a1","test");
+        context.put("b1","test");
+        context.put("n1", null);
+        Writer writer = new StringWriter();
+
+        ve.evaluate(context,writer,"test","$a1 $c1 $a1.length() $a1.foobar() $!c1 $n1 $!n1 #if($c1) nop #end");
+
+        List errors = reporter.getInvalidReferences();
+        assertEquals(3,errors.size());
+        assertEquals("$c1",((InvalidReferenceInfo) errors.get(0)).getInvalidReference());
+        assertEquals("$a1.foobar()",((InvalidReferenceInfo) errors.get(1)).getInvalidReference());
+        assertEquals("$c1",((InvalidReferenceInfo) errors.get(2)).getInvalidReference());
+
+        log("Caught invalid references (local configuration).");
+    }
+
+    /**
+     * Test reporting of invalid syntax
+     * @throws Exception
+     */
+    public void testReportNullInvalidReferences() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty("event_handler.invalid_references.null","true");
+        ReportInvalidReferences reporter = new ReportInvalidReferences();
+        ve.init();
+
+        VelocityContext context = new VelocityContext();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(reporter);
+        ec.attachToContext(context);
+
+        context.put("a1","test");
+        context.put("b1","test");
+        context.put("n1", null);
+        Writer writer = new StringWriter();
+
+        ve.evaluate(context,writer,"test","$a1 $c1 $a1.length() $a1.foobar() $!c1 $n1 $!n1 #if($c1) nop #end");
+
+        List errors = reporter.getInvalidReferences();
+        assertEquals(3,errors.size());
+        assertEquals("$c1",((InvalidReferenceInfo) errors.get(0)).getInvalidReference());
+        assertEquals("$a1.foobar()",((InvalidReferenceInfo) errors.get(1)).getInvalidReference());
+        assertEquals("$n1",((InvalidReferenceInfo) errors.get(2)).getInvalidReference());
+
+        log("Caught invalid references (local configuration).");
+    }
+
+    /**
+     * Test reporting of invalid syntax
+     * @throws Exception
+     */
+    public void testReportNullQuietInvalidReferences() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty("event_handler.invalid_references.quiet","true");
+        ve.setProperty("event_handler.invalid_references.null","true");
+        ReportInvalidReferences reporter = new ReportInvalidReferences();
+        ve.init();
+
+        VelocityContext context = new VelocityContext();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(reporter);
+        ec.attachToContext(context);
+
+        context.put("a1","test");
+        context.put("b1","test");
+        context.put("n1", null);
+        Writer writer = new StringWriter();
+
+        ve.evaluate(context,writer,"test","$a1 $c1 $a1.length() $a1.foobar() $!c1 $n1 $!n1 #if($c1) nop #end");
+
+        List errors = reporter.getInvalidReferences();
+        assertEquals(5,errors.size());
+        assertEquals("$c1",((InvalidReferenceInfo) errors.get(0)).getInvalidReference());
+        assertEquals("$a1.foobar()",((InvalidReferenceInfo) errors.get(1)).getInvalidReference());
+        assertEquals("$c1",((InvalidReferenceInfo) errors.get(2)).getInvalidReference());
+        assertEquals("$n1",((InvalidReferenceInfo) errors.get(3)).getInvalidReference());
+        assertEquals("$n1",((InvalidReferenceInfo) errors.get(4)).getInvalidReference());
+
+        log("Caught invalid references (local configuration).");
+    }
+
+    /**
+     * Test reporting of invalid syntax
+     * @throws Exception
+     */
+    public void testReportTestedInvalidReferences() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty("event_handler.invalid_references.tested","true");
+        ReportInvalidReferences reporter = new ReportInvalidReferences();
+        ve.init();
+
+        VelocityContext context = new VelocityContext();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(reporter);
+        ec.attachToContext(context);
+
+        context.put("a1","test");
+        context.put("b1","test");
+        context.put("n1", null);
+        Writer writer = new StringWriter();
+
+        ve.evaluate(context,writer,"test","$a1 $c1 $a1.length() $a1.foobar() $!c1 $n1 $!n1 #if($c1) nop #end");
+
+        List errors = reporter.getInvalidReferences();
+        assertEquals(3,errors.size());
+        assertEquals("$c1",((InvalidReferenceInfo) errors.get(0)).getInvalidReference());
+        assertEquals("$a1.foobar()",((InvalidReferenceInfo) errors.get(1)).getInvalidReference());
+        assertEquals("$c1",((InvalidReferenceInfo) errors.get(2)).getInvalidReference());
+
+        log("Caught invalid references (local configuration).");
     }
 
     /**

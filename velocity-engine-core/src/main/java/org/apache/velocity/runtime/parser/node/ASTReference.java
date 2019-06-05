@@ -102,6 +102,25 @@ public class ASTReference extends SimpleNode
 
     private int numChildren = 0;
 
+    /**
+     * Whether to trigger an event for invalid quiet references
+     * @since 2.2
+     */
+    private boolean warnInvalidQuietReferences = false;
+
+    /**
+     * Whether to trigger an event for invalid null references, that is when a value
+     * is present in the context or parent object but is null
+     * @since 2.2
+     */
+    private boolean warnInvalidNullReferences = false;
+
+    /**
+     * Whether to trigger an event for invalid tested references - as in #if($foo)
+     * @since 2.2
+     */
+    private boolean warnInvalidTestedReferences = false;
+
     protected Info uberInfo;
 
     /**
@@ -196,6 +215,16 @@ public class ASTReference extends SimpleNode
         checkEmpty =
             rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true);
 
+        /* invalid references special cases */
+
+        warnInvalidQuietReferences =
+            rsvc.getBoolean(RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES_QUIET, false);
+        warnInvalidNullReferences =
+            rsvc.getBoolean(RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES_NULL, false);
+        warnInvalidTestedReferences =
+            rsvc.getBoolean(RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES_TESTED, false);
+
+
         /**
          * In the case we are referencing a variable with #if($foo) or
          * #if( ! $foo) then we allow variables to be undefined and we
@@ -272,23 +301,28 @@ public class ASTReference extends SimpleNode
 
             Object result = getRootVariableValue(context);
 
+            /* a reference which has been provided an alternate value
+             * is *knowingly* potentially null and should be accepted
+             * in strict mode (except if the alternate value is null)
+             */
+            if (astAlternateValue != null && (result == null || !DuckType.asBoolean(result, false)))
+            {
+                result = astAlternateValue.value(context);
+            }
+
             if (result == null && !strictRef)
             {
                 /*
                  * do not trigger an invalid reference if the reference is present, but with a null value
                  * don't either for a quiet reference or inside an #if/#elseif evaluation context
                  */
-                if (referenceType != QUIET_REFERENCE  &&
-                        (numChildren > 0 ||
-                                !context.containsKey(rootString) && !onlyTestingReference))
+                if ((referenceType != QUIET_REFERENCE || warnInvalidQuietReferences) &&
+                    (numChildren > 0 ||
+                        (!context.containsKey(rootString) || warnInvalidNullReferences) &&
+                            (!onlyTestingReference || warnInvalidTestedReferences)))
                 {
                     result = EventHandlerUtil.invalidGetMethod(rsvc, context,
-                            "$" + rootString, null, null, uberInfo);
-                }
-
-                if (result == null && astAlternateValue != null)
-                {
-                    result = astAlternateValue.value(context);
+                        "$" + rootString, null, null, uberInfo);
                 }
 
                 return result;
@@ -311,6 +345,7 @@ public class ASTReference extends SimpleNode
             {
                 Object previousResult = result;
                 int failedChild = -1;
+
                 for (int i = 0; i < numChildren; i++)
                 {
                     if (strictRef && result == null)
@@ -327,6 +362,10 @@ public class ASTReference extends SimpleNode
                     }
                     previousResult = result;
                     result = jjtGetChild(i).execute(result,context);
+                    if (astAlternateValue != null && (result == null || !DuckType.asBoolean(result, checkEmpty)))
+                    {
+                        result = astAlternateValue.value(context);
+                    }
                     if (result == null && !strictRef)  // If strict and null then well catch this
                                                        // next time through the loop
                     {
@@ -344,7 +383,9 @@ public class ASTReference extends SimpleNode
                          * don't either for a quiet reference,
                          * or inside an #if/#elseif evaluation context when there's no child
                          */
-                        if (!context.containsKey(rootString) && referenceType != QUIET_REFERENCE && (!onlyTestingReference || numChildren > 0))
+                        if ((!context.containsKey(rootString) || warnInvalidNullReferences) &&
+                            (referenceType != QUIET_REFERENCE || warnInvalidQuietReferences) &&
+                            (!onlyTestingReference || warnInvalidTestedReferences || numChildren > 0))
                         {
                             result = EventHandlerUtil.invalidGetMethod(rsvc, context,
                                     "$" + rootString, previousResult, null, uberInfo);
@@ -357,9 +398,9 @@ public class ASTReference extends SimpleNode
                         // (it means the getter has been called and returned null)
                         // do not either for a quiet reference or if the *last* child failed while testing the reference
                         Object getter = context.icacheGet(child);
-                        if (getter == null &&
-                            referenceType != QUIET_REFERENCE  &&
-                            (!onlyTestingReference || failedChild < numChildren - 1))
+                        if ((getter == null || warnInvalidNullReferences) &&
+                            (referenceType != QUIET_REFERENCE || warnInvalidQuietReferences) &&
+                            (!onlyTestingReference || warnInvalidTestedReferences || failedChild < numChildren - 1))
                         {
                             StringBuilder name = new StringBuilder("$").append(rootString);
                             for (int i = 0; i <= failedChild; i++)
@@ -389,14 +430,6 @@ public class ASTReference extends SimpleNode
                             }
                         }
                     }
-                }
-
-                /*
-                 * Time to try the alternate value if needed
-                 */
-                if (astAlternateValue != null && (result == null || !DuckType.asBoolean(result, checkEmpty)))
-                {
-                    result = astAlternateValue.value(context);
                 }
 
                 return result;
