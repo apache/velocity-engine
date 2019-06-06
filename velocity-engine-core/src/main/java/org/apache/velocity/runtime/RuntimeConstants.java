@@ -372,6 +372,18 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
 
     /**
+     * Property specifying the parser class to use
+     * @since 2.2
+     */
+    String PARSER_CLASS = "parser.class";
+
+    /**
+     * Default parser class
+     * @since 2.2
+     */
+    String DEFAULT_PARSER_CLASS = "org.apache.velocity.runtime.parser.StandardParser";
+
+    /**
      * The <code>parser.pool.class</code> property specifies the name of the {@link org.apache.velocity.util.SimplePool}
      * implementation to use.
      */
@@ -387,30 +399,6 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      * @since 2.1
      */
     String PARSER_HYPHEN_ALLOWED = "parser.allow_hyphen_in_identifiers";
-
-    /**
-     * Set the character (onlysingle byte UTF-8 supported at present) to use instead of '$' for references.
-     * @since 2.2
-     */
-    String PARSER_CHAR_DOLLAR = "parser.character.dollar";
-
-    /**
-     * Set the character (onlysingle byte UTF-8 supported at present) to use instead of '#' for directives, macros and comments.
-     * @since 2.2
-     */
-    String PARSER_CHAR_HASH = "parser.character.hash";
-
-    /**
-     * Set the character (onlysingle byte UTF-8 supported at present) to use instead of '@' for '#@' block macros.
-     * @since 2.2
-     */
-    String PARSER_CHAR_AT = "parser.character.at";
-
-    /**
-     * Set the character (onlysingle byte UTF-8 supported at present) to use instead of '*' for '#* *#' block comments.
-     * @since 2.2
-     */
-    String PARSER_CHAR_ASTERISK = "parser.character.asterisk";
 
     /*
      * ----------------------------------------------------------------------
