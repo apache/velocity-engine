@@ -26,7 +26,7 @@
 
   <body>
     <release version="2.2" date="Not yet released">
-        <action type="add" dev="cbrisson">
+        <action type="add" dev="cbrisson" issue="VELOCITY-916">
             Implement template location tracking with slf4j MDC tags; disabled by default, activated
             with <code>runtime.log.track_location</code>. Once activated, an MDC-aware logger will be
             able to display the <code>file</code>, <code>line</code> and <code>column</code> MDC tags
