@@ -31,13 +31,12 @@
     <name>Apache Velocity - Engine</name>
 
     <properties>
-        <!-- command line switch -Dparser.create=true generates the parser files -->
-        <parser.create>false</parser.create>
-
-        <!-- command line switch -Dparser.nodefiles=true generates AST Node classes (new structures added to parser) -->
-        <parser.nodefiles>false</parser.nodefiles>
-
         <parser.debug>false</parser.debug>
+        <parser.name>Standard</parser.name>
+        <parser.char.asterisk>*</parser.char.asterisk>
+        <parser.char.at>@</parser.char.at>
+        <parser.char.dollar>$</parser.char.dollar>
+        <parser.char.hash>#</parser.char.hash>
         
         <!-- You can modify those properties locally to test
              the DataSourceResourceLoader against other engines.
@@ -55,7 +54,15 @@
 
     <build>
         <plugins>
-            <!-- resources -->
+            <!-- maven lifecycle debugging plugin, see 'mvn buildplan:help' -->
+
+            <plugin>
+                <groupId>fr.jcgay.maven.plugins</groupId>
+                <artifactId>buildplan-maven-plugin</artifactId>
+                <version>1.3</version>
+            </plugin>
+
+            <!-- prepare parser grammar file -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -66,6 +73,24 @@
                         <delimiter>${*}</delimiter>
                     </delimiters>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>gen-parser-grammar</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/parser</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.directory}/parser</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- shading of commons-io -->
@@ -106,6 +131,20 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>javacc-maven-plugin</artifactId>
                 <version>2.6</version>
+                <configuration>
+                    <isStatic>false</isStatic>
+                    <buildParser>true</buildParser>
+                    <buildNodeFiles>false</buildNodeFiles>
+                    <multi>true</multi>
+                    <debugParser>${parser.debug}</debugParser>
+                    <debugLookAhead>${parser.debug}</debugLookAhead>
+                    <debugTokenManager>${parser.debug}</debugTokenManager>
+                    <jdkVersion>${maven.compiler.target}</jdkVersion>
+                    <nodeUsesParser>true</nodeUsesParser>
+                    <nodePackage>org.apache.velocity.runtime.parser.node</nodePackage>
+                    <sourceDirectory>${project.build.directory}/parser</sourceDirectory>
+                    <tokenManagerUsesParser>true</tokenManagerUsesParser>
+                </configuration>
                 <executions>
                     <!-- build the standard parser -->
                     <execution>
@@ -115,46 +154,17 @@
                         </goals>
                         <configuration>
                             <includes>
-                                <include>StandardParser.jjt</include>
+                                <include>Parser.jjt</include>
                             </includes>
-                        </configuration>
-                    </execution>
-                    <!-- build a tailored parser -->
-                    <execution>
-                        <id>jjtree-javacc-custom</id>
-                        <goals>
-                            <goal>jjtree-javacc</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>TailoredParser.jjt</include>
-                            </includes>
-                            <interimDirectory>${project.build.directory}/tailored-parser/jjtree</interimDirectory>
-                            <outputDirectory>${project.build.directory}/tailored-parser/javacc</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <isStatic>false</isStatic>
-                    <buildParser>true</buildParser>
-                    <buildNodeFiles>${parser.nodefiles}</buildNodeFiles>
-                    <multi>true</multi>
-                    <debugParser>${parser.debug}</debugParser>
-                    <debugLookAhead>${parser.debug}</debugLookAhead>
-                    <debugTokenManager>${parser.debug}</debugTokenManager>
-                    <jdkVersion>${maven.compiler.target}</jdkVersion>
-                    <nodeUsesParser>true</nodeUsesParser>
-                    <nodePackage>org.apache.velocity.runtime.parser.node</nodePackage>
-                    <sourceDirectory>${basedir}/src/main/parser</sourceDirectory>
-                    <tokenManagerUsesParser>true</tokenManagerUsesParser>
-                </configuration>
             </plugin>
 
             <!--
-                patch generated parser and token managers files, so that
-                + both token managers implement the ParserTokenManager interface
+                patch generated parser and token manager files, so that
+                + token manager implement the ParserTokenManager interface
                 + StandardParser uses the ParserTokenManager interface
-            -->
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
@@ -162,7 +172,7 @@
                 <executions>
                     <execution>
                         <id>patch-parser</id>
-                        <phase>process-sources</phase>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>replace</goal> 
                         </goals>
@@ -178,14 +188,13 @@
                     </execution>
                     <execution>
                         <id>patch-token-manager</id>
-                        <phase>process-sources</phase>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>replace</goal> 
                         </goals> 
                         <configuration>
                             <includes>
                                 <include>${project.build.directory}/generated-sources/javacc/org/apache/velocity/runtime/parser/StandardParserTokenManager.java</include>
-                                <include>${project.build.directory}/tailored-parser/javacc/org/apache/velocity/runtime/parser/TailoredParserTokenManager.java</include>
                             </includes>
                             <replacements>
                                 <replacement>
@@ -197,54 +206,7 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- pre-compile both parser token manager classes -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>compile-patch-sources</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <buildDirectory>${project.build.directory}/tailored-parser/classes</buildDirectory>
-                            <includes>
-                                <include>**/*TokenManager*.java/</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- remove duplicate javacc files -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>clean-extra-javacc</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                        <configuration>
-                            <excludeDefaultDirectories>true</excludeDefaultDirectories>
-                            <filesets>
-                                <fileset>
-                                    <directory>${project.build.directory}/tailored-parser/javacc</directory>
-                                    <includes>
-                                        <include>org/apache/velocity/runtime/parser/Token*.java</include>
-                                    </includes>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            -->
 
             <!-- handle OSGi informations -->
             <plugin>
@@ -260,16 +222,6 @@
                             *
                         </Import-Package>
                     </instructions>
-                </configuration>
-            </plugin>
-
-            <!-- exclude tailored parser from final archive -->
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*TailoredParser*.class</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
 

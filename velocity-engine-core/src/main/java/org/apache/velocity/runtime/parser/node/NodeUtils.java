@@ -20,7 +20,7 @@ package org.apache.velocity.runtime.parser.node;
  */
 
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.ParserConstants;
+import org.apache.velocity.runtime.parser.StandardParserConstants;
 import org.apache.velocity.runtime.parser.Token;
 
 /**
@@ -130,7 +130,7 @@ public class NodeUtils
     public static String tokenLiteral( Parser parser, Token t )
     {
         // Look at kind of token and return "" when it's a block comment
-        if (t.kind == ParserConstants.MULTI_LINE_COMMENT)
+        if (t.kind == StandardParserConstants.MULTI_LINE_COMMENT)
         {
             return "";
         }

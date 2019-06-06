@@ -31,7 +31,7 @@ import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.RuntimeMacro;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.ParserConstants;
+import org.apache.velocity.runtime.parser.StandardParserConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.introspection.Info;
 
@@ -143,7 +143,7 @@ public class ASTDirective extends SimpleNode
                 }
 
                 t = getFirstToken();
-                if (t.kind == ParserConstants.WHITESPACE) t = t.next;
+                if (t.kind == StandardParserConstants.WHITESPACE) t = t.next;
                 directive.setLocation(t.beginLine, t.beginColumn, getTemplate());
                 directive.init(rsvc, context, this);
             }

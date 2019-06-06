@@ -78,7 +78,7 @@ options
 
 }
 
-PARSER_BEGIN(StandardParser)
+PARSER_BEGIN(${parser.name}Parser)
 package org.apache.velocity.runtime.parser;
 
 import java.io.*;
@@ -106,9 +106,9 @@ import org.slf4j.Logger;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
- * @version $Id$
+ * @version $Id: $
 */
-public class StandardParser implements Parser
+public class ${parser.name}Parser implements Parser
 {
     /**
      * Parser debugging flag.
@@ -121,7 +121,7 @@ public class StandardParser implements Parser
     {
         try
         {
-            StandardParser.class.getDeclaredMethod("trace_call", String.class);
+            ${parser.name}Parser.class.getDeclaredMethod("trace_call", String.class);
             debugParser = true;
         }
         catch(NoSuchMethodException nsfe)
@@ -180,7 +180,7 @@ public class StandardParser implements Parser
      * object, we satisfy the requirement of an InputStream
      * by using a newline character as an input stream.
      */
-    public StandardParser( RuntimeServices rs)
+    public ${parser.name}Parser( RuntimeServices rs)
     {
         /*
          * need to call the CTOR first thing.
@@ -217,10 +217,10 @@ public class StandardParser implements Parser
         /*
          * then initialize customizable characters
          */
-         dollar = rsvc.dollar();
-         hash = rsvc.hash();
-         at = rsvc.at();
-         asterisk = rsvc.asterisk();
+         dollar   = '${parser.char.dollar}';
+         hash     = '${parser.char.hash}';
+         at       = '${parser.char.at}';
+         asterisk = '${parser.char.asterisk}';
     }
 
     /**
@@ -549,7 +549,7 @@ public class StandardParser implements Parser
     private char asterisk = '*';
 }
 
-PARSER_END(StandardParser)
+PARSER_END(${parser.name}Parser)
 
 TOKEN_MGR_DECLS:
 {
@@ -569,7 +569,7 @@ TOKEN_MGR_DECLS:
      */
     public static void trace(String message)
     {
-        StandardParser.trace(message);
+        ${parser.name}Parser.trace(message);
     }
     
     /**
@@ -906,7 +906,7 @@ TOKEN:
      *  for disaster, another long night with Mr. Parser, or both.
      */
 
-    <ESCAPE_DIRECTIVE :  (<DOUBLE_ESCAPE>)* "\\#" (<WORD> | <BRACKETED_WORD>) >
+    <ESCAPE_DIRECTIVE :  (<DOUBLE_ESCAPE>)* "\\${parser.char.hash}" (<WORD> | <BRACKETED_WORD>) >
 }
 
 
@@ -925,7 +925,7 @@ TOKEN:
 <DEFAULT, PRE_REFERENCE, PRE_OLD_REFERENCE, REFERENCE, REFMODIFIER, OLD_REFMODIFIER, REFMOD2, REFMOD3>
 TOKEN:
 {
-  <SET_DIRECTIVE: ("#set" | "#{set}")  (" "|"\t")* "(">
+  <SET_DIRECTIVE: ("${parser.char.hash}set" | "${parser.char.hash}{set}")  (" "|"\t")* "(">
     {
         if (! inComment)
         {
@@ -962,7 +962,7 @@ MORE :
      *   Note : DOLLARBANG is a duplicate of DOLLAR.  They must be identical.
      */
 
-    <DOLLAR: ("\\")* "$">
+    <DOLLAR: ("\\")* "${parser.char.dollar}">
     {
         if (! inComment)
         {
@@ -989,7 +989,7 @@ MORE :
         }
     }
 
-|   <DOLLARBANG: ("\\")* "$" ("\\")* "!">
+|   <DOLLARBANG: ("\\")* "${parser.char.dollar}" ("\\")* "!">
     {
         if (! inComment)
         {
@@ -1016,7 +1016,7 @@ MORE :
         }
     }
 
-|   "#[["
+|   "${parser.char.hash}[["
     {
        if (!inComment)
        {
@@ -1030,7 +1030,7 @@ MORE :
        }
     }
 
-|   <"#**" ~["#","\u200B"]>
+|   <"${parser.char.hash}${parser.char.asterisk}${parser.char.asterisk}" ~["${parser.char.hash}","\u200B"]>
     {
     	if (!inComment)
     	{
@@ -1045,7 +1045,7 @@ MORE :
     	}
     }
 
-|   "#*"
+|   "${parser.char.hash}${parser.char.asterisk}"
     {
     	if (!inComment)
     	{
@@ -1059,7 +1059,7 @@ MORE :
     	}
     }
 
-|   <HASH : "#" >
+|   <HASH : "${parser.char.hash}" >
     {
         if (! inComment)
         {
@@ -1092,7 +1092,7 @@ MORE :
 <DEFAULT,PRE_DIRECTIVE,DIRECTIVE,REFERENCE,PRE_REFERENCE,PRE_OLD_REFERENCE,REFMOD2,REFMOD3,REFMODIFIER,OLD_REFMODIFIER>
 TOKEN :
 {
-   <SINGLE_LINE_COMMENT_START: "##">
+   <SINGLE_LINE_COMMENT_START: "${parser.char.hash}${parser.char.hash}">
    {
         if (!inComment)
         {
@@ -1132,7 +1132,7 @@ TOKEN :
 <IN_FORMAL_COMMENT>
 TOKEN :
 {
-  <FORMAL_COMMENT: "*#" >
+  <FORMAL_COMMENT: "${parser.char.asterisk}${parser.char.hash}" >
   {
     inComment = false;
     stateStackPop();
@@ -1147,7 +1147,7 @@ TOKEN :
 <IN_MULTI_LINE_COMMENT>
 TOKEN :
 {
-  <MULTI_LINE_COMMENT: "*#" >
+  <MULTI_LINE_COMMENT: "${parser.char.asterisk}${parser.char.hash}" >
   {
     inComment = false;
     stateStackPop();
@@ -1162,7 +1162,7 @@ TOKEN :
 <IN_TEXTBLOCK>
 TOKEN :
 {
-  <TEXTBLOCK: "]]#" >
+  <TEXTBLOCK: "]]${parser.char.hash}" >
   {
     inComment = false;
     stateStackPop();
@@ -1375,8 +1375,8 @@ TOKEN:
 {
     <#LETTER: [ "a"-"z", "A"-"Z" ] >
 |   <#DIRECTIVE_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
-|   <WORD: ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* >
-|   <BRACKETED_WORD: "{" ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* "}" >
+|   <WORD: ( <LETTER> | ["_"] | ["${parser.char.at}"]) (<DIRECTIVE_CHAR>)* >
+|   <BRACKETED_WORD: "{" ( <LETTER> | ["_"] | ["${parser.char.at}"]) (<DIRECTIVE_CHAR>)* "}" >
 }
 
 /* -----------------------------------------------------------------------
@@ -1525,12 +1525,12 @@ TOKEN :
 {
     <DOUBLE_ESCAPE : "\\\\">
 |   <ESCAPE: "\\" >
-|   <TEXT: (~["$", "#", "\\", "\r", "\n","\u200B"])* (~["$", "#", "\\", "\r", "\n", " ", "\t","\u200B"])+ (~["$", "#", "\\", "\r", "\n","\u200B"])* <NEWLINE> ((~["$", "#", "\\", "\r", "\n","\u200B"])* <NEWLINE>)* >
+|   <TEXT: (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])* (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n", " ", "\t","\u200B"])+ (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])* <NEWLINE> ((~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])* <NEWLINE>)* >
 }
 
 TOKEN :
 {
-    <INLINE_TEXT: (~["$", "#", "\\", "\r", "\n","\u200B"])+ >
+    <INLINE_TEXT: (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])+ >
 }
 
 /**
@@ -1790,7 +1790,7 @@ boolean Directive(boolean afterNewline) :
     {
         String directiveName;
         int p = id.image.lastIndexOf(hash);
-        if (id.kind == ParserConstants.BRACKETED_WORD)
+        if (id.kind == StandardParserConstants.BRACKETED_WORD)
         {
             directiveName = id.image.substring(p + 2, id.image.length() - 1);
         }

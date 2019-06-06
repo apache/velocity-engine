@@ -62,6 +62,8 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -226,6 +228,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * The LogContext object used to track location in templates
      */
     private LogContext logContext;
+
+    /**
+     * Configured parser class
+     * @since 2.2
+     */
+    private Constructor parserConstructor;
 
     /**
      * Configured '$' character
@@ -413,10 +421,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         /* init parser behavior */
         hyphenAllowedInIdentifiers = getBoolean(PARSER_HYPHEN_ALLOWED, false);
-        dollar = getConfiguredCharacter(PARSER_CHAR_DOLLAR, '$');
-        hash = getConfiguredCharacter(PARSER_CHAR_HASH, '#');
-        at = getConfiguredCharacter(PARSER_CHAR_AT, '@');
-        asterisk = getConfiguredCharacter(PARSER_CHAR_ASTERISK, '*');
     }
 
     private char getConfiguredCharacter(String configKey, char defaultChar)
@@ -1191,6 +1195,29 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private void initializeParserPool()
     {
         /*
+         * First initialize parser class. If it's not valid or not found, it will generate an error
+         * later on in this method when parser creation is tester.
+         */
+        String parserClassName = getString(PARSER_CLASS, DEFAULT_PARSER_CLASS);
+        Class parserClass;
+        try
+        {
+            parserClass = ClassUtils.getClass(parserClassName);
+        }
+        catch (ClassNotFoundException cnfe)
+        {
+            throw new VelocityException("parser class not found: " + parserClassName, cnfe);
+        }
+        try
+        {
+            parserConstructor = parserClass.getConstructor(RuntimeServices.class);
+        }
+        catch (NoSuchMethodException nsme)
+        {
+            throw new VelocityException("parser class must provide a constructor taking a RuntimeServices argument", nsme);
+        }
+
+        /*
          * Which parser pool?
          */
         String pp = getString(RuntimeConstants.PARSER_POOL_CLASS);
@@ -1239,6 +1266,16 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             parserPool = (ParserPool) o;
 
             parserPool.initialize(this);
+
+            /*
+             * test parser creation and use generated parser to fill up customized characters
+             */
+            Parser parser = parserPool.get();
+            dollar = parser.dollar();
+            hash = parser.hash();
+            at = parser.at();
+            asterisk = parser.asterisk();
+            parserPool.put(parser);
         }
         else
         {
@@ -1264,8 +1301,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Parser createNewParser()
     {
         requireInitialization();
-
-        return new StandardParser(this);
+        try
+        {
+            return (Parser)parserConstructor.newInstance((RuntimeServices)this);
+        }
+        catch (IllegalAccessException | InstantiationException | InvocationTargetException e)
+        {
+            throw new VelocityException("could not build new parser class", e);
+        }
     }
 
     /**
