@@ -55,14 +55,12 @@
     <build>
         <plugins>
             <!-- maven lifecycle debugging plugin, see 'mvn buildplan:help' -->
-
             <plugin>
                 <groupId>fr.jcgay.maven.plugins</groupId>
                 <artifactId>buildplan-maven-plugin</artifactId>
                 <version>1.3</version>
             </plugin>
 
-            <!-- prepare parser grammar file -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -74,8 +72,9 @@
                     </delimiters>
                 </configuration>
                 <executions>
+                    <!-- prepare parser grammar file -->
                     <execution>
-                        <id>gen-parser-grammar</id>
+                        <id>generate-parser-grammar</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -88,6 +87,23 @@
                                 </resource>
                             </resources>
                             <outputDirectory>${project.build.directory}/parser</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <!-- expose the raw grammar file for the custom parser maven plugin -->
+                    <execution>
+                        <id>expose-parser-grammar</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/parser</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.outputDirectory}/org/apache/velocity/runtime/parser</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -160,53 +176,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!--
-                patch generated parser and token manager files, so that
-                + token manager implement the ParserTokenManager interface
-                + StandardParser uses the ParserTokenManager interface
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <version>1.5.3</version>
-                <executions>
-                    <execution>
-                        <id>patch-parser</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>replace</goal> 
-                        </goals>
-                        <configuration>
-                            <file>${project.build.directory}/generated-sources/javacc/org/apache/velocity/runtime/parser/StandardParser.java</file>
-                            <replacements>
-                                <replacement>
-                                    <token>(?&lt;!new )StandardParserTokenManager</token>
-                                    <value>ParserTokenManager</value>
-                                </replacement>
-                            </replacements>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>patch-token-manager</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>replace</goal> 
-                        </goals> 
-                        <configuration>
-                            <includes>
-                                <include>${project.build.directory}/generated-sources/javacc/org/apache/velocity/runtime/parser/StandardParserTokenManager.java</include>
-                            </includes>
-                            <replacements>
-                                <replacement>
-                                    <token>class StandardParserTokenManager implements StandardParserConstants(?!, ParserTokenManager)</token>
-                                    <value>class StandardParserTokenManager implements StandardParserConstants, ParserTokenManager</value>
-                                </replacement> 
-                            </replacements>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
 
             <!-- handle OSGi informations -->
             <plugin>
