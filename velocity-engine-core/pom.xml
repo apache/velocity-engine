@@ -31,16 +31,8 @@
     <name>Apache Velocity - Engine</name>
 
     <properties>
-        <!-- You can modify those properties to build a custom parser.
-             The parser.name property will be used to generate the class:
-               org.apache.velocity.runtime.parser.${parser.name}Parser
-             which you must specify at runtime using the parser.class Velocity property.
-             You'll have to skip the tests which for now don't work for custom parsers:
-               mvn -DskipTests package
-             and extract the parser class from the jar if you wish this custom parser to
-             cohexist with the standard one.
-             You're strongly advised to change the groupId and/or artifactId if you plan
-             to use the generated jar directly.
+        <!-- You should not directly modify those properties which define the behavior of the parser.
+             Instead, you should customize the velocity-custom-parser-example module to fit your own needs.
         -->
         <parser.debug>false</parser.debug>
         <parser.name>Standard</parser.name>
