@@ -180,7 +180,7 @@
                 </executions>
             </plugin>
 
-            <!-- handle OSGi informations -->
+            <!-- handle OSGi information -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
