@@ -28,25 +28,30 @@
     </parent>
 
     <artifactId>velocity-custom-parser-example</artifactId>
-    <name>Apache Velocity Custom Parser - Example</name>
+    <name>Apache Velocity Custom Parser Example</name>
     <description>Custom Parser Example for Apache Velocity</description>
 
     <packaging>jar</packaging>
 
     <!--
-      This plugin demonstrates how to build a custom Velocity parser.
-      The proposed custom parser replaces '#' with '@' and '@' with '%',
+      This module demonstrates how to build a custom Velocity parser.
+      The proposed custom parser replaces '#' with '@' and '@' with '%'
       so that it's suitable to use with Markdown template files, for instance.
 
       The generated parser class is org.apache.velocity.runtime.parser.${parser.name}Parser,
-      and must be specified at runtime using the Velocity property parser.class :
+      and must be specified at runtime using the Velocity property parser.class:
         parser.class = org.apache.velocity.runtime.parser.MyCustomParser
+
+      Please note that:
+
+      + all configurable chars must be specified, even when similar to default ones.
+      + custom parser package **must** be org.apache.velocity.runtime.parser
     -->
 
     <properties>
         <!-- whether to display debug logs while parsing -->
         <parser.debug>false</parser.debug>
-        <!-- parser name -->
+        <!-- parser basename -->
         <parser.name>Custom</parser.name>
         <!-- character to substitute to '*' -->
         <parser.char.asterisk>*</parser.char.asterisk>
@@ -84,7 +89,6 @@
     </dependencies>
 
     <build>
-        <defaultGoal>install</defaultGoal>
         <plugins>
             <!-- generate manifest file -->
             <plugin>
@@ -95,11 +99,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <id>fetch-grammar-file</id>
-                        <phase>generate-sources</phase>
+                        <phase>initialize</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -115,13 +118,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <useDefaultDelimiters>false</useDefaultDelimiters>
-                    <delimiters>
-                        <delimiter>${*}</delimiter>
-                    </delimiters>
-                </configuration>
                 <executions>
                     <execution>
                         <id>generate-parser-grammar</id>
@@ -130,6 +126,10 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                            <delimiters>
+                                <delimiter>${*}</delimiter>
+                            </delimiters>
                             <resources>
                                 <resource>
                                     <directory>${project.build.directory}/grammar</directory>
