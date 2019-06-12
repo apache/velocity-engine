@@ -274,6 +274,30 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
     String EVENTHANDLER_INVALIDREFERENCES = "event_handler.invalid_references.class";
 
+    /**
+     * The <code>event_handler.invalid_references.quiet</code> property specifies if invalid quiet references
+     * (as in <code>$!foo</code>) trigger events (defaults to false).
+     * {@link org.apache.velocity.app.event.InvalidReferenceEventHandler} implementations to use.
+     * @since 2.2
+     */
+    String EVENTHANDLER_INVALIDREFERENCES_QUIET = "event_handler.invalid_references.quiet";
+
+    /**
+     * The <code>event_handler.invalid_references.null</code> property specifies if invalid null references
+     * (aka the value is present in the context or parent object but is null or a method returned null)
+     * trigger invalid reference events (defaults to false).
+     * {@link org.apache.velocity.app.event.InvalidReferenceEventHandler} implementations to use.
+     * @since 2.2
+     */
+    String EVENTHANDLER_INVALIDREFERENCES_NULL = "event_handler.invalid_references.null";
+
+    /**
+     * The <code>event_handler.invalid_references.tested</code> property specifies if invalid tested references
+     * (as in <code>#if($foo)</code> ) trigger invalid reference events (defaults to false).
+     * {@link org.apache.velocity.app.event.InvalidReferenceEventHandler} implementations to use.
+     * @since 2.2
+     */
+    String EVENTHANDLER_INVALIDREFERENCES_TESTED = "event_handler.invalid_references.tested";
 
     /*
      * ----------------------------------------------------------------------
