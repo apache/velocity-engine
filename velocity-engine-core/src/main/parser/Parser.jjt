@@ -106,7 +106,7 @@ import org.slf4j.Logger;
  * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
- * @version $Id: $
+ * @version $Id$
 */
 public class ${parser.name}Parser implements org.apache.velocity.runtime.parser.Parser
 {

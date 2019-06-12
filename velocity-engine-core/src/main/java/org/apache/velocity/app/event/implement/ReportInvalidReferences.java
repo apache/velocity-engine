@@ -25,6 +25,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.introspection.Info;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ import java.util.List;
  * Note that InvalidReferenceHandler can be used
  * in two modes.  If the Velocity properties file contains the following:
  * <pre>
- * eventhandler.invalidreference.exception = true
+ * event_handler.invalid_references.exception = true
  * </pre>
  * then the event handler will throw a ParseErrorRuntimeException upon
  * hitting the first invalid reference.  This stops processing and is
@@ -61,8 +62,10 @@ import java.util.List;
 public class ReportInvalidReferences implements
     InvalidReferenceEventHandler, RuntimeServicesAware
 {
+    public static final String EVENTHANDLER_INVALIDREFERENCE_EXCEPTION = "event_handler.invalid_references.exception";
 
-    public static final String EVENTHANDLER_INVALIDREFERENCE_EXCEPTION = "eventhandler.invalidreference.exception";
+    @Deprecated
+    public static final String OLD_EVENTHANDLER_INVALIDREFERENCE_EXCEPTION = "eventhandler.invalidreference.exception";
 
     /**
      * List of InvalidReferenceInfo objects
@@ -172,9 +175,16 @@ public class ReportInvalidReferences implements
      */
     public void setRuntimeServices(RuntimeServices rs)
     {
-        stopOnFirstInvalidReference = rs.getConfiguration().getBoolean(
-                EVENTHANDLER_INVALIDREFERENCE_EXCEPTION,
-                false);
+        Boolean b = rs.getConfiguration().getBoolean(OLD_EVENTHANDLER_INVALIDREFERENCE_EXCEPTION, null);
+        if (b == null)
+        {
+            b = rs.getConfiguration().getBoolean(EVENTHANDLER_INVALIDREFERENCE_EXCEPTION, false);
+        }
+        else
+        {
+            rs.getLog().warn("configuration key '{}' has been deprecated in favor of '{}'", OLD_EVENTHANDLER_INVALIDREFERENCE_EXCEPTION, EVENTHANDLER_INVALIDREFERENCE_EXCEPTION);
+        }
+        stopOnFirstInvalidReference = b.booleanValue();
     }
 
 }

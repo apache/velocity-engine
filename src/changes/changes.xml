@@ -25,10 +25,23 @@
   </properties>
 
   <body>
+    <release version="2.2" date="Not yet released">
+        <action type="add" dev="cbrisson" issue="VELOCITY-916">
+            Implement template location tracking with slf4j MDC tags; disabled by default, activated
+            with <code>runtime.log.track_location</code>. Once activated, an MDC-aware logger will be
+            able to display the <code>file</code>, <code>line</code> and <code>column</code> MDC tags
+        </action>
+        <action type="fix" dev="cbrisson">
+            Introspection: favor non-vararg methods on ambiguities as does the Java compiler
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-912">
+            Also allow hyphen in subproperties when the corresponding backward compatibility flag is on
+        </action>
+    </release>
     <release version="2.1" date="2019-03-15">
         <action type="fix" dev="cbrisson" issue="VELOCITY-909">
             Reorganization of configuration properties key names, for clarity and consistency,
-            see the <a href="configuration-property-changes-in-2.1.html">table of correspondance</a>.
+            see the <a href="configuration-property-changes-in-2.1.html">table of correspondance</a>
         </action>
         <action type="fix" dev="cbrisson">
             Rendering of arrays should display their content, as for lists
