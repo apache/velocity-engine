@@ -108,7 +108,7 @@ import org.slf4j.Logger;
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id: $
 */
-public class ${parser.name}Parser implements Parser
+public class ${parser.name}Parser implements org.apache.velocity.runtime.parser.Parser
 {
     /**
      * Parser debugging flag.
