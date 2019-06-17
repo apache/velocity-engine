@@ -79,13 +79,14 @@ options
 }
 
 PARSER_BEGIN(${parser.basename}Parser)
-package org.apache.velocity.runtime.parser;
+package ${parser.package};
 
 import java.io.*;
 import java.util.*;
 import org.apache.velocity.Template;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.*;
 import org.apache.velocity.runtime.directive.MacroParseException;
@@ -108,7 +109,7 @@ import org.slf4j.Logger;
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
 */
-public class ${parser.basename}Parser implements org.apache.velocity.runtime.parser.Parser
+public class ${parser.basename}Parser implements Parser
 {
     /**
      * Parser debugging flag.

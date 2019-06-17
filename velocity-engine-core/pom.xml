@@ -35,6 +35,7 @@
              Instead, you should customize the velocity-custom-parser-example module to fit your own needs.
         -->
         <parser.debug>false</parser.debug>
+        <parser.package>org.apache.velocity.runtime.parser</parser.package>
         <parser.basename>Standard</parser.basename>
         <parser.char.asterisk>*</parser.char.asterisk>
         <parser.char.at>@</parser.char.at>
@@ -67,13 +68,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <useDefaultDelimiters>false</useDefaultDelimiters>
-                    <delimiters>
-                        <delimiter>${*}</delimiter>
-                    </delimiters>
-                </configuration>
                 <executions>
                     <!-- prepare parser grammar file -->
                     <execution>
@@ -83,6 +77,11 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+
+                            <delimiters>
+                                <delimiter>${*}</delimiter>
+                            </delimiters>
                             <resources>
                                 <resource>
                                     <directory>src/main/parser</directory>
@@ -175,6 +174,30 @@
                             <includes>
                                 <include>Parser.jjt</include>
                             </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>            
+
+            <!-- post-processing of parser genereted source files -->
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <executions>
+                    <execution>
+                        <id>patch-parser-files</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/generated-sources/javacc/org/apache/velocity/runtime/parser/TokenMgrError.java</file>
+                            <replacements>
+                                <replacement>
+                                    <token>static final int</token>
+                                    <value>public static final int</value>
+                                </replacement>
+                            </replacements>
                         </configuration>
                     </execution>
                 </executions>

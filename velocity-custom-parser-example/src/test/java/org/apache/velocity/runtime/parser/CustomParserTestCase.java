@@ -27,7 +27,7 @@ public class CustomParserTestCase
         engine = new VelocityEngine();
         engine.setProperty("resource.loaders", "file");
         engine.setProperty("resource.loader.file.path", TEMPLATES_DIR);
-        engine.setProperty("parser.class", "org.apache.velocity.runtime.parser.CustomParser");
+        engine.setProperty("parser.class", "org.apache.velocity.runtime.parser.custom.CustomParser");
         engine.init();
     }
 
