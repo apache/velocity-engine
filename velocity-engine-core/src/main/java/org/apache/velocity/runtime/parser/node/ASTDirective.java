@@ -112,7 +112,7 @@ public class ASTDirective extends SimpleNode
              */
             t = getFirstToken();
             int pos = -1;
-            while (t != null && (pos = t.image.lastIndexOf(rsvc.hash())) == -1)
+            while (t != null && (pos = t.image.lastIndexOf(rsvc.getParserConfiguration().getHashChar())) == -1)
             {
                 t = t.next;
             }
@@ -147,7 +147,7 @@ public class ASTDirective extends SimpleNode
                 directive.setLocation(t.beginLine, t.beginColumn, getTemplate());
                 directive.init(rsvc, context, this);
             }
-            else if( directiveName.startsWith(String.valueOf(rsvc.at())) )
+            else if( directiveName.startsWith(String.valueOf(rsvc.getParserConfiguration().getAtChar())) )
             {
                 if( this.jjtGetNumChildren() > 0 )
                 {
@@ -312,7 +312,7 @@ public class ASTDirective extends SimpleNode
         {
             writer.write(prefix);
             writer.write(morePrefix);
-            writer.write(rsvc.hash());
+            writer.write(rsvc.getParserConfiguration().getHashChar());
             writer.write(directiveName);
             writer.write(postfix);
         }

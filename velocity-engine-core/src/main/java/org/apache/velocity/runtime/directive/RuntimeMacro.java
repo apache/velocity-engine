@@ -141,7 +141,7 @@ public class RuntimeMacro extends Directive
          */
         // Tokens can be used here since we are in init() and Tokens have not been dropped yet
         Token t = node.getLastToken();
-        if (t.image.startsWith(")") || t.image.startsWith(rsvc.hash() + "end"))
+        if (t.image.startsWith(")") || t.image.startsWith(rsvc.getParserConfiguration().getHashChar() + "end"))
         {
             strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
         }
@@ -195,7 +195,7 @@ public class RuntimeMacro extends Directive
             int pos = -1;
             while (t != null && t != node.getLastToken())
             {
-                if (pos == -1) pos = t.image.lastIndexOf(rsvc.hash());
+                if (pos == -1) pos = t.image.lastIndexOf(rsvc.getParserConfiguration().getHashChar());
                 if (pos != -1)
                 {
                     buffer.append(t.image.substring(pos));
@@ -210,7 +210,7 @@ public class RuntimeMacro extends Directive
 
             if (t != null)
             {
-                if (pos == -1) pos = t.image.lastIndexOf(rsvc.hash());
+                if (pos == -1) pos = t.image.lastIndexOf(rsvc.getParserConfiguration().getHashChar());
                 if (pos != -1)
                 {
                     buffer.append(t.image.substring(pos));
