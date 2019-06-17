@@ -53,6 +53,8 @@
         <parser.debug>false</parser.debug>
         <!-- parser basename -->
         <parser.basename>Custom</parser.basename>
+        <!-- parser package -->
+        <parser.package>org.apache.velocity.runtime.parser.custom</parser.package>
         <!-- character to substitute to '*' -->
         <parser.char.asterisk>*</parser.char.asterisk>
         <!-- character to substitute to '@' -->
@@ -191,21 +193,21 @@
                             <excludeDefaultDirectories>true</excludeDefaultDirectories>
                             <filesets>
                                 <fileset>
-                                    <directory>${project.build.directory}/generated-sources/javacc/org/apache/velocity/runtime/parser</directory>
+                                    <directory>${project.build.directory}/generated-sources/javacc/</directory>
                                     <includes>
-                                        <include>*.java</include>
+                                        <include>**/*.java</include>
                                     </includes>
                                     <excludes>
-                                        <exclude>*${parser.basename}*.java</exclude>
+                                        <exclude>**/*${parser.basename}*.java</exclude>
                                     </excludes>
                                 </fileset>
                                 <fileset>
-                                    <directory>${project.build.directory}/generated-sources/jjtree/org/apache/velocity/runtime/parser/node</directory>
+                                    <directory>${project.build.directory}/generated-sources/jjtree/</directory>
                                     <includes>
-                                        <include>*.java</include>
+                                        <include>**/node/*.java</include>
                                     </includes>
                                     <excludes>
-                                        <exclude>*${parser.basename}*.java</exclude>
+                                        <exclude>**/node/*${parser.basename}*.java</exclude>
                                     </excludes>
                                 </fileset>
                             </filesets>
