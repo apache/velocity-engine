@@ -78,7 +78,7 @@ options
 
 }
 
-PARSER_BEGIN(${parser.name}Parser)
+PARSER_BEGIN(${parser.basename}Parser)
 package org.apache.velocity.runtime.parser;
 
 import java.io.*;
@@ -108,7 +108,7 @@ import org.slf4j.Logger;
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
 */
-public class ${parser.name}Parser implements org.apache.velocity.runtime.parser.Parser
+public class ${parser.basename}Parser implements org.apache.velocity.runtime.parser.Parser
 {
     /**
      * Parser debugging flag.
@@ -121,7 +121,7 @@ public class ${parser.name}Parser implements org.apache.velocity.runtime.parser.
     {
         try
         {
-            ${parser.name}Parser.class.getDeclaredMethod("trace_call", String.class);
+            ${parser.basename}Parser.class.getDeclaredMethod("trace_call", String.class);
             debugParser = true;
         }
         catch(NoSuchMethodException nsfe)
@@ -180,7 +180,7 @@ public class ${parser.name}Parser implements org.apache.velocity.runtime.parser.
      * object, we satisfy the requirement of an InputStream
      * by using a newline character as an input stream.
      */
-    public ${parser.name}Parser( RuntimeServices rs)
+    public ${parser.basename}Parser( RuntimeServices rs)
     {
         /*
          * need to call the CTOR first thing.
@@ -549,7 +549,7 @@ public class ${parser.name}Parser implements org.apache.velocity.runtime.parser.
     private char asterisk = '*';
 }
 
-PARSER_END(${parser.name}Parser)
+PARSER_END(${parser.basename}Parser)
 
 TOKEN_MGR_DECLS:
 {
@@ -569,7 +569,7 @@ TOKEN_MGR_DECLS:
      */
     public static void trace(String message)
     {
-        ${parser.name}Parser.trace(message);
+        ${parser.basename}Parser.trace(message);
     }
     
     /**

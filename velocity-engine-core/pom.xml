@@ -35,7 +35,7 @@
              Instead, you should customize the velocity-custom-parser-example module to fit your own needs.
         -->
         <parser.debug>false</parser.debug>
-        <parser.name>Standard</parser.name>
+        <parser.basename>Standard</parser.basename>
         <parser.char.asterisk>*</parser.char.asterisk>
         <parser.char.at>@</parser.char.at>
         <parser.char.dollar>$</parser.char.dollar>

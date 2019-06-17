@@ -38,7 +38,7 @@
       The proposed custom parser replaces '#' with '@' and '@' with '%'
       so that it's suitable to use with Markdown template files, for instance.
 
-      The generated parser class is org.apache.velocity.runtime.parser.${parser.name}Parser,
+      The generated parser class is org.apache.velocity.runtime.parser.${parser.basename}Parser,
       and must be specified at runtime using the Velocity property parser.class:
         parser.class = org.apache.velocity.runtime.parser.MyCustomParser
 
@@ -52,7 +52,7 @@
         <!-- whether to display debug logs while parsing -->
         <parser.debug>false</parser.debug>
         <!-- parser basename -->
-        <parser.name>Custom</parser.name>
+        <parser.basename>Custom</parser.basename>
         <!-- character to substitute to '*' -->
         <parser.char.asterisk>*</parser.char.asterisk>
         <!-- character to substitute to '@' -->
@@ -196,7 +196,7 @@
                                         <include>*.java</include>
                                     </includes>
                                     <excludes>
-                                        <exclude>*${parser.name}*.java</exclude>
+                                        <exclude>*${parser.basename}*.java</exclude>
                                     </excludes>
                                 </fileset>
                                 <fileset>
@@ -205,7 +205,7 @@
                                         <include>*.java</include>
                                     </includes>
                                     <excludes>
-                                        <exclude>*${parser.name}*.java</exclude>
+                                        <exclude>*${parser.basename}*.java</exclude>
                                     </excludes>
                                 </fileset>
                             </filesets>
