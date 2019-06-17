@@ -491,30 +491,9 @@ public interface RuntimeServices
    boolean isScopeControlEnabled(String scopeName);
 
     /**
-     * Get the character configured for '$'
-     * @return configured character for '$', or '$'
+     * Get the replacement characters configured for this runtime service's parser
+     * @return configured replacement characters
      * @since 2.2
      */
-    char dollar();
-
-    /**
-     * Get the character configured for '#'
-     * @return configured character for '#', or '#'
-     * @since 2.2
-     */
-    char hash();
-
-    /**
-     * Get the character configured for '@'
-     * @return configured character for '@', or '@'
-     * @since 2.2
-     */
-    char at();
-
-    /**
-     * Get the character configured for '*'
-     * @return configured character for '*', or '*'
-     * @since 2.2
-     */
-    char asterisk();
+    ParserConfiguration getParserConfiguration();
 }

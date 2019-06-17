@@ -40,7 +40,6 @@ import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.StandardParser;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.runtime.resource.ContentResource;
@@ -236,29 +235,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private Constructor parserConstructor;
 
     /**
-     * Configured '$' character
+     * Configured replacement characters in parser grammar
      * @since 2.2
      */
-    private char dollar = '$';
-
-    /**
-     * Configured '#' character
-     * @since 2.2
-     */
-    private char hash = '$';
-
-    /**
-     * Configured '@' character
-     * @since 2.2
-     */
-    private char at = '@';
-
-    /**
-     * Configured '*' character
-     * @since 2.2
-     */
-    private char asterisk = '*';
-
+    private ParserConfiguration parserConfiguration;
 
     /**
      * Creates a new RuntimeInstance object.
@@ -355,10 +335,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         this.runtimeDirectivesShared = null;
         this.uberSpect = null;
         this.stringInterning = false;
-        this.dollar = '$';
-        this.hash = '#';
-        this.at = '@';
-        this.asterisk = '*';
+        this.parserConfiguration = new ParserConfiguration();
 
         /*
          *  create a VM factory, introspector, and application attributes
@@ -1271,10 +1248,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
              * test parser creation and use generated parser to fill up customized characters
              */
             Parser parser = parserPool.get();
-            dollar = parser.dollar();
-            hash = parser.hash();
-            at = parser.at();
-            asterisk = parser.asterisk();
+            parserConfiguration = new ParserConfiguration();
+            parserConfiguration.setDollarChar(parser.dollar());
+            parserConfiguration.setHashChar(parser.hash());
+            parserConfiguration.setAtChar(parser.at());
+            parserConfiguration.setAsteriskChar(parser.asterisk());
             parserPool.put(parser);
         }
         else
@@ -1622,7 +1600,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
 
         /* now just create the VM call, and use evaluate */
-        StringBuilder template = new StringBuilder(String.valueOf(hash));
+        StringBuilder template = new StringBuilder(String.valueOf(parserConfiguration.getHashChar()));
         template.append(vmName);
         template.append("(");
          for (String param : params)
@@ -1998,26 +1976,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     }
 
     @Override
-    public char dollar()
+    public ParserConfiguration getParserConfiguration()
     {
-        return dollar;
-    }
-
-    @Override
-    public char hash()
-    {
-        return hash;
-    }
-
-    @Override
-    public char at()
-    {
-        return at;
-    }
-
-    @Override
-    public char asterisk()
-    {
-        return asterisk;
+        return parserConfiguration;
     }
 }

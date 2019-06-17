@@ -220,7 +220,7 @@ public class Macro extends Directive
 
             // trim off the leading $ for the args after the macro name.
             // saves everyone else from having to do it
-            if (i > 0 && macroArg.name.startsWith(String.valueOf(rsvc.dollar())))
+            if (i > 0 && macroArg.name.startsWith(String.valueOf(rsvc.getParserConfiguration().getDollarChar())))
             {
                 macroArg.name = macroArg.name.substring(1);
             }
@@ -273,10 +273,10 @@ public class Macro extends Directive
     {
         StringBuilder ret = (buf == null) ? new StringBuilder() : buf;
 
-        ret.append(rsvc.hash()).append(macroArgs.get(0).name).append("( ");
+        ret.append(rsvc.getParserConfiguration().getHashChar()).append(macroArgs.get(0).name).append("( ");
         for (MacroArg marg : macroArgs)
         {
-            ret.append(rsvc.dollar()).append(marg.name);
+            ret.append(rsvc.getParserConfiguration().getDollarChar()).append(marg.name);
             if (marg.defaultVal != null)
             {
               ret.append("=").append(marg.defaultVal);
