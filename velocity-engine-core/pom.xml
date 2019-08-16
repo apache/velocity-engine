@@ -58,13 +58,6 @@
 
     <build>
         <plugins>
-            <!-- maven lifecycle debugging plugin, see 'mvn buildplan:help' -->
-            <plugin>
-                <groupId>fr.jcgay.maven.plugins</groupId>
-                <artifactId>buildplan-maven-plugin</artifactId>
-                <version>1.3</version>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
