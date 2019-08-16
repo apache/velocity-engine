@@ -38,14 +38,11 @@
       The proposed custom parser replaces '#' with '@' and '@' with '%'
       so that it's suitable to use with Markdown template files, for instance.
 
-      The generated parser class is org.apache.velocity.runtime.parser.${parser.basename}Parser,
+      The generated parser class is ${parser.package}.${parser.basename}Parser,
       and must be specified at runtime using the Velocity property parser.class:
-        parser.class = org.apache.velocity.runtime.parser.MyCustomParser
+        parser.class = foo.bar.MyCustomParser
 
-      Please note that:
-
-      + all configurable chars must be specified, even when similar to default ones.
-      + custom parser package **must** be org.apache.velocity.runtime.parser
+      Please note that all configurable chars (*, @, $, #) must be specified, even when similar to default ones.
     -->
 
     <properties>
