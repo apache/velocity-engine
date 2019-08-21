@@ -407,7 +407,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             if (configuredChar.length() != 1)
             {
-                throw new RuntimeException(configKey + " must be a single UTF-8 character");
+                throw new IllegalArgumentException(String.format("value of '%s' must be a single character string, but is '%s'", configKey, configuredChar));
             }
             return configuredChar.charAt(0);
         }
