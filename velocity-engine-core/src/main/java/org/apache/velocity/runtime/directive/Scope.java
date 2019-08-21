@@ -327,7 +327,7 @@ public class Scope extends AbstractMap
             StringBuilder sb = new StringBuilder();
             if (directive != null)
             {
-                sb.append('#'); // parser characters substitution is not heandled here
+                sb.append('#'); // parser characters substitution is not handled here
             }
             sb.append(getName());
             sb.append("[type:").append(getType());
