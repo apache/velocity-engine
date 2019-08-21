@@ -405,9 +405,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         String configuredChar = getString(configKey);
         if (configuredChar != null)
         {
-            if (configuredChar.length() != 2 || configuredChar.getBytes(StandardCharsets.UTF_8).length != 1)
+            if (configuredChar.length() != 1)
             {
-                throw new RuntimeException(configKey + " must be a single byte UTF-8 character");
+                throw new RuntimeException(configKey + " must be a single UTF-8 character");
             }
             return configuredChar.charAt(0);
         }
