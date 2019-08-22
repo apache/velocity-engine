@@ -128,7 +128,7 @@ public class SimpleNode implements Node
     {
         this(i);
         parser = p;
-        template = parser.currentTemplate;
+        template = parser.getCurrentTemplate();
     }
 
     /**
@@ -352,16 +352,16 @@ public class SimpleNode implements Node
         // buffer allocation. VELOCITY-606
         if (first == last)
         {
-            literal = NodeUtils.tokenLiteral(first);
+            literal = NodeUtils.tokenLiteral(parser, first);
             return literal;
         }
 
         Token t = first;
-        StringBuilder sb = new StringBuilder(NodeUtils.tokenLiteral(t));
+        StringBuilder sb = new StringBuilder(NodeUtils.tokenLiteral(parser, t));
         while (t != last)
         {
             t = t.next;
-            sb.append(NodeUtils.tokenLiteral(t));
+            sb.append(NodeUtils.tokenLiteral(parser, t));
         }
         literal = sb.toString();
         return literal;
@@ -570,4 +570,13 @@ public class SimpleNode implements Node
     }
 
     public Template getTemplate() { return template; }
+
+    /**
+     * @return the parser which created this node
+     * @since 2.2
+     */
+    public Parser getParser()
+    {
+        return parser;
+    }
 }

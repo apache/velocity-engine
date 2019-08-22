@@ -23,8 +23,9 @@
  */
 options
 {
-    /** The default package for this parser kit */
+    /** The default package for this parser kit. This is now done from Maven.
     NODE_PACKAGE="org.apache.velocity.runtime.parser";
+    */
 
     /** A source file will  be generated for each non-terminal */
     MULTI=true;
@@ -73,16 +74,19 @@ options
     DEBUG_LOOKAHEAD = true;
     DEBUG_TOKEN_MANAGER = true;
      */
+
+
 }
 
-PARSER_BEGIN(Parser)
-package org.apache.velocity.runtime.parser;
+PARSER_BEGIN(${parser.basename}Parser)
+package ${parser.package};
 
 import java.io.*;
 import java.util.*;
 import org.apache.velocity.Template;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.parser.*;
 import org.apache.velocity.runtime.parser.node.*;
 import org.apache.velocity.runtime.directive.*;
 import org.apache.velocity.runtime.directive.MacroParseException;
@@ -105,7 +109,7 @@ import org.slf4j.Logger;
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @version $Id$
 */
-public class Parser
+public class ${parser.basename}Parser implements Parser
 {
     /**
      * Parser debugging flag.
@@ -118,7 +122,7 @@ public class Parser
     {
         try
         {
-            Parser.class.getDeclaredMethod("trace_call", String.class);
+            ${parser.basename}Parser.class.getDeclaredMethod("trace_call", String.class);
             debugParser = true;
         }
         catch(NoSuchMethodException nsfe)
@@ -162,6 +166,7 @@ public class Parser
 
     private RuntimeServices rsvc = null;
 
+    @Override
     public RuntimeServices getRuntimeServices()
     {
         return rsvc;
@@ -176,7 +181,7 @@ public class Parser
      * object, we satisfy the requirement of an InputStream
      * by using a newline character as an input stream.
      */
-    public Parser( RuntimeServices rs)
+    public ${parser.basename}Parser( RuntimeServices rs)
     {
         /*
          * need to call the CTOR first thing.
@@ -209,6 +214,14 @@ public class Parser
          *  and save the RuntimeServices
          */
         rsvc = rs;
+
+        /*
+         * then initialize customizable characters
+         */
+         dollar   = '${parser.char.dollar}';
+         hash     = '${parser.char.hash}';
+         at       = '${parser.char.at}';
+         asterisk = '${parser.char.asterisk}';
     }
 
     /**
@@ -220,6 +233,7 @@ public class Parser
      * method and re-initializing the lexer with
      * the new stream that we want parsed.
      */
+    @Override
     public SimpleNode parse( Reader reader, Template template )
         throws ParseException
     {
@@ -281,6 +295,7 @@ public class Parser
     /**
      *  This method gets a Directive from the directives Hashtable
      */
+    @Override
     public Directive getDirective(String directive)
     {
         return (Directive) rsvc.getDirective(directive);
@@ -289,6 +304,7 @@ public class Parser
     /**
      *  This method finds out of the directive exists in the directives Map.
      */
+    @Override
     public boolean isDirective(String directive)
     {
         return rsvc.getDirective(directive) != null;
@@ -465,7 +481,7 @@ public class Parser
     private boolean isAssignment()
     {
        // Basically if the last character read was not '$' then false
-       if (token_source.curLexState != REFERENCE) return false;
+       if (token_source.getCurrentLexicalState() != REFERENCE) return false;
 
        char c = ' ';
        int backup = 0;
@@ -491,9 +507,50 @@ public class Parser
 
        return true;
     }
+
+    @Override
+    public Template getCurrentTemplate()
+    {
+        return currentTemplate;
+    }
+
+    @Override
+    public void resetCurrentTemplate()
+    {
+        currentTemplate = null;
+    }
+
+    @Override
+    public char dollar()
+    {
+        return dollar;
+    }
+
+    @Override
+    public char hash()
+    {
+        return hash;
+    }
+
+    @Override
+    public char at()
+    {
+        return at;
+    }
+
+    @Override
+    public char asterisk()
+    {
+        return asterisk;
+    }
+
+    private char dollar = '$';
+    private char hash = '#';
+    private char at = '@';
+    private char asterisk = '*';
 }
 
-PARSER_END(Parser)
+PARSER_END(${parser.basename}Parser)
 
 TOKEN_MGR_DECLS:
 {
@@ -505,7 +562,7 @@ TOKEN_MGR_DECLS:
     List stateStack = new ArrayList(50);
 
     private boolean inComment;
-    public  boolean inSet;
+    private boolean inSet;
 
     /**
      * Our own trace method. Use sparsingly in production, since each
@@ -513,7 +570,7 @@ TOKEN_MGR_DECLS:
      */
     public static void trace(String message)
     {
-        Parser.trace(message);
+        ${parser.basename}Parser.trace(message);
     }
     
     /**
@@ -524,6 +581,11 @@ TOKEN_MGR_DECLS:
         trace(" switch to " + lexStateNames[lexState]);
         SwitchTo(lexState);
      }
+
+    public int getCurrentLexicalState()
+    {
+        return curLexState;
+    }
 
     /**
      *  pops a state off the stack, and restores paren counts
@@ -597,6 +659,16 @@ TOKEN_MGR_DECLS:
         inSet = false;
 
         return;
+    }
+
+    public void setInSet(boolean value)
+    {
+        inSet = value;
+    }
+
+    public boolean isInSet()
+    {
+        return inSet;
     }
 
     /**
@@ -835,7 +907,7 @@ TOKEN:
      *  for disaster, another long night with Mr. Parser, or both.
      */
 
-    <ESCAPE_DIRECTIVE :  (<DOUBLE_ESCAPE>)* "\\#" (<WORD> | <BRACKETED_WORD>) >
+    <ESCAPE_DIRECTIVE :  (<DOUBLE_ESCAPE>)* "\\${parser.char.hash}" (<WORD> | <BRACKETED_WORD>) >
 }
 
 
@@ -854,14 +926,14 @@ TOKEN:
 <DEFAULT, PRE_REFERENCE, PRE_OLD_REFERENCE, REFERENCE, REFMODIFIER, OLD_REFMODIFIER, REFMOD2, REFMOD3>
 TOKEN:
 {
-  <SET_DIRECTIVE: ("#set" | "#{set}")  (" "|"\t")* "(">
+  <SET_DIRECTIVE: ("${parser.char.hash}set" | "${parser.char.hash}{set}")  (" "|"\t")* "(">
     {
         if (! inComment)
         {
             trace(" #set :  going to DIRECTIVE" );
 
             stateStackPush();
-            inSet = true;
+            setInSet(true);
             switchTo(DIRECTIVE);
         }
 
@@ -891,7 +963,7 @@ MORE :
      *   Note : DOLLARBANG is a duplicate of DOLLAR.  They must be identical.
      */
 
-    <DOLLAR: ("\\")* "$">
+    <DOLLAR: ("\\")* "${parser.char.dollar}">
     {
         if (! inComment)
         {
@@ -918,7 +990,7 @@ MORE :
         }
     }
 
-|   <DOLLARBANG: ("\\")* "$" ("\\")* "!">
+|   <DOLLARBANG: ("\\")* "${parser.char.dollar}" ("\\")* "!">
     {
         if (! inComment)
         {
@@ -945,7 +1017,7 @@ MORE :
         }
     }
 
-|   "#[["
+|   "${parser.char.hash}[["
     {
        if (!inComment)
        {
@@ -959,7 +1031,7 @@ MORE :
        }
     }
 
-|   <"#**" ~["#","\u200B"]>
+|   <"${parser.char.hash}${parser.char.asterisk}${parser.char.asterisk}" ~["${parser.char.hash}","\u200B"]>
     {
     	if (!inComment)
     	{
@@ -974,7 +1046,7 @@ MORE :
     	}
     }
 
-|   "#*"
+|   "${parser.char.hash}${parser.char.asterisk}"
     {
     	if (!inComment)
     	{
@@ -988,7 +1060,7 @@ MORE :
     	}
     }
 
-|   <HASH : "#" >
+|   <HASH : "${parser.char.hash}" >
     {
         if (! inComment)
         {
@@ -1021,7 +1093,7 @@ MORE :
 <DEFAULT,PRE_DIRECTIVE,DIRECTIVE,REFERENCE,PRE_REFERENCE,PRE_OLD_REFERENCE,REFMOD2,REFMOD3,REFMODIFIER,OLD_REFMODIFIER>
 TOKEN :
 {
-   <SINGLE_LINE_COMMENT_START: "##">
+   <SINGLE_LINE_COMMENT_START: "${parser.char.hash}${parser.char.hash}">
    {
         if (!inComment)
         {
@@ -1061,7 +1133,7 @@ TOKEN :
 <IN_FORMAL_COMMENT>
 TOKEN :
 {
-  <FORMAL_COMMENT: "*#" >
+  <FORMAL_COMMENT: "${parser.char.asterisk}${parser.char.hash}" >
   {
     inComment = false;
     stateStackPop();
@@ -1076,7 +1148,7 @@ TOKEN :
 <IN_MULTI_LINE_COMMENT>
 TOKEN :
 {
-  <MULTI_LINE_COMMENT: "*#" >
+  <MULTI_LINE_COMMENT: "${parser.char.asterisk}${parser.char.hash}" >
   {
     inComment = false;
     stateStackPop();
@@ -1091,7 +1163,7 @@ TOKEN :
 <IN_TEXTBLOCK>
 TOKEN :
 {
-  <TEXTBLOCK: "]]#" >
+  <TEXTBLOCK: "]]${parser.char.hash}" >
   {
     inComment = false;
     stateStackPop();
@@ -1124,8 +1196,8 @@ TOKEN:
     {
         trace(" NEWLINE :");
 
-        if (inSet)
-            inSet = false;
+        /* if (isInSet()) */
+        setInSet(false);
     }
 }
 
@@ -1177,7 +1249,7 @@ TOKEN :
          *  - finally, if we are in REFMOD2 (remember : $foo.bar( ) then " is ok!
          */
 
-         if( curLexState == DIRECTIVE && !inSet && lparen == 0)
+         if( curLexState == DIRECTIVE && !isInSet() && lparen == 0)
             stateStackPop();
     }
 }
@@ -1263,7 +1335,7 @@ TOKEN:
          *  because we want to handle the \n after
          */
 
-        if ( lparen == 0 && !inSet && curLexState != REFMOD2 && curLexState != REFINDEX && curLexState != ALT_VAL)
+        if ( lparen == 0 && !isInSet() && curLexState != REFMOD2 && curLexState != REFINDEX && curLexState != ALT_VAL)
         {
             stateStackPop();
         }
@@ -1281,7 +1353,7 @@ TOKEN:
          *  because we want to handle the \n after
          */
 
-        if ( lparen == 0 && !inSet && curLexState != REFMOD2 && curLexState != ALT_VAL)
+        if ( lparen == 0 && !isInSet() && curLexState != REFMOD2 && curLexState != ALT_VAL)
         {
             stateStackPop();
     }
@@ -1304,8 +1376,8 @@ TOKEN:
 {
     <#LETTER: [ "a"-"z", "A"-"Z" ] >
 |   <#DIRECTIVE_CHAR: [ "a"-"z", "A"-"Z", "0"-"9", "_" ] >
-|   <WORD: ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* >
-|   <BRACKETED_WORD: "{" ( <LETTER> | ["_"] | ["@"]) (<DIRECTIVE_CHAR>)* "}" >
+|   <WORD: ( <LETTER> | ["_"] | ["${parser.char.at}"]) (<DIRECTIVE_CHAR>)* >
+|   <BRACKETED_WORD: "{" ( <LETTER> | ["_"] | ["${parser.char.at}"]) (<DIRECTIVE_CHAR>)* "}" >
 }
 
 /* -----------------------------------------------------------------------
@@ -1454,12 +1526,12 @@ TOKEN :
 {
     <DOUBLE_ESCAPE : "\\\\">
 |   <ESCAPE: "\\" >
-|   <TEXT: (~["$", "#", "\\", "\r", "\n","\u200B"])* (~["$", "#", "\\", "\r", "\n", " ", "\t","\u200B"])+ (~["$", "#", "\\", "\r", "\n","\u200B"])* <NEWLINE> ((~["$", "#", "\\", "\r", "\n","\u200B"])* <NEWLINE>)* >
+|   <TEXT: (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])* (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n", " ", "\t","\u200B"])+ (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])* <NEWLINE> ((~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])* <NEWLINE>)* >
 }
 
 TOKEN :
 {
-    <INLINE_TEXT: (~["$", "#", "\\", "\r", "\n","\u200B"])+ >
+    <INLINE_TEXT: (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])+ >
 }
 
 /**
@@ -1718,8 +1790,8 @@ boolean Directive(boolean afterNewline) :
     ((id = <WORD>) | (id = <BRACKETED_WORD>))
     {
         String directiveName;
-        int p = id.image.lastIndexOf('#');
-        if (id.kind == ParserConstants.BRACKETED_WORD)
+        int p = id.image.lastIndexOf(hash);
+        if (id.kind == StandardParserConstants.BRACKETED_WORD)
         {
             directiveName = id.image.substring(p + 2, id.image.length() - 1);
         }
@@ -1750,7 +1822,7 @@ boolean Directive(boolean afterNewline) :
 
         if ( d == null)
         {
-            if( directiveName.startsWith("@") )
+            if( directiveName.charAt(0) == at )
             {
                 // block macro call of type: #@foobar($arg1 $arg2) astBody #end
                 directiveType = Directive.BLOCK;
@@ -1916,7 +1988,7 @@ boolean Directive(boolean afterNewline) :
           )
           #Block
           {
-              int pos = _else.image.lastIndexOf('#');
+              int pos = _else.image.lastIndexOf(hash);
               if (pos > 0)
               {
                   block.setMorePostfix(_else.image.substring(0, pos));
@@ -1948,7 +2020,7 @@ boolean Directive(boolean afterNewline) :
         }
       ]
       {
-          int pos = end.image.lastIndexOf('#');
+          int pos = end.image.lastIndexOf(hash);
           if (pos > 0)
           {
               block.setMorePostfix(end.image.substring(0, pos));
@@ -2206,7 +2278,7 @@ boolean IfStatement(boolean afterNewline) :
         }
     ]
     {
-        int pos = end.image.lastIndexOf('#');
+        int pos = end.image.lastIndexOf(hash);
         if (pos > 0)
         {
             lastBlock.setMorePostfix(end.image.substring(0, pos));
@@ -2245,7 +2317,7 @@ ASTBlock ElseStatement(ASTBlock previousBlock, boolean afterNewline) :
     )
     #Block
     {
-        int pos = _else.image.lastIndexOf('#');
+        int pos = _else.image.lastIndexOf(hash);
         if (pos > 0)
         {
             previousBlock.setMorePostfix(_else.image.substring(0, pos));
@@ -2285,7 +2357,7 @@ ASTBlock ElseIfStatement(ASTBlock previousBlock, boolean afterNewline) :
   )
   #Block
   {
-      int pos = elseif.image.lastIndexOf('#');
+      int pos = elseif.image.lastIndexOf(hash);
       if (pos > 0)
       {
           previousBlock.setMorePostfix(elseif.image.substring(0, pos));
@@ -2318,7 +2390,7 @@ boolean SetDirective(boolean afterNewline) :
          * ensure that inSet is false.  Leads to some amusing bugs...
          */
 
-        token_source.inSet = false;
+        token_source.setInSet(false);
     }
     [
         LOOKAHEAD(2, { afterNewline || rsvc.getSpaceGobbling() == SpaceGobbling.BC } )

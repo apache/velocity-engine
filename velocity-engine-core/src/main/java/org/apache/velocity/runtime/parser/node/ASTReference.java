@@ -322,7 +322,7 @@ public class ASTReference extends SimpleNode
                             (!onlyTestingReference || warnInvalidTestedReferences)))
                 {
                     result = EventHandlerUtil.invalidGetMethod(rsvc, context,
-                        "$" + rootString, null, null, uberInfo);
+                            rsvc.getParserConfiguration().getDollarChar() + rootString, null, null, uberInfo);
                 }
 
                 return result;
@@ -388,7 +388,7 @@ public class ASTReference extends SimpleNode
                             (!onlyTestingReference || warnInvalidTestedReferences || numChildren > 0))
                         {
                             result = EventHandlerUtil.invalidGetMethod(rsvc, context,
-                                    "$" + rootString, previousResult, null, uberInfo);
+                                    rsvc.getParserConfiguration().getDollarChar() + rootString, previousResult, null, uberInfo);
                         }
                     }
                     else
@@ -402,7 +402,7 @@ public class ASTReference extends SimpleNode
                             (referenceType != QUIET_REFERENCE || warnInvalidQuietReferences) &&
                             (!onlyTestingReference || warnInvalidTestedReferences || failedChild < numChildren - 1))
                         {
-                            StringBuilder name = new StringBuilder("$").append(rootString);
+                            StringBuilder name = new StringBuilder(String.valueOf(rsvc.getParserConfiguration().getDollarChar())).append(rootString);
                             for (int i = 0; i <= failedChild; i++)
                             {
                                 Node node = jjtGetChild(i);
@@ -953,7 +953,7 @@ public class ASTReference extends SimpleNode
             int i = 0;
             int len = t.image.length();
 
-            i = t.image.indexOf('$');
+            i = t.image.indexOf(rsvc.getParserConfiguration().getDollarChar());
 
             if (i == -1)
             {
@@ -1037,7 +1037,7 @@ public class ASTReference extends SimpleNode
          *  last $
          */
 
-        int loc1 = t.image.lastIndexOf('$');
+        int loc1 = t.image.lastIndexOf(rsvc.getParserConfiguration().getDollarChar());
 
         /*
          *  if we have extra stuff, loc > 0

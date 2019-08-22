@@ -489,4 +489,11 @@ public interface RuntimeServices
     * @since 2.1
     */
    boolean isScopeControlEnabled(String scopeName);
+
+    /**
+     * Get the replacement characters configured for this runtime service's parser
+     * @return configured replacement characters
+     * @since 2.2
+     */
+    ParserConfiguration getParserConfiguration();
 }

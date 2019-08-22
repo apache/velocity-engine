@@ -93,7 +93,7 @@ public class ASTIfStatement extends SimpleNode
          */
         Token t = getFirstToken();
         int pos = -1;
-        while (t != null && (pos = t.image.lastIndexOf('#')) == -1)
+        while (t != null && (pos = t.image.lastIndexOf(rsvc.getParserConfiguration().getHashChar())) == -1)
         {
             t = t.next;
         }

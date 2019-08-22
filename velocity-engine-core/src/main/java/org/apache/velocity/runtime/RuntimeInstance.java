@@ -61,6 +61,9 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -226,6 +229,18 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private LogContext logContext;
 
     /**
+     * Configured parser class
+     * @since 2.2
+     */
+    private Constructor parserConstructor;
+
+    /**
+     * Configured replacement characters in parser grammar
+     * @since 2.2
+     */
+    private ParserConfiguration parserConfiguration;
+
+    /**
      * Creates a new RuntimeInstance object.
      */
     public RuntimeInstance()
@@ -320,6 +335,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         this.runtimeDirectivesShared = null;
         this.uberSpect = null;
         this.stringInterning = false;
+        this.parserConfiguration = new ParserConfiguration();
 
         /*
          *  create a VM factory, introspector, and application attributes
@@ -382,6 +398,20 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         /* init parser behavior */
         hyphenAllowedInIdentifiers = getBoolean(PARSER_HYPHEN_ALLOWED, false);
+    }
+
+    private char getConfiguredCharacter(String configKey, char defaultChar)
+    {
+        String configuredChar = getString(configKey);
+        if (configuredChar != null)
+        {
+            if (configuredChar.length() != 1)
+            {
+                throw new IllegalArgumentException(String.format("value of '%s' must be a single character string, but is '%s'", configKey, configuredChar));
+            }
+            return configuredChar.charAt(0);
+        }
+        return defaultChar;
     }
 
     /**
@@ -1142,6 +1172,29 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     private void initializeParserPool()
     {
         /*
+         * First initialize parser class. If it's not valid or not found, it will generate an error
+         * later on in this method when parser creation is tester.
+         */
+        String parserClassName = getString(PARSER_CLASS, DEFAULT_PARSER_CLASS);
+        Class parserClass;
+        try
+        {
+            parserClass = ClassUtils.getClass(parserClassName);
+        }
+        catch (ClassNotFoundException cnfe)
+        {
+            throw new VelocityException("parser class not found: " + parserClassName, cnfe);
+        }
+        try
+        {
+            parserConstructor = parserClass.getConstructor(RuntimeServices.class);
+        }
+        catch (NoSuchMethodException nsme)
+        {
+            throw new VelocityException("parser class must provide a constructor taking a RuntimeServices argument", nsme);
+        }
+
+        /*
          * Which parser pool?
          */
         String pp = getString(RuntimeConstants.PARSER_POOL_CLASS);
@@ -1190,6 +1243,17 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             parserPool = (ParserPool) o;
 
             parserPool.initialize(this);
+
+            /*
+             * test parser creation and use generated parser to fill up customized characters
+             */
+            Parser parser = parserPool.get();
+            parserConfiguration = new ParserConfiguration();
+            parserConfiguration.setDollarChar(parser.dollar());
+            parserConfiguration.setHashChar(parser.hash());
+            parserConfiguration.setAtChar(parser.at());
+            parserConfiguration.setAsteriskChar(parser.asterisk());
+            parserPool.put(parser);
         }
         else
         {
@@ -1215,8 +1279,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public Parser createNewParser()
     {
         requireInitialization();
-
-        return new Parser(this);
+        try
+        {
+            return (Parser)parserConstructor.newInstance((RuntimeServices)this);
+        }
+        catch (IllegalAccessException | InstantiationException | InvocationTargetException e)
+        {
+            throw new VelocityException("could not build new parser class", e);
+        }
     }
 
     /**
@@ -1264,7 +1334,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             if (keepParser)
             {
                 /* drop the parser Template reference to allow garbage collection */
-                parser.currentTemplate = null;
+                parser.resetCurrentTemplate();
                 parserPool.put(parser);
             }
 
@@ -1530,7 +1600,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         }
 
         /* now just create the VM call, and use evaluate */
-        StringBuilder template = new StringBuilder("#");
+        StringBuilder template = new StringBuilder(String.valueOf(parserConfiguration.getHashChar()));
         template.append(vmName);
         template.append("(");
          for (String param : params)
@@ -1903,5 +1973,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     public boolean isScopeControlEnabled(String scopeName)
     {
         return enabledScopeControls.contains(scopeName);
+    }
+
+    @Override
+    public ParserConfiguration getParserConfiguration()
+    {
+        return parserConfiguration;
     }
 }
