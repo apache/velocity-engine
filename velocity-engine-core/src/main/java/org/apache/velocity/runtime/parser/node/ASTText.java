@@ -96,9 +96,9 @@ public class ASTText extends SimpleNode
         Token t = getFirstToken();
         for (; t != getLastToken(); t = t.next)
         {
-            builder.append(NodeUtils.tokenLiteral(t));
+            builder.append(NodeUtils.tokenLiteral(parser, t));
         }
-        builder.append(NodeUtils.tokenLiteral(t));
+        builder.append(NodeUtils.tokenLiteral(parser, t));
         ctext = builder.toString();
 
         cleanupParserAndTokens();

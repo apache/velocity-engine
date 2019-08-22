@@ -29,10 +29,9 @@ import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.directive.BlockMacro;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.directive.RuntimeMacro;
-import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Parser;
-import org.apache.velocity.runtime.parser.ParserConstants;
+import org.apache.velocity.runtime.parser.StandardParserConstants;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.introspection.Info;
 
@@ -113,7 +112,7 @@ public class ASTDirective extends SimpleNode
              */
             t = getFirstToken();
             int pos = -1;
-            while (t != null && (pos = t.image.lastIndexOf('#')) == -1)
+            while (t != null && (pos = t.image.lastIndexOf(rsvc.getParserConfiguration().getHashChar())) == -1)
             {
                 t = t.next;
             }
@@ -144,11 +143,11 @@ public class ASTDirective extends SimpleNode
                 }
 
                 t = getFirstToken();
-                if (t.kind == ParserConstants.WHITESPACE) t = t.next;
+                if (t.kind == StandardParserConstants.WHITESPACE) t = t.next;
                 directive.setLocation(t.beginLine, t.beginColumn, getTemplate());
                 directive.init(rsvc, context, this);
             }
-            else if( directiveName.startsWith("@") )
+            else if( directiveName.startsWith(String.valueOf(rsvc.getParserConfiguration().getAtChar())) )
             {
                 if( this.jjtGetNumChildren() > 0 )
                 {
@@ -313,7 +312,7 @@ public class ASTDirective extends SimpleNode
         {
             writer.write(prefix);
             writer.write(morePrefix);
-            writer.write( "#");
+            writer.write(rsvc.getParserConfiguration().getHashChar());
             writer.write(directiveName);
             writer.write(postfix);
         }

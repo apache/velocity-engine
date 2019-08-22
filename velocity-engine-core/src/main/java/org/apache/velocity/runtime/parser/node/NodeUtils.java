@@ -19,7 +19,8 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.
  */
 
-import org.apache.velocity.runtime.parser.ParserConstants;
+import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.StandardParserConstants;
 import org.apache.velocity.runtime.parser.Token;
 
 /**
@@ -43,7 +44,7 @@ public class NodeUtils
      * @return StrBuilder with the special tokens.
      * @since 2.0.0
      */
-    public static StringBuilder getSpecialText(Token t)
+    public static StringBuilder getSpecialText(Parser parser, Token t)
     {
         StringBuilder sb = new StringBuilder();
 
@@ -62,7 +63,7 @@ public class NodeUtils
             {
                 char c = st.charAt(i);
 
-                if ( c == '#' || c == '$' )
+                if ( c == parser.hash() || c == parser.dollar() )
                 {
                     sb.append( c );
                 }
@@ -90,7 +91,7 @@ public class NodeUtils
                              */
                             continue;
                         }
-                        else if( cc == '$' )
+                        else if( cc == parser.dollar() )
                         {
                             /*
                              *  a $ ends it correctly
@@ -126,20 +127,20 @@ public class NodeUtils
      * @param t
      * @return A node literal.
      */
-    public static String tokenLiteral( Token t )
+    public static String tokenLiteral( Parser parser, Token t )
     {
-        // Look at kind of token and return "" when it's a multiline comment
-        if (t.kind == ParserConstants.MULTI_LINE_COMMENT)
+        // Look at kind of token and return "" when it's a block comment
+        if (t.kind == StandardParserConstants.MULTI_LINE_COMMENT)
         {
             return "";
         }
-        else if (t.specialToken == null || t.specialToken.image.startsWith("##"))
+        else if (t.specialToken == null || t.specialToken.image.startsWith(parser.lineComment()))
         {
             return t.image;
         }
         else
         {
-            StringBuilder special = getSpecialText(t);
+            StringBuilder special = getSpecialText(parser, t);
             if (special.length() > 0)
             {
                 return special.append(t.image).toString();

@@ -20,6 +20,7 @@ package org.apache.velocity.runtime.directive;
  */
 
 import org.apache.velocity.Template;
+import org.apache.velocity.runtime.parser.Parser;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -326,7 +327,7 @@ public class Scope extends AbstractMap
             StringBuilder sb = new StringBuilder();
             if (directive != null)
             {
-                sb.append('#');
+                sb.append('#'); // parser characters substitution is not handled here
             }
             sb.append(getName());
             sb.append("[type:").append(getType());

@@ -391,21 +391,21 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
 
     /*
      * ----------------------------------------------------------------------
-     * G E N E R A L  R U N T I M E  C O N F I G U R A T I O N
+     * P A R S E R  C O N F I G U R A T I O N
      * ----------------------------------------------------------------------
      */
 
-    /** Whether to use string interning. */
-    String RUNTIME_STRING_INTERNING = "runtime.string_interning";
-    
-    /** Switch for the interpolation facility for string literals. */
-    String INTERPOLATE_STRINGLITERALS = "runtime.interpolate_string_literals";
+    /**
+     * Property specifying the parser class to use
+     * @since 2.2
+     */
+    String PARSER_CLASS = "parser.class";
 
-    /** Switch for ignoring nulls in math equations vs throwing exceptions. */
-    String STRICT_MATH = "runtime.strict_math";
-
-    /** Key upon which a context should be accessible within itself */
-    String CONTEXT_AUTOREFERENCE_KEY = "context.self_reference_key";
+    /**
+     * Default parser class
+     * @since 2.2
+     */
+    String DEFAULT_PARSER_CLASS = "org.apache.velocity.runtime.parser.StandardParser";
 
     /**
      * The <code>parser.pool.class</code> property specifies the name of the {@link org.apache.velocity.util.SimplePool}
@@ -423,6 +423,24 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      * @since 2.1
      */
     String PARSER_HYPHEN_ALLOWED = "parser.allow_hyphen_in_identifiers";
+
+    /*
+     * ----------------------------------------------------------------------
+     * G E N E R A L  R U N T I M E  C O N F I G U R A T I O N
+     * ----------------------------------------------------------------------
+     */
+
+    /** Whether to use string interning. */
+    String RUNTIME_STRING_INTERNING = "runtime.string_interning";
+    
+    /** Switch for the interpolation facility for string literals. */
+    String INTERPOLATE_STRINGLITERALS = "runtime.interpolate_string_literals";
+
+    /** Switch for ignoring nulls in math equations vs throwing exceptions. */
+    String STRICT_MATH = "runtime.strict_math";
+
+    /** Key upon which a context should be accessible within itself */
+    String CONTEXT_AUTOREFERENCE_KEY = "context.self_reference_key";
 
     /**
      * Space gobbling mode

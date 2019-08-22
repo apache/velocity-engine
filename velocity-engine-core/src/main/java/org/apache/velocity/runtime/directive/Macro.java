@@ -21,8 +21,10 @@ package org.apache.velocity.runtime.directive;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
+import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
@@ -218,9 +220,9 @@ public class Macro extends Directive
 
             // trim off the leading $ for the args after the macro name.
             // saves everyone else from having to do it
-            if (i > 0 && macroArg.name.startsWith("$"))
+            if (i > 0 && macroArg.name.startsWith(String.valueOf(rsvc.getParserConfiguration().getDollarChar())))
             {
-                macroArg.name = macroArg.name.substring(1, macroArg.name.length());
+                macroArg.name = macroArg.name.substring(1);
             }
 
             macroArgs.add(macroArg);
@@ -230,7 +232,7 @@ public class Macro extends Directive
         {
             StringBuilder msg = new StringBuilder("Macro.getArgArray(): nbrArgs=");
             msg.append(numArgs).append(": ");
-            macroToString(msg, macroArgs);
+            macroToString(msg, macroArgs, rsvc);
             rsvc.getLog("macro").debug(msg.toString());
         }
 
@@ -267,15 +269,14 @@ public class Macro extends Directive
      *         has passed in as buf, this method returns it.
      * @since 1.5
      */
-    public static StringBuilder macroToString(final StringBuilder buf,
-                                              List<MacroArg> macroArgs)
+    public static StringBuilder macroToString(final StringBuilder buf, List<MacroArg> macroArgs, RuntimeServices rsvc)
     {
         StringBuilder ret = (buf == null) ? new StringBuilder() : buf;
 
-        ret.append('#').append(macroArgs.get(0).name).append("( ");
+        ret.append(rsvc.getParserConfiguration().getHashChar()).append(macroArgs.get(0).name).append("( ");
         for (MacroArg marg : macroArgs)
         {
-            ret.append("$").append(marg.name);
+            ret.append(rsvc.getParserConfiguration().getDollarChar()).append(marg.name);
             if (marg.defaultVal != null)
             {
               ret.append("=").append(marg.defaultVal);

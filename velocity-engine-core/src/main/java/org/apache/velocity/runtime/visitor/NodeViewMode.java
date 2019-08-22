@@ -19,6 +19,7 @@ package org.apache.velocity.runtime.visitor;
  * under the License.
  */
 
+import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.*;
 
@@ -66,7 +67,7 @@ public class NodeViewMode extends BaseVisitor
         	// TODO: Token reference
             t = node.getFirstToken();
 
-            if (t.specialToken != null && ! t.specialToken.image.startsWith("##"))
+            if (t.specialToken != null && ! t.specialToken.image.startsWith(node.getParser().lineComment()))
                 special = t.specialToken.image;
 
             tokens = " -> " + special + t.image;

@@ -76,8 +76,8 @@ public class ASTComment extends SimpleNode
     {
         Token t = getFirstToken();
 
-        int loc1 = t.image.indexOf("##");
-        int loc2 = t.image.indexOf("#*");
+        int loc1 = t.image.indexOf(parser.lineComment());
+        int loc2 = t.image.indexOf(parser.blockComment());
 
         if (loc1 == -1 && loc2 == -1)
         {
