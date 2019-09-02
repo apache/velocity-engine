@@ -755,11 +755,11 @@ TOKEN :
     }
 }
 
-/* In all other states, drop the zero-width whitespace */
+/* In all other states, keep the zero-width whitespace for now */
 <REFERENCE,REFMODIFIER,OLD_REFMODIFIER,REFMOD3,REFINDEX,DIRECTIVE,REFMOD2,DEFAULT,REFMOD,IN_TEXTBLOCK,IN_MULTILINE_COMMENT,IN_FORMAL_COMMENT,IN_SINGLE_LINE_COMMENT>
-SKIP :
+TOKEN :
 {
-    <BEFORE_EOF: "\u200B">
+    <ZERO_WIDTH_WHITESPACE: "\u200B">
 }
 
 <REFERENCE, REFMODIFIER, OLD_REFMODIFIER, REFMOD3>
@@ -1573,6 +1573,13 @@ boolean Statement(boolean afterNewline) #void :
 |   (((<INLINE_TEXT>) { afterNewline = false; } ) ((<TEXT>) { afterNewline = true; })? ) #Text { return afterNewline; }
 |   (<WHITESPACE>) #Text { return false; }
 |   (<SUFFIX>) #Text { return true; }
+|   LOOKAHEAD(2) EndingZeroWidthWhitespace() { return afterNewline; }
+|   (<ZERO_WIDTH_WHITESPACE>) #Text { afterNewline = !afterNewline; return false; }
+}
+
+void EndingZeroWidthWhitespace() #void : {}
+{
+    <ZERO_WIDTH_WHITESPACE> <EOF> {  }
 }
 
 /**
