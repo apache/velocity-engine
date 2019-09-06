@@ -26,6 +26,13 @@
 
   <body>
     <release version="2.2" date="Not yet released">
+        <action type="fix" dev="cbrisson" issue="VELOCITY-919">
+            Fix abnormal suppression of zero-width whitespaces
+        </action>
+        <action type="add" dev="cbrisson" issue="VELOCITY-917">
+            Added an example of how to build a customized parser where the '#', '$', '*' and '@'
+            can be replaced by any character
+        </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-916">
             Implement template location tracking with slf4j MDC tags; disabled by default, activated
             with <code>runtime.log.track_location</code>. Once activated, an MDC-aware logger will be
