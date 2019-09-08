@@ -26,6 +26,10 @@
 
   <body>
     <release version="2.2" date="Not yet released">
+        <action type="add" dev="cbrisson" issue="VELOCITY-916">
+            Also have the debugging flag runtime.log.track_locations display a VTL stack trace
+            on any error
+        </action>
         <action type="fix" dev="cbrisson" issue="VELOCITY-919">
             Fix abnormal suppression of zero-width whitespaces
         </action>
