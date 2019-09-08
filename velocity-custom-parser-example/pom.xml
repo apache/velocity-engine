@@ -31,7 +31,7 @@
     <name>Apache Velocity Custom Parser Example</name>
     <description>Custom Parser Example for Apache Velocity</description>
 
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <!--
       This module demonstrates how to build a custom Velocity parser.
