@@ -26,10 +26,6 @@
 
   <body>
     <release version="2.2" date="Not yet released">
-        <action type="add" dev="cbrisson" issue="VELOCITY-916">
-            Also have the debugging flag runtime.log.track_locations display a VTL stack trace
-            on any error
-        </action>
         <action type="fix" dev="cbrisson" issue="VELOCITY-919">
             Fix abnormal suppression of zero-width whitespaces
         </action>
@@ -38,9 +34,21 @@
             can be replaced by any character
         </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-916">
-            Implement template location tracking with slf4j MDC tags; disabled by default, activated
-            with <code>runtime.log.track_location</code>. Once activated, an MDC-aware logger will be
-            able to display the <code>file</code>, <code>line</code> and <code>column</code> MDC tags
+            Added the <code>runtime.log.track_locations</code> debugging flag (disabled by default), which:
+            <ul>
+                <li>display a VTL stack trace on any error</li>
+                <li>Implement template location tracking with slf4j MDC tags: Once activated, an MDC-aware logger will be
+            able to display the <code>file</code>, <code>line</code> and <code>column</code> MDC tags</li>
+            </ul>
+        </action>
+        <action type="add" dev="cbrisson" issue="VELOCITY-915">
+            Added the following 1.7.x backward compatibility flags:
+            <ul>
+                <li><code>event_handler.invalid_references.quiet</code> - warn on invalid quiet references</li>
+                <li><code>event_handler.invalid_references.null</code> - warn on null references</li>
+                <li><code>event_handler.invalid_references.tested</code> - warn on invalid references tested with <code>#if()</code></li>
+            </ul>
+            Those three flags are false by default, but can be set to true to mimic 1.7.x behavior
         </action>
         <action type="fix" dev="cbrisson">
             Introspection: favor non-vararg methods on ambiguities as does the Java compiler
