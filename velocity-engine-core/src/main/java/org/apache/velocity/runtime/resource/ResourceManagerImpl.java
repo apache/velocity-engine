@@ -132,7 +132,7 @@ public class ResourceManagerImpl
                     ".class' specification in configuration." +
                     " This is a critical value.  Please adjust configuration.";
                 log.error(msg);
-                throw new VelocityException(msg);
+                throw new VelocityException(msg, null, rsvc.getLogContext().getStackTrace());
             }
 
             resourceLoader.commonInit(rsvc, configuration);
@@ -458,7 +458,7 @@ public class ResourceManagerImpl
          */
         if (resource.getData() == null)
         {
-            throw new ResourceNotFoundException("Unable to find resource '" + resourceName + "'");
+            throw new ResourceNotFoundException("Unable to find resource '" + resourceName + "'", null, rsvc.getLogContext().getStackTrace());
         }
 
         /*

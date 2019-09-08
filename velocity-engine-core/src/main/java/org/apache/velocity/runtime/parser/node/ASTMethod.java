@@ -251,7 +251,7 @@ public class ASTMethod extends SimpleNode
                 String msg = "ASTMethod.execute() : exception invoking method '"
                              + methodName + "' in " + o.getClass();
                 log.error(msg, e);
-                throw new VelocityException(msg, e);
+                throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
             }
         }
         finally
@@ -303,7 +303,7 @@ public class ASTMethod extends SimpleNode
                     + methodName + "' in  " + o.getClass()
                     + " threw exception "
                     + e.toString(),
-                    e, methodName, getTemplateName(), this.getLine(), this.getColumn());
+                    e, rsvc.getLogContext().getStackTrace(), methodName, getTemplateName(), this.getLine(), this.getColumn());
             }
         }
 
@@ -321,7 +321,7 @@ public class ASTMethod extends SimpleNode
             + methodName + "' in  " + o.getClass()
             + " threw exception "
             + t.toString(),
-            t, methodName, getTemplateName(), this.getLine(), this.getColumn());
+            t, rsvc.getLogContext().getStackTrace(), methodName, getTemplateName(), this.getLine(), this.getColumn());
         }
     }
 
@@ -415,6 +415,24 @@ public class ASTMethod extends SimpleNode
     public String getMethodName()
     {
         return methodName;
+    }
+
+    /**
+     * Returns the string ".<i>method_name</i>(...)". Arguments literals are not rendered. This method is only
+     * used for displaying the VTL stacktrace when a rendering error is encountered when runtime.log.track_location is true.
+     * @return
+     */
+    @Override
+    public String literal()
+    {
+        if (literal != null)
+        {
+            return literal;
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append('.').append(getMethodName()).append("(...)");
+
+        return literal = builder.toString();
     }
 
 

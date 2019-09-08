@@ -19,13 +19,17 @@ package org.apache.velocity.runtime.parser;
  * under the License.
  */
 
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.introspection.Info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * <p>Track location in template files during rendering by populating the slf4j MDC tags <code>file</code>, <code>line</code> and <code>column</code>.</p>
@@ -42,7 +46,7 @@ import java.util.Deque;
 
 public class LogContext
 {
-    protected static Logger logger = LoggerFactory.getLogger(LogContext.class);
+    protected static Logger logger = LoggerFactory.getLogger("rendering");
 
     public static final String MDC_FILE = "file";
     public static final String MDC_LINE = "line";
@@ -66,18 +70,18 @@ public class LogContext
 
     private static class StackElement
     {
-        protected StackElement(Object src, Info info)
+        protected StackElement(SimpleNode src, Info info)
         {
             this.src = src;
             this.info = info;
         }
 
-        protected Object src;
+        protected SimpleNode src;
         protected int count = 1;
         protected Info info;
     }
 
-    public void pushLogContext(Object src, Info info)
+    public void pushLogContext(SimpleNode src, Info info)
     {
         if (!trackLocation)
         {
@@ -136,5 +140,27 @@ public class LogContext
         MDC.remove(MDC_FILE);
         MDC.remove(MDC_LINE);
         MDC.remove(MDC_COLUMN);
+    }
+
+    private static final String STACKTRACE_LINE = "    %s at %s[line %d, column %d]";
+
+    public String[] getStackTrace()
+    {
+        if (!trackLocation)
+        {
+            return null;
+        }
+        Deque<StackElement> stack = contextStack.get();
+        List<String> levels = new ArrayList<>();
+        for (StackElement level : stack)
+        {
+            String line = String.format(STACKTRACE_LINE,
+                level.src.literal(),
+                level.info.getTemplateName(),
+                level.info.getLine(),
+                level.info.getColumn());
+            levels.add(line);
+        }
+        return levels.size() > 0 ? levels.toArray(new String[levels.size()]) : null;
     }
 }

@@ -85,7 +85,7 @@ public class ContentResource extends Resource
         {
             String msg = "Cannot process content resource";
             log.error(msg, e);
-            throw new VelocityException(msg, e);
+            throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
         }
         finally
         {

@@ -76,8 +76,6 @@ public class ASTReference extends SimpleNode
 
     private boolean checkEmpty;
 
-    private String literal = null;
-
     /**
      * Indicates if we are running in strict reference mode.
      */
@@ -171,7 +169,7 @@ public class ASTReference extends SimpleNode
         numChildren = jjtGetNumChildren();
 
         // This is an expensive call, so get it now.
-        literal = literal();
+        literal();
 
         /*
          * and if appropriate...
@@ -358,7 +356,8 @@ public class ASTReference extends SimpleNode
                         throw new VelocityException("Attempted to access '"
                             + name + "' on a null value at "
                             + StringUtils.formatFileString(uberInfo.getTemplateName(),
-                            + jjtGetChild(i).getLine(), jjtGetChild(i).getColumn()));
+                            + jjtGetChild(i).getLine(), jjtGetChild(i).getColumn()),
+                            null, rsvc.getLogContext().getStackTrace());
                     }
                     previousResult = result;
                     result = jjtGetChild(i).execute(result,context);
@@ -563,7 +562,8 @@ public class ASTReference extends SimpleNode
                       {
                         throw new VelocityException("Reference " + literal()
                             + " evaluated to null when attempting to render at "
-                            + StringUtils.formatFileString(this));
+                            + StringUtils.formatFileString(this)
+                        , null, rsvc.getLogContext().getStackTrace());
                       }
                       else  // toString == null
                       {
@@ -573,7 +573,8 @@ public class ASTReference extends SimpleNode
                         throw new VelocityException("Reference " + literal()
                             + " evaluated to object " + value.getClass().getName()
                             + " whose toString() method returned null at "
-                            + StringUtils.formatFileString(this));
+                            + StringUtils.formatFileString(this)
+                            , null, rsvc.getLogContext().getStackTrace());
                       }
                     }
                     return true;
@@ -677,7 +678,7 @@ public class ASTReference extends SimpleNode
         catch(Exception e)
         {
             throw new VelocityException("Reference evaluation threw an exception at "
-                + StringUtils.formatFileString(this), e);
+                + StringUtils.formatFileString(this), e, rsvc.getLogContext().getStackTrace());
         }
         finally
         {
@@ -766,7 +767,7 @@ public class ASTReference extends SimpleNode
                     {
                         String name = jjtGetChild(i+1).getFirstTokenImage();
                         throw new MethodInvocationException("Attempted to access '"
-                            + name + "' on a null value", null, name, uberInfo.getTemplateName(),
+                            + name + "' on a null value", null, rsvc.getLogContext().getStackTrace(), name, uberInfo.getTemplateName(),
                             jjtGetChild(i+1).getLine(), jjtGetChild(i+1).getColumn());
                     }
 
@@ -816,7 +817,8 @@ public class ASTReference extends SimpleNode
                             "Found neither a 'set' or 'put' method with param types '("
                             + printClass(paramClasses[0]) + "," + printClass(paramClasses[1])
                             + ")' on class '" + result.getClass().getName()
-                            + "' at " + StringUtils.formatFileString(astIndex));
+                            + "' at " + StringUtils.formatFileString(astIndex)
+                            , null, rsvc.getLogContext().getStackTrace());
                     }
                     return false;
                 }
@@ -837,7 +839,7 @@ public class ASTReference extends SimpleNode
                       + methodName + "("
                       + printClass(paramClasses[0]) + "," + printClass(paramClasses[1])
                       + ")' in  " + result.getClass(),
-                      e.getCause(), identifier, astIndex.getTemplateName(), astIndex.getLine(),
+                      e.getCause(), rsvc.getLogContext().getStackTrace(), identifier, astIndex.getTemplateName(), astIndex.getLine(),
                         astIndex.getColumn());
                 }
 
@@ -862,7 +864,7 @@ public class ASTReference extends SimpleNode
                     if (strictRef)
                     {
                         throw new MethodInvocationException("Object '" + result.getClass().getName() +
-                           "' does not contain property '" + identifier + "'", null, identifier,
+                           "' does not contain property '" + identifier + "'", null, rsvc.getLogContext().getStackTrace(), identifier,
                            uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
                     }
                     else
@@ -884,7 +886,7 @@ public class ASTReference extends SimpleNode
                     + identifier + "' in  " + result.getClass()
                     + " threw exception "
                     + ite.getTargetException().toString(),
-                   ite.getTargetException(), identifier, getTemplateName(), this.getLine(), this.getColumn());
+                   ite.getTargetException(), rsvc.getLogContext().getStackTrace(), identifier, getTemplateName(), this.getLine(), this.getColumn());
             }
             /**
              * pass through application level runtime exceptions
@@ -901,7 +903,7 @@ public class ASTReference extends SimpleNode
                 String msg = "ASTReference setValue(): exception: " + e
                               + " template at " + StringUtils.formatFileString(uberInfo);
                 log.error(msg, e);
-                throw new VelocityException(msg, e);
+                throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
             }
 
             return true;
@@ -1145,7 +1147,7 @@ public class ASTReference extends SimpleNode
               log.error("Variable ${} has not been set at {}",
                         rootString, StringUtils.formatFileString(uberInfo));
               throw new MethodInvocationException("Variable $" + rootString +
-                  " has not been set", null, identifier,
+                  " has not been set", null, rsvc.getLogContext().getStackTrace(), identifier,
                   uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
           }
         }

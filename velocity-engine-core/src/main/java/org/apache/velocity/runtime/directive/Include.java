@@ -172,7 +172,7 @@ public class Include extends InputBase
                 log.error(msg);
                 outputErrorToStream( writer, "error with arg " + i
                     + " please see log.");
-                throw new VelocityException(msg);
+                throw new VelocityException(msg, null, rsvc.getLogContext().getStackTrace());
             }
         }
 
@@ -261,7 +261,7 @@ public class Include extends InputBase
             String msg = "#include(): arg = '" + arg +
                         "', called at " + StringUtils.formatFileString(this);
             log.error(msg, e);
-            throw new VelocityException(msg, e);
+            throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
         }
 
 

@@ -219,7 +219,7 @@ public class VelocimacroFactory
                          {
                              String msg = "Velocimacro: Error using VM library: " + lib;
                              log.error(msg, e);
-                             throw new VelocityException(msg, e);
+                             throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
                          }
 
                          log.trace("VM library registration complete.");
@@ -548,7 +548,7 @@ public class VelocimacroFactory
                     {
                         String msg = "Velocimacro: Error using VM library: " + lib;
                         log.error(msg, e);
-                        throw new VelocityException(msg, e);
+                        throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
                     }
 
                     vp = vmManager.get(vmName, sourceTemplate, renderingTemplate);

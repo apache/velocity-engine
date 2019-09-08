@@ -149,7 +149,7 @@ public class ASTStringLiteral extends SimpleNode
             {
                 String msg = "Failed to parse String literal at "+
                     StringUtils.formatFileString(template.getName(), getLine(), getColumn());
-                throw new TemplateInitException(msg, e, template.getName(), getColumn(), getLine());
+                throw new TemplateInitException(msg, e, rsvc.getLogContext().getStackTrace(), template.getName(), getColumn(), getLine());
             }
 
             adjTokenLineNums(nodeTree);
@@ -335,7 +335,7 @@ public class ASTStringLiteral extends SimpleNode
             {
                 String msg = "Error in interpolating string literal";
                 log.error(msg, e);
-                throw new VelocityException(msg, e);
+                throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
             }
 
         }

@@ -264,6 +264,23 @@ public class ASTSetDirective extends SimpleNode
     }
 
     /**
+     * Returns the string "#set($<i>reference</i> = ...)". RHS is not rendered. This method is only
+     * used for displaying the VTL stacktrace when a rendering error is encountered when runtime.log.track_location is true.
+     * @return
+     */
+    @Override
+    public String literal()
+    {
+        if (literal != null)
+        {
+            return literal;
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append("#set(").append(left.literal()).append(" = ...)");
+        return literal = builder.toString();
+    }
+
+    /**
      *  returns the ASTReference that is the LHS of the set statement
      *
      *  @return left hand side of #set statement

@@ -99,7 +99,9 @@ public class Break extends Directive
         {
             throw new VelocityException(node.jjtGetChild(0).literal()+
                 " is not a valid " + Scope.class.getName() + " instance at "
-                + StringUtils.formatFileString(this));
+                + StringUtils.formatFileString(this),
+                null,
+                rsvc.getLogContext().getStackTrace());
         }
     }
 

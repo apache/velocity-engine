@@ -142,7 +142,7 @@ public class Parse extends InputBase
         if ( node.jjtGetNumChildren() == 0 )
         {
             throw new VelocityException("#parse(): argument missing at " +
-                                        StringUtils.formatFileString(this));
+                StringUtils.formatFileString(this), null, rsvc.getLogContext().getStackTrace());
         }
 
         /*
@@ -170,7 +170,7 @@ public class Parse extends InputBase
         if (strictRef && value == null && arg == null)
         {
             throw new VelocityException("The argument to #parse returned null at "
-              + StringUtils.formatFileString(this));
+              + StringUtils.formatFileString(this), null, rsvc.getLogContext().getStackTrace());
         }
 
         /*
@@ -247,7 +247,7 @@ public class Parse extends InputBase
             String msg = "Exception rendering #parse(" + arg + ") at " +
                          StringUtils.formatFileString(this);
             log.error(msg, e);
-            throw new VelocityException(msg, e);
+            throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
         }
 
         /**
@@ -302,7 +302,7 @@ public class Parse extends InputBase
             String msg = "Exception rendering #parse(" + arg + ") at " +
                          StringUtils.formatFileString(this);
             log.error(msg, e);
-            throw new VelocityException(msg, e);
+            throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
         }
         finally
         {

@@ -19,6 +19,8 @@ package org.apache.velocity.exception;
  * under the License.
  */
 
+import org.apache.velocity.runtime.parser.LogContext;
+
 /**
 *  Base class for Velocity runtime exceptions thrown to the
  * application layer.
@@ -32,6 +34,16 @@ public class VelocityException extends RuntimeException
      * Version Id for serializable
      */
     private static final long serialVersionUID = 1251243065134956045L;
+
+    /**
+     * LogContext VTL location tracking context
+     */
+    private LogContext logContext = null;
+
+    /**
+     * VTL vtlStackTrace, populated at construction when runtime.log.track_location is true
+     */
+    private String vtlStackTrace[] = null;
 
     /**
      * @param exceptionMessage The message to register.
@@ -52,12 +64,35 @@ public class VelocityException extends RuntimeException
     }
 
     /**
+     * @param exceptionMessage The message to register.
+     * @param wrapped A throwable object that caused the Exception.
+     * @param vtlStackTrace VTL stacktrace
+     * @since 2.2
+     */
+    public VelocityException(final String exceptionMessage, final Throwable wrapped, final String[] vtlStackTrace)
+    {
+        super(exceptionMessage, wrapped);
+        this.vtlStackTrace = vtlStackTrace;
+    }
+
+    /**
      * @param wrapped A throwable object that caused the Exception.
      * @since 1.5
      */
     public VelocityException(final Throwable wrapped)
     {
         super(wrapped);
+    }
+
+    /**
+     * @param wrapped A throwable object that caused the Exception.
+     * @param vtlStackTrace VTL stacktrace
+     * @since 2.2
+     */
+    public VelocityException(final Throwable wrapped, final String[] vtlStackTrace)
+    {
+        super(wrapped);
+        this.vtlStackTrace = vtlStackTrace;
     }
 
     /**
@@ -73,4 +108,8 @@ public class VelocityException extends RuntimeException
         return getCause();
     }
 
+    public String[] getVtlStackTrace()
+    {
+        return vtlStackTrace;
+    }
 }

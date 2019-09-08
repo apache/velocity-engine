@@ -1488,7 +1488,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             {
                 String msg = "RuntimeInstance.render(): init exception for tag = "+logTag;
                 log.error(msg, e);
-                throw new VelocityException(msg, e);
+                throw new VelocityException(msg, e, getLogContext().getStackTrace());
             }
 
             try
@@ -1518,7 +1518,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch (IOException e)
             {
-                throw new VelocityException("IO Error in writer: " + e.getMessage(), e);
+                throw new VelocityException("IO Error in writer: " + e.getMessage(), e, getLogContext().getStackTrace());
             }
         }
         finally
@@ -1596,7 +1596,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             String msg = "RuntimeInstance.invokeVelocimacro(): VM '" + vmName
                          + "' is not registered.";
             log.error(msg);
-            throw new VelocityException(msg);
+            throw new VelocityException(msg, null, getLogContext().getStackTrace());
         }
 
         /* now just create the VM call, and use evaluate */

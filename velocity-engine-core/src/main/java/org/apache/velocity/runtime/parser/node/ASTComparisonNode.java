@@ -98,7 +98,7 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
                        + StringUtils.formatFileString(this);
         if (rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false))
         {
-            throw new VelocityException(msg);
+            throw new VelocityException(msg, null, rsvc.getLogContext().getStackTrace());
         }
         log.error(msg);
         return false;
@@ -152,7 +152,7 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
                        + StringUtils.formatFileString(this);
         if (rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false))
         {
-            throw new VelocityException(msg);
+            throw new VelocityException(msg, null, rsvc.getLogContext().getStackTrace());
         }
         log.error(msg);
         return false;

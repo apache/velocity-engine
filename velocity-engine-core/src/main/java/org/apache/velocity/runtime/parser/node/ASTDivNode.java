@@ -72,7 +72,7 @@ public class ASTDivNode extends ASTMathNode
             if (strictMode)
             {
                 log.error(msg);
-                throw new MathException(msg);
+                throw new MathException(msg, rsvc.getLogContext().getStackTrace());
             }
             else
             {

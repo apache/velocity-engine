@@ -284,7 +284,7 @@ public class ${parser.basename}Parser implements Parser
         {
             String msg = template.getName() + ": " + e.getMessage();
             log.error(msg, e);
-            throw new VelocityException(msg, e);
+            throw new VelocityException(msg, e, getRuntimeServices().getLogContext().getStackTrace());
         }
 
         currentTemplate = null;

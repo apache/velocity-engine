@@ -184,7 +184,7 @@ public class ASTIdentifier extends SimpleNode
             {
                 String msg = "ASTIdentifier.execute() : identifier = "+identifier;
                 log.error(msg, e);
-                throw new VelocityException(msg, e);
+                throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
             }
 
             /*
@@ -196,7 +196,8 @@ public class ASTIdentifier extends SimpleNode
                 if (strictRef)
                 {
                     throw new MethodInvocationException("Object '" + o.getClass().getName() +
-                        "' does not contain property '" + identifier + "'", null, identifier,
+                        "' does not contain property '" + identifier + "'",
+                        null, rsvc.getLogContext().getStackTrace(), identifier,
                         uberInfo.getTemplateName(), uberInfo.getLine(), uberInfo.getColumn());
                 }
                 else
@@ -240,7 +241,7 @@ public class ASTIdentifier extends SimpleNode
                           + " in  " + o.getClass()
                           + " threw exception "
                           + ite.getTargetException().toString(),
-                          ite.getTargetException(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
+                          ite.getTargetException(), rsvc.getLogContext().getStackTrace(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
                     }
                 }
                 else
@@ -254,7 +255,7 @@ public class ASTIdentifier extends SimpleNode
                     + " in  " + o.getClass()
                     + " threw exception "
                     + ite.getTargetException().toString(),
-                    ite.getTargetException(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
+                    ite.getTargetException(), rsvc.getLogContext().getStackTrace(), vg.getMethodName(), getTemplateName(), this.getLine(), this.getColumn());
 
 
                 }
@@ -276,12 +277,27 @@ public class ASTIdentifier extends SimpleNode
                             + "for identifier '" + identifier + "' in "
                             + o.getClass();
                 log.error(msg, e);
-                throw new VelocityException(msg, e);
+                throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
             }
         }
         finally
         {
             rsvc.getLogContext().popLogContext();
         }
+    }
+
+    /**
+     * Returns the string ".<i>identifier</i>". This method is only used for displaying the VTL stacktrace
+     * when a rendering error is encountered when runtime.log.track_location is true.
+     * @return
+     */
+    @Override
+    public String literal()
+    {
+        if (literal != null)
+        {
+            return literal;
+        }
+        return literal = '.' + getIdentifier();
     }
 }

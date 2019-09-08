@@ -186,11 +186,25 @@ public class ParseErrorException extends VelocityException
      *
      * @param exceptionMessage the error exception message
      * @param info an Info object with the current template info
+     * @since 2.2
+     */
+    public ParseErrorException(String exceptionMessage, Info info, String[] stacktrace)
+    {
+        super(exceptionMessage, null, stacktrace);
+        columnNumber = info.getColumn();
+        lineNumber = info.getLine();
+        templateName = info.getTemplateName();
+    }
+
+    /**
+     * Create a ParseErrorRuntimeException with the given message and info
+     *
+     * @param exceptionMessage the error exception message
+     * @param info an Info object with the current template info
      * @param invalidSyntax the invalid syntax or reference triggering this exception
      * @since 1.5
      */
-    public ParseErrorException(String exceptionMessage,
-            Info info, String invalidSyntax)
+    public ParseErrorException(String exceptionMessage, Info info, String invalidSyntax)
     {
         super(exceptionMessage);
         columnNumber = info.getColumn();

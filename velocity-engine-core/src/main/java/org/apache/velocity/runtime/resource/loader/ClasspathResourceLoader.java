@@ -133,14 +133,14 @@ public class ClasspathResourceLoader extends ResourceLoader
                 }
                 catch (IOException ioe) {}
             }
-            throw new ResourceNotFoundException("ClasspathResourceLoader problem with template: " + name, fnfe );
+            throw new ResourceNotFoundException("ClasspathResourceLoader problem with template: " + name, fnfe, rsvc.getLogContext().getStackTrace() );
         }
 
         if (result == null)
         {
             String msg = "ClasspathResourceLoader Error: cannot find resource " + name;
 
-            throw new ResourceNotFoundException( msg );
+            throw new ResourceNotFoundException( msg, null, rsvc.getLogContext().getStackTrace() );
         }
 
         return result;

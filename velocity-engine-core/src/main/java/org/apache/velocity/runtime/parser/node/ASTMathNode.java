@@ -121,7 +121,7 @@ public abstract class ASTMathNode extends ASTBinaryOperator
             if (strictMode)
             {
                 log.error(msg);
-                throw new MathException(msg);
+                throw new MathException(msg, rsvc.getLogContext().getStackTrace());
             }
             else
             {

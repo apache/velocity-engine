@@ -389,7 +389,7 @@ public class StringResourceLoader extends ResourceLoader
                 }
                 catch (IOException ioe) {}
             }
-            throw new VelocityException("Could not convert String using encoding " + resource.getEncoding(), ue);
+            throw new VelocityException("Could not convert String using encoding " + resource.getEncoding(), ue, rsvc.getLogContext().getStackTrace());
         }
     }
 

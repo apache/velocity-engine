@@ -71,7 +71,7 @@ public class EventHandlerUtil {
         }
         catch (Exception e)
         {
-            throw new VelocityException("Exception in event handler.",e);
+            throw new VelocityException("Exception in event handler.",e, rsvc.getLogContext().getStackTrace());
         }
     }
 
@@ -117,7 +117,7 @@ public class EventHandlerUtil {
         }
         catch (Exception ex)
         {
-            throw new VelocityException("Exception in event handler.", ex);
+            throw new VelocityException("Exception in event handler.", ex, rsvc.getLogContext().getStackTrace());
         }
 
         /* default behaviour is to re-throw exception */
@@ -165,7 +165,7 @@ public class EventHandlerUtil {
         }
         catch (Exception e)
         {
-            throw new VelocityException("Exception in event handler.",e);
+            throw new VelocityException("Exception in event handler.", e, rsvc.getLogContext().getStackTrace());
         }
     }
 
@@ -202,7 +202,7 @@ public class EventHandlerUtil {
         }
         catch (Exception e)
         {
-            throw new VelocityException("Exception in event handler.",e);
+            throw new VelocityException("Exception in event handler.", e, rsvc.getLogContext().getStackTrace());
         }
     }
 
@@ -237,7 +237,7 @@ public class EventHandlerUtil {
         }
         catch (Exception e)
         {
-            throw new VelocityException("Exception in event handler.",e);
+            throw new VelocityException("Exception in event handler.", e, rsvc.getLogContext().getStackTrace());
         }
     }
 
@@ -273,7 +273,7 @@ public class EventHandlerUtil {
         }
         catch (Exception e)
         {
-            throw new VelocityException("Exception in event handler.",e);
+            throw new VelocityException("Exception in event handler.", e, rsvc.getLogContext().getStackTrace());
         }
     }
 }

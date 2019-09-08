@@ -230,7 +230,7 @@ public class JarResourceLoader extends ResourceLoader
                     }
                     String msg = "JAR resource error: Exception while loading " + source;
                     log.error(msg, e);
-                    throw new VelocityException(msg, e);
+                    throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
                 }
             }
         }

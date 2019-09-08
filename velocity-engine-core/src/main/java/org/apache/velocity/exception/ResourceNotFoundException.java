@@ -59,6 +59,18 @@ public class ResourceNotFoundException extends VelocityException
     }
 
     /**
+     * @param exceptionMessage
+     * @param t
+     * @param stacktrace VTL stacktrace
+     * @see VelocityException#VelocityException(String, Throwable)
+     * @since 2.2
+     */
+    public ResourceNotFoundException(final String exceptionMessage, final Throwable t, final String[] stacktrace)
+    {
+        super(exceptionMessage, t, stacktrace);
+    }
+
+    /**
      * @param t
      * @see VelocityException#VelocityException(Throwable)
      * @since 1.5
@@ -66,5 +78,16 @@ public class ResourceNotFoundException extends VelocityException
     public ResourceNotFoundException(final Throwable t)
     {
         super(t);
+    }
+
+    /**
+     * @param t
+     * @param stacktrace VTL stacktrace
+     * @see VelocityException#VelocityException(Throwable)
+     * @since 2.2
+     */
+    public ResourceNotFoundException(final Throwable t, String[] stacktrace)
+    {
+        super(t, stacktrace);
     }
 }

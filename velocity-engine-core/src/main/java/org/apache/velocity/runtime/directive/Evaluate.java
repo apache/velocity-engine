@@ -87,6 +87,8 @@ public class Evaluate extends Directive
         {
             throw new TemplateInitException(
                     "#" + getName() + "() requires exactly one argument",
+                    null,
+                    rsvc.getLogContext().getStackTrace(),
                     context.getCurrentTemplateName(),
                     node.getColumn(),
                     node.getLine());
@@ -99,6 +101,8 @@ public class Evaluate extends Directive
 
             throw new TemplateInitException(
                     "#" + getName() + "() requires exactly one argument",
+                    null,
+                    rsvc.getLogContext().getStackTrace(),
                     context.getCurrentTemplateName(),
                     node.jjtGetChild(1).getColumn(),
                     node.jjtGetChild(1).getLine());
@@ -110,6 +114,8 @@ public class Evaluate extends Directive
         {
            throw new TemplateInitException(
                    "#" + getName() + "()  argument must be a string literal or reference",
+                   null,
+                   rsvc.getLogContext().getStackTrace(),
                    context.getCurrentTemplateName(),
                    childNode.getColumn(),
                    childNode.getLine());
@@ -169,7 +175,7 @@ public class Evaluate extends Directive
         {
             // use the line/column from the template
             Info info = new Info( templateName, node.getLine(), node.getColumn() );
-            throw  new ParseErrorException( pex.getMessage(), info );
+            throw  new ParseErrorException( pex.getMessage(), info, rsvc.getLogContext().getStackTrace() );
         }
 
         /*
@@ -190,7 +196,7 @@ public class Evaluate extends Directive
                 catch (TemplateInitException pex)
                 {
                     Info info = new Info( templateName, node.getLine(), node.getColumn() );
-                    throw  new ParseErrorException( pex.getMessage(), info );
+                    throw  new ParseErrorException( pex.getMessage(), info, rsvc.getLogContext().getStackTrace() );
                 }
 
                 try
@@ -213,7 +219,7 @@ public class Evaluate extends Directive
                 {
                     // convert any parsing errors to the correct line/col
                     Info info = new Info( templateName, node.getLine(), node.getColumn() );
-                    throw  new ParseErrorException( pex.getMessage(), info );
+                    throw  new ParseErrorException( pex.getMessage(), info, rsvc.getLogContext().getStackTrace() );
                 }
             }
             finally

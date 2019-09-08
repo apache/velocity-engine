@@ -41,6 +41,12 @@ public class TemplateInitException extends VelocityException
      */
     private static final long serialVersionUID = -4985224672336070621L;
 
+    /**
+     * @param msg
+     * @param templateName
+     * @param col
+     * @param line
+     */
     public TemplateInitException(final String msg,
             final String templateName, final int col, final int line)
     {
@@ -50,10 +56,37 @@ public class TemplateInitException extends VelocityException
         this.line = line;
     }
 
+    /**
+     *
+     * @param msg
+     * @param parseException
+     * @param templateName
+     * @param col
+     * @param line
+     */
     public TemplateInitException(final String msg, ParseException parseException,
             final String templateName, final int col, final int line)
     {
         super(msg,parseException);
+        this.templateName = templateName;
+        this.col = col;
+        this.line = line;
+    }
+
+    /**
+     *
+     * @param msg
+     * @param parseException
+     * @param stacktrace
+     * @param templateName
+     * @param col
+     * @param line
+     * @since 2.2
+     */
+    public TemplateInitException(final String msg, ParseException parseException, String[] stacktrace,
+                                 final String templateName, final int col, final int line)
+    {
+        super(msg,parseException, stacktrace);
         this.templateName = templateName;
         this.col = col;
         this.line = line;

@@ -218,7 +218,7 @@ public class VelocimacroProxy extends Directive
         {
             String msg = "VelocimacroProxy.render() : exception VM = #" + macroName + "()";
             log.error(msg, e);
-            throw new VelocityException(msg, e);
+            throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
         }
         finally
         {
@@ -280,7 +280,7 @@ public class VelocimacroProxy extends Directive
             {
                 throw new VelocityException("Provided " + callArgNum + " arguments but macro #"
                     + macroArgs.get(0).name + " accepts at most " + (macroArgs.size()-1)
-                    + " at " + StringUtils.formatFileString(node));
+                    + " at " + StringUtils.formatFileString(node), null, rsvc.getLogContext().getStackTrace());
             }
             // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
             log.debug("VM #{}: too many arguments to macro. Wanted {} got {}",
@@ -319,7 +319,7 @@ public class VelocimacroProxy extends Directive
             {
                 context.popCurrentMacroName();
             }
-            throw new MacroOverflowException(out.toString());
+            throw new MacroOverflowException(out.toString(), null, rsvc.getLogContext().getStackTrace());
         }
     }
 
@@ -371,7 +371,7 @@ public class VelocimacroProxy extends Directive
                 }
                 throw new VelocityException("Need at least " + minArgNum + " argument for macro #"
                     + macroArgs.get(0).name + " but only " + callArgNum + " where provided at "
-                    + StringUtils.formatFileString(node));
+                    + StringUtils.formatFileString(node), null, rsvc.getLogContext().getStackTrace());
             }
             else
             {

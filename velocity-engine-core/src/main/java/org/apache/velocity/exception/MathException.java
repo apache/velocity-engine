@@ -30,8 +30,21 @@ public class MathException extends VelocityException
 {
     private static final long serialVersionUID = -7966507088645215583L;
 
+    /**
+     * @param exceptionMessage The message to register.
+     */
     public MathException(final String exceptionMessage)
     {
         super(exceptionMessage);
+    }
+
+    /**
+     * @param exceptionMessage The message to register.
+     * @param stacktrace VTL stacktrace
+     * @since 2.2
+     */
+    public MathException(final String exceptionMessage, final String[] stacktrace)
+    {
+        super(exceptionMessage, null, stacktrace);
     }
 }

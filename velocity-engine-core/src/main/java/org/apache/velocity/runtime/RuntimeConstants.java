@@ -57,7 +57,11 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
     /** Logging of invalid method calls. */
     String RUNTIME_LOG_METHOD_CALL_LOG_INVALID = "runtime.log.log_invalid_method_calls";
 
-    /** Whether to populate slf4j's MDC with location in template file
+    /** <p>Whether to:</p>
+     *  <ul>
+     *      <li>populate slf4j's MDC with location in template file</li>
+     *      <li>display VTL stack trace on errors</li>
+     *  </ul>
      *  @since 2.2
      */
     String RUNTIME_LOG_TRACK_LOCATION = "runtime.log.track_location";

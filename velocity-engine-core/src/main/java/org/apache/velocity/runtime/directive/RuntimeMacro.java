@@ -161,7 +161,9 @@ public class RuntimeMacro extends Directive
                     /* indicate col/line assuming it starts at 0
                      * this will be corrected one call up  */
                     throw new TemplateInitException(badArgsErrorMsg,
-                        context.getCurrentTemplateName(), 0, 0);
+                    null,
+                    rsvc.getLogContext().getStackTrace(),
+                    context.getCurrentTemplateName(), 0, 0);
                 }
             }
         }
@@ -316,6 +318,7 @@ public class RuntimeMacro extends Directive
             if (badArgsErrorMsg != null)
             {
                 throw new TemplateInitException(badArgsErrorMsg,
+                  null, rsvc.getLogContext().getStackTrace(),
                   context.getCurrentTemplateName(), node.getColumn(), node.getLine());
             }
 
@@ -353,7 +356,7 @@ public class RuntimeMacro extends Directive
         else if (strictRef)
         {
             throw new VelocityException("Macro '#" + macroName + "' is not defined at "
-                + StringUtils.formatFileString(node));
+                + StringUtils.formatFileString(node), null, rsvc.getLogContext().getStackTrace());
         }
 
         /**

@@ -122,7 +122,8 @@ public class ASTIndex extends SimpleNode
               throw new VelocityException(
                 "A 'size()' method required for negative value "
                  + (Integer) argument + " does not exist for class '"
-                 + o.getClass().getName() + "' at " + StringUtils.formatFileString(node));
+                 + o.getClass().getName() + "' at " + StringUtils.formatFileString(node),
+                  null, node.getRuntimeServices().getLogContext().getStackTrace());
           }
 
           Object size = null;
@@ -133,7 +134,8 @@ public class ASTIndex extends SimpleNode
           catch (Exception e)
           {
               throw new VelocityException("Error trying to calls the 'size()' method on '"
-                + o.getClass().getName() + "' at " + StringUtils.formatFileString(node), e);
+                + o.getClass().getName() + "' at " + StringUtils.formatFileString(node), e,
+                  node.getRuntimeServices().getLogContext().getStackTrace());
           }
 
           int sizeint = 0;
@@ -146,7 +148,8 @@ public class ASTIndex extends SimpleNode
               // If size() doesn't return an Integer we want to report a pretty error
               throw new VelocityException("Method 'size()' on class '"
                   + o.getClass().getName() + "' returned '" + size.getClass().getName()
-                  + "' when Integer was expected at " + StringUtils.formatFileString(node));
+                  + "' when Integer was expected at " + StringUtils.formatFileString(node),
+                  null, node.getRuntimeServices().getLogContext().getStackTrace());
           }
 
           argument = sizeint + ((Integer) argument).intValue();
@@ -212,7 +215,7 @@ public class ASTIndex extends SimpleNode
               + ")' in " + o.getClass().getName()
               + " at " + StringUtils.formatFileString(this);
             log.error(msg, e);
-            throw new VelocityException(msg, e);
+            throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
         }
     }
 }

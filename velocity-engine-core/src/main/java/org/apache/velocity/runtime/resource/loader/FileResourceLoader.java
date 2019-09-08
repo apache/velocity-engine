@@ -143,7 +143,7 @@ public class FileResourceLoader extends ResourceLoader
                 closeQuiet(rawStream);
                 String msg = "Exception while loading Template " + template;
                 log.error(msg, ioe);
-                throw new VelocityException(msg, ioe);
+                throw new VelocityException(msg, ioe, rsvc.getLogContext().getStackTrace());
             }
             if (reader != null)
             {

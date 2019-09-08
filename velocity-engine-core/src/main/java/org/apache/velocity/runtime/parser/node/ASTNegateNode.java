@@ -72,7 +72,7 @@ public class ASTNegateNode extends SimpleNode
             if (strictMode)
             {
                 log.error(msg);
-                throw new MathException(msg);
+                throw new MathException(msg, rsvc.getLogContext().getStackTrace());
             }
             else
             {

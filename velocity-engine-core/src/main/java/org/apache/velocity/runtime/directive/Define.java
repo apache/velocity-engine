@@ -64,7 +64,9 @@ public class Define extends Block
         if ( node.jjtGetNumChildren() != 2 )
         {
             throw new VelocityException("parameter missing: block name at "
-                 + StringUtils.formatFileString(this));
+                 + StringUtils.formatFileString(this),
+                null,
+                rsvc.getLogContext().getStackTrace());
         }
 
         /*

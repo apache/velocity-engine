@@ -50,10 +50,32 @@ public class MacroOverflowException extends VelocityException
     }
 
     /**
+     * @param exceptionMessage The message to register.
+     * @param wrapped A throwable object that caused the Exception.
+     * @param stacktrace VTL stacktrace
+     * @since 2.2
+     */
+    public MacroOverflowException(final String exceptionMessage, final Throwable wrapped, final String[] stacktrace)
+    {
+        super(exceptionMessage, wrapped, stacktrace);
+    }
+
+    /**
      * @param wrapped A throwable object that caused the Exception.
      */
     public MacroOverflowException(final Throwable wrapped)
     {
         super(wrapped);
     }
+
+    /**
+     * @param wrapped A throwable object that caused the Exception.
+     * @param stacktrace VTL stacktrace
+     * @since 2.2
+     */
+    public MacroOverflowException(final Throwable wrapped, final String[] stacktrace)
+    {
+        super(wrapped, stacktrace);
+    }
+
 }

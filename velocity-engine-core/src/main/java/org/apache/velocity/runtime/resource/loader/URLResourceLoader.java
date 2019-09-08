@@ -195,7 +195,7 @@ public class URLResourceLoader extends ResourceLoader
             // the file is not reachable at its previous address
             String msg = "URLResourceLoader: '"+name+"' is no longer reachable at '"+root+"'";
             log.error(msg, ioe);
-            throw new ResourceNotFoundException(msg, ioe);
+            throw new ResourceNotFoundException(msg, ioe, rsvc.getLogContext().getStackTrace());
         }
     }
 

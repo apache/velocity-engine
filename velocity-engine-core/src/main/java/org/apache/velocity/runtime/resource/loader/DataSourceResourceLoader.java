@@ -340,7 +340,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                             + operation + " of '" + name + "': ";
 
                 log.error(msg, sqle);
-                throw new VelocityException(msg, sqle);
+                throw new VelocityException(msg, sqle, rsvc.getLogContext().getStackTrace());
             }
             finally
             {

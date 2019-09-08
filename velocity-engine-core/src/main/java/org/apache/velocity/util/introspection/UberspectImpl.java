@@ -171,7 +171,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
                         + "; Velocity is not initialized correctly.";
 
                 log.error(err);
-                throw new VelocityException(err);
+                throw new VelocityException(err, null, rsvc.getLogContext().getStackTrace());
             }
             else
             {
@@ -254,7 +254,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
                     catch (Exception e)
                     {
                         throw new VelocityException("Error invoking the method 'iterator' on class '"
-                            + obj.getClass().getName() +"'", e);
+                            + obj.getClass().getName() +"'", e, rsvc.getLogContext().getStackTrace());
                     }
                 }
                 else

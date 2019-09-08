@@ -139,7 +139,7 @@ public class ASTDirective extends SimpleNode
                     throw new VelocityException(
                             "Couldn't initialize directive of class " +
                             parser.getDirective(directiveName).getClass().getName(),
-                            e);
+                            e, rsvc.getLogContext().getStackTrace());
                 }
 
                 t = getFirstToken();
@@ -165,6 +165,7 @@ public class ASTDirective extends SimpleNode
                     {
                         throw new TemplateInitException(die.getMessage(),
                             (ParseException) die.getCause(),
+                            rsvc.getLogContext().getStackTrace(),
                             die.getTemplateName(),
                             die.getColumnNumber() + getColumn(),
                             die.getLineNumber() + getLine());
@@ -201,6 +202,7 @@ public class ASTDirective extends SimpleNode
                 {
                     throw new TemplateInitException(die.getMessage(),
                             (ParseException) die.getCause(),
+                            rsvc.getLogContext().getStackTrace(),
                             die.getTemplateName(),
                             die.getColumnNumber() + getColumn(),
                             die.getLineNumber() + getLine());
@@ -344,6 +346,24 @@ public class ASTDirective extends SimpleNode
     {
 		return "ASTDirective [" + super.toString() + ", directiveName="
 		        + directiveName + "]";
+    }
+
+    /**
+     * Returns the string "#<i>directive_name</i>(...)". Arguments literals are not rendered. This method is only
+     * used for displaying the VTL stacktrace when a rendering error is encountered when runtime.log.track_location is true.
+     * @return
+     */
+    @Override
+    public String literal()
+    {
+        if (literal != null)
+        {
+            return literal;
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append('#').append(getDirectiveName()).append("(...)");
+
+        return literal = builder.toString();
     }
 
 }
