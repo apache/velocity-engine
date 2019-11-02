@@ -66,26 +66,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
-                    <!-- put engine version in class org.apache.velocity.runtime.VelocityEngineVersion -->
-                    <execution>
-                        <id>filter-engine-version</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*.java</include>
-                                    </includes>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                            <outputDirectory>${project.build.directory}/generated-sources/version</outputDirectory>
-                        </configuration>
-                    </execution>
                     <!-- prepare parser grammar file -->
                     <execution>
                         <id>generate-parser-grammar</id>
@@ -219,26 +199,20 @@
                 </executions>
             </plugin>
 
-            <!-- add VelocityEngineVersion source root -->
+            <!-- handle VelocityEngineVersion file -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <artifactId>templating-maven-plugin</artifactId>
+                <version>1.0.0</version>
                 <executions>
                     <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
+                        <id>filter-src</id>
                         <goals>
-                            <goal>add-source</goal>
+                            <goal>filter-sources</goal>
                         </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/generated-sources/version</source>
-                            </sources>
-                        </configuration>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>
 
             <!-- handle OSGi information -->
             <plugin>
@@ -316,17 +290,8 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                </includes>
-            </resource>
-        </resources>
-
     </build>
 
     <dependencies>
