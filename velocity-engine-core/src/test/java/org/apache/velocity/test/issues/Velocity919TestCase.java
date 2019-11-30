@@ -28,4 +28,10 @@ public class Velocity919TestCase extends BaseTestCase
         assertEvalEquals("before\u200Bafter", "before\u200Bafter");
     }
 
+    public void testUserFileSeparator() throws Exception
+    {
+        assertEvalEquals("before\u001Cafter", "before\u001Cafter");
+    }
+
 }
+

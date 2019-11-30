@@ -749,7 +749,7 @@ TOKEN_MGR_DECLS:
 <PRE_DIRECTIVE,PRE_REFERENCE,PRE_OLD_REFERENCE>
 TOKEN :
 {
-    <LONE_SYMBOL: "\u200B" >
+    <LONE_SYMBOL: "\u001C" >
     {
         stateStackPop();
     }
@@ -759,7 +759,7 @@ TOKEN :
 <REFERENCE,REFMODIFIER,OLD_REFMODIFIER,REFMOD3,REFINDEX,DIRECTIVE,REFMOD2,DEFAULT,REFMOD,IN_TEXTBLOCK,IN_MULTILINE_COMMENT,IN_FORMAL_COMMENT,IN_SINGLE_LINE_COMMENT>
 TOKEN :
 {
-    <ZERO_WIDTH_WHITESPACE: "\u200B">
+    <ZERO_WIDTH_WHITESPACE: "\u001C">
 }
 
 <REFERENCE, REFMODIFIER, OLD_REFMODIFIER, REFMOD3>
@@ -1031,7 +1031,7 @@ MORE :
        }
     }
 
-|   <"${parser.char.hash}${parser.char.asterisk}${parser.char.asterisk}" ~["${parser.char.hash}","\u200B"]>
+|   <"${parser.char.hash}${parser.char.asterisk}${parser.char.asterisk}" ~["${parser.char.hash}","\u001C"]>
     {
     	if (!inComment)
     	{
@@ -1179,7 +1179,7 @@ SKIP :
 <IN_TEXTBLOCK>
 MORE :
 {
-  < ~["\u200B"] >
+  < ~["\u001C"] >
 }
 
 /* -----------------------------------------------------------------------
@@ -1219,7 +1219,7 @@ TOKEN :
 //   <STRING_LITERAL: ( "\"" ( ~["\"","\n","\r"] )* "\"" ) | ( "'" ( ~["'","\n","\r"] )* "'" ) >
   < STRING_LITERAL:
       ("\""
-        (   (~["\"","\u200B"])
+        (   (~["\"","\u001C"])
           | ("\\"
               ( ["n","t","b","r","f"]
               | ["0"-"7"] ( ["0"-"7"] )?
@@ -1234,7 +1234,7 @@ TOKEN :
       )
     |
     ("\'"
-        (   (~["\'","\u200B"])
+        (   (~["\'","\u001C"])
           | ("''")
           | ( "\\" (" ")* "\n")
         )*
@@ -1526,12 +1526,12 @@ TOKEN :
 {
     <DOUBLE_ESCAPE : "\\\\">
 |   <ESCAPE: "\\" >
-|   <TEXT: (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])* (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n", " ", "\t","\u200B"])+ (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])* <NEWLINE> ((~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])* <NEWLINE>)* >
+|   <TEXT: (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u001C"])* (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n", " ", "\t","\u001C"])+ (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u001C"])* <NEWLINE> ((~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u001C"])* <NEWLINE>)* >
 }
 
 TOKEN :
 {
-    <INLINE_TEXT: (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u200B"])+ >
+    <INLINE_TEXT: (~["${parser.char.dollar}", "${parser.char.hash}", "\\", "\r", "\n","\u001C"])+ >
 }
 
 /**

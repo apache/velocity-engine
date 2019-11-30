@@ -61,9 +61,11 @@ implements CharStream
     private int inBuf = 0;
 
     /* CB - to properly handle EOF *inside* javacc lexer,
-     * we send a 'zero-width whitespace' *just before* EOF
+     * we send a 'file separator' ascii char *just before* EOF
+     * (see https://en.wikipedia.org/wiki/Delimiter#ASCII_delimited_text)
      */
     private boolean beforeEOF = false;
+    private static char END_OF_FILE = '\u001C';
 
     private void ExpandBuff(boolean wrapAround)
     {
@@ -161,7 +163,7 @@ implements CharStream
                     inputStream.close();
                     throw new java.io.IOException();
                 }
-                buffer[maxNextCharInd++] = '\u200B';
+                buffer[maxNextCharInd++] = END_OF_FILE;
                 beforeEOF = true;
             }
             else
