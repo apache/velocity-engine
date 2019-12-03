@@ -1,6 +1,8 @@
+<!doctype html>
+
 #macro(print,$type)
   #set($string = "$type")
-  #if($string.startsWith("class java.lang."))
+  #if($string.startsWith("class java.lang.") || $string.startsWith("class java.math."))
     #set($string = $string.substring(16))
   #end
 $string##

@@ -526,12 +526,21 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
 
             if (converters != null)
             {
-                for (int i = 0; i < actual.length; ++i)
+                // some converters may throw an ArithmeticException
+                // which we want to wrap into an IllegalArgumentException
+                try
                 {
-                    if (converters[i] != null)
+                    for (int i = 0; i < actual.length; ++i)
                     {
-                        actual[i] = converters[i].convert(actual[i]);
+                        if (converters[i] != null)
+                        {
+                            actual[i] = converters[i].convert(actual[i]);
+                        }
                     }
+                }
+                catch (ArithmeticException ae)
+                {
+                    throw new IllegalArgumentException(ae);
                 }
             }
 

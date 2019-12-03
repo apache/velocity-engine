@@ -1,3 +1,5 @@
+<!doctype html>
+
 
 
 
@@ -54,8 +56,10 @@
           <th>Short</th>
           <th>Integer</th>
           <th>Long</th>
+          <th>BigInteger</th>
           <th>Float</th>
           <th>Double</th>
+          <th>BigDecimal</th>
           <th>Number</th>
           <th>String</th>
           <th>Object</th>
@@ -72,6 +76,8 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -106,6 +112,8 @@
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
         </tr>
         <tr>
           <th>byte</th>
@@ -120,6 +128,8 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
           <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -150,6 +160,8 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
@@ -168,6 +180,8 @@
           <td><span class="implicit">implicit</span></td>
           <td><span class="implicit">implicit</span></td>
           <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -196,6 +210,8 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
         </tr>
@@ -215,7 +231,9 @@
           <td><span class="implicit">implicit</span></td>
           <td><span class="implicit">implicit</span></td>
           <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -238,8 +256,10 @@
           <td><span class="implicit">implicit</span></td>
           <td><span class="implicit">implicit</span></td>
           <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="implicit">implicit</span></td>
           <td><span class="implicit">implicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
@@ -256,6 +276,8 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -289,6 +311,8 @@
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="strict">strict</span></td>
         </tr>
         <tr>
@@ -311,6 +335,8 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
           <td><span class="strict">strict</span></td>
         </tr>
@@ -318,7 +344,7 @@
           <th>Short</th>
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="implicit">implicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -326,8 +352,10 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -341,7 +369,7 @@
           <th>Integer</th>
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="implicit">implicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -349,9 +377,11 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -364,7 +394,7 @@
           <th>Long</th>
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="implicit">implicit</span></td>
@@ -372,10 +402,12 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -384,10 +416,35 @@
           <td><span class="strict">strict</span></td>
         </tr>
         <tr>
+          <th>BigInteger</th>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+        </tr>
+        <tr>
           <th>Float</th>
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -395,11 +452,13 @@
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="strict">strict</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -410,7 +469,7 @@
           <th>Double</th>
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -418,13 +477,40 @@
           <td><span class="implicit">implicit</span></td>
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
-          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="strict">strict</span></td>
           <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="strict">strict</span></td>
+        </tr>
+        <tr>
+          <th>BigDecimal</th>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="none">none</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="none">none</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="none">none</span></td>
           <td><span class="strict">strict</span></td>
@@ -448,12 +534,16 @@
           <td><span class="strict">strict</span></td>
           <td><span class="strict">strict</span></td>
           <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
           <td><span class="none">none</span></td>
           <td><span class="none">none</span></td>
           <td><span class="strict">strict</span></td>
         </tr>
         <tr>
           <th>String</th>
+          <td><span class="explicit">explicit</span></td>
+          <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
           <td><span class="explicit">explicit</span></td>
@@ -485,6 +575,8 @@
           <td><span class="implicit">implicit</span></td>
           <td><span class="implicit">implicit</span></td>
           <td><span class="implicit">implicit</span></td>
+          <td><span class="strict">strict</span></td>
+          <td><span class="strict">strict</span></td>
           <td><span class="strict">strict</span></td>
           <td><span class="strict">strict</span></td>
           <td><span class="strict">strict</span></td>

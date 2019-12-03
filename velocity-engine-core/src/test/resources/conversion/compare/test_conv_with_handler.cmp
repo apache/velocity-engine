@@ -12,8 +12,10 @@ A. bool-true Value java.lang.Boolean true
   Short ok: 1
   Integer ok: 1
   Long ok: 1
+  $target.objectBigInteger($value)
   $target.objectFloat($value)
   $target.objectDouble($value)
+  $target.objectBigDecimal($value)
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: true
@@ -42,8 +44,10 @@ B. bool-false Value java.lang.Boolean false
   Short ok: 0
   Integer ok: 0
   Long ok: 0
+  $target.objectBigInteger($value)
   $target.objectFloat($value)
   $target.objectDouble($value)
+  $target.objectBigDecimal($value)
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: false
@@ -69,11 +73,13 @@ C. byte-0 Value java.lang.Byte 0
   $target.integralChar($value)
   Boolean ok: false
   Byte ok: 0
-  $target.objectShort($value)
-  $target.objectInt($value)
-  $target.objectLong($value)
-  $target.objectFloat($value)
-  $target.objectDouble($value)
+  Short ok: 0
+  Integer ok: 0
+  Long ok: 0
+  BigInteger ok: 0
+  Float ok: 0.0
+  Double ok: 0.0
+  BigDecimal ok: 0
   $target.objectCharacter($value)
   Number ok: 0
   Object ok: 0
@@ -99,11 +105,13 @@ D. byte-1 Value java.lang.Byte 1
   $target.integralChar($value)
   Boolean ok: true
   Byte ok: 1
-  $target.objectShort($value)
-  $target.objectInt($value)
-  $target.objectLong($value)
-  $target.objectFloat($value)
-  $target.objectDouble($value)
+  Short ok: 1
+  Integer ok: 1
+  Long ok: 1
+  BigInteger ok: 1
+  Float ok: 1.0
+  Double ok: 1.0
+  BigDecimal ok: 1
   $target.objectCharacter($value)
   Number ok: 1
   Object ok: 1
@@ -132,8 +140,10 @@ E. short Value java.lang.Short 125
   Short ok: 125
   Integer ok: 125
   Long ok: 125
+  BigInteger ok: 125
   Float ok: 125.0
   Double ok: 125.0
+  BigDecimal ok: 125
   $target.objectCharacter($value)
   Number ok: 125
   Object ok: 125
@@ -150,7 +160,7 @@ E. short Value java.lang.Short 125
   $target.locale($value)
 F. int Value java.lang.Integer 24323
   boolean ok: true
-  integralByte -> NumberFormatException: value out of range for byte type: 24323
+  integralByte -> NumberFormatException: value out of range: 24323
   short ok: 24323
   int ok: 24323
   long ok: 24323
@@ -158,12 +168,14 @@ F. int Value java.lang.Integer 24323
   double ok: 24323.0
   $target.integralChar($value)
   Boolean ok: true
-  objectByte -> NumberFormatException: value out of range for byte type: 24323
+  objectByte -> NumberFormatException: value out of range: 24323
   Short ok: 24323
   Integer ok: 24323
   Long ok: 24323
+  BigInteger ok: 24323
   Float ok: 24323.0
   Double ok: 24323.0
+  BigDecimal ok: 24323
   $target.objectCharacter($value)
   Number ok: 24323
   Object ok: 24323
@@ -180,20 +192,22 @@ F. int Value java.lang.Integer 24323
   $target.locale($value)
 G. long Value java.lang.Long 5235235
   boolean ok: true
-  integralByte -> NumberFormatException: value out of range for byte type: 5235235
-  integralShort -> NumberFormatException: value out of range for short type: 5235235
+  integralByte -> NumberFormatException: value out of range: 5235235
+  integralShort -> NumberFormatException: value out of range: 5235235
   int ok: 5235235
   long ok: 5235235
   float ok: 5235235.0
   double ok: 5235235.0
   $target.integralChar($value)
   Boolean ok: true
-  objectByte -> NumberFormatException: value out of range for byte type: 5235235
-  objectShort -> NumberFormatException: value out of range for short type: 5235235
+  objectByte -> NumberFormatException: value out of range: 5235235
+  objectShort -> NumberFormatException: value out of range: 5235235
   Integer ok: 5235235
   Long ok: 5235235
+  BigInteger ok: 5235235
   Float ok: 5235235.0
   Double ok: 5235235.0
+  BigDecimal ok: 5235235
   $target.objectCharacter($value)
   Number ok: 5235235
   Object ok: 5235235
@@ -210,20 +224,22 @@ G. long Value java.lang.Long 5235235
   $target.locale($value)
 H. float Value java.lang.Float 34523.344
   boolean ok: true
-  integralByte -> NumberFormatException: value out of range for byte type: 34523
-  integralShort -> NumberFormatException: value out of range for short type: 34523
+  integralByte -> NumberFormatException: value out of range: 34523.344
+  integralShort -> NumberFormatException: value out of range: 34523.344
   int ok: 34523
   long ok: 34523
   float ok: 34523.344
   double ok: 34523.34375
   $target.integralChar($value)
   Boolean ok: true
-  objectByte -> NumberFormatException: value out of range for byte type: 34523
-  objectShort -> NumberFormatException: value out of range for short type: 34523
+  objectByte -> NumberFormatException: value out of range: 34523.344
+  objectShort -> NumberFormatException: value out of range: 34523.344
   Integer ok: 34523
   Long ok: 34523
+  $target.objectBigInteger($value)
   Float ok: 34523.344
   Double ok: 34523.34375
+  BigDecimal ok: 34523.34375
   $target.objectCharacter($value)
   Number ok: 34523.344
   Object ok: 34523.344
@@ -240,20 +256,22 @@ H. float Value java.lang.Float 34523.344
   $target.locale($value)
 I. double Value java.lang.Double 54235.3253
   boolean ok: true
-  integralByte -> NumberFormatException: value out of range for byte type: 54235
-  integralShort -> NumberFormatException: value out of range for short type: 54235
+  integralByte -> NumberFormatException: value out of range: 54235.3253
+  integralShort -> NumberFormatException: value out of range: 54235.3253
   int ok: 54235
   long ok: 54235
   float ok: 54235.324
   double ok: 54235.3253
   $target.integralChar($value)
   Boolean ok: true
-  objectByte -> NumberFormatException: value out of range for byte type: 54235
-  objectShort -> NumberFormatException: value out of range for short type: 54235
+  objectByte -> NumberFormatException: value out of range: 54235.3253
+  objectShort -> NumberFormatException: value out of range: 54235.3253
   Integer ok: 54235
   Long ok: 54235
+  $target.objectBigInteger($value)
   Float ok: 54235.324
   Double ok: 54235.3253
+  BigDecimal ok: 54235.3253
   $target.objectCharacter($value)
   Number ok: 54235.3253
   Object ok: 54235.3253
@@ -282,8 +300,10 @@ J. char Value java.lang.Character @
   $target.objectShort($value)
   $target.objectInt($value)
   $target.objectLong($value)
+  $target.objectBigInteger($value)
   $target.objectFloat($value)
   $target.objectDouble($value)
+  $target.objectBigDecimal($value)
   Character ok: @
   $target.objectNumber($value)
   Object ok: @
@@ -312,8 +332,10 @@ K. object Value org.apache.velocity.test.util.introspection.ConversionHandlerTes
   $target.objectShort($value)
   $target.objectInt($value)
   $target.objectLong($value)
+  $target.objectBigInteger($value)
   $target.objectFloat($value)
   $target.objectDouble($value)
+  $target.objectBigDecimal($value)
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: instance of Obj
@@ -342,8 +364,10 @@ L. enum Value org.apache.velocity.test.util.introspection.ConversionHandlerTestC
   $target.objectShort($value)
   $target.objectInt($value)
   $target.objectLong($value)
+  $target.objectBigInteger($value)
   $target.objectFloat($value)
   $target.objectDouble($value)
+  $target.objectBigDecimal($value)
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: GREEN
@@ -372,8 +396,10 @@ M. string Value java.lang.String foo
   objectShort -> NumberFormatException: For input string: "foo"
   objectInt -> NumberFormatException: For input string: "foo"
   objectLong -> NumberFormatException: For input string: "foo"
+  objectBigInteger -> NumberFormatException: For input string: "foo"
   objectFloat -> NumberFormatException: For input string: "foo"
   objectDouble -> NumberFormatException: For input string: "foo"
+  objectBigDecimal -> NumberFormatException: null
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: foo
@@ -402,8 +428,10 @@ M. string-green Value java.lang.String green
   objectShort -> NumberFormatException: For input string: "green"
   objectInt -> NumberFormatException: For input string: "green"
   objectLong -> NumberFormatException: For input string: "green"
+  objectBigInteger -> NumberFormatException: For input string: "green"
   objectFloat -> NumberFormatException: For input string: "green"
   objectDouble -> NumberFormatException: For input string: "green"
+  objectBigDecimal -> NumberFormatException: null
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: green
@@ -432,8 +460,10 @@ N. string-empty Value java.lang.String
   objectShort -> NumberFormatException: For input string: ""
   objectInt -> NumberFormatException: For input string: ""
   objectLong -> NumberFormatException: For input string: ""
+  objectBigInteger -> NumberFormatException: Zero length BigInteger
   objectFloat -> NumberFormatException: empty String
   objectDouble -> NumberFormatException: empty String
+  objectBigDecimal -> NumberFormatException: null
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: 
@@ -462,8 +492,10 @@ O. string-false Value java.lang.String false
   objectShort -> NumberFormatException: For input string: "false"
   objectInt -> NumberFormatException: For input string: "false"
   objectLong -> NumberFormatException: For input string: "false"
+  objectBigInteger -> NumberFormatException: For input string: "false"
   objectFloat -> NumberFormatException: For input string: "false"
   objectDouble -> NumberFormatException: For input string: "false"
+  objectBigDecimal -> NumberFormatException: null
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: false
@@ -492,8 +524,10 @@ P. string-true Value java.lang.String true
   objectShort -> NumberFormatException: For input string: "true"
   objectInt -> NumberFormatException: For input string: "true"
   objectLong -> NumberFormatException: For input string: "true"
+  objectBigInteger -> NumberFormatException: For input string: "true"
   objectFloat -> NumberFormatException: For input string: "true"
   objectDouble -> NumberFormatException: For input string: "true"
+  objectBigDecimal -> NumberFormatException: null
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: true
@@ -522,8 +556,10 @@ Q. string-zero Value java.lang.String 0
   Short ok: 0
   Integer ok: 0
   Long ok: 0
+  BigInteger ok: 0
   Float ok: 0.0
   Double ok: 0.0
+  BigDecimal ok: 0
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: 0
@@ -552,8 +588,10 @@ R. string-integral Value java.lang.String 123
   Short ok: 123
   Integer ok: 123
   Long ok: 123
+  BigInteger ok: 123
   Float ok: 123.0
   Double ok: 123.0
+  BigDecimal ok: 123
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: 123
@@ -582,8 +620,10 @@ S. string-big-integral Value java.lang.String 12345678
   objectShort -> NumberFormatException: Value out of range. Value:"12345678" Radix:10
   Integer ok: 12345678
   Long ok: 12345678
+  BigInteger ok: 12345678
   Float ok: 1.2345678E7
   Double ok: 1.2345678E7
+  BigDecimal ok: 12345678
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: 12345678
@@ -612,8 +652,10 @@ T. string-floating Value java.lang.String 123.345
   objectShort -> NumberFormatException: For input string: "123.345"
   objectInt -> NumberFormatException: For input string: "123.345"
   objectLong -> NumberFormatException: For input string: "123.345"
+  objectBigInteger -> NumberFormatException: For input string: "123.345"
   Float ok: 123.345
   Double ok: 123.345
+  BigDecimal ok: 123.345
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: 123.345
@@ -642,8 +684,10 @@ U. null Value $value.class.name $value
   Short ok: null
   Integer ok: null
   Long ok: null
+  BigInteger ok: null
   Float ok: null
   Double ok: null
+  BigDecimal ok: null
   Character ok: null
   Number ok: null
   Object ok: null
@@ -672,8 +716,10 @@ V. locale Value java.lang.String fr_FR
   objectShort -> NumberFormatException: For input string: "fr_FR"
   objectInt -> NumberFormatException: For input string: "fr_FR"
   objectLong -> NumberFormatException: For input string: "fr_FR"
+  objectBigInteger -> NumberFormatException: For input string: "fr_FR"
   objectFloat -> NumberFormatException: For input string: "fr_FR"
   objectDouble -> NumberFormatException: For input string: "fr_FR"
+  objectBigDecimal -> NumberFormatException: null
   $target.objectCharacter($value)
   $target.objectNumber($value)
   Object ok: fr_FR
@@ -688,3 +734,259 @@ V. locale Value java.lang.String fr_FR
   $target.valueOfDouble($value)
   $target.valueOfString($value)
   Locale ok: fr_FR
+W. BigInteger zero Value java.math.BigInteger 0
+  boolean ok: false
+  byte ok: 0
+  short ok: 0
+  int ok: 0
+  long ok: 0
+  float ok: 0.0
+  double ok: 0.0
+  $target.integralChar($value)
+  Boolean ok: false
+  Byte ok: 0
+  Short ok: 0
+  Integer ok: 0
+  Long ok: 0
+  BigInteger ok: 0
+  Float ok: 0.0
+  Double ok: 0.0
+  BigDecimal ok: 0
+  $target.objectCharacter($value)
+  Number ok: 0
+  Object ok: 0
+  $target.objectEnum($value)
+  String ok: 0
+  $target.valueOfBoolean($value)
+  $target.valueOfShort($value)
+  $target.valueOfByte($value)
+  $target.valueOfInt($value)
+  $target.valueOfLong($value)
+  $target.valueOfFloat($value)
+  $target.valueOfDouble($value)
+  $target.valueOfString($value)
+  $target.locale($value)
+X. BigInteger one Value java.math.BigInteger 1
+  boolean ok: true
+  byte ok: 1
+  short ok: 1
+  int ok: 1
+  long ok: 1
+  float ok: 1.0
+  double ok: 1.0
+  $target.integralChar($value)
+  Boolean ok: true
+  Byte ok: 1
+  Short ok: 1
+  Integer ok: 1
+  Long ok: 1
+  BigInteger ok: 1
+  Float ok: 1.0
+  Double ok: 1.0
+  BigDecimal ok: 1
+  $target.objectCharacter($value)
+  Number ok: 1
+  Object ok: 1
+  $target.objectEnum($value)
+  String ok: 1
+  $target.valueOfBoolean($value)
+  $target.valueOfShort($value)
+  $target.valueOfByte($value)
+  $target.valueOfInt($value)
+  $target.valueOfLong($value)
+  $target.valueOfFloat($value)
+  $target.valueOfDouble($value)
+  $target.valueOfString($value)
+  $target.locale($value)
+Y. BigInteger bigint Value java.math.BigInteger 12345678901234567890
+  boolean ok: true
+  integralByte -> IllegalArgumentException: java.lang.ArithmeticException: BigInteger out of byte range
+  integralShort -> IllegalArgumentException: java.lang.ArithmeticException: BigInteger out of short range
+  integralInt -> IllegalArgumentException: java.lang.ArithmeticException: BigInteger out of int range
+  integralLong -> IllegalArgumentException: java.lang.ArithmeticException: BigInteger out of long range
+  float ok: 1.2345679E19
+  double ok: 1.2345678901234567E19
+  $target.integralChar($value)
+  Boolean ok: true
+  objectByte -> IllegalArgumentException: java.lang.ArithmeticException: BigInteger out of byte range
+  objectShort -> IllegalArgumentException: java.lang.ArithmeticException: BigInteger out of short range
+  objectInt -> IllegalArgumentException: java.lang.ArithmeticException: BigInteger out of int range
+  objectLong -> IllegalArgumentException: java.lang.ArithmeticException: BigInteger out of long range
+  BigInteger ok: 12345678901234567890
+  Float ok: 1.2345679E19
+  Double ok: 1.2345678901234567E19
+  BigDecimal ok: 12345678901234567890
+  $target.objectCharacter($value)
+  Number ok: 12345678901234567890
+  Object ok: 12345678901234567890
+  $target.objectEnum($value)
+  String ok: 12345678901234567890
+  $target.valueOfBoolean($value)
+  $target.valueOfShort($value)
+  $target.valueOfByte($value)
+  $target.valueOfInt($value)
+  $target.valueOfLong($value)
+  $target.valueOfFloat($value)
+  $target.valueOfDouble($value)
+  $target.valueOfString($value)
+  $target.locale($value)
+Y. BigInteger ten Value java.math.BigInteger 10
+  boolean ok: true
+  byte ok: 10
+  short ok: 10
+  int ok: 10
+  long ok: 10
+  float ok: 10.0
+  double ok: 10.0
+  $target.integralChar($value)
+  Boolean ok: true
+  Byte ok: 10
+  Short ok: 10
+  Integer ok: 10
+  Long ok: 10
+  BigInteger ok: 10
+  Float ok: 10.0
+  Double ok: 10.0
+  BigDecimal ok: 10
+  $target.objectCharacter($value)
+  Number ok: 10
+  Object ok: 10
+  $target.objectEnum($value)
+  String ok: 10
+  $target.valueOfBoolean($value)
+  $target.valueOfShort($value)
+  $target.valueOfByte($value)
+  $target.valueOfInt($value)
+  $target.valueOfLong($value)
+  $target.valueOfFloat($value)
+  $target.valueOfDouble($value)
+  $target.valueOfString($value)
+  $target.locale($value)
+Z. BigDecimal zero Value java.math.BigDecimal 0
+  boolean ok: false
+  byte ok: 0
+  short ok: 0
+  int ok: 0
+  long ok: 0
+  float ok: 0.0
+  double ok: 0.0
+  $target.integralChar($value)
+  Boolean ok: false
+  Byte ok: 0
+  Short ok: 0
+  Integer ok: 0
+  Long ok: 0
+  BigInteger ok: 0
+  Float ok: 0.0
+  Double ok: 0.0
+  BigDecimal ok: 0
+  $target.objectCharacter($value)
+  Number ok: 0
+  Object ok: 0
+  $target.objectEnum($value)
+  String ok: 0
+  $target.valueOfBoolean($value)
+  $target.valueOfShort($value)
+  $target.valueOfByte($value)
+  $target.valueOfInt($value)
+  $target.valueOfLong($value)
+  $target.valueOfFloat($value)
+  $target.valueOfDouble($value)
+  $target.valueOfString($value)
+  $target.locale($value)
+ZA. BigDecimal one Value java.math.BigDecimal 1
+  boolean ok: true
+  byte ok: 1
+  short ok: 1
+  int ok: 1
+  long ok: 1
+  float ok: 1.0
+  double ok: 1.0
+  $target.integralChar($value)
+  Boolean ok: true
+  Byte ok: 1
+  Short ok: 1
+  Integer ok: 1
+  Long ok: 1
+  BigInteger ok: 1
+  Float ok: 1.0
+  Double ok: 1.0
+  BigDecimal ok: 1
+  $target.objectCharacter($value)
+  Number ok: 1
+  Object ok: 1
+  $target.objectEnum($value)
+  String ok: 1
+  $target.valueOfBoolean($value)
+  $target.valueOfShort($value)
+  $target.valueOfByte($value)
+  $target.valueOfInt($value)
+  $target.valueOfLong($value)
+  $target.valueOfFloat($value)
+  $target.valueOfDouble($value)
+  $target.valueOfString($value)
+  $target.locale($value)
+ZB. BigDecimal ten Value java.math.BigDecimal 10
+  boolean ok: true
+  byte ok: 10
+  short ok: 10
+  int ok: 10
+  long ok: 10
+  float ok: 10.0
+  double ok: 10.0
+  $target.integralChar($value)
+  Boolean ok: true
+  Byte ok: 10
+  Short ok: 10
+  Integer ok: 10
+  Long ok: 10
+  BigInteger ok: 10
+  Float ok: 10.0
+  Double ok: 10.0
+  BigDecimal ok: 10
+  $target.objectCharacter($value)
+  Number ok: 10
+  Object ok: 10
+  $target.objectEnum($value)
+  String ok: 10
+  $target.valueOfBoolean($value)
+  $target.valueOfShort($value)
+  $target.valueOfByte($value)
+  $target.valueOfInt($value)
+  $target.valueOfLong($value)
+  $target.valueOfFloat($value)
+  $target.valueOfDouble($value)
+  $target.valueOfString($value)
+  $target.locale($value)
+ZC. BigDecimal bigdec Value java.math.BigDecimal 12345678901234567890.01234567890123456789
+  boolean ok: true
+  integralByte -> IllegalArgumentException: java.lang.ArithmeticException: Overflow
+  integralShort -> IllegalArgumentException: java.lang.ArithmeticException: Overflow
+  integralInt -> IllegalArgumentException: java.lang.ArithmeticException: Overflow
+  integralLong -> IllegalArgumentException: java.lang.ArithmeticException: Overflow
+  float ok: 1.2345679E19
+  double ok: 1.2345678901234567E19
+  $target.integralChar($value)
+  Boolean ok: true
+  objectByte -> IllegalArgumentException: java.lang.ArithmeticException: Overflow
+  objectShort -> IllegalArgumentException: java.lang.ArithmeticException: Overflow
+  objectInt -> IllegalArgumentException: java.lang.ArithmeticException: Overflow
+  objectLong -> IllegalArgumentException: java.lang.ArithmeticException: Overflow
+  objectBigInteger -> IllegalArgumentException: java.lang.ArithmeticException: Rounding necessary
+  Float ok: 1.2345679E19
+  Double ok: 1.2345678901234567E19
+  BigDecimal ok: 12345678901234567890.01234567890123456789
+  $target.objectCharacter($value)
+  Number ok: 12345678901234567890.01234567890123456789
+  Object ok: 12345678901234567890.01234567890123456789
+  $target.objectEnum($value)
+  String ok: 12345678901234567890.01234567890123456789
+  $target.valueOfBoolean($value)
+  $target.valueOfShort($value)
+  $target.valueOfByte($value)
+  $target.valueOfInt($value)
+  $target.valueOfLong($value)
+  $target.valueOfFloat($value)
+  $target.valueOfDouble($value)
+  $target.valueOfString($value)
+  $target.locale($value)

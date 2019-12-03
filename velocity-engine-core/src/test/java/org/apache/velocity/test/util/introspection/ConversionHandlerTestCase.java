@@ -45,6 +45,8 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -331,6 +333,14 @@ public class ConversionHandlerTestCase extends BaseTestCase
         map.put("T. string-floating", new String("123.345"));
         map.put("U. null", null);
         map.put("V. locale", "fr_FR");
+        map.put("W. BigInteger zero", BigInteger.ZERO);
+        map.put("X. BigInteger one", BigInteger.ONE);
+        map.put("Y. BigInteger ten", BigInteger.TEN);
+        map.put("Y. BigInteger bigint", new BigInteger("12345678901234567890"));
+        map.put("Z. BigDecimal zero", BigDecimal.ZERO);
+        map.put("ZA. BigDecimal one", BigDecimal.ONE);
+        map.put("ZB. BigDecimal ten", BigDecimal.TEN);
+        map.put("ZC. BigDecimal bigdec", new BigDecimal("12345678901234567890.01234567890123456789"));
         context.put("map", map);
         context.put("target", new Obj());
         Class[] types =
@@ -349,8 +359,10 @@ public class ConversionHandlerTestCase extends BaseTestCase
                         Short.class,
                         Integer.class,
                         Long.class,
+                        BigInteger.class,
                         Float.class,
                         Double.class,
+                        BigDecimal.class,
                         Number.class,
                         String.class,
                         Object.class
@@ -378,8 +390,10 @@ public class ConversionHandlerTestCase extends BaseTestCase
         public String objectShort(Short s) { return "Short ok: " + s; }
         public String objectInt(Integer i) { return "Integer ok: " + i; }
         public String objectLong(Long l) { return "Long ok: " + l; }
+        public String objectBigInteger(BigInteger bi) { return "BigInteger ok: " + bi; }
         public String objectFloat(Float f) { return "Float ok: " + f; }
         public String objectDouble(Double d) { return "Double ok: " + d; }
+        public String objectBigDecimal(BigDecimal bd) { return "BigDecimal ok: " + bd; }
         public String objectCharacter(Character c) { return "Character ok: " + c; }
         public String objectNumber(Number b) { return "Number ok: " + b; }
         public String objectObject(Object o) { return "Object ok: " + o; }
