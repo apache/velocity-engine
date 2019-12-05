@@ -384,7 +384,10 @@ public class VelocimacroProxy extends Directive
             context.put(macroArg.name, newVal);
             values[(i-1) * 2 + 1] = newVal;
 
-            if (preserveArgumentsLiterals && newVal == null && argNode != null)
+            /* when preserveArgumentsLiterals is true, we still store the actual reference passed to the macro
+               even if the value is not null, because *if* the argument is set to null *during* the macro rendering
+               we still expect the passed argument literal to be displayed to be fully backward compatible. */
+            if (preserveArgumentsLiterals && /* newVal == null && */ argNode != null)
             {
                 context.put(literalArgArray[i], argNode);
             }
