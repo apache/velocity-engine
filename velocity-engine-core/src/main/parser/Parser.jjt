@@ -771,6 +771,7 @@ TOKEN:
      switchTo(REFINDEX);
    }
    |
+   /* we need to give precedence to the logical 'or' here, it's a hack to avoid multiplying parsing modes */
    <LOGICAL_OR_2: "||">
    {
        stateStackPop();
@@ -1574,6 +1575,7 @@ boolean Statement(boolean afterNewline) #void :
 |   (<WHITESPACE>) #Text { return false; }
 |   (<SUFFIX>) #Text { return true; }
 |   LOOKAHEAD(2) EndingZeroWidthWhitespace() { return afterNewline; }
+|   (<LOGICAL_OR_2>) #Text { return afterNewline; } // needed here since it can be triggered in <REFERENCE> mode out of any boolean evaluation
 |   (<ZERO_WIDTH_WHITESPACE>) #Text { afterNewline = !afterNewline; return false; }
 }
 
