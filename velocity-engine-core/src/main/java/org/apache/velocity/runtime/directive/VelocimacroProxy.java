@@ -32,6 +32,8 @@ import org.apache.velocity.util.StringUtils;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -45,7 +47,7 @@ import java.util.List;
 public class VelocimacroProxy extends Directive
 {
     private String macroName;
-    private List<Macro.MacroArg> macroArgs = null;
+    private List<MacroArg> macroArgs = null;
     private String[] literalArgArray = null;
     private SimpleNode nodeTree = null;
     private int numMacroArgs = 0;
@@ -53,6 +55,8 @@ public class VelocimacroProxy extends Directive
     private int maxCallDepth;
     private String bodyReference;
     private boolean preserveArgumentsLiterals;
+
+    private static final Object NULL_VALUE_MARKER = new Object();
 
     /**
      * Return name of this Velocimacro.
@@ -244,23 +248,29 @@ public class VelocimacroProxy extends Directive
                 if (current == values[(i-1) * 2 + 1])
                 {
                     Object old = values[(i-1) * 2];
-                    if (old != null)
-                    {
-                        context.put(macroArg.name, old);
-                    }
-                    else
+                    if (old == null)
                     {
                         context.remove(macroArg.name);
                     }
+                    else if (old == NULL_VALUE_MARKER)
+                    {
+                        context.put(macroArg.name, null);
+                    }
+                    else
+                    {
+                        context.put(macroArg.name, old);
+                    }
                 }
-            }
 
-            if (preserveArgumentsLiterals)
-            {
-                for (String literalKey : literalArgArray)
+                if (preserveArgumentsLiterals)
                 {
-                    // The behavior is not recursive.
-                    context.remove(literalKey);
+                    /* allow for nested calls */
+                    Deque<String> literalsStack = (Deque<String>)context.get(literalArgArray[i]);
+                    literalsStack.removeFirst();
+                    if (literalsStack.size() == 0)
+                    {
+                        context.remove(literalArgArray[i]);
+                    }
                 }
             }
         }
@@ -343,7 +353,11 @@ public class VelocimacroProxy extends Directive
         for (int i = 1; i < macroArgs.size(); i++)
         {
             MacroArg macroArg = macroArgs.get(i);
-            values[(i-1) * 2] = context.get(macroArg.name);
+            Object oldVal = context.get(macroArg.name);
+            values[(i-1) * 2] =
+                oldVal == null
+                ? context.containsKey(macroArg.name) ? NULL_VALUE_MARKER : null
+                : oldVal;
 
             // put the new value in
             Object newVal = null;
@@ -389,12 +403,18 @@ public class VelocimacroProxy extends Directive
                we still expect the passed argument literal to be displayed to be fully backward compatible. */
             if (preserveArgumentsLiterals && /* newVal == null && */ argNode != null)
             {
-                context.put(literalArgArray[i], argNode);
+                /* allow nested macro calls for B.C. */
+                Deque<String> literalsStack = (Deque<String>)context.get(literalArgArray[i]);
+                if (literalsStack == null)
+                {
+                    literalsStack = new LinkedList();
+                    context.put(literalArgArray[i], literalsStack);
+                }
+                literalsStack.addFirst(argNode.literal());
             }
         }
 
         // return the array of replaced and new values
         return values;
     }
-
 }

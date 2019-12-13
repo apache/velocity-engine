@@ -58,4 +58,14 @@ public class Velocity904TestCase extends BaseTestCase
         assertEvalEquals("$variable", "#macro(mymacro $input)#set($input = $null)$input#end#set($variable = 'value')#mymacro($variable)");
     }
 
+    public void testSubMacroNoPreserve()
+    {
+        assertEvalEquals("$return$return$return", "#macro(macro1 $return)$return#macro2($param2)$return#end#macro(macro2 $return)$return#end#macro1($param)");
+    }
+
+    public void testSubMacroPreserve()
+    {
+        assertEvalEquals("$param$param2$param", "#macro(macro1 $return)$return#macro2($param2)$return#end#macro(macro2 $return)$return#end#macro1($param)");
+    }
+
 }
