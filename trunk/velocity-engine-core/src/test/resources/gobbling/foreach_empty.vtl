@@ -1,0 +1,26 @@
+  #foreach( $i in [])
+    $i
+  #else
+    empty
+  #end
+
+~~~~ #foreach($i in []) #else empty #end ~~~~
+
+<table>
+  <tbody>
+#foreach($row in [1..1])
+    <tr>
+  #foreach($col in [])
+      <td>
+        ghost
+      </td>
+  #else
+      <td>
+        nobody
+      </td>
+  #end
+    </tr>
+#end
+  </tbody>
+</table>
+

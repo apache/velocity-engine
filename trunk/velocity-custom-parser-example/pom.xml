@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity-engine-parent</artifactId>
+        <version>2.2</version>
+    </parent>
+
+    <artifactId>velocity-custom-parser-example</artifactId>
+    <name>Apache Velocity Custom Parser Example</name>
+    <description>Custom Parser Example for Apache Velocity</description>
+
+    <packaging>pom</packaging>
+
+    <!--
+      This module demonstrates how to build a custom Velocity parser.
+      The proposed custom parser replaces '#' with '@' and '@' with '%'
+      so that it's suitable to use with Markdown template files, for instance.
+
+      The generated parser class is ${parser.package}.${parser.basename}Parser,
+      and must be specified at runtime using the Velocity property parser.class:
+        parser.class = foo.bar.MyCustomParser
+
+      Please note that all configurable chars (*, @, $, #) must be specified, even when similar to default ones.
+    -->
+
+    <properties>
+        <!-- whether to display debug logs while parsing -->
+        <parser.debug>false</parser.debug>
+        <!-- parser basename -->
+        <parser.basename>Custom</parser.basename>
+        <!-- parser package -->
+        <parser.package>org.apache.velocity.runtime.parser.custom</parser.package>
+        <!-- character to substitute to '*' -->
+        <parser.char.asterisk>*</parser.char.asterisk>
+        <!-- character to substitute to '@' -->
+        <parser.char.at>%</parser.char.at>
+        <!-- character to substitute to '$' -->
+        <parser.char.dollar>$</parser.char.dollar>
+        <!-- character to substitute to '#' -->
+        <parser.char.hash>@</parser.char.hash>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- generate manifest file -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+            </plugin>
+
+            <!-- extract raw parser grammar from velocity jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>fetch-grammar-file</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifact>org.apache.velocity:velocity-engine-core:${project.version}</artifact>
+                            <includes>org/apache/velocity/runtime/parser/Parser.jjt</includes>
+                            <outputDirectory>${project.build.directory}/grammar</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- generate custom grammar file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-parser-grammar</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <useDefaultDelimiters>false</useDefaultDelimiters>
+                            <delimiters>
+                                <delimiter>${*}</delimiter>
+                            </delimiters>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}/grammar</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.directory}/parser</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- run javacc -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>javacc-maven-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <isStatic>false</isStatic>
+                    <buildParser>true</buildParser>
+                    <buildNodeFiles>false</buildNodeFiles>
+                    <multi>true</multi>
+                    <debugParser>${parser.debug}</debugParser>
+                    <debugLookAhead>${parser.debug}</debugLookAhead>
+                    <debugTokenManager>${parser.debug}</debugTokenManager>
+                    <jdkVersion>${maven.compiler.target}</jdkVersion>
+                    <nodeUsesParser>true</nodeUsesParser>
+                    <nodePackage>${parser.package}.node</nodePackage>
+                    <sourceDirectory>${project.build.directory}/parser/org/apache/velocity/runtime/parser</sourceDirectory>
+                    <tokenManagerUsesParser>true</tokenManagerUsesParser>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jjtree-javacc</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>jjtree-javacc</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>Parser.jjt</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Remove extra generated files we don't want -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>clean-extra-javacc</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                            <filesets>
+                                <fileset>
+                                    <directory>${project.build.directory}/generated-sources/javacc/</directory>
+                                    <includes>
+                                        <include>**/*.java</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/*${parser.basename}*.java</exclude>
+                                    </excludes>
+                                </fileset>
+                                <fileset>
+                                    <directory>${project.build.directory}/generated-sources/jjtree/</directory>
+                                    <includes>
+                                        <include>**/node/*.java</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/node/*${parser.basename}*.java</exclude>
+                                    </excludes>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- add missing imports to some parser generated files -->
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <executions>
+                    <execution>
+                        <id>patch-parser-files</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>${project.build.directory}/generated-sources/jjtree/**/JJT${parser.basename}ParserState.java</include>
+                                <include>${project.build.directory}/generated-sources/jjtree/**/${parser.basename}ParserVisitor.java</include>
+                            </includes>
+                            <replacements>
+                                <replacement>
+                                    <token>import ${parser.package}.*;</token>
+                                    <value>import ${parser.package}.*;
+import org.apache.velocity.runtime.parser.node.*;</value>
+                                </replacement>
+                            </replacements>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.plugin.version}</version>
+                <configuration>
+                    <skip>${maven.test.skip}</skip>
+                    <systemProperties>
+                        <property>
+                            <name>test</name>
+                            <value>${test}</value>
+                        </property>
+                        <property>
+                            <name>test.templates.dir</name>
+                            <value>${project.build.testOutputDirectory}/templates</value>
+                        </property>
+                        <property>
+                            <name>test.results.dir</name>
+                            <value>${project.build.directory}/results</value>
+                        </property>
+                        <property>
+                            <name>test.reference.dir</name>
+                            <value>${project.build.testOutputDirectory}/reference</value>
+                        </property>
+                        <property>
+                            <name>org.slf4j.simpleLogger.defaultLogLevel</name>
+                            <value>warn</value>
+                        </property>
+                        <property>
+                            <name>org.slf4j.simpleLogger.logFile</name>
+                            <value>${project.build.directory}/velocity.log</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

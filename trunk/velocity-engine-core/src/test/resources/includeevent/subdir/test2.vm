@@ -1,0 +1,8 @@
+Test File 2
+#include("include-b.vm")
+
+#parse("parse-b.vm")
+
+#include("/include-c.vm")
+
+#parse("/parse-c.vm")

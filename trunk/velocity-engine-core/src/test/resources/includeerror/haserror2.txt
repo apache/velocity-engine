@@ -1,0 +1,10 @@
+## This file has a Velocity error.
+## It's intentionally not saved with a 'vm' suffix
+## to avoid errors in IDE
+
+## Note: text directly from VELOCITY-96
+
+#macro (myMacro $arg1 $list)
+This is text from velPTest2.vm
+#myMacro('name', ['apples', 'oranges']
+More text

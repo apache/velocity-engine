@@ -1,0 +1,121 @@
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+<!-- TODO: We should be putting findBugs exclusions -->
+<!-- as annotations in the source code. But that takes JDK 1.5+. -->
+
+<FindBugsFilter>
+
+    <!-- don't worry about deprecated things -->
+    <Match>
+        <Or>
+            <Package name="org.apache.velocity.app.tools"/>
+            <Package name="org.apache.velocity.anakia"/>
+            <Package name="org.apache.velocity.convert"/>
+            <Package name="org.apache.velocity.servlet"/>
+            <Package name="org.apache.velocity.texen"/>
+        </Or>
+    </Match>
+
+    <!-- ignore the JavaCC generated "bugs" -->
+    <Match>
+        <Package name="org.apache.velocity.runtime.parser"/>
+        <Or>
+            <Bug pattern="NM_METHOD_NAMING_CONVENTION"/>
+            <Bug pattern="EI_EXPOSE_REP2"/>
+            <Bug pattern="MS_PKGPROTECT"/>
+            <Bug pattern="MS_OOI_PKGPROTECT"/>
+            <Bug pattern="URF_UNREAD_FIELD"/>
+            <Bug pattern="MS_MUTABLE_ARRAY"/>
+            <Bug pattern="URF_UNREAD_FIELD"/>
+            <Bug pattern="BC_UNCONFIRMED_CAST"/>
+            <Bug pattern="DB_DUPLICATE_SWITCH_CLAUSES"/>
+            <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
+        </Or>
+    </Match>
+
+    <!-- these just aren't worth changing right now -->
+    <Match>
+        <Class name="org.apache.velocity.app.event.ReferenceInsertionEventHandler$referenceInsertExecutor"/>
+        <Bug pattern="NM_CLASS_NAMING_CONVENTION"/>
+    </Match>
+    <Match>
+        <Or>
+            <Class name="org.apache.velocity.runtime.directive.VelocimacroProxy"/>
+            <Class name="org.apache.velocity.runtime.parser.ParseException"/>
+            <Class name="org.apache.velocity.runtime.parser.Parser"/>
+            <Class name="org.apache.velocity.util.introspection.SecureIntrospectorImpl"/>
+        </Or>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.runtime.parser.ParseException"/>
+        <Or>
+            <Bug pattern="SBSC_USE_STRINGBUFFER_CONCATENATION"/>
+            <Bug pattern="SE_BAD_FIELD"/>
+        </Or>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.runtime.RuntimeInstance"/>
+        <Bug pattern="UI_INHERITANCE_UNSAFE_GETRESOURCE"/>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.util.StringUtils"/>
+        <Bug pattern="DM_CONVERT_CASE"/>
+    </Match>
+
+    <!-- there's actually good reason for these -->
+    <Match>
+        <Class name="org.apache.velocity.runtime.parser.node.ASTReference"/>
+        <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE"/>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.util.introspection.ClassMap$MethodCache"/>
+        <Bug pattern="URF_UNREAD_FIELD"/>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader"/>
+        <Bug pattern="SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING"/>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.runtime.directive.Define$Block"/>
+        <Bug pattern="NP_TOSTRING_COULD_RETURN_NULL"/>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.runtime.resource.loader.FileResourceLoader"/>
+        <Bug pattern="NP_LOAD_OF_KNOWN_NULL_VALUE"/>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.util.MapFactory"/>
+        <Or>
+            <Bug pattern="DE_MIGHT_IGNORE"/>
+            <Bug pattern="REC_CATCH_EXCEPTION"/>
+        </Or>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.util.introspection.SecureUberspector"/>
+        <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
+    </Match>
+    <Match>
+        <Class name="org.apache.velocity.runtime.VelocimacroFactory"/>
+        <Bug pattern="IS2_INCONSISTENT_SYNC"/>
+    </Match>
+
+</FindBugsFilter>
