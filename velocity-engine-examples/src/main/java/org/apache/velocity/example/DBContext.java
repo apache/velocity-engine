@@ -27,6 +27,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -73,31 +74,29 @@ public class DBContext extends AbstractContext
     {
         try
         {
-            String data = null;
-
-            String sql = "SELECT k, val FROM contextstore WHERE k ='"+key+"'";
-
+            String sql = "SELECT val FROM contextstore WHERE k ='"+key+"'";
             Statement s = conn.createStatement();
-
             ResultSet rs = s.executeQuery( sql );
 
+            Object o = null;
+            ObjectInputStream in = null;
+
             if(rs.next())
-               data = rs.getString("val");
+            {
+                in = new ObjectInputStream(  rs.getBinaryStream(1) );
+                o =  in.readObject();
+                in.close();
+            }
 
             rs.close();
             s.close();
-
-            ObjectInputStream in = new ObjectInputStream(  new ByteArrayInputStream( data.getBytes() ));
-
-            Object o =  in.readObject();
-
-            in.close();
 
             return o;
         }
         catch(Exception e)
         {
             System.out.println("internalGet() : " + e );
+            e.printStackTrace();
         }
 
         return null;
@@ -113,21 +112,23 @@ public class DBContext extends AbstractContext
     {
         try
         {
+            Statement s = conn.createStatement();
+            s.executeUpdate( "DELETE FROM contextstore WHERE k = '" + key + "'" );
+            s.close();
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream( baos );
-
             out.writeObject( value );
-            String data = baos.toString();
-
+            byte buf[] = baos.toByteArray();
             out.close();
             baos.close();
 
-            Statement s = conn.createStatement();
+            ByteArrayInputStream bais = new ByteArrayInputStream(buf);
+            PreparedStatement ps = conn.prepareStatement( "INSERT INTO contextstore (k,val) values ('"+key+"', ?)");
+            ps.setBinaryStream(1, bais, buf.length);
+            ps.executeUpdate();
+            ps.close();
 
-            s.executeUpdate( "DELETE FROM contextstore WHERE k = '" + key + "'" );
-            s.executeUpdate( "INSERT INTO contextstore (k,val) values ('"+key+"','" + data + "')" );
-
-            s.close();
         }
         catch(Exception e)
         {
@@ -172,8 +173,8 @@ public class DBContext extends AbstractContext
     {
         try
         {
-            Class.forName("org.gjt.mm.mysql.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/test?user=YOUR_DB_USER&password=YOUR_DB_PASSWORD");
         }
         catch (Exception e)
         {

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,6 +17,19 @@
 # specific language governing permissions and limitations
 # under the License.
 
-# Here you can configure Velocity behavior,
-# see http://velocity.apache.org/engine/${project.version}/configuration.html#configuring-velocity
-runtime.log.name = velocity
+echo "Running XMLTest with input file 'xml.vm'"
+
+_VELCP=.
+for i in lib/*.jar
+do
+    _VELCP="$_VELCP:$i"
+done
+
+# convert the unix path to windows
+if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
+    _VELCP=`cygpath --path --windows "$_VELCP"`
+fi
+
+echo "Using classpath $_VELCP"
+
+java -cp $_VELCP org.apache.velocity.example.XMLTest xml.vm

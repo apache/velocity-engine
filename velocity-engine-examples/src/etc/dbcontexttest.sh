@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/sh
 
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -17,30 +17,24 @@
 # specific language governing permissions and limitations
 # under the License.
 
-echo "DBContextTest : please ensure MySQL is set up and jdbc drivers are in classpath. See DBContextTest.java for clues"
+echo "DBContextTest : please ensure your DB engine is set up and jdbc drivers are in classpath. See DBContextTest.java for clues."
 echo "This is an unsupported demo."
 
+echo "Running DBContextTest with input file 'dbtest.vm'"
+
 _VELCP=.
-
-for i in ../lib/*.jar
+for i in lib/*.jar
 do
-    _VELCP=$_VELCP:"$i"
+    _VELCP="$_VELCP:$i"
 done
 
-for i in ../*.jar
-do
-    _VELCP=$_VELCP:"$i"
-done
+# convert the unix path to windows
+if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
+    _VELCP=`cygpath --path --windows "$_VELCP"`
+fi
 
-for i in ../../lib/*.jar
-do
-    _VELCP=$_VELCP:"$i"
-done
+echo "Using classpath $_VELCP"
 
-for i in ../../*.jar
-do
-    _VELCP=$_VELCP:"$i"
-done
 
 java -cp $_VELCP org.apache.velocity.example.DBContextTest dbtest.vm
 
