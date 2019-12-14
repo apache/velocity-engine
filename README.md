@@ -72,8 +72,9 @@ After building Velocity, you can also build the examples that are
 included with the Velocity distribution. These examples show how to
 use Velocity in your Java applications.
 
-For more information, please see the README.txt in the
-velocity-engine-examples/src/etc/ directory.
+For more information, please see the [examples README](velocity-engine-examples) in the `velocity-engine-examples` directory.
+
+___
 
 - The Apache Velocity Team
 
