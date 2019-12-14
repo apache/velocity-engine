@@ -19,15 +19,19 @@ Apache Velocity 2.2 will run with any Java runtime engine v1.8 or greater.
 Building from source requires Java development kit v1.8 or greater and Maven 3 (3.0.5+).
 
 At compile time, Maven should fetch all needed dependencies, which are:
+
 * commons-lang v3.9
 * slf4j-api v1.7.28
+
 plus the following ones, needed for the integrated tests:
+
 * slf4j-simple v1.7.28
 * junit v4.12
 * hsqldb v2.5.0
 * commons-io 2.6
 
 At runtime, Velocity only needs:
+
 * commons-lang v3.9+
 * slf4j-api and an slf4j binding, v1.7.28+
 
@@ -58,7 +62,9 @@ WEB-INF/lib directory.
 
 ## CUSTOMIZING THE PARSER
 
-Since 2.2, it's possible to (build a custom parser)[http://velocity.apache.org/engine/2.2/developer-guide.html#customizing-the-vtl-parser], to change some of the characters used by in the VTL syntax: `*`, `@`, `$` and `#`. Let's say you want to merge some templatized jQuery code full of `$` characters, you can for instance build you own parser which will use the `§` character for references instead of `$`.
+Since 2.2, it's possible to [build a custom parser](http://velocity.apache.org/engine/2.2/developer-guide.html#customizing-the-vtl-parser), to change some of the characters used by in the VTL syntax: `*`, `@`, `$` and `#`.
+
+Let's say you want to merge some templatized jQuery code full of `$` characters, you can for instance build you own parser which will use the `§` character as references prefix instead of `$`.
 
 ## TRYING THE EXAMPLES
 
