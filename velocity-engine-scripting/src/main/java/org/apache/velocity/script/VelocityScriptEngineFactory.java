@@ -40,11 +40,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.velocity.runtime.VelocityEngineVersion;
+
 public class VelocityScriptEngineFactory implements ScriptEngineFactory
 {
 
     private static final String VELOCITY_NAME = "Velocity";
-    private static final String VELOCITY_VERSION = "2.0";
+    private static final String VELOCITY_VERSION = VelocityEngineVersion.VERSION;
     private static final String VELOCITY_LANGUAGE = "VTL";
 
     private static List<String> names;

@@ -58,7 +58,7 @@ public class Example2
         VelocityContext context = new VelocityContext();
 
         context.put("name", "Velocity");
-        context.put("project", "Jakarta");
+        context.put("project", "Engine");
 
         /* lets render a template */
 

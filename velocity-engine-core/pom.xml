@@ -75,7 +75,6 @@
                         </goals>
                         <configuration>
                             <useDefaultDelimiters>false</useDefaultDelimiters>
-
                             <delimiters>
                                 <delimiter>${*}</delimiter>
                             </delimiters>
@@ -196,6 +195,21 @@
                                 </replacement>
                             </replacements>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- handle VelocityEngineVersion file -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>templating-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>filter-src</id>
+                        <goals>
+                            <goal>filter-sources</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -321,7 +335,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.4</version>
+                <version>3.0.5</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                     <threshold>Low</threshold>

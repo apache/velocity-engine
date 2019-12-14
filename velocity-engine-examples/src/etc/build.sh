@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/sh
 
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -17,26 +17,15 @@
 # specific language governing permissions and limitations
 # under the License.
 
+echo "Building examples..."
+
+echo rm lib/${project.build.finalName}.jar
+rm lib/${project.build.finalName}.jar
+
 _VELCP=.
-
-for i in ../lib/*.jar
+for i in lib/*.jar
 do
-    _VELCP=$_VELCP:"$i"
-done
-
-for i in ../*.jar
-do
-    _VELCP=$_VELCP:"$i"
-done
-
-for i in ../../lib/*.jar
-do
-    _VELCP=$_VELCP:"$i"
-done
-
-for i in ../../*.jar
-do
-    _VELCP=$_VELCP:"$i"
+    _VELCP="$_VELCP:$i"
 done
 
 # convert the unix path to windows
@@ -44,5 +33,8 @@ if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
     _VELCP=`cygpath --path --windows "$_VELCP"`
 fi
 
-java -cp $_VELCP org.apache.velocity.example.Example2
+echo "Using classpath $_VELCP"
 
+find src -name "*.java" > sources.txt
+mkdir classes
+javac -cp $_VELCP -d classes @sources.txt && jar cf lib/${project.build.finalName}.jar -C classes . && echo "Build successful."

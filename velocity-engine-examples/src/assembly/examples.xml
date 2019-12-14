@@ -1,0 +1,62 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>pkg</id>
+    <baseDirectory>${project.build.directory}</baseDirectory>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <!-- copy dependencies to lib/ -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>${project.build.finalName}</outputDirectory>
+            <includes>
+                <include>lib/*.jar</include>
+            </includes>
+        </fileSet>
+        <!-- copy self jar to lib/ -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>${project.build.finalName}/lib</outputDirectory>
+            <includes>
+                <include>${project.build.finalName}.jar</include>
+            </includes>
+        </fileSet>
+        <!-- copy examples resources -->
+        <fileSet>
+            <directory>${project.build.directory}/examples</directory>
+            <outputDirectory>${project.build.finalName}</outputDirectory>
+            <includes>
+                <include>*.vm</include>
+                <include>*.xml</include>
+                <include>*.properties</include>
+            </includes>
+        </fileSet>
+        <!-- copy examples scripts -->
+        <fileSet>
+            <directory>${project.build.directory}/examples</directory>
+            <outputDirectory>${project.build.finalName}</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>*.sh</include>
+            </includes>
+        </fileSet>
+        <!-- copy readme file -->
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>${project.build.finalName}</outputDirectory>
+            <includes>
+                <include>README.md</include>
+            </includes>
+        </fileSet>
+        <!-- copy sources -->
+        <fileSet>
+            <directory>${project.basedir}/src/main/java</directory>
+            <outputDirectory>${project.build.finalName}/src</outputDirectory>
+            <includes>
+                <include>**/*.java</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

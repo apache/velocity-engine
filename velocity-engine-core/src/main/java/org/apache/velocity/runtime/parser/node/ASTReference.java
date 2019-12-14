@@ -28,7 +28,6 @@ import org.apache.velocity.io.Filter;
 import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.directive.Block.Reference;
-import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.ClassUtils;
@@ -41,6 +40,7 @@ import org.apache.velocity.util.introspection.VelPropertySet;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Deque;
 
 /**
  * This class is responsible for handling the references in
@@ -65,6 +65,7 @@ public class ASTReference extends SimpleNode
 
     private int referenceType;
     private String nullString;
+    private String alternateNullStringKey;
     private String rootString;
     private boolean escaped = false;
     private boolean computableReference = true;
@@ -165,6 +166,11 @@ public class ASTReference extends SimpleNode
          */
 
         rootString = rsvc.useStringInterning() ? getRoot().intern() : getRoot();
+        if (lookupAlternateLiteral)
+        {
+            /* cache alternate null tring key */
+            alternateNullStringKey = ".literal." + nullString;
+        }
 
         numChildren = jjtGetNumChildren();
 
@@ -644,10 +650,10 @@ public class ASTReference extends SimpleNode
 
         if (lookupAlternateLiteral)
         {
-            Node callingArgument = (Node)context.get(".literal." + nullString);
-            if (callingArgument != null)
+            Deque<String> alternateLiteralsStack = (Deque<String>)context.get(alternateNullStringKey);
+            if (alternateLiteralsStack != null && alternateLiteralsStack.size() > 0)
             {
-                ret = ((Node) callingArgument).literal();
+                ret = alternateLiteralsStack.peekFirst();
             }
         }
         return ret;

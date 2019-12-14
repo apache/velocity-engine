@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/sh
 
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -17,28 +17,12 @@
 # specific language governing permissions and limitations
 # under the License.
 
-echo "Running Example with input file 'example.vm'"
+echo "Running Example with input file 'example1.vm'"
 
 _VELCP=.
-
-for i in ../lib/*.jar
+for i in lib/*.jar
 do
-    _VELCP=$_VELCP:"$i"
-done
-
-for i in ../*.jar
-do
-    _VELCP=$_VELCP:"$i"
-done
-
-for i in ../../lib/*.jar
-do
-    _VELCP=$_VELCP:"$i"
-done
-
-for i in ../../*.jar
-do
-    _VELCP=$_VELCP:"$i"
+    _VELCP="$_VELCP:$i"
 done
 
 # convert the unix path to windows
@@ -46,5 +30,7 @@ if [ "$OSTYPE" = "cygwin32" ] || [ "$OSTYPE" = "cygwin" ] ; then
     _VELCP=`cygpath --path --windows "$_VELCP"`
 fi
 
-java -cp $_VELCP org.apache.velocity.example.Example example.vm
+echo "Using classpath $_VELCP"
+
+java -cp $_VELCP org.apache.velocity.example.Example example1.vm
 

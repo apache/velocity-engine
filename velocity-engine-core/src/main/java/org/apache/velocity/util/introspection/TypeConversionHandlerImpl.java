@@ -24,9 +24,12 @@ import org.apache.commons.lang3.reflect.TypeUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -57,18 +60,6 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
     static Converter cacheMiss;
 
     /**
-     * min/max byte/short/int values as long
-     */
-    static final long minByte = Byte.MIN_VALUE, maxByte = Byte.MAX_VALUE,
-        minShort = Short.MIN_VALUE, maxShort = Short.MAX_VALUE,
-        minInt = Integer.MIN_VALUE, maxInt = Integer.MAX_VALUE;
-
-    /**
-     * min/max long values as double
-     */
-    static final double minLong = Long.MIN_VALUE, maxLong = Long.MAX_VALUE;
-
-    /**
      * a converters cache map, initialized with the standard narrowing and string parsing conversions.
      */
     Map<Pair<String, String>, Converter> converterCacheMap;
@@ -86,41 +77,53 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
     static final String SHORT_CLASS = "java.lang.Short";
     static final String INTEGER_CLASS = "java.lang.Integer";
     static final String LONG_CLASS = "java.lang.Long";
+    static final String BIG_INTEGER_CLASS = "java.math.BigInteger";
     static final String FLOAT_CLASS = "java.lang.Float";
     static final String DOUBLE_CLASS = "java.lang.Double";
+    static final String BIG_DECIMAL_CLASS = "java.math.BigDecimal";
     static final String NUMBER_CLASS = "java.lang.Number";
     static final String CHARACTER_CLASS = "java.lang.Character";
     static final String STRING_CLASS = "java.lang.String";
     static final String LOCALE_CLASS = "java.util.Locale";
 
+    /*
+     * Bounds checking helper
+     */
+
+    static boolean checkBounds(Number n, double min, double max)
+    {
+        double d = n.doubleValue();
+        if (d < min || d > max)
+        {
+            throw new NumberFormatException("value out of range: " + n);
+        }
+        return true;
+    }
+
     static
     {
         standardConverterMap = new HashMap<>();
 
-        cacheMiss = new Converter<Object>()
-        {
-            @Override
-            public Object convert(Object o)
-            {
-                return o;
-            }
-        };
+        cacheMiss = o -> o;
+
+        /*
+         * Conversions towards boolean
+         */
 
         /* number -> boolean */
-        Converter<Boolean> numberToBool = new Converter<Boolean>()
-        {
-            @Override
-            public Boolean convert(Object o)
-            {
-                return o == null ? null : ((Number) o).intValue() != 0;
-            }
-        };
+
+        Converter<Boolean> numberToBool = o -> Optional.ofNullable((Number)o).map(n -> Double.compare(n.doubleValue(), 0.0) != 0).orElse(null);
+        Converter<Boolean> bigIntegerToBool = o -> Optional.ofNullable((BigInteger)o).map(bi -> bi.signum() != 0).orElse(null);
+        Converter<Boolean> bigDecimalToBool = o -> Optional.ofNullable((BigDecimal)o).map(bi -> bi.signum() != 0).orElse(null);
+
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, BYTE_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, SHORT_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, INTEGER_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, LONG_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, BIG_INTEGER_CLASS), bigIntegerToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, FLOAT_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, DOUBLE_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_CLASS, BIG_DECIMAL_CLASS), bigDecimalToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, NUMBER_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, BYTE_TYPE), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, SHORT_TYPE), numberToBool);
@@ -131,9 +134,11 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, BYTE_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, SHORT_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, INTEGER_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, BIG_INTEGER_CLASS), bigIntegerToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, LONG_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, FLOAT_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, DOUBLE_CLASS), numberToBool);
+        standardConverterMap.put(Pair.of(BOOLEAN_TYPE, BIG_DECIMAL_CLASS), bigDecimalToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, NUMBER_CLASS), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, BYTE_TYPE), numberToBool);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, SHORT_TYPE), numberToBool);
@@ -143,51 +148,47 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, DOUBLE_TYPE), numberToBool);
 
         /* character -> boolean */
-        Converter<Boolean> charToBoolean = new Converter<Boolean>()
-        {
-            @Override
-            public Boolean convert(Object o)
-            {
-                return o == null ? null : (Character) o != 0;
-            }
-        };
+
+        Converter<Boolean> charToBoolean = o -> Optional.ofNullable((Character)o).map(c -> c != 0).orElse(null);
+
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, CHARACTER_CLASS), charToBoolean);
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, CHARACTER_TYPE), charToBoolean);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, CHARACTER_CLASS), charToBoolean);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, CHARACTER_TYPE), charToBoolean);
 
         /* string -> boolean */
-        Converter<Boolean> stringToBoolean = new Converter<Boolean>()
-        {
-            @Override
-            public Boolean convert(Object o)
-            {
-                return Boolean.valueOf(String.valueOf(o));
-            }
-        };
+
+        Converter<Boolean> stringToBoolean = o -> Boolean.valueOf(String.valueOf(o));
+
         standardConverterMap.put(Pair.of(BOOLEAN_CLASS, STRING_CLASS), stringToBoolean);
         standardConverterMap.put(Pair.of(BOOLEAN_TYPE, STRING_CLASS), stringToBoolean);
 
+        /*
+         * Conversions towards byte
+         */
+
         /* narrowing towards byte */
-        Converter<Byte> narrowingToByte = new Converter<Byte>()
-        {
-            @Override
-            public Byte convert(Object o)
-            {
-                if (o == null) return null;
-                long l = ((Number)o).longValue();
-                if (l < minByte || l > maxByte)
-                {
-                    throw new NumberFormatException("value out of range for byte type: " + l);
-                }
-                return ((Number) o).byteValue();
-            }
-        };
+
+        Converter<Byte> narrowingToByte = o -> Optional.ofNullable((Number)o)
+            .filter(n -> checkBounds(n, Byte.MIN_VALUE, Byte.MAX_VALUE))
+            .map(Number::byteValue)
+            .orElse(null);
+
+        Converter<Byte> narrowingBigIntegerToByte = o -> Optional.ofNullable((BigInteger)o)
+            .map(BigInteger::byteValueExact)
+            .orElse(null);
+
+        Converter<Byte> narrowingBigDecimalToByte = o -> Optional.ofNullable((BigDecimal)o)
+            .map(BigDecimal::byteValueExact)
+            .orElse(null);
+
         standardConverterMap.put(Pair.of(BYTE_CLASS, SHORT_CLASS), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_CLASS, INTEGER_CLASS), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_CLASS, LONG_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, BIG_INTEGER_CLASS), narrowingBigIntegerToByte);
         standardConverterMap.put(Pair.of(BYTE_CLASS, FLOAT_CLASS), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_CLASS, DOUBLE_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_CLASS, BIG_DECIMAL_CLASS), narrowingBigDecimalToByte);
         standardConverterMap.put(Pair.of(BYTE_CLASS, NUMBER_CLASS), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_CLASS, SHORT_TYPE), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_CLASS, INTEGER_TYPE), narrowingToByte);
@@ -197,8 +198,10 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
         standardConverterMap.put(Pair.of(BYTE_TYPE, SHORT_CLASS), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, INTEGER_CLASS), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, LONG_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, BIG_INTEGER_CLASS), narrowingBigIntegerToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, FLOAT_CLASS), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, DOUBLE_CLASS), narrowingToByte);
+        standardConverterMap.put(Pair.of(BYTE_TYPE, BIG_DECIMAL_CLASS), narrowingBigDecimalToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, NUMBER_CLASS), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, SHORT_TYPE), narrowingToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, INTEGER_TYPE), narrowingToByte);
@@ -207,36 +210,37 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
         standardConverterMap.put(Pair.of(BYTE_TYPE, DOUBLE_TYPE), narrowingToByte);
 
         /* string to byte */
-        Converter<Byte> stringToByte = new Converter<Byte>()
-        {
-            @Override
-            public Byte convert(Object o)
-            {
-                return Byte.valueOf(String.valueOf(o));
-            }
-        };
+
+        Converter<Byte> stringToByte = o -> Byte.valueOf(String.valueOf(o));
+
         standardConverterMap.put(Pair.of(BYTE_CLASS, STRING_CLASS), stringToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, STRING_CLASS), stringToByte);
 
+        /*
+         * Conversions towards short
+         */
+
         /* narrowing towards short */
-        Converter<Short> narrowingToShort = new Converter<Short>()
-        {
-            @Override
-            public Short convert(Object o)
-            {
-                if (o == null) return null;
-                long l = ((Number)o).longValue();
-                if (l < minShort || l > maxShort)
-                {
-                    throw new NumberFormatException("value out of range for short type: " + l);
-                }
-                return ((Number) o).shortValue();
-            }
-        };
+
+        Converter<Short> narrowingToShort = o -> Optional.ofNullable((Number)o)
+            .filter(n -> checkBounds(n, Short.MIN_VALUE, Short.MAX_VALUE))
+            .map(Number::shortValue)
+            .orElse(null);
+
+        Converter<Short> narrowingBigIntegerToShort = o -> Optional.ofNullable((BigInteger)o)
+            .map(BigInteger::shortValueExact)
+            .orElse(null);
+
+        Converter<Short> narrowingBigDecimalToShort = o -> Optional.ofNullable((BigDecimal)o)
+            .map(BigDecimal::shortValueExact)
+            .orElse(null);
+
         standardConverterMap.put(Pair.of(SHORT_CLASS, INTEGER_CLASS), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_CLASS, LONG_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, BIG_INTEGER_CLASS), narrowingBigIntegerToShort);
         standardConverterMap.put(Pair.of(SHORT_CLASS, FLOAT_CLASS), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_CLASS, DOUBLE_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, BIG_DECIMAL_CLASS), narrowingBigDecimalToShort);
         standardConverterMap.put(Pair.of(SHORT_CLASS, NUMBER_CLASS), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_CLASS, INTEGER_TYPE), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_CLASS, LONG_TYPE), narrowingToShort);
@@ -244,194 +248,244 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
         standardConverterMap.put(Pair.of(SHORT_CLASS, DOUBLE_TYPE), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, INTEGER_CLASS), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, LONG_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, BIG_INTEGER_CLASS), narrowingBigIntegerToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, FLOAT_CLASS), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, DOUBLE_CLASS), narrowingToShort);
+        standardConverterMap.put(Pair.of(SHORT_TYPE, BIG_DECIMAL_CLASS), narrowingBigDecimalToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, NUMBER_CLASS), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, INTEGER_TYPE), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, LONG_TYPE), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, FLOAT_TYPE), narrowingToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, DOUBLE_TYPE), narrowingToShort);
 
+        /* widening towards short */
+
+        Converter<Short> wideningToShort = o -> Optional.ofNullable((Number)o)
+            .map(Number::shortValue)
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(SHORT_CLASS, BYTE_CLASS), wideningToShort);
+        standardConverterMap.put(Pair.of(SHORT_CLASS, BYTE_TYPE), wideningToShort);
+
         /* string to short */
-        Converter<Short> stringToShort = new Converter<Short>()
-        {
-            @Override
-            public Short convert(Object o)
-            {
-                return Short.valueOf(String.valueOf(o));
-            }
-        };
+
+        Converter<Short> stringToShort = o -> Short.valueOf(String.valueOf(o));
+
         standardConverterMap.put(Pair.of(SHORT_CLASS, STRING_CLASS), stringToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, STRING_CLASS), stringToShort);
 
+        /*
+         * Conversions towards int
+         */
+
         /* narrowing towards int */
-        Converter<Integer> narrowingToInteger = new Converter<Integer>()
-        {
-            @Override
-            public Integer convert(Object o)
-            {
-                if (o == null) return null;
-                long l = ((Number)o).longValue();
-                if (l < minInt || l > maxInt)
-                {
-                    throw new NumberFormatException("value out of range for integer type: " + l);
-                }
-                return ((Number) o).intValue();
-            }
-        };
+
+        Converter<Integer> narrowingToInteger = o -> Optional.ofNullable((Number)o)
+            .filter(n -> checkBounds(n, Integer.MIN_VALUE, Integer.MAX_VALUE))
+            .map(Number::intValue)
+            .orElse(null);
+
+        Converter<Integer> narrowingBigIntegerToInteger = o -> Optional.ofNullable((BigInteger)o)
+            .map(BigInteger::intValueExact)
+            .orElse(null);
+
+        Converter<Integer> narrowingBigDecimalToInteger = o -> Optional.ofNullable((BigDecimal)o)
+            .map(BigDecimal::intValueExact)
+            .orElse(null);
+
         standardConverterMap.put(Pair.of(INTEGER_CLASS, LONG_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, BIG_INTEGER_CLASS), narrowingBigIntegerToInteger);
         standardConverterMap.put(Pair.of(INTEGER_CLASS, FLOAT_CLASS), narrowingToInteger);
         standardConverterMap.put(Pair.of(INTEGER_CLASS, DOUBLE_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, BIG_DECIMAL_CLASS), narrowingBigDecimalToInteger);
         standardConverterMap.put(Pair.of(INTEGER_CLASS, NUMBER_CLASS), narrowingToInteger);
         standardConverterMap.put(Pair.of(INTEGER_CLASS, LONG_TYPE), narrowingToInteger);
         standardConverterMap.put(Pair.of(INTEGER_CLASS, FLOAT_TYPE), narrowingToInteger);
         standardConverterMap.put(Pair.of(INTEGER_CLASS, DOUBLE_TYPE), narrowingToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, LONG_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, BIG_INTEGER_CLASS), narrowingBigIntegerToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, FLOAT_CLASS), narrowingToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, DOUBLE_CLASS), narrowingToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_TYPE, BIG_DECIMAL_CLASS), narrowingBigDecimalToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, NUMBER_CLASS), narrowingToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, LONG_TYPE), narrowingToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, FLOAT_TYPE), narrowingToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, DOUBLE_TYPE), narrowingToInteger);
 
-        /* widening towards Integer */
-        Converter<Integer> wideningToInteger = new Converter<Integer>()
-        {
-            @Override
-            public Integer convert(Object o)
-            {
-                if (o == null) return null;
-                return ((Number) o).intValue();
-            }
-        };
+        /* widening towards int */
+
+        Converter<Integer> wideningToInteger = o -> Optional.ofNullable((Number)o)
+            .map(Number::intValue)
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, BYTE_CLASS), wideningToInteger);
         standardConverterMap.put(Pair.of(INTEGER_CLASS, SHORT_CLASS), wideningToInteger);
+        standardConverterMap.put(Pair.of(INTEGER_CLASS, BYTE_TYPE), wideningToInteger);
         standardConverterMap.put(Pair.of(INTEGER_CLASS, SHORT_TYPE), wideningToInteger);
 
         /* string to int */
-        Converter<Integer> stringToInteger = new Converter<Integer>()
-        {
-            @Override
-            public Integer convert(Object o)
-            {
-                return Integer.valueOf(String.valueOf(o));
-            }
-        };
+
+        Converter<Integer> stringToInteger = o -> Integer.valueOf(String.valueOf(o));
+
         standardConverterMap.put(Pair.of(INTEGER_CLASS, STRING_CLASS), stringToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, STRING_CLASS), stringToInteger);
 
+        /*
+         * Conversions towards long
+         */
+
         /* narrowing towards long */
-        Converter<Long> narrowingToLong = new Converter<Long>()
-        {
-            @Override
-            public Long convert(Object o)
-            {
-                if (o == null) return null;
-                double d = ((Number)o).doubleValue();
-                if (d < minLong || d > maxLong)
-                {
-                    throw new NumberFormatException("value out of range for long type: " + d);
-                }
-                return ((Number) o).longValue();
-            }
-        };
+
+        Converter<Long> narrowingToLong = o -> Optional.ofNullable((Number)o)
+            .filter(n -> checkBounds(n, Long.MIN_VALUE, Long.MAX_VALUE))
+            .map(Number::longValue)
+            .orElse(null);
+
+        Converter<Long> narrowingBigIntegerToLong = o -> Optional.ofNullable((BigInteger)o)
+            .map(BigInteger::longValueExact)
+            .orElse(null);
+
+        Converter<Long> narrowingBigDecimalToLong = o -> Optional.ofNullable((BigDecimal)o)
+            .map(BigDecimal::longValueExact)
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(LONG_CLASS, BIG_INTEGER_CLASS), narrowingBigIntegerToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, FLOAT_CLASS), narrowingToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, DOUBLE_CLASS), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, BIG_DECIMAL_CLASS), narrowingBigDecimalToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, NUMBER_CLASS), narrowingToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, FLOAT_TYPE), narrowingToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, DOUBLE_TYPE), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, BIG_INTEGER_CLASS), narrowingBigIntegerToLong);
         standardConverterMap.put(Pair.of(LONG_TYPE, FLOAT_CLASS), narrowingToLong);
         standardConverterMap.put(Pair.of(LONG_TYPE, DOUBLE_CLASS), narrowingToLong);
+        standardConverterMap.put(Pair.of(LONG_TYPE, BIG_DECIMAL_CLASS), narrowingBigDecimalToLong);
         standardConverterMap.put(Pair.of(LONG_TYPE, NUMBER_CLASS), narrowingToLong);
         standardConverterMap.put(Pair.of(LONG_TYPE, FLOAT_TYPE), narrowingToLong);
         standardConverterMap.put(Pair.of(LONG_TYPE, DOUBLE_TYPE), narrowingToLong);
 
-        /* widening towards Long */
-        Converter<Long> wideningToLong = new Converter<Long>()
-        {
-            @Override
-            public Long convert(Object o)
-            {
-                if (o == null) return null;
-                return ((Number) o).longValue();
-            }
-        };
+        /* widening towards long */
+
+        Converter<Long> wideningToLong = o -> Optional.ofNullable((Number)o)
+            .map(Number::longValue)
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(LONG_CLASS, BYTE_CLASS), wideningToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, SHORT_CLASS), wideningToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, INTEGER_CLASS), wideningToLong);
+        standardConverterMap.put(Pair.of(LONG_CLASS, BYTE_TYPE), wideningToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, SHORT_TYPE), wideningToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, INTEGER_TYPE), wideningToLong);
 
         /* string to long */
-        Converter<Long> stringToLong = new Converter<Long>()
-        {
-            @Override
-            public Long convert(Object o)
-            {
-                return Long.valueOf(String.valueOf(o));
-            }
-        };
+
+        Converter<Long> stringToLong = o -> Long.valueOf(String.valueOf(o));
+
         standardConverterMap.put(Pair.of(LONG_CLASS, STRING_CLASS), stringToLong);
         standardConverterMap.put(Pair.of(LONG_TYPE, STRING_CLASS), stringToLong);
 
-        /* narrowing towards float */
-        Converter<Float> narrowingToFloat = new Converter<Float>()
-        {
-            @Override
-            public Float convert(Object o)
-            {
-                return o == null ? null : ((Number) o).floatValue();
-            }
-        };
-        standardConverterMap.put(Pair.of(FLOAT_CLASS, DOUBLE_CLASS), narrowingToFloat);
-        standardConverterMap.put(Pair.of(FLOAT_CLASS, NUMBER_CLASS), narrowingToFloat);
-        standardConverterMap.put(Pair.of(FLOAT_CLASS, DOUBLE_TYPE), narrowingToFloat);
-        standardConverterMap.put(Pair.of(FLOAT_TYPE, DOUBLE_CLASS), narrowingToFloat);
-        standardConverterMap.put(Pair.of(FLOAT_TYPE, NUMBER_CLASS), narrowingToFloat);
-        standardConverterMap.put(Pair.of(FLOAT_TYPE, DOUBLE_TYPE), narrowingToFloat);
+        /*
+         * Conversions towards BigInteger
+         */
 
-        /* exact towards Float */
-        Converter<Float> toFloat = new Converter<Float>()
-        {
-            @Override
-            public Float convert(Object o)
-            {
-                if (o == null) return null;
-                return ((Number) o).floatValue();
-            }
-        };
+        /* exact types towards BigInteger */
+
+        Converter<BigInteger> toBigInteger = o -> Optional.ofNullable((Number)o)
+            .map(n -> BigInteger.valueOf(n.longValue()))
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, BYTE_CLASS), toBigInteger);
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, SHORT_CLASS), toBigInteger);
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, INTEGER_CLASS), toBigInteger);
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, LONG_CLASS), toBigInteger);
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, BYTE_TYPE), toBigInteger);
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, SHORT_TYPE), toBigInteger);
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, INTEGER_TYPE), toBigInteger);
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, LONG_TYPE), toBigInteger);
+        
+        /* approximate types towards BigInteger */
+
+        /* It makes no sense trying to convert from float or double towards BigInteger
+           if we do care about precision loss..
+         */
+
+        Converter<BigInteger> bigDecimalToBigInteger = o -> Optional.ofNullable((BigDecimal)o)
+            .map(BigDecimal::toBigIntegerExact)
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, BIG_DECIMAL_CLASS), bigDecimalToBigInteger);
+
+        /* string to BigInteger */
+
+        Converter<BigInteger> stringToBigInteger = o -> Optional.ofNullable(o)
+            .map(s -> new BigInteger(String.valueOf(s)))
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(BIG_INTEGER_CLASS, STRING_CLASS), stringToBigInteger);
+
+        /*
+         * Conversions towards float
+         */
+        
+        Converter<Float> toFloat = o -> Optional.ofNullable((Number)o)
+            .map(Number::floatValue)
+            .orElse(null);
+
+        /* narrowing towards float */
+
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, BIG_INTEGER_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, DOUBLE_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, BIG_DECIMAL_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, NUMBER_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, DOUBLE_TYPE), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_TYPE, BIG_INTEGER_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_TYPE, DOUBLE_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_TYPE, BIG_DECIMAL_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_TYPE, NUMBER_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_TYPE, DOUBLE_TYPE), toFloat);
+
+        /* exact types towards float */
+
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, BYTE_CLASS), toFloat);
         standardConverterMap.put(Pair.of(FLOAT_CLASS, SHORT_CLASS), toFloat);
         standardConverterMap.put(Pair.of(FLOAT_CLASS, INTEGER_CLASS), toFloat);
         standardConverterMap.put(Pair.of(FLOAT_CLASS, LONG_CLASS), toFloat);
+        standardConverterMap.put(Pair.of(FLOAT_CLASS, BYTE_TYPE), toFloat);
         standardConverterMap.put(Pair.of(FLOAT_CLASS, SHORT_TYPE), toFloat);
         standardConverterMap.put(Pair.of(FLOAT_CLASS, INTEGER_TYPE), toFloat);
         standardConverterMap.put(Pair.of(FLOAT_CLASS, LONG_TYPE), toFloat);
 
         /* string to float */
-        Converter<Float> stringToFloat = new Converter<Float>()
-        {
-            @Override
-            public Float convert(Object o)
-            {
-                return Float.valueOf(String.valueOf(o));
-            }
-        };
+
+        Converter<Float> stringToFloat = o -> Float.valueOf(String.valueOf(o));
+
         standardConverterMap.put(Pair.of(FLOAT_CLASS, STRING_CLASS), stringToFloat);
         standardConverterMap.put(Pair.of(FLOAT_TYPE, STRING_CLASS), stringToFloat);
 
-        /* exact or widening towards Double */
-        Converter<Double> toDouble = new Converter<Double>()
-        {
-            @Override
-            public Double convert(Object o)
-            {
-                if (o == null) return null;
-                return ((Number) o).doubleValue();
-            }
-        };
+        /*
+         * Conversions towards double
+         */
+
+        Converter<Double> toDouble = o -> Optional.ofNullable((Number)o)
+            .map(Number::doubleValue)
+            .orElse(null);
+
+        /* narrowing towards double */
+
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, BIG_INTEGER_CLASS), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, BIG_DECIMAL_CLASS), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_TYPE, BIG_INTEGER_CLASS), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_TYPE, BIG_DECIMAL_CLASS), toDouble);
+        
+        /* exact types or widening towards double */
+
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, BYTE_CLASS), toDouble);
         standardConverterMap.put(Pair.of(DOUBLE_CLASS, SHORT_CLASS), toDouble);
         standardConverterMap.put(Pair.of(DOUBLE_CLASS, INTEGER_CLASS), toDouble);
         standardConverterMap.put(Pair.of(DOUBLE_CLASS, LONG_CLASS), toDouble);
         standardConverterMap.put(Pair.of(DOUBLE_CLASS, FLOAT_CLASS), toDouble);
         standardConverterMap.put(Pair.of(DOUBLE_CLASS, NUMBER_CLASS), toDouble);
+        standardConverterMap.put(Pair.of(DOUBLE_CLASS, BYTE_TYPE), toDouble);
         standardConverterMap.put(Pair.of(DOUBLE_CLASS, SHORT_TYPE), toDouble);
         standardConverterMap.put(Pair.of(DOUBLE_CLASS, INTEGER_TYPE), toDouble);
         standardConverterMap.put(Pair.of(DOUBLE_CLASS, LONG_TYPE), toDouble);
@@ -439,92 +493,112 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
         standardConverterMap.put(Pair.of(DOUBLE_TYPE, NUMBER_CLASS), toDouble);
 
         /* string to double */
-        Converter<Double> stringToDouble = new Converter<Double>()
-        {
-            @Override
-            public Double convert(Object o)
-            {
-                return Double.valueOf(String.valueOf(o));
-            }
-        };
+
+        Converter<Double> stringToDouble = o -> Double.valueOf(String.valueOf(o));
+
         standardConverterMap.put(Pair.of(DOUBLE_CLASS, STRING_CLASS), stringToDouble);
         standardConverterMap.put(Pair.of(DOUBLE_TYPE, STRING_CLASS), stringToDouble);
 
+        /*
+         * Conversions towards BigDecimal
+         */
+
+        /* exact types towards BigDecimal */
+
+        Converter<BigDecimal> exactToBigDecimal = o -> Optional.ofNullable((Number)o)
+            .map(n -> BigDecimal.valueOf(n.longValue()))
+            .orElse(null);
+
+        Converter<BigDecimal> bigIntegerToBigDecimal = o -> Optional.ofNullable((BigInteger)o)
+            .map(bi -> new BigDecimal(bi))
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, BYTE_CLASS), exactToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, SHORT_CLASS), exactToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, INTEGER_CLASS), exactToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, LONG_CLASS), exactToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, BIG_INTEGER_CLASS), bigIntegerToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, BYTE_TYPE), exactToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, SHORT_TYPE), exactToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, INTEGER_TYPE), exactToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, LONG_TYPE), exactToBigDecimal);
+
+        /* approximate types towards BigDecimal */
+
+        Converter<BigDecimal> approxToBigDecimal = o -> Optional.ofNullable((Number)o)
+            .map(n -> BigDecimal.valueOf(n.doubleValue()))
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, FLOAT_CLASS), approxToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, DOUBLE_CLASS), approxToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, FLOAT_TYPE), approxToBigDecimal);
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, DOUBLE_TYPE), approxToBigDecimal);
+
+        /* string to BigDecimal */
+
+        Converter<BigDecimal> stringToBigDecimal = o -> Optional.ofNullable(o)
+            .map(s -> new BigDecimal(String.valueOf(s)))
+            .orElse(null);
+
+        standardConverterMap.put(Pair.of(BIG_DECIMAL_CLASS, STRING_CLASS), stringToBigDecimal);
+
+        /*
+         * Conversions from boolean to numeric type
+         */
+
         /* boolean to byte */
-        Converter<Byte> booleanToByte = new Converter<Byte>()
-        {
-            @Override
-            public Byte convert(Object o)
-            {
-                return o == null ? null : (Boolean) o ? (byte)1 : (byte)0;
-            }
-        };
+
+        Converter<Byte> booleanToByte = o -> Optional.ofNullable((Boolean)o)
+            .map(b -> b ? (byte)1 : (byte)0)
+            .orElse(null);
+
         standardConverterMap.put(Pair.of(BYTE_CLASS, BOOLEAN_CLASS), booleanToByte);
         standardConverterMap.put(Pair.of(BYTE_CLASS, BOOLEAN_TYPE), booleanToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, BOOLEAN_CLASS), booleanToByte);
         standardConverterMap.put(Pair.of(BYTE_TYPE, BOOLEAN_TYPE), booleanToByte);
 
         /* boolean to short */
-        Converter<Short> booleanToShort = new Converter<Short>()
-        {
-            @Override
-            public Short convert(Object o)
-            {
-                return o == null ? null : (Boolean) o ? (short)1 : (short)0;
-            }
-        };
+
+        Converter<Short> booleanToShort = o -> Optional.ofNullable((Boolean)o)
+            .map(b -> b ? (short)1 : (short)0)
+            .orElse(null);
+
         standardConverterMap.put(Pair.of(SHORT_CLASS, BOOLEAN_CLASS), booleanToShort);
         standardConverterMap.put(Pair.of(SHORT_CLASS, BOOLEAN_TYPE), booleanToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, BOOLEAN_CLASS), booleanToShort);
         standardConverterMap.put(Pair.of(SHORT_TYPE, BOOLEAN_TYPE), booleanToShort);
 
         /* boolean to integer */
-        Converter<Integer> booleanToInteger = new Converter<Integer>()
-        {
-            @Override
-            public Integer convert(Object o)
-            {
-                return o == null ? null : (Boolean) o ? (Integer)1 : (Integer)0;
-            }
-        };
+
+        Converter<Integer> booleanToInteger = o -> Optional.ofNullable((Boolean)o)
+            .map(b -> b ? (int)1 : (int)0)
+            .orElse(null);
+
         standardConverterMap.put(Pair.of(INTEGER_CLASS, BOOLEAN_CLASS), booleanToInteger);
         standardConverterMap.put(Pair.of(INTEGER_CLASS, BOOLEAN_TYPE), booleanToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, BOOLEAN_CLASS), booleanToInteger);
         standardConverterMap.put(Pair.of(INTEGER_TYPE, BOOLEAN_TYPE), booleanToInteger);
 
-        /* boolean to lonf */
-        Converter<Long> booleanToLong = new Converter<Long>()
-        {
-            @Override
-            public Long convert(Object o)
-            {
-                return o == null ? null : (Boolean) o ? 1L : 0L;
-            }
-        };
+        /* boolean to long */
+
+        Converter<Long> booleanToLong = o -> Optional.ofNullable((Boolean)o)
+            .map(b -> b ? 1l : 0l)
+            .orElse(null);
+
         standardConverterMap.put(Pair.of(LONG_CLASS, BOOLEAN_CLASS), booleanToLong);
         standardConverterMap.put(Pair.of(LONG_CLASS, BOOLEAN_TYPE), booleanToLong);
         standardConverterMap.put(Pair.of(LONG_TYPE, BOOLEAN_CLASS), booleanToLong);
         standardConverterMap.put(Pair.of(LONG_TYPE, BOOLEAN_TYPE), booleanToLong);
 
         /* to string */
-        toString = new Converter<String>()
-        {
-            @Override
-            public String convert(Object o)
-            {
-                return String.valueOf(o);
-            }
-        };
+
+        toString = o -> String.valueOf(o);
 
         /* string to locale */
-        Converter<Locale> stringToLocale = new Converter<Locale>()
-        {
-            @Override
-            public Locale convert(Object o)
-            {
-                return o == null ? null : LocaleUtils.toLocale((String)o);
-            }
-        };
+        Converter<Locale> stringToLocale = o -> Optional.ofNullable(o)
+            .map(l -> LocaleUtils.toLocale(String.valueOf(l)))
+            .orElse(null);
+
         standardConverterMap.put(Pair.of(LOCALE_CLASS, STRING_CLASS), stringToLocale);
     }
 
@@ -607,14 +681,7 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
                 else if (formalClass != null && formalClass.isEnum() && actual == String.class)
                 {
                     final Class<Enum> enumClass = (Class<Enum>)formalClass;
-                    converter = new Converter()
-                    {
-                        @Override
-                        public Object convert(Object o)
-                        {
-                            return Enum.valueOf(enumClass, (String) o);
-                        }
-                    };
+                    converter = o -> Enum.valueOf(enumClass, (String)o);
                 }
 
                 converterCacheMap.put(key, converter == null ? cacheMiss : converter);

@@ -21,6 +21,7 @@ package org.apache.velocity.example;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.InvalidReferenceEventHandler;
 import org.apache.velocity.app.event.MethodExceptionEventHandler;
 import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.context.Context;
@@ -38,14 +39,14 @@ import java.io.StringWriter;
  *   This class is a simple demonstration of how the event handling
  *   features of the Velocity Servlet Engine are used.  It uses a
  *   custom logger as well to check the log message stream
- *   when testing the NullSetEventHandler
+ *   when testing the InvalidReferenceEventHandler.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
 
 public class EventExample extends MarkerIgnoringBase
-    implements ReferenceInsertionEventHandler, MethodExceptionEventHandler
+    implements ReferenceInsertionEventHandler, MethodExceptionEventHandler, InvalidReferenceEventHandler
 {
     private boolean logOutput = false;
     private boolean exceptionSwitch = false;
@@ -139,7 +140,7 @@ public class EventExample extends MarkerIgnoringBase
             s = "#set($settest = $NotAReference)";
             w = new StringWriter();
 
-            System.out.println("NullSetEventHandler test : " );
+            System.out.println("invalidSetMethod test : " );
             System.out.print("      There should be nothing between >");
             Velocity.evaluate( context, w, "mystring", s );
             System.out.println("< the brackets.");
@@ -153,7 +154,7 @@ public class EventExample extends MarkerIgnoringBase
             s = "#set($logthis = $NotAReference)";
             w = new StringWriter();
 
-            System.out.println("NullSetEventHandler test : " );
+            System.out.println("invalidSetMethod test : " );
             System.out.print("     There should be a log message between >");
             Velocity.evaluate( context, w, "mystring", s );
             System.out.println("< the brackets.");
@@ -269,16 +270,35 @@ public class EventExample extends MarkerIgnoringBase
     }
 
     /**
+     */
+
+    public Object invalidGetMethod(Context context, String reference, Object object, String property, Info info)
+    {
+        /* NOP */
+        return null;
+    }
+
+    public Object invalidMethod(Context context, String reference, Object object, String method, Info info)
+    {
+        /* NOP */
+        return null;
+    }
+
+    /**
      *  Event handler for when the right hand side of
      *  a #set() directive is null, which results in
      *  a log message.  This method gives the application
      *  a chance to 'vote' on msg generation
      */
-    public boolean shouldLogOnNullSet( String lhs, String rhs )
+    public boolean invalidSetMethod(Context context, String leftreference, String rightreference, Info info)
     {
-        return !lhs.equals("$settest");
+        if (leftreference.equals("logthis"))
+        {
+            System.out.print("Setting reference " + leftreference + " to null");
+        }
+        return false;
     }
-
+    
     public Object methodException( Context context, Class claz, String method, Exception e, Info info )   {
         /*
          *  only do processing if the switch is on

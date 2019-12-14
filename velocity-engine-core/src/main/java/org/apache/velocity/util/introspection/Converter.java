@@ -27,6 +27,7 @@ package org.apache.velocity.util.introspection;
  * @version $Id$
  */
 
+@FunctionalInterface
 public interface Converter<T>
 {
     /**
