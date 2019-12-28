@@ -68,4 +68,29 @@ public class Velocity904TestCase extends BaseTestCase
         assertEvalEquals("$param$param2$param", "#macro(macro1 $return)$return#macro2($param2)$return#end#macro(macro2 $return)$return#end#macro1($param)");
     }
 
+    public void testNoArgNoPreserve()
+    {
+        assertEvalEquals("","#macro(testMacro $param)#end#testMacro()");
+    }
+
+    public void testNoArgPreserve()
+    {
+        assertEvalEquals("","#macro(testMacro $param)#end#testMacro()");
+    }
+
+    public void testConstantSetToNullNoPreserve()
+    {
+        assertEvalEquals("$input", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro('string-value')");
+        assertEvalEquals("$input", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro(\"interpolated-$bar-value\")");
+        assertEvalEquals("$input", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro(true)");
+        assertEvalEquals("$input", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro(4.5)");
+    }
+
+    public void testConstantSetToNullPreserve()
+    {
+        assertEvalEquals("'string-value'", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro('string-value')");
+        assertEvalEquals("\"interpolated-$bar-value\"", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro(\"interpolated-$bar-value\")");
+        assertEvalEquals("$input", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro(true)");
+        assertEvalEquals("$input", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro(4.5)");
+    }
 }

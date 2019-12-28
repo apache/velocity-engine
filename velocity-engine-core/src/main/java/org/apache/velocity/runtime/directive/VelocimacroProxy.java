@@ -26,6 +26,10 @@ import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Macro.MacroArg;
+import org.apache.velocity.runtime.parser.node.ASTMap;
+import org.apache.velocity.runtime.parser.node.ASTObjectArray;
+import org.apache.velocity.runtime.parser.node.ASTReference;
+import org.apache.velocity.runtime.parser.node.ASTStringLiteral;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.StringUtils;
@@ -266,10 +270,13 @@ public class VelocimacroProxy extends Directive
                 {
                     /* allow for nested calls */
                     Deque<String> literalsStack = (Deque<String>)context.get(literalArgArray[i]);
-                    literalsStack.removeFirst();
-                    if (literalsStack.size() == 0)
+                    if (literalsStack != null) /* may be null if argument was missing in macro call */
                     {
-                        context.remove(literalArgArray[i]);
+                        literalsStack.removeFirst();
+                        if (literalsStack.size() == 0)
+                        {
+                            context.remove(literalArgArray[i]);
+                        }
                     }
                 }
             }
@@ -410,7 +417,15 @@ public class VelocimacroProxy extends Directive
                     literalsStack = new LinkedList();
                     context.put(literalArgArray[i], literalsStack);
                 }
-                literalsStack.addFirst(argNode.literal());
+                /* Reflects the strange 1.7 behavor... */
+                if (argNode instanceof ASTReference || argNode instanceof ASTStringLiteral || argNode instanceof ASTObjectArray || argNode instanceof ASTMap)
+                {
+                    literalsStack.addFirst(argNode.literal());
+                }
+                else
+                {
+                    literalsStack.addFirst('$' + macroArg.name);
+                }
             }
         }
 
