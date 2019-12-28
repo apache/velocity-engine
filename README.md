@@ -21,11 +21,11 @@ Building from source requires Java development kit v1.8 or greater and Maven 3 (
 At compile time, Maven should fetch all needed dependencies, which are:
 
 * commons-lang v3.9
-* slf4j-api v1.7.28
+* slf4j-api v1.7.30
 
 plus the following ones, needed for the integrated tests:
 
-* slf4j-simple v1.7.28
+* slf4j-simple v1.7.30
 * junit v4.12
 * hsqldb v2.5.0
 * commons-io 2.6
@@ -33,7 +33,7 @@ plus the following ones, needed for the integrated tests:
 At runtime, Velocity only needs:
 
 * commons-lang v3.9+
-* slf4j-api and an slf4j binding, v1.7.28+
+* slf4j-api and an slf4j binding, v1.7.30+
 
 ## BUILDING APACHE VELOCITY
 
