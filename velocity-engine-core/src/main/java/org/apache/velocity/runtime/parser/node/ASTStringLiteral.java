@@ -104,6 +104,11 @@ public class ASTStringLiteral extends SimpleNode
          */
         String img = getFirstToken().image;
 
+        /*
+          the literal string *should* contain enclosing quotes
+         */
+        literal = img;
+
         image = img.substring(1, img.length() - 1);
 
         if (img.startsWith("\""))
@@ -164,11 +169,6 @@ public class ASTStringLiteral extends SimpleNode
         cleanupParserAndTokens();
 
         return data;
-    }
-
-    public String literal()
-    {
-    	return image;
     }
 
     /**

@@ -1,8 +1,0 @@
-This is a test file for loading macro libs programatically
-
-call foo
-#foo(1)
-#bar(2)
-
-no macro definition
-#abc(2) 

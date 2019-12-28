@@ -1,5 +1,0 @@
-#macro(someMacro )
-before#*
-    *#after
-#end
-#someMacro()

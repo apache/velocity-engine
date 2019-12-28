@@ -1,3 +1,0 @@
-#macro( test )#*
-a*#b#end
-#test()

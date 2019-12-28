@@ -1,3 +1,0 @@
-Bad include follows
-#include("badfile.vm")
-After the bad include
