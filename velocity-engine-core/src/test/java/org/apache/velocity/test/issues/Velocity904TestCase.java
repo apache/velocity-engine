@@ -93,4 +93,23 @@ public class Velocity904TestCase extends BaseTestCase
         assertEvalEquals("$input", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro(true)");
         assertEvalEquals("$input", "#macro(mymacro $input)#set($input = $null)$input#end#mymacro(4.5)");
     }
+
+    public void testConstantNoPreserve()
+    {
+        assertEvalEquals("true", "#macro(mymacro $input)$input#end#mymacro(true)");
+        assertEvalEquals("1.5", "#macro(mymacro $input)$input#end#mymacro(1.5)");
+        assertEvalEquals("foo", "#macro(mymacro $input)$input#end#mymacro('foo')");
+        assertEvalEquals("{}", "#macro(mymacro $input)$input#end#mymacro({})");
+        assertEvalEquals("[]", "#macro(mymacro $input)$input#end#mymacro([])");
+    }
+
+    public void testConstantPreserve()
+    {
+        assertEvalEquals("true", "#macro(mymacro $input)$input#end#mymacro(true)");
+        assertEvalEquals("1.5", "#macro(mymacro $input)$input#end#mymacro(1.5)");
+        assertEvalEquals("foo", "#macro(mymacro $input)$input#end#mymacro('foo')");
+        assertEvalEquals("{}", "#macro(mymacro $input)$input#end#mymacro({})");
+        assertEvalEquals("[]", "#macro(mymacro $input)$input#end#mymacro([])");
+    }
+
 }
