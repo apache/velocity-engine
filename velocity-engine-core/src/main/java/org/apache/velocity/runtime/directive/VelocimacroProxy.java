@@ -418,7 +418,7 @@ public class VelocimacroProxy extends Directive
                     context.put(literalArgArray[i], literalsStack);
                 }
                 /* Reflects the strange 1.7 behavor... */
-                if (argNode instanceof ASTReference || argNode instanceof ASTStringLiteral || argNode instanceof ASTObjectArray || argNode instanceof ASTMap)
+                if (argNode instanceof ASTReference || argNode instanceof ASTStringLiteral)
                 {
                     literalsStack.addFirst(argNode.literal());
                 }
