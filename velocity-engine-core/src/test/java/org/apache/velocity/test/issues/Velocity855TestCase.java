@@ -39,7 +39,7 @@ public class Velocity855TestCase extends BaseTestCase
         context.put("typeKind", javax.lang.model.type.TypeKind.class);
     }
 
-    public void testSpaceBeforeRParen()
+    public void testVelocity855()
     {
         assertEvalEquals("ENUM DECLARED", "$elementKind.valueOf('ENUM') $typeKind.valueOf('DECLARED')");
     }
