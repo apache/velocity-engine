@@ -26,8 +26,6 @@ import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Macro.MacroArg;
-import org.apache.velocity.runtime.parser.node.ASTMap;
-import org.apache.velocity.runtime.parser.node.ASTObjectArray;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.ASTStringLiteral;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -402,7 +400,6 @@ public class VelocimacroProxy extends Directive
                 break;
             }
 
-            context.put(macroArg.name, newVal);
             values[(i-1) * 2 + 1] = newVal;
 
             /* when preserveArgumentsLiterals is true, we still store the actual reference passed to the macro
@@ -427,6 +424,14 @@ public class VelocimacroProxy extends Directive
                     literalsStack.addFirst('$' + macroArg.name);
                 }
             }
+        }
+
+        // Now really put the values in the context
+        for (int i = 1; i < macroArgs.size(); i++)
+        {
+            MacroArg macroArg = macroArgs.get(i);
+            Object value = values[(i-1) * 2 + 1];
+            context.put(macroArg.name, value);
         }
 
         // return the array of replaced and new values
