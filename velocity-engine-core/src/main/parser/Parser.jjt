@@ -1781,6 +1781,7 @@ boolean Directive(boolean afterNewline) :
     ArrayList argtypes = new ArrayList(4);
     String blockPrefix = "";
     ASTBlock block = null, elseBlock = null;
+    boolean hasParentheses = false;
     boolean newlineAtStart = afterNewline;
 }
 {
@@ -1908,6 +1909,7 @@ boolean Directive(boolean afterNewline) :
             <SINGLE_LINE_COMMENT_START> [<SINGLE_LINE_COMMENT>]
           )
         )* (<WHITESPACE> | <NEWLINE>)* <RPAREN>
+        { hasParentheses = true; }
       )
       |
       {
@@ -1918,10 +1920,10 @@ boolean Directive(boolean afterNewline) :
     [
       // Conditions where whitespace and newline postfix is eaten by space gobbling at this point:
       // - block directive
-      // - new line before directive
-      // - backward compatibility mode
+      // - new line before directive without backward compatibility mode
+      // - backward compatibility mode *with parentheses*
       // - #include() or #parse()
-      LOOKAHEAD(2, { directiveType != Directive.LINE || newlineAtStart || rsvc.getSpaceGobbling() == SpaceGobbling.BC || d != null && (d instanceof Include || d instanceof Parse) })
+      LOOKAHEAD(2, { directiveType != Directive.LINE || newlineAtStart && rsvc.getSpaceGobbling() != SpaceGobbling.BC || rsvc.getSpaceGobbling() == SpaceGobbling.BC && hasParentheses || d != null && (d instanceof Include || d instanceof Parse) })
         ( [ ( t = <WHITESPACE> ) ] ( u = <NEWLINE> ) )
       {
           afterNewline = true;
