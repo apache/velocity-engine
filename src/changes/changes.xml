@@ -26,6 +26,18 @@
 
   <body>
     <release version="2.2" date="Not yet released">
+        <action type="fix" dev="cbrisson" issue="VELOCITY-926">
+            Fixed regression: Macro arguments names cannot collide with external references names
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-925">
+            Fixed macro calls without parenthesis eating the following newline in BC mode
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-924">
+            Fixed bad cache handling for java.lang.Class methods
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-923">
+            Fixed parser regression when || follow a Velocity expression
+        </action>
         <action type="add" dev="cbrisson">
             Added BigInteger and BigDecimal implicit conversions
         </action>

@@ -23,24 +23,17 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.test.BaseTestCase;
 
 /**
- * This class tests VELOCITY-855.
+ * This class tests VELOCITY-926.
  */
-public class Velocity855TestCase extends BaseTestCase
+public class Velocity926TestCase extends BaseTestCase
 {
-
-    public Velocity855TestCase(String name)
+    public Velocity926TestCase(String name)
     {
         super(name);
     }
 
-    protected void setUpContext(VelocityContext context)
+    public void testNamesCollision()
     {
-        context.put("elementKind", javax.lang.model.element.ElementKind.class);
-        context.put("typeKind", javax.lang.model.type.TypeKind.class);
-    }
-
-    public void testVelocity855()
-    {
-        assertEvalEquals("ENUM DECLARED", "$elementKind.valueOf('ENUM') $typeKind.valueOf('DECLARED')");
+        assertEvalEquals("bar foo", "#set($foo='foo')#set($bar='bar')#macro(test, $foo, $bar)$foo $bar#end#test($bar, $foo)");
     }
 }

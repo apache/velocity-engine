@@ -179,9 +179,10 @@ public class ClassUtils {
             /*
             * check the cache
             */
-            MethodCacheKey mck = new MethodCacheKey(methodName, paramClasses);
+            boolean classObject = (o instanceof Class);
+            MethodCacheKey mck = new MethodCacheKey(methodName, paramClasses, classObject);
             IntrospectionCacheData icd = context.icacheGet(mck);
-            Class clazz = o instanceof Class ? (Class)o : o.getClass();
+            Class clazz = classObject ? (Class)o : o.getClass();
 
             /*
             * like ASTIdentifier, if we have cache information, and the Class of

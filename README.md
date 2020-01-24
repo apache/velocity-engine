@@ -26,7 +26,7 @@ At compile time, Maven should fetch all needed dependencies, which are:
 plus the following ones, needed for the integrated tests:
 
 * slf4j-simple v1.7.30
-* junit v4.12
+* junit v4.13
 * hsqldb v2.5.0
 * commons-io 2.6
 

@@ -334,10 +334,26 @@ public class ASTMethod extends SimpleNode
      */
     public static class MethodCacheKey
     {
+        /**
+         * method name
+         */
         private final String methodName;
+
+        /**
+         * parameters classes
+         */
         private final Class[] params;
 
-        public MethodCacheKey(String methodName, Class[] params)
+        /**
+         * whether the target object is of Class type
+         * (meaning we're searching either for methods
+         * of Class, or for static methods of the class
+         * this Class objects refers to)
+         * @since 2.2
+         */
+        private boolean classObject;
+
+        public MethodCacheKey(String methodName, Class[] params, boolean classObject)
         {
             /**
              * Should never be initialized with nulls, but to be safe we refuse
@@ -345,6 +361,7 @@ public class ASTMethod extends SimpleNode
              */
             this.methodName = (methodName != null) ? methodName : StringUtils.EMPTY;
             this.params = (params != null) ? params : EMPTY_CLASS_ARRAY;
+            this.classObject = classObject;
         }
 
         /**
@@ -360,7 +377,8 @@ public class ASTMethod extends SimpleNode
             {
                 final MethodCacheKey other = (MethodCacheKey) o;
                 if (params.length == other.params.length &&
-                        methodName.equals(other.methodName))
+                        methodName.equals(other.methodName) &&
+                            classObject == other.classObject)
                 {
                     for (int i = 0; i < params.length; ++i)
                     {
