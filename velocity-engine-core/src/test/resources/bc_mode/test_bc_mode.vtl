@@ -1,0 +1,39 @@
+#macro(store)#set($foo_ = $foo)#set($bar_ = $bar)#end##
+#macro(reset)#set($foo = $foo_)#set($bar = $bar_)#end##
+#macro(state)foo=$foo#end##
+
+#macro(disp $foo)[foo=$foo]#end
+#macro(setn $foo)#set($foo=$null)#disp($foo)#end
+#macro(setv $foo)#if(!$foo)#set($foo='inn')#end#disp($foo)#end
+#macro(sub)#set($foo='sub')#end
+
+#macro(test)
+1. missing argument
+#store#state => disp miss #disp() => #state#reset
+#store#state => setn miss #setn() => #state#reset
+#store#state => setv miss #setv() => #state#reset
+2. null argument
+#store#state => disp null #disp($null) => #state#reset
+#store#state => setn null #setn($null) => #state#reset
+#store#state => setv null #setv($null) => #state#reset
+3. non-colliding argument
+#store#state => disp ncol #disp($bar) => #state#reset
+#store#state => setn ncol #setn($bar) => #state#reset
+#store#state => setv ncol #setv($bar) => #state#reset
+4. colliding argument
+#store#state => disp coll #disp($foo) => #state#reset
+#store#state => setn coll #setn($foo) => #state#reset
+#store#state => setv coll #setv($foo) => #state#reset
+#end
+
+
+A) Null Values
+#set($foo = $null)
+#set($bar = $null)
+#test()
+
+B) Non-null Values
+#set($foo = 'foo')
+#set($bar = 'bar')
+#test()
+

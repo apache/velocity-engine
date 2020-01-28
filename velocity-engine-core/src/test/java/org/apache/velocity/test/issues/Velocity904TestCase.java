@@ -35,6 +35,7 @@ public class Velocity904TestCase extends BaseTestCase
     @Override
     protected void setUpEngine(VelocityEngine engine)
     {
+        // that will also test the deprecation of velocimacro.arguments.preserve_literals towards velocimacro.enable_bc_mode
         engine.setProperty("velocimacro.arguments.preserve_literals", getName().contains("NoPreserve") ? "false" : "true");
     }
 

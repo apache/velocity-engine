@@ -274,4 +274,12 @@ public interface DeprecatedRuntimeConstants
      */
     String OLD_SPACE_GOBBLING = "space.gobbling";
 
+    /**
+     * When displaying null or invalid non-quiet references, use the argument literal reference
+     * instead of the one in the macro block. Defaults to false.
+     * @since 2.1
+     * @Deprecated since 2.2, see {@link RuntimeConstants#VM_ENABLE_BC_MODE}
+     **/
+    String OLD_VM_ENABLE_BC_MODE = "velocimacro.arguments.preserve_literals";
+
 }

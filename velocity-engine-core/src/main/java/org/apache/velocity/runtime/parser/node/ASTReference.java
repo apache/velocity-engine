@@ -157,7 +157,7 @@ public class ASTReference extends SimpleNode
 
         strictEscape = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, false);
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
-        lookupAlternateLiteral = rsvc.getBoolean(RuntimeConstants.VM_PRESERVE_ARGUMENTS_LITERALS, false);
+        lookupAlternateLiteral = rsvc.getBoolean(RuntimeConstants.VM_ENABLE_BC_MODE, false);
 
         /*
          *  the only thing we can do in init() is getRoot()
