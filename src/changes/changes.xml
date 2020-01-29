@@ -25,7 +25,13 @@
   </properties>
 
   <body>
-    <release version="2.2" date="Not yet released">
+    <release version="2.2" date="2020-02-02">
+        <action type="new" dev="cbrisson">
+            Deprecated 2.1 flag <code>velocimacro.arguments.preserve_literals</code> in favor of
+            the new <code>valocimacro_enable_bc_mode</code> flag, which will also, like 1.7 does,
+            use global context values as defaults for missing macro arguments which do not have
+            an explicit default value.
+        </action>
         <action type="fix" dev="cbrisson" issue="VELOCITY-926">
             Fixed regression: Macro arguments names cannot collide with external references names
         </action>
