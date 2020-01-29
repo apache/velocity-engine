@@ -331,11 +331,21 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
     String VM_ARGUMENTS_STRICT = "velocimacro.arguments.strict";
 
     /**
-     * When displaying null or invalid non-quiet references, use the argument literal reference
-     * instead of the one in the macro block. Defaults to false.
-     * @since 2.1
-     **/
-    String VM_PRESERVE_ARGUMENTS_LITERALS = "velocimacro.arguments.preserve_literals";
+     * This flag enable the 1.7 backward compatible mode for velocimacros (defaults to false):
+     * <ul>
+     *     <li>
+     *         preserve argument literals: when displaying null or invalid non-quiet references,
+     *         use the argument literal reference instead of the one in the macro block. Defaults to false.
+     *     </li>
+     *     <li>
+     *         use global values for missing arguments: when calling a macro with fewer arguments than declared,
+     *         if those arguments don't have an explicit default value in the macro definition, default values will
+     *         be looked for in the global context
+     *     </li>
+     * </ul>
+     * @since 2.2
+     */
+    String VM_ENABLE_BC_MODE = "velocimacro.enable_bc_mode";
 
     /**
      * Specify the maximum depth for macro calls

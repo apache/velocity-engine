@@ -1,0 +1,40 @@
+
+
+
+
+A) Null Values
+1. missing argument
+foo=$foo => disp miss [foo=$foo] => foo=$foo
+foo=$foo => setn miss [foo=$foo] => foo=$foo
+foo=$foo => setv miss [foo=inn] => foo=inn
+2. null argument
+foo=$foo => disp null [foo=$null] => foo=$foo
+foo=$foo => setn null [foo=$foo] => foo=$foo
+foo=$foo => setv null [foo=inn] => foo=inn
+3. non-colliding argument
+foo=$foo => disp ncol [foo=$bar] => foo=$foo
+foo=$foo => setn ncol [foo=$foo] => foo=$foo
+foo=$foo => setv ncol [foo=inn] => foo=inn
+4. colliding argument
+foo=$foo => disp coll [foo=$foo] => foo=$foo
+foo=$foo => setn coll [foo=$foo] => foo=$foo
+foo=$foo => setv coll [foo=inn] => foo=inn
+
+B) Non-null Values
+1. missing argument
+foo=foo => disp miss [foo=foo] => foo=foo
+foo=foo => setn miss [foo=$foo] => foo=$foo
+foo=foo => setv miss [foo=foo] => foo=foo
+2. null argument
+foo=foo => disp null [foo=$null] => foo=foo
+foo=foo => setn null [foo=$foo] => foo=foo
+foo=foo => setv null [foo=inn] => foo=inn
+3. non-colliding argument
+foo=foo => disp ncol [foo=bar] => foo=foo
+foo=foo => setn ncol [foo=$foo] => foo=$foo
+foo=foo => setv ncol [foo=bar] => foo=foo
+4. colliding argument
+foo=foo => disp coll [foo=foo] => foo=foo
+foo=foo => setn coll [foo=$foo] => foo=$foo
+foo=foo => setv coll [foo=foo] => foo=foo
+

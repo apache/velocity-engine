@@ -56,7 +56,7 @@ public class VelocimacroProxy extends Directive
     private boolean strictArguments;
     private int maxCallDepth;
     private String bodyReference;
-    private boolean preserveArgumentsLiterals;
+    private boolean enableBCmode;
 
     private static final Object NULL_VALUE_MARKER = new Object();
 
@@ -99,7 +99,7 @@ public class VelocimacroProxy extends Directive
 
         // for performance reasons we precache these strings - they are needed in
         // "render literal if null" functionality
-        if (preserveArgumentsLiterals)
+        if (enableBCmode)
         {
             literalArgArray = new String[macroArgs.size()];
             for (int i = 0; i < macroArgs.size(); i++)
@@ -160,7 +160,7 @@ public class VelocimacroProxy extends Directive
         // get name of the reference that refers to AST block passed to block macro call
         bodyReference = rsvc.getString(RuntimeConstants.VM_BODY_REFERENCE, "bodyContent");
 
-        preserveArgumentsLiterals = rsvc.getBoolean(RuntimeConstants.VM_PRESERVE_ARGUMENTS_LITERALS, false);
+        enableBCmode = rsvc.getBoolean(RuntimeConstants.VM_ENABLE_BC_MODE, false);
     }
 
     /**
@@ -247,9 +247,10 @@ public class VelocimacroProxy extends Directive
             {
                 MacroArg macroArg = macroArgs.get(i);
                 current = context.get(macroArg.name);
-                if (current == values[(i-1) * 2 + 1])
+                Object given = values[(i-1) * 2 + 1];
+                Object old = values[(i-1) * 2];
+                if (current == given || current == null && given == NULL_VALUE_MARKER)
                 {
-                    Object old = values[(i-1) * 2];
                     if (old == null)
                     {
                         context.remove(macroArg.name);
@@ -264,11 +265,11 @@ public class VelocimacroProxy extends Directive
                     }
                 }
 
-                if (preserveArgumentsLiterals)
+                if (enableBCmode)
                 {
                     /* allow for nested calls */
                     Deque<String> literalsStack = (Deque<String>)context.get(literalArgArray[i]);
-                    if (literalsStack != null) /* may be null if argument was missing in macro call */
+                    if (literalsStack != null) /* shouldn't be null */
                     {
                         literalsStack.removeFirst();
                         if (literalsStack.size() == 0)
@@ -354,6 +355,8 @@ public class VelocimacroProxy extends Directive
     	// Changed two dimensional array to single dimensional to optimize memory lookups
         Object[] values = new Object[macroArgs.size() * 2];
 
+        boolean warnedMissingArguments = false;
+
         // Move arguments into the macro's context. Start at one to skip macro name
         for (int i = 1; i < macroArgs.size(); i++)
         {
@@ -394,18 +397,26 @@ public class VelocimacroProxy extends Directive
             }
             else
             {
-                // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
-                log.debug("VM #{}: too few arguments to macro. Wanted {} got {}",
-                          macroArgs.get(0).name, macroArgs.size() - 1, callArgNum);
-                break;
+                if (!warnedMissingArguments)
+                {
+                    // Backward compatibility logging, Mainly for MacroForwardDefinedTestCase
+                    log.debug("VM #{}: too few arguments to macro. Wanted {} got {}",
+                        macroArgs.get(0).name, macroArgs.size() - 1, callArgNum);
+                    warnedMissingArguments = true;
+                }
+                if (enableBCmode)
+                {
+                    // use the global context value as default
+                    newVal = oldVal;
+                }
             }
 
             values[(i-1) * 2 + 1] = newVal;
 
-            /* when preserveArgumentsLiterals is true, we still store the actual reference passed to the macro
+            /* when enableBCmode is true, we still store the actual reference passed to the macro
                even if the value is not null, because *if* the argument is set to null *during* the macro rendering
                we still expect the passed argument literal to be displayed to be fully backward compatible. */
-            if (preserveArgumentsLiterals && /* newVal == null && */ argNode != null)
+            if (enableBCmode && /* newVal == null && */ argNode != null)
             {
                 /* allow nested macro calls for B.C. */
                 Deque<String> literalsStack = (Deque<String>)context.get(literalArgArray[i]);
@@ -415,7 +426,7 @@ public class VelocimacroProxy extends Directive
                     context.put(literalArgArray[i], literalsStack);
                 }
                 /* Reflects the strange 1.7 behavor... */
-                if (argNode instanceof ASTReference || argNode instanceof ASTStringLiteral)
+                if (argNode != null && (argNode instanceof ASTReference || argNode instanceof ASTStringLiteral))
                 {
                     literalsStack.addFirst(argNode.literal());
                 }
