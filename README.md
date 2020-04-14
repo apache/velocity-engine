@@ -1,3 +1,4 @@
+NOTE - the trunk branch is obsolete. Please use master.
 
 # Apache Velocity
 
