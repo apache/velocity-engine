@@ -36,7 +36,12 @@ import java.util.ArrayList;
  */
 public class Stop extends Directive
 {
-    private static final StopCommand STOP_ALL = new StopCommand("StopCommand to exit merging");
+    private static final StopCommand STOP_ALL = new StopCommand("StopCommand to exit merging") {
+        @Override
+        public synchronized Throwable fillInStackTrace() {
+            return this;
+        }
+    };
 
     private boolean hasMessage = false;
 
