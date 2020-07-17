@@ -121,6 +121,15 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
             return true;
         }
 
+       /**
+       * Always disallow ClassLoader, Thread and subclasses
+       */
+        if (ClassLoader.class.isAssignableFrom(clazz) ||
+                Thread.class.isAssignableFrom(clazz))
+        {
+            return false;
+        }
+
         /**
          * check the classname (minus any array info)
          * whether it matches disallowed classes or packages
