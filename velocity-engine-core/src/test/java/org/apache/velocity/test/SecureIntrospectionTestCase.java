@@ -33,6 +33,9 @@ import org.apache.velocity.util.introspection.SecureUberspector;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -170,6 +173,27 @@ public class SecureIntrospectionTestCase extends BaseTestCase
         c.add("bbb");
         c.add("ccc");
         return c;
+    }
+
+    public ClassLoader getSampleClassLoader1()
+    {
+        return this.getClass().getClassLoader();
+    }
+
+    /**
+     * sample property which is a subclass of ClassLoader
+     * @return
+     */
+    public ClassLoader getSampleClassLoader2()
+    {
+        try
+        {
+            return new URLClassLoader(new URL[]{new URL("file://.")}, this.getClass().getClassLoader());
+        }
+        catch (MalformedURLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
 }
