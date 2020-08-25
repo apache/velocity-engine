@@ -369,7 +369,12 @@ public interface RuntimeConstants
     int NUMBER_OF_PARSERS = 20;
 
     
-
+    /** custom **/
+    
+    /**
+     * Do we ease null render exception when in strict mode
+     */
+    String RUNTIME_REFERENCES_IGNORE_RENDER_NULL_ERROR = "runtime.references.ignore.render.null.error";
 
 
 }

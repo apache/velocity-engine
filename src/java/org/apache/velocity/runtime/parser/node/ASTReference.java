@@ -102,6 +102,8 @@ public class ASTReference extends SimpleNode
     private int numChildren = 0;
 
     protected Info uberInfo;
+    
+    public boolean easeNullRenderError = false;
 
     /**
      * @param id
@@ -139,6 +141,7 @@ public class ASTReference extends SimpleNode
         strictEscape = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, false);
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
         toStringNullCheck = rsvc.getBoolean(RuntimeConstants.DIRECTIVE_IF_TOSTRING_NULLCHECK, true); 
+        easeNullRenderError = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_IGNORE_RENDER_NULL_ERROR, false);
             
         /*
          *  the only thing we can do in init() is getRoot()
