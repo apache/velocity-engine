@@ -443,9 +443,10 @@ public class ASTReference extends SimpleNode
                       + " if you want Velocity to ignore the reference when it evaluates to null");
                   if (value == null)
                   {
-                    throw new VelocityException("Reference " + literal() 
-                        + " evaluated to null when attempting to render at " 
-                        + Log.formatFileString(this));
+                      if (!easeNullRenderError) {
+                          throw new VelocityException(
+                                  "Reference " + literal() + " evaluated to null when attempting to render at " + Log.formatFileString(this));
+                      }
                   }
                   else  // toString == null
                   {
