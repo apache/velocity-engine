@@ -11,6 +11,7 @@ Here's a description of the top level directories:
     velocity-engine-core/       The Velocity Engine core module
     velocity-engine-examples/   Several simple examples
     velocity-engine-scripting/  JSR-223 implementation for Velocity scripting
+    spring-velocity-support     Velocity Engine factory bean for Spring framework
     src/                        Source for parent modules, mainly changelog
 
 ## REQUIREMENTS
@@ -19,7 +20,7 @@ Apache Velocity 2.2 will run with any Java runtime engine v1.8 or greater.
 
 Building from source requires Java development kit v1.8 or greater and Maven 3 (3.0.5+).
 
-At compile time, Maven should fetch all needed dependencies, which are:
+At compile time, Maven should fetch all engine needed dependencies, which are:
 
 * commons-lang v3.9
 * slf4j-api v1.7.30

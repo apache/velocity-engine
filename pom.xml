@@ -234,6 +234,7 @@
         <module>velocity-engine-examples</module>
         <module>velocity-engine-scripting</module>
         <module>velocity-custom-parser-example</module>
+        <module>spring-velocity-support</module>
     </modules>
 
     <!-- This project is an effort by many people. If you feel that your name
