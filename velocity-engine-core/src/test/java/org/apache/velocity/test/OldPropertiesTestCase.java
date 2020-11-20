@@ -19,31 +19,19 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import com.sun.org.apache.bcel.internal.classfile.Deprecated;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.DeprecatedRuntimeConstants;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.DeprecationAwareExtProperties;
-import org.apache.velocity.util.ExtProperties;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
