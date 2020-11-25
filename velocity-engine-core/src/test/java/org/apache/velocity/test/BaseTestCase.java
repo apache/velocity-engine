@@ -48,7 +48,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 {
     protected VelocityEngine engine;
     protected VelocityContext context;
-    protected boolean DEBUG = false;
+    protected boolean DEBUG = Boolean.getBoolean("test.debug");
     protected TestLogger log;
     protected String stringRepoName = "string.repo";
 

@@ -88,7 +88,6 @@ public class SpaceGobblingTestCase extends BaseTestCase
 
     private void testMode(SpaceGobbling mode) throws Exception
     {
-        VelocityEngine ve = createEngine(mode);
         File dir = new File(TEST_COMPARE_DIR + "/gobbling");
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null)
@@ -97,7 +96,7 @@ public class SpaceGobblingTestCase extends BaseTestCase
             {
                 if (child.isFile())
                 {
-                    testTemplate(ve, child.getName(), mode);
+                    testTemplate(child.getName(), mode);
                 }
             }
         }
@@ -107,14 +106,15 @@ public class SpaceGobblingTestCase extends BaseTestCase
         }
     }
 
-    private void testTemplate(VelocityEngine engine, String templateFile, SpaceGobbling mode) throws Exception
+    private void testTemplate(String templateFile, SpaceGobbling mode) throws Exception
     {
         assureResultsDirectoryExists(RESULT_DIR);
         FileOutputStream fos = new FileOutputStream (getFileName(RESULT_DIR, templateFile, mode.toString()));
         VelocityContext context = new VelocityContext();
         Writer writer = new BufferedWriter(new OutputStreamWriter(fos));
 
-        Template template = engine.getTemplate(templateFile);
+        VelocityEngine ve = createEngine(mode);
+        Template template = ve.getTemplate(templateFile);
         template.merge(context, writer);
 
         /**
