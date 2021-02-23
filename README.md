@@ -29,7 +29,7 @@ plus the following ones, needed for the integrated tests:
 * slf4j-simple v1.7.30
 * junit v4.13
 * hsqldb v2.5.0
-* commons-io 2.6
+* commons-io 2.8.0
 
 At runtime, Velocity only needs:
 
