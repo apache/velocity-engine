@@ -120,6 +120,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
      * @return the script context writer (by default a PrintWriter towards System.out)
      * @throws ScriptException
      */
+    @Override
     public Object eval(String str, ScriptContext ctx)
                        throws ScriptException
     {
@@ -135,6 +136,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
      * @return the script context writer (by default a PrintWriter towards System.out)
      * @throws ScriptException
      */
+    @Override
     public Object eval(Reader reader, ScriptContext ctx)
                        throws ScriptException
     {
@@ -163,6 +165,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
      * get the factory used to create this script engine
      * @return factory
      */
+    @Override
     public ScriptEngineFactory getFactory()
     {
         if (factory == null)
@@ -182,6 +185,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
      * creates a new Bindings to be used with this script
      * @return new bindings
      */
+    @Override
     public Bindings createBindings()
     {
         return new SimpleBindings();
@@ -283,6 +287,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
      * @return compiled template
      * @throws ScriptException
      */
+    @Override
     public CompiledScript compile(String script) throws ScriptException
     {
         return compile(new StringReader(script));
@@ -294,6 +299,7 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
      * @return compiled template
      * @throws ScriptException
      */
+    @Override
     public CompiledScript compile(Reader script) throws ScriptException
     {
         initVelocityEngine(null);

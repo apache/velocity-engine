@@ -30,7 +30,6 @@ import org.apache.velocity.runtime.Renderable;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -86,6 +85,7 @@ public class RuntimeMacro extends Directive
      *
      * @return The name of this Velocimacro.
      */
+    @Override
     public String getName()
     {
         return macroName;
@@ -97,6 +97,7 @@ public class RuntimeMacro extends Directive
      * scope, we are within a #macro call.  The macro name will instead
      * be used as the scope name when defining the body of a BlockMacro.
      */
+    @Override
     public String getScopeName()
     {
         return "macro";
@@ -108,6 +109,7 @@ public class RuntimeMacro extends Directive
      *
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return LINE;
@@ -132,7 +134,7 @@ public class RuntimeMacro extends Directive
         macroName = rsvc.useStringInterning() ? macroName.intern() : macroName;
         this.node = node;
 
-        /**
+        /*
          * Apply strictRef setting only if this really looks like a macro,
          * so strict mode doesn't balk at things like #E0E0E0 in a template.
          * compare with ")" is a simple #foo() style macro, comparing to
@@ -250,6 +252,7 @@ public class RuntimeMacro extends Directive
      * @throws ParseErrorException
      * @throws MethodInvocationException
      */
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer,
                           Node node)
             throws IOException, ResourceNotFoundException,
@@ -279,7 +282,7 @@ public class RuntimeMacro extends Directive
         VelocimacroProxy vmProxy = null;
         Template renderingTemplate = (Template)context.getCurrentResource();
 
-        /**
+        /*
          * first look in the source template
          */
         Object o = rsvc.getVelocimacro(macroName, renderingTemplate, getTemplate());
@@ -291,17 +294,17 @@ public class RuntimeMacro extends Directive
             vmProxy = (VelocimacroProxy)o;
         }
 
-        /**
+        /*
          * if not found, look in the macro libraries.
          */
         if (vmProxy == null)
         {
-            List macroLibraries = context.getMacroLibraries();
+            List<Template> macroLibraries = context.getMacroLibraries();
             if (macroLibraries != null)
             {
                 for (int i = macroLibraries.size() - 1; i >= 0; i--)
                 {
-                    o = rsvc.getVelocimacro(macroName, renderingTemplate, (Template)macroLibraries.get(i));
+                    o = rsvc.getVelocimacro(macroName, renderingTemplate, macroLibraries.get(i));
 
                     // get the first matching macro
                     if (o != null)
@@ -337,7 +340,7 @@ public class RuntimeMacro extends Directive
             }
             catch (RuntimeException | IOException e)
             {
-                /**
+                /*
                  * We catch, the exception here so that we can record in
                  * the logs the template and line number of the macro call
                  * which generate the exception.  This information is
@@ -359,7 +362,7 @@ public class RuntimeMacro extends Directive
                 + StringUtils.formatFileString(node), null, rsvc.getLogContext().getStackTrace());
         }
 
-        /**
+        /*
          * If we cannot find an implementation write the literal text
          */
         writer.write(getLiteral());

@@ -101,6 +101,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
     /**
      * Sets up the test.
      */
+    @Override
     protected void setUp ()
        throws Exception
     {
@@ -186,7 +187,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
         // Add a TemplateNumber
         context.put ("templatenumber1", new TestNumber (999.125));
 
-        /**
+        /*
          * Test #foreach() with a list containing nulls
          */
         ArrayList nullList = new ArrayList();
@@ -203,6 +204,7 @@ public class TemplateTestCase extends BaseTestCase implements TemplateTestBase
     /**
      * Runs the test.
      */
+    @Override
     public void runTest ()
         throws Exception
     {

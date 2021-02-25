@@ -59,6 +59,7 @@ public class ASTAndNode extends ASTLogicalOperator
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -72,6 +73,7 @@ public class ASTAndNode extends ASTLogicalOperator
      * @return The value of the expression.
      * @throws MethodInvocationException
      */
+    @Override
     public Object value(InternalContextAdapter context)
         throws MethodInvocationException
     {
@@ -89,7 +91,8 @@ public class ASTAndNode extends ASTLogicalOperator
      * @return True if both sides are true.
      * @throws MethodInvocationException
      */
-    public boolean evaluate( InternalContextAdapter context)
+    @Override
+    public boolean evaluate(InternalContextAdapter context)
         throws MethodInvocationException
     {
         Node left = jjtGetChild(0);

@@ -34,6 +34,7 @@ public class EscapeSqlReference extends EscapeReference
      * @param text
      * @return An escaped string.
      */
+    @Override
     protected String escape(Object text)
     {
         return text.toString().replaceAll("'", "''");
@@ -42,6 +43,7 @@ public class EscapeSqlReference extends EscapeReference
     /**
      * @return attribute "eventhandler.escape.sql.match"
      */
+    @Override
     protected String getMatchAttribute()
     {
         return "eventhandler.escape.sql.match";

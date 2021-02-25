@@ -134,6 +134,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtOpen()
      */
+    @Override
     public void jjtOpen()
     {
         first = parser.getToken(1); // added
@@ -142,6 +143,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtClose()
      */
+    @Override
     public void jjtClose()
     {
         last = parser.getToken(0); // added
@@ -158,6 +160,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#getFirstToken()
      */
+    @Override
     public Token getFirstToken()
     {
         return first;
@@ -166,6 +169,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#getLastToken()
      */
+    @Override
     public Token getLastToken()
     {
         return last;
@@ -174,6 +178,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtSetParent(org.apache.velocity.runtime.parser.node.Node)
      */
+    @Override
     public void jjtSetParent(Node n)
     {
         parent = n;
@@ -182,6 +187,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtGetParent()
      */
+    @Override
     public Node jjtGetParent()
     {
         return parent;
@@ -190,6 +196,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtAddChild(org.apache.velocity.runtime.parser.node.Node, int)
      */
+    @Override
     public void jjtAddChild(Node n, int i)
     {
         if (children == null)
@@ -208,6 +215,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtGetChild(int)
      */
+    @Override
     public Node jjtGetChild(int i)
     {
         return children[i];
@@ -216,6 +224,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtGetNumChildren()
      */
+    @Override
     public int jjtGetNumChildren()
     {
         return (children == null) ? 0 : children.length;
@@ -225,6 +234,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -234,6 +244,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#childrenAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object childrenAccept(ParserVisitor visitor, Object data)
     {
         if (children != null)
@@ -341,6 +352,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#literal()
      */
+    @Override
     public String literal()
     {
         if( literal != null )
@@ -371,7 +383,8 @@ public class SimpleNode implements Node
      * @throws TemplateInitException
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    @Override
+    public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
         /*
          * hold onto the RuntimeServices
@@ -396,7 +409,8 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#evaluate(org.apache.velocity.context.InternalContextAdapter)
      */
-    public boolean evaluate( InternalContextAdapter  context)
+    @Override
+    public boolean evaluate(InternalContextAdapter  context)
         throws MethodInvocationException
     {
         return false;
@@ -405,7 +419,8 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#value(org.apache.velocity.context.InternalContextAdapter)
      */
-    public Object value( InternalContextAdapter context)
+    @Override
+    public Object value(InternalContextAdapter context)
         throws MethodInvocationException
     {
         return null;
@@ -414,7 +429,8 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
-    public boolean render( InternalContextAdapter context, Writer writer)
+    @Override
+    public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException
     {
         int i, k = jjtGetNumChildren();
@@ -428,6 +444,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#execute(java.lang.Object, org.apache.velocity.context.InternalContextAdapter)
      */
+    @Override
     public Object execute(Object o, InternalContextAdapter context)
       throws MethodInvocationException
     {
@@ -437,6 +454,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#getType()
      */
+    @Override
     public int getType()
     {
         return id;
@@ -445,6 +463,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#setInfo(int)
      */
+    @Override
     public void setInfo(int info)
     {
         this.info = info;
@@ -453,6 +472,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#getInfo()
      */
+    @Override
     public int getInfo()
     {
         return info;
@@ -461,6 +481,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#setInvalid()
      */
+    @Override
     public void setInvalid()
     {
         invalid = true;
@@ -469,6 +490,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#isInvalid()
      */
+    @Override
     public boolean isInvalid()
     {
         return invalid;
@@ -477,6 +499,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#getLine()
      */
+    @Override
     public int getLine()
     {
         return line;
@@ -485,6 +508,7 @@ public class SimpleNode implements Node
     /**
      * @see org.apache.velocity.runtime.parser.node.Node#getColumn()
      */
+    @Override
     public int getColumn()
     {
         return column;
@@ -520,6 +544,7 @@ public class SimpleNode implements Node
                 + ", tokens=" + tok + "]";
     }
 
+    @Override
     public String getTemplateName()
     {
       return template.getName();
@@ -556,6 +581,7 @@ public class SimpleNode implements Node
     /**
      * @return String image variable of the first Token element that was parsed and connected to this Node.
      */
+    @Override
     public String getFirstTokenImage()
     {
         return firstImage;
@@ -564,17 +590,20 @@ public class SimpleNode implements Node
     /**
      * @return String image variable of the last Token element that was parsed and connected to this Node.
      */
+    @Override
     public String getLastTokenImage()
     {
         return lastImage;
     }
 
+    @Override
     public Template getTemplate() { return template; }
 
     /**
      * @return the parser which created this node
      * @since 2.2
      */
+    @Override
     public Parser getParser()
     {
         return parser;

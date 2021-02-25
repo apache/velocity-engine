@@ -27,7 +27,6 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.*;
-import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.util.StringUtils;
 import org.apache.velocity.util.introspection.Info;
 
@@ -52,6 +51,7 @@ public class Foreach extends Directive
      * Return name of this directive.
      * @return The name of this directive.
      */
+    @Override
     public String getName()
     {
         return "foreach";
@@ -61,6 +61,7 @@ public class Foreach extends Directive
      * Return type of this directive.
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return BLOCK;
@@ -101,6 +102,7 @@ public class Foreach extends Directive
      * @param node
      * @throws TemplateInitException
      */
+    @Override
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
         throws TemplateInitException
     {
@@ -215,6 +217,7 @@ public class Foreach extends Directive
      * @return True if the directive rendered successfully.
      * @throws IOException
      */
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
@@ -293,7 +296,7 @@ public class Foreach extends Directive
         /*
          * closes the iterator if it implements the Closeable interface
          */
-        if (i != null && i instanceof Closeable && i != iterable) /* except if the iterable is the iterator itself */
+        if (i instanceof Closeable && i != iterable) /* except if the iterable is the iterator itself */
         {
             ((Closeable)i).close();
         }
@@ -329,7 +332,8 @@ public class Foreach extends Directive
      * We do not allow a word token in any other arg position except for the 2nd since
      * we are looking for the pattern #foreach($foo in $bar).
      */
-    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+    @Override
+    public void checkArgs(ArrayList<Integer> argtypes, Token t, String templateName)
       throws ParseException
     {
         if (argtypes.size() < 3)

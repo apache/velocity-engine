@@ -33,7 +33,6 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -85,6 +84,7 @@ public class EvaluateTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();

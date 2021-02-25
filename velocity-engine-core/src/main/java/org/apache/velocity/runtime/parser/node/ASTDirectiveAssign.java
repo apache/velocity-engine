@@ -1,4 +1,6 @@
-/**
+package org.apache.velocity.runtime.parser.node;
+
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,7 +18,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
@@ -39,7 +40,8 @@ public class ASTDirectiveAssign extends SimpleNode
    * @throws TemplateInitException
    * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
    */
-  public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+  @Override
+  public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
   {
   	Object obj = super.init(context, data);
   	saveTokenImages();

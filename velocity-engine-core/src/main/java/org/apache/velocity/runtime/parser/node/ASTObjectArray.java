@@ -54,6 +54,7 @@ public class ASTObjectArray extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -62,13 +63,14 @@ public class ASTObjectArray extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
      */
-    public Object value( InternalContextAdapter context)
+    @Override
+    public Object value(InternalContextAdapter context)
         throws MethodInvocationException
     {
         int size = jjtGetNumChildren();
 
         // since we know the amount of elements, initialize arraylist with proper size
-        List objectArray = new ArrayList(size);
+        List<Object> objectArray = new ArrayList<>(size);
 
         for (int i = 0; i < size; i++)
         {
@@ -82,7 +84,8 @@ public class ASTObjectArray extends SimpleNode
      * @throws TemplateInitException
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    @Override
+    public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
     	Object obj = super.init(context, data);
     	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
@@ -92,7 +95,8 @@ public class ASTObjectArray extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
      */
-    public boolean evaluate( InternalContextAdapter context)
+    @Override
+    public boolean evaluate(InternalContextAdapter context)
     {
         return !rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true) || children != null && children.length > 0;
     }

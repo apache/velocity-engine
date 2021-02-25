@@ -22,6 +22,7 @@ package org.apache.velocity;
 import org.apache.velocity.context.AbstractContext;
 import org.apache.velocity.context.Context;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +49,9 @@ import java.util.Map;
  *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  *  @version $Id$
  */
-public class VelocityContext extends AbstractContext implements Cloneable
+public class VelocityContext
+    extends AbstractContext
+    implements Cloneable, Serializable
 {
     /**
      * Version Id for serializable
@@ -104,7 +107,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
     public VelocityContext(Map<String, Object> context, Context innerContext)
     {
         super(innerContext);
-        this.context = (context == null ? new HashMap<String, Object>() : context);
+        this.context = (context == null ? new HashMap<>() : context);
     }
 
     /**
@@ -114,7 +117,8 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *  @param key name of value to get
      *  @return value as object
      */
-    public Object internalGet( String key )
+    @Override
+    public Object internalGet(String key )
     {
         return context.get( key );
     }
@@ -127,7 +131,8 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *  @param value value to store
      *  @return previous value of key as Object
      */
-    public Object internalPut( String key, Object value )
+    @Override
+    public Object internalPut(String key, Object value )
     {
         return context.put( key, value );
     }
@@ -139,6 +144,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *  @param key name of value to check
      *  @return true if non-null value in store
      */
+    @Override
     public  boolean internalContainsKey(String key)
     {
         return context.containsKey( key );
@@ -149,6 +155,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *
      *  @return keys as []
      */
+    @Override
     public  String[] internalGetKeys()
     {
         return context.keySet().toArray(new String[context.size()]);
@@ -161,6 +168,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *  @param key name of value to remove
      *  @return value removed
      */
+    @Override
     public  Object internalRemove(String key)
     {
         return context.remove( key );
@@ -171,6 +179,7 @@ public class VelocityContext extends AbstractContext implements Cloneable
      *
      * @return A shallow copy of this <code>Context</code>.
      */
+    @Override
     public Object clone()
     {
         VelocityContext clone = null;

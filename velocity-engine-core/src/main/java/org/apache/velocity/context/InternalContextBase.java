@@ -19,12 +19,14 @@ package org.apache.velocity.context;
  * under the License.
  */
 
+import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -52,7 +54,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      *  cache for node/context specific introspection information
      */
-    private HashMap introspectionCache = new HashMap(33);
+    private Map<Object, IntrospectionCacheData> introspectionCache = new HashMap<>(33);
 
     /**
      *  Template name stack. The stack top contains the current template name.
@@ -79,14 +81,15 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *  List for holding the macro libraries. Contains the macro library
      *  template name as strings.
      */
-    private List macroLibraries = null;
+    private List<Template> macroLibraries = null;
 
     /**
      *  set the current template name on top of stack
      *
      *  @param s current template name
      */
-    public void pushCurrentTemplateName( String s )
+    @Override
+    public void pushCurrentTemplateName(String s )
     {
         templateNameStack.push(s);
     }
@@ -94,6 +97,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      *  remove the current template name from stack
      */
+    @Override
     public void popCurrentTemplateName()
     {
         templateNameStack.pop();
@@ -104,6 +108,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *
      *  @return String current template name
      */
+    @Override
     public String getCurrentTemplateName()
     {
         if ( templateNameStack.empty() )
@@ -117,6 +122,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *
      *  @return String[] with the template name stack contents.
      */
+    @Override
     public String[] getTemplateNameStack()
     {
         return templateNameStack.toArray(new String[templateNameStack.size()]);
@@ -127,7 +133,8 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *
      *  @param s current macro name
      */
-    public void pushCurrentMacroName( String s )
+    @Override
+    public void pushCurrentMacroName(String s )
     {
         macroNameStack.push(s);
     }
@@ -135,6 +142,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      *  remove the current macro name from stack
      */
+    @Override
     public void popCurrentMacroName()
     {
         macroNameStack.pop();
@@ -145,6 +153,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *
      *  @return String current macro name
      */
+    @Override
     public String getCurrentMacroName()
     {
         if (macroNameStack.empty())
@@ -162,6 +171,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *
      *  @return int current macro call depth
      */
+    @Override
     public int getCurrentMacroCallDepth()
     {
         return macroNameStack.size();
@@ -172,6 +182,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *
      *  @return String[] with the macro name stack contents.
      */
+    @Override
     public String[] getMacroNameStack()
     {
         return macroNameStack.toArray(new String[macroNameStack.size()]);
@@ -184,7 +195,8 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *  @param key  key to find in cache
      *  @return cache object
      */
-    public IntrospectionCacheData icacheGet( Object key )
+    @Override
+    public IntrospectionCacheData icacheGet(Object key )
     {
         return ( IntrospectionCacheData ) introspectionCache.get( key );
     }
@@ -196,7 +208,8 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
      *  @param key  key
      *  @param o  IntrospectionCacheData object to place in cache
      */
-    public void icachePut( Object key, IntrospectionCacheData o )
+    @Override
+    public void icachePut(Object key, IntrospectionCacheData o )
     {
         introspectionCache.put( key, o );
     }
@@ -204,7 +217,8 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setCurrentResource(org.apache.velocity.runtime.resource.Resource)
      */
-    public void setCurrentResource( Resource r )
+    @Override
+    public void setCurrentResource(Resource r )
     {
         currentResource = r;
     }
@@ -212,6 +226,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentResource()
      */
+    @Override
     public Resource getCurrentResource()
     {
         return currentResource;
@@ -220,7 +235,8 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      */
-    public void setMacroLibraries(List macroLibraries)
+    @Override
+    public void setMacroLibraries(List<Template> macroLibraries)
     {
         this.macroLibraries = macroLibraries;
     }
@@ -228,7 +244,8 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
      */
-    public List getMacroLibraries()
+    @Override
+    public List<Template> getMacroLibraries()
     {
         return macroLibraries;
     }
@@ -237,7 +254,8 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
      */
-    public EventCartridge attachEventCartridge( EventCartridge ec )
+    @Override
+    public EventCartridge attachEventCartridge(EventCartridge ec )
     {
         EventCartridge temp = eventCartridge;
 
@@ -249,6 +267,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalEventContext#getEventCartridge()
      */
+    @Override
     public EventCartridge getEventCartridge()
     {
         return eventCartridge;

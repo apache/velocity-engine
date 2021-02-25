@@ -47,22 +47,22 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
     /**
      * standard narrowing and string parsing conversions.
      */
-    static Map<Pair<String, String>, Converter> standardConverterMap;
+    static Map<Pair<String, String>, Converter<?>> standardConverterMap;
 
     /**
      * basic toString converter
      */
-    static Converter toString;
+    static Converter<?> toString;
 
     /**
      * cache miss converter
      */
-    static Converter cacheMiss;
+    static Converter<?> cacheMiss;
 
     /**
      * a converters cache map, initialized with the standard narrowing and string parsing conversions.
      */
-    Map<Pair<String, String>, Converter> converterCacheMap;
+    Map<Pair<String, String>, Converter<?>> converterCacheMap;
 
     static final String BOOLEAN_TYPE = "boolean";
     static final String BYTE_TYPE = "byte";
@@ -618,13 +618,13 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
      * @since 2.1
      */
     @Override
-    public boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
+    public boolean isExplicitlyConvertible(Type formal, Class<?> actual, boolean possibleVarArg)
     {
         /*
          * for consistency, we also have to check standard implicit convertibility
          * since it may not have been checked before by the calling code
          */
-        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+        Class<?> formalClass = IntrospectionUtils.getTypeClass(formal);
         if (formalClass != null && formalClass == actual ||
             IntrospectionUtils.isMethodInvocationConvertible(formal, actual, possibleVarArg) ||
             getNeededConverter(formal, actual) != null)
@@ -655,7 +655,7 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
      * @since 2.1
      */
     @Override
-    public Converter getNeededConverter(Type formal, Class actual)
+    public Converter<?> getNeededConverter(Type formal, Class<?> actual)
     {
         if (actual == null)
         {
@@ -664,14 +664,14 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
         Pair<String, String> key = Pair.of(formal.getTypeName(), actual.getTypeName());
 
         /* first check for a standard conversion */
-        Converter converter = standardConverterMap.get(key);
+        Converter<?> converter = standardConverterMap.get(key);
         if (converter == null)
         {
             /* then the converters cache map */
             converter = converterCacheMap.get(key);
             if (converter == null)
             {
-                Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                Class<?> formalClass = IntrospectionUtils.getTypeClass(formal);
                 /* check for conversion towards string */
                 if (formal == String.class)
                 {
@@ -699,11 +699,11 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
      * @since 2.1
      */
     @Override
-    public void addConverter(Type formal, Class actual, Converter converter)
+    public void addConverter(Type formal, Class<?> actual, Converter<?> converter)
     {
         Pair<String, String> key = Pair.of(formal.getTypeName(), actual.getTypeName());
         converterCacheMap.put(key, converter);
-        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+        Class<?> formalClass = IntrospectionUtils.getTypeClass(formal);
         if (formalClass != null)
         {
             if (formalClass.isPrimitive())
@@ -713,7 +713,7 @@ public class TypeConversionHandlerImpl implements TypeConversionHandler
             }
             else
             {
-                Class unboxedFormal = IntrospectionUtils.getUnboxedClass(formalClass);
+                Class<?> unboxedFormal = IntrospectionUtils.getUnboxedClass(formalClass);
                 if (unboxedFormal != formalClass)
                 {
                     key = Pair.of(unboxedFormal.getTypeName(), actual.getTypeName());

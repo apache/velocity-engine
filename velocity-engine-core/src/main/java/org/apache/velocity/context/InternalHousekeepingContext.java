@@ -19,6 +19,7 @@ package org.apache.velocity.context;
  * under the License.
  */
 
+import org.apache.velocity.Template;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
@@ -135,13 +136,13 @@ interface InternalHousekeepingContext
      *
      * @param macroLibraries list of macro libraries to set
      */
-     void setMacroLibraries(List macroLibraries);
+     void setMacroLibraries(List<Template> macroLibraries);
 
     /**
      * Get the macro library list for the current template.
      *
      * @return List of macro library names
      */
-     List getMacroLibraries();
+     List<Template> getMacroLibraries();
 
 }

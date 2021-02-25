@@ -329,10 +329,4 @@ public interface ParserVisitor
    * @return The object rendered by this node.
    */
   Object visit(ASTNotNode node, Object data);
-
-  /**
-   * @param node
-   * @param data
-   * @return The object rendered by this node.
-   */
 }

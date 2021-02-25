@@ -38,11 +38,13 @@ public class ArrayListWrapper extends AbstractList
         this.array = array;
     }
 
+    @Override
     public Object get(int index)
     {
         return Array.get(array, index);
     }
 
+    @Override
     public Object set(int index, Object element)
     {
         Object old = get(index);
@@ -50,11 +52,13 @@ public class ArrayListWrapper extends AbstractList
         return old;
     }
 
+    @Override
     public int size()
     {
         return Array.getLength(array);
     }
 
+    @Override
     public boolean isEmpty()
     {
         return Array.getLength(array) == 0;

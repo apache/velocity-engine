@@ -1,4 +1,6 @@
-/**
+package org.apache.velocity.runtime.directive.contrib;
+
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,7 +18,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.velocity.runtime.directive.contrib;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
@@ -46,16 +47,19 @@ public class For extends Foreach
   protected String counterName;
   protected int counterInitialValue;
 
+  @Override
   public String getName()
   {
     return "for";
   }
 
+  @Override
   public int getType()
   {
     return BLOCK;
   }
 
+  @Override
   public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
       throws TemplateInitException
   {
@@ -110,8 +114,9 @@ public class For extends Foreach
    * We do not allow a word token in any other arg position except for the 2nd
    * since we are looking for the pattern #foreach($foo in $bar).
    */
+  @Override
   public void checkArgs(ArrayList<Integer> argtypes, Token t,
-      String templateName) throws ParseException
+                        String templateName) throws ParseException
   {
     super.checkArgs(argtypes, t, templateName);
 

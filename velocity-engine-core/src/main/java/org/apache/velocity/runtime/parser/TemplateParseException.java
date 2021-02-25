@@ -112,6 +112,7 @@ public class TemplateParseException
      * returns the Template name where this exception occurred.
      * @return The Template name where this exception occurred.
      */
+    @Override
     public String getTemplateName()
     {
         return templateName;
@@ -121,6 +122,7 @@ public class TemplateParseException
      * returns the line number where this exception occurred.
      * @return The line number where this exception occurred.
      */
+    @Override
     public int getLineNumber()
     {
         if ((currentToken != null) && (currentToken.next != null))
@@ -137,6 +139,7 @@ public class TemplateParseException
      * returns the column number where this exception occurred.
      * @return The column number where this exception occurred.
      */
+    @Override
     public int getColumnNumber()
     {
         if ((currentToken != null) && (currentToken.next != null))
@@ -160,6 +163,7 @@ public class TemplateParseException
      * gets displayed.
      * @return The error message.
      */
+    @Override
     public String getMessage()
     {
         if (!specialConstructor)
@@ -180,9 +184,9 @@ public class TemplateParseException
                 maxSize = expectedTokenSequence.length;
             }
 
-            for (int j = 0; j < expectedTokenSequence.length; j++)
+            for (int i : expectedTokenSequence)
             {
-                expected.append(tokenImage[expectedTokenSequence[j]]).append(" ");
+                expected.append(tokenImage[i]).append(" ");
             }
 
             if (expectedTokenSequence[expectedTokenSequence.length - 1] != 0)

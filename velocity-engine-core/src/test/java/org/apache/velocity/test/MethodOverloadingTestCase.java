@@ -84,6 +84,7 @@ public class MethodOverloadingTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUp()
     {
         assureResultsDirectoryExists(RESULTS_DIR);
@@ -97,7 +98,7 @@ public class MethodOverloadingTestCase extends BaseTestCase
     public void testMethodOverloading()
     throws Exception
     {
-        /**
+        /*
          * test overloading in a single template
          */
         testFile("single");
@@ -108,7 +109,7 @@ public class MethodOverloadingTestCase extends BaseTestCase
     public void testParsedMethodOverloading()
     throws Exception
     {
-        /**
+        /*
          * test overloading in a file included with #parse
          */
         testFile("main");

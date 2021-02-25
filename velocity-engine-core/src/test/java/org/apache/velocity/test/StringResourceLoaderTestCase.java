@@ -64,6 +64,7 @@ public class StringResourceLoaderTestCase extends BaseTestCase
         return new TestSuite(StringResourceLoaderTestCase.class);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {

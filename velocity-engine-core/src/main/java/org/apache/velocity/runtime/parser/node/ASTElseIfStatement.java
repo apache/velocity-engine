@@ -62,7 +62,8 @@ public class ASTElseIfStatement extends SimpleNode
      * @throws TemplateInitException
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    @Override
+    public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
         Object obj = super.init(context, data);
          cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
@@ -72,6 +73,7 @@ public class ASTElseIfStatement extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -88,7 +90,8 @@ public class ASTElseIfStatement extends SimpleNode
      * @return True if all children are true.
      * @throws MethodInvocationException
      */
-    public boolean evaluate ( InternalContextAdapter context)
+    @Override
+    public boolean evaluate (InternalContextAdapter context)
         throws MethodInvocationException
     {
         return jjtGetChild(0).evaluate(context);
@@ -97,7 +100,8 @@ public class ASTElseIfStatement extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
-    public boolean render( InternalContextAdapter context, Writer writer)
+    @Override
+    public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException,MethodInvocationException,
         	ResourceNotFoundException, ParseErrorException
     {

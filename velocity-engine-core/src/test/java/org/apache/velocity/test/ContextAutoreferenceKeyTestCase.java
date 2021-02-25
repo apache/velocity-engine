@@ -33,11 +33,13 @@ public class ContextAutoreferenceKeyTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     protected void setUpEngine(VelocityEngine engine)
     {
         engine.setProperty(VelocityEngine.CONTEXT_AUTOREFERENCE_KEY, "self");
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("foo", "bar");

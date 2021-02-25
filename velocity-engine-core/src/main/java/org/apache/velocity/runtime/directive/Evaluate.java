@@ -51,6 +51,7 @@ public class Evaluate extends Directive
      * Return name of this directive.
      * @return The name of this directive.
      */
+    @Override
     public String getName()
     {
         return "evaluate";
@@ -60,6 +61,7 @@ public class Evaluate extends Directive
      * Return type of this directive.
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return LINE;
@@ -72,13 +74,14 @@ public class Evaluate extends Directive
      * @param node
      * @throws TemplateInitException
      */
+    @Override
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
         throws TemplateInitException
     {
         super.init( rs, context, node );
 
-        /**
+        /*
          * Check that there is exactly one argument and it is a string or reference.
          */
 
@@ -134,8 +137,9 @@ public class Evaluate extends Directive
      * @throws ParseErrorException
      * @throws MethodInvocationException
      */
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer,
-            Node node) throws IOException, ResourceNotFoundException,
+                          Node node) throws IOException, ResourceNotFoundException,
             ParseErrorException, MethodInvocationException
     {
 

@@ -50,7 +50,7 @@ public class ArrayMethodsTestCase extends BaseTestCase
         checkResults(array, 11, false);
 
         // test an array of mixed objects, including null
-        array = new Object[] { new Double(2.2), null };
+        array = new Object[] { 2.2, null };
         checkResults(array, "whatever", true);
         // then set all the values to null
         checkResults(array, null, true);

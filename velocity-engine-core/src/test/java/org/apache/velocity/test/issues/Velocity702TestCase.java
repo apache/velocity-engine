@@ -35,6 +35,7 @@ public class Velocity702TestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUpEngine(VelocityEngine engine)
     {
         engine.setProperty(RuntimeConstants.RESOURCE_LOADERS, "high,low");

@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -74,24 +73,25 @@ public class JarResourceLoader extends ResourceLoader
      * Key = the entry *excluding* plain directories
      * Value = the JAR URL
      */
-    private Map entryDirectory = new HashMap(559);
+    private Map<String, String> entryDirectory = new HashMap<>(559);
 
     /**
      * Maps JAR URLs to the actual JAR
      * Key = the JAR URL
      * Value = the JAR
      */
-    private Map jarfiles = new HashMap(89);
+    private Map<String, JarHolder> jarfiles = new HashMap<>(89);
 
     /**
      * Called by Velocity to initialize the loader
      * @param configuration
      */
-    public void init( ExtProperties configuration)
+    @Override
+    public void init(ExtProperties configuration)
     {
         log.trace("JarResourceLoader: initialization starting.");
 
-        List paths = configuration.getList(RuntimeConstants.RESOURCE_LOADER_PATHS);
+        List<String> paths = configuration.getList(RuntimeConstants.RESOURCE_LOADER_PATHS);
 
         if (paths != null)
         {
@@ -150,7 +150,7 @@ public class JarResourceLoader extends ResourceLoader
     {
         if ( jarfiles.containsKey(path) )
         {
-            JarHolder theJar = (JarHolder)jarfiles.get(path);
+            JarHolder theJar = jarfiles.get(path);
             theJar.close();
         }
     }
@@ -159,7 +159,7 @@ public class JarResourceLoader extends ResourceLoader
      * Copy all the entries into the entryDirectory
      * It will overwrite any duplicate keys.
      */
-    private void addEntries( Hashtable entries )
+    private void addEntries( Map<String, String> entries )
     {
         entryDirectory.putAll( entries );
     }
@@ -175,7 +175,8 @@ public class JarResourceLoader extends ResourceLoader
      *         in the file template path.
      * @since 2.0
     */
-    public Reader getResourceReader( String source, String encoding )
+    @Override
+    public Reader getResourceReader(String source, String encoding )
             throws ResourceNotFoundException
     {
         Reader result = null;
@@ -208,7 +209,7 @@ public class JarResourceLoader extends ResourceLoader
 
         if ( entryDirectory.containsKey( normalizedPath ) )
         {
-            String jarurl  = (String)entryDirectory.get( normalizedPath );
+            String jarurl  = entryDirectory.get( normalizedPath );
 
             if ( jarfiles.containsKey( jarurl ) )
             {
@@ -245,6 +246,7 @@ public class JarResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public boolean isSourceModified(Resource resource)
     {
         return true;
@@ -253,6 +255,7 @@ public class JarResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public long getLastModified(Resource resource)
     {
         return 0;

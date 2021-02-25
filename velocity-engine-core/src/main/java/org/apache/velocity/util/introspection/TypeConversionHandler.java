@@ -42,7 +42,7 @@ public interface TypeConversionHandler
      * @return null if no conversion is needed, or the appropriate Converter object
      * @since 2.1
      */
-    boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg);
+    boolean isExplicitlyConvertible(Type formal, Class<?> actual, boolean possibleVarArg);
 
     /**
      * Returns the appropriate Converter object needed for an explicit conversion
@@ -53,7 +53,7 @@ public interface TypeConversionHandler
      * @return null if no conversion is needed, or the appropriate Converter object
      * @since 2.1
      */
-    Converter getNeededConverter(Type formal, Class actual);
+    Converter<?> getNeededConverter(Type formal, Class<?> actual);
 
     /**
      * Add the given converter to the handler. Implementation should be thread-safe.
@@ -63,6 +63,6 @@ public interface TypeConversionHandler
      * @param converter converter
      * @since 2.1
      */
-    void addConverter(Type formal, Class actual, Converter converter);
+    void addConverter(Type formal, Class<?> actual, Converter<?> converter);
 
 }

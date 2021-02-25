@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.*;
 
@@ -48,8 +49,8 @@ public class CustomParserTestCase
         writer.flush();
         writer.close();
 
-        String result = IOUtils.toString(new FileInputStream(resultFile), "UTF-8");
-        String reference = IOUtils.toString(new FileInputStream(referenceFile), "UTF-8");
+        String result = IOUtils.toString(new FileInputStream(resultFile), StandardCharsets.UTF_8);
+        String reference = IOUtils.toString(new FileInputStream(referenceFile), StandardCharsets.UTF_8);
         assertEquals(reference, result);
     }
 }

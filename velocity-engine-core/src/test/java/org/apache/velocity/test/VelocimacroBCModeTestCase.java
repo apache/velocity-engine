@@ -44,6 +44,7 @@ public class VelocimacroBCModeTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     protected void setUpEngine(VelocityEngine engine)
     {
         boolean bcMode = !getName().contains("NoPreserve");

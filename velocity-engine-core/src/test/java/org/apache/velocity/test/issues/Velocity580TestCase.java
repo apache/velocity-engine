@@ -65,6 +65,7 @@ public class Velocity580TestCase extends BaseTestCase
         return new TestSuite(Velocity580TestCase.class);
     }
 
+    @Override
     public void setUp() throws Exception
     {
 

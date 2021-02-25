@@ -35,6 +35,7 @@ public class Velocity701TestCase extends BaseTestCase
     public void testAbstractClass()
     {
         context.put("foo", new Foo() {
+            @Override
             public String getBar() {
                 return "bar";
             }
@@ -57,6 +58,7 @@ public class Velocity701TestCase extends BaseTestCase
     public enum Bar {
 
         ONE(){
+            @Override
             public String getFoo() {
                 return "foo";
             }

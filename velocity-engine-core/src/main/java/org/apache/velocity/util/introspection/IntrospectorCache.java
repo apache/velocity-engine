@@ -50,12 +50,12 @@ public final class IntrospectorCache
     /**
      * Holds the method maps for the classes we know about. Map: Class --&gt; ClassMap object.
      */
-    private final Map classMapCache = new HashMap();
+    private final Map<Class<?>, ClassMap> classMapCache = new HashMap<>();
 
     /**
      * Holds the field maps for the classes we know about. Map: Class --&gt; ClassFieldMap object.
      */
-    private final Map classFieldMapCache = new HashMap();
+    private final Map<Class<?>, ClassFieldMap> classFieldMapCache = new HashMap<>();
 
     /**
      * Keep the names of the classes in another map. This is needed for a multi-classloader environment where it is possible
@@ -63,7 +63,7 @@ public final class IntrospectorCache
      * two Class objects have the same name, a <code>classMethodMaps.get(Foo.class)</code> will return null. For that case, we
      * keep a set of class names to recognize this case.
      */
-    private final Set classNameCache = new HashSet();
+    private final Set<String> classNameCache = new HashSet<>();
 
     /**
      * Conversion handler
@@ -103,9 +103,9 @@ public final class IntrospectorCache
      * @param c The class to look up.
      * @return A ClassMap object or null if it does not exist in the cache.
      */
-    public ClassMap get(final Class c)
+    public ClassMap get(final Class<?> c)
     {
-        ClassMap classMap = (ClassMap)classMapCache.get(Validate.notNull(c));
+        ClassMap classMap = classMapCache.get(Validate.notNull(c));
         if (classMap == null)
         {
             /*
@@ -133,9 +133,9 @@ public final class IntrospectorCache
      * @param c The class to look up.
      * @return A ClassFieldMap object or null if it does not exist in the cache.
      */
-    public ClassFieldMap getFieldMap(final Class c)
+    public ClassFieldMap getFieldMap(final Class<?> c)
     {
-        ClassFieldMap classFieldMap = (ClassFieldMap)classFieldMapCache.get(Validate.notNull(c));
+        ClassFieldMap classFieldMap = classFieldMapCache.get(Validate.notNull(c));
         if (classFieldMap == null)
         {
             /*
@@ -163,7 +163,7 @@ public final class IntrospectorCache
      * @param c The class for which the class map gets generated.
      * @return A ClassMap object.
      */
-    public ClassMap put(final Class c)
+    public ClassMap put(final Class<?> c)
     {
         final ClassMap classMap = new ClassMap(c, log, conversionHandler);
         final ClassFieldMap classFieldMap = new ClassFieldMap(c, log);

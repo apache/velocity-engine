@@ -101,7 +101,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase
 
         assureResultsDirectoryExists(RESULTS_DIR);
 
-        /**
+        /*
          * Set up two VelocityEngines that will apply the handlers in both orders
          */
         VelocityEngine ve = new VelocityEngine();

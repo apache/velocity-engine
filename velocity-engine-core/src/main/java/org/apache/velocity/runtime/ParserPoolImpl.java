@@ -42,6 +42,7 @@ public class ParserPoolImpl implements ParserPool {
      * Create the underlying "pool".
      * @param rsvc
      */
+    @Override
     public void initialize(RuntimeServices rsvc)
     {
         log = rsvc.getLog("parser");
@@ -61,6 +62,7 @@ public class ParserPoolImpl implements ParserPool {
      * temporary one.
      * @return A parser Object.
      */
+    @Override
     public Parser get()
     {
         return (Parser) pool.get();
@@ -70,6 +72,7 @@ public class ParserPoolImpl implements ParserPool {
      * Call the wrapped pool.
      * @param parser
      */
+    @Override
     public void put(Parser parser)
     {
         parser.ReInit((CharStream) null);

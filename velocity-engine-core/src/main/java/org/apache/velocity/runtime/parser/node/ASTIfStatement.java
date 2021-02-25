@@ -19,15 +19,6 @@ package org.apache.velocity.runtime.parser.node;
  * under the License.
  */
 
-/**
- * Please look at the Parser.jjt file which is
- * what controls the generation of this class.
- *
- * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
- * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
- * @version $Id$
-*/
-
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -43,7 +34,12 @@ import java.io.Writer;
 
 
 /**
+ * Please look at the Parser.jjt file which is
+ * what controls the generation of this class.
  *
+ * @author <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+ * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+ * @version $Id$
  */
 public class ASTIfStatement extends SimpleNode
 {
@@ -75,6 +71,7 @@ public class ASTIfStatement extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -84,7 +81,8 @@ public class ASTIfStatement extends SimpleNode
      * @throws TemplateInitException
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    @Override
+    public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
         Object obj = super.init(context, data);
 
@@ -151,7 +149,8 @@ public class ASTIfStatement extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
-    public boolean render( InternalContextAdapter context, Writer writer)
+    @Override
+    public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException,MethodInvocationException,
         	ResourceNotFoundException, ParseErrorException
     {

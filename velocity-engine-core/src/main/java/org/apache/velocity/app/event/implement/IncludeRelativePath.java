@@ -44,6 +44,7 @@ public class IncludeRelativePath implements IncludeEventHandler {
 
      * @return new path relative to the current template's path
      */
+    @Override
     public String includeEvent(
         Context context,
         String includeResourcePath,

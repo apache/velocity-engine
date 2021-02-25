@@ -90,6 +90,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
      * @param value
      * @return Escaped text.
      */
+    @Override
     public Object referenceInsert(Context context, String reference, Object value)
     {
         if(value == null)
@@ -118,6 +119,7 @@ public abstract class EscapeReference implements ReferenceInsertionEventHandler,
      *
      * @param rs instance of RuntimeServices
      */
+    @Override
     public void setRuntimeServices(RuntimeServices rs)
     {
         this.rs = rs;

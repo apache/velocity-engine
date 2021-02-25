@@ -27,7 +27,6 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.directive.StopCommand;
-import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.introspection.Info;
@@ -90,6 +89,7 @@ public class ASTMethod extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -103,7 +103,8 @@ public class ASTMethod extends SimpleNode
      * @return The init result
      * @throws TemplateInitException
      */
-    public Object init(  InternalContextAdapter context, Object data)
+    @Override
+    public Object init(InternalContextAdapter context, Object data)
         throws TemplateInitException
     {
         super.init(  context, data );
@@ -138,6 +139,7 @@ public class ASTMethod extends SimpleNode
      * @return Result or null.
      * @throws MethodInvocationException
      */
+    @Override
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
@@ -157,7 +159,7 @@ public class ASTMethod extends SimpleNode
                * sadly, we do need recalc the values of the args, as this can
                * change from visit to visit
                */
-            final Class[] paramClasses =
+            final Class<?>[] paramClasses =
                 paramCount > 0 ? new Class[paramCount] : EMPTY_CLASS_ARRAY;
 
             for (int j = 0; j < paramCount; j++)
@@ -178,7 +180,7 @@ public class ASTMethod extends SimpleNode
                 StringBuilder plist = new StringBuilder();
                 for (int i = 0; i < params.length; i++)
                 {
-                    Class param = paramClasses[i];
+                    Class<?> param = paramClasses[i];
                     plist.append(param == null ? "null" : param.getName());
                     if (i < params.length - 1)
                         plist.append(", ");
@@ -233,13 +235,13 @@ public class ASTMethod extends SimpleNode
                 return handleInvocationException(o, context, ite.getTargetException());
             }
 
-            /** Can also be thrown by method invocation **/
+            /* Can also be thrown by method invocation */
             catch( IllegalArgumentException t )
             {
                 return handleInvocationException(o, context, t);
             }
 
-            /**
+            /*
              * pass through application level runtime exceptions
              */
             catch( RuntimeException e )
@@ -291,7 +293,7 @@ public class ASTMethod extends SimpleNode
                 return EventHandlerUtil.methodException( rsvc, context, o.getClass(), methodName, (Exception) t, uberInfo );
             }
 
-            /**
+            /*
              * If the event handler throws an exception, then wrap it
              * in a MethodInvocationException.  Don't pass through RuntimeExceptions like other
              * similar catchall code blocks.
@@ -342,7 +344,7 @@ public class ASTMethod extends SimpleNode
         /**
          * parameters classes
          */
-        private final Class[] params;
+        private final Class<?>[] params;
 
         /**
          * whether the target object is of Class type
@@ -353,9 +355,9 @@ public class ASTMethod extends SimpleNode
          */
         private boolean classObject;
 
-        public MethodCacheKey(String methodName, Class[] params, boolean classObject)
+        public MethodCacheKey(String methodName, Class<?>[] params, boolean classObject)
         {
-            /**
+            /*
              * Should never be initialized with nulls, but to be safe we refuse
              * to accept them.
              */
@@ -369,7 +371,7 @@ public class ASTMethod extends SimpleNode
          */
         public boolean equals(Object o)
         {
-            /**
+            /*
              * note we skip the null test for methodName and params
              * due to the earlier test in the constructor
              */
@@ -408,11 +410,11 @@ public class ASTMethod extends SimpleNode
         {
             int result = 17;
 
-            /**
+            /*
              * note we skip the null test for methodName and params
              * due to the earlier test in the constructor
              */
-            for (Class param : params)
+            for (Class<?> param : params)
             {
                 if (param != null)
                 {

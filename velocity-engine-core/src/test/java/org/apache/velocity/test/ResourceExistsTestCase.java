@@ -40,6 +40,7 @@ public class ResourceExistsTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUp() throws Exception
     {
 try {

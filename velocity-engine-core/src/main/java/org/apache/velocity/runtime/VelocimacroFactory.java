@@ -95,7 +95,7 @@ public class VelocimacroFactory
      *  map of the library Template objects
      *  used for reload determination
      */
-    private Map libModMap;
+    private Map<String, Twonk> libModMap;
 
     /**
      *  C'tor for the VelociMacro factory.
@@ -110,7 +110,7 @@ public class VelocimacroFactory
          *  we always access in a synchronized(), so we
          *  can use an unsynchronized hashmap
          */
-        libModMap = new HashMap();
+        libModMap = new HashMap<>();
         vmManager = new VelocimacroManager(rsvc);
     }
 
@@ -498,7 +498,7 @@ public class VelocimacroFactory
                          * get the template from our map
                          */
 
-                        Twonk tw = (Twonk) libModMap.get(lib);
+                        Twonk tw = libModMap.get(lib);
 
                         if (tw != null)
                         {

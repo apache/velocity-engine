@@ -50,6 +50,7 @@ public class ASTFalse extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -58,7 +59,8 @@ public class ASTFalse extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
      */
-    public boolean evaluate( InternalContextAdapter context)
+    @Override
+    public boolean evaluate(InternalContextAdapter context)
     {
         return false;
     }
@@ -66,7 +68,8 @@ public class ASTFalse extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
      */
-    public Object value( InternalContextAdapter context)
+    @Override
+    public Object value(InternalContextAdapter context)
     {
         return value;
     }
@@ -75,7 +78,8 @@ public class ASTFalse extends SimpleNode
      * @throws TemplateInitException
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    @Override
+    public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
     	Object obj = super.init(context, data);
     	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens

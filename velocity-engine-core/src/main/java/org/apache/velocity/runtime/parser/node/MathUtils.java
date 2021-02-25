@@ -67,7 +67,7 @@ public abstract class MathUtils
     /**
      * The <code>Class</code>-object is key, the maximum-value is the value
      */
-    private static final Map ints = new HashMap();
+    private static final Map<Class<? extends Number>, BigDecimal> ints = new HashMap<>();
     static
     {
         ints.put (Byte.class, BigDecimal.valueOf (Byte.MAX_VALUE));
@@ -80,7 +80,7 @@ public abstract class MathUtils
     /**
      * The "size" of the number-types - ascending.
      */
-    private static final List typesBySize = new ArrayList();
+    private static final List<Class<? extends Number>> typesBySize = new ArrayList<>();
     static
     {
         typesBySize.add (Byte.class);
@@ -109,7 +109,7 @@ public abstract class MathUtils
             return new BigDecimal ( (BigInteger)n );
         }
 
-        return new BigDecimal (n.doubleValue());
+        return BigDecimal.valueOf(n.doubleValue());
 
     }
 
@@ -174,7 +174,7 @@ public abstract class MathUtils
      * @param type
      * @return Number object representing the primitive.
      */
-    public static Number wrapPrimitive (long value, Class type)
+    public static Number wrapPrimitive (long value, Class<?> type)
     {
         if (type == Byte.class)
         {

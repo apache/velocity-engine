@@ -69,6 +69,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
      * @param directiveName
      * @return message.
      */
+    @Override
     public String includeEvent(
         Context context,
         String includeResourcePath,
@@ -76,7 +77,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
         String directiveName)
     {
 
-        /**
+        /*
          * check to see if page exists
          */
         boolean exists = (rs.getLoaderNameForResource(includeResourcePath) != null);
@@ -89,7 +90,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
             }
             else
             {
-                /**
+                /*
                  * can't find not found, so display nothing
                  */
                 log.error("Can't find include not found page: {}", notfound);
@@ -104,6 +105,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
     /**
      * @see org.apache.velocity.util.RuntimeServicesAware#setRuntimeServices(org.apache.velocity.runtime.RuntimeServices)
      */
+    @Override
     public void setRuntimeServices(RuntimeServices rs)
     {
          this.rs = rs;
@@ -114,6 +116,7 @@ public class IncludeNotFound implements IncludeEventHandler, RuntimeServicesAwar
     /**
      * @see org.apache.velocity.util.ContextAware#setContext(org.apache.velocity.context.Context)
      */
+    @Override
     public void setContext(Context context)
     {
         this.context = context;

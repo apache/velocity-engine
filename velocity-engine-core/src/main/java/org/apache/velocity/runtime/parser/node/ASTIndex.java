@@ -1,4 +1,6 @@
-/**
+package org.apache.velocity.runtime.parser.node;
+
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,7 +18,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.velocity.runtime.parser.node;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -84,6 +85,7 @@ public class ASTIndex extends SimpleNode
      * @return data
      * @throws TemplateInitException
      */
+    @Override
     public Object init(InternalContextAdapter context, Object data)
         throws TemplateInitException
     {
@@ -94,7 +96,7 @@ public class ASTIndex extends SimpleNode
     }
 
     private final static Object[] noParams = {};
-    private final static Class[] noTypes = {};
+    private final static Class<?>[] noTypes = {};
 
     /**
      * If argument is an Integer and negative, then return (o.size() - argument).
@@ -152,7 +154,7 @@ public class ASTIndex extends SimpleNode
                   null, node.getRuntimeServices().getLogContext().getStackTrace());
           }
 
-          argument = sizeint + ((Integer) argument).intValue();
+          argument = sizeint + (Integer) argument;
       }
 
       // Nothing to do, return the original argument
@@ -165,6 +167,7 @@ public class ASTIndex extends SimpleNode
      * @return object value
      * @throws MethodInvocationException
      */
+    @Override
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
@@ -172,7 +175,7 @@ public class ASTIndex extends SimpleNode
         // If negative, turn -1 into size - 1
         argument = adjMinusIndexArg(argument, o, context, this);
         Object [] params = {argument};
-        Class[] paramClasses = {argument == null ? null : argument.getClass()};
+        Class<?>[] paramClasses = {argument == null ? null : argument.getClass()};
 
         VelMethod method = ClassUtils.getMethod(methodName, params, paramClasses,
                                                 o, context, this, strictRef);
@@ -201,7 +204,7 @@ public class ASTIndex extends SimpleNode
 
             return obj;
         }
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )

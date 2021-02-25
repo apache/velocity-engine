@@ -32,6 +32,7 @@ public class ExpressionAsMethodArgumentTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("tool",new MyAbsTool());

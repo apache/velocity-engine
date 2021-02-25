@@ -92,6 +92,7 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -197,14 +198,16 @@ public class IncludeEventHandlingTestCase extends BaseTestCase implements Includ
     }
 
 
-    public void setRuntimeServices( RuntimeServices rs )
+    @Override
+    public void setRuntimeServices(RuntimeServices rs )
      {
      }
 
     /**
      * Sample handler with different behaviors for the different tests.
      */
-    public String includeEvent( Context context, String includeResourcePath, String currentResourcePath, String directiveName)
+    @Override
+    public String includeEvent(Context context, String includeResourcePath, String currentResourcePath, String directiveName)
     {
         if (EventHandlerBehavior == PASS_THROUGH)
             return includeResourcePath;

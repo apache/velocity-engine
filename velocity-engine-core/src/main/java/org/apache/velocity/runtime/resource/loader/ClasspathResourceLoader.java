@@ -83,7 +83,8 @@ public class ClasspathResourceLoader extends ResourceLoader
      *  This is abstract in the base class, so we need it
      * @param configuration
      */
-    public void init( ExtProperties configuration)
+    @Override
+    public void init(ExtProperties configuration)
     {
         log.trace("ClasspathResourceLoader: initialization complete.");
     }
@@ -99,7 +100,8 @@ public class ClasspathResourceLoader extends ResourceLoader
      *         in  classpath.
      * @since 2.0
      */
-    public Reader getResourceReader( String name, String encoding )
+    @Override
+    public Reader getResourceReader(String name, String encoding )
             throws ResourceNotFoundException
     {
         Reader result = null;
@@ -109,7 +111,7 @@ public class ClasspathResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException ("No template name provided");
         }
 
-        /**
+        /*
          * look for resource in thread classloader first (e.g. WEB-INF\lib in
          * a servlet container) then fall back to the system classloader.
          */
@@ -149,6 +151,7 @@ public class ClasspathResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public boolean isSourceModified(Resource resource)
     {
         return false;
@@ -157,6 +160,7 @@ public class ClasspathResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public long getLastModified(Resource resource)
     {
         return 0;

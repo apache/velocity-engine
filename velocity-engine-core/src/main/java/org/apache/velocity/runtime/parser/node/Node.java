@@ -156,6 +156,7 @@ public interface Node extends Renderable
      * @throws ParseErrorException
      * @throws ResourceNotFoundException
      */
+    @Override
     boolean render(InternalContextAdapter context, Writer writer)
         throws IOException,MethodInvocationException, ParseErrorException, ResourceNotFoundException;
 

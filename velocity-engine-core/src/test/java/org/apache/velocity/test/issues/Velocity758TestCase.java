@@ -53,6 +53,7 @@ public class Velocity758TestCase extends BaseTestCase
 
     public static class Handler implements IncludeEventHandler
     {
+        @Override
         public String includeEvent(Context context, String parsePath, String parentPath, String directive)
         {
             if (parsePath == null)

@@ -388,16 +388,6 @@ public class RuntimeSingleton implements RuntimeConstants
      * Returns the appropriate VelocimacroProxy object if strVMname
      * is a valid current Velocimacro.
      *
-     * @param vmName Name of velocimacro requested
-     * @param templateName Name of the template that contains the velocimacro.
-     * @return The requested VelocimacroProxy.
-     * @see RuntimeInstance#getVelocimacro(String, String)
-     */
-
-    /**
-     * Returns the appropriate VelocimacroProxy object if strVMname
-     * is a valid current Velocimacro.
-     *
      * @param vmName  Name of velocimacro requested
      * @param renderingTemplate Template we are currently rendering. This
      *    information is needed when VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL setting is true

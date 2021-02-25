@@ -63,7 +63,6 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -148,14 +147,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * taken from the RUNTIME_DEFAULT_DIRECTIVES
      * property file.
      */
-    private Map runtimeDirectives = new Hashtable();
+    private Map<String, Directive> runtimeDirectives = new Hashtable<>();
     /**
      * Copy of the actual runtimeDirectives that is shared between
      * parsers. Whenever directives are updated, the synchronized
      * runtimeDirectives is first updated and then an unsynchronized
      * copy of it is passed to parsers.
      */
-    private Map runtimeDirectivesShared;
+    private Map<String, Directive> runtimeDirectivesShared;
 
     /**
      * Object that houses the configuration options for
@@ -194,14 +193,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Scope names for which to provide scope control objects in the context
      */
-    private Set<String> enabledScopeControls = new HashSet<String>();
+    private Set<String> enabledScopeControls = new HashSet<>();
 
     /**
      *  Opaque reference to something specified by the
      *  application for use in application supplied/specified
      *  pluggable components
      */
-    private Map applicationAttributes = null;
+    private Map<Object, Object> applicationAttributes = null;
 
     /**
      *  Uberspector
@@ -232,7 +231,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Configured parser class
      * @since 2.2
      */
-    private Constructor parserConstructor;
+    private Constructor<? extends Parser> parserConstructor;
 
     /**
      * Configured replacement characters in parser grammar
@@ -263,6 +262,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *   <li>Velocimacro System</li>
      * </ul>
      */
+    @Override
     public synchronized void init()
     {
         if (!initialized && !initializing)
@@ -331,7 +331,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         this.parserPool = null;
         this.enabledScopeControls.clear();
         this.resourceManager = null;
-        this.runtimeDirectives = new Hashtable();
+        this.runtimeDirectives = new Hashtable<>();
         this.runtimeDirectivesShared = null;
         this.uberSpect = null;
         this.stringInterning = false;
@@ -345,7 +345,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /*
          * and a store for the application attributes
          */
-        applicationAttributes = new HashMap();
+        applicationAttributes = new HashMap<>();
     }
 
     /**
@@ -353,6 +353,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return True if the RuntimeInstance has been successfully initialized.
      * @since 1.5
      */
+    @Override
     public boolean isInitialized()
     {
         return initialized;
@@ -551,6 +552,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param key property key
      * @param  value property value
      */
+    @Override
     public void setProperty(String key, Object value)
     {
         if (overridingProperties == null)
@@ -579,10 +581,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 + fileName + "'", e);
         }
 
-        Enumeration en = props.keys();
+        Enumeration<String> en = props.keys();
         while (en.hasMoreElements())
         {
-            String key = en.nextElement().toString();
+            String key = en.nextElement();
             setProperty(key, props.get(key));
         }
     }
@@ -609,7 +611,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param  configuration
      * @since 2.0
      */
-    public void setConfiguration( ExtProperties configuration)
+    @Override
+    public void setConfiguration(ExtProperties configuration)
     {
         if (overridingProperties == null)
         {
@@ -644,6 +647,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param  key
      * @param  value
      */
+    @Override
     public void addProperty(String key, Object value)
     {
         if (overridingProperties == null)
@@ -660,6 +664,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @param key of property to clear
      */
+    @Override
     public void clearProperty(String key)
     {
         if (overridingProperties != null)
@@ -676,11 +681,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  @param key property to return
      *  @return Value of the property or null if it does not exist.
      */
+    @Override
     public Object getProperty(String key)
     {
         Object o = null;
 
-        /**
+        /*
          * Before initialization, check the user-entered properties first.
          */
         if (!initialized && overridingProperties != null)
@@ -688,7 +694,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             o = overridingProperties.get(key);
         }
 
-        /**
+        /*
          * After initialization, configuration will hold all properties.
          */
         if (o == null)
@@ -719,12 +725,12 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          * Always lay down the default properties first as
          * to provide a solid base.
          */
-        if (configuration.isInitialized() == false)
+        if ( !configuration.isInitialized() )
         {
             setDefaultProperties();
         }
 
-        if( overridingProperties != null)
+        if( overridingProperties != null )
         {
             configuration.combine(overridingProperties);
         }
@@ -736,6 +742,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @param p Velocity properties for initialization
      */
+    @Override
     public void init(Properties p)
     {
         setConfiguration(ExtProperties.convertProperties(p));
@@ -748,6 +755,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @param configurationFile
      */
+    @Override
     public void init(String configurationFile)
     {
         setProperties(configurationFile);
@@ -841,7 +849,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         eventCartridge = new EventCartridge();
         eventCartridge.setRuntimeServices(this);
 
-        /**
+        /*
          * For each type of event handler, get the class name, instantiate it, and store it.
          */
 
@@ -894,7 +902,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
     }
 
-    private EventHandler initializeSpecificEventHandler(String classname, String paramName, Class EventHandlerInterface)
+    private EventHandler initializeSpecificEventHandler(String classname, String paramName, Class<?> EventHandlerInterface)
     {
         if ( classname != null && classname.length() > 0)
         {
@@ -1102,9 +1110,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param name name of the directive
      * @return the {@link Directive} for that name
      */
+    @Override
     public Directive getDirective(String name)
     {
-        return (Directive) runtimeDirectivesShared.get(name);
+        return runtimeDirectivesShared.get(name);
     }
 
     /**
@@ -1127,7 +1136,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void updateSharedDirectivesMap()
     {
-        runtimeDirectivesShared = new HashMap(runtimeDirectives);
+        runtimeDirectivesShared = new HashMap<>(runtimeDirectives);
     }
 
     /**
@@ -1176,10 +1185,10 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
          * later on in this method when parser creation is tester.
          */
         String parserClassName = getString(PARSER_CLASS, DEFAULT_PARSER_CLASS);
-        Class parserClass;
+        Class<? extends Parser> parserClass;
         try
         {
-            parserClass = ClassUtils.getClass(parserClassName);
+            parserClass = (Class<? extends Parser>)ClassUtils.getClass(parserClassName);
         }
         catch (ClassNotFoundException cnfe)
         {
@@ -1276,12 +1285,13 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @return Parser javacc generated parser
      */
+    @Override
     public Parser createNewParser()
     {
         requireInitialization();
         try
         {
-            return (Parser)parserConstructor.newInstance((RuntimeServices)this);
+            return parserConstructor.newInstance(this);
         }
         catch (IllegalAccessException | InstantiationException | InvocationTargetException e)
         {
@@ -1306,6 +1316,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return A root node representing the template as an AST tree.
      * @throws ParseException When the template could not be parsed.
      */
+    @Override
     public SimpleNode parse(Reader reader, Template template)
         throws ParseException
     {
@@ -1377,7 +1388,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
      * @since Velocity 1.6
      */
-    public boolean evaluate(Context context,  Writer out,
+    @Override
+    public boolean evaluate(Context context, Writer out,
                             String logTag, String instring)
     {
         return evaluate(context, out, logTag, new StringReader(instring));
@@ -1404,6 +1416,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws ResourceNotFoundException A referenced resource could not be loaded.
      * @since Velocity 1.6
      */
+    @Override
     public boolean evaluate(Context context, Writer writer,
                             String logTag, Reader reader)
     {
@@ -1477,7 +1490,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             {
                 throw new ParseErrorException(pex, null);
             }
-            /**
+            /*
              * pass through application level runtime exceptions
              */
             catch(RuntimeException e)
@@ -1498,7 +1511,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                     Object previous = ica.get(evaluateScopeName);
                     context.put(evaluateScopeName, new Scope(this, previous));
                 }
-                /**
+                /*
                  * optionally put the context in itself if asked so
                  */
                 String self = getString(CONTEXT_AUTOREFERENCE_KEY);
@@ -1568,6 +1581,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return true if Velocimacro exists and successfully invoked, false otherwise.
      * @since 1.6
      */
+    @Override
     public boolean invokeVelocimacro(final String vmName, String logTag,
                                      String[] params, final Context context,
                                      final Writer writer)
@@ -1635,6 +1649,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      */
+    @Override
     public Template getTemplate(String name)
         throws ResourceNotFoundException, ParseErrorException
     {
@@ -1652,6 +1667,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      */
+    @Override
     public Template getTemplate(String name, String  encoding)
         throws ResourceNotFoundException, ParseErrorException
     {
@@ -1673,6 +1689,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *          from any available source.
      * @throws ParseErrorException When the template could not be parsed.
      */
+    @Override
     public ContentResource getContent(String name)
         throws ResourceNotFoundException, ParseErrorException
     {
@@ -1695,6 +1712,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *          from any available source.
      * @throws ParseErrorException When the template could not be parsed.
      */
+    @Override
     public ContentResource getContent(String name, String encoding)
         throws ResourceNotFoundException, ParseErrorException
     {
@@ -1715,6 +1733,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  @param resourceName Name of template or content resource
      *  @return class name of loader than can provide it
      */
+    @Override
     public String getLoaderNameForResource(String resourceName)
     {
         requireInitialization();
@@ -1728,6 +1747,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return A Logger instance
      * @since 1.5
      */
+    @Override
     public Logger getLog()
     {
         return log;
@@ -1740,6 +1760,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param childNamespace
      * @return child namespace logger
      */
+    @Override
     public Logger getLog(String childNamespace)
     {
         Logger log = (Logger)getProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE);
@@ -1756,6 +1777,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return LogContext object
      * @since 2.2
      */
+    @Override
     public LogContext getLogContext()
     {
         return logContext;
@@ -1770,7 +1792,8 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *               found in resource manager.
      * @return value of key or default
      */
-    public String getString( String key, String defaultValue)
+    @Override
+    public String getString(String key, String defaultValue)
     {
         return configuration.getString(key, defaultValue);
     }
@@ -1787,6 +1810,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @return VelocimacroProxy
      */
+    @Override
     public Directive getVelocimacro(String vmName, Template renderingTemplate, Template template)
     {
         return vmFactory.getVelocimacro(vmName, renderingTemplate, template);
@@ -1804,10 +1828,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return boolean  True if added, false if rejected for some
      *                  reason (either parameters or permission settings)
      */
-    public boolean addVelocimacro( String name,
-                                   Node macro,
-                                   List<Macro.MacroArg> macroArgs,
-                                   Template definingTemplate)
+    @Override
+    public boolean addVelocimacro(String name,
+                                  Node macro,
+                                  List<Macro.MacroArg> macroArgs,
+                                  Template definingTemplate)
     {
         return vmFactory.addVelocimacro(stringInterning ? name.intern() : name, macro, macroArgs, definingTemplate);
     }
@@ -1819,6 +1844,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param template Template on which to look for the Macro.
      * @return True if VM by that name exists, false if not
      */
+    @Override
     public boolean isVelocimacro(String vmName, Template template)
     {
         return vmFactory.isVelocimacro(stringInterning ? vmName.intern() : vmName, template);
@@ -1841,6 +1867,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param key  property key
      * @return   value of key or null
      */
+    @Override
     public String getString(String key)
     {
         return StringUtils.trim(configuration.getString(key));
@@ -1852,6 +1879,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param key Property key
      * @return value
      */
+    @Override
     public int getInt(String key)
     {
         return configuration.getInt(key);
@@ -1864,6 +1892,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param defaultValue The default value.
      * @return value
      */
+    @Override
     public int getInt(String key, int defaultValue)
     {
         return configuration.getInt(key, defaultValue);
@@ -1876,6 +1905,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param def The default value if property not found.
      * @return value of key or default value
      */
+    @Override
     public boolean getBoolean(String key, boolean def)
     {
         return configuration.getBoolean(key, def);
@@ -1887,6 +1917,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return Configuration object which houses the Velocity runtime
      * properties.
      */
+    @Override
     public ExtProperties getConfiguration()
     {
         return configuration;
@@ -1897,6 +1928,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return The event handlers for the application.
      * @since 1.5
      */
+    @Override
     public EventCartridge getApplicationEventCartridge()
     {
         return eventCartridge;
@@ -1909,6 +1941,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param key
      * @return The application attribute for the given key.
      */
+    @Override
     public Object getApplicationAttribute(Object key)
     {
         return applicationAttributes.get(key);
@@ -1921,6 +1954,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @param o The new application attribute.
      * @return The old value of this attribute or null if it hasn't been set before.
      */
+    @Override
     public Object setApplicationAttribute(Object key, Object o)
     {
         return applicationAttributes.put(key, o);
@@ -1931,6 +1965,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @return The Uberspect object for this Instance.
      */
+    @Override
     public Uberspect getUberspect()
     {
         return uberSpect;
@@ -1941,6 +1976,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *
      * @return boolean
      */
+    @Override
     public boolean useStringInterning()
     {
         return stringInterning;
@@ -1950,6 +1986,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * get space gobbling mode
      * @return indentation mode
      */
+    @Override
     public SpaceGobbling getSpaceGobbling()
     {
         return spaceGobbling;
@@ -1959,6 +1996,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * get whether hyphens are allowed in identifiers
      * @return configured boolean flag
      */
+    @Override
     public boolean isHyphenAllowedInIdentifiers()
     {
         return hyphenAllowedInIdentifiers;
@@ -1970,6 +2008,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * @return scope control enabled
      * @since 2.1
      */
+    @Override
     public boolean isScopeControlEnabled(String scopeName)
     {
         return enabledScopeControls.contains(scopeName);

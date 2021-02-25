@@ -48,6 +48,7 @@ public class MethodInvocationExceptionTestCase extends TestCase
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {

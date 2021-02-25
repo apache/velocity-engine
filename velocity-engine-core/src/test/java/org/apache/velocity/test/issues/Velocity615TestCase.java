@@ -31,6 +31,7 @@ public class Velocity615TestCase extends BaseTestCase
        super(name);
     }
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();

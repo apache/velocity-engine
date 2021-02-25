@@ -29,6 +29,7 @@ package org.apache.velocity.test.provider;
  */
 public class Child extends Person
 {
+    @Override
     public String getName()
     {
         return "Child";

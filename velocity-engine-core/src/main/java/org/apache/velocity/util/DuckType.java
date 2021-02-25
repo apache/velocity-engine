@@ -23,7 +23,6 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,19 +47,19 @@ public class DuckType
         SIZE("size");
 
         final String name;
-        final Map<Class,Object> cache = new HashMap();
+        final Map<Class<?>, Object> cache = new HashMap<>();
 
         Types(String name)
         {
             this.name = name;
         }
 
-        void set(Class c, Object o)
+        void set(Class<?> c, Object o)
         {
             cache.put(c, o);
         }
 
-        Object get(Class c)
+        Object get(Class<?> c)
         {
             return cache.get(c);
         }
@@ -250,7 +249,7 @@ public class DuckType
         try
         {
             // check cache
-            Class c = value.getClass();
+            Class<?> c = value.getClass();
             Object cached = type.get(c);
             if (cached == NO_METHOD)
             {
@@ -280,7 +279,7 @@ public class DuckType
         }
     }
 
-    protected static Method findMethod(Class c, Types type)
+    protected static Method findMethod(Class<?> c, Types type)
     {
         if (c == null || c == Object.class)
         {
@@ -291,7 +290,7 @@ public class DuckType
         {
             return m;
         }
-        for (Class i : c.getInterfaces())
+        for (Class<?> i : c.getInterfaces())
         {
             m = findMethod(i, type);
             if (m != null)
@@ -307,7 +306,7 @@ public class DuckType
         return null;
     }
 
-    private static Method getMethod(Class c, String name)
+    private static Method getMethod(Class<?> c, String name)
     {
         if (Modifier.isPublic(c.getModifiers()))
         {

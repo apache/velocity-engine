@@ -20,7 +20,6 @@ package org.apache.velocity.util.introspection;
  */
 
 import org.apache.commons.lang3.reflect.TypeUtils;
-import org.apache.velocity.exception.VelocityException;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -79,7 +78,7 @@ public class MethodMap
     /**
      * Keep track of all methods with the same name.
      */
-    Map methodByNameMap = new ConcurrentHashMap();
+    Map<String, List<Method>> methodByNameMap = new ConcurrentHashMap<>();
 
     /**
      * Add a method to a list of methods by name.
@@ -91,11 +90,11 @@ public class MethodMap
     {
         String methodName = method.getName();
 
-        List l = get( methodName );
+        List<Method> l = get( methodName );
 
         if ( l == null)
         {
-            l = new ArrayList();
+            l = new ArrayList<>();
             methodByNameMap.put(methodName, l);
         }
 
@@ -108,9 +107,9 @@ public class MethodMap
      * @param key
      * @return List list of methods
      */
-    public List get(String key)
+    public List<Method> get(String key)
     {
-        return (List) methodByNameMap.get(key);
+        return methodByNameMap.get(key);
     }
 
     /**
@@ -144,7 +143,7 @@ public class MethodMap
     public Method find(String methodName, Object[] args)
         throws AmbiguousException
     {
-        List methodList = get(methodName);
+        List<Method> methodList = get(methodName);
 
         if (methodList == null)
         {
@@ -152,7 +151,7 @@ public class MethodMap
         }
 
         int l = args.length;
-        Class[] classes = new Class[l];
+        Class<?>[] classes = new Class[l];
 
         for(int i = 0; i < l; ++i)
         {
@@ -188,7 +187,7 @@ public class MethodMap
         /* whether the method has varrags */
         boolean varargs;
 
-        Match(Method method, int applicability, Class[] unboxedArgs)
+        Match(Method method, int applicability, Class<?>[] unboxedArgs)
         {
             this.method = method;
             this.applicability = applicability;
@@ -198,19 +197,19 @@ public class MethodMap
         }
     }
 
-    private static boolean onlyNullOrObjects(Class[] args)
+    private static boolean onlyNullOrObjects(Class<?>[] args)
     {
-        for (Class cls : args)
+        for (Class<?> cls : args)
         {
             if (cls != null && cls != Object.class) return false;
         }
         return args.length > 0;
     }
 
-    private Method getBestMatch(List<Method> methods, Class[] args)
+    private Method getBestMatch(List<Method> methods, Class<?>[] args)
     {
-        List<Match> bestMatches = new LinkedList<Match>();
-        Class[] unboxedArgs = new Class[args.length];
+        List<Match> bestMatches = new LinkedList<>();
+        Class<?>[] unboxedArgs = new Class<?>[args.length];
         for (int i = 0; i < args.length; ++i)
         {
             unboxedArgs[i] = IntrospectionUtils.getUnboxedClass(args[i]);
@@ -415,8 +414,8 @@ public class MethodMap
         int fromC2toC1 = STRICTLY_CONVERTIBLE;
         for(int i = 0; i < t1.length; ++i)
         {
-            Class c1 = t1[i] == null ? null : IntrospectionUtils.getTypeClass(t1[i]);
-            Class c2 = t2[i] == null ? null : IntrospectionUtils.getTypeClass(t2[i]);
+            Class<?> c1 = t1[i] == null ? null : IntrospectionUtils.getTypeClass(t1[i]);
+            Class<?> c2 = t2[i] == null ? null : IntrospectionUtils.getTypeClass(t2[i]);
             boolean last = !fixedLengths && (i == t1.length - 1);
             if (t1[i] == null && t2[i] != null || t1[i] != null && t2[i] == null || !t1[i].equals(t2[i]))
             {
@@ -532,7 +531,7 @@ public class MethodMap
      *         2 = implicitly applicable (i.e. using JAva implicit boxing/unboxing and primitive types widening)
      *         3 = strictly applicable
      */
-    private int getApplicability(Method method, Class[] classes)
+    private int getApplicability(Method method, Class<?>[] classes)
     {
         Type[] methodArgs = method.getGenericParameterTypes();
         int ret = STRICTLY_CONVERTIBLE;
@@ -656,7 +655,7 @@ public class MethodMap
      * @param possibleVarArg
      * @return convertible
      */
-    private boolean isConvertible(Type formal, Class actual, boolean possibleVarArg)
+    private boolean isConvertible(Type formal, Class<?> actual, boolean possibleVarArg)
     {
         return IntrospectionUtils.
             isMethodInvocationConvertible(formal, actual, possibleVarArg);
@@ -671,7 +670,7 @@ public class MethodMap
      * @param possibleVarArg
      * @return convertible
      */
-    private static boolean isStrictConvertible(Type formal, Class actual, boolean possibleVarArg)
+    private static boolean isStrictConvertible(Type formal, Class<?> actual, boolean possibleVarArg)
     {
         return IntrospectionUtils.
             isStrictMethodInvocationConvertible(formal, actual, possibleVarArg);
@@ -685,7 +684,7 @@ public class MethodMap
      * @param possibleVarArg
      * @return
      */
-    private boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
+    private boolean isExplicitlyConvertible(Type formal, Class<?> actual, boolean possibleVarArg)
     {
         return conversionHandler != null && conversionHandler.isExplicitlyConvertible(formal, actual, possibleVarArg);
     }

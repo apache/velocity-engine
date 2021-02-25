@@ -58,6 +58,7 @@ public class IncludeErrorTestCase extends BaseTestCase implements TemplateTestBa
         return new TestSuite(IncludeErrorTestCase.class);
     }
 
+    @Override
     public void setUp() throws Exception
     {
         ve = new VelocityEngine();

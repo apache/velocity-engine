@@ -45,6 +45,7 @@ public class SecureUberspector extends UberspectImpl
      *  makes sure that the log gets set before this is called,
      *  we can initialize the Introspector using the log object.
      */
+    @Override
     public void init()
     {
         String [] badPackages = rsvc.getConfiguration()
@@ -64,6 +65,7 @@ public class SecureUberspector extends UberspectImpl
      * @param i line, column, template info
      * @return Iterator for object
      */
+    @Override
     public Iterator getIterator(Object obj, Info i)
     {
         if (obj != null)

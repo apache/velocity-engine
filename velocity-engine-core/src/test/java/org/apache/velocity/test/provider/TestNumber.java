@@ -37,6 +37,7 @@ public class TestNumber implements TemplateNumber
        n = val;
    }
 
+   @Override
    public Number getAsNumber()
    {
        return n;

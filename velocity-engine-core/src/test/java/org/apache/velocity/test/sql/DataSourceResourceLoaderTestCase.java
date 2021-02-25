@@ -83,6 +83,7 @@ public class DataSourceResourceLoaderTestCase
         return new TestSuite(DataSourceResourceLoaderTestCase.class);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {

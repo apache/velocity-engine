@@ -51,6 +51,7 @@ public class EnumerationIterator implements Iterator
      *
      * @return The next object in the array.
      */
+    @Override
     public Object next()
     {
         return enumeration.nextElement();
@@ -61,6 +62,7 @@ public class EnumerationIterator implements Iterator
      *
      * @return Whether there is another element.
      */
+    @Override
     public boolean hasNext()
     {
         return enumeration.hasMoreElements();
@@ -69,6 +71,7 @@ public class EnumerationIterator implements Iterator
     /**
      *  Unimplemented.  No analogy in Enumeration
      */
+    @Override
     public void remove()
     {
         // not implemented

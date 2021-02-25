@@ -79,6 +79,7 @@ public class MultiLoaderTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {

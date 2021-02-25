@@ -30,7 +30,8 @@ import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -140,14 +141,14 @@ public class JarHolder
     /**
      * @return The entries of the jar as a hashtable.
      */
-    public Hashtable getEntries()
+    public Map<String, String> getEntries()
     {
-        Hashtable allEntries = new Hashtable(559);
+        Map<String, String> allEntries = new HashMap<>(559);
 
-        Enumeration all  = theJar.entries();
+        Enumeration<JarEntry> all  = theJar.entries();
         while ( all.hasMoreElements() )
         {
-            JarEntry je = (JarEntry)all.nextElement();
+            JarEntry je = all.nextElement();
 
             // We don't map plain directory entries
             if ( !je.isDirectory() )

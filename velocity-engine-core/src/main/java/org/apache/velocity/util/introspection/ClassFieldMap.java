@@ -51,19 +51,19 @@ public class ClassFieldMap
      * Class passed into the constructor used to as
      * the basis for the Field map.
      */
-    private final Class clazz;
+    private final Class<?> clazz;
 
     /**
      * String --&gt; Field map, the key is the field name
      */
-    private final Map fieldCache;
+    private final Map<String, Field> fieldCache;
 
     /**
      * Standard constructor
      * @param clazz The class for which this ClassMap gets constructed.
      * @param log logger
      */
-    public ClassFieldMap(final Class clazz, final Logger log)
+    public ClassFieldMap(final Class<?> clazz, final Logger log)
     {
         this.clazz = clazz;
         this.log = log;
@@ -87,7 +87,7 @@ public class ClassFieldMap
      *
      * @return The class object whose fields are cached by this map.
      */
-    public Class getCachedClass()
+    public Class<?> getCachedClass()
     {
         return clazz;
     }
@@ -100,7 +100,7 @@ public class ClassFieldMap
      */
     public Field findField(final String name)
     {
-        return (Field)fieldCache.get(name);
+        return fieldCache.get(name);
     }
 
     /**
@@ -108,23 +108,23 @@ public class ClassFieldMap
      * are taken from all the public fields
      * that our class, its parents and their implemented interfaces provide.
      */
-    private Map createFieldCache()
+    private Map<String, Field> createFieldCache()
     {
-        Map fieldCache = new ConcurrentHashMap();
+        Map<String, Field> fieldCache = new ConcurrentHashMap<>();
 	//
 	// Looks through all elements in the class hierarchy.
 	//
 	// We ignore all SecurityExceptions that might happen due to SecurityManager restrictions (prominently
 	// hit with Tomcat 5.5).
         // Ah, the miracles of Java for(;;) ...
-        for (Class classToReflect = getCachedClass(); classToReflect != null ; classToReflect = classToReflect.getSuperclass())
+        for (Class<?> classToReflect = getCachedClass(); classToReflect != null ; classToReflect = classToReflect.getSuperclass())
         {
             if (Modifier.isPublic(classToReflect.getModifiers()))
             {
                 populateFieldCacheWith(fieldCache, classToReflect);
             }
-            Class [] interfaces = classToReflect.getInterfaces();
-            for (Class anInterface : interfaces)
+            Class<?> [] interfaces = classToReflect.getInterfaces();
+            for (Class<?> anInterface : interfaces)
             {
                 populateFieldCacheWithInterface(fieldCache, anInterface);
             }
@@ -134,20 +134,20 @@ public class ClassFieldMap
     }
 
     /* recurses up interface hierarchy to get all super interfaces (VELOCITY-689) */
-    private void populateFieldCacheWithInterface(Map fieldCache, Class iface)
+    private void populateFieldCacheWithInterface(Map<String, Field> fieldCache, Class<?> iface)
     {
         if (Modifier.isPublic(iface.getModifiers()))
         {
             populateFieldCacheWith(fieldCache, iface);
         }
-        Class[] supers = iface.getInterfaces();
-        for (Class aSuper : supers)
+        Class<?>[] supers = iface.getInterfaces();
+        for (Class<?> aSuper : supers)
         {
             populateFieldCacheWithInterface(fieldCache, aSuper);
         }
     }
 
-    private void populateFieldCacheWith(Map fieldCache, Class classToReflect)
+    private void populateFieldCacheWith(Map<String, Field> fieldCache, Class<?> classToReflect)
     {
         if (debugReflection)
         {

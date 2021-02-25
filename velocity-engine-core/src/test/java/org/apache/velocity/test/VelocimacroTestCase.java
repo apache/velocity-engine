@@ -48,6 +48,7 @@ public class VelocimacroTestCase extends TestCase
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {

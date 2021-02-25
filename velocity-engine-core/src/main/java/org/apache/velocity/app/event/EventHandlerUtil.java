@@ -94,7 +94,7 @@ public class EventHandlerUtil {
      *             to be wrapped and propagated to app
      */
     public static Object methodException(RuntimeServices rsvc,
-            InternalContextAdapter context, Class claz, String method,
+            InternalContextAdapter context, Class<?> claz, String method,
             Exception e, Info info) throws Exception
     {
         try

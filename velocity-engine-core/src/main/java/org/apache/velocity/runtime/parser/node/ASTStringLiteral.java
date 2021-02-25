@@ -74,6 +74,7 @@ public class ASTStringLiteral extends SimpleNode
      * @return Init result.
      * @throws TemplateInitException
      */
+    @Override
     public Object init(InternalContextAdapter context, Object data)
             throws TemplateInitException
     {
@@ -280,6 +281,7 @@ public class ASTStringLiteral extends SimpleNode
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor,
      *      java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -303,6 +305,7 @@ public class ASTStringLiteral extends SimpleNode
      * @param context
      * @return result of the rendering.
      */
+    @Override
     public Object value(InternalContextAdapter context)
     {
         if (interpolate)
@@ -323,7 +326,7 @@ public class ASTStringLiteral extends SimpleNode
                 return writer.toString();
             }
 
-            /**
+            /*
              * pass through application level runtime exceptions
              */
             catch (RuntimeException e)
@@ -351,7 +354,8 @@ public class ASTStringLiteral extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
      */
-    public boolean evaluate( InternalContextAdapter context)
+    @Override
+    public boolean evaluate(InternalContextAdapter context)
     {
         String str = (String)value(context);
         return str != null && (!rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true) || !str.isEmpty());

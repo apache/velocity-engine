@@ -47,7 +47,7 @@ public class SetPropertyExecutor
      * @param arg
      */
     public SetPropertyExecutor(final Logger log, final Introspector introspector,
-            final Class clazz, final String property, final Object arg)
+            final Class<?> clazz, final String property, final Object arg)
     {
         this.log = log;
         this.introspector = introspector;
@@ -74,7 +74,7 @@ public class SetPropertyExecutor
      * @param property
      * @param arg
      */
-    protected void discover(final Class clazz, final String property, final Object arg)
+    protected void discover(final Class<?> clazz, final String property, final Object arg)
     {
         Object [] params = new Object [] { arg };
 
@@ -105,7 +105,7 @@ public class SetPropertyExecutor
                 setMethod(introspector.getMethod(clazz, sb.toString(), params));
             }
         }
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )
@@ -128,6 +128,7 @@ public class SetPropertyExecutor
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
+    @Override
     public Object execute(final Object o, final Object value)
         throws IllegalAccessException,  InvocationTargetException
     {

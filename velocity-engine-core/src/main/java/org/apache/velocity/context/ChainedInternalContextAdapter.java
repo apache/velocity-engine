@@ -19,6 +19,7 @@ package org.apache.velocity.context;
  * under the License.
  */
 
+import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -57,6 +58,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      * Return the inner / user context.
      * @return The inner / user context.
      */
+    @Override
     public Context getInternalUserContext()
     {
         return wrappedContext.getInternalUserContext();
@@ -65,6 +67,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalWrapperContext#getBaseContext()
      */
+    @Override
     public InternalContextAdapter getBaseContext()
     {
         return wrappedContext.getBaseContext();
@@ -76,6 +79,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      * @param key name of item to get
      * @return  stored object or null
      */
+    @Override
     public Object get(String key)
     {
         return wrappedContext.get(key);
@@ -88,6 +92,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
      * @param value object to set to key
      * @return old stored object
      */
+    @Override
     public Object put(String key, Object value)
     {
         /*
@@ -99,6 +104,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.Context#containsKey(java.lang.String)
      */
+    @Override
     public boolean containsKey(String key)
     {
         return wrappedContext.containsKey(key);
@@ -107,6 +113,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.Context#getKeys()
      */
+    @Override
     public String[] getKeys()
     {
         return wrappedContext.getKeys();
@@ -115,6 +122,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.Context#remove(java.lang.String)
      */
+    @Override
     public Object remove(String key)
     {
         return wrappedContext.remove(key);
@@ -123,6 +131,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentTemplateName(java.lang.String)
      */
+    @Override
     public void pushCurrentTemplateName(String s)
     {
         wrappedContext.pushCurrentTemplateName(s);
@@ -131,6 +140,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentTemplateName()
      */
+    @Override
     public void popCurrentTemplateName()
     {
         wrappedContext.popCurrentTemplateName();
@@ -139,6 +149,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentTemplateName()
      */
+    @Override
     public String getCurrentTemplateName()
     {
         return wrappedContext.getCurrentTemplateName();
@@ -147,6 +158,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getTemplateNameStack()
      */
+    @Override
     public String[] getTemplateNameStack()
     {
         return wrappedContext.getTemplateNameStack();
@@ -155,6 +167,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentMacroName(java.lang.String)
      */
+    @Override
     public void pushCurrentMacroName(String s)
     {
         wrappedContext.pushCurrentMacroName(s);
@@ -163,6 +176,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentMacroName()
      */
+    @Override
     public void popCurrentMacroName()
     {
         wrappedContext.popCurrentMacroName();
@@ -171,6 +185,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroName()
      */
+    @Override
     public String getCurrentMacroName()
     {
         return wrappedContext.getCurrentMacroName();
@@ -179,6 +194,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroCallDepth()
      */
+    @Override
     public int getCurrentMacroCallDepth()
     {
         return wrappedContext.getCurrentMacroCallDepth();
@@ -187,6 +203,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
      */
+    @Override
     public String[] getMacroNameStack()
     {
         return wrappedContext.getMacroNameStack();
@@ -195,6 +212,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#icacheGet(java.lang.Object)
      */
+    @Override
     public IntrospectionCacheData icacheGet(Object key)
     {
         return wrappedContext.icacheGet(key);
@@ -203,6 +221,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#icachePut(java.lang.Object, org.apache.velocity.util.introspection.IntrospectionCacheData)
      */
+    @Override
     public void icachePut(Object key, IntrospectionCacheData o)
     {
         wrappedContext.icachePut(key, o);
@@ -211,7 +230,8 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      */
-    public void setMacroLibraries(List macroLibraries)
+    @Override
+    public void setMacroLibraries(List<Template> macroLibraries)
     {
         wrappedContext.setMacroLibraries(macroLibraries);
     }
@@ -219,7 +239,8 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
      */
-    public List getMacroLibraries()
+    @Override
+    public List<Template> getMacroLibraries()
     {
         return wrappedContext.getMacroLibraries();
     }
@@ -227,6 +248,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
      */
+    @Override
     public EventCartridge attachEventCartridge(EventCartridge ec)
     {
         return wrappedContext.attachEventCartridge(ec);
@@ -235,6 +257,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalEventContext#getEventCartridge()
      */
+    @Override
     public EventCartridge getEventCartridge()
     {
         return wrappedContext.getEventCartridge();
@@ -244,6 +267,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setCurrentResource(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public void setCurrentResource(Resource r)
     {
         wrappedContext.setCurrentResource(r);
@@ -252,6 +276,7 @@ public abstract class ChainedInternalContextAdapter implements InternalContextAd
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentResource()
      */
+    @Override
     public Resource getCurrentResource()
     {
         return wrappedContext.getCurrentResource();

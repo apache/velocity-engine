@@ -64,12 +64,13 @@ public class FileResourceLoader extends ResourceLoader
      * times of the files. This is synchronizedMap
      * instance.
      */
-    private Map templatePaths = Collections.synchronizedMap(new HashMap());
+    private Map<String, String> templatePaths = Collections.synchronizedMap(new HashMap<>());
 
     /**
      * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
-    public void init( ExtProperties configuration)
+    @Override
+    public void init(ExtProperties configuration)
     {
         log.trace("FileResourceLoader: initialization starting.");
 
@@ -95,6 +96,7 @@ public class FileResourceLoader extends ResourceLoader
      *         in the file template path.
      * @since 2.0
      */
+    @Override
     public Reader getResourceReader(String templateName, String encoding)
             throws ResourceNotFoundException
     {
@@ -169,6 +171,7 @@ public class FileResourceLoader extends ResourceLoader
      * Overrides superclass for better performance.
      * @since 1.6
      */
+    @Override
     public boolean resourceExists(String name)
     {
         if (name == null)
@@ -268,6 +271,7 @@ public class FileResourceLoader extends ResourceLoader
      * @param resource
      * @return True if the source has been modified.
      */
+    @Override
     public boolean isSourceModified(Resource resource)
     {
         /*
@@ -278,7 +282,7 @@ public class FileResourceLoader extends ResourceLoader
         boolean modified = true;
 
         String fileName = resource.getName();
-        String path = (String) templatePaths.get(fileName);
+        String path = templatePaths.get(fileName);
         File currentFile = null;
 
         for (int i = 0; currentFile == null && i < paths.size(); i++)
@@ -322,9 +326,10 @@ public class FileResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public long getLastModified(Resource resource)
     {
-        String path = (String) templatePaths.get(resource.getName());
+        String path = templatePaths.get(resource.getName());
         File file = getFile(path, resource.getName());
 
         if (file.canRead())

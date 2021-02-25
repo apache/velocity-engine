@@ -45,6 +45,7 @@ public class Break extends Directive
      * Return name of this directive.
      * @return The name of this directive.
      */
+    @Override
     public String getName()
     {
         return "break";
@@ -54,6 +55,7 @@ public class Break extends Directive
      * Return type of this directive.
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return LINE;
@@ -63,6 +65,7 @@ public class Break extends Directive
      * Since there is no processing of content,
      * there is never a need for an internal scope.
      */
+    @Override
     public boolean isScopeProvided()
     {
         return false;
@@ -82,6 +85,7 @@ public class Break extends Directive
      * its content.
      * @return never, always throws a StopCommand or Exception
      */
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
     {
         if (!scoped)
@@ -108,7 +112,8 @@ public class Break extends Directive
     /**
      * Called by the parser to validate the argument types
      */
-    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+    @Override
+    public void checkArgs(ArrayList<Integer> argtypes, Token t, String templateName)
         throws ParseException
     {
         if (argtypes.size() > 1)

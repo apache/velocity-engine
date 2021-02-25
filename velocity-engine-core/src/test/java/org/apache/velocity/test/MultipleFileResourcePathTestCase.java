@@ -76,6 +76,7 @@ public class MultipleFileResourcePathTestCase extends BaseTestCase
         return new TestSuite(MultipleFileResourcePathTestCase.class);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {

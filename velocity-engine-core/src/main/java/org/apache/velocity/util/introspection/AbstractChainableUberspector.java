@@ -40,6 +40,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      * @see ChainableUberspector#wrap(org.apache.velocity.util.introspection.Uberspect)
      * @see #inner
      */
+    @Override
     public void wrap(Uberspect inner)
     {
         this.inner = inner;
@@ -51,6 +52,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      * @see org.apache.velocity.util.introspection.Uberspect#init()
      */
     //@Override
+    @Override
     public void init()
     {
         if (this.inner != null) {
@@ -71,6 +73,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      */
     //@SuppressWarnings("unchecked")
     //@Override
+    @Override
     public Iterator getIterator(Object obj, Info i)
     {
         return (this.inner != null) ? this.inner.getIterator(obj, i) : null;
@@ -83,6 +86,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      *      java.lang.Object[], org.apache.velocity.util.introspection.Info)
      */
     //@Override
+    @Override
     public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
     {
         return (this.inner != null) ? this.inner.getMethod(obj, methodName, args, i) : null;
@@ -95,6 +99,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      *      org.apache.velocity.util.introspection.Info)
      */
     //@Override
+    @Override
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
     {
         return (this.inner != null) ? this.inner.getPropertyGet(obj, identifier, i) : null;
@@ -107,6 +112,7 @@ public abstract class AbstractChainableUberspector extends UberspectImpl impleme
      *      java.lang.Object, org.apache.velocity.util.introspection.Info)
      */
     //@Override
+    @Override
     public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
     {
         return (this.inner != null) ? this.inner.getPropertySet(obj, identifier, arg, i) : null;

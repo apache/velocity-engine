@@ -39,7 +39,7 @@ import org.springframework.util.StringUtils;
  * Factory that configures a VelocityEngine. Can be used standalone,
  * but typically you will either use {@link VelocityEngineFactoryBean}
  * for preparing a VelocityEngine as bean reference, or
- * {@link org.springframework.web.servlet.view.velocity.VelocityConfigurer}
+ * <a href="https://docs.spring.io/spring-framework/docs/4.3.29.RELEASE/javadoc-api/org/springframework/web/servlet/view/velocity/VelocityConfigurer.html">org.springframework.web.servlet.view.velocity.VelocityConfigurer</a>
  * for web views.
  *
  * <p>The optional "configLocation" property sets the location of the Velocity

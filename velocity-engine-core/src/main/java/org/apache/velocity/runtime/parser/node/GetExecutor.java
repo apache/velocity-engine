@@ -51,7 +51,7 @@ public class GetExecutor extends AbstractExecutor
      * @since 1.5
      */
     public GetExecutor(final Logger log, final Introspector introspector,
-            final Class clazz, final String property)
+            final Class<?> clazz, final String property)
     {
         this.log = log;
         this.introspector = introspector;
@@ -74,7 +74,7 @@ public class GetExecutor extends AbstractExecutor
      * @param clazz
      * @since 1.5
      */
-    protected void discover(final Class clazz)
+    protected void discover(final Class<?> clazz)
     {
         try
         {
@@ -91,7 +91,7 @@ public class GetExecutor extends AbstractExecutor
                 }
             }
         }
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )
@@ -111,6 +111,7 @@ public class GetExecutor extends AbstractExecutor
      * @return value
      * @see org.apache.velocity.runtime.parser.node.AbstractExecutor#execute(java.lang.Object)
      */
+    @Override
     public Object execute(final Object o)
         throws IllegalAccessException,  InvocationTargetException
     {

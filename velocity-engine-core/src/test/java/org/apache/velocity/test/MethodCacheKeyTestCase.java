@@ -20,7 +20,6 @@ package org.apache.velocity.test;
  */
 
 import junit.framework.TestCase;
-import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.velocity.runtime.parser.node.ASTMethod;
 
@@ -55,7 +54,7 @@ public class MethodCacheKeyTestCase extends TestCase
 
         assertFalse(mck1.equals(mck4));
 
-        /** check for potential NPE's **/
+        /* check for potential NPE's */
         Class [] elements5 = ArrayUtils.EMPTY_CLASS_ARRAY;
         ASTMethod.MethodCacheKey mck5 = new ASTMethod.MethodCacheKey("boo",elements5, false);
         selfEqualsAssertions(mck5);

@@ -39,6 +39,7 @@ public class Handler1
         /**
          * display output twice, once uppercase and once lowercase
          */
+        @Override
         public Object referenceInsert(Context context, String reference, Object value)
         {
             if (value == null)
@@ -50,7 +51,8 @@ public class Handler1
         /**
          * throw the exception
          */
-        public Object methodException(Context context, Class claz, String method, Exception e, Info info)
+        @Override
+        public Object methodException(Context context, Class<?> claz, String method, Exception e, Info info)
         {
             throw new RuntimeException(e);
         }
@@ -58,6 +60,7 @@ public class Handler1
         /*
          * redirect all requests to a page "login.vm" (simulates access control).
          */
+        @Override
         public String includeEvent(
             Context context,
             String includeResourcePath,

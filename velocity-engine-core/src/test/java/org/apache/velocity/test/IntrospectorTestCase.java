@@ -44,6 +44,7 @@ public class IntrospectorTestCase extends BaseTestCase
 
     private Introspector introspector;
 
+    @Override
     public void setUp()
     {
         mp = new MethodProvider();

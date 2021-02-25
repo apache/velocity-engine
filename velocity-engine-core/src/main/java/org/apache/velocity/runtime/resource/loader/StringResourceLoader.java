@@ -152,8 +152,8 @@ public class StringResourceLoader extends ResourceLoader
     /** Key to look up the repository char encoding. */
     public static final String REPOSITORY_ENCODING = "repository.encoding";
 
-    protected static final Map STATIC_REPOSITORIES =
-        Collections.synchronizedMap(new HashMap());
+    protected static final Map<String, StringResourceRepository> STATIC_REPOSITORIES =
+        Collections.synchronizedMap(new HashMap<>());
 
     /**
      * Returns a reference to the default static repository.
@@ -220,6 +220,7 @@ public class StringResourceLoader extends ResourceLoader
      * @param configuration
      * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
+    @Override
     public void init(final ExtProperties configuration)
     {
         log.trace("StringResourceLoader: initialization starting.");
@@ -335,6 +336,7 @@ public class StringResourceLoader extends ResourceLoader
      * @return whether resource exists
      * @since 1.6
      */
+    @Override
     public boolean resourceExists(final String name)
     {
         if (name == null)
@@ -355,6 +357,7 @@ public class StringResourceLoader extends ResourceLoader
      *         in the RepositoryFactory.
      * @since 2.0
      */
+    @Override
     public Reader getResourceReader(String name, String encoding)
             throws ResourceNotFoundException
     {
@@ -398,6 +401,7 @@ public class StringResourceLoader extends ResourceLoader
      * @return whether resource was modified
      * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public boolean isSourceModified(final Resource resource)
     {
         StringResource original = null;
@@ -418,6 +422,7 @@ public class StringResourceLoader extends ResourceLoader
      * @return last modified timestamp
      * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public long getLastModified(final Resource resource)
     {
         StringResource original = null;

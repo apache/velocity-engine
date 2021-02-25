@@ -31,6 +31,7 @@ public class VarargMethodsTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("nice", new NiceTool());
@@ -206,6 +207,7 @@ public class VarargMethodsTestCase extends BaseTestCase
             return "string";
         }
 
+        @Override
         public String test(Object[] array)
         {
             return "object[]";
@@ -230,7 +232,7 @@ public class VarargMethodsTestCase extends BaseTestCase
                 {
                     o.append(", ");
                 }
-                o.append(String.valueOf(array[i]));
+                o.append((array[i]));
             }
             o.append("]");
             return o.toString();

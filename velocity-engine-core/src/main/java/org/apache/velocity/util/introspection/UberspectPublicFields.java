@@ -1,4 +1,6 @@
-/**
+package org.apache.velocity.util.introspection;
+
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,8 +18,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-package org.apache.velocity.util.introspection;
 
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.PublicFieldExecutor;
@@ -53,6 +53,7 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
      *  makes sure that the log gets set before this is called,
      *  we can initialize the Introspector using the log object.
      */
+    @Override
     public void init()
     {
         introspector = new Introspector(log);
@@ -65,6 +66,7 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
      * @param i
      * @return A Velocity Getter Method.
      */
+    @Override
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
     {
         if (obj == null)
@@ -72,7 +74,7 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
             return null;
         }
 
-        Class claz = obj.getClass();
+        Class<?> claz = obj.getClass();
 
         PublicFieldExecutor executor = new PublicFieldExecutor(log, introspector, claz, identifier);
 
@@ -87,6 +89,7 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
      * @param i
      * @return A Velocity Setter method.
      */
+    @Override
     public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
     {
         if (obj == null)
@@ -94,7 +97,7 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
             return null;
         }
 
-        Class claz = obj.getClass();
+        Class<?> claz = obj.getClass();
 
         SetPublicFieldExecutor executor = new SetPublicFieldExecutor(log, introspector, claz, identifier, arg);
 
@@ -106,6 +109,7 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
      * @param info
      * @return iterator
      */
+    @Override
     public Iterator getIterator(Object obj, Info info)
     {
         return null;
@@ -118,6 +122,7 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
      * @param info
      * @return method wrapper
      */
+    @Override
     public VelMethod getMethod(Object obj, String method, Object[] args, Info info)
     {
         return null;
@@ -126,6 +131,7 @@ public class UberspectPublicFields implements Uberspect, RuntimeServicesAware
     /**
      * @param rs RuntimeServices object assigned during initialization
      */
+    @Override
     public void setRuntimeServices(RuntimeServices rs)
     {
         log = rs.getLog("rendering");

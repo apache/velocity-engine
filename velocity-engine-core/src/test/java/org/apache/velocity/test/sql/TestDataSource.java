@@ -46,48 +46,57 @@ public class TestDataSource implements DataSource
         Class.forName(driverClass);
     }
 
+    @Override
     public Connection getConnection() throws SQLException
     {
         return DriverManager.getConnection(url, user, password);
     }
 
+    @Override
     public Connection getConnection(final String username, final String password)
         throws SQLException
     {
         return DriverManager.getConnection(url, username, password);
     }
 
+    @Override
     public PrintWriter getLogWriter() throws SQLException
     {
         return logWriter;
     }
 
+    @Override
     public int getLoginTimeout() throws SQLException
     {
         return loginTimeout;
     }
 
+    @Override
     public void setLogWriter(final PrintWriter logWriter) throws SQLException
     {
         this.logWriter = logWriter;
     }
 
+    @Override
     public void setLoginTimeout(final int loginTimeout) throws SQLException
     {
         this.loginTimeout = loginTimeout;
     }
 
+    @Override
     public boolean isWrapperFor(final Class iface) throws SQLException
     {
         return false;
     }
 
+    @Override
     public Object unwrap(final Class iface) throws SQLException
     {
         throw new SQLException("Not implemented");
     }
 
     /* added to be able to compile with jdk 1.7+ */
+    @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException
     {
         throw new SQLFeatureNotSupportedException();

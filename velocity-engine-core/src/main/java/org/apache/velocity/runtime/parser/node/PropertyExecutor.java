@@ -43,7 +43,7 @@ public class PropertyExecutor extends AbstractExecutor
      * @since 1.5
      */
     public PropertyExecutor(final Logger log, final Introspector introspector,
-                            final Class clazz, final String property)
+                            final Class<?> clazz, final String property)
     {
         this(log, introspector, clazz, property, false);
     }
@@ -57,7 +57,7 @@ public class PropertyExecutor extends AbstractExecutor
      * @since 1.5
      */
     public PropertyExecutor(final Logger log, final Introspector introspector,
-            final Class clazz, final String property, final boolean wrapArray)
+            final Class<?> clazz, final String property, final boolean wrapArray)
     {
         this.log = log;
         this.introspector = introspector;
@@ -85,7 +85,7 @@ public class PropertyExecutor extends AbstractExecutor
      * @param clazz
      * @param property
      */
-    protected void discover(final Class clazz, final String property)
+    protected void discover(final Class<?> clazz, final String property)
     {
         /*
          *  this is gross and linear, but it keeps it straightforward.
@@ -120,7 +120,7 @@ public class PropertyExecutor extends AbstractExecutor
                 setMethod(introspector.getMethod(clazz, sb.toString(), params));
             }
         }
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )
@@ -138,6 +138,7 @@ public class PropertyExecutor extends AbstractExecutor
     /**
      * @see org.apache.velocity.runtime.parser.node.AbstractExecutor#execute(java.lang.Object)
      */
+    @Override
     public Object execute(Object o)
         throws IllegalAccessException,  InvocationTargetException
     {

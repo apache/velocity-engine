@@ -43,6 +43,7 @@ public class IntrospectionCacheDataTestCase extends TestCase
     {
         public int cacheHit = 0;
 
+        @Override
         public IntrospectionCacheData icacheGet(Object key)
         {
             final IntrospectionCacheData result = super.icacheGet(key);

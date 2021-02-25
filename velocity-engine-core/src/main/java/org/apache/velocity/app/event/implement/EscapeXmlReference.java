@@ -40,6 +40,7 @@ public class EscapeXmlReference extends EscapeReference
      * @return An escaped String.
      * @see <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/StringEscapeUtils.html#escapeXml10%28java.lang.String%29">StringEscapeUtils</a>
      */
+    @Override
     protected String escape(Object text)
     {
         return StringEscapeUtils.escapeXml10(text.toString());
@@ -48,6 +49,7 @@ public class EscapeXmlReference extends EscapeReference
     /**
      * @return attribute "eventhandler.escape.xml.match"
      */
+    @Override
     protected String getMatchAttribute()
     {
         return "eventhandler.escape.xml.match";

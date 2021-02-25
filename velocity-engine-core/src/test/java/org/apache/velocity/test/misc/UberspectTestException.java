@@ -53,6 +53,7 @@ public class UberspectTestException extends RuntimeException
         return info;
     }
 
+    @Override
     public String getMessage()
     {
       return super.getMessage() + "\n failed at " + info;

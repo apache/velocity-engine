@@ -19,7 +19,6 @@ package org.apache.velocity.util.introspection;
  * under the License.
  */
 
-import org.apache.commons.lang3.Conversion;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
@@ -83,6 +82,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      *  makes sure that the log gets set before this is called,
      *  we can initialize the Introspector using the log object.
      */
+    @Override
     public void init()
     {
         introspector = new Introspector(log, conversionHandler);
@@ -97,6 +97,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      * sets the runtime services
      * @param rs runtime services
      */
+    @Override
     @SuppressWarnings("deprecation")
     public void setRuntimeServices(RuntimeServices rs)
     {
@@ -140,25 +141,25 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
                 conversionHandler = new TypeConversionHandler()
                 {
                     @Override
-                    public boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
+                    public boolean isExplicitlyConvertible(Type formal, Class<?> actual, boolean possibleVarArg)
                     {
-                        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                        Class<?> formalClass = IntrospectionUtils.getTypeClass(formal);
                         if (formalClass != null) return ch.isExplicitlyConvertible(formalClass, actual, possibleVarArg);
                         else return false;
                     }
 
                     @Override
-                    public Converter getNeededConverter(Type formal, Class actual)
+                    public Converter<?> getNeededConverter(Type formal, Class<?> actual)
                     {
-                        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                        Class<?> formalClass = IntrospectionUtils.getTypeClass(formal);
                         if (formalClass != null) return ch.getNeededConverter(formalClass, actual);
                         else return null;
                     }
 
                     @Override
-                    public void addConverter(Type formal, Class actual, Converter converter)
+                    public void addConverter(Type formal, Class<?> actual, Converter<?> converter)
                     {
-                        Class formalClass = IntrospectionUtils.getTypeClass(formal);
+                        Class<?> formalClass = IntrospectionUtils.getTypeClass(formal);
                         if (formalClass != null) ch.addConverter(formalClass, actual, converter);
                         else throw new UnsupportedOperationException("This conversion handler doesn't know how to handle Type: " + formal.getTypeName());
                     }
@@ -201,6 +202,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      * @param i Info about the object's location.
      * @return An {@link Iterator} object.
      */
+    @Override
     public Iterator getIterator(Object obj, Info i)
     {
         if (obj.getClass().isArray())
@@ -236,11 +238,11 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
             // look for an iterator() method to support the JDK5 Iterable
             // interface or any user tools/DTOs that want to work in
             // foreach without implementing the Collection interface
-            Class type = obj.getClass();
+            Class<?> type = obj.getClass();
             try
             {
                 Method iter = type.getMethod("iterator");
-                Class returns = iter.getReturnType();
+                Class<?> returns = iter.getReturnType();
                 if (Iterator.class.isAssignableFrom(returns))
                 {
                     try
@@ -283,6 +285,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      * @param i
      * @return A Velocity Method.
      */
+    @Override
     public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
     {
         if (obj == null)
@@ -296,7 +299,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
             return new VelMethodImpl(m, false, getNeededConverters(m.getGenericParameterTypes(), args));
         }
 
-        Class cls = obj.getClass();
+        Class<?> cls = obj.getClass();
         // if it's an array
         if (cls.isArray())
         {
@@ -312,7 +315,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         // watch for classes, to allow calling their static methods (VELOCITY-102)
         else if (cls == Class.class)
         {
-            m = introspector.getMethod((Class)obj, methodName, args);
+            m = introspector.getMethod((Class<?>)obj, methodName, args);
             if (m != null)
             {
                 return new VelMethodImpl(m, false, getNeededConverters(m.getGenericParameterTypes(), args));
@@ -325,17 +328,17 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      * get the list of needed converters to adapt passed argument types to method types
      * @return null if not conversion needed, otherwise an array containing needed converters
      */
-    private Converter[] getNeededConverters(Type[] expected, Object[] provided)
+    private Converter<?>[] getNeededConverters(Type[] expected, Object[] provided)
     {
         if (conversionHandler == null) return null;
         // var args are not handled here - CB TODO
         int n = Math.min(expected.length, provided.length);
-        Converter[] converters = null;
+        Converter<?>[] converters = null;
         for (int i = 0; i < n; ++i)
         {
             Object arg = provided[i];
             if (arg == null) continue;
-            Converter converter = conversionHandler.getNeededConverter(expected[i], arg.getClass());
+            Converter<?> converter = conversionHandler.getNeededConverter(expected[i], arg.getClass());
             if (converter != null)
             {
                 if (converters == null)
@@ -355,6 +358,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      * @param i
      * @return A Velocity Getter Method.
      */
+    @Override
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
     {
         if (obj == null)
@@ -362,7 +366,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
             return null;
         }
 
-        Class claz = obj.getClass();
+        Class<?> claz = obj.getClass();
 
         /*
          *  first try for a getFoo() type of property
@@ -417,6 +421,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
      * @param i
      * @return A Velocity Setter method.
      */
+    @Override
     public VelPropertySet getPropertySet(Object obj, String identifier,
                                          Object arg, Info i)
     {
@@ -425,7 +430,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
             return null;
         }
 
-        Class claz = obj.getClass();
+        Class<?> claz = obj.getClass();
 
         /*
          *  first try for a setFoo() type of property
@@ -455,12 +460,12 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
     /**
      *  Implementation of VelMethod
      */
-    public class VelMethodImpl implements VelMethod
+    public static class VelMethodImpl implements VelMethod
     {
         final Method method;
         Boolean isVarArg;
         boolean wrapArray;
-        Converter converters[];
+        Converter<?> converters[];
 
         /**
          * @param m
@@ -486,7 +491,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
          * @param converters
          * @since 2.0
          */
-        public VelMethodImpl(Method method, boolean wrapArray, Converter[] converters)
+        public VelMethodImpl(Method method, boolean wrapArray, Converter<?>[] converters)
         {
             this.method = method;
             this.wrapArray = wrapArray;
@@ -504,6 +509,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
          * @return invocation result
          * @see VelMethod#invoke(java.lang.Object, java.lang.Object[])
          */
+        @Override
         public Object invoke(Object o, Object[] actual)
             throws IllegalAccessException, InvocationTargetException
         {
@@ -515,11 +521,11 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
 
             if (isVarArg())
             {
-                Class[] formal = method.getParameterTypes();
+                Class<?>[] formal = method.getParameterTypes();
                 int index = formal.length - 1;
                 if (actual.length >= index)
                 {
-                    Class type = formal[index].getComponentType();
+                    Class<?> type = formal[index].getComponentType();
                     actual = handleVarArg(type, index, actual);
                 }
             }
@@ -573,14 +579,14 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         {
             if (isVarArg == null)
             {
-                Class[] formal = method.getParameterTypes();
-                if (formal == null || formal.length == 0)
+                Class<?>[] formal = method.getParameterTypes();
+                if (formal.length == 0)
                 {
                     this.isVarArg = Boolean.FALSE;
                 }
                 else
                 {
-                    Class last = formal[formal.length - 1];
+                    Class<?> last = formal[formal.length - 1];
                     // if the last arg is an array, then
                     // we consider this a varargs method
                     this.isVarArg = last.isArray();
@@ -599,7 +605,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
          * @return The actual parameters adjusted for the varargs in order
          *          to fit the method declaration.
          */
-        private Object[] handleVarArg(final Class type,
+        private Object[] handleVarArg(final Class<?> type,
                                       final int index,
                                       Object[] actual)
         {
@@ -617,7 +623,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
             else if (actual.length == index + 1 && actual[index] != null)
             {
                 // make sure the last arg is an array of the expected type
-                Class argClass = actual[index].getClass();
+                Class<?> argClass = actual[index].getClass();
                 if (!argClass.isArray() && IntrospectionUtils.isMethodInvocationConvertible(type, argClass, false))
                 {
                     // create a 1-length array to hold and replace the last param
@@ -651,6 +657,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /**
          * @see org.apache.velocity.util.introspection.VelMethod#isCacheable()
          */
+        @Override
         public boolean isCacheable()
         {
             return true;
@@ -659,6 +666,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /**
          * @see org.apache.velocity.util.introspection.VelMethod#getMethodName()
          */
+        @Override
         public String getMethodName()
         {
             return method.getName();
@@ -667,6 +675,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /**
          * @see org.apache.velocity.util.introspection.VelMethod#getMethod()
          */
+        @Override
         public Method getMethod()
         {
             return method;
@@ -675,7 +684,8 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /**
          * @see org.apache.velocity.util.introspection.VelMethod#getReturnType()
          */
-        public Class getReturnType()
+        @Override
+        public Class<?> getReturnType()
         {
             return method.getReturnType();
         }
@@ -705,6 +715,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /**
          * @see org.apache.velocity.util.introspection.VelPropertyGet#invoke(java.lang.Object)
          */
+        @Override
         public Object invoke(Object o)
             throws IllegalAccessException, InvocationTargetException
         {
@@ -714,6 +725,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /**
          * @see org.apache.velocity.util.introspection.VelPropertyGet#isCacheable()
          */
+        @Override
         public boolean isCacheable()
         {
             return true;
@@ -722,6 +734,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /**
          * @see org.apache.velocity.util.introspection.VelPropertyGet#getMethodName()
          */
+        @Override
         public String getMethodName()
         {
             return getExecutor.isAlive() ? getExecutor.getMethod().getName() : null;
@@ -755,6 +768,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
          * @param value in the Value to set.
          * @return The resulting Object.
          */
+        @Override
         public Object invoke(final Object o, final Object value)
             throws IllegalAccessException, InvocationTargetException
         {
@@ -764,6 +778,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /**
          * @see org.apache.velocity.util.introspection.VelPropertySet#isCacheable()
          */
+        @Override
         public boolean isCacheable()
         {
             return true;
@@ -772,6 +787,7 @@ public class UberspectImpl implements Uberspect, RuntimeServicesAware
         /**
          * @see org.apache.velocity.util.introspection.VelPropertySet#getMethodName()
          */
+        @Override
         public String getMethodName()
         {
             return setExecutor.isAlive() ? setExecutor.getMethod().getName() : null;

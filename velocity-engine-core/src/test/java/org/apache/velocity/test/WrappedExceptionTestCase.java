@@ -52,6 +52,7 @@ public class WrappedExceptionTestCase extends BaseTestCase implements TemplateTe
         return new TestSuite(WrappedExceptionTestCase.class);
     }
 
+    @Override
     public void setUp() throws Exception
     {
         ve = new VelocityEngine();

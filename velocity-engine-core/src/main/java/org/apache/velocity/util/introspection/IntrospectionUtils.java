@@ -29,7 +29,6 @@ import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -48,7 +47,7 @@ public class IntrospectionUtils
     /**
      * boxing helper maps for standard types
      */
-    static Map<Class, Class> boxingMap, unboxingMap;
+    static Map<Class<?>, Class<?>> boxingMap, unboxingMap;
 
     static
     {
@@ -63,7 +62,7 @@ public class IntrospectionUtils
         boxingMap.put(Double.TYPE, Double.class);
 
         unboxingMap = new HashMap<>();
-        for (Map.Entry<Class,Class> entry : boxingMap.entrySet())
+        for (Map.Entry<Class<?>, Class<?>> entry : boxingMap.entrySet())
         {
             unboxingMap.put(entry.getValue(), entry.getKey());
         }
@@ -74,9 +73,9 @@ public class IntrospectionUtils
      * @param clazz input class
      * @return boxed class
      */
-    public static Class getBoxedClass(Class clazz)
+    public static Class<?> getBoxedClass(Class clazz)
     {
-        Class boxed = boxingMap.get(clazz);
+        Class<?> boxed = boxingMap.get(clazz);
         return boxed == null ? clazz : boxed;
     }
 
@@ -85,9 +84,9 @@ public class IntrospectionUtils
      * @param clazz input class
      * @return unboxed class
      */
-    public static Class getUnboxedClass(Class clazz)
+    public static Class<?> getUnboxedClass(Class clazz)
     {
-        Class unboxed = unboxingMap.get(clazz);
+        Class<?> unboxed = unboxingMap.get(clazz);
         return unboxed == null ? clazz : unboxed;
     }
 
@@ -96,24 +95,24 @@ public class IntrospectionUtils
      * @param type the input Type
      * @return found Class, if any
      */
-    public static Class getTypeClass(Type type)
+    public static Class<?> getTypeClass(Type type)
     {
         if (type == null)
         {
             return null;
         }
-        if (type instanceof Class)
+        if (type instanceof Class<?>)
         {
-            return (Class)type;
+            return (Class<?>)type;
         }
         else if (type instanceof ParameterizedType)
         {
-            return (Class)((ParameterizedType)type).getRawType();
+            return (Class<?>)((ParameterizedType)type).getRawType();
         }
         else if (type instanceof GenericArrayType)
         {
             Type componentType = ((GenericArrayType)type).getGenericComponentType();
-            Class componentClass = getTypeClass(componentType);
+            Class<?> componentClass = getTypeClass(componentType);
             if (componentClass != null)
             {
                 return Array.newInstance(componentClass, 0).getClass();
@@ -153,10 +152,10 @@ public class IntrospectionUtils
      * the formal type.
      */
     public static boolean isMethodInvocationConvertible(Type formal,
-                                                        Class actual,
+                                                        Class<?> actual,
                                                         boolean possibleVarArg)
     {
-        Class formalClass = getTypeClass(formal);
+        Class<?> formalClass = getTypeClass(formal);
         if (formalClass != null)
         {
             /* if it's a null, it means the arg was null */
@@ -177,8 +176,8 @@ public class IntrospectionUtils
             /* Check for boxing */
             if (!formalClass.isPrimitive() && actual.isPrimitive())
             {
-                Class boxed = boxingMap.get(actual);
-                if (boxed != null && boxed == formalClass || formalClass.isAssignableFrom(boxed)) return true;
+                Class<?> boxed = boxingMap.get(actual);
+                if (boxed != null && (boxed == formalClass || formalClass.isAssignableFrom(boxed))) return true;
             }
 
             if (formalClass.isPrimitive())
@@ -270,10 +269,10 @@ public class IntrospectionUtils
      * subject to widening conversion to formal.
      */
     public static boolean isStrictMethodInvocationConvertible(Type formal,
-                                                              Class actual,
+                                                              Class<?> actual,
                                                               boolean possibleVarArg)
     {
-        Class formalClass = getTypeClass(formal);
+        Class<?> formalClass = getTypeClass(formal);
         if (formalClass != null)
         {
             /* Check for nullity */

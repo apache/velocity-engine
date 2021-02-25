@@ -38,7 +38,6 @@ import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.util.introspection.Uberspect;
 import org.slf4j.Logger;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.List;

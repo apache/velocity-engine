@@ -73,6 +73,7 @@ public class MapGetExecutor
         return false;
     }
 
+    @Override
     public Object execute(final Object o)
     {
         return ((Map) o).get(property);

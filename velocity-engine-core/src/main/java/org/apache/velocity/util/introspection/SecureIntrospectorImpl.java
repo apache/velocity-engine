@@ -59,7 +59,8 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      * @return Method object retrieved by Introspector
      * @throws IllegalArgumentException The parameter passed in were incorrect.
      */
-    public Method getMethod(Class clazz, String methodName, Object[] params)
+    @Override
+    public Method getMethod(Class<?> clazz, String methodName, Object[] params)
         throws IllegalArgumentException
     {
         if (!checkObjectExecutePermission(clazz, methodName))
@@ -85,9 +86,10 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      * @param methodName Name of method to be called
      * @see org.apache.velocity.util.introspection.SecureIntrospectorControl#checkObjectExecutePermission(java.lang.Class, java.lang.String)
      */
-    public boolean checkObjectExecutePermission(Class clazz, String methodName)
+    @Override
+    public boolean checkObjectExecutePermission(Class<?> clazz, String methodName)
     {
-        /**
+        /*
          * check for wait and notify
          */
         if (methodName != null &&
@@ -96,7 +98,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
             return false;
         }
 
-        /**
+        /*
          * Always allow the most common classes - Number, Boolean and String
          */
         else if (Number.class.isAssignableFrom(clazz))
@@ -112,7 +114,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
             return true;
         }
 
-        /**
+        /*
          * Always allow Class.getName()
          */
         else if (Class.class.isAssignableFrom(clazz) &&
@@ -121,7 +123,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
             return true;
         }
 
-       /**
+       /*
        * Always disallow ClassLoader, Thread and subclasses
        */
         if (ClassLoader.class.isAssignableFrom(clazz) ||
@@ -130,7 +132,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
             return false;
         }
 
-        /**
+        /*
          * check the classname (minus any array info)
          * whether it matches disallowed classes or packages
          */

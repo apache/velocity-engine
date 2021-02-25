@@ -56,6 +56,7 @@ public class EnumConstantConversionTestCase extends BaseTestCase {
         }
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("obj", new Obj());

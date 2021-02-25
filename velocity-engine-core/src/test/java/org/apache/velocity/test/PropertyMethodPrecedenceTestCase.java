@@ -32,6 +32,7 @@ public class PropertyMethodPrecedenceTestCase extends BaseTestCase
         // DEBUG = true;
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("geta", new getGetgetisTool());

@@ -44,10 +44,10 @@ public class MapSetExecutor
         discover(clazz);
     }
 
-    protected void discover (final Class clazz)
+    protected void discover (final Class<?> clazz)
     {
-        Class [] interfaces = clazz.getInterfaces();
-        for (Class anInterface : interfaces)
+        Class<?> [] interfaces = clazz.getInterfaces();
+        for (Class<?> anInterface : interfaces)
         {
             if (anInterface.equals(Map.class))
             {
@@ -58,7 +58,7 @@ public class MapSetExecutor
                         setMethod(Map.class.getMethod("put", Object.class, Object.class));
                     }
                 }
-                /**
+                /*
                  * pass through application level runtime exceptions
                  */
                 catch (RuntimeException e)
@@ -76,6 +76,7 @@ public class MapSetExecutor
         }
     }
 
+    @Override
     public Object execute(final Object o, final Object arg)
     {
         return ((Map) o).put(property, arg);

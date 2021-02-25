@@ -54,6 +54,7 @@ public class ContentResource extends Resource
      * @exception ResourceNotFoundException Resource could not be
      * found.
      */
+    @Override
     public boolean process()
         throws ResourceNotFoundException
     {
