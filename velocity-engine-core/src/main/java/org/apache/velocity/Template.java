@@ -277,7 +277,7 @@ public class Template extends Resource
      *  @throws MethodInvocationException When a method on a referenced object in the context could not invoked.
      *  @since 1.6
      */
-    public void merge( Context context, Writer writer, List macroLibraries)
+    public void merge( Context context, Writer writer, List<String> macroLibraries)
         throws ResourceNotFoundException, ParseErrorException, MethodInvocationException
     {
         try
@@ -305,12 +305,12 @@ public class Template extends Resource
                 /**
                  * Set the macro libraries
                  */
-                List libTemplates = new ArrayList();
+                List<Template> libTemplates = new ArrayList();
                 ica.setMacroLibraries(libTemplates);
 
                 if (macroLibraries != null)
                 {
-                    for (String macroLibrary : (List<String>) macroLibraries)
+                    for (String macroLibrary : macroLibraries)
                     {
                         /**
                          * Build the macro library
@@ -341,7 +341,7 @@ public class Template extends Resource
                         catch (Exception e)
                         {
                             throw new RuntimeException("parse failed in template  " +
-                                (String) macroLibrary + ".", e);
+                                macroLibrary + ".", e);
                         }
                     }
                 }

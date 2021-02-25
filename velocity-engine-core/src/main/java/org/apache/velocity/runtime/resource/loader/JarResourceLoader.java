@@ -74,14 +74,14 @@ public class JarResourceLoader extends ResourceLoader
      * Key = the entry *excluding* plain directories
      * Value = the JAR URL
      */
-    private Map entryDirectory = new HashMap(559);
+    private Map<String, String> entryDirectory = new HashMap<>(559);
 
     /**
      * Maps JAR URLs to the actual JAR
      * Key = the JAR URL
      * Value = the JAR
      */
-    private Map jarfiles = new HashMap(89);
+    private Map<String, JarHolder> jarfiles = new HashMap<>(89);
 
     /**
      * Called by Velocity to initialize the loader
@@ -150,7 +150,7 @@ public class JarResourceLoader extends ResourceLoader
     {
         if ( jarfiles.containsKey(path) )
         {
-            JarHolder theJar = (JarHolder)jarfiles.get(path);
+            JarHolder theJar = jarfiles.get(path);
             theJar.close();
         }
     }
@@ -159,7 +159,7 @@ public class JarResourceLoader extends ResourceLoader
      * Copy all the entries into the entryDirectory
      * It will overwrite any duplicate keys.
      */
-    private void addEntries( Hashtable entries )
+    private void addEntries( Map<String, String> entries )
     {
         entryDirectory.putAll( entries );
     }
@@ -208,7 +208,7 @@ public class JarResourceLoader extends ResourceLoader
 
         if ( entryDirectory.containsKey( normalizedPath ) )
         {
-            String jarurl  = (String)entryDirectory.get( normalizedPath );
+            String jarurl  = entryDirectory.get( normalizedPath );
 
             if ( jarfiles.containsKey( jarurl ) )
             {

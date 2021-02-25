@@ -64,7 +64,7 @@ public class FileResourceLoader extends ResourceLoader
      * times of the files. This is synchronizedMap
      * instance.
      */
-    private Map templatePaths = Collections.synchronizedMap(new HashMap());
+    private Map<String, String> templatePaths = Collections.synchronizedMap(new HashMap());
 
     /**
      * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
@@ -278,7 +278,7 @@ public class FileResourceLoader extends ResourceLoader
         boolean modified = true;
 
         String fileName = resource.getName();
-        String path = (String) templatePaths.get(fileName);
+        String path = templatePaths.get(fileName);
         File currentFile = null;
 
         for (int i = 0; currentFile == null && i < paths.size(); i++)
@@ -324,7 +324,7 @@ public class FileResourceLoader extends ResourceLoader
      */
     public long getLastModified(Resource resource)
     {
-        String path = (String) templatePaths.get(resource.getName());
+        String path = templatePaths.get(resource.getName());
         File file = getFile(path, resource.getName());
 
         if (file.canRead())

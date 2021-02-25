@@ -157,7 +157,7 @@ public class ASTMethod extends SimpleNode
                * sadly, we do need recalc the values of the args, as this can
                * change from visit to visit
                */
-            final Class[] paramClasses =
+            final Class<?>[] paramClasses =
                 paramCount > 0 ? new Class[paramCount] : EMPTY_CLASS_ARRAY;
 
             for (int j = 0; j < paramCount; j++)
@@ -178,7 +178,7 @@ public class ASTMethod extends SimpleNode
                 StringBuilder plist = new StringBuilder();
                 for (int i = 0; i < params.length; i++)
                 {
-                    Class param = paramClasses[i];
+                    Class<?> param = paramClasses[i];
                     plist.append(param == null ? "null" : param.getName());
                     if (i < params.length - 1)
                         plist.append(", ");
@@ -342,7 +342,7 @@ public class ASTMethod extends SimpleNode
         /**
          * parameters classes
          */
-        private final Class[] params;
+        private final Class<?>[] params;
 
         /**
          * whether the target object is of Class type
@@ -353,7 +353,7 @@ public class ASTMethod extends SimpleNode
          */
         private boolean classObject;
 
-        public MethodCacheKey(String methodName, Class[] params, boolean classObject)
+        public MethodCacheKey(String methodName, Class<?>[] params, boolean classObject)
         {
             /**
              * Should never be initialized with nulls, but to be safe we refuse
@@ -412,7 +412,7 @@ public class ASTMethod extends SimpleNode
              * note we skip the null test for methodName and params
              * due to the earlier test in the constructor
              */
-            for (Class param : params)
+            for (Class<?> param : params)
             {
                 if (param != null)
                 {

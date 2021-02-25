@@ -148,14 +148,14 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * taken from the RUNTIME_DEFAULT_DIRECTIVES
      * property file.
      */
-    private Map runtimeDirectives = new Hashtable();
+    private Map<String, Directive> runtimeDirectives = new Hashtable<>();
     /**
      * Copy of the actual runtimeDirectives that is shared between
      * parsers. Whenever directives are updated, the synchronized
      * runtimeDirectives is first updated and then an unsynchronized
      * copy of it is passed to parsers.
      */
-    private Map runtimeDirectivesShared;
+    private Map<String, Directive> runtimeDirectivesShared;
 
     /**
      * Object that houses the configuration options for
@@ -201,7 +201,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      *  application for use in application supplied/specified
      *  pluggable components
      */
-    private Map applicationAttributes = null;
+    private Map<Object, Object> applicationAttributes = null;
 
     /**
      *  Uberspector
@@ -331,7 +331,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         this.parserPool = null;
         this.enabledScopeControls.clear();
         this.resourceManager = null;
-        this.runtimeDirectives = new Hashtable();
+        this.runtimeDirectives = new Hashtable<>();
         this.runtimeDirectivesShared = null;
         this.uberSpect = null;
         this.stringInterning = false;
@@ -345,7 +345,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         /*
          * and a store for the application attributes
          */
-        applicationAttributes = new HashMap();
+        applicationAttributes = new HashMap<>();
     }
 
     /**
@@ -1104,7 +1104,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     public Directive getDirective(String name)
     {
-        return (Directive) runtimeDirectivesShared.get(name);
+        return runtimeDirectivesShared.get(name);
     }
 
     /**
@@ -1127,7 +1127,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void updateSharedDirectivesMap()
     {
-        runtimeDirectivesShared = new HashMap(runtimeDirectives);
+        runtimeDirectivesShared = new HashMap<>(runtimeDirectives);
     }
 
     /**

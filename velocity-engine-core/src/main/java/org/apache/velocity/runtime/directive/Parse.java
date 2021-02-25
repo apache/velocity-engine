@@ -253,14 +253,14 @@ public class Parse extends InputBase
         /**
          * Add the template name to the macro libraries list
          */
-        List macroLibraries = context.getMacroLibraries();
+        List<Template> macroLibraries = context.getMacroLibraries();
 
         /**
          * if macroLibraries are not set create a new one
          */
         if (macroLibraries == null)
         {
-            macroLibraries = new ArrayList();
+            macroLibraries = new ArrayList<>();
         }
 
         context.setMacroLibraries(macroLibraries);

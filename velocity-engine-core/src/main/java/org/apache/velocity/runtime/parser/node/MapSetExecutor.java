@@ -44,10 +44,10 @@ public class MapSetExecutor
         discover(clazz);
     }
 
-    protected void discover (final Class clazz)
+    protected void discover (final Class<?> clazz)
     {
-        Class [] interfaces = clazz.getInterfaces();
-        for (Class anInterface : interfaces)
+        Class<?> [] interfaces = clazz.getInterfaces();
+        for (Class<?> anInterface : interfaces)
         {
             if (anInterface.equals(Map.class))
             {

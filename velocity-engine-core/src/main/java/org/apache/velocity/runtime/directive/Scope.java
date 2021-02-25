@@ -36,7 +36,7 @@ import java.util.Set;
 public class Scope extends AbstractMap
 {
     private static final String setReturnValue = "";
-    private Map storage;
+    private Map<Object, Object> storage;
     private Object replaced;
     private Scope parent;
     private Info info;
@@ -62,7 +62,7 @@ public class Scope extends AbstractMap
         }
     }
 
-    private Map getStorage()
+    private Map<Object, Object> getStorage()
     {
         if (storage == null)
         {
@@ -74,7 +74,7 @@ public class Scope extends AbstractMap
     /**
      * @return entry set
      */
-    public Set entrySet()
+    public Set<Map.Entry<Object, Object>> entrySet()
     {
         return getStorage().entrySet();
     }

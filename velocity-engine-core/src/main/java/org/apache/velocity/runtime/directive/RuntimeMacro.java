@@ -86,6 +86,7 @@ public class RuntimeMacro extends Directive
      *
      * @return The name of this Velocimacro.
      */
+    @Override
     public String getName()
     {
         return macroName;
@@ -97,6 +98,7 @@ public class RuntimeMacro extends Directive
      * scope, we are within a #macro call.  The macro name will instead
      * be used as the scope name when defining the body of a BlockMacro.
      */
+    @Override
     public String getScopeName()
     {
         return "macro";
@@ -108,6 +110,7 @@ public class RuntimeMacro extends Directive
      *
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return LINE;
@@ -250,6 +253,7 @@ public class RuntimeMacro extends Directive
      * @throws ParseErrorException
      * @throws MethodInvocationException
      */
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer,
                           Node node)
             throws IOException, ResourceNotFoundException,
@@ -296,12 +300,12 @@ public class RuntimeMacro extends Directive
          */
         if (vmProxy == null)
         {
-            List macroLibraries = context.getMacroLibraries();
+            List<Template> macroLibraries = context.getMacroLibraries();
             if (macroLibraries != null)
             {
                 for (int i = macroLibraries.size() - 1; i >= 0; i--)
                 {
-                    o = rsvc.getVelocimacro(macroName, renderingTemplate, (Template)macroLibraries.get(i));
+                    o = rsvc.getVelocimacro(macroName, renderingTemplate, macroLibraries.get(i));
 
                     // get the first matching macro
                     if (o != null)

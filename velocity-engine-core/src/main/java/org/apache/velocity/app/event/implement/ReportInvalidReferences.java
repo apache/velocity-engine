@@ -70,7 +70,7 @@ public class ReportInvalidReferences implements
     /**
      * List of InvalidReferenceInfo objects
      */
-    List invalidReferences = new ArrayList();
+    List<InvalidReferenceInfo> invalidReferences = new ArrayList();
 
     /**
      * If true, stop at the first invalid reference and throw an exception.
@@ -163,7 +163,7 @@ public class ReportInvalidReferences implements
      * All invalid references during the processing of this page.
      * @return a List of InvalidReferenceInfo objects
      */
-    public List getInvalidReferences()
+    public List<InvalidReferenceInfo> getInvalidReferences()
     {
         return invalidReferences;
     }

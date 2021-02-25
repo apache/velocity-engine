@@ -43,7 +43,7 @@ public class PropertyExecutor extends AbstractExecutor
      * @since 1.5
      */
     public PropertyExecutor(final Logger log, final Introspector introspector,
-                            final Class clazz, final String property)
+                            final Class<?> clazz, final String property)
     {
         this(log, introspector, clazz, property, false);
     }
@@ -85,7 +85,7 @@ public class PropertyExecutor extends AbstractExecutor
      * @param clazz
      * @param property
      */
-    protected void discover(final Class clazz, final String property)
+    protected void discover(final Class<?> clazz, final String property)
     {
         /*
          *  this is gross and linear, but it keeps it straightforward.

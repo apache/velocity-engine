@@ -19,12 +19,14 @@ package org.apache.velocity.context;
  * under the License.
  */
 
+import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -52,7 +54,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      *  cache for node/context specific introspection information
      */
-    private HashMap introspectionCache = new HashMap(33);
+    private Map<Object, IntrospectionCacheData> introspectionCache = new HashMap(33);
 
     /**
      *  Template name stack. The stack top contains the current template name.
@@ -220,7 +222,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      */
-    public void setMacroLibraries(List macroLibraries)
+    public void setMacroLibraries(List<Template> macroLibraries)
     {
         this.macroLibraries = macroLibraries;
     }
@@ -228,7 +230,7 @@ class InternalContextBase implements InternalHousekeepingContext, InternalEventC
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
      */
-    public List getMacroLibraries()
+    public List<Template> getMacroLibraries()
     {
         return macroLibraries;
     }

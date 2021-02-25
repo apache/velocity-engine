@@ -74,7 +74,7 @@ public class GetExecutor extends AbstractExecutor
      * @param clazz
      * @since 1.5
      */
-    protected void discover(final Class clazz)
+    protected void discover(final Class<?> clazz)
     {
         try
         {

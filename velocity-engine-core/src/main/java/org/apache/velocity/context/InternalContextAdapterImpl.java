@@ -19,6 +19,7 @@ package org.apache.velocity.context;
  * under the License.
  */
 
+import org.apache.velocity.Template;
 import org.apache.velocity.app.event.EventCartridge;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -226,7 +227,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      * @since 1.6
      */
-    public void setMacroLibraries(List macroLibraries)
+    public void setMacroLibraries(List<Template> macroLibraries)
     {
         icb.setMacroLibraries(macroLibraries);
     }
@@ -235,7 +236,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
      * @since 1.6
      */
-    public List getMacroLibraries()
+    public List<Template> getMacroLibraries()
     {
         return icb.getMacroLibraries();
     }

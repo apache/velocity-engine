@@ -22,6 +22,7 @@ package org.apache.velocity;
 import org.apache.velocity.context.AbstractContext;
 import org.apache.velocity.context.Context;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +49,9 @@ import java.util.Map;
  *  @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  *  @version $Id$
  */
-public class VelocityContext extends AbstractContext implements Cloneable
+public class VelocityContext
+    extends AbstractContext
+    implements Cloneable, Serializable
 {
     /**
      * Version Id for serializable

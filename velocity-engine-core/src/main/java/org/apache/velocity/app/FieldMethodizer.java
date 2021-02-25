@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *  <p>
@@ -65,7 +66,7 @@ import java.util.HashMap;
 public class FieldMethodizer
 {
     /** Hold the field objects by field name */
-    private HashMap fieldHash = new HashMap();
+    private Map<String, Field> fieldHash = new HashMap<>();
     private Logger logger = LoggerFactory.getLogger(FieldMethodizer.class);
 
     /**
@@ -148,7 +149,7 @@ public class FieldMethodizer
         Object value = null;
         try
         {
-            Field f = (Field) fieldHash.get( fieldName );
+            Field f = fieldHash.get( fieldName );
             if (f != null)
             {
                 value = f.get(null);
@@ -166,7 +167,7 @@ public class FieldMethodizer
      *  Method that retrieves all public static fields
      *  in the class we are methodizing.
      */
-    private void inspect(Class clas)
+    private void inspect(Class<?> clas)
     {
         Field[] fields = clas.getFields();
         for (Field field : fields)
