@@ -174,28 +174,6 @@ public class SecureIntrospectionTestCase extends BaseTestCase
         c.add("ccc");
         return c;
     }
-
-    public ClassLoader getSampleClassLoader1()
-    {
-        return this.getClass().getClassLoader();
-    }
-
-    /**
-     * sample property which is a subclass of ClassLoader
-     * @return
-     */
-    public ClassLoader getSampleClassLoader2()
-    {
-        try
-        {
-            return new URLClassLoader(new URL[]{new URL("file://.")}, this.getClass().getClassLoader());
-        }
-        catch (MalformedURLException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
 }
 
 
