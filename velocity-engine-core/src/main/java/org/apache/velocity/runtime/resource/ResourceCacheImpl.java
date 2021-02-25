@@ -101,7 +101,8 @@ public class ResourceCacheImpl implements ResourceCache
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#initialize(org.apache.velocity.runtime.RuntimeServices)
      */
-    public void initialize( RuntimeServices rs )
+    @Override
+    public void initialize(RuntimeServices rs )
     {
         rsvc = rs;
 
@@ -111,7 +112,7 @@ public class ResourceCacheImpl implements ResourceCache
         {
             // Create a whole new Map here to avoid hanging on to a
             // handle to the unsynch'd LRUMap for our lifetime.
-            Map<Object, Resource> lruCache = Collections.synchronizedMap(new LRUMap<Object, Resource>(maxSize));
+            Map<Object, Resource> lruCache = Collections.synchronizedMap(new LRUMap<>(maxSize));
             lruCache.putAll(cache);
             cache = lruCache;
         }
@@ -121,7 +122,8 @@ public class ResourceCacheImpl implements ResourceCache
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#get(java.lang.Object)
      */
-    public Resource get( Object key )
+    @Override
+    public Resource get(Object key )
     {
         return cache.get( key );
     }
@@ -129,7 +131,8 @@ public class ResourceCacheImpl implements ResourceCache
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#put(java.lang.Object, org.apache.velocity.runtime.resource.Resource)
      */
-    public Resource put( Object key, Resource value )
+    @Override
+    public Resource put(Object key, Resource value )
     {
         return cache.put( key, value );
     }
@@ -137,7 +140,8 @@ public class ResourceCacheImpl implements ResourceCache
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#remove(java.lang.Object)
      */
-    public Resource remove( Object key )
+    @Override
+    public Resource remove(Object key )
     {
         return cache.remove( key );
     }
@@ -146,6 +150,7 @@ public class ResourceCacheImpl implements ResourceCache
      * @see org.apache.velocity.runtime.resource.ResourceCache#clear()
      * @since 2.0
      */
+    @Override
     public void clear()
     {
         cache.clear();
@@ -154,6 +159,7 @@ public class ResourceCacheImpl implements ResourceCache
     /**
      * @see org.apache.velocity.runtime.resource.ResourceCache#enumerateKeys()
      */
+    @Override
     public Iterator<Object> enumerateKeys()
     {
         return cache.keySet().iterator();

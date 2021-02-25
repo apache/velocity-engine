@@ -25,7 +25,6 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.RuntimeServicesAware;
 import org.apache.velocity.util.introspection.Info;
-import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +69,7 @@ public class ReportInvalidReferences implements
     /**
      * List of InvalidReferenceInfo objects
      */
-    List<InvalidReferenceInfo> invalidReferences = new ArrayList();
+    List<InvalidReferenceInfo> invalidReferences = new ArrayList<>();
 
     /**
      * If true, stop at the first invalid reference and throw an exception.
@@ -89,8 +88,9 @@ public class ReportInvalidReferences implements
      * @return always returns null
      * @throws ParseErrorException
      */
+    @Override
     public Object invalidGetMethod(Context context, String reference, Object object,
-            String property, Info info)
+                                   String property, Info info)
     {
         reportInvalidReference(reference, info);
         return null;
@@ -107,8 +107,9 @@ public class ReportInvalidReferences implements
      * @return always returns null
      * @throws ParseErrorException
      */
+    @Override
     public Object invalidMethod(Context context, String reference, Object object,
-            String method, Info info)
+                                String method, Info info)
     {
         if (reference == null)
         {
@@ -130,6 +131,7 @@ public class ReportInvalidReferences implements
      * @param info contains info on template, line, col
      * @return loop to end -- always returns false
      */
+    @Override
     public boolean invalidSetMethod(Context context, String leftreference, String rightreference, Info info)
     {
         reportInvalidReference(leftreference, info);
@@ -173,6 +175,7 @@ public class ReportInvalidReferences implements
      * Called automatically when event cartridge is initialized.
      * @param rs RuntimeServices object assigned during initialization
      */
+    @Override
     public void setRuntimeServices(RuntimeServices rs)
     {
         Boolean b = rs.getConfiguration().getBoolean(OLD_EVENTHANDLER_INVALIDREFERENCE_EXCEPTION, null);
@@ -184,7 +187,7 @@ public class ReportInvalidReferences implements
         {
             rs.getLog().warn("configuration key '{}' has been deprecated in favor of '{}'", OLD_EVENTHANDLER_INVALIDREFERENCE_EXCEPTION, EVENTHANDLER_INVALIDREFERENCE_EXCEPTION);
         }
-        stopOnFirstInvalidReference = b.booleanValue();
+        stopOnFirstInvalidReference = b;
     }
 
 }

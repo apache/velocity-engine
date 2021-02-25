@@ -66,6 +66,7 @@ public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServ
      * @param info template name and line, column informations
      * @return an object to insert in the page
      */
+    @Override
     public Object methodException(Context context, Class<?> claz, String method, Exception e, Info info)
     {
         boolean showTemplateInfo = rs.getBoolean(SHOW_TEMPLATE_INFO, false);
@@ -111,6 +112,7 @@ public class PrintExceptions implements MethodExceptionEventHandler, RuntimeServ
     /**
      * @see org.apache.velocity.util.RuntimeServicesAware#setRuntimeServices(org.apache.velocity.runtime.RuntimeServices)
      */
+    @Override
     public void setRuntimeServices(RuntimeServices rs)
     {
         this.rs = rs;

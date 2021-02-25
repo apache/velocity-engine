@@ -37,6 +37,7 @@ public class Velocity924TestCase extends BaseTestCase
         public String getName() { return "foo"; }
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("var", new Foo());

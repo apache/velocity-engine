@@ -46,6 +46,7 @@ public class DeprecatedCheckUberspectorsTestCase extends BaseTestCase {
         return new TestSuite(DeprecatedCheckUberspectorsTestCase.class);
     }
 
+    @Override
     protected void setUpEngine(VelocityEngine engine)
     {
         engine.setProperty(Velocity.RUNTIME_LOG_INSTANCE, new TestLogger(false, true));
@@ -53,6 +54,7 @@ public class DeprecatedCheckUberspectorsTestCase extends BaseTestCase {
         engine.addProperty(Velocity.UBERSPECT_CLASSNAME, "org.apache.velocity.util.introspection.DeprecatedCheckUberspector");
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("obj1", new StandardObject());

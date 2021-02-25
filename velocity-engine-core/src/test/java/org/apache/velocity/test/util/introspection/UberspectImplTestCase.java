@@ -3,13 +3,11 @@ package org.apache.velocity.test.util.introspection;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.test.BaseTestCase;
 import org.apache.velocity.test.misc.TestLogger;
 
-import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -105,6 +103,7 @@ public class UberspectImplTestCase extends BaseTestCase
 
     public class SomeIterable implements Iterable
     {
+        @Override
         public Iterator iterator()
         {
             return Arrays.asList("1", "2", "3").iterator();

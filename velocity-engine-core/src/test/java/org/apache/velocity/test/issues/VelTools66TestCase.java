@@ -50,6 +50,7 @@ public class VelTools66TestCase
         return new TestSuite(VelTools66TestCase.class);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -70,6 +71,7 @@ public class VelTools66TestCase
         }
     }
 
+    @Override
     public void tearDown()
     {
         System.setSecurityManager(null);
@@ -114,11 +116,13 @@ public class VelTools66TestCase
         {
         }
 
+        @Override
         public String getTestValue()
         {
             return testValue;
         }
 
+        @Override
         public void setTestValue(final String testValue)
         {
             this.testValue = testValue;
@@ -127,14 +131,14 @@ public class VelTools66TestCase
 
     public static final class TestSecurityManager extends SecurityManager
     {
-        private final Class clazz = TestObject.class;
+        private final Class<?> clazz = TestObject.class;
 
         public TestSecurityManager()
         {
             super();
         }
 
-        public void checkMemberAccess(final Class c, final int i)
+        public void checkMemberAccess(final Class<?> c, final int i)
         {
             log("checkMemberAccess(" + c.getName() + ", " + i + ")");
 
@@ -144,21 +148,25 @@ public class VelTools66TestCase
             }
         }
 
+        @Override
         public void checkRead(final String file)
         {
             log("checkRead(" + file + ")");
         }
 
+        @Override
         public void checkPackageAccess(final String s)
         {
             log("checkPackageAccess(" + s + ")");
         }
 
+        @Override
         public void checkPropertyAccess(final String s)
         {
             log("checkPropertyAccess(" + s + ")");
         }
 
+        @Override
         public void checkPermission(final Permission p)
         {
             log("checkPermission(" + p + ")");

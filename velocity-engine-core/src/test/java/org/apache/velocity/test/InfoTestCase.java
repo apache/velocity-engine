@@ -58,6 +58,7 @@ public class InfoTestCase extends BaseTestCase implements TemplateTestBase
         return new TestSuite(InfoTestCase.class);
     }
 
+    @Override
     public void setUp() throws Exception
     {
         ve = new VelocityEngine();

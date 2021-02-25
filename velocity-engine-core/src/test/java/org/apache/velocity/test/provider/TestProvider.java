@@ -125,9 +125,9 @@ public class TestProvider
         for (int i = 0; i < 3; i++)
         {
             Hashtable item = new Hashtable();
-            item.put("id", "item" + Integer.toString(i+1));
-            item.put("name", "name" + Integer.toString(i+1));
-            item.put("label", "label" + Integer.toString(i+1));
+            item.put("id", "item" + (i+1));
+            item.put("name", "name" + (i+1));
+            item.put("label", "label" + (i+1));
             //al.add(item);
             menu[i] = item;
         }

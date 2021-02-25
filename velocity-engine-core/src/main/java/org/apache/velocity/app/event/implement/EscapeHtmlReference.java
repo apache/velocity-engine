@@ -41,6 +41,7 @@ public class EscapeHtmlReference extends EscapeReference
      * @return An escaped String.
      * @see <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/StringEscapeUtils.html#escapeHtml4%28java.lang.String%29">StringEscapeUtils</a>
      */
+    @Override
     protected String escape(Object text)
     {
         return StringEscapeUtils.escapeHtml4(text.toString());
@@ -49,6 +50,7 @@ public class EscapeHtmlReference extends EscapeReference
     /**
      * @return attribute "eventhandler.escape.html.match"
      */
+    @Override
     protected String getMatchAttribute()
     {
         return "eventhandler.escape.html.match";

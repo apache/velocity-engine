@@ -46,7 +46,7 @@ public class BooleanPropertyExecutor extends PropertyExecutor
      * @since 1.5
      */
     public BooleanPropertyExecutor(final Logger log, final Introspector introspector,
-                                   final Class clazz, final String property)
+                                   final Class<?> clazz, final String property)
     {
         this(log, introspector, clazz, property, false);
     }
@@ -60,12 +60,13 @@ public class BooleanPropertyExecutor extends PropertyExecutor
      * @since 1.5
      */
     public BooleanPropertyExecutor(final Logger log, final Introspector introspector,
-            final Class clazz, final String property, final boolean wrapArray)
+            final Class<?> clazz, final String property, final boolean wrapArray)
     {
         super(log, introspector, clazz, property, wrapArray);
     }
 
-    protected void discover(final Class clazz, final String property)
+    @Override
+    protected void discover(final Class<?> clazz, final String property)
     {
         try
         {
@@ -105,7 +106,7 @@ public class BooleanPropertyExecutor extends PropertyExecutor
                 }
             }
         }
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )

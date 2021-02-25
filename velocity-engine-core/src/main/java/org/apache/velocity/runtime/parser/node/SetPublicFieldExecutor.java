@@ -52,7 +52,7 @@ public class SetPublicFieldExecutor
      * @param arg
      */
     public SetPublicFieldExecutor(final Logger log, final Introspector introspector,
-            final Class clazz, final String property, final Object arg)
+            final Class<?> clazz, final String property, final Object arg)
     {
         this.log = log;
         this.introspector = introspector;
@@ -66,6 +66,7 @@ public class SetPublicFieldExecutor
         }
     }
 
+    @Override
     public boolean isAlive() {
         return getField() != null;
     }
@@ -99,7 +100,7 @@ public class SetPublicFieldExecutor
      * @param property
      * @param arg
      */
-    protected void discover(final Class clazz, final String property, final Object arg)
+    protected void discover(final Class<?> clazz, final String property, final Object arg)
     {
         try
         {
@@ -109,7 +110,7 @@ public class SetPublicFieldExecutor
                 setField(field);
             }
         }
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )
@@ -132,6 +133,7 @@ public class SetPublicFieldExecutor
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
+    @Override
     public Object execute(final Object o, final Object value)
         throws IllegalAccessException,  InvocationTargetException
     {

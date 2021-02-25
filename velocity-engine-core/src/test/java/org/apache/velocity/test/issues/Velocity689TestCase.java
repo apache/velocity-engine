@@ -33,6 +33,7 @@ public class Velocity689TestCase extends BaseTestCase
         //DEBUG = true;
     }
 
+    @Override
     public void setUpContext(VelocityContext ctx)
     {
         ctx.put("foo", new Foo());
@@ -61,11 +62,13 @@ public class Velocity689TestCase extends BaseTestCase
 
     private static class Foo implements NoMethod
     {
+        @Override
         public String getBar()
         {
             return "bar";
         }
 
+        @Override
         public String getBaz()
         {
             return "baz";

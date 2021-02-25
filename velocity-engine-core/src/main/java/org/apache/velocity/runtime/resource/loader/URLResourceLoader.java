@@ -21,17 +21,16 @@ package org.apache.velocity.runtime.resource.loader;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is a simple URL-based loader.
@@ -44,13 +43,14 @@ import java.util.HashMap;
 public class URLResourceLoader extends ResourceLoader
 {
     private String[] roots = null;
-    protected HashMap templateRoots = null;
+    protected Map<String, String> templateRoots = null;
     private int timeout = -1;
 
     /**
      * @param configuration
      * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
+    @Override
     public void init(ExtProperties configuration)
     {
         log.trace("URLResourceLoader: initialization starting.");
@@ -67,7 +67,7 @@ public class URLResourceLoader extends ResourceLoader
         timeout = configuration.getInt("timeout", -1);
 
         // init the template paths map
-        templateRoots = new HashMap();
+        templateRoots = new HashMap<>();
 
         log.trace("URLResourceLoader: initialization complete.");
     }
@@ -83,6 +83,7 @@ public class URLResourceLoader extends ResourceLoader
      *         in the file template path.
      * @since 2.0
      */
+    @Override
     public synchronized Reader getResourceReader(String name, String encoding)
             throws ResourceNotFoundException
     {
@@ -161,6 +162,7 @@ public class URLResourceLoader extends ResourceLoader
      * @param resource Resource  The resource to check for modification
      * @return boolean  True if the resource has been modified, moved, or unreachable
      */
+    @Override
     public boolean isSourceModified(Resource resource)
     {
         long fileLastModified = getLastModified(resource);
@@ -175,11 +177,12 @@ public class URLResourceLoader extends ResourceLoader
      * @param resource Resource the resource to check
      * @return long The time when the resource was last modified or 0 if the file can't be reached
      */
+    @Override
     public long getLastModified(Resource resource)
     {
         // get the previously used root
         String name = resource.getName();
-        String root = (String)templateRoots.get(name);
+        String root = templateRoots.get(name);
 
         try
         {

@@ -45,6 +45,7 @@ public class StrictAlternateValuesTestCase extends BaseTestCase
         engine.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, Boolean.TRUE);
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("foo", null);

@@ -36,20 +36,24 @@ import java.io.Reader;
 public class ExceptionGeneratingResourceLoader extends ResourceLoader
 {
 
+    @Override
     public void init(ExtProperties configuration)
     {
     }
 
+    @Override
     public Reader getResourceReader(String source, String encoding) throws ResourceNotFoundException
     {
         throw new RuntimeException("exception");
     }
 
+    @Override
     public boolean isSourceModified(Resource resource)
     {
         return false;
     }
 
+    @Override
     public long getLastModified(Resource resource)
     {
         return 0;

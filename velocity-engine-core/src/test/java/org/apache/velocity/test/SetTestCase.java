@@ -74,6 +74,7 @@ public class SetTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -87,12 +88,12 @@ public class SetTestCase extends BaseTestCase
     public void testSetNull()
             throws Exception
     {
-        /**
+        /*
          * Check that #set does accept nulls
          */
         checkTemplate("set1");
 
-        /**
+        /*
          * Check that #set can accept nulls, and has the correct behaviour for complex LHS
          */
         checkTemplate("set2");

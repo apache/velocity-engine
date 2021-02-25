@@ -49,6 +49,7 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
         return new TestSuite(ChainedUberspectorsTestCase.class);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -60,6 +61,7 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
 	    Velocity.init();
     }
 
+    @Override
     public void tearDown()
     {
     }
@@ -88,6 +90,7 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
     // replaces getFoo by getBar
     public static class ChainedUberspector extends AbstractChainableUberspector
     {
+        @Override
         public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info info)
         {
             identifier = identifier.replaceAll("foo","bar");
@@ -98,6 +101,7 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
     // replaces setFoo by setBar
     public static class LinkedUberspector extends UberspectImpl
     {
+        @Override
         public VelPropertyGet getPropertyGet(Object obj, String identifier, Info info)
         {
             identifier = identifier.replaceAll("foo","bar");

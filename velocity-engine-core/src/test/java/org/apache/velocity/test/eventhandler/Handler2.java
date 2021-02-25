@@ -39,6 +39,7 @@ public class Handler2
     /**
      * convert output to upper case
      */
+    @Override
     public Object referenceInsert(Context context, String reference, Object value)
     {
         if (value == null)
@@ -50,7 +51,8 @@ public class Handler2
     /**
      * print the exception
      */
-    public Object methodException(Context context, Class claz, String method, Exception e, Info info)
+    @Override
+    public Object methodException(Context context, Class<?> claz, String method, Exception e, Info info)
     {
         return "Exception: " + e;
     }
@@ -58,6 +60,7 @@ public class Handler2
     /*
      * redirect all requests to a new directory "subdir" (simulates localization).
      */
+    @Override
     public String includeEvent(
         Context context,
         String includeResourcePath,

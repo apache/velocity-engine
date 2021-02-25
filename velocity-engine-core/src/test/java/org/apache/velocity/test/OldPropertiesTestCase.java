@@ -55,6 +55,7 @@ public class OldPropertiesTestCase extends TestCase implements TemplateTestBase
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -98,7 +99,7 @@ public class OldPropertiesTestCase extends TestCase implements TemplateTestBase
 
         // check getting old/new values
         List<String> oldPropSettings = FileUtils.readLines(new File(oldProperties));
-        Set<String> oldKeys = new HashSet<String>();
+        Set<String> oldKeys = new HashSet<>();
         for (String oldProp : oldPropSettings)
         {
             Matcher matcher = propPattern.matcher(oldProp);

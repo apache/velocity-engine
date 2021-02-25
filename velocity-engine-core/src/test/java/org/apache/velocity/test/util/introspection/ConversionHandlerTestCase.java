@@ -1,4 +1,6 @@
-/**
+package org.apache.velocity.test.util.introspection;
+
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,7 +18,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.velocity.test.util.introspection;
 
 import junit.framework.TestSuite;
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +68,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -175,19 +177,19 @@ public class ConversionHandlerTestCase extends BaseTestCase
         };
 
         @Override
-        public boolean isExplicitlyConvertible(Type formal, Class actual, boolean possibleVarArg)
+        public boolean isExplicitlyConvertible(Type formal, Class<?> actual, boolean possibleVarArg)
         {
             return true;
         }
 
         @Override
-        public Converter getNeededConverter(Type formal, Class actual)
+        public Converter<?> getNeededConverter(Type formal, Class<?> actual)
         {
             return myCustomConverter;
         }
 
         @Override
-        public void addConverter(Type formal, Class actual, Converter converter)
+        public void addConverter(Type formal, Class<?> actual, Converter<?> converter)
         {
             throw new RuntimeException("not implemented");
         }
@@ -239,7 +241,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
         Template template = ve.getTemplate(templateFile);
         template.merge(context, writer);
 
-        /**
+        /*
          * Write to the file
          */
         writer.flush();
@@ -296,6 +298,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
 
     public static class PrintException implements MethodExceptionEventHandler
     {
+        @Override
         public Object methodException(Context context,
                                       Class claz,
                                       String method,

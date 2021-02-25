@@ -31,6 +31,7 @@ public class IfNullTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("nullToString", new NullToString());

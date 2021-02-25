@@ -60,7 +60,7 @@ public class ClassUtils {
      * @return the requested Class object
      * @throws ClassNotFoundException
      */
-    public static Class getClass(String clazz) throws ClassNotFoundException
+    public static Class<?> getClass(String clazz) throws ClassNotFoundException
     {
         /**
          * Use the Thread context classloader if possible
@@ -74,13 +74,13 @@ public class ClassUtils {
             }
             catch (ClassNotFoundException E)
             {
-                /**
+                /*
                  * If not found with ThreadContext loader, fall thru to
                  * try System classloader below (works around bug in ant).
                  */
             }
         }
-        /**
+        /*
          * Thread context classloader isn't working out, so use system loader.
          */
         return Class.forName(clazz);
@@ -115,11 +115,11 @@ public class ClassUtils {
      * @param name name of the resource
      * @return InputStream for the resource.
      */
-    public static InputStream getResourceAsStream(Class claz, String name)
+    public static InputStream getResourceAsStream(Class<?> claz, String name)
     {
         InputStream result = null;
 
-        /**
+        /*
          * remove leading slash so path will work with classes in a JAR file
          */
         while (name.startsWith("/"))
@@ -139,7 +139,7 @@ public class ClassUtils {
         {
             result= classLoader.getResourceAsStream( name );
 
-            /**
+            /*
             * for compatibility with texen / ant tasks, fall back to
             * old method when resource is not found.
             */
@@ -170,7 +170,7 @@ public class ClassUtils {
     * @return VelMethod object if the object is found, null if not matching method is found
     */
     public static VelMethod getMethod(String methodName, Object[] params,
-                                    Class[] paramClasses, Object o, InternalContextAdapter context,
+                                    Class<?>[] paramClasses, Object o, InternalContextAdapter context,
                                     SimpleNode node, boolean strictRef)
     {
         VelMethod method = null;
@@ -182,13 +182,13 @@ public class ClassUtils {
             boolean classObject = (o instanceof Class);
             MethodCacheKey mck = new MethodCacheKey(methodName, paramClasses, classObject);
             IntrospectionCacheData icd = context.icacheGet(mck);
-            Class clazz = classObject ? (Class)o : o.getClass();
+            Class<?> clazz = classObject ? (Class<?>)o : o.getClass();
 
             /*
             * like ASTIdentifier, if we have cache information, and the Class of
             * Object o is the same as that in the cache, we are safe.
             */
-            if (icd != null && (o != null && icd.contextData == clazz))
+            if (icd != null && icd.contextData == clazz)
             {
                 /*
                 * get the method from the cache
@@ -203,7 +203,7 @@ public class ClassUtils {
                 method = node.getRuntimeServices().getUberspect().getMethod(o, methodName, params,
                     new Info(node.getTemplateName(), node.getLine(), node.getColumn()));
 
-                if ((method != null) && (o != null))
+                if (method != null)
                 {
                     icd = new IntrospectionCacheData();
                     icd.contextData = clazz;
@@ -224,7 +224,7 @@ public class ClassUtils {
                     StringBuilder plist = new StringBuilder();
                     for (int i = 0; i < params.length; i++)
                     {
-                        Class param = paramClasses[i];
+                        Class<?> param = paramClasses[i];
                         plist.append(param == null ? "null" : param.getName());
                         if (i < params.length - 1)
                             plist.append(", ");

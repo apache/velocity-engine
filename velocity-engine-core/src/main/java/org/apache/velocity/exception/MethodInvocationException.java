@@ -126,6 +126,7 @@ public class MethodInvocationException extends VelocityException implements Exte
      * @see ExtendedParseException#getColumnNumber()
      * @since 1.5
      */
+    @Override
     public int getColumnNumber()
     {
 	    return columnNumber;
@@ -135,6 +136,7 @@ public class MethodInvocationException extends VelocityException implements Exte
      * @see ExtendedParseException#getLineNumber()
      * @since 1.5
      */
+    @Override
     public int getLineNumber()
     {
 	    return lineNumber;
@@ -144,6 +146,7 @@ public class MethodInvocationException extends VelocityException implements Exte
      * @see ExtendedParseException#getTemplateName()
      * @since 1.5
      */
+    @Override
     public String getTemplateName()
     {
 	    return templateName;
@@ -153,6 +156,7 @@ public class MethodInvocationException extends VelocityException implements Exte
      * @see Exception#getMessage()
      * @since 1.5
      */
+    @Override
     public String getMessage()
     {
         StringBuilder message = new StringBuilder();

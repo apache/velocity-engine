@@ -57,6 +57,7 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -65,6 +66,7 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
      */
+    @Override
     public boolean evaluate(InternalContextAdapter context) throws MethodInvocationException
     {
         Object left = jjtGetChild(0).value(context);
@@ -135,6 +137,7 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
      * get the string representing the mathematical operator
      * @return operator string
      */
+    @Override
     public abstract String getLiteralOperator();
 
     /**
@@ -166,6 +169,7 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
      */
+    @Override
     public Object value(InternalContextAdapter context) throws MethodInvocationException
     {
         return evaluate(context);

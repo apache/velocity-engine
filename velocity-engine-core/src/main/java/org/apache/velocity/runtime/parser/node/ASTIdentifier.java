@@ -25,7 +25,6 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
@@ -92,6 +91,7 @@ public class ASTIdentifier extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -105,6 +105,7 @@ public class ASTIdentifier extends SimpleNode
      * @return The data object.
      * @throws TemplateInitException
      */
+    @Override
     public  Object init(InternalContextAdapter context, Object data)
         throws TemplateInitException
     {
@@ -125,6 +126,7 @@ public class ASTIdentifier extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#execute(java.lang.Object, org.apache.velocity.context.InternalContextAdapter)
      */
+    @Override
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
@@ -141,7 +143,7 @@ public class ASTIdentifier extends SimpleNode
                  */
 
                 IntrospectionCacheData icd = context.icacheGet(this);
-                Class clazz = o instanceof Class ? (Class)o : o.getClass();
+                Class<?> clazz = o instanceof Class<?> ? (Class<?>)o : o.getClass();
 
                 /*
                  * if we have the cache data and the class of the object we are
@@ -150,7 +152,7 @@ public class ASTIdentifier extends SimpleNode
                  * that is fixed in the template :)
                  */
 
-                if ( icd != null && (o != null) && (icd.contextData == clazz) )
+                if ( icd != null && (icd.contextData == clazz) )
                 {
                     vg = (VelPropertyGet) icd.thingy;
                 }
@@ -163,7 +165,7 @@ public class ASTIdentifier extends SimpleNode
 
                     vg = rsvc.getUberspect().getPropertyGet(o, identifier, uberInfo);
 
-                    if (vg != null && vg.isCacheable() && (o != null))
+                    if (vg != null && vg.isCacheable())
                     {
                         icd = new IntrospectionCacheData();
                         icd.contextData = clazz;
@@ -173,7 +175,7 @@ public class ASTIdentifier extends SimpleNode
                 }
             }
 
-            /**
+            /*
              * pass through application level runtime exceptions
              */
             catch( RuntimeException e )
@@ -230,7 +232,7 @@ public class ASTIdentifier extends SimpleNode
                                 (Exception) t, uberInfo);
                     }
 
-                    /**
+                    /*
                      * If the event handler throws an exception, then wrap it
                      * in a MethodInvocationException.
                      */
@@ -264,7 +266,7 @@ public class ASTIdentifier extends SimpleNode
             {
                 return null;
             }
-            /**
+            /*
              * pass through application level runtime exceptions
              */
             catch( RuntimeException e )

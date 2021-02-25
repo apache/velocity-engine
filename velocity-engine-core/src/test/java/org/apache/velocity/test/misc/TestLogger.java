@@ -163,166 +163,196 @@ public class TestLogger extends MarkerIgnoringBase
    * Logging API
    */
 
+  @Override
   public boolean isTraceEnabled()
   {
       return isLevelEnabled(LOG_LEVEL_TRACE);
   }
 
+  @Override
   public void trace(String msg)
   {
       log(LOG_LEVEL_TRACE, msg, null);
   }
 
+  @Override
   public void trace(String format, Object arg)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg);
       log(LOG_LEVEL_TRACE, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void trace(String format, Object arg1, Object arg2)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
       log(LOG_LEVEL_TRACE, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void trace(String format, Object[] argArray)
   {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       log(LOG_LEVEL_TRACE, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void trace(String msg, Throwable t)
   {
       log(LOG_LEVEL_TRACE, msg, t);
   }
 
+  @Override
   public boolean isDebugEnabled()
   {
       return isLevelEnabled(LOG_LEVEL_DEBUG);
   }
 
+  @Override
   public void debug(String msg)
   {
       log(LOG_LEVEL_DEBUG, msg, null);
   }
 
+  @Override
   public void debug(String format, Object arg)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg);
       log(LOG_LEVEL_DEBUG, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void debug(String format, Object arg1, Object arg2)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
       log(LOG_LEVEL_DEBUG, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void debug(String format, Object[] argArray)
   {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       log(LOG_LEVEL_DEBUG, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void debug(String msg, Throwable t)
   {
       log(LOG_LEVEL_DEBUG, msg, t);
   }
 
+  @Override
   public boolean isInfoEnabled()
   {
       return isLevelEnabled(LOG_LEVEL_INFO);
   }
 
+  @Override
   public void info(String msg)
   {
       log(LOG_LEVEL_INFO, msg, null);
   }
 
+  @Override
   public void info(String format, Object arg)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg);
       log(LOG_LEVEL_INFO, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void info(String format, Object arg1, Object arg2)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
       log(LOG_LEVEL_INFO, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void info(String format, Object[] argArray)
   {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       log(LOG_LEVEL_INFO, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void info(String msg, Throwable t)
   {
       log(LOG_LEVEL_INFO, msg, t);
   }
 
+  @Override
   public boolean isWarnEnabled()
   {
       return isLevelEnabled(LOG_LEVEL_WARN);
   }
 
+  @Override
   public void warn(String msg)
   {
       log(LOG_LEVEL_WARN, msg, null);
   }
 
+  @Override
   public void warn(String format, Object arg)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg);
       log(LOG_LEVEL_WARN, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void warn(String format, Object arg1, Object arg2)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
       log(LOG_LEVEL_WARN, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void warn(String format, Object[] argArray)
   {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       log(LOG_LEVEL_WARN, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void warn(String msg, Throwable t)
   {
       log(LOG_LEVEL_WARN, msg, t);
   }
 
+  @Override
   public boolean isErrorEnabled()
   {
       return isLevelEnabled(LOG_LEVEL_ERROR);
   }
 
+  @Override
   public void error(String msg)
   {
       log(LOG_LEVEL_ERROR, msg, null);
   }
 
+  @Override
   public void error(String format, Object arg)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg);
       log(LOG_LEVEL_ERROR, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void error(String format, Object arg1, Object arg2)
   {
       FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
       log(LOG_LEVEL_ERROR, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void error(String format, Object[] argArray)
   {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       log(LOG_LEVEL_ERROR, ft.getMessage(), ft.getThrowable());
   }
 
+  @Override
   public void error(String msg, Throwable t)
   {
       log(LOG_LEVEL_ERROR, msg, t);

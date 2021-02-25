@@ -51,10 +51,10 @@ public class VelocimacroManager
     private boolean registerFromLib = false;
 
     /** reference to global namespace hash */
-    private final Map globalNamespace;
+    private final Map<String, MacroEntry> globalNamespace;
 
     /** set of names of library templates/namespaces */
-    private final Map libraries = new ConcurrentHashMap(17, 0.5f, 20);
+    private final Map<String, Template> libraries = new ConcurrentHashMap<>(17, 0.5f, 20);
 
     private RuntimeServices rsvc = null;
 
@@ -75,7 +75,7 @@ public class VelocimacroManager
          *  add the global namespace to the namespace hash. We always have that.
          */
 
-        globalNamespace = new ConcurrentHashMap(101, 0.5f, 20);
+        globalNamespace = new ConcurrentHashMap<>(101, 0.5f, 20);
         this.rsvc = rsvc;
     }
 
@@ -115,7 +115,7 @@ public class VelocimacroManager
 
         boolean isLib = true;
 
-        MacroEntry exist = (MacroEntry) globalNamespace.get(vmName);
+        MacroEntry exist = globalNamespace.get(vmName);
 
         if (registerFromLib)
         {
@@ -137,7 +137,6 @@ public class VelocimacroManager
         if ( !isLib && usingNamespaces() )
         {
             definingTemplate.getMacros().put(vmName, me);
-            return true;
         }
         else
         {
@@ -158,8 +157,8 @@ public class VelocimacroManager
 
             globalNamespace.put(vmName, me);
 
-            return true;
         }
+        return true;
     }
 
     /**
@@ -197,7 +196,7 @@ public class VelocimacroManager
             }
         }
 
-        MacroEntry me = (MacroEntry) globalNamespace.get(vmName);
+        MacroEntry me = globalNamespace.get(vmName);
 
         if (me != null)
         {
@@ -282,7 +281,7 @@ public class VelocimacroManager
                 return null;
         }
 
-        MacroEntry me = (MacroEntry) globalNamespace.get(vmName);
+        MacroEntry me = globalNamespace.get(vmName);
 
         if (me != null)
         {
@@ -307,10 +306,7 @@ public class VelocimacroManager
      */
     private static class MacroEntry
     {
-        private final String vmName;
-        private final List<Macro.MacroArg> macroArgs;
         private final String sourceTemplate;
-        private SimpleNode nodeTree = null;
         private boolean fromLibrary = false;
         private VelocimacroProxy vp;
 
@@ -318,16 +314,13 @@ public class VelocimacroManager
                    List<Macro.MacroArg> macroArgs, final String sourceTemplate,
                    RuntimeServices rsvc)
         {
-            this.vmName = vmName;
-            this.macroArgs = macroArgs;
-            this.nodeTree = (SimpleNode)macro;
             this.sourceTemplate = sourceTemplate;
 
             vp = new VelocimacroProxy();
             vp.init(rsvc);
-            vp.setName(this.vmName);
-            vp.setMacroArgs(this.macroArgs);
-            vp.setNodeTree(this.nodeTree);
+            vp.setName(vmName);
+            vp.setMacroArgs(macroArgs);
+            vp.setNodeTree((SimpleNode)macro);
             vp.setLocation(macro.getLine(), macro.getColumn(), macro.getTemplate());
         }
 

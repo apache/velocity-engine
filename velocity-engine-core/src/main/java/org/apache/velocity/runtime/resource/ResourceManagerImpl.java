@@ -92,6 +92,7 @@ public class ResourceManagerImpl
      *
      * @param  rs  The Runtime Services object which is associated with this Resource Manager.
      */
+    @Override
     public synchronized void initialize(final RuntimeServices rs)
     {
         if (isInit)
@@ -111,7 +112,7 @@ public class ResourceManagerImpl
 
         for (ExtProperties configuration : sourceInitializerList)
         {
-            /**
+            /*
              * Resource loader can be loaded either via class name or be passed
              * in as an instance.
              */
@@ -199,6 +200,8 @@ public class ResourceManagerImpl
 
         globalCache.initialize(rsvc);
 
+        isInit = true;
+
         log.trace("Default ResourceManager initialization complete.");
     }
 
@@ -208,7 +211,7 @@ public class ResourceManagerImpl
      */
     private void assembleResourceLoaderInitializers()
     {
-        Vector resourceLoaderNames = rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADERS);
+        Vector<String> resourceLoaderNames = rsvc.getConfiguration().getVector(RuntimeConstants.RESOURCE_LOADERS);
 
         for (ListIterator<String> it = resourceLoaderNames.listIterator(); it.hasNext(); )
         {
@@ -271,6 +274,7 @@ public class ResourceManagerImpl
      * @throws  ResourceNotFoundException  if template not found from any available source.
      * @throws  ParseErrorException  if template cannot be parsed due to syntax (or other) error.
      */
+    @Override
     public Resource getResource(final String resourceName, final int resourceType, final String encoding)
         throws ResourceNotFoundException,
             ParseErrorException
@@ -572,6 +576,7 @@ public class ResourceManagerImpl
      *
      * @return  class name of loader than can provide it
      */
+    @Override
     public String getLoaderNameForResource(String resourceName)
     {
         ResourceLoader loader = getLoaderForResource(resourceName);

@@ -1,4 +1,6 @@
-/**
+package org.apache.velocity.test;
+
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,7 +18,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.velocity.test;
 
 import junit.framework.TestSuite;
 import org.apache.velocity.Template;
@@ -45,6 +46,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -149,7 +151,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         Template template = ve.getTemplate("parseMacro1.vm");
         template.merge(context, writer);
 
-        /**
+        /*
          * Write to the file
          */
         writer.flush();
@@ -241,7 +243,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         Template template = ve1.getTemplate("parseMacro2.vm");
         template.merge(context, writer);
 
-        /**
+        /*
          * Write to the file
          */
         writer.flush();
@@ -291,7 +293,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         Template template = ve1.getTemplate("parseMacro3.vm");
         template.merge(context, writer);
 
-        /**
+        /*
          * Write to the file
          */
         writer.flush();

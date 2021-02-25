@@ -33,6 +33,7 @@ public class StopDirectiveTestCase extends BaseTestCase
         //DEBUG=true;
     }
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();

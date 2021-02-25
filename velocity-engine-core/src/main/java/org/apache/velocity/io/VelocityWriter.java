@@ -148,6 +148,7 @@ public final class VelocityWriter extends Writer implements Filter
      * @throws IOException
      *
      */
+    @Override
     public final void flush()  throws IOException
     {
         flushBuffer();
@@ -162,6 +163,7 @@ public final class VelocityWriter extends Writer implements Filter
      * @throws IOException
      *
      */
+    @Override
     public final void close() throws IOException {
         if (writer == null)
             return;
@@ -182,6 +184,7 @@ public final class VelocityWriter extends Writer implements Filter
      * @throws IOException
      *
      */
+    @Override
     public final void write(int c) throws IOException
     {
         if (bufferSize == 0)
@@ -225,6 +228,7 @@ public final class VelocityWriter extends Writer implements Filter
      * @throws IOException
      *
      */
+    @Override
     public final void write(char cbuf[], int off, int len)
         throws IOException
     {
@@ -273,6 +277,7 @@ public final class VelocityWriter extends Writer implements Filter
      * @param buf
      * @throws IOException
      */
+    @Override
     public final void write(char buf[]) throws IOException
     {
     	write(buf, 0, buf.length);
@@ -287,6 +292,7 @@ public final class VelocityWriter extends Writer implements Filter
      * @throws IOException
      *
      */
+    @Override
     public final void write(String s, int off, int len) throws IOException
     {
         if (bufferSize == 0)
@@ -315,6 +321,7 @@ public final class VelocityWriter extends Writer implements Filter
      * @param s
      * @throws IOException
      */
+    @Override
     public final void write(String s) throws IOException
     {
         if (s != null)
@@ -339,6 +346,7 @@ public final class VelocityWriter extends Writer implements Filter
      * The default implementation is to call the wrapped Writer's
      * write(String) method.
      */
+    @Override
     public void writeReference(String ref) throws IOException
     {
         write(ref);

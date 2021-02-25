@@ -57,6 +57,7 @@ public abstract class ASTMathNode extends ASTBinaryOperator
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
         super.init(context, data);
@@ -68,6 +69,7 @@ public abstract class ASTMathNode extends ASTBinaryOperator
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -80,6 +82,7 @@ public abstract class ASTMathNode extends ASTBinaryOperator
      * @return result or null
      * @throws MethodInvocationException
      */
+    @Override
     public Object value(InternalContextAdapter context) throws MethodInvocationException
     {
         Object left = jjtGetChild(0).value(context);

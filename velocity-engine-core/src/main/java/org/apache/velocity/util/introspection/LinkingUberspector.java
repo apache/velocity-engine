@@ -58,6 +58,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      * @see org.apache.velocity.util.introspection.Uberspect#init()
      */
     //@Override
+    @Override
     public void init()
     {
         leftUberspect.init();
@@ -72,6 +73,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      */
     //@SuppressWarnings("unchecked")
     //@Override
+    @Override
     public Iterator getIterator(Object obj, Info i)
     {
         Iterator it = leftUberspect.getIterator(obj,i);
@@ -85,6 +87,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      *      java.lang.Object[], org.apache.velocity.util.introspection.Info)
      */
     //@Override
+    @Override
     public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
     {
         VelMethod method = leftUberspect.getMethod(obj,methodName,args,i);
@@ -98,6 +101,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      *      org.apache.velocity.util.introspection.Info)
      */
     //@Override
+    @Override
     public VelPropertyGet getPropertyGet(Object obj, String identifier, Info i)
     {
         VelPropertyGet getter = leftUberspect.getPropertyGet(obj,identifier,i);
@@ -111,6 +115,7 @@ public class LinkingUberspector extends AbstractChainableUberspector
      *      java.lang.Object, org.apache.velocity.util.introspection.Info)
      */
     //@Override
+    @Override
     public VelPropertySet getPropertySet(Object obj, String identifier, Object arg, Info i)
     {
         VelPropertySet setter = leftUberspect.getPropertySet(obj,identifier,arg,i);

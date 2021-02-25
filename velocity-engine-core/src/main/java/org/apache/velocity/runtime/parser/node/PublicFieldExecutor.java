@@ -47,7 +47,7 @@ public class PublicFieldExecutor extends AbstractExecutor
      * @since 1.5
      */
     public PublicFieldExecutor(final Logger log, final Introspector introspector,
-            final Class clazz, final String property)
+            final Class<?> clazz, final String property)
     {
         this.log = log;
         this.introspector = introspector;
@@ -61,6 +61,7 @@ public class PublicFieldExecutor extends AbstractExecutor
         }
     }
 
+    @Override
     public boolean isAlive() {
         return getField() != null;
     }
@@ -94,13 +95,13 @@ public class PublicFieldExecutor extends AbstractExecutor
      * @param clazz
      * @param property
      */
-    protected void discover(final Class clazz, final String property)
+    protected void discover(final Class<?> clazz, final String property)
     {
         try
         {
             setField(introspector.getField(clazz, property));
         }
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )
@@ -118,6 +119,7 @@ public class PublicFieldExecutor extends AbstractExecutor
     /**
      * @see org.apache.velocity.runtime.parser.node.AbstractExecutor#execute(java.lang.Object)
      */
+    @Override
     public Object execute(Object o)
         throws IllegalAccessException,  InvocationTargetException
     {

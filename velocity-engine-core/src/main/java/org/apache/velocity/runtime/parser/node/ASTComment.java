@@ -61,6 +61,7 @@ public class ASTComment extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -72,6 +73,7 @@ public class ASTComment extends SimpleNode
      * @param data
      * @return The data object.
      */
+    @Override
     public Object init(InternalContextAdapter context, Object data)
     {
         Token t = getFirstToken();
@@ -96,7 +98,8 @@ public class ASTComment extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
-    public boolean render( InternalContextAdapter context, Writer writer)
+    @Override
+    public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException, ParseErrorException, ResourceNotFoundException
     {
         writer.write(carr);

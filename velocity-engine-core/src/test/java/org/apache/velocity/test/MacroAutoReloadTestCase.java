@@ -43,6 +43,7 @@ public class MacroAutoReloadTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         // always copy macros library before modifying it, to ensure successive tests will pass

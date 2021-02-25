@@ -142,6 +142,7 @@ public class ASTReference extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -150,6 +151,7 @@ public class ASTReference extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
+    @Override
     public Object init(InternalContextAdapter context, Object data)
     throws TemplateInitException
     {
@@ -229,7 +231,7 @@ public class ASTReference extends SimpleNode
             rsvc.getBoolean(RuntimeConstants.EVENTHANDLER_INVALIDREFERENCES_TESTED, false);
 
 
-        /**
+        /*
          * In the case we are referencing a variable with #if($foo) or
          * #if( ! $foo) then we allow variables to be undefined and we
          * set strictRef to false so that if the variable is undefined
@@ -280,6 +282,7 @@ public class ASTReference extends SimpleNode
      * @return The execution result.
      * @throws MethodInvocationException
      */
+    @Override
     public Object execute(Object o, InternalContextAdapter context)
         throws MethodInvocationException
     {
@@ -309,7 +312,7 @@ public class ASTReference extends SimpleNode
              * is *knowingly* potentially null and should be accepted
              * in strict mode (except if the alternate value is null)
              */
-            if (astAlternateValue != null && (result == null || !DuckType.asBoolean(result, false)))
+            if (astAlternateValue != null && (!DuckType.asBoolean(result, false)))
             {
                 result = astAlternateValue.value(context);
             }
@@ -354,7 +357,7 @@ public class ASTReference extends SimpleNode
                 {
                     if (strictRef && result == null)
                     {
-                        /**
+                        /*
                          * At this point we know that an attempt is about to be made
                          * to call a method or property on a null value.
                          */
@@ -367,7 +370,7 @@ public class ASTReference extends SimpleNode
                     }
                     previousResult = result;
                     result = jjtGetChild(i).execute(result,context);
-                    if (astAlternateValue != null && (result == null || !DuckType.asBoolean(result, checkEmpty)))
+                    if (astAlternateValue != null && (!DuckType.asBoolean(result, checkEmpty)))
                     {
                         result = astAlternateValue.value(context);
                     }
@@ -461,6 +464,7 @@ public class ASTReference extends SimpleNode
      * @throws IOException
      * @throws MethodInvocationException
      */
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer) throws IOException,
             MethodInvocationException
     {
@@ -477,7 +481,7 @@ public class ASTReference extends SimpleNode
             Object value = null;
             if (escaped && strictEscape)
             {
-              /**
+              /*
                * If we are in strict mode and the variable is escaped, then don't bother to
                * retrieve the value since we won't use it. And if the var is not defined
                * it will throw an exception.  Set value to TRUE to fall through below with
@@ -606,7 +610,6 @@ public class ASTReference extends SimpleNode
                     log.debug("Null reference [template '{}', line {}, column {}]: {} cannot be resolved.",
                               getTemplateName(), this.getLine(), this.getColumn(), this.literal());
                 }
-                return true;
             }
             else
             {
@@ -624,8 +627,8 @@ public class ASTReference extends SimpleNode
                     writer.write(toString);
                 }
 
-                return true;
             }
+            return true;
         }
         finally
         {
@@ -668,6 +671,7 @@ public class ASTReference extends SimpleNode
      * @return True if evaluation was ok.
      * @throws MethodInvocationException
      */
+    @Override
     public boolean evaluate(InternalContextAdapter context)
         throws MethodInvocationException
     {
@@ -695,6 +699,7 @@ public class ASTReference extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
      */
+    @Override
     public Object value(InternalContextAdapter context)
         throws MethodInvocationException
     {
@@ -707,7 +712,7 @@ public class ASTReference extends SimpleNode
      * @param clazz
      * @return class name, or the string "null"
      */
-    public static String printClass(Class clazz)
+    public static String printClass(Class<?> clazz)
     {
       return clazz == null ? "null" : clazz.getName();
     }
@@ -795,7 +800,7 @@ public class ASTReference extends SimpleNode
                 // If negative, turn -1 into (size - 1)
                 argument = ASTIndex.adjMinusIndexArg(argument, result, context, astIndex);
                 Object [] params = {argument, value};
-                Class[] paramClasses = {params[0] == null ? null : params[0].getClass(),
+                Class<?>[] paramClasses = {params[0] == null ? null : params[0].getClass(),
                                         params[1] == null ? null : params[1].getClass()};
 
                 String methodName = "set";
@@ -894,7 +899,7 @@ public class ASTReference extends SimpleNode
                     + ite.getTargetException().toString(),
                    ite.getTargetException(), rsvc.getLogContext().getStackTrace(), identifier, getTemplateName(), this.getLine(), this.getColumn());
             }
-            /**
+            /*
              * pass through application level runtime exceptions
              */
             catch( RuntimeException e )

@@ -55,15 +55,15 @@ import java.util.Set;
  */
 public class EventCartridge
 {
-    private List<ReferenceInsertionEventHandler> referenceHandlers = new ArrayList();
+    private List<ReferenceInsertionEventHandler> referenceHandlers = new ArrayList<>();
     private MethodExceptionEventHandler methodExceptionHandler = null;
-    private List<IncludeEventHandler> includeHandlers = new ArrayList();
-    private List<InvalidReferenceEventHandler> invalidReferenceHandlers = new ArrayList();
+    private List<IncludeEventHandler> includeHandlers = new ArrayList<>();
+    private List<InvalidReferenceEventHandler> invalidReferenceHandlers = new ArrayList<>();
 
     /**
      * Ensure that handlers are not initialized more than once.
      */
-    Set initializedHandlers = new HashSet();
+    Set<EventHandler> initializedHandlers = new HashSet<>();
 
     protected RuntimeServices rsvc = null;
 
@@ -305,7 +305,7 @@ public class EventCartridge
      * @return value returned by handler
      * @since 2.0
      */
-    public Object methodException(Context context, Class claz, String method, Exception e, Info info)
+    public Object methodException(Context context, Class<?> claz, String method, Exception e, Info info)
     {
         if (methodExceptionHandler != null)
         {
@@ -428,7 +428,7 @@ public class EventCartridge
 
             iec.attachEventCartridge(this);
 
-            /**
+            /*
              * while it's tempting to call setContext on each handler from here,
              * this needs to be done before each method call.  This is
              * because the specific context will change as inner contexts

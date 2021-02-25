@@ -69,6 +69,7 @@ public class MacroForwardDefineTestCase
         super(name);
     }
 
+    @Override
     public void setUp()
         throws Exception
     {

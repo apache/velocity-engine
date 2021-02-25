@@ -64,6 +64,7 @@ public class VelocimacroProxy extends Directive
      * Return name of this Velocimacro.
      * @return The name of this Velocimacro.
      */
+    @Override
     public String getName()
     {
         return  macroName;
@@ -73,6 +74,7 @@ public class VelocimacroProxy extends Directive
      * Velocimacros are always LINE type directives.
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return LINE;
@@ -171,6 +173,7 @@ public class VelocimacroProxy extends Directive
      * @return success status
      * @throws IOException
      */
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {
@@ -422,7 +425,7 @@ public class VelocimacroProxy extends Directive
                 Deque<String> literalsStack = (Deque<String>)context.get(literalArgArray[i]);
                 if (literalsStack == null)
                 {
-                    literalsStack = new LinkedList();
+                    literalsStack = new LinkedList<>();
                     context.put(literalArgArray[i], literalsStack);
                 }
                 /* Reflects the strange 1.7 behavor... */

@@ -53,6 +53,7 @@ public class ParseExceptionTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUp() throws Exception
     {
         Velocity.reset();

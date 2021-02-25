@@ -44,6 +44,7 @@ public class ClassMapTestCase
         return new TestSuite(ClassMapTestCase.class);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -51,6 +52,7 @@ public class ClassMapTestCase
 	Velocity.init();
     }
 
+    @Override
     public void tearDown()
     {
     }

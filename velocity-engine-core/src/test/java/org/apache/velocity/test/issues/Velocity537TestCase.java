@@ -66,6 +66,7 @@ public class Velocity537TestCase extends BaseTestCase
     }
 
     private VelocityEngine velocityEngine;
+    @Override
     public void setUp() throws Exception
     {
 

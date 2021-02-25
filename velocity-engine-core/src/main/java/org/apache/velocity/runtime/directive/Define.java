@@ -47,6 +47,7 @@ public class Define extends Block
     /**
      * Return name of this directive.
      */
+    @Override
     public String getName()
     {
         return "define";
@@ -55,6 +56,7 @@ public class Define extends Block
     /**
      *  simple init - get the key
      */
+    @Override
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
         throws TemplateInitException
     {
@@ -87,6 +89,7 @@ public class Define extends Block
      * directive.render() simply makes an instance of the Block inner class
      * and places it into the context as indicated.
      */
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
     {
         /* put a Block.Reference instance into the context,
@@ -99,7 +102,8 @@ public class Define extends Block
     /**
      * Called by the parser to validate the argument types
      */
-    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+    @Override
+    public void checkArgs(ArrayList<Integer> argtypes, Token t, String templateName)
     throws ParseException
     {
       if (argtypes.size() != 1)

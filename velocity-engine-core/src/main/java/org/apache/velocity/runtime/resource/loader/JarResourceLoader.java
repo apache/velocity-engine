@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -87,11 +86,12 @@ public class JarResourceLoader extends ResourceLoader
      * Called by Velocity to initialize the loader
      * @param configuration
      */
-    public void init( ExtProperties configuration)
+    @Override
+    public void init(ExtProperties configuration)
     {
         log.trace("JarResourceLoader: initialization starting.");
 
-        List paths = configuration.getList(RuntimeConstants.RESOURCE_LOADER_PATHS);
+        List<String> paths = configuration.getList(RuntimeConstants.RESOURCE_LOADER_PATHS);
 
         if (paths != null)
         {
@@ -175,7 +175,8 @@ public class JarResourceLoader extends ResourceLoader
      *         in the file template path.
      * @since 2.0
     */
-    public Reader getResourceReader( String source, String encoding )
+    @Override
+    public Reader getResourceReader(String source, String encoding )
             throws ResourceNotFoundException
     {
         Reader result = null;
@@ -245,6 +246,7 @@ public class JarResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public boolean isSourceModified(Resource resource)
     {
         return true;
@@ -253,6 +255,7 @@ public class JarResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public long getLastModified(Resource resource)
     {
         return 0;

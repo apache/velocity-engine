@@ -38,21 +38,25 @@ public class TestContext implements Context
     Context innerContext = new VelocityContext();
     Map<String, String> originalKeys = new HashMap<>();
 
+    @Override
     public boolean containsKey(String key)
     {
         return innerContext.containsKey(normalizeKey(key));
     }
 
+    @Override
     public Object get(String key)
     {
         return innerContext.get(normalizeKey(key));
     }
 
+    @Override
     public String[] getKeys()
     {
         return originalKeys.values().toArray(new String[originalKeys.size()]);
     }
 
+    @Override
     public Object put(String key, Object value)
     {
         String normalizedKey = normalizeKey(key);
@@ -60,6 +64,7 @@ public class TestContext implements Context
         return innerContext.put(normalizedKey, value);
     }
 
+    @Override
     public Object remove(String key)
     {
         originalKeys.remove(key);

@@ -48,6 +48,7 @@ public class ASTWord extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -57,7 +58,8 @@ public class ASTWord extends SimpleNode
      * @throws TemplateInitException
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    @Override
+    public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
     	Object obj = super.init(context, data);
     	saveTokenImages();

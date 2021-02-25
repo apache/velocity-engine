@@ -53,6 +53,7 @@ public abstract class Block extends Directive
      * Return type of this directive.
      * @return type, DirectiveConstants.BLOCK or DirectiveConstants.LINE
      */
+    @Override
     public int getType()
     {
         return BLOCK;
@@ -64,6 +65,7 @@ public abstract class Block extends Directive
      *  @param context
      *  @param node
      */
+    @Override
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
         throws TemplateInitException
     {
@@ -71,7 +73,7 @@ public abstract class Block extends Directive
 
         log = rsvc.getLog();
 
-        /**
+        /*
          * No checking is done. We just grab the last child node and assume
          * that it's the block!
          */
@@ -157,6 +159,7 @@ public abstract class Block extends Directive
          * @param writer
          * @return  success status
          */
+        @Override
         public boolean render(InternalContextAdapter context, Writer writer)
         {
             depth++;

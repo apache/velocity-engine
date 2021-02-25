@@ -55,6 +55,7 @@ public class Velocity579TestCase extends BaseTestCase
 
     private static abstract class FooImpl implements Foo
     {
+        @Override
         public String foo(String s)
         {
             return s == null ? "foo" : s;
@@ -71,6 +72,7 @@ public class Velocity579TestCase extends BaseTestCase
 
     public static class MyBar extends Foobar
     {
+        @Override
         public String bar()
         {
             return super.bar();

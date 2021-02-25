@@ -77,6 +77,7 @@ public class Parse extends InputBase
      * Return name of this directive.
      * @return The name of this directive.
      */
+    @Override
     public String getName()
     {
         return "parse";
@@ -87,6 +88,7 @@ public class Parse extends InputBase
      * can use the same scope reference, whether rendered via #parse
      * or direct merge.
      */
+    @Override
     public String getScopeName()
     {
         return "template";
@@ -96,6 +98,7 @@ public class Parse extends InputBase
      * Return type of this directive.
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return LINE;
@@ -108,6 +111,7 @@ public class Parse extends InputBase
      * @param node
      * @throws TemplateInitException
      */
+    @Override
     public void init(RuntimeServices rs, InternalContextAdapter context, Node node)
         throws TemplateInitException
     {
@@ -131,8 +135,9 @@ public class Parse extends InputBase
      * @throws ParseErrorException
      * @throws MethodInvocationException
      */
-    public boolean render( InternalContextAdapter context,
-                           Writer writer, Node node)
+    @Override
+    public boolean render(InternalContextAdapter context,
+                          Writer writer, Node node)
         throws IOException, ResourceNotFoundException, ParseErrorException,
                MethodInvocationException
     {
@@ -195,7 +200,7 @@ public class Parse extends InputBase
                 StringBuilder path = new StringBuilder();
                 for (String aTemplateStack : templateStack)
                 {
-                    path.append(" > " + aTemplateStack);
+                    path.append(" > ").append(aTemplateStack);
                 }
                 log.error("Max recursion depth reached ({}). File stack: {}",
                           templateStack.length, path);
@@ -233,7 +238,7 @@ public class Parse extends InputBase
                       arg, StringUtils.formatFileString(this));
             throw pee;
         }
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )
@@ -250,12 +255,12 @@ public class Parse extends InputBase
             throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
         }
 
-        /**
+        /*
          * Add the template name to the macro libraries list
          */
         List<Template> macroLibraries = context.getMacroLibraries();
 
-        /**
+        /*
          * if macroLibraries are not set create a new one
          */
         if (macroLibraries == null)
@@ -285,12 +290,12 @@ public class Parse extends InputBase
                 throw stop;
             }
         }
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )
         {
-            /**
+            /*
              * Log #parse errors so the user can track which file called which.
              */
             log.error("Exception rendering #parse({}) at {}",
@@ -321,7 +326,8 @@ public class Parse extends InputBase
     /**
      * Called by the parser to validate the argument types
      */
-    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+    @Override
+    public void checkArgs(ArrayList<Integer> argtypes, Token t, String templateName)
       throws ParseException
     {
         if (argtypes.size() != 1)

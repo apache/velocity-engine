@@ -30,6 +30,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Tests input encoding handling.  The input target is UTF-8, having
@@ -48,6 +49,7 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -94,7 +96,7 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
             new FileOutputStream (
                 getFileName(RESULT_DIR, "encodingtest", RESULT_FILE_EXT));
 
-        Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+        Writer writer = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
 
         template.merge(context, writer);
         writer.flush();
@@ -125,7 +127,7 @@ public class EncodingTestCase extends BaseTestCase implements TemplateTestBase
             new FileOutputStream (
                 getFileName(RESULT_DIR, "encodingtest2", RESULT_FILE_EXT));
 
-        Writer writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+        Writer writer = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
 
         template.merge(context, writer);
         writer.flush();

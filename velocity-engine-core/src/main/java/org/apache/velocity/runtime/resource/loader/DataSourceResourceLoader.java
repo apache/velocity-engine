@@ -21,7 +21,6 @@ package org.apache.velocity.runtime.resource.loader;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
 
@@ -32,7 +31,6 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.FilterReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -182,6 +180,7 @@ public class DataSourceResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#init(org.apache.velocity.util.ExtProperties)
      */
+    @Override
     public void init(ExtProperties configuration)
     {
         dataSourceName  = StringUtils.trim(configuration.getString("datasource_url"));
@@ -225,6 +224,7 @@ public class DataSourceResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#isSourceModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public boolean isSourceModified(final Resource resource)
     {
         return (resource.getLastModified() !=
@@ -234,6 +234,7 @@ public class DataSourceResourceLoader extends ResourceLoader
     /**
      * @see ResourceLoader#getLastModified(org.apache.velocity.runtime.resource.Resource)
      */
+    @Override
     public long getLastModified(final Resource resource)
     {
         return readLastModified(resource, "getting timestamp");
@@ -249,6 +250,7 @@ public class DataSourceResourceLoader extends ResourceLoader
      * @throws ResourceNotFoundException
      * @since 2.0
      */
+    @Override
     public synchronized Reader getResourceReader(final String name, String encoding)
             throws ResourceNotFoundException
     {
@@ -394,6 +396,7 @@ public class DataSourceResourceLoader extends ResourceLoader
      *
      * @throws Throwable
      */
+    @Override
     protected void finalize()
         throws Throwable
     {
@@ -473,7 +476,7 @@ public class DataSourceResourceLoader extends ResourceLoader
         {
             try
             {
-//                rs.close();
+                rs.close();
             }
             catch (RuntimeException re)
             {

@@ -54,6 +54,7 @@ public class StopCommand extends Error
         this.stopMe = stopMe;
     }
 
+    @Override
     public String getMessage()
     {
         if (stopMe != null)

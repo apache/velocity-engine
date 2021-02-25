@@ -269,6 +269,7 @@ public class UnicodeInputStream
      * @throws IOException
      * @see java.io.InputStream#close()
      */
+    @Override
     public void close()
         throws IOException
     {
@@ -279,6 +280,7 @@ public class UnicodeInputStream
      * @throws IOException
      * @see java.io.InputStream#available()
      */
+    @Override
     public int available()
         throws IOException
     {
@@ -289,6 +291,7 @@ public class UnicodeInputStream
      * @param readlimit
      * @see java.io.InputStream#mark(int)
      */
+    @Override
     public void mark(final int readlimit)
     {
         inputStream.mark(readlimit);
@@ -298,6 +301,7 @@ public class UnicodeInputStream
      * @return mark supported
      * @see java.io.InputStream#markSupported()
      */
+    @Override
     public boolean markSupported()
     {
         return inputStream.markSupported();
@@ -307,6 +311,7 @@ public class UnicodeInputStream
      * @return read char
      * @see java.io.InputStream#read()
      */
+    @Override
     public int read()
         throws IOException
     {
@@ -318,6 +323,7 @@ public class UnicodeInputStream
      * @return read chars count
      * @see java.io.InputStream#read(byte[])
      */
+    @Override
     public int read(final byte [] b)
         throws IOException
     {
@@ -331,6 +337,7 @@ public class UnicodeInputStream
      * @return reac char
      * @see java.io.InputStream#read(byte[], int, int)
      */
+    @Override
     public int read(final byte [] b, final int off, final int len)
         throws IOException
     {
@@ -340,6 +347,7 @@ public class UnicodeInputStream
     /**
      * @see java.io.InputStream#reset()
      */
+    @Override
     public void reset()
         throws IOException
     {
@@ -351,6 +359,7 @@ public class UnicodeInputStream
      * @return skipped count
      * @see java.io.InputStream#skip(long)
      */
+    @Override
     public long skip(final long n)
         throws IOException
     {

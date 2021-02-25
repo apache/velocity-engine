@@ -21,6 +21,7 @@ package org.apache.velocity.example;
 import org.apache.velocity.context.AbstractContext;
 import org.apache.velocity.context.Context;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -37,7 +38,7 @@ import java.util.TreeMap;
 
 public class TreeMapContext extends AbstractContext
 {
-    private TreeMap context = new TreeMap();
+    private Map<String, Object> context = new TreeMap<>();
 
     public TreeMapContext()
     {
@@ -49,27 +50,32 @@ public class TreeMapContext extends AbstractContext
         super( inner );
     }
 
-    public Object internalGet( String key )
+    @Override
+    public Object internalGet(String key )
     {
         return context.get( key );
     }
 
-    public Object internalPut( String key, Object value )
+    @Override
+    public Object internalPut(String key, Object value )
     {
         return context.put( key, value );
     }
 
+    @Override
     public  boolean internalContainsKey(String key)
     {
         return context.containsKey( key );
     }
 
+    @Override
     public  String[] internalGetKeys()
     {
         Set<String> keys = context.keySet();
         return keys.toArray(new String[keys.size()]);
     }
 
+    @Override
     public  Object internalRemove(String key)
     {
         return context.remove( key );

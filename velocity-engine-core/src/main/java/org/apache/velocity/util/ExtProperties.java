@@ -28,6 +28,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -180,13 +181,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
         try
         {
             fileSeparator = (String) AccessController.doPrivileged(
-                new java.security.PrivilegedAction()
-                {
-                    public Object run()
-                    {
-                        return System.getProperty("file.separator");
-                    }
-                });
+                (PrivilegedAction) () -> System.getProperty("file.separator"));
         }
         catch (SecurityException ex)
         {
@@ -211,7 +206,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
      * you wish to perform operations with configuration
      * information in a particular order.
      */
-    protected ArrayList<String> keysAsListed = new ArrayList<String>();
+    protected ArrayList<String> keysAsListed = new ArrayList<>();
 
     protected final static String START_TOKEN="${";
     protected final static String END_TOKEN="}";
@@ -243,7 +238,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
      *
      * @return the string with the interpolation taken care of
      */
-    protected String interpolateHelper(String base, List priorVariables)
+    protected String interpolateHelper(String base, List<String> priorVariables)
     {
         // COPIED from [configuration] 2003-12-29
         if (base == null)
@@ -255,7 +250,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
         // and add base as the first element
         if (priorVariables == null)
         {
-            priorVariables = new ArrayList();
+            priorVariables = new ArrayList<>();
             priorVariables.add(base);
         }
 
@@ -472,6 +467,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
          *
          * @return True if the object has more tokens.
          */
+        @Override
         public boolean hasMoreTokens()
         {
             return super.hasMoreTokens();
@@ -482,6 +478,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
          *
          * @return A String.
          */
+        @Override
         public String nextToken()
         {
             StringBuilder buffer = new StringBuilder();
@@ -683,7 +680,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
                             file = new File(basePath + value);
                         }
 
-                        if (file != null && file.exists() && file.canRead())
+                        if (file.exists() && file.canRead())
                         {
                             load(new FileInputStream(file));
                         }
@@ -814,7 +811,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
         if (current instanceof String)
         {
             // one object already in map - convert it to a vector
-            List values = new Vector(2);
+            List<Object> values = new Vector<>(2);
             values.add(current);
             values.add(value);
             put(key, values);
@@ -968,7 +965,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
     public Iterator<String> getKeys(String prefix)
     {
         Iterator<String> keys = getKeys();
-        ArrayList<String> matchingKeys = new ArrayList();
+        ArrayList<String> matchingKeys = new ArrayList<>();
 
         while (keys.hasNext())
         {
@@ -993,14 +990,14 @@ public class ExtProperties extends DeprecationAwareExtProperties
     public ExtProperties subset(String prefix)
     {
         ExtProperties c = new ExtProperties();
-        Iterator keys = getKeys();
+        Iterator<String> keys = getKeys();
         boolean validSubset = false;
 
         while (keys.hasNext())
         {
-            Object key = keys.next();
+            String key = keys.next();
 
-            if (key instanceof String && ((String) key).startsWith(prefix))
+            if (key.startsWith(prefix))
             {
                 if (!validSubset)
                 {
@@ -1014,14 +1011,14 @@ public class ExtProperties extends DeprecationAwareExtProperties
                  * subset but it is a valid subset.
                  */
                 String newKey = null;
-                if (((String) key).length() == prefix.length())
+                if (key.length() == prefix.length())
                 {
                     newKey = prefix;
                 }
                 else
                 {
 
-                    newKey = ((String) key).substring(prefix.length() + 1);
+                    newKey = key.substring(prefix.length() + 1);
                 }
 
                 /*
@@ -1049,11 +1046,11 @@ public class ExtProperties extends DeprecationAwareExtProperties
      */
     public void display()
     {
-        Iterator i = getKeys();
+        Iterator<String> i = getKeys();
 
         while (i.hasNext())
         {
-            String key = (String) i.next();
+            String key = i.next();
             Object value = get(key);
             System.out.println(key + " => " + value);
         }
@@ -1181,10 +1178,10 @@ public class ExtProperties extends DeprecationAwareExtProperties
     {
         Object value = get(key);
 
-        List values;
+        List<Object> values;
         if (value instanceof String)
         {
-            values = new Vector(1);
+            values = new Vector<>(1);
             values.add(value);
 
         }
@@ -1252,12 +1249,12 @@ public class ExtProperties extends DeprecationAwareExtProperties
 
         if (value instanceof List)
         {
-            return new Vector((List) value);
+            return new Vector<Object>((List) value);
 
         }
         else if (value instanceof String)
         {
-            Vector values = new Vector(1);
+            Vector<Object> values = new Vector<>(1);
             values.add(value);
             put(key, values);
             return values;
@@ -1272,7 +1269,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
             else
             {
 
-                return ((defaultValue == null) ? new Vector() : defaultValue);
+                return ((defaultValue == null) ? new Vector<>() : defaultValue);
             }
         }
         else

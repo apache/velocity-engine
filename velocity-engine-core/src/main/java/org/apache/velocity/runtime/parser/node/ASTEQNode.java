@@ -57,6 +57,7 @@ public class ASTEQNode extends ASTComparisonNode
         return "==";
     }
 
+    @Override
     public boolean numberTest(int compareResult)
     {
         return compareResult == 0;
@@ -65,7 +66,7 @@ public class ASTEQNode extends ASTComparisonNode
     @Override
     public boolean compareNonNumber(Object left, Object right)
     {
-        /**
+        /*
          * if both are not null, then assume that if one class
          * is a subclass of the other that we should use the equals operator
          */

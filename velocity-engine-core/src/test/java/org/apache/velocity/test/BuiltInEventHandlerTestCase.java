@@ -92,6 +92,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         super(name);
     }
 
+    @Override
     public void setUp() throws Exception
     {
         assureResultsDirectoryExists(RESULTS_DIR);
@@ -410,7 +411,7 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         assertEquals("Jimmy's &lt;b&gt;pizza&lt;/b&gt;",writer.toString());
 
         // comment out bad test -- requires latest commons-lang
-        /**
+        /*
 
         // JavaScript and HTML
         writer = new StringWriter();

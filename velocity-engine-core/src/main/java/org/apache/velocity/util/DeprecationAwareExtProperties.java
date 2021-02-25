@@ -112,6 +112,7 @@ public class DeprecationAwareExtProperties extends Hashtable<String, Object>
      * @param value provided value
      * @return previous found value, if any
      */
+    @Override
     public Object put(String key, Object value)
     {
         return super.put(translateKey(key), value);
@@ -130,12 +131,12 @@ public class DeprecationAwareExtProperties extends Hashtable<String, Object>
     /**
      * Set of old property names for which a warning has already been emitted
      */
-    private Set<String> warned = new HashSet<String>();
+    private Set<String> warned = new HashSet<>();
 
     /**
      * Property keys replacement map, from old key name to new key name
      */
-    static private Map<String, String> propertiesReplacementMap = new HashMap();
+    static private Map<String, String> propertiesReplacementMap = new HashMap<>();
 
     static
     {

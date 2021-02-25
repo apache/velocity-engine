@@ -19,7 +19,6 @@ package org.apache.velocity.test;
  * under the License.
  */
 
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 /**
@@ -33,6 +32,7 @@ public class HyphenInIdentifiersTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     protected void setUpEngine(VelocityEngine engine)
     {
         engine.addProperty("parser.allow_hyphen_in_identifiers", true);

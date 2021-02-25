@@ -79,6 +79,7 @@ public class Include extends InputBase
      * Return name of this directive.
      * @return The name of this directive.
      */
+    @Override
     public String getName()
     {
         return "include";
@@ -88,6 +89,7 @@ public class Include extends InputBase
      * Return type of this directive.
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return LINE;
@@ -97,6 +99,7 @@ public class Include extends InputBase
      * Since there is no processing of content,
      * there is never a need for an internal scope.
      */
+    @Override
     public boolean isScopeProvided()
     {
         return false;
@@ -110,6 +113,7 @@ public class Include extends InputBase
      * @param node
      * @throws TemplateInitException
      */
+    @Override
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
         throws TemplateInitException
@@ -139,8 +143,9 @@ public class Include extends InputBase
      * @throws MethodInvocationException
      * @throws ResourceNotFoundException
      */
+    @Override
     public boolean render(InternalContextAdapter context,
-                           Writer writer, Node node)
+                          Writer writer, Node node)
         throws IOException, MethodInvocationException,
                ResourceNotFoundException
     {
@@ -247,7 +252,7 @@ public class Include extends InputBase
             throw rnfe;
         }
 
-        /**
+        /*
          * pass through application level runtime exceptions
          */
         catch( RuntimeException e )

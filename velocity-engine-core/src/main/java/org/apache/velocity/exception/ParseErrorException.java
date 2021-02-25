@@ -265,6 +265,7 @@ public class ParseErrorException extends VelocityException
     /**
      * Return our custom message if we have one, else return the default message
      */
+    @Override
     public String getMessage()
     {
       if (msg != null) return msg;

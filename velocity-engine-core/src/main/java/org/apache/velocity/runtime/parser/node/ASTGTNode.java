@@ -42,6 +42,7 @@ public class ASTGTNode extends ASTComparisonNode
         return ">";
     }
 
+    @Override
     public boolean numberTest(int compareResult)
     {
         return compareResult == 1;

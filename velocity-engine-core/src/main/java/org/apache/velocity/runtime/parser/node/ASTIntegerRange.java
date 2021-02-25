@@ -60,6 +60,7 @@ public class ASTIntegerRange extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -208,7 +209,8 @@ public class ASTIntegerRange extends SimpleNode
      *  @return Object array of Integers
      * @throws MethodInvocationException
      */
-    public Object value( InternalContextAdapter context)
+    @Override
+    public Object value(InternalContextAdapter context)
         throws MethodInvocationException
     {
         /*
@@ -283,7 +285,8 @@ public class ASTIntegerRange extends SimpleNode
      * @throws TemplateInitException
      * @see org.apache.velocity.runtime.parser.node.Node#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data) throws TemplateInitException
+    @Override
+    public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
     	Object obj = super.init(context, data);
     	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens

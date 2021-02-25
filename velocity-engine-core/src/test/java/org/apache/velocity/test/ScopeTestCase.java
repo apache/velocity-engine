@@ -34,6 +34,7 @@ public class ScopeTestCase extends BaseTestCase
        super(name);
     }
 
+    @Override
     protected void setUpEngine(VelocityEngine engine)
     {
         engine.setProperty("a.provide.scope.control", "true");

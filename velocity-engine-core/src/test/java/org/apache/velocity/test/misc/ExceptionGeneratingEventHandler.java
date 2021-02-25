@@ -36,14 +36,17 @@ public class ExceptionGeneratingEventHandler implements IncludeEventHandler,
         MethodExceptionEventHandler, ReferenceInsertionEventHandler
 {
 
+    @Override
     public String includeEvent(Context context, String includeResourcePath, String currentResourcePath,
-            String directiveName)
+                               String directiveName)
     {
         throw new RuntimeException("exception");
     }
 
-    public Object methodException(Context context, Class claz, String method, Exception e, Info info) { throw new RuntimeException("exception"); }
+    @Override
+    public Object methodException(Context context, Class<?> claz, String method, Exception e, Info info) { throw new RuntimeException("exception"); }
 
+    @Override
     public Object referenceInsert(Context context, String reference, Object value)
     {
         throw new RuntimeException("exception");

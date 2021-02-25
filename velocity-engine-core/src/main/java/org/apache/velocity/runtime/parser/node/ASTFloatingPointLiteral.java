@@ -61,6 +61,7 @@ public class ASTFloatingPointLiteral extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -74,7 +75,8 @@ public class ASTFloatingPointLiteral extends SimpleNode
      * @return The data object.
      * @throws TemplateInitException
      */
-    public Object init( InternalContextAdapter context, Object data)
+    @Override
+    public Object init(InternalContextAdapter context, Object data)
         throws TemplateInitException
     {
         /*
@@ -83,13 +85,13 @@ public class ASTFloatingPointLiteral extends SimpleNode
 
         super.init( context, data );
 
-        /**
+        /*
          * Determine the size of the item and make it a Double or BigDecimal as appropriate.
          */
          String str = getFirstToken().image;
          try
          {
-             value = new Double( str );
+             value = Double.valueOf( str );
 
          } catch ( NumberFormatException E1 )
          {
@@ -106,7 +108,8 @@ public class ASTFloatingPointLiteral extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
      */
-    public Object value( InternalContextAdapter context)
+    @Override
+    public Object value(InternalContextAdapter context)
     {
         return value;
     }
@@ -114,7 +117,8 @@ public class ASTFloatingPointLiteral extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
      */
-    public boolean evaluate( InternalContextAdapter context)
+    @Override
+    public boolean evaluate(InternalContextAdapter context)
     {
         return !rsvc.getBoolean(RuntimeConstants.CHECK_EMPTY_OBJECTS, true) || !MathUtils.isZero(value);
     }

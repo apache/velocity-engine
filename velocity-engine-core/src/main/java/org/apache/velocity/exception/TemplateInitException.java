@@ -96,6 +96,7 @@ public class TemplateInitException extends VelocityException
      * Returns the Template name where this exception occurred.
      * @return the template name
      */
+    @Override
     public String getTemplateName()
     {
         return templateName;
@@ -105,6 +106,7 @@ public class TemplateInitException extends VelocityException
      * Returns the line number where this exception occurred.
      * @return the line number
      */
+    @Override
     public int getLineNumber()
     {
         return line;
@@ -114,6 +116,7 @@ public class TemplateInitException extends VelocityException
      * Returns the column number where this exception occurred.
      * @return the line number
      */
+    @Override
     public int getColumnNumber()
     {
         return col;

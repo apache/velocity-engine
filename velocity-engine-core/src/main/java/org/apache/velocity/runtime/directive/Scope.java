@@ -20,7 +20,6 @@ package org.apache.velocity.runtime.directive;
  */
 
 import org.apache.velocity.Template;
-import org.apache.velocity.runtime.parser.Parser;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -33,7 +32,7 @@ import java.util.Set;
  * @author Nathan Bubna
  * @version $Id$
  */
-public class Scope extends AbstractMap
+public class Scope extends AbstractMap<Object, Object>
 {
     private static final String setReturnValue = "";
     private Map<Object, Object> storage;
@@ -66,7 +65,7 @@ public class Scope extends AbstractMap
     {
         if (storage == null)
         {
-            storage = new HashMap();
+            storage = new HashMap<>();
         }
         return storage;
     }
@@ -74,6 +73,7 @@ public class Scope extends AbstractMap
     /**
      * @return entry set
      */
+    @Override
     public Set<Map.Entry<Object, Object>> entrySet()
     {
         return getStorage().entrySet();

@@ -33,6 +33,7 @@ public class Velocity742TestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     protected void setUpEngine(VelocityEngine engine)
     {
         // we need to call init here because otherwise it is not called until assertEvalEquals

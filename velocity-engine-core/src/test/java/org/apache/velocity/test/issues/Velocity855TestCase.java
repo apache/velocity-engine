@@ -33,6 +33,7 @@ public class Velocity855TestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     protected void setUpContext(VelocityContext context)
     {
         context.put("elementKind", javax.lang.model.element.ElementKind.class);

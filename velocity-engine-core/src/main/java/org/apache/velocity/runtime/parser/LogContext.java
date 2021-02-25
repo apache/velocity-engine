@@ -28,7 +28,6 @@ import org.slf4j.MDC;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -64,7 +63,7 @@ public class LogContext
         @Override
         public Deque<StackElement> initialValue()
         {
-            return new ArrayDeque<StackElement>();
+            return new ArrayDeque<>();
         }
     };
 

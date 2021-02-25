@@ -70,7 +70,8 @@ public class DBContext extends AbstractContext
      *  and returns the living instance to the
      *  caller.
      */
-    public Object internalGet( String key )
+    @Override
+    public Object internalGet(String key )
     {
         try
         {
@@ -108,7 +109,8 @@ public class DBContext extends AbstractContext
      *  cause problems.  The right way is to use a
      *  prepared statement...
      */
-    public Object internalPut( String key, Object value )
+    @Override
+    public Object internalPut(String key, Object value )
     {
         try
         {
@@ -143,6 +145,7 @@ public class DBContext extends AbstractContext
      *  operation, so not bothering.  As we say above :
      *  "very fragile, crappy code..."
      */
+    @Override
     public  boolean internalContainsKey(String key)
     {
         return false;
@@ -153,6 +156,7 @@ public class DBContext extends AbstractContext
      *  operation, so not bothering.  As we say above :
      *  "very fragile, crappy code..."
      */
+    @Override
     public  String[] internalGetKeys()
     {
         return null;
@@ -163,6 +167,7 @@ public class DBContext extends AbstractContext
      *  operation, so not bothering.  As we say above :
      *  "very fragile, crappy code..."
      */
+    @Override
     public  Object internalRemove(String key)
     {
         return null;

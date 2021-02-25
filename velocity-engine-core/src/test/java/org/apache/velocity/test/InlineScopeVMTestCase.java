@@ -46,6 +46,7 @@ public class InlineScopeVMTestCase extends BaseTestCase implements TemplateTestB
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {

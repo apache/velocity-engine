@@ -39,5 +39,5 @@ public class IntrospectionCacheData
      *  Class of context data object associated with the introspection
      *  information
      */
-    public Class  contextData;
+    public Class<?> contextData;
 }

@@ -25,6 +25,7 @@ public class ASTNegateNode extends SimpleNode
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
         super.init(context, data);
@@ -37,6 +38,7 @@ public class ASTNegateNode extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -45,7 +47,8 @@ public class ASTNegateNode extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#evaluate(org.apache.velocity.context.InternalContextAdapter)
      */
-    public boolean evaluate( InternalContextAdapter context)
+    @Override
+    public boolean evaluate(InternalContextAdapter context)
             throws MethodInvocationException
     {
         return jjtGetChild(0).evaluate(context);
@@ -54,7 +57,8 @@ public class ASTNegateNode extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#value(org.apache.velocity.context.InternalContextAdapter)
      */
-    public Object value( InternalContextAdapter context)
+    @Override
+    public Object value(InternalContextAdapter context)
             throws MethodInvocationException
     {
         Object value = jjtGetChild(0).value( context );

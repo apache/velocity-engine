@@ -61,6 +61,7 @@ public class VMLibraryTestCase extends BaseTestCase
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -70,7 +71,7 @@ public class VMLibraryTestCase extends BaseTestCase
         ve1.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve1.setProperty("velocimacro.permissions.allow.inline.to.replace.global",
                 Boolean.FALSE);
-        /**
+        /*
          * Turn on the cache
          */
         ve1.setProperty("file.resource.loader.cache", Boolean.TRUE);
@@ -83,13 +84,13 @@ public class VMLibraryTestCase extends BaseTestCase
                 TEST_COMPARE_DIR + "/macrolibs");
         ve1.init();
 
-        /**
+        /*
          * Set to global namespaces
          */
         ve2.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.FALSE);
         ve2.setProperty("velocimacro.permissions.allow.inline.to.replace.global",
                 Boolean.TRUE);
-        /**
+        /*
          * Turn on the cache
          */
         ve2.setProperty("file.resource.loader.cache", Boolean.FALSE);
@@ -108,14 +109,14 @@ public class VMLibraryTestCase extends BaseTestCase
         return new TestSuite(VMLibraryTestCase.class);
     }
 
-    /**
+    /*
      * Runs the tests with local namespace.
      */
     public void testVelociMacroLibWithLocalNamespace()
             throws Exception
     {
         assureResultsDirectoryExists(RESULT_DIR);
-        /**
+        /*
          * Clear the file before proceeding
          */
         File file = new File(getFileName(
@@ -125,7 +126,7 @@ public class VMLibraryTestCase extends BaseTestCase
             file.delete();
         }
 
-        /**
+        /*
          * Create a file output stream for appending
          */
         FileOutputStream fos = new FileOutputStream (getFileName(
@@ -140,7 +141,7 @@ public class VMLibraryTestCase extends BaseTestCase
         Template template = ve1.getTemplate("vm_library_local.vm");
         template.merge(context, writer, templateList);
 
-        /**
+        /*
          * remove the first template library and includes a new library
          * with a new definition for macros
          */
@@ -157,13 +158,13 @@ public class VMLibraryTestCase extends BaseTestCase
 
         assertEquals("Both templates refer to the same object", t1, t2);
 
-        /**
+        /*
          * Remove the libraries
          */
         template = ve1.getTemplate("vm_library_local.vm");
         template.merge(context, writer);
 
-        /**
+        /*
          * Write to the file
          */
         writer.flush();
@@ -176,14 +177,14 @@ public class VMLibraryTestCase extends BaseTestCase
         }
     }
 
-    /**
+    /*
      * Runs the tests with global namespace.
      */
     public void testVelociMacroLibWithGlobalNamespace()
             throws Exception
     {
         assureResultsDirectoryExists(RESULT_DIR);
-        /**
+        /*
          * Clear the file before proceeding
          */
         File file = new File(getFileName(
@@ -193,7 +194,7 @@ public class VMLibraryTestCase extends BaseTestCase
             file.delete();
         }
 
-        /**
+        /*
          * Create a file output stream for appending
          */
         FileOutputStream fos = new FileOutputStream (getFileName(
@@ -208,7 +209,7 @@ public class VMLibraryTestCase extends BaseTestCase
         Template template = ve1.getTemplate("vm_library_global.vm");
         template.merge(context, writer, templateList);
 
-        /**
+        /*
          * remove the first template library and includes a new library
          * with a new definition for macros
          */
@@ -225,7 +226,7 @@ public class VMLibraryTestCase extends BaseTestCase
 
         assertNotSame("Defferent objects", t1, t2);
 
-        /**
+        /*
          * Write to the file
          */
         writer.flush();
@@ -238,14 +239,14 @@ public class VMLibraryTestCase extends BaseTestCase
         }
     }
 
-    /**
+    /*
      * Runs the tests with global namespace.
      */
     public void testVelociMacroLibWithDuplicateDefinitions()
             throws Exception
     {
         assureResultsDirectoryExists(RESULT_DIR);
-        /**
+        /*
          * Clear the file before proceeding
          */
         File file = new File(getFileName(
@@ -255,7 +256,7 @@ public class VMLibraryTestCase extends BaseTestCase
             file.delete();
         }
 
-        /**
+        /*
          * Create a file output stream for appending
          */
         FileOutputStream fos = new FileOutputStream (getFileName(
@@ -271,7 +272,7 @@ public class VMLibraryTestCase extends BaseTestCase
         Template template = ve1.getTemplate("vm_library.vm");
         template.merge(context, writer, templateList);
 
-        /**
+        /*
          * Write to the file
          */
         writer.flush();
@@ -284,7 +285,7 @@ public class VMLibraryTestCase extends BaseTestCase
         }
     }
 
-    /**
+    /*
      * Test whether the literal text is given if a definition cannot be
      * found for a macro.
      *
@@ -304,13 +305,13 @@ public class VMLibraryTestCase extends BaseTestCase
         Template template = ve1.getTemplate("vm_library.vm");
         template.merge(context, writer, null);
 
-        /**
+        /*
          * Write to the file
          */
         writer.flush();
         writer.close();
 
-        /**
+        /*
          * outputs the macro calls
          */
         if (!isMatch(RESULT_DIR, COMPARE_DIR, "vm_library",

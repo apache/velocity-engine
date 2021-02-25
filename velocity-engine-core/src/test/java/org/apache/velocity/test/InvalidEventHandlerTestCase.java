@@ -99,7 +99,7 @@ extends TestCase
     {
         TestEventCartridge te = new TestEventCartridge();
 
-        /**
+        /*
          * Test attaching the event cartridge to the context
          */
         VelocityEngine ve = new VelocityEngine();
@@ -131,7 +131,6 @@ extends TestCase
     /**
      * Test assigning the event handlers via properties
      */
-
     public void testConfigurationEventHandlers()
             throws Exception
     {
@@ -472,7 +471,8 @@ extends TestCase
         /**
          * Required by EventHandler
          */
-        public void setRuntimeServices( RuntimeServices rs )
+        @Override
+        public void setRuntimeServices(RuntimeServices rs )
         {
             // make sure this is only called once
             if (this.rs == null)
@@ -483,6 +483,7 @@ extends TestCase
         }
 
 
+        @Override
         public Object invalidGetMethod(Context context, String reference, Object object, String property, Info info)
         {
             // as a test, make sure this EventHandler is initialized
@@ -493,7 +494,7 @@ extends TestCase
             {
                 // good object, bad property
                 case "$a1.foobar":
-                    assertEquals(new Integer(5), object);
+                    assertEquals(Integer.valueOf(5), object);
                     assertEquals("foobar", property);
                     throw new RuntimeException("expected exception");
 
@@ -548,6 +549,7 @@ extends TestCase
             return null;
         }
 
+        @Override
         public Object invalidMethod(Context context, String reference, Object object, String method, Info info)
         {
             // as a test, make sure this EventHandler is initialized
@@ -576,6 +578,7 @@ extends TestCase
         }
 
 
+        @Override
         public boolean invalidSetMethod(Context context, String leftreference, String rightreference, Info info)
         {
 

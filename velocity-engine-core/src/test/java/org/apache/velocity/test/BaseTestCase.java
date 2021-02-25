@@ -80,6 +80,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         return ret;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         //by default, make the engine's log output go to the test-report
@@ -124,6 +125,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         getStringRepository().removeStringResource(name);
     }
 
+    @Override
     public void tearDown()
     {
         engine = null;
@@ -225,7 +227,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
     /**
      * Ensure that a specified type of exception occurs when evaluating the string.
      */
-    protected Exception assertEvalException(String evil, Class exceptionType)
+    protected Exception assertEvalException(String evil, Class<?> exceptionType)
     {
         try
         {

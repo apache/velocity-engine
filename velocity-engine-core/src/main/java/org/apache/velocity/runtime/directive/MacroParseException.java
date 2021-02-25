@@ -61,6 +61,7 @@ public class MacroParseException
      * @return The Template name where this exception occured.
      * @since 1.5
      */
+    @Override
     public String getTemplateName()
     {
         return templateName;
@@ -71,6 +72,7 @@ public class MacroParseException
      * @return The line number where this exception occured.
      * @since 1.5
      */
+    @Override
     public int getLineNumber()
     {
         if ((currentToken != null) && (currentToken.next != null))
@@ -92,6 +94,7 @@ public class MacroParseException
      * @return The column number where this exception occured.
      * @since 1.5
      */
+    @Override
     public int getColumnNumber()
     {
         if ((currentToken != null) && (currentToken.next != null))
@@ -120,6 +123,7 @@ public class MacroParseException
      * @return the current message.
      * @since 1.5
      */
+    @Override
     public String getMessage()
     {
         if (!specialConstructor)
@@ -140,9 +144,9 @@ public class MacroParseException
                 maxSize = expectedTokenSequence.length;
             }
 
-            for (int j = 0; j < expectedTokenSequence.length; j++)
+            for (int i : expectedTokenSequence)
             {
-                expected.append(tokenImage[expectedTokenSequence[j]]).append(" ");
+                expected.append(tokenImage[i]).append(" ");
             }
 
             if (expectedTokenSequence[expectedTokenSequence.length - 1] != 0)

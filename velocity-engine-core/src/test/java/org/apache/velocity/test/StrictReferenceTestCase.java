@@ -39,6 +39,7 @@ public class StrictReferenceTestCase extends BaseTestCase
     // second engine to test WITH conversions
     VelocityEngine engine2;
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();

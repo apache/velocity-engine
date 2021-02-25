@@ -53,6 +53,7 @@ public class ClassloaderChangeTestCase extends TestCase
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -159,6 +160,7 @@ public class ClassloaderChangeTestCase extends TestCase
         }
 
 
+        @Override
         public Class<?> findClass(String name)
         {
             return fooClass;

@@ -117,7 +117,8 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentTemplateName(java.lang.String)
      */
-    public void pushCurrentTemplateName( String s )
+    @Override
+    public void pushCurrentTemplateName(String s )
     {
         icb.pushCurrentTemplateName( s );
     }
@@ -125,6 +126,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentTemplateName()
      */
+    @Override
     public void popCurrentTemplateName()
     {
         icb.popCurrentTemplateName();
@@ -133,6 +135,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentTemplateName()
      */
+    @Override
     public String getCurrentTemplateName()
     {
         return icb.getCurrentTemplateName();
@@ -141,6 +144,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getTemplateNameStack()
      */
+    @Override
     public String[] getTemplateNameStack()
     {
         return icb.getTemplateNameStack();
@@ -150,7 +154,8 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#pushCurrentMacroName(java.lang.String)
      * @since 1.6
      */
-    public void pushCurrentMacroName( String s )
+    @Override
+    public void pushCurrentMacroName(String s )
     {
         icb.pushCurrentMacroName( s );
     }
@@ -159,6 +164,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#popCurrentMacroName()
      * @since 1.6
      */
+    @Override
     public void popCurrentMacroName()
     {
         icb.popCurrentMacroName();
@@ -168,6 +174,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroName()
      * @since 1.6
      */
+    @Override
     public String getCurrentMacroName()
     {
         return icb.getCurrentMacroName();
@@ -177,6 +184,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentMacroCallDepth()
      * @since 1.6
      */
+    @Override
     public int getCurrentMacroCallDepth()
     {
         return icb.getCurrentMacroCallDepth();
@@ -186,6 +194,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroNameStack()
      * @since 1.6
      */
+    @Override
     public String[] getMacroNameStack()
     {
         return icb.getMacroNameStack();
@@ -194,7 +203,8 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#icacheGet(java.lang.Object)
      */
-    public IntrospectionCacheData icacheGet( Object key )
+    @Override
+    public IntrospectionCacheData icacheGet(Object key )
     {
         return icb.icacheGet( key );
     }
@@ -202,7 +212,8 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#icachePut(java.lang.Object, org.apache.velocity.util.introspection.IntrospectionCacheData)
      */
-    public void icachePut( Object key, IntrospectionCacheData o )
+    @Override
+    public void icachePut(Object key, IntrospectionCacheData o )
     {
         icb.icachePut( key, o );
     }
@@ -210,7 +221,8 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
    /**
     * @see org.apache.velocity.context.InternalHousekeepingContext#setCurrentResource(org.apache.velocity.runtime.resource.Resource)
     */
-    public void setCurrentResource( Resource r )
+    @Override
+    public void setCurrentResource(Resource r )
     {
         icb.setCurrentResource(r);
     }
@@ -218,6 +230,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalHousekeepingContext#getCurrentResource()
      */
+    @Override
     public Resource getCurrentResource()
     {
         return icb.getCurrentResource();
@@ -227,6 +240,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#setMacroLibraries(List)
      * @since 1.6
      */
+    @Override
     public void setMacroLibraries(List<Template> macroLibraries)
     {
         icb.setMacroLibraries(macroLibraries);
@@ -236,6 +250,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      * @see org.apache.velocity.context.InternalHousekeepingContext#getMacroLibraries()
      * @since 1.6
      */
+    @Override
     public List<Template> getMacroLibraries()
     {
         return icb.getMacroLibraries();
@@ -246,6 +261,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.Context#put(java.lang.String, java.lang.Object)
      */
+    @Override
     public Object put(String key, Object value)
     {
         return context.put( key , value );
@@ -254,6 +270,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.Context#get(java.lang.String)
      */
+    @Override
     public Object get(String key)
     {
         return context.get( key );
@@ -262,6 +279,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.Context#containsKey(java.lang.String)
      */
+    @Override
     public boolean containsKey(String key)
     {
         return context.containsKey( key );
@@ -270,6 +288,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.Context#getKeys()
      */
+    @Override
     public String[] getKeys()
     {
         return context.getKeys();
@@ -278,6 +297,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.Context#remove(java.lang.String)
      */
+    @Override
     public Object remove(String key)
     {
         return context.remove( key );
@@ -291,6 +311,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      *  we are wrapping
      * @return The internal user data context.
      */
+    @Override
     public Context getInternalUserContext()
     {
         return context;
@@ -303,6 +324,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
      *  be something else
      * @return The base context.
      */
+    @Override
     public InternalContextAdapter getBaseContext()
     {
         return this;
@@ -313,7 +335,8 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalEventContext#attachEventCartridge(org.apache.velocity.app.event.EventCartridge)
      */
-    public EventCartridge attachEventCartridge( EventCartridge ec )
+    @Override
+    public EventCartridge attachEventCartridge(EventCartridge ec )
     {
         if (iec != null)
         {
@@ -326,6 +349,7 @@ public final class InternalContextAdapterImpl implements InternalContextAdapter
     /**
      * @see org.apache.velocity.context.InternalEventContext#getEventCartridge()
      */
+    @Override
     public EventCartridge getEventCartridge()
     {
         if ( iec != null)

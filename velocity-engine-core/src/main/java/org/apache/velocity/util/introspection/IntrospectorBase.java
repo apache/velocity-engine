@@ -86,7 +86,7 @@ public abstract class IntrospectorBase
      * @throws NullPointerException When the parameters passed in can not be used for introspection because null.
      * @throws MethodMap.AmbiguousException When the method map contains more than one match for the requested signature.
      */
-    public Method getMethod(final Class c, final String name, final Object[] params)
+    public Method getMethod(final Class<?> c, final String name, final Object[] params)
             throws MethodMap.AmbiguousException
     {
         IntrospectorCache ic = getIntrospectorCache();
@@ -109,7 +109,7 @@ public abstract class IntrospectorBase
      * @return The desired Field object.
      * @throws IllegalArgumentException When the parameters passed in can not be used for introspection.
      */
-    public Field getField(final Class c, final String name)
+    public Field getField(final Class<?> c, final String name)
             throws IllegalArgumentException
     {
         IntrospectorCache ic = getIntrospectorCache();

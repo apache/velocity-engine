@@ -53,6 +53,7 @@ public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestB
         super(name);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
@@ -81,11 +82,11 @@ public class ContextSafetyTestCase extends BaseTestCase implements TemplateTestB
          *  make a Vector and String array because
          *  they are treated differently in Foreach()
          */
-        Vector v = new Vector();
+        Vector<String> v = new Vector();
 
-        v.addElement( new String("vector hello 1") );
-        v.addElement( new String("vector hello 2") );
-        v.addElement( new String("vector hello 3") );
+        v.addElement("vector hello 1");
+        v.addElement( "vector hello 2");
+        v.addElement( "vector hello 3");
 
         String strArray[] = new String[3];
 

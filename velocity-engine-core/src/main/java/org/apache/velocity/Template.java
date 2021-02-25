@@ -26,7 +26,6 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.exception.VelocityException;
-import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.directive.Scope;
 import org.apache.velocity.runtime.directive.StopCommand;
 import org.apache.velocity.runtime.parser.ParseException;
@@ -74,7 +73,7 @@ public class Template extends Resource
      */
     private String scopeName = "template";
     private boolean provideScope = false;
-    private Map<String, Object> macros = new ConcurrentHashMap(17, 0.7f);
+    private Map<String, Object> macros = new ConcurrentHashMap<>(17, 0.7f);
 
     private VelocityException errorCondition = null;
 
@@ -104,6 +103,7 @@ public class Template extends Resource
      * @throws ParseErrorException if template cannot be parsed due
      *          to syntax (or other) error.
      */
+    @Override
     public boolean process()
         throws ResourceNotFoundException, ParseErrorException
     {
@@ -159,7 +159,7 @@ public class Template extends Resource
                 errorCondition = new ParseErrorException( pex, name);
                 throw errorCondition;
             }
-            /**
+            /*
              * pass through runtime exceptions
              */
             catch( RuntimeException e )
@@ -302,17 +302,17 @@ public class Template extends Resource
 
                 InternalContextAdapterImpl ica = new InternalContextAdapterImpl(context);
 
-                /**
+                /*
                  * Set the macro libraries
                  */
-                List<Template> libTemplates = new ArrayList();
+                List<Template> libTemplates = new ArrayList<>();
                 ica.setMacroLibraries(libTemplates);
 
                 if (macroLibraries != null)
                 {
                     for (String macroLibrary : macroLibraries)
                     {
-                        /**
+                        /*
                          * Build the macro library
                          */
                         try

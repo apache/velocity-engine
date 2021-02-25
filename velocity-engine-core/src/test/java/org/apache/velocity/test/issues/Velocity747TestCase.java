@@ -43,6 +43,7 @@ public class Velocity747TestCase extends BaseTestCase
     VelocityEngine engine1;
     VelocityEngine engine2;
 
+    @Override
     protected void setUp() throws Exception
     {
         Properties props = new Properties();

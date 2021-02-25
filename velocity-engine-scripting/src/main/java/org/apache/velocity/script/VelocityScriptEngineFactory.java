@@ -57,16 +57,16 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
 
     static
     {
-        names = new ArrayList();
+        names = new ArrayList<>();
         names.add("velocity");
         names.add("Velocity");
         names = Collections.unmodifiableList(names);
-        extensions = new ArrayList();
+        extensions = new ArrayList<>();
         extensions.add("vm");
         extensions.add("vtl");
         extensions.add("vhtml");
         extensions = Collections.unmodifiableList(extensions);
-        mimeTypes = new ArrayList();
+        mimeTypes = new ArrayList<>();
         mimeTypes.add("text/x-velocity");
         mimeTypes = Collections.unmodifiableList(mimeTypes);
         parameters = new Properties();
@@ -82,6 +82,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * get engine name
      * @return engine name, aka "Velocity"
      */
+    @Override
     public String getEngineName()
     {
         return VELOCITY_NAME;
@@ -91,6 +92,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * get engine version
      * @return engine version string
      */
+    @Override
     public String getEngineVersion()
     {
         return VELOCITY_VERSION;
@@ -100,6 +102,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * get the list of file extensions handled by Velocity: vm, vtl, vhtml
      * @return extensions list
      */
+    @Override
     public List<String> getExtensions()
     {
         return extensions;
@@ -109,6 +112,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * get language name
      * @return language name, aka "VTL"
      */
+    @Override
     public String getLanguageName()
     {
         return VELOCITY_NAME;
@@ -118,6 +122,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * get language version (same as engine version)
      * @return language version string
      */
+    @Override
     public String getLanguageVersion()
     {
         return VELOCITY_VERSION;
@@ -130,6 +135,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * @param args
      * @return VTL call ${obj.m(args...)}
      */
+    @Override
     public String getMethodCallSyntax(String obj, String m, String... args)
     {
         StringBuilder buf = new StringBuilder();
@@ -156,6 +162,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * get the list of Velocity mime types
      * @return singleton { 'text/x-velocity' }
      */
+    @Override
     public List<String> getMimeTypes()
     {
         return mimeTypes;
@@ -165,6 +172,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * get the list of names
      * @return { 'velocity', 'Velocity' }
      */
+    @Override
     public List<String> getNames()
     {
         return names;
@@ -175,6 +183,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * @param toDisplay
      * @return escaped string #[[toDisplay]]#
      */
+    @Override
     public String getOutputStatement(String toDisplay)
     {
         StringBuilder buf = new StringBuilder();
@@ -187,6 +196,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * @param key
      * @return found parameter, or null
      */
+    @Override
     public String getParameter(String key)
     {
         return parameters.getProperty(key);
@@ -197,6 +207,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * @param statements VTL lines
      * @return lines concatenated with carriage returns
      */
+    @Override
     public String getProgram(String... statements)
     {
         StringBuilder buf = new StringBuilder();
@@ -212,6 +223,7 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
      * get a Velocity script engine
      * @return a new Velocity script engine
      */
+    @Override
     public ScriptEngine getScriptEngine()
     {
         return new VelocityScriptEngine(this);

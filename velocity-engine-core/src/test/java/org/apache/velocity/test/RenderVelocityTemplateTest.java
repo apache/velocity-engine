@@ -93,6 +93,7 @@ public class RenderVelocityTemplateTest
     {
         List<Throwable> errors = new ArrayList<>();
 
+        @Override
         public void uncaughtException(Thread t, Throwable e)
         {
             errors.add(e);

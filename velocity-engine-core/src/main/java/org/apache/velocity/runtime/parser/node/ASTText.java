@@ -73,6 +73,7 @@ public class ASTText extends SimpleNode
      * text getter
      * @return literal representation
      */
+    @Override
     public String literal()
     {
         return ctext;
@@ -81,6 +82,7 @@ public class ASTText extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -89,7 +91,8 @@ public class ASTText extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
-    public Object init( InternalContextAdapter context, Object data)
+    @Override
+    public Object init(InternalContextAdapter context, Object data)
     throws TemplateInitException
     {
         StringBuilder builder = new StringBuilder();
@@ -109,7 +112,8 @@ public class ASTText extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#render(org.apache.velocity.context.InternalContextAdapter, java.io.Writer)
      */
-    public boolean render( InternalContextAdapter context, Writer writer)
+    @Override
+    public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException
     {
         writer.write(ctext);

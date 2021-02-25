@@ -25,7 +25,6 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeConstants.SpaceGobbling;
-import org.apache.velocity.runtime.parser.LogContext;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.util.introspection.Info;
@@ -85,6 +84,7 @@ public class ASTSetDirective extends SimpleNode
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
      */
+    @Override
     public Object jjtAccept(ParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
@@ -97,10 +97,11 @@ public class ASTSetDirective extends SimpleNode
      * @return Init result.
      * @throws TemplateInitException
      */
+    @Override
     public synchronized Object init(InternalContextAdapter context, Object data)
     throws TemplateInitException
     {
-        /** This method is synchronized to prevent double initialization or initialization while rendering **/
+        /* This method is synchronized to prevent double initialization or initialization while rendering */
 
         if (!isInitialized)
         {
@@ -212,7 +213,8 @@ public class ASTSetDirective extends SimpleNode
      * @throws IOException
      * @throws MethodInvocationException
      */
-    public boolean render( InternalContextAdapter context, Writer writer)
+    @Override
+    public boolean render(InternalContextAdapter context, Writer writer)
         throws IOException, MethodInvocationException
     {
         try

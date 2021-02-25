@@ -38,16 +38,19 @@ import java.io.Writer;
  */
 public class ExceptionGeneratingDirective extends Directive
 {
+    @Override
     public String getName()
     {
         return "Exception";
     }
 
+    @Override
     public int getType()
     {
         return Directive.BLOCK;
     }
 
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
             throws IOException, ResourceNotFoundException, ParseErrorException,
             MethodInvocationException

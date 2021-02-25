@@ -21,10 +21,8 @@ package org.apache.velocity.runtime.directive;
 
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.TemplateInitException;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
-import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
@@ -60,6 +58,7 @@ public class Macro extends Directive
      * Return name of this directive.
      * @return The name of this directive.
      */
+    @Override
     public String getName()
     {
         return "macro";
@@ -69,6 +68,7 @@ public class Macro extends Directive
      * Return type of this directive.
      * @return The type of this directive.
      */
+    @Override
     public int getType()
     {
         return BLOCK;
@@ -78,6 +78,7 @@ public class Macro extends Directive
      * Since this class does no processing of content,
      * there is never a need for an internal scope.
      */
+    @Override
     public boolean isScopeProvided()
     {
         return false;
@@ -92,8 +93,9 @@ public class Macro extends Directive
      * @return True if the directive rendered successfully.
      * @throws IOException
      */
+    @Override
     public boolean render(InternalContextAdapter context,
-                           Writer writer, Node node)
+                          Writer writer, Node node)
         throws IOException
     {
         /*
@@ -106,6 +108,7 @@ public class Macro extends Directive
     /**
      * @see org.apache.velocity.runtime.directive.Directive#init(org.apache.velocity.runtime.RuntimeServices, org.apache.velocity.context.InternalContextAdapter, org.apache.velocity.runtime.parser.node.Node)
      */
+    @Override
     public void init(RuntimeServices rs, InternalContextAdapter context,
                      Node node)
        throws TemplateInitException
@@ -123,7 +126,8 @@ public class Macro extends Directive
     /**
      * Check the argument types of a macro call, called by the parser to do validation
      */
-    public void checkArgs(ArrayList<Integer> argtypes,  Token t, String templateName)
+    @Override
+    public void checkArgs(ArrayList<Integer> argtypes, Token t, String templateName)
         throws ParseException
     {
         if (argtypes.size() < 1)
@@ -196,7 +200,7 @@ public class Macro extends Directive
         int numArgs = node.jjtGetNumChildren();
         numArgs--;  // avoid the block tree...
 
-        ArrayList<MacroArg> macroArgs = new ArrayList();
+        ArrayList<MacroArg> macroArgs = new ArrayList<>();
 
         for (int i = 0; i < numArgs; i++)
         {

@@ -86,6 +86,7 @@ public class AbsoluteFileResourceLoaderTestCase extends BaseTestCase
     /**
      * Runs the test.
      */
+    @Override
     public void runTest ()
     {
 

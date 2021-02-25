@@ -62,6 +62,7 @@ public class BlockMacro extends Block
     private String name;
     private RuntimeMacro macro;
 
+    @Override
     public String getName()
     {
         return key;
@@ -72,6 +73,7 @@ public class BlockMacro extends Block
      * #@myMacro() ... #end block that the scope in question
      * would be used.
      */
+    @Override
     public String getScopeName()
     {
         return name;
@@ -113,6 +115,7 @@ public class BlockMacro extends Block
      * @return True if the directive rendered successfully.
      * @throws IOException
      */
+    @Override
     public boolean render(InternalContextAdapter context, Writer writer, Node node)
         throws IOException
     {

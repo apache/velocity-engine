@@ -47,6 +47,7 @@ public class UberspectorTestCase
         return new TestSuite(UberspectorTestCase.class);
     }
 
+    @Override
     public void setUp()
             throws Exception
     {
