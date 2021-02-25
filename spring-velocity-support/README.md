@@ -2,7 +2,7 @@ Title: Apache Velocity Spring Support
 
 # Apache Velocity Spring Support
 
-This module is an adaptation of the engine support initially hosted by the Spring project in its 3.x versions.
+This module is an adaptation of the engine support initially hosted by the Spring project in its 4.x versions.
 
 Example configuration:
 
