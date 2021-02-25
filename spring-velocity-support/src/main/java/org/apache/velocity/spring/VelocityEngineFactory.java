@@ -63,7 +63,7 @@ import org.springframework.util.StringUtils;
  * @see #setResourceLoaderPath
  * @see #createVelocityEngine
  * @see VelocityEngineFactoryBean
- * @see org.springframework.web.servlet.view.velocity.VelocityConfigurer
+ * @see <a href="https://docs.spring.io/spring-framework/docs/4.3.29.RELEASE/javadoc-api/org/springframework/web/servlet/view/velocity/VelocityConfigurer.html">org.springframework.web.servlet.view.velocity.VelocityConfigurer</a>
  * @see org.apache.velocity.app.VelocityEngine
  */
 public class VelocityEngineFactory {
