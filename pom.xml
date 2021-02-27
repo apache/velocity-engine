@@ -219,9 +219,10 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/velocity/engine/trunk</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/velocity/engine/trunk</developerConnection>
-        <url>http://svn.apache.org/viewvc/velocity/engine/trunk</url>
+        <connection>scm:git:https://gitbox.apache.org/repos/asf/velocity-engine.git</connection>
+        <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/velocity-engine.git</developerConnection>
+        <url>https://gitbox.apache.org/repos/asf?p=velocity-engine.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
