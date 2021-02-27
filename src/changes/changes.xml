@@ -25,7 +25,7 @@
   </properties>
 
   <body>
-    <release version="2.3" date="unreleased">
+    <release version="2.3" date="2021-02-27">
         <action type="fix" dev="cbrisson" issue="VELOCITY-927">
             Fix parser bug (newline and space inside an empty inline map definition).
         </action>        
