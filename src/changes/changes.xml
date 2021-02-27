@@ -25,6 +25,23 @@
   </properties>
 
   <body>
+    <release version="2.3" date="unreleased">
+        <action type="fix" dev="cbrisson" issue="VELOCITY-927">
+            Fix parser bug (newline and space inside an empty inline map definition).
+        </action>        
+        <action type="new" dev="cbrisson" issue="VELOCITY-933">
+            Backported Spring framework Velocity Engine integration classes from Spring 4.x, in the new module <code>spring-velocity-support</code>.
+        </action>        
+        <action type="fix" dev="wglass" issue="VELOCITY-931">
+            Let SecureUberspector block methods on ClassLoader and subclasses.
+        </action>        
+        <action type="new" dev="cbrisson" due-to="mgrigorov">
+            Added Travis CI.
+        </action>        
+        <action type="fix" dev="cbrisson" due-to="donnerpeter">
+            Don't leak classes via Stop.STOP_ALL stack trace.
+        </action>
+    </release>
     <release version="2.2" date="2020-02-02">
         <action type="new" dev="cbrisson">
             Deprecated 2.1 flag <code>velocimacro.arguments.preserve_literals</code> in favor of
