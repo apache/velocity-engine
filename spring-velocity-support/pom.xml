@@ -30,7 +30,7 @@
     <name>Spring framework Velocity support</name>
     <description>Velocity Engine factory bean for Spring framework</description>
     <properties>
-        <springframework.version>5.2.6.RELEASE</springframework.version>
+        <springframework.version>5.3.4</springframework.version>
     </properties>
     <dependencies>
         <dependency>
