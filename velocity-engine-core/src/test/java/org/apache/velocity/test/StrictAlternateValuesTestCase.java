@@ -56,9 +56,21 @@ public class StrictAlternateValuesTestCase extends BaseTestCase
         assertEvalEquals("<foo>", "<${foo|'foo'}>");
         assertEvalEquals("bar", "#set($bar='bar')${foo|$bar}");
         assertEvalEquals("bar", "#set($bar='bar')${foo|${bar}}");
-        assertEvalException ("${foo.bar.baz()[5]|'hop'}", VelocityException.class);
+        assertEvalException("${foo.bar.baz()[5]|'hop'}", VelocityException.class);
         assertEvalEquals("{foo}", "{${foo|'foo'}}");
-        assertEvalException ("$foo", VelocityException.class);
+        assertEvalException("$foo", VelocityException.class);
+    }
+
+    public void testComplexEval()
+    {
+        assertEvalException("<${date.format('medium', $date.date)|'no date tool'}>", VelocityException.class);
+        assertEvalEquals("true", "#set($val=false)${val.toString().replace(\"false\", \"true\")|'so what'}");
+        assertEvalEquals("so what", "#set($foo='foo')${foo.contains('bar')|'so what'}");
+        assertEvalEquals("so what", "#set($val=false)${val.toString().contains('bar')|'so what'}");
+        assertEvalEquals("true", "#set($val=false)${val.toString().contains('false')|'so what'}");
+        assertEvalException("$!{null|$null}", VelocityException.class);
+        assertEvalEquals("null", "$!{null|'null'}");
+        assertEvalEquals("so what", "#set($spaces='   ')${spaces.trim()|'so what'}");
     }
 
 }

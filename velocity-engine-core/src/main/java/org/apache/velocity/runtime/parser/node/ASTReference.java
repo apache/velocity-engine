@@ -308,15 +308,6 @@ public class ASTReference extends SimpleNode
 
             Object result = getRootVariableValue(context);
 
-            /* a reference which has been provided an alternate value
-             * is *knowingly* potentially null and should be accepted
-             * in strict mode (except if the alternate value is null)
-             */
-            if (astAlternateValue != null && (!DuckType.asBoolean(result, false)))
-            {
-                result = astAlternateValue.value(context);
-            }
-
             if (result == null && !strictRef)
             {
                 /*
@@ -330,6 +321,11 @@ public class ASTReference extends SimpleNode
                 {
                     result = EventHandlerUtil.invalidGetMethod(rsvc, context,
                             rsvc.getParserConfiguration().getDollarChar() + rootString, null, null, uberInfo);
+                }
+
+                if (astAlternateValue != null && (!DuckType.asBoolean(result, true)))
+                {
+                    result = astAlternateValue.value(context);
                 }
 
                 return result;
@@ -370,10 +366,6 @@ public class ASTReference extends SimpleNode
                     }
                     previousResult = result;
                     result = jjtGetChild(i).execute(result,context);
-                    if (astAlternateValue != null && (!DuckType.asBoolean(result, checkEmpty)))
-                    {
-                        result = astAlternateValue.value(context);
-                    }
                     if (result == null && !strictRef)  // If strict and null then well catch this
                                                        // next time through the loop
                     {
@@ -438,6 +430,12 @@ public class ASTReference extends SimpleNode
                             }
                         }
                     }
+                }
+
+                // Check alternate value at the end of the evaluation
+                if (astAlternateValue != null && (!DuckType.asBoolean(result, true)))
+                {
+                    result = astAlternateValue.value(context);
                 }
 
                 return result;

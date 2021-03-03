@@ -47,4 +47,15 @@ public class AlternateValuesTestCase extends BaseTestCase
         assertEvalEquals("<1.1>", "<${foo|1.1}>");
     }
 
+    public void testComplexEval()
+    {
+        assertEvalEquals("<no date tool>", "<${date.format('medium', $date.date)|'no date tool'}>");
+        assertEvalEquals("true", "#set($val=false)${val.toString().replace(\"false\", \"true\")|'so what'}");
+        assertEvalEquals("so what", "#set($foo='foo')${foo.contains('bar')|'so what'}");
+        assertEvalEquals("so what", "#set($val=false)${val.toString().contains('bar')|'so what'}");
+        assertEvalEquals("true", "#set($val=false)${val.toString().contains('false')|'so what'}");
+        assertEvalEquals("", "$!{null|$null}");
+        assertEvalEquals("null", "$!{null|'null'}");
+        assertEvalEquals("so what", "#set($spaces='   ')${spaces.trim()|'so what'}");
+    }
 }
