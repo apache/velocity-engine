@@ -31,7 +31,7 @@
     </parent>
 
     <artifactId>velocity-engine-parent</artifactId>
-    <version>2.3-SNAPSHOT</version>
+    <version>2.3</version>
 
     <name>Apache Velocity</name>
     <url>http://velocity.apache.org/engine/devel/</url>
@@ -222,7 +222,7 @@
         <connection>scm:git:https://gitbox.apache.org/repos/asf/velocity-engine.git</connection>
         <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/velocity-engine.git</developerConnection>
         <url>https://gitbox.apache.org/repos/asf?p=velocity-engine.git</url>
-        <tag>HEAD</tag>
+        <tag>2.3-RC2</tag>
     </scm>
 
     <issueManagement>
