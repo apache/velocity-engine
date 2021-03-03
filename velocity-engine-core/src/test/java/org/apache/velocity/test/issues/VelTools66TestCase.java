@@ -83,7 +83,13 @@ public class VelTools66TestCase
         /* the testcase is obsolete in JDK 8, as SystemManager.checkMemberAccess is not anymore called
          * by Class.getMethods() */
 
-        int javaVersion = Integer.parseInt(System.getProperty("java.version").split("\\.")[1]);
+        String [] javaVersionFields = System.getProperty("java.version").split("\\.");
+        int javaVersion = Integer.parseInt(javaVersionFields[0]);
+        if (javaVersion == 1)
+        {
+            javaVersion = Integer.parseInt(javaVersionFields[1]);
+        }
+
         if (javaVersion >= 8)
         {
             return;

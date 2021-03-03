@@ -472,27 +472,45 @@ public class BuiltInEventHandlerTestCase extends BaseTestCase {
         ve1.evaluate(context, writer, "test", "$list.get(0)");
         String result = writer.toString();
         assertTrue(result.contains("IndexOutOfBoundsException"));
-        assertTrue(result.contains("Index: 0, Size: 0"));
+        assertTrue(
+                result.contains("Index: 0, Size: 0") // JDK8
+                || result.contains("Index 0 out of bounds for length 0") // JDK 11 / JDK 15
+        );
         assertTrue(!result.contains("at test (line 1, column 7)"));
-        assertTrue(!result.contains("rangeCheck"));
+        assertFalse(
+                result.contains("rangeCheck") // JDK 8
+                        || result.contains("Preconditions.outOfBounds") // JDK 11 / JDK 15
+        );
 
         // exception, message and template info
         writer = new StringWriter();
         ve2.evaluate(context,writer,"test","$list.get(0)");
         result = writer.toString();
         assertTrue(result.contains("IndexOutOfBoundsException"));
-        assertTrue(result.contains("Index: 0, Size: 0"));
+        assertTrue(
+                result.contains("Index: 0, Size: 0") // JDK8
+                        || result.contains("Index 0 out of bounds for length 0") // JDK 11 / JDK 15
+        );
         assertTrue(result.contains("at test (line 1, column 7)"));
-        assertTrue(!result.contains("rangeCheck"));
+        assertFalse(
+                result.contains("rangeCheck") // JDK 8
+                        || result.contains("Preconditions.outOfBounds") // JDK 11 / JDK 15
+        );
 
         // exception, message and stack trace
         writer = new StringWriter();
         ve3.evaluate(context,writer,"test","$list.get(0)");
         result = writer.toString();
         assertTrue(result.contains("IndexOutOfBoundsException"));
-        assertTrue(result.contains("Index: 0, Size: 0"));
+        assertTrue(
+                result.contains("Index: 0, Size: 0") // JDK8
+                        || result.contains("Index 0 out of bounds for length 0") // JDK 11 / JDK 15
+        );
         assertTrue(!result.contains("at test (line 1, column 7)"));
-        assertTrue(result.contains("rangeCheck"));
+        assertTrue(
+                result.contains("rangeCheck") // JDK 8
+                || result.contains("Preconditions.outOfBounds") // JDK 11 / JDK 15
+        );
 
         log("PrintException handler successful.");
 
