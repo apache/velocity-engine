@@ -443,7 +443,9 @@ public class ASTReference extends SimpleNode
                       + " if you want Velocity to ignore the reference when it evaluates to null");
                   if (value == null)
                   {
-                      if (!easeNullRenderError) {
+                      if (easeNullRenderError) {
+                          renderNullString(context, writer);
+                      } else {
                           throw new VelocityException(
                                   "Reference " + literal() + " evaluated to null when attempting to render at " + Log.formatFileString(this));
                       }
@@ -462,27 +464,8 @@ public class ASTReference extends SimpleNode
                 return true;
             }
           
-            /*
-             * write prefix twice, because it's schmoo, so the \ don't escape each
-             * other...
-             */
-            localNullString = getNullString(context);
-            if (!strictEscape)
-            {
-                // If in strict escape mode then we only print escape once.
-                // Yea, I know.. brittle stuff
-                writer.write(escPrefix);
-            }            
-            writer.write(escPrefix);
-            writer.write(morePrefix);
-            writer.write(localNullString);
-
-            if (logOnNull && referenceType != QUIET_REFERENCE && log.isDebugEnabled())
-            {
-                log.debug("Null reference [template '" + getTemplateName()
-                        + "', line " + this.getLine() + ", column " + this.getColumn() + "] : "
-                        + this.literal() + " cannot be resolved.");
-            }
+            renderNullString(context, writer);
+            
             return true;
         }
         else
@@ -495,6 +478,30 @@ public class ASTReference extends SimpleNode
             writer.write(toString);
 
             return true;
+        }
+    }
+    
+    private void renderNullString(InternalContextAdapter context, Writer writer) throws IOException,
+            MethodInvocationException {
+        /*
+         * write prefix twice, because it's schmoo, so the \ don't escape each other...
+         */
+        String localNullString = getNullString(context);
+        if (!strictEscape)
+        {
+            // If in strict escape mode then we only print escape once.
+            // Yea, I know.. brittle stuff
+            writer.write(escPrefix);
+        }            
+        writer.write(escPrefix);
+        writer.write(morePrefix);
+        writer.write(localNullString);
+
+        if (logOnNull && referenceType != QUIET_REFERENCE && log.isDebugEnabled())
+        {
+            log.debug("Null reference [template '" + getTemplateName()
+                    + "', line " + this.getLine() + ", column " + this.getColumn() + "] : "
+                    + this.literal() + " cannot be resolved.");
         }
     }
 
