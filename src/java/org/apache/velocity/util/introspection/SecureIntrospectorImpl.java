@@ -87,30 +87,30 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      */
     public boolean checkObjectExecutePermission(Class clazz, String methodName)
     {
-		/**
-		 * check for wait and notify
-		 */
+        /**
+         * check for wait and notify
+         */
         if (methodName != null &&
             (methodName.equals("wait") || methodName.equals("notify")) )
-		{
-			return false;
-		}
+        {
+            return false;
+        }
 
-		/**
-		 * Always allow the most common classes - Number, Boolean and String
-		 */
-		else if (Number.class.isAssignableFrom(clazz))
-		{
-			return true;
-		}
-		else if (Boolean.class.isAssignableFrom(clazz))
-		{
-			return true;
-		}
-		else if (String.class.isAssignableFrom(clazz))
-		{
-			return true;
-		}
+        /**
+         * Always allow the most common classes - Number, Boolean and String
+         */
+        else if (Number.class.isAssignableFrom(clazz))
+        {
+            return true;
+        }
+        else if (Boolean.class.isAssignableFrom(clazz))
+        {
+            return true;
+        }
+        else if (String.class.isAssignableFrom(clazz))
+        {
+            return true;
+        }
 
         /**
          * Always allow Class.getName()
@@ -119,6 +119,15 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
                  (methodName != null) && methodName.equals("getName"))
         {
             return true;
+        }
+
+       /**
+       * Always disallow ClassLoader, Thread and subclasses
+       */
+        if (ClassLoader.class.isAssignableFrom(clazz) ||
+                Thread.class.isAssignableFrom(clazz))
+        {
+            return false;
         }
 
         /**
