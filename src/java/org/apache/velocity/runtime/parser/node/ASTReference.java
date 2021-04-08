@@ -102,6 +102,8 @@ public class ASTReference extends SimpleNode
     private int numChildren = 0;
 
     protected Info uberInfo;
+    
+    public boolean easeNullRenderError = false;
 
     /**
      * @param id
@@ -139,6 +141,7 @@ public class ASTReference extends SimpleNode
         strictEscape = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT_ESCAPE, false);
         strictRef = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_STRICT, false);
         toStringNullCheck = rsvc.getBoolean(RuntimeConstants.DIRECTIVE_IF_TOSTRING_NULLCHECK, true); 
+        easeNullRenderError = rsvc.getBoolean(RuntimeConstants.RUNTIME_REFERENCES_IGNORE_RENDER_NULL_ERROR, false);
             
         /*
          *  the only thing we can do in init() is getRoot()
@@ -440,9 +443,12 @@ public class ASTReference extends SimpleNode
                       + " if you want Velocity to ignore the reference when it evaluates to null");
                   if (value == null)
                   {
-                    throw new VelocityException("Reference " + literal() 
-                        + " evaluated to null when attempting to render at " 
-                        + Log.formatFileString(this));
+                      if (easeNullRenderError) {
+                          renderNullString(context, writer);
+                      } else {
+                          throw new VelocityException(
+                                  "Reference " + literal() + " evaluated to null when attempting to render at " + Log.formatFileString(this));
+                      }
                   }
                   else  // toString == null
                   {
@@ -458,27 +464,8 @@ public class ASTReference extends SimpleNode
                 return true;
             }
           
-            /*
-             * write prefix twice, because it's schmoo, so the \ don't escape each
-             * other...
-             */
-            localNullString = getNullString(context);
-            if (!strictEscape)
-            {
-                // If in strict escape mode then we only print escape once.
-                // Yea, I know.. brittle stuff
-                writer.write(escPrefix);
-            }            
-            writer.write(escPrefix);
-            writer.write(morePrefix);
-            writer.write(localNullString);
-
-            if (logOnNull && referenceType != QUIET_REFERENCE && log.isDebugEnabled())
-            {
-                log.debug("Null reference [template '" + getTemplateName()
-                        + "', line " + this.getLine() + ", column " + this.getColumn() + "] : "
-                        + this.literal() + " cannot be resolved.");
-            }
+            renderNullString(context, writer);
+            
             return true;
         }
         else
@@ -491,6 +478,30 @@ public class ASTReference extends SimpleNode
             writer.write(toString);
 
             return true;
+        }
+    }
+    
+    private void renderNullString(InternalContextAdapter context, Writer writer) throws IOException,
+            MethodInvocationException {
+        /*
+         * write prefix twice, because it's schmoo, so the \ don't escape each other...
+         */
+        String localNullString = getNullString(context);
+        if (!strictEscape)
+        {
+            // If in strict escape mode then we only print escape once.
+            // Yea, I know.. brittle stuff
+            writer.write(escPrefix);
+        }            
+        writer.write(escPrefix);
+        writer.write(morePrefix);
+        writer.write(localNullString);
+
+        if (logOnNull && referenceType != QUIET_REFERENCE && log.isDebugEnabled())
+        {
+            log.debug("Null reference [template '" + getTemplateName()
+                    + "', line " + this.getLine() + ", column " + this.getColumn() + "] : "
+                    + this.literal() + " cannot be resolved.");
         }
     }
 
