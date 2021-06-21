@@ -561,7 +561,8 @@ public class ResourceManagerImpl
             newResource.process();
             newResource.setLastModified(howOldItWas);
             resource = newResource;
-
+            resource.touch();
+            
             globalCache.put(resourceKey, newResource);
         }
         return resource;
