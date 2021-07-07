@@ -733,6 +733,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if( overridingProperties != null )
         {
             configuration.combine(overridingProperties);
+
+            /* reinitialize defaultEncoding in case it is overridden */
+            defaultEncoding = getString(INPUT_ENCODING, ENCODING_DEFAULT);
         }
     }
 
