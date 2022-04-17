@@ -216,8 +216,6 @@ public class VelocimacroProxy extends Directive
             // render the velocity macro
             context.pushCurrentMacroName(macroName);
             nodeTree.render(context, writer);
-            context.popCurrentMacroName();
-            return true;
         }
         catch (RuntimeException e)
         {
@@ -231,6 +229,8 @@ public class VelocimacroProxy extends Directive
         }
         finally
         {
+            context.popCurrentMacroName();
+			
             // clean up after the args and bodyRef
             // but only if they weren't overridden inside
             Object current = context.get(bodyReference);
@@ -283,6 +283,8 @@ public class VelocimacroProxy extends Directive
                 }
             }
         }
+		
+        return true;
     }
 
     /**
