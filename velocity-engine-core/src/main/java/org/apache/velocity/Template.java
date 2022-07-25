@@ -65,7 +65,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public class Template extends Resource
+public class Template extends Resource implements Cloneable
 {
     /*
      * The name of the variable to use when placing
@@ -432,5 +432,10 @@ public class Template extends Resource
             }
             throw ve;
         }
+    }
+
+    @Override
+    protected void deepCloneData() throws CloneNotSupportedException {
+        setData(((SimpleNode)data).clone(this));
     }
 }
