@@ -197,10 +197,9 @@ public class VelocimacroProxy extends Directive
         int callArgNum = node.jjtGetNumChildren();
 
         // if this macro was invoked by a call directive, we might have a body AST here.
-        Object oldBodyRef = null;
+        Object oldBodyRef = context.remove(bodyReference);
         if (body != null)
         {
-            oldBodyRef = context.get(bodyReference);
             context.put(bodyReference, body);
             callArgNum--;  // Remove the body AST from the arg count
         }
