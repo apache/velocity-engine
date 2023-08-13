@@ -276,7 +276,7 @@ public class VelocityEngineFactory {
 						resolvedPath.append(',');
 					}
 				}
-				velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+				velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
 				velocityEngine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, "true");
 				velocityEngine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, resolvedPath.toString());
 			}
@@ -308,7 +308,7 @@ public class VelocityEngineFactory {
 	 */
 	protected void initSpringResourceLoader(VelocityEngine velocityEngine, String resourceLoaderPath) {
 		velocityEngine.setProperty(
-				RuntimeConstants.RESOURCE_LOADER, SpringResourceLoader.NAME);
+				RuntimeConstants.RESOURCE_LOADERS, SpringResourceLoader.NAME);
 		velocityEngine.setProperty(
 				SpringResourceLoader.SPRING_RESOURCE_LOADER_CLASS, SpringResourceLoader.class.getName());
 		velocityEngine.setProperty(
