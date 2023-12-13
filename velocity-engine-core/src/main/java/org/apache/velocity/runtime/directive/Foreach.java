@@ -224,7 +224,7 @@ public class Foreach extends Directive
         // Get the block ast tree which is always the last child ...
         Node block = node.jjtGetChild(node.jjtGetNumChildren()-1);
 
-        // ... except if there is an #else claude
+        // ... except if there is an #else clause
         Node elseBlock = null;
         Node previous = node.jjtGetChild(node.jjtGetNumChildren()-2);
         if (previous instanceof ASTBlock)

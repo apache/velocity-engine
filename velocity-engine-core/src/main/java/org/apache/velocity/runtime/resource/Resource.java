@@ -35,7 +35,7 @@ import org.slf4j.Logger;
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @version $Id$
  */
-public abstract class Resource
+public abstract class Resource implements Cloneable
 {
     protected RuntimeServices rsvc = null;
     protected Logger log = null;
@@ -290,5 +290,31 @@ public abstract class Resource
     public int getType()
     {
         return type;
+    }
+
+    /**
+     * @return cloned resource
+     * @since 2.4
+     */
+    @Override
+    public Object clone() {
+        try
+        {
+            Resource clone = (Resource) super.clone();
+            clone.deepCloneData();
+            return clone;
+        }
+        catch (CloneNotSupportedException e) {
+            throw new RuntimeException("cloning not supported");
+        }
+    }
+
+    /**
+     * Deep cloning of resource data
+     * @return cloned data
+     */
+    protected void deepCloneData() throws CloneNotSupportedException
+    {
+        // default implementation does nothing
     }
 }

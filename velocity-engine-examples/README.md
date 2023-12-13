@@ -22,7 +22,7 @@ The archive contains a `build.sh` script which you can use to re-build the examp
 
 ## Running the examples
 
-Once you have downloaded or sucessfully built the ${project.build.finalName}-pkg.zip downloaded package, unzip it in the location of your choice and change to the ${project.build.finalName} directory.
+Once you have downloaded or successfully built the ${project.build.finalName}-pkg.zip downloaded package, unzip it in the location of your choice and change to the ${project.build.finalName} directory.
 
 Note for Windows users: the shell scripts used to running the examples are meant for linux or BSD, but can easily be adapted as batch files. all they do is build the classpath from the jars in the lib/ directory, then invoke Java on the main class with the adequate arguments.
 

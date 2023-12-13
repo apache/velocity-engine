@@ -49,7 +49,8 @@
         -->
         <test.jdbc.driver.groupId>org.hsqldb</test.jdbc.driver.groupId>
         <test.jdbc.driver.artifactId>hsqldb</test.jdbc.driver.artifactId>
-        <test.jdbc.driver.version>2.5.1</test.jdbc.driver.version>
+        <test.jdbc.driver.version>2.7.1</test.jdbc.driver.version>
+        <test.jdbc.driver.classifier>jdk8</test.jdbc.driver.classifier>
         <test.jdbc.driver.className>org.hsqldb.jdbcDriver</test.jdbc.driver.className>
         <test.jdbc.uri>jdbc:hsqldb:.</test.jdbc.uri>
         <test.jdbc.login>sa</test.jdbc.login>
@@ -322,6 +323,7 @@
             <artifactId>${test.jdbc.driver.artifactId}</artifactId>
             <version>${test.jdbc.driver.version}</version>
             <scope>test</scope>
+            <classifier>${test.jdbc.driver.classifier}</classifier>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

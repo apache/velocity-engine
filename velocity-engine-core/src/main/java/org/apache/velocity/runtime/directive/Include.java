@@ -240,14 +240,14 @@ public class Include extends InputBase
         try
         {
             if (!blockinput)
-                resource = rsvc.getContent(arg, getInputEncoding(context));
+                resource = getResource(arg, getInputEncoding(context));
         }
         catch ( ResourceNotFoundException rnfe )
         {
             /*
              * the arg wasn't found.  Note it and throw
              */
-            log.error("#include(): cannot find resource '{}', called at {}",
+            log.error("#" + getName() + "(): cannot find resource '{}', called at {}",
                       arg, StringUtils.formatFileString(this));
             throw rnfe;
         }
@@ -257,13 +257,13 @@ public class Include extends InputBase
          */
         catch( RuntimeException e )
         {
-            log.error("#include(): arg = '{}', called at {}",
+            log.error("#" + getName() + "(): arg = '{}', called at {}",
                       arg, StringUtils.formatFileString(this));
             throw e;
         }
         catch (Exception e)
         {
-            String msg = "#include(): arg = '" + arg +
+            String msg = "#" + getName() + "(): arg = '" + arg +
                         "', called at " + StringUtils.formatFileString(this);
             log.error(msg, e);
             throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
@@ -303,5 +303,17 @@ public class Include extends InputBase
             writer.write(msg);
             writer.write(outputMsgEnd);
         }
+    }
+
+    /**
+     * Find the resource to include
+     * @param path resource path
+     * @param encoding resource encoding
+     * @return found resource
+     * @throws ResourceNotFoundException if resource was not found
+     */
+    protected Resource getResource(String path, String encoding) throws ResourceNotFoundException
+    {
+        return rsvc.getContent(path, encoding);
     }
 }

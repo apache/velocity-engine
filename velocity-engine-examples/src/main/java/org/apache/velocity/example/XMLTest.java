@@ -21,13 +21,15 @@ package org.apache.velocity.example;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-
-import org.jdom.Document;
-import org.jdom.input.SAXBuilder;
+import org.dom4j.Document;
+import org.dom4j.io.SAXReader;
 
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 /**
@@ -55,13 +57,14 @@ public class XMLTest
              * build a Document from our xml
              */
 
-            SAXBuilder builder;
+
+            SAXReader reader;
             Document root = null;
 
             try
             {
-                builder = new SAXBuilder();
-                root = builder.build("test.xml");
+                reader = new SAXReader();
+                root = reader.read(Files.newInputStream(Paths.get("test.xml")));
             }
             catch( Exception ee)
             {

@@ -44,7 +44,7 @@ import org.slf4j.Logger;
 /**
  *
  */
-public class SimpleNode implements Node
+public class SimpleNode implements Node, Cloneable
 {
     /** */
     protected RuntimeServices rsvc = null;
@@ -607,5 +607,44 @@ public class SimpleNode implements Node
     public Parser getParser()
     {
         return parser;
+    }
+
+    /**
+     * Root node deep cloning
+     * @param template owner template
+     * @return cloned node
+     * @throws CloneNotSupportedException
+     * @since 2.4
+     */
+    public Node clone(Template template) throws CloneNotSupportedException
+    {
+        if (parent != null) {
+            throw new IllegalStateException("cannot clone a child node without knowing its parent");
+        }
+        return clone(template, null);
+    }
+
+    /**
+     * Child node deep cloning
+     * @param template owner template
+     * @param parent parent node
+     * @return cloned node
+     * @throws CloneNotSupportedException
+     * @since 2.4
+     */
+    protected Node clone(Template template, Node parent) throws CloneNotSupportedException
+    {
+        SimpleNode clone = (SimpleNode)super.clone();
+        clone.template = template;
+        clone.parent = parent;
+        if (children != null)
+        {
+            clone.children = new SimpleNode[children.length];
+            for (int i = 0; i < children.length; ++i)
+            {
+                clone.children[i] = ((SimpleNode)children[i]).clone(template, clone);
+            }
+        }
+        return clone;
     }
 }

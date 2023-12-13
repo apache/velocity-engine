@@ -146,7 +146,7 @@ public class Parse extends InputBase
          */
         if ( node.jjtGetNumChildren() == 0 )
         {
-            throw new VelocityException("#parse(): argument missing at " +
+            throw new VelocityException("#" + getName() + "(): argument missing at " +
                 StringUtils.formatFileString(this), null, rsvc.getLogContext().getStackTrace());
         }
 
@@ -156,7 +156,7 @@ public class Parse extends InputBase
         Object value =  node.jjtGetChild(0).value( context );
         if (value == null)
         {
-            log.debug("#parse(): null argument at {}", StringUtils.formatFileString(this));
+            log.debug("#" + getName() + "(): null argument at {}", StringUtils.formatFileString(this));
         }
 
         /*
@@ -174,7 +174,7 @@ public class Parse extends InputBase
          */
         if (strictRef && value == null && arg == null)
         {
-            throw new VelocityException("The argument to #parse returned null at "
+            throw new VelocityException("The argument to #" + getName() + " returned null at "
               + StringUtils.formatFileString(this), null, rsvc.getLogContext().getStackTrace());
         }
 
@@ -217,14 +217,14 @@ public class Parse extends InputBase
 
         try
         {
-            t = rsvc.getTemplate( arg, getInputEncoding(context) );
+            t = getTemplate(arg, getInputEncoding(context));
         }
         catch ( ResourceNotFoundException rnfe )
         {
             /*
              * the arg wasn't found.  Note it and throw
              */
-            log.error("#parse(): cannot find template '{}', called at {}",
+            log.error("#" + getName() + "(): cannot find template '{}', called at {}",
                       arg, StringUtils.formatFileString(this));
             throw rnfe;
         }
@@ -234,7 +234,7 @@ public class Parse extends InputBase
              * the arg was found, but didn't parse - syntax error
              *  note it and throw
              */
-            log.error("#parse(): syntax error in #parse()-ed template '{}', called at {}",
+            log.error("#" + getName() + "(): syntax error in #" + getName() + "()-ed template '{}', called at {}",
                       arg, StringUtils.formatFileString(this));
             throw pee;
         }
@@ -243,13 +243,13 @@ public class Parse extends InputBase
          */
         catch( RuntimeException e )
         {
-            log.error("Exception rendering #parse({}) at {}",
+            log.error("Exception rendering #" + getName() + "({}) at {}",
                       arg, StringUtils.formatFileString(this));
             throw e;
         }
         catch ( Exception e )
         {
-            String msg = "Exception rendering #parse(" + arg + ") at " +
+            String msg = "Exception rendering #" + getName() + "(" + arg + ") at " +
                          StringUtils.formatFileString(this);
             log.error(msg, e);
             throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
@@ -298,13 +298,13 @@ public class Parse extends InputBase
             /*
              * Log #parse errors so the user can track which file called which.
              */
-            log.error("Exception rendering #parse({}) at {}",
+            log.error("Exception rendering #" + getName() + "({}) at {}",
                       arg, StringUtils.formatFileString(this));
             throw e;
         }
         catch ( Exception e )
         {
-            String msg = "Exception rendering #parse(" + arg + ") at " +
+            String msg = "Exception rendering #" + getName() + "(" + arg + ") at " +
                          StringUtils.formatFileString(this);
             log.error(msg, e);
             throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
@@ -332,14 +332,27 @@ public class Parse extends InputBase
     {
         if (argtypes.size() != 1)
         {
-            throw new MacroParseException("The #parse directive requires one argument",
+            throw new MacroParseException("The #" + getName() + " directive requires one argument",
                templateName, t);
         }
 
         if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
         {
-            throw new MacroParseException("The argument to #parse is of the wrong type",
+            throw new MacroParseException("The argument to #" + getName() + " is of the wrong type",
                 templateName, t);
         }
+    }
+
+    /**
+     * Find the template to render in the appropriate encoding
+     * @param path template path
+     * @param encoding template encoding
+     * @return found template
+     * @throws ResourceNotFoundException if template was not found
+     * @since 2.4
+     */
+    protected Template getTemplate(String path, String encoding) throws ResourceNotFoundException
+    {
+        return rsvc.getTemplate(path, encoding);
     }
 }

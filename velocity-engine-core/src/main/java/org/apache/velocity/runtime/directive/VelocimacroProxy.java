@@ -197,10 +197,9 @@ public class VelocimacroProxy extends Directive
         int callArgNum = node.jjtGetNumChildren();
 
         // if this macro was invoked by a call directive, we might have a body AST here.
-        Object oldBodyRef = null;
+        Object oldBodyRef = context.remove(bodyReference);
         if (body != null)
         {
-            oldBodyRef = context.get(bodyReference);
             context.put(bodyReference, body);
             callArgNum--;  // Remove the body AST from the arg count
         }
@@ -216,8 +215,6 @@ public class VelocimacroProxy extends Directive
             // render the velocity macro
             context.pushCurrentMacroName(macroName);
             nodeTree.render(context, writer);
-            context.popCurrentMacroName();
-            return true;
         }
         catch (RuntimeException e)
         {
@@ -231,6 +228,11 @@ public class VelocimacroProxy extends Directive
         }
         finally
         {
+            // if MacroOverflowException was thrown then it already empties the stack
+            // for everything else - e.g. other exceptions - we clean up after ourself
+            if (context.getCurrentMacroCallDepth() > 0)
+                context.popCurrentMacroName();
+
             // clean up after the args and bodyRef
             // but only if they weren't overridden inside
             Object current = context.get(bodyReference);
@@ -283,6 +285,8 @@ public class VelocimacroProxy extends Directive
                 }
             }
         }
+            
+        return true;
     }
 
     /**
