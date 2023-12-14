@@ -103,7 +103,8 @@ public class DeprecationAwareExtProperties extends Hashtable<String, Object>
      */
     public Object get(String key)
     {
-        return super.get(translateKey(key));
+        key = translateKey(key);
+        return super.get(key);
     }
 
     /**

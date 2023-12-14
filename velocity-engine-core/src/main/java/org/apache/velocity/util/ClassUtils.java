@@ -19,6 +19,9 @@ package org.apache.velocity.util;
  * under the License.
  */
 
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.VelocityException;
@@ -27,8 +30,6 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.apache.velocity.util.introspection.Info;
 import org.apache.velocity.util.introspection.IntrospectionCacheData;
 import org.apache.velocity.util.introspection.VelMethod;
-
-import java.io.InputStream;
 
 
 
@@ -41,6 +42,9 @@ import java.io.InputStream;
  * @since 1.5
  */
 public class ClassUtils {
+
+    public static final String CLASS_EXTENSION = ".class";
+    public static final String JAVA_EXTENSION = ".java";
 
     /**
      * Utility class; cannot be instantiated.
@@ -268,4 +272,11 @@ public class ClassUtils {
         return method;
     }
 
+    public static URI toURI(String name) {
+        try {
+            return new URI(name);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

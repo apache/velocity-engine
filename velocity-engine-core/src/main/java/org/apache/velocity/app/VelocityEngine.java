@@ -19,6 +19,10 @@ package org.apache.velocity.app;
  * under the License.
  */
 
+import java.io.Reader;
+import java.io.Writer;
+import java.util.Objects;
+import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -27,10 +31,6 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.slf4j.Logger;
-
-import java.io.Reader;
-import java.io.Writer;
-import java.util.Properties;
 
 /**
  * <p>
@@ -51,14 +51,19 @@ import java.util.Properties;
  */
 public class VelocityEngine implements RuntimeConstants
 {
-    private RuntimeInstance ri = new RuntimeInstance();
+    private final RuntimeInstance ri;
 
     /**
      *  Init-less CTOR
      */
     public VelocityEngine()
     {
-        // do nothing
+        this(new RuntimeInstance());
+    }
+
+    public VelocityEngine(RuntimeInstance ri) // for testable
+    {
+        this.ri = Objects.requireNonNull(ri, "RuntimeInstance is null");
     }
 
     /**
@@ -68,6 +73,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public VelocityEngine(String propsFilename)
     {
+        this();
         ri.setProperties(propsFilename);
     }
 
@@ -77,6 +83,7 @@ public class VelocityEngine implements RuntimeConstants
      */
     public VelocityEngine(Properties p)
     {
+        this();
         ri.setProperties(p);
     }
 
