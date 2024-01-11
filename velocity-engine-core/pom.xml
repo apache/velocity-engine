@@ -192,7 +192,6 @@
                             org.apache.velocity.*
                         </Export-Package>
                         <Import-Package>
-                            !org.apache.commons.io,
                             *
                         </Import-Package>
                     </instructions>
