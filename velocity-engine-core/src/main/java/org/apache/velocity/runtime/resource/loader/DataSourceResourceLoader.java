@@ -183,7 +183,7 @@ public class DataSourceResourceLoader extends ResourceLoader
     @Override
     public void init(ExtProperties configuration)
     {
-        dataSourceName  = StringUtils.trim(configuration.getString("datasource_url"));
+        dataSourceName  = StringUtils.trim(configuration.getString("resource.datasource_url"));
         tableName       = StringUtils.trim(configuration.getString("resource.table"));
         keyColumn       = StringUtils.trim(configuration.getString("resource.key_column"));
         templateColumn  = StringUtils.trim(configuration.getString("resource.template_column"));

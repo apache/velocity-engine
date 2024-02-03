@@ -65,7 +65,7 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      *  @since 2.2
      */
     String RUNTIME_LOG_TRACK_LOCATION = "runtime.log.track_location";
-    
+
     /*
      * ----------------------------------------------------------------------
      * D I R E C T I V E  C O N F I G U R A T I O N
@@ -90,7 +90,7 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      * @since 2.0
      */
     String CHECK_EMPTY_OBJECTS = "directive.if.empty_check";
-    
+
     /**
      * Starting tag for error messages triggered by passing a parameter not allowed in the #include directive. Only string literals,
      * and references are allowed.
@@ -220,7 +220,13 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
     /**
      * Datasource loader datasource url
      */
-    String DS_RESOURCE_LOADER_DATASOURCE = "resource.loader.ds.resource.datasource_url";
+    String DS_RESOURCE_LOADER_DATASOURCE_URL = "resource.loader.ds.resource.datasource_url";
+
+    /**
+     * @deprecated Use {@link #DS_RESOURCE_LOADER_DATASOURCE_URL} instead.
+     */
+    @Deprecated
+    String DS_RESOURCE_LOADER_DATASOURCE = DS_RESOURCE_LOADER_DATASOURCE_URL;
 
     /**
      * Datasource loader templates table
@@ -446,7 +452,7 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
 
     /** Whether to use string interning. */
     String RUNTIME_STRING_INTERNING = "runtime.string_interning";
-    
+
     /** Switch for the interpolation facility for string literals. */
     String INTERPOLATE_STRINGLITERALS = "runtime.interpolate_string_literals";
 
