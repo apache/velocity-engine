@@ -25,7 +25,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -114,19 +113,6 @@ public class FileResourceLoader extends ResourceLoader
                     "Need to specify a file name or file path!");
         }
 
-        String template = FilenameUtils.normalize( templateName, true );
-        if ( template == null || template.length() == 0 )
-        {
-            String msg = "File resource error: argument " + template +
-                    " contains .. and may be trying to access " +
-                    "content outside of template root.  Rejected.";
-
-            log.error("FileResourceLoader: {}", msg);
-
-            throw new ResourceNotFoundException ( msg );
-        }
-
-        int size = paths.size();
         for (String path : paths)
         {
             InputStream rawStream = null;
@@ -134,7 +120,7 @@ public class FileResourceLoader extends ResourceLoader
 
             try
             {
-                rawStream = findTemplate(path, template);
+                rawStream = findTemplate(path, templateName);
                 if (rawStream != null)
                 {
                     reader = buildReader(rawStream, encoding);
@@ -143,7 +129,7 @@ public class FileResourceLoader extends ResourceLoader
             catch (IOException ioe)
             {
                 closeQuiet(rawStream);
-                String msg = "Exception while loading Template " + template;
+                String msg = "Exception while loading Template " + templateName;
                 log.error(msg, ioe);
                 throw new VelocityException(msg, ioe, rsvc.getLogContext().getStackTrace());
             }
@@ -164,7 +150,7 @@ public class FileResourceLoader extends ResourceLoader
          * templates and we didn't find anything so
          * throw an exception.
          */
-        throw new ResourceNotFoundException("FileResourceLoader: cannot find " + template);
+        throw new ResourceNotFoundException("FileResourceLoader: cannot find " + templateName);
     }
 
     /**
@@ -174,17 +160,11 @@ public class FileResourceLoader extends ResourceLoader
     @Override
     public boolean resourceExists(String name)
     {
-        if (name == null)
-        {
-            return false;
-        }
-        name =  FilenameUtils.normalize(name);
         if (name == null || name.length() == 0)
         {
             return false;
         }
 
-        int size = paths.size();
         for (String path : paths)
         {
             try

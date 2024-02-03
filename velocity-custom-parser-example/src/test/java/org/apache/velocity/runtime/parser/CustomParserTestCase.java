@@ -1,6 +1,5 @@
 package org.apache.velocity.runtime.parser;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -11,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 
@@ -49,8 +50,8 @@ public class CustomParserTestCase
         writer.flush();
         writer.close();
 
-        String result = IOUtils.toString(new FileInputStream(resultFile), StandardCharsets.UTF_8);
-        String reference = IOUtils.toString(new FileInputStream(referenceFile), StandardCharsets.UTF_8);
+        String result = new String(Files.readAllBytes(Paths.get(resultFile)), StandardCharsets.UTF_8)
+        String reference = new String(Files.readAllBytes(Paths.get(referenceFile)), StandardCharsets.UTF_8)
         assertEquals(reference, result);
     }
 }

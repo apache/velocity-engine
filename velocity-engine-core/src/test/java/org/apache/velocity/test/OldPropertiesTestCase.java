@@ -22,7 +22,6 @@ package org.apache.velocity.test;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.test.misc.TestLogger;
@@ -30,6 +29,9 @@ import org.apache.velocity.util.DeprecationAwareExtProperties;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -98,7 +100,7 @@ public class OldPropertiesTestCase extends TestCase implements TemplateTestBase
         Translator translator = new Translator();
 
         // check getting old/new values
-        List<String> oldPropSettings = FileUtils.readLines(new File(oldProperties));
+        List<String> oldPropSettings = Files.readAllLines(Paths.get(oldProperties), StandardCharsets.ISO_8859_1);
         Set<String> oldKeys = new HashSet<>();
         for (String oldProp : oldPropSettings)
         {

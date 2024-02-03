@@ -25,7 +25,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.ExtProperties;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -186,35 +185,22 @@ public class JarResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException("Need to have a resource!");
         }
 
-        String normalizedPath = FilenameUtils.normalize( source, true );
-
-        if ( normalizedPath == null || normalizedPath.length() == 0 )
-        {
-            String msg = "JAR resource error: argument " + normalizedPath +
-                    " contains .. and may be trying to access " +
-                    "content outside of template root.  Rejected.";
-
-            log.error( "JarResourceLoader: {}", msg );
-
-            throw new ResourceNotFoundException ( msg );
-        }
-
         /*
          *  if a / leads off, then just nip that :)
          */
-        if ( normalizedPath.startsWith("/") )
+        if ( source.startsWith("/") )
         {
-            normalizedPath = normalizedPath.substring(1);
+            source = source.substring(1);
         }
 
-        if ( entryDirectory.containsKey( normalizedPath ) )
+        if ( entryDirectory.containsKey( source ) )
         {
-            String jarurl  = entryDirectory.get( normalizedPath );
+            String jarurl  = entryDirectory.get( source );
 
             if ( jarfiles.containsKey( jarurl ) )
             {
                 JarHolder holder = (JarHolder)jarfiles.get( jarurl );
-                InputStream rawStream = holder.getResource( normalizedPath );
+                InputStream rawStream = holder.getResource( source );
                 try
                 {
                     return buildReader(rawStream, encoding);

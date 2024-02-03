@@ -104,38 +104,6 @@
                 </executions>
             </plugin>
 
-            <!-- shading of commons-io -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>shade</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>commons-io:commons-io</include>
-                                </includes>
-                                <excludes>
-                                    <exclude>org.slf4j:slf4j-api</exclude>
-                                </excludes>
-                            </artifactSet>
-                            <relocations>
-                                <relocation>
-                                    <pattern>org.apache.commons.io</pattern>
-                                    <shadedPattern>org.apache.velocity.shaded.commons.io</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <minimizeJar>true</minimizeJar>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- parser -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -220,7 +188,6 @@
                             org.apache.velocity.*
                         </Export-Package>
                         <Import-Package>
-                            !org.apache.commons.io,
                             *
                         </Import-Package>
                     </instructions>
@@ -311,11 +278,6 @@
             <version>${test.jdbc.driver.version}</version>
             <scope>test</scope>
             <classifier>${test.jdbc.driver.classifier}</classifier>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

@@ -22,7 +22,6 @@ package org.apache.velocity.test;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.apache.commons.io.IOUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.test.misc.TestLogger;
@@ -149,9 +148,13 @@ public class ClassloaderChangeTestCase extends TestCase
                 throws Exception
         {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            InputStream fis = getClass().getResourceAsStream("/" + testclass);
-            IOUtils.copy(fis, os);
-            fis.close();
+            InputStream is = getClass().getResourceAsStream("/" + testclass);
+            byte[] buf = new byte[8192];
+            int length;
+            while ((length = is.read(buf)) != -1) {
+                os.write(buf, 0, length);
+            }
+            is.close();
             os.close();
 
             byte[] barr = os.toByteArray();
