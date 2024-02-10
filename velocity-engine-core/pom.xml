@@ -49,7 +49,7 @@
         -->
         <test.jdbc.driver.groupId>org.hsqldb</test.jdbc.driver.groupId>
         <test.jdbc.driver.artifactId>hsqldb</test.jdbc.driver.artifactId>
-        <test.jdbc.driver.version>2.7.1</test.jdbc.driver.version>
+        <test.jdbc.driver.version>2.7.2</test.jdbc.driver.version>
         <test.jdbc.driver.classifier>jdk8</test.jdbc.driver.classifier>
         <test.jdbc.driver.className>org.hsqldb.jdbcDriver</test.jdbc.driver.className>
         <test.jdbc.uri>jdbc:hsqldb:.</test.jdbc.uri>
@@ -259,7 +259,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.11</version>
+            <version>3.14.0</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
