@@ -11,7 +11,7 @@ Example configuration:
     class="org.apache.velocity.spring.VelocityEngineFactoryBean">
     <property name="velocityProperties">
         <props>
-            <prop key="resource.loader">class</prop>
+            <prop key="resource.loaders">class</prop>
             <prop key="class.resource.loader.class">
                 org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
             </prop>
