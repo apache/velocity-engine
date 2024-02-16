@@ -341,17 +341,17 @@ public class Foreach extends Directive
             throw new MacroParseException("Too few arguments to the #foreach directive",
               templateName, t);
         }
-        else if (argtypes.get(0) != ParserTreeConstants.JJTREFERENCE)
+        else if (argtypes.get(0) != StandardParserTreeConstants.JJTREFERENCE)
         {
             throw new MacroParseException("Expected argument 1 of #foreach to be a reference",
                 templateName, t);
         }
-        else if (argtypes.get(1) != ParserTreeConstants.JJTWORD)
+        else if (argtypes.get(1) != StandardParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("Expected word 'in' at argument position 2 in #foreach",
                 templateName, t);
         }
-        else if (argtypes.get(2) == ParserTreeConstants.JJTWORD)
+        else if (argtypes.get(2) == StandardParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("Argument 3 of #foreach is of the wrong type",
                 templateName, t);

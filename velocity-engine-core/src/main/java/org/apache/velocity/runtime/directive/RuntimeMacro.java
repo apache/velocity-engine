@@ -33,7 +33,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTDirective;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.StandardParserTreeConstants;
 import org.apache.velocity.util.StringUtils;
 
 import org.apache.commons.lang3.Validate;
@@ -153,7 +153,7 @@ public class RuntimeMacro extends Directive
         for (int n=0; n < node.jjtGetNumChildren(); n++)
         {
             Node child = node.jjtGetChild(n);
-            if (child.getType() == ParserTreeConstants.JJTWORD)
+            if (child.getType() == StandardParserTreeConstants.JJTWORD)
             {
                 badArgsErrorMsg = "Invalid arg '" + child.getFirstTokenImage()
                 + "' in macro #" + macroName + " at " + StringUtils.formatFileString(child);

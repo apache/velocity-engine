@@ -170,7 +170,7 @@ public abstract class Directive implements DirectiveConstants, Cloneable
      * checking.  We do this so that Custom directives do not trigger any parse
      * errors in IDEs.
      * @param argtypes type, Array of argument types of each argument to the directive
-     * for example ParserTreeConstants.JJTWORD
+     * for example StandardParserTreeConstants.JJTWORD
      * @param t token of directive
      * @param templateName the name of the template this directive is referenced in.
      * @throws ParseException

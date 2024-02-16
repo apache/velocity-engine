@@ -241,6 +241,11 @@ public class NodeViewMode extends BaseVisitor
         return showNode(node,data);
     }
 
+    @Override
+    public Object visit(ASTNegateNode node, Object data) {
+        return showNode(node,data);
+    }
+
     /**
      * @see org.apache.velocity.runtime.visitor.BaseVisitor#visit(org.apache.velocity.runtime.parser.node.ASTFloatingPointLiteral, java.lang.Object)
      */

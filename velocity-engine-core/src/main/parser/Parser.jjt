@@ -234,12 +234,12 @@ public class ${parser.basename}Parser implements Parser
      * the new stream that we want parsed.
      */
     @Override
-    public SimpleNode parse( Reader reader, Template template )
+    public SimpleNode parse( Reader reader, Template t )
         throws ParseException
     {
         SimpleNode sn = null;
 
-        currentTemplate = template;
+        currentTemplate = t;
 
         try
         {
@@ -267,7 +267,7 @@ public class ${parser.basename}Parser implements Parser
              *  thrown by the Macro class when something is amiss in the
              *  Macro specification
              */
-            log.error("{}: {}", template.getName(), mee.getMessage(), mee);
+            log.error("{}: {}", t.getName(), mee.getMessage(), mee);
             throw mee;
         }
         catch (ParseException pe)
@@ -282,7 +282,7 @@ public class ${parser.basename}Parser implements Parser
         }
         catch (Exception e)
         {
-            String msg = template.getName() + ": " + e.getMessage();
+            String msg = t.getName() + ": " + e.getMessage();
             log.error(msg, e);
             throw new VelocityException(msg, e, getRuntimeServices().getLogContext().getStackTrace());
         }
@@ -572,7 +572,7 @@ TOKEN_MGR_DECLS:
     {
         ${parser.basename}Parser.trace(message);
     }
-    
+
     /**
      * Switches to a new state (add some log to the default method)
      */
@@ -1541,7 +1541,7 @@ TOKEN :
  * the template has been turned into an AST,
  * this method returns the root of AST which
  * can subsequently be traversed by a visitor
- * which implements the ParserVisitor interface
+ * which implements the StandardParserVisitor interface
  * which is generated automatically by JavaCC
  */
 SimpleNode process() :
@@ -1714,47 +1714,47 @@ int DirectiveArg() #void : {}
 {
     Reference()
     {
-        return ParserTreeConstants.JJTREFERENCE;
+        return StandardParserTreeConstants.JJTREFERENCE;
     }
 |   Word()
     {
-        return ParserTreeConstants.JJTWORD;
+        return StandardParserTreeConstants.JJTWORD;
     }
 |   StringLiteral()
     {
-        return ParserTreeConstants.JJTSTRINGLITERAL;
+        return StandardParserTreeConstants.JJTSTRINGLITERAL;
     }
 
 |   IntegerLiteral()
     {
-        return ParserTreeConstants.JJTINTEGERLITERAL;
+        return StandardParserTreeConstants.JJTINTEGERLITERAL;
     }
     /*
      * Need to put this before the floating point expansion
      */
 |   LOOKAHEAD(  <LBRACKET> (<WHITESPACE> | <NEWLINE>)* ( Reference() | IntegerLiteral())     (<WHITESPACE> | <NEWLINE>)* <DOUBLEDOT> ) IntegerRange()
     {
-        return ParserTreeConstants.JJTINTEGERRANGE;
+        return StandardParserTreeConstants.JJTINTEGERRANGE;
     }
 |   FloatingPointLiteral()
     {
-        return ParserTreeConstants.JJTFLOATINGPOINTLITERAL;
+        return StandardParserTreeConstants.JJTFLOATINGPOINTLITERAL;
     }
 |   Map()
     {
-        return ParserTreeConstants.JJTMAP;
+        return StandardParserTreeConstants.JJTMAP;
     }
 |   ObjectArray()
     {
-        return ParserTreeConstants.JJTOBJECTARRAY;
+        return StandardParserTreeConstants.JJTOBJECTARRAY;
     }
 |   True()
     {
-        return ParserTreeConstants.JJTTRUE;
+        return StandardParserTreeConstants.JJTTRUE;
     }
 |   False()
     {
-        return ParserTreeConstants.JJTFALSE;
+        return StandardParserTreeConstants.JJTFALSE;
     }
 }
 
@@ -1878,7 +1878,7 @@ boolean Directive(boolean afterNewline) :
               LOOKAHEAD( { isMacro && isAssignment() })
               DirectiveAssign() (<WHITESPACE> | <NEWLINE>)* <EQUALS> ( <WHITESPACE> | <NEWLINE> )*
               {
-                  argtypes.add(ParserTreeConstants.JJTDIRECTIVEASSIGN);
+                  argtypes.add(StandardParserTreeConstants.JJTDIRECTIVEASSIGN);
               }
             ]
             LOOKAHEAD( { !isRightParenthesis() } )
@@ -1886,7 +1886,7 @@ boolean Directive(boolean afterNewline) :
               argType = DirectiveArg()
               {
                   argtypes.add(argType);
-                  if (d == null && argType == ParserTreeConstants.JJTWORD)
+                  if (d == null && argType == StandardParserTreeConstants.JJTWORD)
                   {
                       if (isVM)
                       {

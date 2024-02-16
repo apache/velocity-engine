@@ -28,8 +28,8 @@ import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.parser.node.StandardParserTreeConstants;
 import org.apache.velocity.util.introspection.Info;
 
 import java.io.IOException;
@@ -112,8 +112,8 @@ public class Evaluate extends Directive
         }
 
         Node childNode = node.jjtGetChild(0);
-        if ( childNode.getType() !=  ParserTreeConstants.JJTSTRINGLITERAL &&
-             childNode.getType() !=  ParserTreeConstants.JJTREFERENCE )
+        if ( childNode.getType() !=  StandardParserTreeConstants.JJTSTRINGLITERAL &&
+             childNode.getType() !=  StandardParserTreeConstants.JJTREFERENCE )
         {
            throw new TemplateInitException(
                    "#" + getName() + "()  argument must be a string literal or reference",

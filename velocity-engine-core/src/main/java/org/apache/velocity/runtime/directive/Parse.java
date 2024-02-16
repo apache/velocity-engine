@@ -32,8 +32,8 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.apache.velocity.runtime.parser.node.StandardParserTreeConstants;
 import org.apache.velocity.util.StringUtils;
 
 import java.io.IOException;
@@ -336,7 +336,7 @@ public class Parse extends InputBase
                templateName, t);
         }
 
-        if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
+        if (argtypes.get(0) == StandardParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("The argument to #" + getName() + " is of the wrong type",
                 templateName, t);

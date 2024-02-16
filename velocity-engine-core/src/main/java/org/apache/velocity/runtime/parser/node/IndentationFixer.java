@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  * Helper class to fix indentation in structured mode.
  */
 
-public class IndentationFixer implements ParserVisitor
+public class IndentationFixer implements StandardParserVisitor
 {
     protected String parentIndentation = null;
     protected String extraIndentation = null;
@@ -357,6 +357,11 @@ public class IndentationFixer implements ParserVisitor
     @Override
     public Object visit(ASTNotNode node, Object data)
     {
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTNegateNode node, Object data) {
         return null;
     }
 }

@@ -28,7 +28,7 @@ import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.StandardParserTreeConstants;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -124,14 +124,14 @@ public class For extends Foreach
     // $var' combo.
     if (argtypes.size() > 3)
     {
-      if (argtypes.get(3) != ParserTreeConstants.JJTWORD)
+      if (argtypes.get(3) != StandardParserTreeConstants.JJTWORD)
       {
         throw new MacroParseException(
             "Expected word 'index' at argument position 4 in #foreach",
             templateName, t);
       }
       else if (argtypes.size() == 4
-          || argtypes.get(4) != ParserTreeConstants.JJTREFERENCE)
+          || argtypes.get(4) != StandardParserTreeConstants.JJTREFERENCE)
       {
         throw new MacroParseException(
             "Expected a reference after 'index' in #foreach", templateName, t);

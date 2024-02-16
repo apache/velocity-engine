@@ -28,7 +28,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.StandardParserTreeConstants;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.util.StringUtils;
 
@@ -163,8 +163,8 @@ public class Include extends InputBase
 
             Node n = node.jjtGetChild(i);
 
-            if ( n.getType() ==  ParserTreeConstants.JJTSTRINGLITERAL ||
-                 n.getType() ==  ParserTreeConstants.JJTREFERENCE )
+            if ( n.getType() ==  StandardParserTreeConstants.JJTSTRINGLITERAL ||
+                 n.getType() ==  StandardParserTreeConstants.JJTREFERENCE )
             {
                 if (!renderOutput( n, context, writer ))
                     outputErrorToStream( writer, "error with arg " + i

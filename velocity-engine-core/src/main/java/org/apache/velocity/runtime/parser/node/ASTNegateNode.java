@@ -36,10 +36,10 @@ public class ASTNegateNode extends SimpleNode
     }
 
     /**
-     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.ParserVisitor, java.lang.Object)
+     * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.StandardParserVisitor, java.lang.Object)
      */
     @Override
-    public Object jjtAccept(ParserVisitor visitor, Object data)
+    public Object jjtAccept(StandardParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }

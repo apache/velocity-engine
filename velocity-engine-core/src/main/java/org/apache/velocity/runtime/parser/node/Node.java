@@ -91,7 +91,7 @@ public interface Node extends Renderable
      * @param data
      * @return The Node execution result object.
      */
-    Object jjtAccept(ParserVisitor visitor, Object data);
+    Object jjtAccept(StandardParserVisitor visitor, Object data);
 
     /*
      * ========================================================================
@@ -103,12 +103,12 @@ public interface Node extends Renderable
      */
 
     /**
-     * @see #jjtAccept(ParserVisitor, Object)
+     * @see #jjtAccept(StandardParserVisitor, Object)
      * @param visitor
      * @param data
      * @return The node execution result.
      */
-    Object childrenAccept(ParserVisitor visitor, Object data);
+    Object childrenAccept(StandardParserVisitor visitor, Object data);
 
     /**
      * @return The first token.

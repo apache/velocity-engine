@@ -25,7 +25,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.StandardParserTreeConstants;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -139,7 +139,7 @@ public class Macro extends Directive
         /*
          *  lets make sure that the first arg is an ASTWord
          */
-        if(argtypes.get(0) != ParserTreeConstants.JJTWORD)
+        if(argtypes.get(0) != StandardParserTreeConstants.JJTWORD)
         {
             throw new MacroParseException("Macro argument 1"
                     + " must be a token without surrounding \' or \""
@@ -157,7 +157,7 @@ public class Macro extends Directive
         // value is specified.
         for (int argPos = 1; argPos < argtypes.size(); argPos++)
         {
-            if (argtypes.get(argPos) == ParserTreeConstants.JJTDIRECTIVEASSIGN)
+            if (argtypes.get(argPos) == StandardParserTreeConstants.JJTDIRECTIVEASSIGN)
             {
                // Absorb next argument type since parser enforces that these are in
                // pairs, and we don't need to check the type of the second
@@ -165,7 +165,7 @@ public class Macro extends Directive
                argPos++;
                consecutive = true;
             }
-            else if (argtypes.get(argPos) != ParserTreeConstants.JJTREFERENCE)
+            else if (argtypes.get(argPos) != StandardParserTreeConstants.JJTREFERENCE)
             {
                 throw new MacroParseException("Macro argument " + (argPos + 1)
                   + " must be a reference", templateName, t);
@@ -206,7 +206,7 @@ public class Macro extends Directive
         {
             Node curnode = node.jjtGetChild(i);
             MacroArg macroArg = new MacroArg();
-            if (curnode.getType() == ParserTreeConstants.JJTDIRECTIVEASSIGN)
+            if (curnode.getType() == StandardParserTreeConstants.JJTDIRECTIVEASSIGN)
             {
                 // This is an argument with a default value
             	macroArg.name = curnode.getFirstTokenImage();
@@ -290,5 +290,5 @@ public class Macro extends Directive
         ret.append(" )");
         return ret;
     }
-    
+
 }

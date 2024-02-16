@@ -70,7 +70,7 @@ public abstract class ASTMathNode extends ASTBinaryOperator
      * {@inheritDoc}
      */
     @Override
-    public Object jjtAccept(ParserVisitor visitor, Object data)
+    public Object jjtAccept(StandardParserVisitor visitor, Object data)
     {
         return visitor.visit(this, data);
     }

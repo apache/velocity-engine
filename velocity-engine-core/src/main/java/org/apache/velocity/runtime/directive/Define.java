@@ -27,7 +27,7 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.Token;
 import org.apache.velocity.runtime.parser.node.Node;
-import org.apache.velocity.runtime.parser.node.ParserTreeConstants;
+import org.apache.velocity.runtime.parser.node.StandardParserTreeConstants;
 import org.apache.velocity.util.StringUtils;
 
 import java.io.Writer;
@@ -112,7 +112,7 @@ public class Define extends Block
              templateName, t);
       }
 
-      if (argtypes.get(0) == ParserTreeConstants.JJTWORD)
+      if (argtypes.get(0) == StandardParserTreeConstants.JJTWORD)
       {
           throw new MacroParseException("The argument to #define is of the wrong type",
               templateName, t);

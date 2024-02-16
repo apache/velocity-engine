@@ -140,7 +140,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>javacc-maven-plugin</artifactId>
-                <version>2.6</version>
                 <configuration>
                     <isStatic>false</isStatic>
                     <buildParser>true</buildParser>
@@ -204,34 +203,6 @@
                                     </excludes>
                                 </fileset>
                             </filesets>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- add missing imports to some parser generated files -->
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <executions>
-                    <execution>
-                        <id>patch-parser-files</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>${project.build.directory}/generated-sources/jjtree/**/JJT${parser.basename}ParserState.java</include>
-                                <include>${project.build.directory}/generated-sources/jjtree/**/${parser.basename}ParserVisitor.java</include>
-                            </includes>
-                            <replacements>
-                                <replacement>
-                                    <token>import ${parser.package}.*;</token>
-                                    <value>import ${parser.package}.*;
-import org.apache.velocity.runtime.parser.node.*;</value>
-                                </replacement>
-                            </replacements>
                         </configuration>
                     </execution>
                 </executions>
