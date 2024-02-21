@@ -31,13 +31,13 @@ import java.util.Map;
  *
  * All operations (+ - / *) return a Number which type is the type of the bigger argument.<br>
  * Example:<br>
- * <code>add ( new Integer(10), new Integer(1))</code> will return an <code>Integer</code>-Object with the value 11<br>
- * <code>add ( new Long(10), new Integer(1))</code> will return an <code>Long</code>-Object with the value 11<br>
- * <code>add ( new Integer(10), new Float(1))</code> will return an <code>Float</code>-Object with the value 11<br><br>
+ * <code>add ( Integer.valueOf(10), Integer.valueOf(1))</code> will return an <code>Integer</code>-Object with the value 11<br>
+ * <code>add ( Long.valueOf(10), Integer.valueOf(1))</code> will return an <code>Long</code>-Object with the value 11<br>
+ * <code>add ( Integer.valueOf(10), Float.valueOf(1))</code> will return an <code>Float</code>-Object with the value 11<br><br>
  *
  * Overflow checking:<br>
  * For integral values (byte, short, int) there is an implicit overflow correction (the next "bigger"
- * type will be returned). For example, if you call <code>add (new Integer (Integer.MAX_VALUE), 1)</code> a
+ * type will be returned). For example, if you call <code>add (Integer.valueOf(Integer.MAX_VALUE), 1)</code> a
  * <code>Long</code>-object will be returned with the correct value of <code>Integer.MAX_VALUE+1</code>.<br>
  * In addition to that the methods <code>multiply</code>,<code>add</code> and <code>substract</code> implement overflow
  * checks for <code>long</code>-values. That means that if an overflow occurs while working with long values a BigInteger

@@ -101,31 +101,31 @@ public class CommonsExtPropTestCase extends BaseTestCase
             result.write("\n\n");
 
             message(result, "Testing getBoolean(key) ...");
-            result.write(Boolean.valueOf(c.getBoolean("config.boolean.value")).toString());
+            result.write(Boolean.toString(c.getBoolean("config.boolean.value")));
             result.write("\n\n");
 
             message(result, "Testing getByte(key) ...");
-            result.write(new Byte(c.getByte("config.byte.value")).toString());
+            result.write(Byte.toString(c.getByte("config.byte.value")));
             result.write("\n\n");
 
             message(result, "Testing getShort(key) ...");
-            result.write(new Short(c.getShort("config.short.value")).toString());
+            result.write(Short.toString(c.getShort("config.short.value")));
             result.write("\n\n");
 
             message(result, "Testing getInt(key) ...");
-            result.write(new Integer(c.getInt("config.int.value")).toString());
+            result.write(Integer.toString(c.getInt("config.int.value")));
             result.write("\n\n");
 
             message(result, "Testing getLong(key) ...");
-            result.write(new Long(c.getLong("config.long.value")).toString());
+            result.write(Long.toString(c.getLong("config.long.value")));
             result.write("\n\n");
 
             message(result, "Testing getFloat(key) ...");
-            result.write(new Float(c.getFloat("config.float.value")).toString());
+            result.write(Float.toString(c.getFloat("config.float.value")));
             result.write("\n\n");
 
             message(result, "Testing getDouble(key) ...");
-            result.write(new Double(c.getDouble("config.double.value")).toString());
+            result.write(Double.toString(c.getDouble("config.double.value")));
             result.write("\n\n");
 
             message(result, "Testing escaped-comma scalar...");

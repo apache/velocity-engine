@@ -64,13 +64,13 @@ public class ClassMapTestCase
 
         ClassMap c = new ClassMap(TestClassMap.class, log);
         assertNotNull(c.findMethod("setBoolean",   new Object[] { Boolean.TRUE }));
-        assertNotNull(c.findMethod("setByte",      new Object[] { new Byte((byte) 4)}));
-        assertNotNull(c.findMethod("setCharacter", new Object[] { new Character('c')}));
-        assertNotNull(c.findMethod("setDouble",    new Object[] { new Double(8.0) }));
-        assertNotNull(c.findMethod("setFloat",     new Object[] { new Float(15.0) }));
-        assertNotNull(c.findMethod("setInteger",   new Object[] { new Integer(16) }));
-        assertNotNull(c.findMethod("setLong",      new Object[] { new Long(23) }));
-        assertNotNull(c.findMethod("setShort",     new Object[] { new Short((short)42)}));
+        assertNotNull(c.findMethod("setByte",      new Object[] { (byte) 4 }));
+        assertNotNull(c.findMethod("setCharacter", new Object[] { 'c' }));
+        assertNotNull(c.findMethod("setDouble",    new Object[] { 8.0 }));
+        assertNotNull(c.findMethod("setFloat",     new Object[] { 15.0f }));
+        assertNotNull(c.findMethod("setInteger",   new Object[] { 16 }));
+        assertNotNull(c.findMethod("setLong",      new Object[] { 23L }));
+        assertNotNull(c.findMethod("setShort",     new Object[] { (short)42 }));
     }
 
     public static final class TestClassMap

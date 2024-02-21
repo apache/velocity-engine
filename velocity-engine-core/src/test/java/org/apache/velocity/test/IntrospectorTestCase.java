@@ -88,7 +88,7 @@ public class IntrospectorTestCase extends BaseTestCase
             throws Exception
     {
         // Test byte primitive.
-        Object[] byteParams = { new Byte("1") };
+        Object[] byteParams = { Byte.valueOf("1")};
         String type = "byte";
         Method method = introspector.getMethod(
                 MethodProvider.class, type + "Method", byteParams);

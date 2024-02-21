@@ -83,8 +83,8 @@ public class NumberMethodCallsTestCase extends TestCase
         vc.put("Test",new NumberMethods());
 
         // numbers for context
-        vc.put("AByte",new Byte("10"));
-        vc.put("AShort",new Short("10"));
+        vc.put("AByte", Byte.valueOf("10"));
+        vc.put("AShort", Short.valueOf("10"));
         vc.put("AInteger", 10);
         vc.put("ALong", 10L);
         vc.put("ADouble", 10.0);
