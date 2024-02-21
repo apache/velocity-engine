@@ -199,8 +199,8 @@ public class ArithmeticTestCase extends TestCase
  *
  *        long start = System.currentTimeMillis();
  *
- *        Number v1 = new Long (1000);
- *        Number v2 = new Double (10.23);
+ *        Number v1 = Long.valueOf(1000);
+ *        Number v2 = Double.valueOf(10.23);
  *        Number result = null;
  *        for (int a = 0; a < 10000; a++)
  *        {

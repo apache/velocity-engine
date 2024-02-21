@@ -1923,7 +1923,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
         }
         else if (value instanceof String)
         {
-            Float f = new Float((String) value);
+            Float f = Float.valueOf((String) value);
             put(key, f);
             return f;
 
@@ -2015,7 +2015,7 @@ public class ExtProperties extends DeprecationAwareExtProperties
         }
         else if (value instanceof String)
         {
-            Double d = new Double((String) value);
+            Double d = Double.valueOf((String) value);
             put(key, d);
             return d;
         }
