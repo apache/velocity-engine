@@ -129,7 +129,7 @@ public class PropertyExecutor extends AbstractExecutor
         }
         catch(Exception e)
         {
-            String msg = "Exception while looking for property getter for '" + property;
+            String msg = "Exception while looking for property getter for '" + property + "'";
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }

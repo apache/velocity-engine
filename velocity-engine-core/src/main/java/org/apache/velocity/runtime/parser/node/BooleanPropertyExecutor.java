@@ -115,7 +115,7 @@ public class BooleanPropertyExecutor extends PropertyExecutor
         }
         catch(Exception e)
         {
-            String msg = "Exception while looking for boolean property getter for '" + property;
+            String msg = "Exception while looking for boolean property getter for '" + property + "'";
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }

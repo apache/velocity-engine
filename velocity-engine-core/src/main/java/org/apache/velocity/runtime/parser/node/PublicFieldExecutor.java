@@ -110,7 +110,7 @@ public class PublicFieldExecutor extends AbstractExecutor
         }
         catch(Exception e)
         {
-            String msg = "Exception while looking for public field '" + property;
+            String msg = "Exception while looking for public field '" + property + "'";
             log.error(msg, e);
             throw new VelocityException(msg, e);
         }

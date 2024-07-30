@@ -54,7 +54,7 @@ public class ParserPoolImpl implements ParserPool {
             pool.put(rsvc.createNewParser());
         }
 
-        log.debug("Created '{}' parsers.", max);
+        log.debug("Created {} parsers.", max);
     }
 
     /**

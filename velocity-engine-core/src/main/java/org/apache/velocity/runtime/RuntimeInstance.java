@@ -273,7 +273,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 initializing = true;
 
                 log.trace("*****************************");
-                log.debug("Starting Apache Velocity v" + VelocityEngineVersion.VERSION);
+                log.debug("Starting Apache Velocity " + VelocityEngineVersion.VERSION);
                 log.trace("RuntimeInstance initializing.");
 
                 initializeProperties();
@@ -1502,7 +1502,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             }
             catch(Exception e)
             {
-                String msg = "RuntimeInstance.render(): init exception for tag = "+logTag;
+                String msg = "RuntimeInstance.render(): init exception for tag '"+logTag + "'";
                 log.error(msg, e);
                 throw new VelocityException(msg, e, getLogContext().getStackTrace());
             }
