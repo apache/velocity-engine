@@ -261,15 +261,15 @@
     <reporting>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.5</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>4.8.6.0</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                     <threshold>Low</threshold>
                     <effort>Max</effort>
-                    <excludeFilterFile>src/etc/build/findbugs-exclude.xml</excludeFilterFile>
-                    <xmlOutputDirectory>target/site</xmlOutputDirectory>
+                    <excludeFilterFile>src/etc/build/spotbugs-exclude.xml</excludeFilterFile>
+                    <xmlOutputDirectory>${project.reporting.outputDirectory}</xmlOutputDirectory>
                 </configuration>
             </plugin>
         </plugins>

@@ -18,8 +18,7 @@
     under the License.
 
 -->
-<!-- TODO: We should be putting findBugs exclusions -->
-<!-- as annotations in the source code. But that takes JDK 1.5+. -->
+<!-- TODO: We should be putting SpotBugs exclusions as annotations in the source code. -->
 
 <FindBugsFilter>
 
