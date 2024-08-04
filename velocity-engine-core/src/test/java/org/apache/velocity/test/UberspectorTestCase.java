@@ -199,6 +199,11 @@ public class UberspectorTestCase
         getter = u.getPropertyGet(uto, "Premium", null);
         assertNotNull(getter);
         assertEquals("Found wrong method", "getpremium", getter.getMethodName());
+
+        // recordField()
+        getter = u.getPropertyGet(uto, "recordField", null);
+        assertNotNull(getter);
+        assertEquals("Found wrong method", "recordField", getter.getMethodName());
     }
 
     public void testBooleanGetters()

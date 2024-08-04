@@ -33,6 +33,8 @@ public class UberspectorTestObject
 
     private String unambiguous;
 
+    private final String recordField = "";
+
     /**
      * @return the premium
      */
@@ -129,5 +131,9 @@ public class UberspectorTestObject
     public void setUnambiguous(Map unambiguous)
     {
         this.unambiguous = unambiguous.toString();
+    }
+
+    public String recordField() {
+        return this.recordField;
     }
 }
