@@ -204,8 +204,16 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      */
     protected void assertEvalEquals(String expected, String template)
     {
+        assertEvalEquals(expected, template, engine);
+    }
+
+    /**
+     * Ensure that a template renders as expected against the provided engine.
+     */
+    protected void assertEvalEquals(String expected, String template, VelocityEngine ve)
+    {
         info("Expectation: "+expected);
-        assertEquals(expected, evaluate(template));
+        assertEquals(expected, evaluate(template, ve));
     }
 
     /**
@@ -229,6 +237,14 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      */
     protected Exception assertEvalException(String evil, Class<?> exceptionType)
     {
+        return assertEvalException(evil, exceptionType, engine);
+    }
+
+    /**
+     * Ensure that a specified type of exception occurs when evaluating the string with the provided engine.
+     */
+    protected Exception assertEvalException(String evil, Class<?> exceptionType, VelocityEngine ve)
+    {
         try
         {
             if (!DEBUG)
@@ -243,7 +259,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
             {
                 info("Expectation: "+Exception.class.getName());
             }
-            evaluate(evil);
+            evaluate(evil, ve);
             String msg = "Template '"+evil+"' should have thrown an exception.";
             info("Fail: "+msg);
             fail(msg);
@@ -300,6 +316,14 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
      */
     protected String evaluate(String template)
     {
+        return evaluate(template, engine);
+    }
+
+    /**
+     * Evaluate the specified String as a template against the provided engine and return the result as a String.
+     */
+    protected String evaluate(String template, VelocityEngine ve)
+    {
         StringWriter writer = new StringWriter();
         try
         {
@@ -308,7 +332,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
             // use template as its own name, since our templates are short
             // unless it's not that short, then shorten it...
             String name = (template.length() <= 15) ? template : template.substring(0,15);
-            engine.evaluate(context, writer, name, template);
+            ve.evaluate(context, writer, name, template);
 
             String result = writer.toString();
             info("Result: "+result);
