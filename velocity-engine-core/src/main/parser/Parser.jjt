@@ -1082,6 +1082,11 @@ MORE :
             /* do not push PRE states */
             if (curLexState != PRE_REFERENCE && curLexState != PRE_DIRECTIVE && curLexState != PRE_OLD_REFERENCE)
             {
+                /* The hash can never come back to REFMOD3 */
+                if (curLexState == REFMOD3)
+                {
+                  switchTo(DEFAULT);
+                }
                 stateStackPush();
             }
             switchTo(PRE_DIRECTIVE);
@@ -1386,7 +1391,7 @@ TOKEN:
  *  REFERENCE Lexical States
  *
  *  This is more than a single state, because of the  structure of
- *  the VTL references.  We use three states because the set of tokens
+ *  the VTL references.  We use several states because the set of tokens
  *  for each state can be different.
  *
  *  $foo.bar( "arg" )
