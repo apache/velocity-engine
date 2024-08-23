@@ -456,6 +456,9 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
     /** Switch for the interpolation facility for string literals. */
     String INTERPOLATE_STRINGLITERALS = "runtime.interpolate_string_literals";
 
+    /** Switch for the immutability of integer ranges. */
+    String IMMUTABLE_RANGES = "runtime.immutable_ranges";
+
     /** Switch for ignoring nulls in math equations vs throwing exceptions. */
     String STRICT_MATH = "runtime.strict_math";
 
