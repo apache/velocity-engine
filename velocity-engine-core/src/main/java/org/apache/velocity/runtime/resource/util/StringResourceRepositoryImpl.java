@@ -90,7 +90,7 @@ public class StringResourceRepositoryImpl implements StringResourceRepository
     @Override
     public String getEncoding()
     {
-	    return encoding;
+        return encoding;
     }
 
     /**
@@ -99,6 +99,6 @@ public class StringResourceRepositoryImpl implements StringResourceRepository
     @Override
     public void setEncoding(final String encoding)
     {
-	    this.encoding = encoding;
+        this.encoding = encoding;
     }
 }

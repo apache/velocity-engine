@@ -217,13 +217,13 @@ public class DataSourceResourceLoaderTestCase
     public static final class DSRLTCTool
     {
         public int add(final int a, final int b)
-	{
-	    return a + b;
-	}
+    {
+        return a + b;
+    }
 
-	    public String getMessage()
-	{
-	    return "And the result is:";
-	}
+        public String getMessage()
+    {
+        return "And the result is:";
+    }
     }
 }

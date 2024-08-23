@@ -209,7 +209,7 @@ public final class VelocityWriter extends Writer implements Filter
      */
     private int min(int a, int b)
     {
-	    return (a < b ? a : b);
+        return (a < b ? a : b);
     }
 
     /**

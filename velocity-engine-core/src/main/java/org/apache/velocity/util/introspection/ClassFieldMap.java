@@ -111,11 +111,11 @@ public class ClassFieldMap
     private Map<String, Field> createFieldCache()
     {
         Map<String, Field> fieldCache = new ConcurrentHashMap<>();
-	//
-	// Looks through all elements in the class hierarchy.
-	//
-	// We ignore all SecurityExceptions that might happen due to SecurityManager restrictions (prominently
-	// hit with Tomcat 5.5).
+    //
+    // Looks through all elements in the class hierarchy.
+    //
+    // We ignore all SecurityExceptions that might happen due to SecurityManager restrictions (prominently
+    // hit with Tomcat 5.5).
         // Ah, the miracles of Java for(;;) ...
         for (Class<?> classToReflect = getCachedClass(); classToReflect != null ; classToReflect = classToReflect.getSuperclass())
         {

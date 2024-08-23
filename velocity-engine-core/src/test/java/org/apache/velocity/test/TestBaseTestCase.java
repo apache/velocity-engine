@@ -44,7 +44,7 @@ public class TestBaseTestCase
     	throws Exception
     {
         String fs = System.getProperty("file.separator");
-	String pwd = System.getProperty("user.dir");
+    String pwd = System.getProperty("user.dir");
 
         String root = new File("/").getCanonicalPath();
 

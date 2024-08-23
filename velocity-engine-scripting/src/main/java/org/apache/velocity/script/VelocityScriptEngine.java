@@ -172,10 +172,10 @@ public class VelocityScriptEngine extends AbstractScriptEngine implements Compil
         {
             synchronized (this)
             {
-	            if (factory == null)
+                if (factory == null)
                 {
-	                factory = new VelocityScriptEngineFactory();
-	            }
+                    factory = new VelocityScriptEngineFactory();
+                }
             }
         }
         return factory;

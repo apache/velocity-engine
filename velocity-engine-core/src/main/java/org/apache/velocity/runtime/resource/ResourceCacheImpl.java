@@ -48,42 +48,42 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ResourceCacheImpl implements ResourceCache
 {
 
-	/**
-	 * A simple LRU Map based on {@link LinkedHashSet}.
-	 *
-	 * @param <K> The key type of the map.
-	 * @param <V> The value type of the map.
-	 */
-	private static class LRUMap<K, V> extends LinkedHashMap<K, V>{
+    /**
+     * A simple LRU Map based on {@link LinkedHashSet}.
+     *
+     * @param <K> The key type of the map.
+     * @param <V> The value type of the map.
+     */
+    private static class LRUMap<K, V> extends LinkedHashMap<K, V>{
 
-		/**
+    	/**
          * The serial version uid;
          */
         private static final long serialVersionUID = 5889225121697975043L;
 
-		/**
-		 * The size of the cache.
-		 */
-		private int cacheSize;
+    	/**
+    	 * The size of the cache.
+    	 */
+    	private int cacheSize;
 
-		/**
-		 * Constructor.
-		 *
-		 * @param cacheSize The size of the cache. After reaching this size, the
-		 * eldest-accessed element will be erased.
-		 */
-		public LRUMap(int cacheSize)
+    	/**
+    	 * Constructor.
+    	 *
+    	 * @param cacheSize The size of the cache. After reaching this size, the
+    	 * eldest-accessed element will be erased.
+    	 */
+    	public LRUMap(int cacheSize)
         {
-	        this.cacheSize = cacheSize;
+            this.cacheSize = cacheSize;
         }
 
-		/** {@inheritDoc} */
-		@Override
+    	/** {@inheritDoc} */
+    	@Override
         protected boolean removeEldestEntry(Entry<K, V> eldest)
         {
-	        return size() > cacheSize;
+            return size() > cacheSize;
         }
-	}
+    }
 
     /**
      * Cache storage, assumed to be thread-safe.

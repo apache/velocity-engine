@@ -60,7 +60,7 @@ public class Introspector2TestCase extends BaseTestCase
             throws Exception
     {
         Velocity.setProperty(
-					Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
+    				Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
 
         Velocity.init();
 

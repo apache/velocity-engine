@@ -125,19 +125,19 @@ public class ClassMap
     private MethodCache createMethodCache(TypeConversionHandler conversionHandler)
     {
         MethodCache methodCache = new MethodCache(log, conversionHandler);
-	//
-	// Looks through all elements in the class hierarchy. This one is bottom-first (i.e. we start
-	// with the actual declaring class and its interfaces and then move up (superclass etc.) until we
-	// hit java.lang.Object. That is important because it will give us the methods of the declaring class
-	// which might in turn be abstract further up the tree.
-	//
-	// We also ignore all SecurityExceptions that might happen due to SecurityManager restrictions (prominently
-	// hit with Tomcat 5.5).
-	//
-	// We can also omit all that complicated getPublic, getAccessible and upcast logic that the class map had up
-	// until Velocity 1.4. As we always reflect all elements of the tree (that's what we have a cache for), we will
-	// hit the public elements sooner or later because we reflect all the public elements anyway.
-	//
+    //
+    // Looks through all elements in the class hierarchy. This one is bottom-first (i.e. we start
+    // with the actual declaring class and its interfaces and then move up (superclass etc.) until we
+    // hit java.lang.Object. That is important because it will give us the methods of the declaring class
+    // which might in turn be abstract further up the tree.
+    //
+    // We also ignore all SecurityExceptions that might happen due to SecurityManager restrictions (prominently
+    // hit with Tomcat 5.5).
+    //
+    // We can also omit all that complicated getPublic, getAccessible and upcast logic that the class map had up
+    // until Velocity 1.4. As we always reflect all elements of the tree (that's what we have a cache for), we will
+    // hit the public elements sooner or later because we reflect all the public elements anyway.
+    //
         // Ah, the miracles of Java for(;;) ...
         for (Class<?> classToReflect = getCachedClass(); classToReflect != null ; classToReflect = classToReflect.getSuperclass())
         {
@@ -221,7 +221,7 @@ public class ClassMap
         }
 
     	/** Class logger */
-	    private final Logger log;
+        private final Logger log;
 
         /**
          * Cache of Methods, or CACHE_MISS, keyed by method

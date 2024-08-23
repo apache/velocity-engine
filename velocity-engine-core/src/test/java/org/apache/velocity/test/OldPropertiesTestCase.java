@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
 public class OldPropertiesTestCase extends TestCase implements TemplateTestBase
 {
     private VelocityEngine ve = null;
-	private TestLogger logger = null;
+    private TestLogger logger = null;
 
     /**
      * Default constructor.

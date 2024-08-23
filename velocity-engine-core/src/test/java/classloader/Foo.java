@@ -37,9 +37,9 @@ public class Foo
     private static String MSG =
         "Hello From Foo";
 
-	public String doIt()
-	{
-		return MSG;
-	}
+    public String doIt()
+    {
+    	return MSG;
+    }
 }
 

@@ -129,7 +129,7 @@ public class MethodInvocationException extends VelocityException implements Exte
     @Override
     public int getColumnNumber()
     {
-	    return columnNumber;
+        return columnNumber;
     }
 
     /**
@@ -139,7 +139,7 @@ public class MethodInvocationException extends VelocityException implements Exte
     @Override
     public int getLineNumber()
     {
-	    return lineNumber;
+        return lineNumber;
     }
 
     /**
@@ -149,7 +149,7 @@ public class MethodInvocationException extends VelocityException implements Exte
     @Override
     public String getTemplateName()
     {
-	    return templateName;
+        return templateName;
     }
 
     /**

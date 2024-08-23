@@ -347,8 +347,8 @@ public class ASTDirective extends SimpleNode
     @Override
     public String toString()
     {
-		return "ASTDirective [" + super.toString() + ", directiveName="
-		        + directiveName + "]";
+    	return "ASTDirective [" + super.toString() + ", directiveName="
+    	        + directiveName + "]";
     }
 
     /**

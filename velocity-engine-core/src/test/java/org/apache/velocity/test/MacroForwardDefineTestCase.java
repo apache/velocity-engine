@@ -59,7 +59,7 @@ public class MacroForwardDefineTestCase
     /**
      * Collects the log messages.
      */
-	private TestLogger logger = new TestLogger(false, true);
+    private TestLogger logger = new TestLogger(false, true);
 
     /**
      * Default constructor.

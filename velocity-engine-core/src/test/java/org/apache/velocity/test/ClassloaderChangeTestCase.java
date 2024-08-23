@@ -40,7 +40,7 @@ import java.io.StringWriter;
 public class ClassloaderChangeTestCase extends TestCase
 {
     private VelocityEngine ve = null;
-	private TestLogger logger = null;
+    private TestLogger logger = null;
 
     private static String OUTPUT = "Hello From Foo";
 

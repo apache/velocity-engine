@@ -132,7 +132,7 @@ public abstract class IntrospectorBase
      */
     protected IntrospectorCache getIntrospectorCache()
     {
-	    return introspectorCache;
+        return introspectorCache;
     }
 
 }

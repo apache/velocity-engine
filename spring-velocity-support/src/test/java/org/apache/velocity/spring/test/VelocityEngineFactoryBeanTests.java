@@ -37,38 +37,38 @@ import static org.junit.Assert.assertEquals;
  */
 public class VelocityEngineFactoryBeanTests
 {
-	private static final String resourcesPath = System.getProperty("test.resources.dir");
-	private final VelocityEngineFactoryBean vefb = new VelocityEngineFactoryBean();
+    private static final String resourcesPath = System.getProperty("test.resources.dir");
+    private final VelocityEngineFactoryBean vefb = new VelocityEngineFactoryBean();
 
-	@Test
-	public void velocityFactoryBeanWithConfigLocation() throws Exception {
-		vefb.setConfigLocation(new ClassPathResource("velocity.properties"));
-		vefb.afterPropertiesSet();
-		VelocityEngine engine = vefb.getObject();
-		assertEquals("bean config location failed", "bar", engine.getProperty("foo"));
-	}
+    @Test
+    public void velocityFactoryBeanWithConfigLocation() throws Exception {
+    	vefb.setConfigLocation(new ClassPathResource("velocity.properties"));
+    	vefb.afterPropertiesSet();
+    	VelocityEngine engine = vefb.getObject();
+    	assertEquals("bean config location failed", "bar", engine.getProperty("foo"));
+    }
 
-	@Test
-	public void velocityFactoryBeanWithResourceLoaderPath() throws Exception {
-		vefb.setResourceLoaderPath("file:" + resourcesPath);
-		vefb.afterPropertiesSet();
-		VelocityEngine engine = vefb.getObject();
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("foo", "bar");
-		String merged = VelocityEngineUtils.mergeTemplateIntoString(engine, "simple.vm", "utf-8", model).trim();
-		assertEquals("resource loader failed", "foo=bar", merged);
-	}
+    @Test
+    public void velocityFactoryBeanWithResourceLoaderPath() throws Exception {
+    	vefb.setResourceLoaderPath("file:" + resourcesPath);
+    	vefb.afterPropertiesSet();
+    	VelocityEngine engine = vefb.getObject();
+    	Map<String, Object> model = new HashMap<String, Object>();
+    	model.put("foo", "bar");
+    	String merged = VelocityEngineUtils.mergeTemplateIntoString(engine, "simple.vm", "utf-8", model).trim();
+    	assertEquals("resource loader failed", "foo=bar", merged);
+    }
 
-	@Test  // SPR-12448
-	public void velocityConfigurationAsBean() {
-		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		RootBeanDefinition loaderDef = new RootBeanDefinition(SpringResourceLoader.class);
-		loaderDef.getConstructorArgumentValues().addGenericArgumentValue(new DefaultResourceLoader());
-		loaderDef.getConstructorArgumentValues().addGenericArgumentValue("/freemarker");
-		// RootBeanDefinition configDef = new RootBeanDefinition(Configuration.class);
-		//configDef.getPropertyValues().add("templateLoader", loaderDef);
-		//beanFactory.registerBeanDefinition("freeMarkerConfig", configDef);
-		// assertThat(beanFactory.getBean(Configuration.class)).isNotNull();
-	}
+    @Test  // SPR-12448
+    public void velocityConfigurationAsBean() {
+    	DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+    	RootBeanDefinition loaderDef = new RootBeanDefinition(SpringResourceLoader.class);
+    	loaderDef.getConstructorArgumentValues().addGenericArgumentValue(new DefaultResourceLoader());
+    	loaderDef.getConstructorArgumentValues().addGenericArgumentValue("/freemarker");
+    	// RootBeanDefinition configDef = new RootBeanDefinition(Configuration.class);
+    	//configDef.getPropertyValues().add("templateLoader", loaderDef);
+    	//beanFactory.registerBeanDefinition("freeMarkerConfig", configDef);
+    	// assertThat(beanFactory.getBean(Configuration.class)).isNotNull();
+    }
 
 }

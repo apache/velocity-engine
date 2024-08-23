@@ -49,7 +49,7 @@ public class ClassMapTestCase
             throws Exception
     {
         Velocity.setProperty(Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
-	Velocity.init();
+    Velocity.init();
     }
 
     @Override

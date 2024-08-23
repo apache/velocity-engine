@@ -77,7 +77,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase
    private static final String COMPARE_DIR = TEST_COMPARE_DIR + "/includeevent/compare";
 
 
-	private TestLogger logger = new TestLogger(false, false);
+    private TestLogger logger = new TestLogger(false, false);
 
     /**
      * Default constructor.

@@ -58,7 +58,7 @@ public class ChainedUberspectorsTestCase extends BaseTestCase {
         Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.util.introspection.UberspectImpl");
         Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.test.util.introspection.ChainedUberspectorsTestCase$ChainedUberspector");
         Velocity.addProperty(Velocity.UBERSPECT_CLASSNAME,"org.apache.velocity.test.util.introspection.ChainedUberspectorsTestCase$LinkedUberspector");
-	    Velocity.init();
+        Velocity.init();
     }
 
     @Override
