@@ -76,7 +76,10 @@ public abstract class ASTComparisonNode extends ASTBinaryOperator
         {
             return compareNull(left, right);
         }
-        Boolean result = compareNumbers(left, right);
+        Boolean result = null;
+        if (!(left instanceof String) || !(right instanceof String)) {
+            result = compareNumbers(left, right);
+        }
         if (result == null)
         {
             result = compareNonNumber(left, right);
