@@ -248,6 +248,11 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
     String DS_RESOURCE_LOADER_TIMESTAMP_COLUMN = "resource.loader.ds.resource.timestamp_column";
 
+    /**
+     * Datasource loader statements pool max size
+     */
+    String DS_RESOURCE_LOADER_STMT_POOL_MAX_SIZE = "resource.loader.ds.statements_pool_max_size";
+
     /** The default character encoding for the templates. Used by the parser in processing the input streams. */
     String INPUT_ENCODING = "resource.default_encoding";
 

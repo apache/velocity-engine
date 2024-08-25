@@ -19,6 +19,12 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.
  */
 
+import org.apache.commons.pool2.BasePooledObjectFactory;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
@@ -60,6 +66,7 @@ import java.sql.Timestamp;
  * resource.loader.ds.resource.timestamp_column = template_timestamp <br>
  * resource.loader.ds.cache = false <br>
  * resource.loader.ds.modification_check_interval = 60 <br>
+ * resource.loader.ds.statements_pool_max_size = 50 <br>
  * </code></pre>
  * <p>Optionally, the developer can instantiate the DataSourceResourceLoader and set the DataSource via code in
  * a manner similar to the following:</p>
@@ -131,6 +138,7 @@ import java.sql.Timestamp;
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
+    private static final int STATEMENTS_POOL_MAX_SIZE_DEFAULT = 50;
     private String dataSourceName;
     private String tableName;
     private String keyColumn;
@@ -140,22 +148,51 @@ public class DataSourceResourceLoader extends ResourceLoader
     private DataSource dataSource;
 
     /*
-        Keep connection and prepared statements open. It's not just an optimization:
-        For several engines, the connection, and/or the statement, and/or the result set
-        must be kept open for the reader to be valid.
+        Keep connection open.
      */
     private Connection connection = null;
-    private PreparedStatement templatePrepStatement = null;
-    private PreparedStatement timestampPrepStatement = null;
+
+    /*
+        Keep two pools for prepared statements
+     */
+    private GenericObjectPool<PreparedStatement> templatePrepStatementsPool;
+    private GenericObjectPool<PreparedStatement> timestampPrepStatementsPool;
+
+    private class PreparedStatementFactory  extends BasePooledObjectFactory<PreparedStatement>
+    {
+        private final String selectColumn;
+
+        PreparedStatementFactory(String selectColumn)
+        {
+            this.selectColumn = selectColumn;
+        }
+
+        @Override
+        public PreparedStatement create() throws Exception {
+            return prepareStatement(connection, selectColumn, tableName, keyColumn);
+        }
+
+        @Override
+        public PooledObject<PreparedStatement> wrap(PreparedStatement obj) {
+            return new DefaultPooledObject<>(obj);
+        }
+
+        @Override
+        public void destroyObject(final PooledObject<PreparedStatement> p) throws Exception  {
+            p.getObject().close();
+        }
+    }
 
     private static class SelfCleaningReader extends FilterReader
     {
         private ResultSet resultSet;
+        private ObjectPool<PreparedStatement> statementPool;
 
-        public SelfCleaningReader(Reader reader, ResultSet resultSet)
+        public SelfCleaningReader(Reader reader, ResultSet resultSet, ObjectPool<PreparedStatement> statementPool)
         {
             super(reader);
             this.resultSet = resultSet;
+            this.statementPool = statementPool;
         }
 
         @Override
@@ -165,6 +202,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             try
             {
                 resultSet.close();
+                statementPool.returnObject((PreparedStatement)resultSet.getStatement());
             }
             catch (RuntimeException re)
             {
@@ -209,6 +247,21 @@ public class DataSourceResourceLoader extends ResourceLoader
             log.error(msg);
             throw new RuntimeException(msg);
         }
+
+        /* initialize statements pools */
+        int poolsMaxSize = configuration.getInt("statements_pool_max_size", STATEMENTS_POOL_MAX_SIZE_DEFAULT);
+        GenericObjectPoolConfig<PreparedStatement> poolConfig = new GenericObjectPoolConfig<>();
+        poolConfig.setMaxTotal(poolsMaxSize);
+
+        templatePrepStatementsPool = new GenericObjectPool<>(
+                new PreparedStatementFactory(templateColumn),
+                poolConfig
+        );
+
+        timestampPrepStatementsPool = new GenericObjectPool<>(
+                new PreparedStatementFactory(timestampColumn),
+                poolConfig
+        );
     }
 
     /**
@@ -263,7 +316,8 @@ public class DataSourceResourceLoader extends ResourceLoader
         try
         {
             checkDBConnection();
-            rs = fetchResult(templatePrepStatement, name);
+            PreparedStatement statement = templatePrepStatementsPool.borrowObject();
+            rs = fetchResult(statement, name);
 
             if (rs.next())
             {
@@ -274,7 +328,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                             + "template column for '"
                             + name + "' is null");
                 }
-                return new SelfCleaningReader(reader, rs);
+                return new SelfCleaningReader(reader, rs, templatePrepStatementsPool);
             }
             else
             {
@@ -284,12 +338,12 @@ public class DataSourceResourceLoader extends ResourceLoader
 
             }
         }
-        catch (SQLException | NamingException sqle)
+        catch (Exception e)
         {
             String msg = "DataSourceResourceLoader: database problem while getting resource '"
                     + name + "': ";
 
-            log.error(msg, sqle);
+            log.error(msg, e);
             throw new ResourceNotFoundException(msg);
         }
     }
@@ -316,12 +370,13 @@ public class DataSourceResourceLoader extends ResourceLoader
         }
         else
         {
+            PreparedStatement statement = null;
             ResultSet rs = null;
-
             try
             {
                 checkDBConnection();
-                rs = fetchResult(timestampPrepStatement, name);
+                statement = timestampPrepStatementsPool.borrowObject();
+                rs = fetchResult(statement, name);
 
                 if (rs.next())
                 {
@@ -336,17 +391,20 @@ public class DataSourceResourceLoader extends ResourceLoader
                     throw new ResourceNotFoundException(msg);
                 }
             }
-            catch (SQLException | NamingException sqle)
+            catch (Exception e)
             {
                 String msg = "DataSourceResourceLoader: database problem while "
                             + operation + " of '" + name + "': ";
 
-                log.error(msg, sqle);
-                throw new VelocityException(msg, sqle, rsvc.getLogContext().getStackTrace());
+                log.error(msg, e);
+                throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
             }
             finally
             {
                 closeResultSet(rs);
+                if (statement != null) {
+                    timestampPrepStatementsPool.returnObject(statement);
+                }
             }
         }
         return timeStamp;
@@ -375,8 +433,6 @@ public class DataSourceResourceLoader extends ResourceLoader
         }
 
         connection = dataSource.getConnection();
-        templatePrepStatement = prepareStatement(connection, templateColumn, tableName, keyColumn);
-        timestampPrepStatement = prepareStatement(connection, timestampColumn, tableName, keyColumn);
     }
 
     /**
@@ -408,43 +464,15 @@ public class DataSourceResourceLoader extends ResourceLoader
      */
     private void closeDBConnection()
     {
-        if (templatePrepStatement != null)
+        if (templatePrepStatementsPool != null)
         {
-            try
-            {
-                templatePrepStatement.close();
-            }
-            catch (RuntimeException re)
-            {
-                throw re;
-            }
-            catch (SQLException e)
-            {
-                // ignore
-            }
-            finally
-            {
-                templatePrepStatement = null;
-            }
+            templatePrepStatementsPool.close();
+            templatePrepStatementsPool.clear();
         }
-        if (timestampPrepStatement != null)
+        if (timestampPrepStatementsPool != null)
         {
-            try
-            {
-                timestampPrepStatement.close();
-            }
-            catch (RuntimeException re)
-            {
-                throw re;
-            }
-            catch (SQLException e)
-            {
-                // ignore
-            }
-            finally
-            {
-                timestampPrepStatement = null;
-            }
+            timestampPrepStatementsPool.close();
+            timestampPrepStatementsPool.clear();
         }
         if (connection != null)
         {
