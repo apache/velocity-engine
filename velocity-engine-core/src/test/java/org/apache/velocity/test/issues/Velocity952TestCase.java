@@ -46,13 +46,48 @@ public class Velocity952TestCase extends BaseTestCase
         assertEquals(TimeZone.class, getOffset.getDeclaringClass());
     }
 
+    public interface Foo
+    {
+        default String foo() { return "foo"; }
+    }
+
+    public static class Bar implements Foo
+    {
+        @Override
+        public String foo()
+        {
+            return "bar";
+        }
+    }
+
+    public static class Baz extends Bar
+    {
+        @Override
+        public String foo()
+        {
+            return "baz";
+        }
+    }
+
     protected void setUpContext(VelocityContext context)
     {
         context.put("tz", TimeZone.getDefault());
+        context.put("bar", new Bar());
+        context.put("baz", new Baz());
     }
 
     public void testEnd2End()
     {
         assertEvalEquals("3600000", "$tz.getOffset(1)");
+    }
+
+    public void testBar()
+    {
+        assertEvalEquals("bar", "$bar.foo()");
+    }
+
+    public void testBaz()
+    {
+        assertEvalEquals("baz", "$baz.foo()");
     }
 }
