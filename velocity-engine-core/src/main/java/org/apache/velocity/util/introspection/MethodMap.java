@@ -22,6 +22,7 @@ package org.apache.velocity.util.introspection;
 import org.apache.commons.lang3.reflect.TypeUtils;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -315,9 +316,73 @@ public class MethodMap
         switch (bestMatches.size())
         {
             case 0: return null;
-            case 1: return bestMatches.get(0).method;
+            case 1: return getTopMostMethodDeclaration(bestMatches.get(0).method);
             default: throw new AmbiguousException();
         }
+    }
+
+    /**
+     * Once we identified a best match of a specific call, walk up the chain of inheritance to find the top-most
+     * declaration for this method. This is needed to avoid IllegalAccessException, when a public API method
+     * is implemented by a class which is not exported.
+     * @param method
+     * @return
+     */
+    public static Method getTopMostMethodDeclaration(Method method)
+    {
+        Class<?> clazz = method.getDeclaringClass();
+        String name = method.getName();
+        Class<?>[] arguments = method.getParameterTypes();
+
+        while (clazz != null)
+        {
+            Class<?> superClass = null;
+            Method superMethod = null;
+
+            // check the super class
+            superClass = clazz.getSuperclass();
+            if (superClass != null)
+            {
+                try
+                {
+                    superMethod = superClass.getDeclaredMethod(name, arguments);
+                    if ((superMethod.getModifiers() & Modifier.PUBLIC) == 0) {
+                        superMethod = null;
+                    }
+                }
+                catch (NoSuchMethodException nsme)
+                {
+                }
+            }
+
+            if (superMethod == null)
+            {
+                // check among the interfaces
+                Class<?>[] interfaces = clazz.getInterfaces();
+                for (Class<?>  intf : interfaces)
+                {
+                    try
+                    {
+                        superMethod = intf.getDeclaredMethod(name, arguments);
+                        if (superMethod != null)
+                        {
+                            superClass = intf;
+                            break;
+                        }
+                    }
+                    catch (NoSuchMethodException nsme)
+                    {
+                    }
+                }
+            }
+
+            if (superMethod != null)
+            {
+                method = superMethod;
+            }
+            clazz = superClass;
+        }
+        return method;
     }
 
     /**
