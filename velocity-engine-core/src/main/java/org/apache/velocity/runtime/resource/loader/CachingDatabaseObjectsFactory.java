@@ -18,6 +18,14 @@ import java.util.Optional;
 /**
  * <p>Database objects factory which will keep a single connection to be able to cache statements preparation, by means
  * of appropriate pools.</p>
+ * <p>This class requires the following optional dependency (maven syntax):</p>
+ * <pre><code>
+ *         &lt;dependency&gt;
+ *             &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+ *             &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;
+ *             &lt;version&gt;2.12.0&lt;/version&gt;
+ *          &lt;/dependency&gt;
+ * </code></pre>
  * <p>To use this class, you must add the following property to the example configuration described in
  * @link{org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader}
  * </p>
