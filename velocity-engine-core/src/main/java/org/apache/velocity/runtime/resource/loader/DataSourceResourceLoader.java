@@ -123,8 +123,8 @@ import java.sql.Timestamp;
  * <p>Prior to Velocity 2.4, this class should not be considered thread-safe.</p>
  * <p>Since Velocity 2.4, the handling of JDBC connections and prepared statements is delegated to the
  * {@link org.apache.velocity.runtime.resource.loader.DatabaseObjectsFactory} instance. The default class for this
- * database objets factory is {@link org.apache.velocity.runtime.resource.loader.DefaultDatabaseObjectsFactory},
- * which obtain a new connection from the data source and prepare statements at each query. You can configure this
+ * database objects factory is {@link org.apache.velocity.runtime.resource.loader.DefaultDatabaseObjectsFactory},
+ * which obtains a new connection from the data source and prepares statements at each query. You can configure this
  * resource loader to use the {@link org.apache.velocity.runtime.resource.loader.CachingDatabaseObjectsFactory} which
  * will keep a single connection and tries to reuse prepared statements.
  * statements</p>
