@@ -19,15 +19,11 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.
  */
 
-import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.ObjectPool;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
-import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.util.ClassUtils;
 import org.apache.velocity.util.ExtProperties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +34,6 @@ import javax.sql.DataSource;
 import java.io.FilterReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -126,6 +121,14 @@ import java.sql.Timestamp;
  *    template_timestamp datetime NOT NULL
  *  );
  * </code></pre>
+ * <p>Prior to Velocity 2.4, this class should not be considered thread-safe.</p>
+ * <p>Since Velocity 2.4, the handling of JDBC connections and prepared statements is delegated to the
+ * {@link org.apache.velocity.runtime.resource.loader.DatabaseObjectsFactory} instance. The default class for this
+ * database objets factory is {@link org.apache.velocity.runtime.resource.loader.DefaultDatabaseObjectsFactory},
+ * which obtain a new connection from the data source and prepare statements at each query. You can configure this
+ * resource loader to use the {@link org.apache.velocity.runtime.resource.loader.CachingDatabaseObjectsFactory} which
+ * will keep a single connection and tries to reuse prepared statements.
+ * statements</p>
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
@@ -138,61 +141,24 @@ import java.sql.Timestamp;
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
-    private static final int STATEMENTS_POOL_MAX_SIZE_DEFAULT = 50;
-    private String dataSourceName;
-    private String tableName;
-    private String keyColumn;
+    private static final String DATABASE_OBJECTS_FACTORY_DEFAULT_CLASS = "org.apache.velocity.runtime.resource.loader.DefaultDatabaseObjectsFactory";
+
+    private DataSource dataSource;
+    private DatabaseObjectsFactory factory;
     private String templateColumn;
     private String timestampColumn;
-    private InitialContext ctx;
-    private DataSource dataSource;
+    private String templateSQL;
+    private String timestampSQL;
 
-    /*
-        Keep connection open.
-     */
-    private Connection connection = null;
-
-    /*
-        Keep two pools for prepared statements
-     */
-    private GenericObjectPool<PreparedStatement> templatePrepStatementsPool;
-    private GenericObjectPool<PreparedStatement> timestampPrepStatementsPool;
-
-    private class PreparedStatementFactory  extends BasePooledObjectFactory<PreparedStatement>
-    {
-        private final String selectColumn;
-
-        PreparedStatementFactory(String selectColumn)
-        {
-            this.selectColumn = selectColumn;
-        }
-
-        @Override
-        public PreparedStatement create() throws Exception {
-            return prepareStatement(connection, selectColumn, tableName, keyColumn);
-        }
-
-        @Override
-        public PooledObject<PreparedStatement> wrap(PreparedStatement obj) {
-            return new DefaultPooledObject<>(obj);
-        }
-
-        @Override
-        public void destroyObject(final PooledObject<PreparedStatement> p) throws Exception  {
-            p.getObject().close();
-        }
-    }
-
-    private static class SelfCleaningReader extends FilterReader
+    private class SelfCleaningReader extends FilterReader
     {
         private ResultSet resultSet;
         private ObjectPool<PreparedStatement> statementPool;
 
-        public SelfCleaningReader(Reader reader, ResultSet resultSet, ObjectPool<PreparedStatement> statementPool)
+        public SelfCleaningReader(Reader reader, ResultSet resultSet)
         {
             super(reader);
             this.resultSet = resultSet;
-            this.statementPool = statementPool;
         }
 
         @Override
@@ -202,7 +168,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             try
             {
                 resultSet.close();
-                statementPool.returnObject((PreparedStatement)resultSet.getStatement());
+                factory.releaseStatement(templateSQL, (PreparedStatement)resultSet.getStatement());
             }
             catch (RuntimeException re)
             {
@@ -221,23 +187,35 @@ public class DataSourceResourceLoader extends ResourceLoader
     @Override
     public void init(ExtProperties configuration)
     {
-        dataSourceName  = StringUtils.trim(configuration.getString("resource.datasource_url"));
-        tableName       = StringUtils.trim(configuration.getString("resource.table"));
-        keyColumn       = StringUtils.trim(configuration.getString("resource.key_column"));
+        String tableName       = StringUtils.trim(configuration.getString("resource.table"));
+        String keyColumn       = StringUtils.trim(configuration.getString("resource.key_column"));
         templateColumn  = StringUtils.trim(configuration.getString("resource.template_column"));
         timestampColumn = StringUtils.trim(configuration.getString("resource.timestamp_column"));
+
+        templateSQL = "SELECT " + templateColumn + " FROM " + tableName + " WHERE " + keyColumn + " = ?";
+        timestampSQL = "SELECT " + timestampColumn + " FROM " + tableName + " WHERE " + keyColumn + " = ?";
+
+        String dataSourceName  = StringUtils.trim(configuration.getString("resource.datasource_url"));
 
         if (dataSource != null)
         {
             log.debug("DataSourceResourceLoader: using dataSource instance with table \"{}\"", tableName);
             log.debug("DataSourceResourceLoader: using columns \"{}\", \"{}\" and \"{}\"", keyColumn, templateColumn, timestampColumn);
 
-            log.trace("DataSourceResourceLoader initialized.");
         }
         else if (dataSourceName != null)
         {
             log.debug("DataSourceResourceLoader: using \"{}\" datasource with table \"{}\"", dataSourceName, tableName);
             log.debug("DataSourceResourceLoader: using columns \"{}\", \"{}\" and \"{}\"", keyColumn, templateColumn, timestampColumn);
+
+            try
+            {
+                dataSource = (DataSource) new InitialContext().lookup(dataSourceName);
+            }
+            catch (NamingException ne)
+            {
+                throw new Error("could not lookup datasource for name: " + dataSourceName, ne);
+            }
 
             log.trace("DataSourceResourceLoader initialized.");
         }
@@ -248,20 +226,23 @@ public class DataSourceResourceLoader extends ResourceLoader
             throw new RuntimeException(msg);
         }
 
-        /* initialize statements pools */
-        int poolsMaxSize = configuration.getInt("statements_pool_max_size", STATEMENTS_POOL_MAX_SIZE_DEFAULT);
-        GenericObjectPoolConfig<PreparedStatement> poolConfig = new GenericObjectPoolConfig<>();
-        poolConfig.setMaxTotal(poolsMaxSize);
+        String factoryClassName = configuration.getString("database_objects_factory.class");
+        if (factoryClassName == null)
+        {
+            factoryClassName = DATABASE_OBJECTS_FACTORY_DEFAULT_CLASS;
+        }
+        try
+        {
+            Class<?> factoryClass = ClassUtils.getClass(factoryClassName);
+            factory = (DatabaseObjectsFactory) factoryClass.getDeclaredConstructor().newInstance();
+            factory.init(dataSource, configuration.subset("database_objects_factory"));
+        }
+        catch (Exception e)
+        {
+            throw new Error("could not find database objects factory class", e);
+        }
 
-        templatePrepStatementsPool = new GenericObjectPool<>(
-                new PreparedStatementFactory(templateColumn),
-                poolConfig
-        );
-
-        timestampPrepStatementsPool = new GenericObjectPool<>(
-                new PreparedStatementFactory(timestampColumn),
-                poolConfig
-        );
+        log.trace("DataSourceResourceLoader initialized.");
     }
 
     /**
@@ -271,6 +252,10 @@ public class DataSourceResourceLoader extends ResourceLoader
      */
     public void setDataSource(final DataSource dataSource)
     {
+        if (factory != null)
+        {
+            throw new Error("cannot change data source after initialization");
+        }
         this.dataSource = dataSource;
     }
 
@@ -315,8 +300,7 @@ public class DataSourceResourceLoader extends ResourceLoader
         ResultSet rs = null;
         try
         {
-            checkDBConnection();
-            PreparedStatement statement = templatePrepStatementsPool.borrowObject();
+            PreparedStatement statement = factory.prepareStatement(templateSQL);
             rs = fetchResult(statement, name);
 
             if (rs.next())
@@ -328,7 +312,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                             + "template column for '"
                             + name + "' is null");
                 }
-                return new SelfCleaningReader(reader, rs, templatePrepStatementsPool);
+                return new SelfCleaningReader(reader, rs);
             }
             else
             {
@@ -374,8 +358,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             ResultSet rs = null;
             try
             {
-                checkDBConnection();
-                statement = timestampPrepStatementsPool.borrowObject();
+                statement = factory.prepareStatement(timestampSQL);
                 rs = fetchResult(statement, name);
 
                 if (rs.next())
@@ -385,8 +368,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                 }
                 else
                 {
-                    String msg = "DataSourceResourceLoader: could not find resource "
-                              + name + " while " + operation;
+                    String msg = "DataSourceResourceLoader: could not find resource " + name + " while " + operation;
                     log.error(msg);
                     throw new ResourceNotFoundException(msg);
                 }
@@ -402,97 +384,21 @@ public class DataSourceResourceLoader extends ResourceLoader
             finally
             {
                 closeResultSet(rs);
-                if (statement != null) {
-                    timestampPrepStatementsPool.returnObject(statement);
+                if (statement != null)
+                {
+                    try
+                    {
+                        factory.releaseStatement(timestampSQL, statement);
+                    }
+                    catch (SQLException sqle)
+                    {
+                        // just log, don't throw
+                        log.error("DataSourceResourceLoader: error releasing prepared statement", sqle);
+                    }
                 }
             }
         }
         return timeStamp;
-    }
-
-    /**
-     * Gets connection to the datasource specified through the configuration
-     * parameters.
-     *
-     */
-    private void openDBConnection() throws NamingException, SQLException
-    {
-        if (dataSource == null)
-        {
-            if (ctx == null)
-            {
-                ctx = new InitialContext();
-            }
-
-            dataSource = (DataSource) ctx.lookup(dataSourceName);
-        }
-
-        if (connection != null)
-        {
-            closeDBConnection();
-        }
-
-        connection = dataSource.getConnection();
-    }
-
-    /**
-     * Checks the connection is valid
-     *
-     */
-    private void checkDBConnection() throws NamingException, SQLException
-    {
-        if (connection == null || !connection.isValid(0))
-        {
-            openDBConnection();
-        }
-    }
-
-    /**
-     * Close DB connection on finalization
-     *
-     * @throws Throwable
-     */
-    @Override
-    protected void finalize()
-        throws Throwable
-    {
-        closeDBConnection();
-    }
-
-    /**
-     * Closes the prepared statements and the connection to the datasource
-     */
-    private void closeDBConnection()
-    {
-        if (templatePrepStatementsPool != null)
-        {
-            templatePrepStatementsPool.close();
-            templatePrepStatementsPool.clear();
-        }
-        if (timestampPrepStatementsPool != null)
-        {
-            timestampPrepStatementsPool.close();
-            timestampPrepStatementsPool.clear();
-        }
-        if (connection != null)
-        {
-            try
-            {
-                connection.close();
-            }
-            catch (RuntimeException re)
-            {
-                throw re;
-            }
-            catch (SQLException e)
-            {
-                // ignore
-            }
-            finally
-            {
-                connection = null;
-            }
-        }
     }
 
     /**
@@ -518,32 +424,6 @@ public class DataSourceResourceLoader extends ResourceLoader
     }
 
     /**
-     * Creates the following PreparedStatement query :
-     * <br>
-     *  SELECT <i>columnNames</i> FROM <i>tableName</i> WHERE <i>keyColumn</i>
-     *     = '<i>templateName</i>'
-     * <br>
-     * where <i>keyColumn</i> is a class member set in init()
-     *
-     * @param conn connection to datasource
-     * @param columnNames columns to fetch from datasource
-     * @param tableName table to fetch from
-     * @param keyColumn column whose value should match templateName
-     * @return PreparedStatement
-     * @throws SQLException
-     */
-    protected PreparedStatement prepareStatement(
-        final Connection conn,
-        final String columnNames,
-        final String tableName,
-        final String keyColumn
-    ) throws SQLException
-    {
-        PreparedStatement ps = conn.prepareStatement("SELECT " + columnNames + " FROM "+ tableName + " WHERE " + keyColumn + " = ?");
-        return ps;
-    }
-
-    /**
      * Fetches the result for a given template name.
      * Inherit this method if there is any calculation to perform on the template name.
      *
@@ -562,17 +442,42 @@ public class DataSourceResourceLoader extends ResourceLoader
     }
 
     /**
-     * Gets a reader from a result set's column
-     * @param resultSet
-     * @param column
-     * @param encoding
+     * Gets a reader from a result set's column.
+     * @param resultSet result set
+     * @param column template column
+     * @param encoding template encoding (unused)
      * @return reader
      * @throws SQLException
+     * @deprecated the 'encoding' parameter is useless, it should have been set in the database. Use {@link #getReader(ResultSet, String)}
      */
     protected Reader getReader(ResultSet resultSet, String column, String encoding)
         throws SQLException
     {
+        return getReader(resultSet, column);
+    }
+
+    /**
+     * Gets a reader from a result set's column.
+     * @param resultSet result set
+     * @param column template column
+     * @return reader
+     * @throws SQLException
+     */
+    protected Reader getReader(ResultSet resultSet, String column)
+            throws SQLException
+    {
         return resultSet.getCharacterStream(column);
+    }
+
+    /**
+     * Frees all resources.
+     */
+    public void destroy()
+    {
+        if (factory != null)
+        {
+            factory.destroy();
+        }
     }
 
 }
