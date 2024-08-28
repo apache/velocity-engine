@@ -1,19 +1,18 @@
 package org.apache.velocity.runtime. resource.loader;
 
-import org.apache.commons.pool2.BasePooledObjectFactory;
+import org.apache.commons.pool2.BaseKeyedPooledObjectFactory;
+import org.apache.commons.pool2.KeyedObjectPool;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
-import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
+import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.apache.velocity.util.ExtProperties;
+import org.slf4j.Logger;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * <p>Database objects factory which will keep a single connection to be able to cache statements preparation, by means
@@ -24,6 +23,7 @@ import java.util.Optional;
  *             &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
  *             &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;
  *             &lt;version&gt;2.12.0&lt;/version&gt;
+ *             &lt;scope&gt;runtime&lt;/scope&gt;
  *          &lt;/dependency&gt;
  * </code></pre>
  * <p>To use this class, you must add the following property to the example configuration described in
@@ -48,19 +48,13 @@ public class CachingDatabaseObjectsFactory implements DatabaseObjectsFactory {
     private DataSource dataSource;
     private Connection connection;
     private int poolsMaxSize;
-    private Map<String, GenericObjectPool<PreparedStatement>> statementsCache = new HashMap<>();
+    private KeyedObjectPool<String, PreparedStatement> statementsPool;
+    protected Logger log = null;
 
-    private class PreparedStatementFactory  extends BasePooledObjectFactory<PreparedStatement>
+    private class PreparedStatementFactory  extends BaseKeyedPooledObjectFactory<String, PreparedStatement>
     {
-        private final String sql;
-
-        PreparedStatementFactory(String sql)
-        {
-            this.sql = sql;
-        }
-
         @Override
-        public PreparedStatement create() throws Exception {
+        public PreparedStatement create(String sql) throws Exception {
             checkConnection();
             return connection.prepareStatement(sql);
         }
@@ -71,7 +65,20 @@ public class CachingDatabaseObjectsFactory implements DatabaseObjectsFactory {
         }
 
         @Override
-        public void destroyObject(final PooledObject<PreparedStatement> p) throws Exception  {
+        public boolean validateObject(String key, PooledObject<PreparedStatement> obj)
+        {
+            try
+            {
+                return !obj.getObject().isClosed() && obj.getObject().getConnection().isValid(0);
+            }
+            catch (SQLException sqle)
+            {
+                return false;
+            }
+        }
+
+        @Override
+        public void destroyObject(String key, PooledObject<PreparedStatement> p) throws Exception {
             p.getObject().close();
         }
     }
@@ -85,7 +92,22 @@ public class CachingDatabaseObjectsFactory implements DatabaseObjectsFactory {
     {
         this.dataSource = dataSource;
         this.connection = dataSource.getConnection();
-        this.poolsMaxSize = Optional.ofNullable(properties.getInt(STATEMENTS_POOL_MAX_SIZE)).orElse(STATEMENTS_POOL_MAX_SIZE_DEFAULT);
+        this.poolsMaxSize = properties.getInt(STATEMENTS_POOL_MAX_SIZE, STATEMENTS_POOL_MAX_SIZE_DEFAULT);
+        createStatementsPool();
+    }
+
+    private void createStatementsPool()
+    {
+        GenericKeyedObjectPoolConfig<PreparedStatement> poolConfig = new GenericKeyedObjectPoolConfig<>();
+        poolConfig.setMaxTotal(poolsMaxSize);
+        poolConfig.setTestOnBorrow(true);
+        statementsPool = new GenericKeyedObjectPool<>(new PreparedStatementFactory(), poolConfig);
+    }
+
+    @Override
+    public void setLogger(Logger log)
+    {
+        this.log = log;
     }
 
     /**
@@ -94,19 +116,11 @@ public class CachingDatabaseObjectsFactory implements DatabaseObjectsFactory {
      * @return prepared statement
      */
     @Override
-    public synchronized PreparedStatement prepareStatement(String sql) throws SQLException
+    public PreparedStatement prepareStatement(String sql) throws SQLException
     {
-        GenericObjectPool<PreparedStatement> pool = statementsCache.computeIfAbsent(sql, (String key) -> {
-            GenericObjectPoolConfig<PreparedStatement> poolConfig = new GenericObjectPoolConfig<>();
-            poolConfig.setMaxTotal(poolsMaxSize);
-            return new GenericObjectPool<>(
-                    new PreparedStatementFactory(sql),
-                    poolConfig
-            );
-        });
         try
         {
-            return pool.borrowObject();
+            return statementsPool.borrowObject(sql);
         }
         catch (SQLException sqle)
         {
@@ -118,14 +132,20 @@ public class CachingDatabaseObjectsFactory implements DatabaseObjectsFactory {
         }
     }
 
-    private void checkConnection() throws SQLException
+    protected synchronized void checkConnection() throws SQLException
     {
         if (!connection.isValid(0))
         {
-            // refresh connection
-            connection = dataSource.getConnection();
-            statementsCache = new HashMap<>();
+            reset();
         }
+    }
+
+    private void reset() throws SQLException
+    {
+        clear();
+        // refresh connection and statements pool
+        connection = dataSource.getConnection();
+        createStatementsPool();
     }
 
     /**
@@ -136,26 +156,48 @@ public class CachingDatabaseObjectsFactory implements DatabaseObjectsFactory {
     @Override
     public void releaseStatement(String sql, PreparedStatement stmt) throws SQLException
     {
-        GenericObjectPool<PreparedStatement> pool = statementsCache.get(sql);
-        if (pool == null)
+        try
         {
-            throw new SQLException("statement is not pooled");
+            statementsPool.returnObject(sql, stmt);
         }
-        pool.returnObject(stmt);
+        catch (Exception e)
+        {
+            if (log != null)
+            {
+                log.debug("could not return statement to the pool", e);
+            }
+        }
     }
 
+    /**
+     * Free resources
+     */
     @Override
-    public void destroy()
+    public void clear()
     {
-        statementsCache.values().forEach(pool ->
+        statementsPool.close();
+        try
         {
-            pool.close();
-            pool.clear();
-        });
+            statementsPool.clear();
+        }
+        catch (Exception e)
+        {
+            if (log != null)
+            {
+                log.debug("statements pool clearing gave an exception", e);
+            }
+        }
         try
         {
             connection.close();
         }
-        catch (SQLException sqle) {}
-    };
+        catch (SQLException sqle)
+        {
+            log.debug("connection closing gave an exception", sqle);
+        }
+        finally
+        {
+            connection = null;
+        }
+    }
 }

@@ -19,7 +19,6 @@ package org.apache.velocity.runtime.resource.loader;
  * under the License.
  */
 
-import org.apache.commons.pool2.ObjectPool;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.resource.Resource;
@@ -152,8 +151,7 @@ public class DataSourceResourceLoader extends ResourceLoader
 
     private class SelfCleaningReader extends FilterReader
     {
-        private ResultSet resultSet;
-        private ObjectPool<PreparedStatement> statementPool;
+        private final ResultSet resultSet;
 
         public SelfCleaningReader(Reader reader, ResultSet resultSet)
         {
@@ -393,7 +391,7 @@ public class DataSourceResourceLoader extends ResourceLoader
                     catch (SQLException sqle)
                     {
                         // just log, don't throw
-                        log.error("DataSourceResourceLoader: error releasing prepared statement", sqle);
+                        log.debug("DataSourceResourceLoader: error releasing prepared statement", sqle);
                     }
                 }
             }
@@ -472,11 +470,11 @@ public class DataSourceResourceLoader extends ResourceLoader
     /**
      * Frees all resources.
      */
-    public void destroy()
+    public void clear()
     {
         if (factory != null)
         {
-            factory.destroy();
+            factory.clear();
         }
     }
 

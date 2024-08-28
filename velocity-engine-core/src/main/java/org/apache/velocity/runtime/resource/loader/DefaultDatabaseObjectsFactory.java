@@ -47,7 +47,13 @@ public class DefaultDatabaseObjectsFactory implements DatabaseObjectsFactory {
     public void releaseStatement(String sql, PreparedStatement stmt) throws SQLException
     {
         Connection connection = stmt.getConnection();
-        stmt.close();
-        connection.close();
+        try
+        {
+            stmt.close();
+        }
+        finally
+        {
+            connection.close();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package org.apache.velocity.runtime.resource.loader;
 
 import org.apache.velocity.util.ExtProperties;
+import org.slf4j.Logger;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -19,6 +20,12 @@ public interface DatabaseObjectsFactory {
     void init(DataSource dataSource, ExtProperties properties) throws SQLException;
 
     /**
+     * Set the logger to be used by the factory
+     * @param log
+     */
+    default void setLogger(Logger log) {}
+
+    /**
      * Prepare a statement
      * @param sql Statement SQL
      * @return prepared statement
@@ -35,5 +42,5 @@ public interface DatabaseObjectsFactory {
     /**
      * Free resources
      */
-    default void destroy() {};
+    default void clear() {};
 }
