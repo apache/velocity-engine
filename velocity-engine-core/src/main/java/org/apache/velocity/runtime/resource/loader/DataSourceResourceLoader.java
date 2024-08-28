@@ -214,7 +214,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
             catch (NamingException ne)
             {
-                throw new Error("could not lookup datasource for name: " + dataSourceName, ne);
+                throw new VelocityException("could not lookup datasource for name: " + dataSourceName, ne);
             }
 
             log.trace("DataSourceResourceLoader initialized.");
@@ -239,7 +239,7 @@ public class DataSourceResourceLoader extends ResourceLoader
         }
         catch (Exception e)
         {
-            throw new Error("could not find database objects factory class", e);
+            throw new VelocityException("could not find database objects factory class", e);
         }
 
         log.trace("DataSourceResourceLoader initialized.");
@@ -254,7 +254,7 @@ public class DataSourceResourceLoader extends ResourceLoader
     {
         if (factory != null)
         {
-            throw new Error("cannot change data source after initialization");
+            throw new VelocityException("cannot change data source after initialization");
         }
         this.dataSource = dataSource;
     }
