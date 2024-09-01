@@ -1456,8 +1456,22 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
 
     /**
-     * Initializes and renders the AST {@link SimpleNode} using the context
-     * into the output writer.
+     * <p>Initializes and renders the AST {@link SimpleNode} using the context
+     * into the output writer.</p>
+     * <p>Note that the <code>nodeTree</code> argument should be a fresh AST tree obtained by the
+     * {@link #parse(Reader, Template)} method.</p>
+     * <p>If you wish to reuse AST trees but bypass the resource loading mechanism, you should rely on the Template API,
+     * as follow:</p>
+     * <pre><code>
+     *      RuntimeInstance runtimeInstance = new RuntimeInstance();
+     *      Template template = new Template();
+     *      template.setName("my_template");
+     *      template.setRuntimeServices(runtimeInstance);
+     *      SimpleNode astTree = runtimeInstance.parse(new StringReader("Some template..."), template);
+     *      template.setData(astTree);
+     *      template.initDocument();
+     * </code></pre>
+     * <p>You will then be able to render several times the template with <code>template.render(context, writer)</code>.</p>
      *
      * @param context context to use in rendering input string
      * @param writer  Writer in which to render the output
