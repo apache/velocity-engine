@@ -18,7 +18,9 @@ package org.apache.velocity.spring;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -79,6 +81,8 @@ public class VelocityEngineFactory {
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
     private boolean preferFileSystemAccess = true;
+    
+    private boolean supportClasspathEnhancements = false;
 
     private boolean overrideLogging = true;
 
@@ -191,6 +195,26 @@ public class VelocityEngineFactory {
     protected boolean isPreferFileSystemAccess() {
     	return this.preferFileSystemAccess;
     }
+    
+    /**
+     * Set whether to fully support classpath and file resources at the same time
+     * through advanced detection and processing rules.
+     * 
+     * <p>Defaults to false to retain older behavior that breaks when combining both
+     * approaches, which replaces the Spring loader with the file-based one as soon
+     * as a file resource path is identified. When enabled, both Spring and file-based
+     * resolution will be enabled on a per-path basis.</p>
+     */
+    public void setSupportClasspathEnhancements(boolean supportClasspathEnhancements) {
+        this.supportClasspathEnhancements = supportClasspathEnhancements;
+    }
+    
+    /**
+     * Return whether to support both Spring classpath and file-based loading at the same time.
+     */
+    protected boolean isSupportClasspathEnhancements() {
+        return this.supportClasspathEnhancements;
+    }
 
     /**
      * Prepare the VelocityEngine instance and return it.
@@ -257,37 +281,61 @@ public class VelocityEngineFactory {
      */
     protected void initVelocityResourceLoader(VelocityEngine velocityEngine, String resourceLoaderPath) {
     	if (isPreferFileSystemAccess()) {
+    	    
+    	    // Only used with enhanced processing.
+            final List<String> filePaths = new ArrayList<>();
+            final List<String> nonFilePaths = new ArrayList<>();
+
+            String[] paths = StringUtils.commaDelimitedListToStringArray(resourceLoaderPath);
+
     		// Try to load via the file system, fall back to SpringResourceLoader
     		// (for hot detection of template changes, if possible).
-    		try {
-    			StringBuilder resolvedPath = new StringBuilder();
-    			String[] paths = StringUtils.commaDelimitedListToStringArray(resourceLoaderPath);
-    			for (int i = 0; i < paths.length; i++) {
-    				String path = paths[i];
+			for (int i = 0; i < paths.length; i++) {
+				String path = paths[i];
+				
+                // Don't check classpath: locations, they're not file-based.
+                // Some containers will expand jars and trigger false positives.
+				// If enhanced behavior isn't on, this will fall into the usual code it did before.
+                if (isSupportClasspathEnhancements() && path.startsWith(ResourceLoader.CLASSPATH_URL_PREFIX)) {
+                    logger.debug("Using SpringResourceLoader for '{}'", path);
+                    nonFilePaths.add(path);
+                    continue;
+                }
+
+                try {
     				Resource resource = getResourceLoader().getResource(path);
     				File file = resource.getFile();  // will fail if not resolvable in the file system
-					logger.debug("Resource loader path [{}] resolved to file [{}]", path, file.getAbsolutePath());
-    				resolvedPath.append(file.getAbsolutePath());
-    				if (i < paths.length - 1) {
-    					resolvedPath.append(',');
-    				}
-    			}
-    			velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
-    			velocityEngine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, "true");
-    			velocityEngine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, resolvedPath.toString());
-    		}
-    		catch (IOException ex) {
-				logger.debug("Cannot resolve resource loader path [{}] to [java.io.File]: using SpringResourceLoader",
-				        resourceLoaderPath, ex);
-    			initSpringResourceLoader(velocityEngine, resourceLoaderPath);
-    		}
+    				
+    				logger.debug("Resource loader path [{}] resolved to file [{}]", path, file.getAbsolutePath());
+    				filePaths.add(file.getAbsolutePath());
+                }
+	            catch (IOException ex) {
+                    logger.debug("Cannot resolve resource loader path '{}' to filesystem, will use SpringResourceLoader", path, ex);
+                    if (isSupportClasspathEnhancements()) {
+                        nonFilePaths.add(path);
+                    }
+                    else {
+                        initSpringResourceLoader(velocityEngine, resourceLoaderPath);
+                        return;
+                    }
+	            }
+			}
+
+            if (!filePaths.isEmpty()) {
+                velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
+                velocityEngine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, "true");
+                velocityEngine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH,
+                        StringUtils.collectionToCommaDelimitedString(filePaths));
+            }
+            
+            if (isSupportClasspathEnhancements() && !nonFilePaths.isEmpty()) {
+                initSpringResourceLoader(velocityEngine, StringUtils.collectionToCommaDelimitedString(nonFilePaths));
+            }
     	}
     	else {
     		// Always load via SpringResourceLoader
     		// (without hot detection of template changes).
-    		if (logger.isDebugEnabled()) {
-    			logger.debug("File system access not preferred: using SpringResourceLoader");
-    		}
+			logger.debug("File system access not preferred: using SpringResourceLoader");
     		initSpringResourceLoader(velocityEngine, resourceLoaderPath);
     	}
     }
