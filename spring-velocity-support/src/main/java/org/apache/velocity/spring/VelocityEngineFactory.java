@@ -204,9 +204,7 @@ public class VelocityEngineFactory {
 
     	// Load config file if set.
     	if (this.configLocation != null) {
-    		if (logger.isInfoEnabled()) {
-    			logger.info("Loading Velocity config from [" + this.configLocation + "]");
-    		}
+			logger.info("Loading Velocity config from [{}]", this.configLocation);
     		CollectionUtils.mergePropertiesIntoMap(PropertiesLoaderUtils.loadProperties(this.configLocation), props);
     	}
 
@@ -268,9 +266,7 @@ public class VelocityEngineFactory {
     				String path = paths[i];
     				Resource resource = getResourceLoader().getResource(path);
     				File file = resource.getFile();  // will fail if not resolvable in the file system
-    				if (logger.isDebugEnabled()) {
-    					logger.debug("Resource loader path [" + path + "] resolved to file [" + file.getAbsolutePath() + "]");
-    				}
+					logger.debug("Resource loader path [{}] resolved to file [{}]", path, file.getAbsolutePath());
     				resolvedPath.append(file.getAbsolutePath());
     				if (i < paths.length - 1) {
     					resolvedPath.append(',');
@@ -281,10 +277,8 @@ public class VelocityEngineFactory {
     			velocityEngine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, resolvedPath.toString());
     		}
     		catch (IOException ex) {
-    			if (logger.isDebugEnabled()) {
-    				logger.debug("Cannot resolve resource loader path [" + resourceLoaderPath +
-    						"] to [java.io.File]: using SpringResourceLoader", ex);
-    			}
+				logger.debug("Cannot resolve resource loader path [{}] to [java.io.File]: using SpringResourceLoader",
+				        resourceLoaderPath, ex);
     			initSpringResourceLoader(velocityEngine, resourceLoaderPath);
     		}
     	}
