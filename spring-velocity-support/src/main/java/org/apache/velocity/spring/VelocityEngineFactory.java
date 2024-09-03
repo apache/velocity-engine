@@ -301,7 +301,7 @@ public class VelocityEngineFactory {
      * @see #initVelocityResourceLoader
      */
     protected void initSpringResourceLoader(VelocityEngine velocityEngine, String resourceLoaderPath) {
-    	velocityEngine.setProperty(
+    	velocityEngine.addProperty(
     			RuntimeConstants.RESOURCE_LOADERS, SpringResourceLoader.NAME);
     	velocityEngine.setProperty(
     			SpringResourceLoader.SPRING_RESOURCE_LOADER_CLASS, SpringResourceLoader.class.getName());
