@@ -81,15 +81,14 @@ public class VelocityEngineFactory {
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
     private boolean preferFileSystemAccess = true;
-    
-    private boolean supportClasspathEnhancements = false;
-
-    private boolean overrideLogging = true;
 
 
     /**
      * Set the location of the Velocity config file.
      * Alternatively, you can specify all properties locally.
+     * 
+     * @param configLocation config resource
+     * 
      * @see #setVelocityProperties
      * @see #setResourceLoaderPath
      */
@@ -101,10 +100,14 @@ public class VelocityEngineFactory {
      * Set Velocity properties, like "file.resource.loader.path".
      * Can be used to override values in a Velocity config file,
      * or to specify all necessary properties locally.
+     * 
      * <p>Note that the Velocity resource loader path also be set to any
      * Spring resource location via the "resourceLoaderPath" property.
      * Setting it here is just necessary when using a non-file-based
-     * resource loader.
+     * resource loader.</p>
+     * 
+     * @param velocityProperties engine properties to include
+     *  
      * @see #setVelocityPropertiesMap
      * @see #setConfigLocation
      * @see #setResourceLoaderPath
@@ -116,6 +119,9 @@ public class VelocityEngineFactory {
     /**
      * Set Velocity properties as Map, to allow for non-String values
      * like "ds.resource.loader.instance".
+     * 
+     * @param velocityPropertiesMap engine properties to include
+     *  
      * @see #setVelocityProperties
      */
     public void setVelocityPropertiesMap(Map<String, Object> velocityPropertiesMap) {
@@ -130,21 +136,27 @@ public class VelocityEngineFactory {
      * <p>When populated via a String, standard URLs like "file:" and "classpath:"
      * pseudo URLs are supported, as understood by ResourceLoader. Allows for
      * relative paths when running in an ApplicationContext.
+     * 
      * <p>Will define a path for the default Velocity resource loader with the name
      * "file". If the specified resource cannot be resolved to a {@code java.io.File},
      * a generic SpringResourceLoader will be used under the name "spring", without
-     * modification detection.
+     * modification detection.</p>
+     * 
      * <p>Note that resource caching will be enabled in any case. With the file
      * resource loader, the last-modified timestamp will be checked on access to
      * detect changes. With SpringResourceLoader, the resource will be cached
-     * forever (for example for class path resources).
+     * forever (for example for class path resources).</p>
+     * 
      * <p>To specify a modification check interval for files, use Velocity's
      * standard "file.resource.loader.modificationCheckInterval" property. By default,
      * the file timestamp is checked on every access (which is surprisingly fast).
      * Of course, this just applies when loading resources from the file system.
      * <p>To enforce the use of SpringResourceLoader, i.e. to not resolve a path
      * as file system resource in any case, turn off the "preferFileSystemAccess"
-     * flag. See the latter's javadoc for details.
+     * flag. See the latter's javadoc for details.</p>
+     * 
+     * @param resourceLoaderPath comma-separated resource paths
+     *  
      * @see #setResourceLoader
      * @see #setVelocityProperties
      * @see #setPreferFileSystemAccess
@@ -157,8 +169,12 @@ public class VelocityEngineFactory {
 
     /**
      * Set the Spring ResourceLoader to use for loading Velocity template files.
-     * The default is DefaultResourceLoader. Will get overridden by the
-     * ApplicationContext if running in a context.
+     * 
+     * <p>The default is DefaultResourceLoader. Will get overridden by the
+     * ApplicationContext if running in a context.</p>
+     * 
+     * @param resourceLoader Spring resource loader to ue 
+     * 
      * @see org.springframework.core.io.DefaultResourceLoader
      * @see org.springframework.context.ApplicationContext
      */
@@ -168,6 +184,8 @@ public class VelocityEngineFactory {
 
     /**
      * Return the Spring ResourceLoader to use for loading Velocity template files.
+     * 
+     * @return Spring resource loader to use 
      */
     protected ResourceLoader getResourceLoader() {
         return this.resourceLoader;
@@ -176,13 +194,18 @@ public class VelocityEngineFactory {
     /**
      * Set whether to prefer file system access for template loading.
      * File system access enables hot detection of template changes.
+     * 
      * <p>If this is enabled, VelocityEngineFactory will try to resolve the
-     * specified "resourceLoaderPath" as file system resource (which will work
-     * for expanded class path resources and ServletContext resources too).
+     * specified "resourceLoaderPath" as file system resources, but only when
+     * non-classpath resource paths are included.</p>
+     * 
      * <p>Default is "true". Turn this off to always load via SpringResourceLoader
      * (i.e. as stream, without hot detection of template changes), which might
      * be necessary if some of your templates reside in an expanded classes
-     * directory while others reside in jar files.
+     * directory while others reside in jar files.</p>
+     * 
+     * @param preferFileSystemAccess whether to rely on file-based loading when possible
+     * 
      * @see #setResourceLoaderPath
      */
     public void setPreferFileSystemAccess(boolean preferFileSystemAccess) {
@@ -191,29 +214,11 @@ public class VelocityEngineFactory {
 
     /**
      * Return whether to prefer file system access for template loading.
+     * 
+     * @return  whether to prefer file system access for template loading
      */
     protected boolean isPreferFileSystemAccess() {
         return this.preferFileSystemAccess;
-    }
-    
-    /**
-     * Set whether to fully support classpath and file resources at the same time
-     * through advanced detection and processing rules.
-     * 
-     * <p>Defaults to false to retain older behavior that breaks when combining both
-     * approaches, which replaces the Spring loader with the file-based one as soon
-     * as a file resource path is identified. When enabled, both Spring and file-based
-     * resolution will be enabled on a per-path basis.</p>
-     */
-    public void setSupportClasspathEnhancements(boolean supportClasspathEnhancements) {
-        this.supportClasspathEnhancements = supportClasspathEnhancements;
-    }
-    
-    /**
-     * Return whether to support both Spring classpath and file-based loading at the same time.
-     */
-    protected boolean isSupportClasspathEnhancements() {
-        return this.supportClasspathEnhancements;
     }
 
     /**
@@ -280,9 +285,13 @@ public class VelocityEngineFactory {
      * @see #createVelocityEngine()
      */
     protected void initVelocityResourceLoader(VelocityEngine velocityEngine, String resourceLoaderPath) {
-        if (isPreferFileSystemAccess()) {
+        
+        final ResourceLoader loader = getResourceLoader();
+        if (loader != null && isPreferFileSystemAccess()) {
+
+            // Try to load via the file system, fall back to SpringResourceLoader
+            // (for hot detection of template changes, if possible).
             
-            // Only used with enhanced processing.
             final List<String> filePaths = new ArrayList<>();
             final List<String> nonFilePaths = new ArrayList<>();
 
@@ -293,17 +302,16 @@ public class VelocityEngineFactory {
             for (int i = 0; i < paths.length; i++) {
                 String path = paths[i];
                 
-                // Don't check classpath: locations, they're not file-based.
+                // Don't check classpath: locations for existence, they're not file-based.
                 // Some containers will expand jars and trigger false positives.
-                // If enhanced behavior isn't on, this will fall into the usual code it did before.
-                if (isSupportClasspathEnhancements() && path.startsWith(ResourceLoader.CLASSPATH_URL_PREFIX)) {
+                if (path.startsWith(ResourceLoader.CLASSPATH_URL_PREFIX)) {
                     logger.debug("Using SpringResourceLoader for '{}'", path);
                     nonFilePaths.add(path);
                     continue;
                 }
 
                 try {
-                    Resource resource = getResourceLoader().getResource(path);
+                    Resource resource = loader.getResource(path);
                     File file = resource.getFile();  // will fail if not resolvable in the file system
                     
                     logger.debug("Resource loader path [{}] resolved to file [{}]", path, file.getAbsolutePath());
@@ -311,13 +319,7 @@ public class VelocityEngineFactory {
                 }
                 catch (IOException ex) {
                     logger.debug("Cannot resolve resource loader path '{}' to filesystem, will use SpringResourceLoader", path, ex);
-                    if (isSupportClasspathEnhancements()) {
-                        nonFilePaths.add(path);
-                    }
-                    else {
-                        initSpringResourceLoader(velocityEngine, resourceLoaderPath);
-                        return;
-                    }
+                    nonFilePaths.add(path);
                 }
             }
 
@@ -328,7 +330,7 @@ public class VelocityEngineFactory {
                         StringUtils.collectionToCommaDelimitedString(filePaths));
             }
             
-            if (isSupportClasspathEnhancements() && !nonFilePaths.isEmpty()) {
+            if (!nonFilePaths.isEmpty()) {
                 initSpringResourceLoader(velocityEngine, StringUtils.collectionToCommaDelimitedString(nonFilePaths));
             }
         }
