@@ -94,7 +94,7 @@ public class VelocityEngineFactory {
      * @see #setResourceLoaderPath
      */
     public void setConfigLocation(Resource configLocation) {
-    	this.configLocation = configLocation;
+        this.configLocation = configLocation;
     }
 
     /**
@@ -110,7 +110,7 @@ public class VelocityEngineFactory {
      * @see #setResourceLoaderPath
      */
     public void setVelocityProperties(Properties velocityProperties) {
-    	CollectionUtils.mergePropertiesIntoMap(velocityProperties, this.velocityProperties);
+        CollectionUtils.mergePropertiesIntoMap(velocityProperties, this.velocityProperties);
     }
 
     /**
@@ -119,9 +119,9 @@ public class VelocityEngineFactory {
      * @see #setVelocityProperties
      */
     public void setVelocityPropertiesMap(Map<String, Object> velocityPropertiesMap) {
-    	if (velocityPropertiesMap != null) {
-    		this.velocityProperties.putAll(velocityPropertiesMap);
-    	}
+        if (velocityPropertiesMap != null) {
+            this.velocityProperties.putAll(velocityPropertiesMap);
+        }
     }
 
     /**
@@ -152,7 +152,7 @@ public class VelocityEngineFactory {
      * @see org.apache.velocity.runtime.resource.loader.FileResourceLoader
      */
     public void setResourceLoaderPath(String resourceLoaderPath) {
-    	this.resourceLoaderPath = resourceLoaderPath;
+        this.resourceLoaderPath = resourceLoaderPath;
     }
 
     /**
@@ -163,14 +163,14 @@ public class VelocityEngineFactory {
      * @see org.springframework.context.ApplicationContext
      */
     public void setResourceLoader(ResourceLoader resourceLoader) {
-    	this.resourceLoader = resourceLoader;
+        this.resourceLoader = resourceLoader;
     }
 
     /**
      * Return the Spring ResourceLoader to use for loading Velocity template files.
      */
     protected ResourceLoader getResourceLoader() {
-    	return this.resourceLoader;
+        return this.resourceLoader;
     }
 
     /**
@@ -186,14 +186,14 @@ public class VelocityEngineFactory {
      * @see #setResourceLoaderPath
      */
     public void setPreferFileSystemAccess(boolean preferFileSystemAccess) {
-    	this.preferFileSystemAccess = preferFileSystemAccess;
+        this.preferFileSystemAccess = preferFileSystemAccess;
     }
 
     /**
      * Return whether to prefer file system access for template loading.
      */
     protected boolean isPreferFileSystemAccess() {
-    	return this.preferFileSystemAccess;
+        return this.preferFileSystemAccess;
     }
     
     /**
@@ -223,36 +223,36 @@ public class VelocityEngineFactory {
      * @throws VelocityException on Velocity initialization failure
      */
     public VelocityEngine createVelocityEngine() throws IOException, VelocityException {
-    	VelocityEngine velocityEngine = newVelocityEngine();
-    	Map<String, Object> props = new HashMap<String, Object>();
+        VelocityEngine velocityEngine = newVelocityEngine();
+        Map<String, Object> props = new HashMap<String, Object>();
 
-    	// Load config file if set.
-    	if (this.configLocation != null) {
-			logger.info("Loading Velocity config from [{}]", this.configLocation);
-    		CollectionUtils.mergePropertiesIntoMap(PropertiesLoaderUtils.loadProperties(this.configLocation), props);
-    	}
+        // Load config file if set.
+        if (this.configLocation != null) {
+            logger.info("Loading Velocity config from [{}]", this.configLocation);
+            CollectionUtils.mergePropertiesIntoMap(PropertiesLoaderUtils.loadProperties(this.configLocation), props);
+        }
 
-    	// Merge local properties if set.
-    	if (!this.velocityProperties.isEmpty()) {
-    		props.putAll(this.velocityProperties);
-    	}
+        // Merge local properties if set.
+        if (!this.velocityProperties.isEmpty()) {
+            props.putAll(this.velocityProperties);
+        }
 
-    	// Set a resource loader path, if required.
-    	if (this.resourceLoaderPath != null) {
-    		initVelocityResourceLoader(velocityEngine, this.resourceLoaderPath);
-    	}
+        // Set a resource loader path, if required.
+        if (this.resourceLoaderPath != null) {
+            initVelocityResourceLoader(velocityEngine, this.resourceLoaderPath);
+        }
 
-    	// Apply properties to VelocityEngine.
-    	for (Map.Entry<String, Object> entry : props.entrySet()) {
-    		velocityEngine.setProperty(entry.getKey(), entry.getValue());
-    	}
+        // Apply properties to VelocityEngine.
+        for (Map.Entry<String, Object> entry : props.entrySet()) {
+            velocityEngine.setProperty(entry.getKey(), entry.getValue());
+        }
 
-    	postProcessVelocityEngine(velocityEngine);
+        postProcessVelocityEngine(velocityEngine);
 
-    	// Perform actual initialization.
-    	velocityEngine.init();
+        // Perform actual initialization.
+        velocityEngine.init();
 
-    	return velocityEngine;
+        return velocityEngine;
     }
 
     /**
@@ -265,7 +265,7 @@ public class VelocityEngineFactory {
      * @see #createVelocityEngine()
      */
     protected VelocityEngine newVelocityEngine() throws IOException, VelocityException {
-    	return new VelocityEngine();
+        return new VelocityEngine();
     }
 
     /**
@@ -280,22 +280,22 @@ public class VelocityEngineFactory {
      * @see #createVelocityEngine()
      */
     protected void initVelocityResourceLoader(VelocityEngine velocityEngine, String resourceLoaderPath) {
-    	if (isPreferFileSystemAccess()) {
-    	    
-    	    // Only used with enhanced processing.
+        if (isPreferFileSystemAccess()) {
+            
+            // Only used with enhanced processing.
             final List<String> filePaths = new ArrayList<>();
             final List<String> nonFilePaths = new ArrayList<>();
 
             String[] paths = StringUtils.commaDelimitedListToStringArray(resourceLoaderPath);
 
-    		// Try to load via the file system, fall back to SpringResourceLoader
-    		// (for hot detection of template changes, if possible).
-			for (int i = 0; i < paths.length; i++) {
-				String path = paths[i];
-				
+            // Try to load via the file system, fall back to SpringResourceLoader
+            // (for hot detection of template changes, if possible).
+            for (int i = 0; i < paths.length; i++) {
+                String path = paths[i];
+                
                 // Don't check classpath: locations, they're not file-based.
                 // Some containers will expand jars and trigger false positives.
-				// If enhanced behavior isn't on, this will fall into the usual code it did before.
+                // If enhanced behavior isn't on, this will fall into the usual code it did before.
                 if (isSupportClasspathEnhancements() && path.startsWith(ResourceLoader.CLASSPATH_URL_PREFIX)) {
                     logger.debug("Using SpringResourceLoader for '{}'", path);
                     nonFilePaths.add(path);
@@ -303,13 +303,13 @@ public class VelocityEngineFactory {
                 }
 
                 try {
-    				Resource resource = getResourceLoader().getResource(path);
-    				File file = resource.getFile();  // will fail if not resolvable in the file system
-    				
-    				logger.debug("Resource loader path [{}] resolved to file [{}]", path, file.getAbsolutePath());
-    				filePaths.add(file.getAbsolutePath());
+                    Resource resource = getResourceLoader().getResource(path);
+                    File file = resource.getFile();  // will fail if not resolvable in the file system
+                    
+                    logger.debug("Resource loader path [{}] resolved to file [{}]", path, file.getAbsolutePath());
+                    filePaths.add(file.getAbsolutePath());
                 }
-	            catch (IOException ex) {
+                catch (IOException ex) {
                     logger.debug("Cannot resolve resource loader path '{}' to filesystem, will use SpringResourceLoader", path, ex);
                     if (isSupportClasspathEnhancements()) {
                         nonFilePaths.add(path);
@@ -318,8 +318,8 @@ public class VelocityEngineFactory {
                         initSpringResourceLoader(velocityEngine, resourceLoaderPath);
                         return;
                     }
-	            }
-			}
+                }
+            }
 
             if (!filePaths.isEmpty()) {
                 velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
@@ -331,13 +331,13 @@ public class VelocityEngineFactory {
             if (isSupportClasspathEnhancements() && !nonFilePaths.isEmpty()) {
                 initSpringResourceLoader(velocityEngine, StringUtils.collectionToCommaDelimitedString(nonFilePaths));
             }
-    	}
-    	else {
-    		// Always load via SpringResourceLoader
-    		// (without hot detection of template changes).
-			logger.debug("File system access not preferred: using SpringResourceLoader");
-    		initSpringResourceLoader(velocityEngine, resourceLoaderPath);
-    	}
+        }
+        else {
+            // Always load via SpringResourceLoader
+            // (without hot detection of template changes).
+            logger.debug("File system access not preferred: using SpringResourceLoader");
+            initSpringResourceLoader(velocityEngine, resourceLoaderPath);
+        }
     }
 
     /**
@@ -349,16 +349,16 @@ public class VelocityEngineFactory {
      * @see #initVelocityResourceLoader
      */
     protected void initSpringResourceLoader(VelocityEngine velocityEngine, String resourceLoaderPath) {
-    	velocityEngine.addProperty(
-    			RuntimeConstants.RESOURCE_LOADERS, SpringResourceLoader.NAME);
-    	velocityEngine.setProperty(
-    			SpringResourceLoader.SPRING_RESOURCE_LOADER_CLASS, SpringResourceLoader.class.getName());
-    	velocityEngine.setProperty(
-    			SpringResourceLoader.SPRING_RESOURCE_LOADER_CACHE, "true");
-    	velocityEngine.setApplicationAttribute(
-    			SpringResourceLoader.SPRING_RESOURCE_LOADER, getResourceLoader());
-    	velocityEngine.setApplicationAttribute(
-    			SpringResourceLoader.SPRING_RESOURCE_LOADER_PATH, resourceLoaderPath);
+        velocityEngine.addProperty(
+                RuntimeConstants.RESOURCE_LOADERS, SpringResourceLoader.NAME);
+        velocityEngine.setProperty(
+                SpringResourceLoader.SPRING_RESOURCE_LOADER_CLASS, SpringResourceLoader.class.getName());
+        velocityEngine.setProperty(
+                SpringResourceLoader.SPRING_RESOURCE_LOADER_CACHE, "true");
+        velocityEngine.setApplicationAttribute(
+                SpringResourceLoader.SPRING_RESOURCE_LOADER, getResourceLoader());
+        velocityEngine.setApplicationAttribute(
+                SpringResourceLoader.SPRING_RESOURCE_LOADER_PATH, resourceLoaderPath);
     }
 
     /**
@@ -373,7 +373,7 @@ public class VelocityEngineFactory {
      * @see org.apache.velocity.app.VelocityEngine#init
      */
     protected void postProcessVelocityEngine(VelocityEngine velocityEngine)
-    		throws IOException, VelocityException {
+            throws IOException, VelocityException {
     }
 
 }
