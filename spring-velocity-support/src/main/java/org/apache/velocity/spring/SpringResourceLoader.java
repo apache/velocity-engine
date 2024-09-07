@@ -91,8 +91,8 @@ public class SpringResourceLoader extends ResourceLoader {
     		}
     	}
     	if (logger.isInfoEnabled()) {
-    		logger.info("SpringResourceLoader for Velocity: using resource loader [" + this.resourceLoader +
-    				"] and resource loader paths " + Arrays.asList(this.resourceLoaderPaths));
+    		logger.info("SpringResourceLoader for Velocity: using resource loader [{}] and resource loader paths {}",
+    		        resourceLoader, Arrays.asList(this.resourceLoaderPaths));
     	}
     }
 
@@ -108,19 +108,17 @@ public class SpringResourceLoader extends ResourceLoader {
      */
     @Override
     public Reader getResourceReader(String source, String encoding) throws ResourceNotFoundException {
-    	if (logger.isDebugEnabled()) {
-    		logger.debug("Looking for Velocity resource with name [" + source + "]");
-    	}
+		logger.debug("Looking for Velocity resource with name [{}]", source);
     	for (String resourceLoaderPath : this.resourceLoaderPaths) {
     		org.springframework.core.io.Resource resource =
     				this.resourceLoader.getResource(resourceLoaderPath + source);
     		try {
-    			return new InputStreamReader(resource.getInputStream(), encoding);
+    		    if (resource != null) {
+    		        return new InputStreamReader(resource.getInputStream(), encoding);
+    		    }
     		}
     		catch (IOException ex) {
-    			if (logger.isDebugEnabled()) {
-    				logger.debug("Could not find Velocity resource: " + resource);
-    			}
+				logger.debug("Could not find Velocity resource: {}", resource);
     		}
     	}
     	throw new ResourceNotFoundException(
