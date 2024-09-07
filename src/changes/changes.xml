@@ -25,6 +25,37 @@
   </properties>
 
   <body>
+    <release version="2.4" date="2024-09-07">
+        <action type="new" dev="cbrisson" issue="VELOCITY-948">
+            Add a new compatibility flag for integer ranges immutability.
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-961">
+            Fix a regression in the parser.
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-962">
+            An unclosed verbatim section should give an error, as in Velocity 1.7.
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCIY-982" due-to="John Tal">
+            Add a few more dangerous classes to introspector blacklist.
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-957">
+            Fix overzealous string to number conversion in comparison, which gave unexpected comparison results in some case, and was also most
+            probably the cause of a performance regression (VELOCITY-969, VELOCITY-979).
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-952" due-to="Thomas Mortagne">
+            Introspection should use the top-most declaration of methods.
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-965">
+            Fix <code>DataSourceResourceLoader</code> thread safety issue. Also Introduces a <code>DatabaseObjectsFactory</code> plugin mechanism
+            which allows to customize caching of database connections and prepared statements.
+        </action>
+        <action type="fix" dev="cbrisson" due-to="Scott Cantor" issue="VELOCITY-943">
+            Refactor <code>SpringResourceLoader</code>.
+        </action>
+        <action type="new" dev="cbrisson" due-to="J. Tóth Tamás">
+            Support Java 16 records in property lookup.
+        </action>
+    </release>
     <release version="2.3" date="2021-02-27">
         <action type="fix" dev="cbrisson" issue="VELOCITY-927">
             Fix parser bug (newline and space inside an empty inline map definition).
