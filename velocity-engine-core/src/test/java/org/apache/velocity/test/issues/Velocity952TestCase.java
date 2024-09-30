@@ -58,6 +58,11 @@ public class Velocity952TestCase extends BaseTestCase
         {
             return "bar";
         }
+
+        public static String staticFoo()
+        {
+            return "static bar";
+        }
     }
 
     public static class Baz extends Bar
@@ -66,6 +71,11 @@ public class Velocity952TestCase extends BaseTestCase
         public String foo()
         {
             return "baz";
+        }
+
+        public static String staticFoo()
+        {
+            return "static baz";
         }
     }
 
@@ -84,10 +94,12 @@ public class Velocity952TestCase extends BaseTestCase
     public void testBar()
     {
         assertEvalEquals("bar", "$bar.foo()");
+        assertEvalEquals("static bar", "$bar.staticFoo()");
     }
 
     public void testBaz()
     {
         assertEvalEquals("baz", "$baz.foo()");
+        assertEvalEquals("static baz", "$baz.staticFoo()");
     }
 }
