@@ -330,6 +330,11 @@ public class MethodMap
      */
     public static Method getTopMostMethodDeclaration(Method method)
     {
+        if (Modifier.isStatic(method.getModifiers())) {
+            // We cannot go deeper in the hierarchy for static methods as it's completely different methods
+            return method;
+        }
+
         Class<?> clazz = method.getDeclaringClass();
         String name = method.getName();
         Class<?>[] arguments = method.getParameterTypes();
