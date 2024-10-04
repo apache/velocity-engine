@@ -25,6 +25,12 @@
   </properties>
 
   <body>
+    <release version="2.4.1">
+        <action type="fix" dev="tmortagne" issue="VELOCITY-983">
+            Finding the topmost method when intropsecing a class should stop
+            at the first static method found
+        </action>        
+    </release>
     <release version="2.4" date="2024-09-07">
         <action type="new" dev="cbrisson" issue="VELOCITY-948">
             Add a new compatibility flag for integer ranges immutability.
