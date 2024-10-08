@@ -1,5 +1,7 @@
 package org.apache.velocity.test.issues;
 
+import java.util.TimeZone;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,13 +22,7 @@ package org.apache.velocity.test.issues;
  */
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.test.BaseTestCase;
-import org.apache.velocity.util.introspection.ClassMap;
-import org.apache.velocity.util.introspection.MethodMap;
-
-import java.lang.reflect.Method;
-import java.util.TimeZone;
 
 /**
  * This class tests the fix for VELOCITY-952.
@@ -38,25 +34,31 @@ public class Velocity952TestCase extends BaseTestCase
        super(name);
     }
 
-    public void testMethodMap()
-    {
-        ClassMap classMap = new ClassMap(TimeZone.getDefault().getClass(), Velocity.getLog());
-        Method getOffset = classMap.findMethod("getOffset", new Object[] { 1L });
-        assertNotNull(getOffset);
-        assertEquals(TimeZone.class, getOffset.getDeclaringClass());
-    }
-
     public interface Foo
     {
         default String foo() { return "foo"; }
     }
 
-    public static class Bar implements Foo
+    private static class PrivateSuperClass
+    {
+        public String foo2()
+        {
+            return "private";
+        }
+    }
+
+    public static class Bar extends PrivateSuperClass implements Foo
     {
         @Override
         public String foo()
         {
             return "bar";
+        }
+
+        @Override
+        public String foo2()
+        {
+            return "public";
         }
 
         public static String staticFoo()
@@ -95,6 +97,11 @@ public class Velocity952TestCase extends BaseTestCase
     {
         assertEvalEquals("bar", "$bar.foo()");
         assertEvalEquals("static bar", "$bar.staticFoo()");
+    }
+
+    public void testNotAccessibleAbstract()
+    {
+        assertEvalEquals("public", "$bar.foo2()");
     }
 
     public void testBaz()
