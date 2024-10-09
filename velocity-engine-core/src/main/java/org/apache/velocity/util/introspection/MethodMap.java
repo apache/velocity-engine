@@ -1,5 +1,7 @@
 package org.apache.velocity.util.introspection;
 
+import org.apache.commons.lang3.reflect.MethodUtils;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -55,6 +57,8 @@ public class MethodMap
     private static final int EXPLICITLY_CONVERTIBLE = 1;
     private static final int IMPLCITLY_CONVERTIBLE = 2;
     private static final int STRICTLY_CONVERTIBLE = 3;
+
+    private static final Method TRY_SET_ACCESSIBLE = MethodUtils.getMethodObject(Method.class, "trySetAccessible");
 
     TypeConversionHandler conversionHandler;
 
@@ -316,22 +320,24 @@ public class MethodMap
         switch (bestMatches.size())
         {
             case 0: return null;
-            case 1: return getTopMostMethodDeclaration(bestMatches.get(0).method);
+            case 1: return getAccessibleMethodDeclaration(bestMatches.get(0).method);
             default: throw new AmbiguousException();
         }
     }
 
     /**
-     * Once we identified a best match of a specific call, walk up the chain of inheritance to find the top-most
-     * declaration for this method. This is needed to avoid IllegalAccessException, when a public API method
-     * is implemented by a class which is not exported.
+     * Once we identified a best match of a specific call, walk up the chain of inheritance to find the first method
+     * which we are allowed to call through reflection. This is needed to avoid IllegalAccessException, when a public
+     * API method is implemented by a class which is not exported.
+     * 
      * @param method
      * @return
      */
-    public static Method getTopMostMethodDeclaration(Method method)
+    public static Method getAccessibleMethodDeclaration(Method method)
     {
-        if (Modifier.isStatic(method.getModifiers())) {
-            // We cannot go deeper in the hierarchy for static methods as it's completely different methods
+        // We cannot go deeper in the hierarchy for static methods as it's completely different methods
+        // We don't need to go deeper in the hierarchy if the method is accessible (can be called) already
+        if (Modifier.isStatic(method.getModifiers()) || canAccess(method)) {
             return method;
         }
 
@@ -351,7 +357,7 @@ public class MethodMap
                 try
                 {
                     superMethod = superClass.getDeclaredMethod(name, arguments);
-                    if ((superMethod.getModifiers() & Modifier.PUBLIC) == 0) {
+                    if (!canAccess(superMethod)) {
                         superMethod = null;
                     }
                 }
@@ -387,7 +393,48 @@ public class MethodMap
             }
             clazz = superClass;
         }
+
         return method;
+    }
+
+    private static boolean canAccess(Method method)
+    {
+        // Check if the method is public
+        if (Modifier.isPublic(method.getModifiers())) {
+            if (method.isAccessible()) {
+                // The method accessible flag was already set to true so we assume we can call it
+                return true;
+            } else {
+                // Check if we are able to change the accessible flag
+                if (trySetAccessible(method)) {
+                    // Restore the accessible flag to its former value
+                    method.setAccessible(false);
+
+                    // We were able to modify the accessible flag, so we should be able to call the method
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean trySetAccessible(Method method)
+    {
+        boolean accessible = false;
+        try {
+            if (TRY_SET_ACCESSIBLE != null) {
+                // Use Method#trySetAccessible() in Java 9+
+                accessible = ((Boolean) TRY_SET_ACCESSIBLE.invoke(method)).booleanValue();
+            } else {
+                // Use Method#setAccessible(true) in Java 8
+                method.setAccessible(true);
+            }
+        } catch (Exception e) {
+            // Failed to set the accessible flag of the method, assume it means it's not possible to invoke it
+        }
+
+        return accessible;
     }
 
     /**

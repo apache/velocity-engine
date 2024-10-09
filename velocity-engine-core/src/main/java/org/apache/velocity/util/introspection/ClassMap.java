@@ -184,7 +184,7 @@ public class ClassMap
                 int modifiers = method.getModifiers();
                 if (Modifier.isPublic(modifiers))
                 {
-                    method = MethodMap.getTopMostMethodDeclaration(method);
+                    method = MethodMap.getAccessibleMethodDeclaration(method);
                     methodCache.put(method);
                 }
             }
