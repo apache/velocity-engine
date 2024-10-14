@@ -1499,6 +1499,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         try
         {
+            ica.setCurrentResource(nodeTree.getTemplate());
             try
             {
                 nodeTree.init(ica, this);
@@ -1554,6 +1555,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         finally
         {
             ica.popCurrentTemplateName();
+            ica.setCurrentResource(null);
             if (isScopeControlEnabled(evaluateScopeName))
             {
                 Object obj = ica.get(evaluateScopeName);

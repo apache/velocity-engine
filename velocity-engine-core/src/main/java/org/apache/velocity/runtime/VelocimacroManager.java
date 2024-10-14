@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * <ul>
  * <li>flat - all allowable VMs are in the global namespace</li>
- * <li>local - inline VMs are added to it's own template namespace</li>
+ * <li>local - inline VMs are added to their own template namespace</li>
  * </ul>
  *
  * Thanks to <a href="mailto:JFernandez@viquity.com">Jose Alberto Fernandez</a>
@@ -190,7 +190,7 @@ public class VelocimacroManager
         if( usingNamespaces() && template != null )
         {
             MacroEntry me = (MacroEntry)template.getMacros().get(vmName);
-            if( template.getMacros().size() > 0 && me != null )
+            if(!template.getMacros().isEmpty() && me != null )
             {
                 return me.getProxy();
             }

@@ -113,10 +113,10 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         return repo;
     }
 
-    protected void addTemplate(String name, String template)
+    protected void addTemplate(String name, String vtl)
     {
-        info("Template '"+name+"':  "+template);
-        getStringRepository().putStringResource(name, template);
+        info("Template '"+name+"':  "+vtl);
+        getStringRepository().putStringResource(name, vtl);
     }
 
     protected void removeTemplate(String name)
@@ -202,18 +202,18 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
     /**
      * Ensure that a template renders as expected.
      */
-    protected void assertEvalEquals(String expected, String template)
+    protected void assertEvalEquals(String expected, String vtl)
     {
-        assertEvalEquals(expected, template, engine);
+        assertEvalEquals(expected, vtl, engine);
     }
 
     /**
      * Ensure that a template renders as expected against the provided engine.
      */
-    protected void assertEvalEquals(String expected, String template, VelocityEngine ve)
+    protected void assertEvalEquals(String expected, String vtl, VelocityEngine ve)
     {
         info("Expectation: "+expected);
-        assertEquals(expected, evaluate(template, ve));
+        assertEquals(expected, evaluate(vtl, ve));
     }
 
     /**
@@ -314,25 +314,25 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
     /**
      * Evaluate the specified String as a template and return the result as a String.
      */
-    protected String evaluate(String template)
+    protected String evaluate(String vtl)
     {
-        return evaluate(template, engine);
+        return evaluate(vtl, engine);
     }
 
     /**
      * Evaluate the specified String as a template against the provided engine and return the result as a String.
      */
-    protected String evaluate(String template, VelocityEngine ve)
+    protected String evaluate(String vtl, VelocityEngine ve)
     {
         StringWriter writer = new StringWriter();
         try
         {
-            info("Template: "+template);
+            info("Template: "+vtl);
 
             // use template as its own name, since our templates are short
             // unless it's not that short, then shorten it...
-            String name = (template.length() <= 15) ? template : template.substring(0,15);
-            ve.evaluate(context, writer, name, template);
+            String name = (vtl.length() <= 15) ? vtl : vtl.substring(0,15);
+            ve.evaluate(context, writer, name, vtl);
 
             String result = writer.toString();
             info("Result: "+result);
