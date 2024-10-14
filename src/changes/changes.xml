@@ -25,9 +25,11 @@
   </properties>
 
   <body>
-    <release version="2.4.1">
+    <release version="2.5">
+    </release>
+    <release version="2.4.1" date="2024-10-14">
         <action type="fix" dev="tmortagne" issue="VELOCITY-983">
-            Finding the topmost method when intropsecing a class should stop
+            Finding the topmost method when introspecting a class should stop
             at the first static method found
         </action>
         <action type="fix" dev="cbrisson" issue="VELOCITY-944">
