@@ -29,7 +29,12 @@
         <action type="fix" dev="tmortagne" issue="VELOCITY-983">
             Finding the topmost method when intropsecing a class should stop
             at the first static method found
-        </action>        
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-944">
+            Direct evaluation of VTL code via <code>RuntimeInstance.evaluate()</code>
+            should update the current rendering template information for
+            local velocimacros to be visible in string literals interpolation.
+        </action>
     </release>
     <release version="2.4" date="2024-09-07">
         <action type="new" dev="cbrisson" issue="VELOCITY-948">
