@@ -83,7 +83,7 @@ public class Velocity952TestCase extends BaseTestCase
 
     protected void setUpContext(VelocityContext context)
     {
-        context.put("tz", TimeZone.getDefault());
+        context.put("tz", TimeZone.getTimeZone("GMT+1"));
         context.put("bar", new Bar());
         context.put("baz", new Baz());
     }
