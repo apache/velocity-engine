@@ -107,53 +107,43 @@ public class ClassUtils {
 
     /**
      * Finds a resource with the given name.  Checks the Thread Context
-     * classloader, then uses the System classloader.  Should replace all
-     * calls to <code>Class.getResourceAsString</code> when the resource
+     * classloader, then uses the System classloader (for compatibility with texen / ant tasks)
+     * Should replace all calls to <code>Class.getResourceAsString</code> when the resource
      * might come from a different classloader.  (e.g. a webapp).
-     * @param claz Class to use when getting the System classloader (used if no Thread
+     * @param clazz Class to use when getting the System classloader (used if no Thread
      * Context classloader available or fails to get resource).
      * @param name name of the resource
      * @return InputStream for the resource.
      */
-    public static InputStream getResourceAsStream(Class<?> claz, String name)
+    public static InputStream getResourceAsStream(Class<?> clazz, String name)
     {
         InputStream result = null;
 
-        /*
-         * remove leading slash so path will work with classes in a JAR file
-         */
-        while (name.startsWith("/"))
-        {
-            name = name.substring(1);
-        }
+        name = removeLeadingSlash(name);
 
-        ClassLoader classLoader = Thread.currentThread()
-                                    .getContextClassLoader();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-        if (classLoader == null)
+        if (classLoader != null)
         {
-            classLoader = claz.getClassLoader();
             result = classLoader.getResourceAsStream( name );
         }
-        else
+
+        if (result == null)
         {
-            result= classLoader.getResourceAsStream( name );
-
-            /*
-            * for compatibility with texen / ant tasks, fall back to
-            * old method when resource is not found.
-            */
-
-            if (result == null)
-            {
-                classLoader = claz.getClassLoader();
-                if (classLoader != null)
-                    result = classLoader.getResourceAsStream( name );
-            }
+            classLoader = clazz.getClassLoader();
+            if (classLoader != null)
+                result = classLoader.getResourceAsStream( name );
         }
 
         return result;
+    }
 
+    /**
+     * remove leading slash(es) so path will work with classes in a JAR file
+     */
+    private static String removeLeadingSlash(String name)
+    {
+        return name.replaceFirst("^/*", "");
     }
 
     /**
