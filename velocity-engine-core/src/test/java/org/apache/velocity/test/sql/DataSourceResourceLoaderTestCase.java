@@ -69,6 +69,9 @@ public class DataSourceResourceLoaderTestCase
     /* engine with VARCHAR templates data source */
     private RuntimeInstance varcharTemplatesEngine = null;
 
+    /* engine with VARCHAR templates data source for testing connection counts*/
+    private RuntimeInstance varcharTemplatesConnectionCountTestEngine = null;
+
     /* engine with CLOB templates data source */
     private RuntimeInstance clobTemplatesEngine = null;
 
@@ -98,6 +101,10 @@ public class DataSourceResourceLoaderTestCase
         DataSourceResourceLoader rl2 = new DataSourceResourceLoader();
         rl2.setDataSource(ds2);
 
+        DataSource ds3 = new TestDataSource(TEST_JDBC_DRIVER_CLASS, TEST_JDBC_URI, TEST_JDBC_LOGIN, TEST_JDBC_PASSWORD);
+        DataSourceResourceLoader rl3 = new DataSourceResourceLoader();
+        rl3.setDataSource(ds3);
+
         ExtProperties props = getResourceLoaderProperties();
         props.setProperty( "ds.resource.loader.instance", rl1);
         props.setProperty( "ds.resource.loader.resource.table", "velocity_template_varchar");
@@ -112,6 +119,14 @@ public class DataSourceResourceLoaderTestCase
         clobTemplatesEngine = new RuntimeInstance();
         clobTemplatesEngine.setConfiguration(props2);
         clobTemplatesEngine.init();
+
+        ExtProperties props3 = getResourceLoaderProperties();
+        props3.setProperty( "ds.resource.loader.instance", rl3);
+        props3.setProperty( "ds.resource.loader.resource.table", "velocity_template_varchar");
+        props3.setProperty( "ds.resource.loader.database_objects_factory.class", "org.apache.velocity.test.sql.TestDefaultDatabaseObjectsFactory");
+        varcharTemplatesConnectionCountTestEngine = new RuntimeInstance();
+        varcharTemplatesConnectionCountTestEngine.setConfiguration(props3);
+        varcharTemplatesConnectionCountTestEngine.init();
     }
 
     protected ExtProperties getResourceLoaderProperties()
@@ -129,13 +144,24 @@ public class DataSourceResourceLoaderTestCase
      * Tests loading and rendering of a simple template. If that works, we are able to get data
      * from the database.
      */
+    
     public void testSimpleTemplate()
             throws Exception
     {
         Template t = executeTest("testTemplate1", varcharTemplatesEngine);
         assertFalse("Timestamp is 0", 0 == t.getLastModified());
         t = executeTest("testTemplate1", clobTemplatesEngine);
-        assertFalse("Timestamp is 0", 0 == t.getLastModified());    }
+        assertFalse("Timestamp is 0", 0 == t.getLastModified());
+    }
+    /**
+     * Tests loading and rendering of a simple template and checks that there are no connection leaks.
+     */
+    public void testForConnectionLeaks()
+            throws Exception
+    {
+        executeTest("testTemplate1", varcharTemplatesConnectionCountTestEngine);
+        assertEquals("Open connection count is greater then 0", 0, TestDefaultDatabaseObjectsFactory.getConnectionCount());
+    }
 
     public void testUnicode(RuntimeInstance engine)
         throws Exception
@@ -161,6 +187,7 @@ public class DataSourceResourceLoaderTestCase
      * Now we have a more complex example. Run a very simple tool.
      * from the database.
      */
+
     public void testRenderTool()
             throws Exception
     {
@@ -173,17 +200,20 @@ public class DataSourceResourceLoaderTestCase
     /**
      * Will a NULL timestamp choke the loader?
      */
+
     public void testNullTimestamp()
             throws Exception
     {
         Template t = executeTest("testTemplate3", varcharTemplatesEngine);
         assertEquals("Timestamp is not 0", 0, t.getLastModified());
         t = executeTest("testTemplate3", clobTemplatesEngine);
-        assertEquals("Timestamp is not 0", 0, t.getLastModified());    }
+        assertEquals("Timestamp is not 0", 0, t.getLastModified());
+    }
 
     /**
      * Does it load the global Macros from the DB?
      */
+
     public void testMacroInvocation()
             throws Exception
     {

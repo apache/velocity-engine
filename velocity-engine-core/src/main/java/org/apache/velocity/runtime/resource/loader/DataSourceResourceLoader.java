@@ -165,8 +165,12 @@ public class DataSourceResourceLoader extends ResourceLoader
             super.close();
             try
             {
-                resultSet.close();
-                factory.releaseStatement(templateSQL, (PreparedStatement)resultSet.getStatement());
+                PreparedStatement statement = (PreparedStatement) resultSet.getStatement();
+                try {
+                    resultSet.close();
+                } finally {
+                    factory.releaseStatement(templateSQL, statement);
+                }
             }
             catch (RuntimeException re)
             {
@@ -295,7 +299,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException("DataSourceResourceLoader: Template name was empty or null");
         }
 
-        ResultSet rs = null;
+        ResultSet rs;
         try
         {
             PreparedStatement statement = factory.prepareStatement(templateSQL);
@@ -314,6 +318,11 @@ public class DataSourceResourceLoader extends ResourceLoader
             }
             else
             {
+                try {
+                    closeResultSet(rs);
+                } finally {
+                    factory.releaseStatement(templateSQL, statement);
+                }
                 throw new ResourceNotFoundException("DataSourceResourceLoader: "
                         + "could not find resource '"
                         + name + "'");
