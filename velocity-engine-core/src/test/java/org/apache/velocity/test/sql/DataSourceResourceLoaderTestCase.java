@@ -24,6 +24,7 @@ import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader;
 import org.apache.velocity.test.misc.TestLogger;
@@ -160,6 +161,12 @@ public class DataSourceResourceLoaderTestCase
             throws Exception
     {
         executeTest("testTemplate1", varcharTemplatesConnectionCountTestEngine);
+        try {
+            varcharTemplatesConnectionCountTestEngine.getTemplate("fakeTemplate");
+            fail("Should have thrown exception ResourceNotFoundException");
+        } catch (ResourceNotFoundException e) {
+            //continue
+        }
         assertEquals("Open connection count is greater then 0", 0, TestDefaultDatabaseObjectsFactory.getConnectionCount());
     }
 
