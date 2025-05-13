@@ -21,7 +21,6 @@ package org.apache.velocity.runtime.resource.loader;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -34,7 +33,7 @@ public class ResultSetProxy implements InvocationHandler {
     private final ResultSet wrappedResultSet;
     private final Statement wrappedStatement;
 
-    public ResultSetProxy(ResultSet wrappedResultSet, PreparedStatement wrappedStatement) {
+    public ResultSetProxy(ResultSet wrappedResultSet, Statement wrappedStatement) {
         this.wrappedResultSet = wrappedResultSet;
         this.wrappedStatement = wrappedStatement;
     }
@@ -50,7 +49,7 @@ public class ResultSetProxy implements InvocationHandler {
         return result;
     }
 
-    public static ResultSet newInstance(ResultSet rs, PreparedStatement ps) throws SQLException {
+    public static ResultSet newInstance(ResultSet rs, Statement ps) throws SQLException {
         return (ResultSet) Proxy.newProxyInstance(rs.getClass().getClassLoader(),
                 rs.getClass().getInterfaces(),
                 new ResultSetProxy(rs, ps));
