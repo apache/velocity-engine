@@ -35,7 +35,7 @@ public class DefaultDatabaseObjectsFactory implements DatabaseObjectsFactory {
     public PreparedStatement prepareStatement(String sql) throws SQLException
     {
         Connection connection = dataSource.getConnection();
-        return connection.prepareStatement(sql);
+        return PreparedStatementProxy.newInstance(connection.prepareStatement(sql), connection);
     }
 
     /**
@@ -49,11 +49,15 @@ public class DefaultDatabaseObjectsFactory implements DatabaseObjectsFactory {
         Connection connection = stmt.getConnection();
         try
         {
-            stmt.close();
+            if (!stmt.isClosed()) {
+                stmt.close();
+            }
         }
         finally
         {
-            connection.close();
+            if (!connection.isClosed()) {
+                connection.close();
+            }
         }
     }
 }
