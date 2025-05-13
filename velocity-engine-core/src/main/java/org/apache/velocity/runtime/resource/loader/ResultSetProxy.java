@@ -24,21 +24,26 @@ import java.lang.reflect.Proxy;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
+/**
+ * Proxy for {@link java.sql.ResultSet} that guarantees getStatement will return the original wrapped {@link java.sql.Statement}
+ * and will not throw an exception or return null if the ResultSet is closed.
+ */
 public class ResultSetProxy implements InvocationHandler {
     private final ResultSet wrappedResultSet;
-    private final PreparedStatement wrappedPreparedStatement;
+    private final Statement wrappedStatement;
 
-    public ResultSetProxy(ResultSet wrappedResultSet, PreparedStatement wrappedPreparedStatement) {
+    public ResultSetProxy(ResultSet wrappedResultSet, PreparedStatement wrappedStatement) {
         this.wrappedResultSet = wrappedResultSet;
-        this.wrappedPreparedStatement = wrappedPreparedStatement;
+        this.wrappedStatement = wrappedStatement;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result;
         if (method.getName().equals("getStatement")) {
-            result = wrappedPreparedStatement;
+            result = wrappedStatement;
         } else {
             result = method.invoke(wrappedResultSet, args);
         }

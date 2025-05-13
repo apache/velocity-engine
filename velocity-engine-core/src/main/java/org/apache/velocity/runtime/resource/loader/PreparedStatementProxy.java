@@ -26,6 +26,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Proxy for {@link java.sql.PreparedStatement} that guarantees getConnection will always return the DataSource
+ * provided wrapped {@link java.sql.Connection} and not the underlying database specific connection.
+ * Also overrides executeQuery to return a proxy for {@link java.sql.ResultSet} see {@link ResultSetProxy}
+ */
 public class PreparedStatementProxy implements InvocationHandler {
     private final PreparedStatement wrappedPreparedStatement;
     private PreparedStatement proxyPreparedStatement;
