@@ -19,8 +19,10 @@ package org.apache.velocity.test.sql;
  * under the License.
  */
 
+import com.zaxxer.hikari.HikariDataSource;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -70,8 +72,17 @@ public class DataSourceResourceLoaderTestCase
     /* engine with VARCHAR templates data source */
     private RuntimeInstance varcharTemplatesEngine = null;
 
-    /* engine with VARCHAR templates data source for testing connection counts*/
-    private RuntimeInstance varcharTemplatesConnectionCountTestEngine = null;
+    /* engine with VARCHAR templates data source for testing connection counts with DBCP2 data source*/
+    private RuntimeInstance varcharTemplatesDBCP2ConnectionCountTestEngine = null;
+    private BasicDataSource dbcp2ConnectionCountDataSource = null;
+
+    /* engine with VARCHAR templates data source for testing connection counts with Tomcat JDBC data source*/
+    private RuntimeInstance varcharTemplatesTomcatJDBCConnectionCountTestEngine = null;
+    private org.apache.tomcat.jdbc.pool.DataSource tomcatJDBCConnectionCountDataSource = null;
+
+    /* engine with VARCHAR templates data source for testing connection counts with Tomcat JDBC data source*/
+    private RuntimeInstance varcharTemplatesHikariConnectionCountTestEngine = null;
+    private HikariDataSource hikariConnectionCountDataSource = null;
 
     /* engine with CLOB templates data source */
     private RuntimeInstance clobTemplatesEngine = null;
@@ -97,23 +108,16 @@ public class DataSourceResourceLoaderTestCase
         DataSource ds1 = new TestDataSource(TEST_JDBC_DRIVER_CLASS, TEST_JDBC_URI, TEST_JDBC_LOGIN, TEST_JDBC_PASSWORD);
         DataSourceResourceLoader rl1 = new DataSourceResourceLoader();
         rl1.setDataSource(ds1);
-
-        DataSource ds2 = new TestDataSource(TEST_JDBC_DRIVER_CLASS, TEST_JDBC_URI, TEST_JDBC_LOGIN, TEST_JDBC_PASSWORD);
-        DataSourceResourceLoader rl2 = new DataSourceResourceLoader();
-        rl2.setDataSource(ds2);
-
-        DataSource ds3 = new TestDataSource(TEST_JDBC_DRIVER_CLASS, TEST_JDBC_URI, TEST_JDBC_LOGIN, TEST_JDBC_PASSWORD);
-        DataSourceResourceLoader rl3 = new DataSourceResourceLoader();
-        rl3.setDataSource(ds3);
-
         ExtProperties props = getResourceLoaderProperties();
         props.setProperty( "ds.resource.loader.instance", rl1);
         props.setProperty( "ds.resource.loader.resource.table", "velocity_template_varchar");
-
         varcharTemplatesEngine = new RuntimeInstance();
         varcharTemplatesEngine.setConfiguration(props);
         varcharTemplatesEngine.init();
 
+        DataSource ds2 = new TestDataSource(TEST_JDBC_DRIVER_CLASS, TEST_JDBC_URI, TEST_JDBC_LOGIN, TEST_JDBC_PASSWORD);
+        DataSourceResourceLoader rl2 = new DataSourceResourceLoader();
+        rl2.setDataSource(ds2);
         ExtProperties props2 = (ExtProperties)props.clone();
         props2.setProperty( "ds.resource.loader.instance", rl2);
         props2.setProperty( "ds.resource.loader.resource.table",  "velocity_template_clob");
@@ -121,13 +125,54 @@ public class DataSourceResourceLoaderTestCase
         clobTemplatesEngine.setConfiguration(props2);
         clobTemplatesEngine.init();
 
+        BasicDataSource ds3 = new BasicDataSource();
+        ds3.setDriverClassName(TEST_JDBC_DRIVER_CLASS);
+        ds3.setUrl(TEST_JDBC_URI);
+        ds3.setUsername(TEST_JDBC_LOGIN);
+        ds3.setPassword(TEST_JDBC_PASSWORD);
+        ds3.setMaxTotal(10);
+        DataSourceResourceLoader rl3 = new DataSourceResourceLoader();
+        rl3.setDataSource(ds3);
         ExtProperties props3 = getResourceLoaderProperties();
         props3.setProperty( "ds.resource.loader.instance", rl3);
         props3.setProperty( "ds.resource.loader.resource.table", "velocity_template_varchar");
-        props3.setProperty( "ds.resource.loader.database_objects_factory.class", "org.apache.velocity.test.sql.TestDefaultDatabaseObjectsFactory");
-        varcharTemplatesConnectionCountTestEngine = new RuntimeInstance();
-        varcharTemplatesConnectionCountTestEngine.setConfiguration(props3);
-        varcharTemplatesConnectionCountTestEngine.init();
+        varcharTemplatesDBCP2ConnectionCountTestEngine = new RuntimeInstance();
+        varcharTemplatesDBCP2ConnectionCountTestEngine.setConfiguration(props3);
+        varcharTemplatesDBCP2ConnectionCountTestEngine.init();
+        dbcp2ConnectionCountDataSource = ds3;
+
+        org.apache.tomcat.jdbc.pool.DataSource ds4 = new org.apache.tomcat.jdbc.pool.DataSource();
+        ds4.setDriverClassName(TEST_JDBC_DRIVER_CLASS);
+        ds4.setUrl(TEST_JDBC_URI);
+        ds4.setUsername(TEST_JDBC_LOGIN);
+        ds4.setPassword(TEST_JDBC_PASSWORD);
+        ds4.setMaxActive(10);
+        DataSourceResourceLoader rl4 = new DataSourceResourceLoader();
+        rl4.setDataSource(ds4);
+        ExtProperties props4 = getResourceLoaderProperties();
+        props4.setProperty( "ds.resource.loader.instance", rl4);
+        props4.setProperty( "ds.resource.loader.resource.table", "velocity_template_varchar");
+        varcharTemplatesTomcatJDBCConnectionCountTestEngine = new RuntimeInstance();
+        varcharTemplatesTomcatJDBCConnectionCountTestEngine.setConfiguration(props4);
+        varcharTemplatesTomcatJDBCConnectionCountTestEngine.init();
+        tomcatJDBCConnectionCountDataSource = ds4;
+
+        HikariDataSource ds5 = new HikariDataSource();
+        ds5.setDriverClassName(TEST_JDBC_DRIVER_CLASS);
+        ds5.setJdbcUrl(TEST_JDBC_URI);
+        ds5.setUsername(TEST_JDBC_LOGIN);
+        ds5.setPassword(TEST_JDBC_PASSWORD);
+        ds5.setMaximumPoolSize(10);
+        DataSourceResourceLoader rl5 = new DataSourceResourceLoader();
+        rl5.setDataSource(ds5);
+        ExtProperties props5 = getResourceLoaderProperties();
+        props5.setProperty( "ds.resource.loader.instance", rl5);
+        props5.setProperty( "ds.resource.loader.resource.table", "velocity_template_varchar");
+        varcharTemplatesHikariConnectionCountTestEngine = new RuntimeInstance();
+        varcharTemplatesHikariConnectionCountTestEngine.setConfiguration(props5);
+        varcharTemplatesHikariConnectionCountTestEngine.init();
+        hikariConnectionCountDataSource = ds5;
+
     }
 
     protected ExtProperties getResourceLoaderProperties()
@@ -155,19 +200,51 @@ public class DataSourceResourceLoaderTestCase
         assertFalse("Timestamp is 0", 0 == t.getLastModified());
     }
     /**
-     * Tests loading and rendering of a simple template and checks that there are no connection leaks.
+     * Tests loading and rendering of a simple template and checks that there are no connection leaks. Uses DBCP2 Data data source
      */
-    public void testForConnectionLeaks()
+    public void testDBCP2DataSourceForConnectionLeaks()
             throws Exception
     {
-        executeTest("testTemplate1", varcharTemplatesConnectionCountTestEngine);
+        executeTest("testTemplate1", varcharTemplatesDBCP2ConnectionCountTestEngine);
         try {
-            varcharTemplatesConnectionCountTestEngine.getTemplate("fakeTemplate");
+            varcharTemplatesDBCP2ConnectionCountTestEngine.getTemplate("fakeTemplate");
             fail("Should have thrown exception ResourceNotFoundException");
         } catch (ResourceNotFoundException e) {
             //continue
         }
-        assertEquals("Open connection count is greater then 0", 0, TestDefaultDatabaseObjectsFactory.getConnectionCount());
+        assertEquals("Open connection count is greater then 0", 0, this.dbcp2ConnectionCountDataSource.getConnectionPool().getNumActive());
+    }
+
+    /**
+     * Tests loading and rendering of a simple template and checks that there are no connection leaks. Uses Tomcat JDBC data source
+     */
+    public void testTomcatJDBCDataSourceForConnectionLeaks()
+            throws Exception
+    {
+        executeTest("testTemplate1", varcharTemplatesTomcatJDBCConnectionCountTestEngine);
+        try {
+            varcharTemplatesTomcatJDBCConnectionCountTestEngine.getTemplate("fakeTemplate");
+            fail("Should have thrown exception ResourceNotFoundException");
+        } catch (ResourceNotFoundException e) {
+            //continue
+        }
+        assertEquals("Open connection count is greater then 0", 0, this.tomcatJDBCConnectionCountDataSource.getActive());
+    }
+
+    /**
+     * Tests loading and rendering of a simple template and checks that there are no connection leaks. Uses Tomcat JDBC data source
+     */
+    public void testHikariCPDataSourceForConnectionLeaks()
+            throws Exception
+    {
+        executeTest("testTemplate1", varcharTemplatesHikariConnectionCountTestEngine);
+        try {
+            varcharTemplatesHikariConnectionCountTestEngine.getTemplate("fakeTemplate");
+            fail("Should have thrown exception ResourceNotFoundException");
+        } catch (ResourceNotFoundException e) {
+            //continue
+        }
+        assertEquals("Open connection count is greater then 0", 0, this.hikariConnectionCountDataSource.getHikariPoolMXBean().getActiveConnections());
     }
 
     public void testUnicode(RuntimeInstance engine)

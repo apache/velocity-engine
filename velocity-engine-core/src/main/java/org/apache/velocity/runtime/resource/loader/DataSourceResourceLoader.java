@@ -167,7 +167,9 @@ public class DataSourceResourceLoader extends ResourceLoader
             {
                 PreparedStatement statement = (PreparedStatement) resultSet.getStatement();
                 try {
-                    resultSet.close();
+                    if (!resultSet.isClosed()) {
+                        resultSet.close();
+                    }
                 } finally {
                     factory.releaseStatement(templateSQL, statement);
                 }
@@ -417,7 +419,9 @@ public class DataSourceResourceLoader extends ResourceLoader
         {
             try
             {
-                rs.close();
+                if (!rs.isClosed()) {
+                    rs.close();
+                }
             }
             catch (RuntimeException re)
             {
