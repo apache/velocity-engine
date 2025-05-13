@@ -268,7 +268,8 @@
             <artifactId>HikariCP</artifactId>
             <version>4.0.3</version>
             <scope>test</scope>
-        </dependency>        <dependency>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
