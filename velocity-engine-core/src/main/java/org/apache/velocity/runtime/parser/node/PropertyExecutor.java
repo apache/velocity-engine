@@ -26,6 +26,7 @@ import org.apache.velocity.util.introspection.Introspector;
 import org.slf4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 /**
  * Returned the value of object property when executed.
@@ -120,7 +121,9 @@ public class PropertyExecutor extends AbstractExecutor
                 setMethod(introspector.getMethod(clazz, sb.toString(), params));
             }
 
-            if (!isAlive())
+            // Check if no valid method was found and
+            // the class is not a Map before trying record-style property access
+            if (!isAlive() && !Map.class.isAssignableFrom(clazz))
             {
                 /*
                  * If no JavaBean property was found, try the convention used by Java 16 records.
