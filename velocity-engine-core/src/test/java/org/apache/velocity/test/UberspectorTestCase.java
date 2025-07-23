@@ -28,7 +28,9 @@ import org.apache.velocity.util.introspection.Uberspect;
 import org.apache.velocity.util.introspection.VelPropertyGet;
 import org.apache.velocity.util.introspection.VelPropertySet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -282,6 +284,28 @@ public class UberspectorTestCase
         setter = u.getPropertySet(uto, "unambiguous", new HashMap(), null);
         assertNotNull(setter);
         setter.invoke(uto, new HashMap());
+    }
+
+    public void testMapDefaultMethods() throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        map.put("values", list);
+        map.put("size", "6Feet");
+
+        Uberspect u = ri.getUberspect();
+
+        VelPropertyGet valuesGetter = u.getPropertyGet(map, "values", null);
+        Object valuesObj = valuesGetter.invoke(map);
+        assertNotNull(valuesGetter);
+        assertTrue(valuesObj instanceof ArrayList);
+        assertEquals(list, valuesObj);
+
+        VelPropertyGet sizeGetter = u.getPropertyGet(map, "size", null);
+        Object sizeObj = sizeGetter.invoke(map);
+        assertNotNull(sizeGetter);
+        assertTrue(sizeObj instanceof String);
+        assertEquals("6Feet", sizeObj);
     }
 
     /*
