@@ -1472,7 +1472,7 @@ TOKEN:
 <PRE_REFERENCE,PRE_OLD_REFERENCE,REFERENCE,REFMODIFIER,OLD_REFMODIFIER,REFMOD3>
 TOKEN :
 {
-    <LCURLY: "{">
+      <LCURLY: "{" ( "${parser.char.dollar}" )? > /* Support an extra '$' inside {}, as in ${$foo}, for B.C. with 1.7 */
     {
         ++curlyLevel;
     }

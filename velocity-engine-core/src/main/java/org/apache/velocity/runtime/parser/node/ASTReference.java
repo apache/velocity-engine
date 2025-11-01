@@ -1045,10 +1045,15 @@ public class ASTReference extends SimpleNode
         /*
          *  Look for preceding stuff like '#' and '$'
          *  and snip it off, except for the
-         *  last $
+         *  last $ (or the last $ before '{' if it is present)
          */
 
-        int loc1 = t.image.lastIndexOf(rsvc.getParserConfiguration().getDollarChar());
+        int lastLeftCurl = t.image.lastIndexOf('{');
+        if (lastLeftCurl == -1)
+        {
+            lastLeftCurl = t.image.length();
+        }
+        int loc1 = t.image.lastIndexOf(rsvc.getParserConfiguration().getDollarChar(), lastLeftCurl);
 
         /*
          *  if we have extra stuff, loc > 0
@@ -1098,7 +1103,7 @@ public class ASTReference extends SimpleNode
                 return t.image.substring(2);
             }
         }
-        else if (t.image.equals("${"))
+        else if (t.image.equals("${") || t.image.equals("${$"))
         {
             /*
              *  ex: ${provider.Title}
