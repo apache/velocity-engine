@@ -94,8 +94,8 @@ public class ResourceLoaderInstanceTestCase extends BaseTestCase
         // pass in an instance to Velocity
         Velocity.reset();
         Velocity.setProperty( "resource.loader", "testrl" );
-        Velocity.setProperty( "testrl.resource.loader.instance", rl );
-        Velocity.setProperty( "testrl.resource.loader.path", FILE_RESOURCE_LOADER_PATH );
+        Velocity.setProperty( "resource.loader.testrl.instance", rl );
+        Velocity.setProperty( "resource.loader.testrl.path", FILE_RESOURCE_LOADER_PATH );
 
         // actual instance of logger
         logger.on();

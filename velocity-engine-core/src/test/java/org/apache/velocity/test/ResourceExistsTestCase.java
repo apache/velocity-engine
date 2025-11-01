@@ -46,8 +46,8 @@ public class ResourceExistsTestCase extends BaseTestCase
 try {
         velocity = new VelocityEngine();
         velocity.setProperty("resource.loader", "file,string");
-        velocity.setProperty("file.resource.loader.path", path);
-        velocity.setProperty("string.resource.loader.class", StringResourceLoader.class.getName());
+        velocity.setProperty("resource.loader.file.path", path);
+        velocity.setProperty("resource.loader.string.class", StringResourceLoader.class.getName());
 
         // actual instance of logger
         logger.on();

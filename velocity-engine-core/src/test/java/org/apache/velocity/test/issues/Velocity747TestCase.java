@@ -48,11 +48,11 @@ public class Velocity747TestCase extends BaseTestCase
     {
         Properties props = new Properties();
         /* The props file contains *spaces* at the end of the line:
-         *   velocimacro.permissions.allow.inline.local.scope = true
+         *   velocimacro.inline.local.scope = true
          * which caused the initial problem
          */
         props.load(new FileReader(TEST_COMPARE_DIR + "/issues/velocity-747/vel.props"));
-        props.setProperty("file.resource.loader.path", TEST_COMPARE_DIR + "/issues/velocity-747/");
+        props.setProperty("resource.loader.file.path", TEST_COMPARE_DIR + "/issues/velocity-747/");
         engine1 = new VelocityEngine(props);
 
         //by default, make the engine's log output go to the test-report
@@ -61,14 +61,14 @@ public class Velocity747TestCase extends BaseTestCase
 
         engine2 = new VelocityEngine();
         engine2.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file,string");
-        engine2.addProperty("file.resource.loader.path", TEST_COMPARE_DIR + "/issues/velocity-747/");
-        engine2.addProperty("file.resource.loader.cache", "true");
-        engine2.addProperty("file.resource.loader.modificationCheckInterval", "-1");
-        engine2.addProperty("velocimacro.permissions.allow.inline.local.scope", "true");
+        engine2.addProperty("resource.loader.file.path", TEST_COMPARE_DIR + "/issues/velocity-747/");
+        engine2.addProperty("resource.loader.file.cache", "true");
+        engine2.addProperty("resource.loader.file.modificationCheckInterval", "-1");
+        engine2.addProperty("velocimacro.inline.local_scope", "true");
         engine2.addProperty("velocimacro.max.depth", "-1");
-        engine2.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
-        engine2.addProperty("string.resource.loader.repository.name", "stringRepo");
-        engine2.addProperty("string.resource.loader.repository.static", "false");
+        engine2.addProperty("resource.loader.string.class", StringResourceLoader.class.getName());
+        engine2.addProperty("resource.loader.string.repository.name", "stringRepo");
+        engine2.addProperty("resource.loader.string.repository.static", "false");
         log = new TestLogger(false, false);
         engine2.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
     }

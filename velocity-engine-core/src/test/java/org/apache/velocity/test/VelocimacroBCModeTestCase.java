@@ -49,7 +49,7 @@ public class VelocimacroBCModeTestCase extends BaseTestCase
     {
         boolean bcMode = !getName().contains("NoPreserve");
         engine.setProperty(RuntimeConstants.VM_ENABLE_BC_MODE, bcMode);
-        engine.setProperty("file.resource.loader.path", TEST_COMPARE_DIR + "/bc_mode");
+        engine.setProperty("resource.loader.file.path", TEST_COMPARE_DIR + "/bc_mode");
     }
 
     public void testPreserveLiterals()

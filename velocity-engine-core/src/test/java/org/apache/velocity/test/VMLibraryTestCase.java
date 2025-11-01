@@ -74,7 +74,7 @@ public class VMLibraryTestCase extends BaseTestCase
         /*
          * Turn on the cache
          */
-        ve1.setProperty("file.resource.loader.cache", Boolean.TRUE);
+        ve1.setProperty("resource.loader.file.cache", Boolean.TRUE);
 
         ve1.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
@@ -93,7 +93,7 @@ public class VMLibraryTestCase extends BaseTestCase
         /*
          * Turn on the cache
          */
-        ve2.setProperty("file.resource.loader.cache", Boolean.FALSE);
+        ve2.setProperty("resource.loader.file.cache", Boolean.FALSE);
 
         ve2.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());

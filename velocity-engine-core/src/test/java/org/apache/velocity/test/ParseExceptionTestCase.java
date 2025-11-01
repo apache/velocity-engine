@@ -70,8 +70,8 @@ public class ParseExceptionTestCase extends BaseTestCase
 
         VelocityEngine ve = new VelocityEngine();
 
-        ve.setProperty("file.resource.loader.cache", "true");
-        ve.setProperty("file.resource.loader.path", TemplateTestBase.TEST_COMPARE_DIR + "/" + FILE_RESOURCE_LOADER_PATH);
+        ve.setProperty("resource.loader.file.cache", "true");
+        ve.setProperty("resource.loader.file.path", TemplateTestBase.TEST_COMPARE_DIR + "/" + FILE_RESOURCE_LOADER_PATH);
         ve.init();
 
 

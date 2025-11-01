@@ -52,8 +52,8 @@ public class StringResourceLoaderRepositoryTestCase extends TestCase
     {
         Velocity.reset();
         Velocity.setProperty(Velocity.RESOURCE_LOADERS, "string");
-        Velocity.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
-        Velocity.addProperty("string.resource.loader.modificationCheckInterval", "1");
+        Velocity.addProperty("resource.loader.string.class", StringResourceLoader.class.getName());
+        Velocity.addProperty("resource.loader.string.modificationCheckInterval", "1");
         Velocity.setProperty(Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
         Velocity.init();
 
@@ -73,16 +73,16 @@ public class StringResourceLoaderRepositoryTestCase extends TestCase
         VelocityEngine engine = new VelocityEngine();
         TestLogger logger = new TestLogger();
         engine.setProperty(Velocity.RESOURCE_LOADERS, "string");
-        engine.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
+        engine.addProperty("resource.loader.string.class", StringResourceLoader.class.getName());
         if (repoName != null)
         {
-            engine.addProperty("string.resource.loader.repository.name", repoName);
+            engine.addProperty("resource.loader.string.repository.name", repoName);
         }
         if (!isStatic)
         {
-            engine.addProperty("string.resource.loader.repository.static", "false");
+            engine.addProperty("resource.loader.string.repository.static", "false");
         }
-        engine.addProperty("string.resource.loader.modificationCheckInterval", "1");
+        engine.addProperty("resource.loader.string.modificationCheckInterval", "1");
         engine.setProperty(Velocity.RUNTIME_LOG_INSTANCE, logger);
         return engine;
     }

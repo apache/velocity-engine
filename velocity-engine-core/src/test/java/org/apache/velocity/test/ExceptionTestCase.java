@@ -97,7 +97,7 @@ public class ExceptionTestCase extends BaseTestCase implements TemplateTestBase
     {
         ve = new VelocityEngine();
         ve.setProperty(RuntimeConstants.RESOURCE_LOADERS,"except");
-        ve.setProperty("except.resource.loader.class",ExceptionGeneratingResourceLoader.class.getName());
+        ve.setProperty("resource.loader.except.class",ExceptionGeneratingResourceLoader.class.getName());
         try
         {
             ve.init();  // tries to get the macro file

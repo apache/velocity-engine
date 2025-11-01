@@ -39,16 +39,16 @@ public class Velocity702TestCase extends BaseTestCase
     public void setUpEngine(VelocityEngine engine)
     {
         engine.setProperty(RuntimeConstants.RESOURCE_LOADERS, "high,low");
-        engine.addProperty("high.resource.loader.class", StringResourceLoader.class.getName());
-        engine.addProperty("high.resource.loader.cache", "false");
-        engine.addProperty("high.resource.loader.repository.name", "high");
-        engine.addProperty("high.resource.loader.repository.static", "false");
-        engine.addProperty("high.resource.loader.modificationCheckInterval", "1");
-        engine.addProperty("low.resource.loader.class", StringResourceLoader.class.getName());
-        engine.addProperty("low.resource.loader.cache", "true");
-        engine.addProperty("low.resource.loader.repository.name", "low");
-        engine.addProperty("low.resource.loader.repository.static", "false");
-        engine.addProperty("low.resource.loader.modificationCheckInterval", "1");
+        engine.addProperty("resource.loader.high.class", StringResourceLoader.class.getName());
+        engine.addProperty("resource.loader.high.cache", "false");
+        engine.addProperty("resource.loader.high.repository.name", "high");
+        engine.addProperty("resource.loader.high.repository.static", "false");
+        engine.addProperty("resource.loader.high.modificationCheckInterval", "1");
+        engine.addProperty("resource.loader.low.class", StringResourceLoader.class.getName());
+        engine.addProperty("resource.loader.low.cache", "true");
+        engine.addProperty("resource.loader.low.repository.name", "low");
+        engine.addProperty("resource.loader.low.repository.static", "false");
+        engine.addProperty("resource.loader.low.modificationCheckInterval", "1");
         engine.init();
     }
 

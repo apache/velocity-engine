@@ -358,7 +358,7 @@ public class VelocityEngineFactory {
         velocityEngine.setProperty(
                 SpringResourceLoader.SPRING_RESOURCE_LOADER_CACHE, "true");
         velocityEngine.setApplicationAttribute(
-                SpringResourceLoader.SPRING_RESOURCE_LOADER, getResourceLoader());
+                SpringResourceLoader.SPRING_RESOURCE_LOADER_INSTANCE, getResourceLoader());
         velocityEngine.setApplicationAttribute(
                 SpringResourceLoader.SPRING_RESOURCE_LOADER_PATH, resourceLoaderPath);
     }

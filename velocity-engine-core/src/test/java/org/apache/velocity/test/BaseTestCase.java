@@ -72,9 +72,9 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
         // use string resource loader by default, instead of file
         ret.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file,string");
-        ret.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
-        ret.addProperty("string.resource.loader.repository.name", stringRepoName);
-        ret.addProperty("string.resource.loader.repository.static", "false");
+        ret.addProperty("resource.loader.string.class", StringResourceLoader.class.getName());
+        ret.addProperty("resource.loader.string.repository.name", stringRepoName);
+        ret.addProperty("resource.loader.string.repository.static", "false");
 
         setUpEngine(ret);
         return ret;

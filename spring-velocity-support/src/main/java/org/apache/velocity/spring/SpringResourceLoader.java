@@ -39,7 +39,7 @@ import org.springframework.util.StringUtils;
  * Use Velocity's default FileResourceLoader for {@code java.io.File}
  * resources.
  *
- * <p>Expects "spring.resource.loader" and "spring.resource.loader.path"
+ * <p>Expects "resource.loader.spring.instance" and "resource.loader.spring.path"
  * application attributes in the Velocity runtime: the former of type
  * {@code org.springframework.core.io.ResourceLoader}, the latter a String.
  *
@@ -54,14 +54,17 @@ public class SpringResourceLoader extends ResourceLoader {
 
     public static final String NAME = "spring";
 
-    public static final String SPRING_RESOURCE_LOADER_CLASS = "spring.resource.loader.class";
+    public static final String SPRING_RESOURCE_LOADER_CLASS = "resource.loader.spring.class";
 
-    public static final String SPRING_RESOURCE_LOADER_CACHE = "spring.resource.loader.cache";
+    public static final String SPRING_RESOURCE_LOADER_CACHE = "resource.loader.spring.cache";
 
-    public static final String SPRING_RESOURCE_LOADER = "spring.resource.loader";
+    public static final String SPRING_RESOURCE_LOADER_INSTANCE = "resource.loader.spring.instance";
 
-    public static final String SPRING_RESOURCE_LOADER_PATH = "spring.resource.loader.path";
+    public static final String SPRING_RESOURCE_LOADER_PATH = "resource.loader.spring.path";
 
+    // Deprecated constants
+    public static final String DEPRECATED_SPRING_RESOURCE_LOADER_INSTANCE = "spring.resource.loader";
+    public static final String DEPRECATED_SPRING_RESOURCE_LOADER_PATH = "spring.resource.loader.path";
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -73,8 +76,21 @@ public class SpringResourceLoader extends ResourceLoader {
     @Override
     public void init(ExtProperties configuration) {
     	this.resourceLoader = (org.springframework.core.io.ResourceLoader)
-    			this.rsvc.getApplicationAttribute(SPRING_RESOURCE_LOADER);
+    			this.rsvc.getApplicationAttribute(SPRING_RESOURCE_LOADER_INSTANCE);
+        if (this.resourceLoader == null) {
+            this.resourceLoader = (org.springframework.core.io.ResourceLoader)
+                    this.rsvc.getApplicationAttribute(DEPRECATED_SPRING_RESOURCE_LOADER_INSTANCE);
+            if (this.resourceLoader != null) {
+                logger.warn("Deprecated property: 'spring.resource.loader'. Please use 'resource.loader.spring.instance' instead.");
+            }
+        }
     	String resourceLoaderPath = (String) this.rsvc.getApplicationAttribute(SPRING_RESOURCE_LOADER_PATH);
+        if (resourceLoaderPath == null) {
+            resourceLoaderPath = (String) this.rsvc.getApplicationAttribute(DEPRECATED_SPRING_RESOURCE_LOADER_PATH);
+            if (resourceLoaderPath != null) {
+                logger.warn("Deprecated property: 'spring.resource.loader.path'. Please use 'resource.loader.spring.path' instead.");
+            }
+        }
     	if (this.resourceLoader == null) {
     		throw new IllegalArgumentException(
     				"'resourceLoader' application attribute must be present for SpringResourceLoader");

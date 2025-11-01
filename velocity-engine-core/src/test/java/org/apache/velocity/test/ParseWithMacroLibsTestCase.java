@@ -194,7 +194,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve.setProperty("velocimacro.permissions.allow.inline.to.replace.global",
             local);
-        ve.setProperty("file.resource.loader.cache", cache);
+        ve.setProperty("resource.loader.file.cache", cache);
         ve.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
         ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
@@ -223,7 +223,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         ve1.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve1.setProperty("velocimacro.permissions.allow.inline.to.replace.global",
                 Boolean.FALSE);
-        ve1.setProperty("file.resource.loader.cache", Boolean.TRUE);
+        ve1.setProperty("resource.loader.file.cache", Boolean.TRUE);
         ve1.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
         ve1.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
@@ -273,7 +273,7 @@ public class ParseWithMacroLibsTestCase extends BaseTestCase
         ve1.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve1.setProperty("velocimacro.permissions.allow.inline.to.replace.global",
                 Boolean.FALSE);
-        ve1.setProperty("file.resource.loader.cache", Boolean.TRUE);
+        ve1.setProperty("resource.loader.file.cache", Boolean.TRUE);
         ve1.setProperty(
                 Velocity.RUNTIME_LOG_INSTANCE, new TestLogger());
         ve1.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");

@@ -99,16 +99,16 @@ public class DataSourceResourceLoaderTestCase
         rl2.setDataSource(ds2);
 
         ExtProperties props = getResourceLoaderProperties();
-        props.setProperty( "ds.resource.loader.instance", rl1);
-        props.setProperty( "ds.resource.loader.resource.table", "velocity_template_varchar");
+        props.setProperty( "resource.loader.ds.instance", rl1);
+        props.setProperty( "resource.loader.ds.resource.table", "velocity_template_varchar");
 
         varcharTemplatesEngine = new RuntimeInstance();
         varcharTemplatesEngine.setConfiguration(props);
         varcharTemplatesEngine.init();
 
         ExtProperties props2 = (ExtProperties)props.clone();
-        props2.setProperty( "ds.resource.loader.instance", rl2);
-        props2.setProperty( "ds.resource.loader.resource.table",  "velocity_template_clob");
+        props2.setProperty( "resource.loader.ds.instance", rl2);
+        props2.setProperty( "resource.loader.ds.resource.table",  "velocity_template_clob");
         clobTemplatesEngine = new RuntimeInstance();
         clobTemplatesEngine.setConfiguration(props2);
         clobTemplatesEngine.init();
@@ -118,9 +118,9 @@ public class DataSourceResourceLoaderTestCase
     {
         ExtProperties props = new ExtProperties();
         props.addProperty( "resource.loader", "ds" );
-        props.setProperty( "ds.resource.loader.resource.keycolumn",       "vt_id");
-        props.setProperty( "ds.resource.loader.resource.templatecolumn",  "vt_def");
-        props.setProperty( "ds.resource.loader.resource.timestampcolumn", "vt_timestamp");
+        props.setProperty( "resource.loader.ds.resource.key_column",       "vt_id");
+        props.setProperty( "resource.loader.ds.resource.template_column",  "vt_def");
+        props.setProperty( "resource.loader.ds.resource.timestamp_column", "vt_timestamp");
         props.setProperty(Velocity.RUNTIME_LOG_INSTANCE, new TestLogger(false, false));
         return props;
     }

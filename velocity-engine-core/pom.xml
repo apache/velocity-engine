@@ -174,44 +174,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <systemProperties>
-                        <property>
-                            <name>test</name>
-                            <value>${test}</value>
-                        </property>
-                        <property>
-                            <name>test.compare.dir</name>
-                            <value>${project.build.testOutputDirectory}</value>
-                        </property>
-                        <property>
-                            <name>test.result.dir</name>
-                            <value>${project.build.directory}/results</value>
-                        </property>
-                        <property>
-                            <name>org.slf4j.simpleLogger.defaultLogLevel</name>
-                            <value>warn</value>
-                        </property>
-                        <property>
-                            <name>org.slf4j.simpleLogger.logFile</name>
-                            <value>${project.build.directory}/velocity.log</value>
-                        </property>
-                        <property>
-                            <name>test.jdbc.driver.className</name>
-                            <value>${test.jdbc.driver.className}</value>
-                        </property>
-                        <property>
-                            <name>test.jdbc.uri</name>
-                            <value>${test.jdbc.uri}</value>
-                        </property>
-                        <property>
-                            <name>test.jdbc.login</name>
-                            <value>${test.jdbc.login}</value>
-                        </property>
-                        <property>
-                            <name>test.jdbc.password</name>
-                            <value>${test.jdbc.password}</value>
-                        </property>
-                    </systemProperties>
+                    <systemPropertyVariables>
+                        <test>${test}</test>
+                        <test.compare.dir>${project.build.testOutputDirectory}</test.compare.dir>
+                        <test.result.dir>${project.build.directory}/results</test.result.dir>
+                        <org.slf4j.simpleLogger.defaultLogLevel>warn</org.slf4j.simpleLogger.defaultLogLevel>
+                        <org.slf4j.simpleLogger.logFile>${project.build.directory}/velocity.log</org.slf4j.simpleLogger.logFile>
+                        <test.jdbc.driver.className>${test.jdbc.driver.className}</test.jdbc.driver.className>
+                        <test.jdbc.uri>${test.jdbc.uri}</test.jdbc.uri>
+                        <test.jdbc.login>${test.jdbc.login}</test.jdbc.login>
+                        <test.jdbc.password>${test.jdbc.password}</test.jdbc.password>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
