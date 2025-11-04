@@ -138,4 +138,24 @@ public class BlockMacroTestCase extends BaseTestCase
         addTemplate("c", "c$!macro.get('c')c");
         assertTmplEquals("cbabc", "a");
     }
+
+    public void testFormalSyntaxDefined()
+    {
+        String template = "#macro(foo)foo:$!bodyContent#end"+
+                          "#{foo},#{@foo}bar#end";
+        assertEvalEquals("foo:,foo:bar", template);
+    }
+
+    public void testFormalSyntaxUndefined()
+    {
+        String template = "#{foo},#{@foo}bar#end";
+        assertEvalEquals("#{foo},#{@foo}bar#end", template);
+    }
+
+    public void testFormalSyntaxUnsupported()
+    {
+        String template = "#macro(foo)foo:$!bodyContent#end"+
+                "#@{foo}bar#end";
+        assertEvalEquals("#@{foo}bar#end", template);
+    }
 }
