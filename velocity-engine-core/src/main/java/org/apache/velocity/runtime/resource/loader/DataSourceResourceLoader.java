@@ -60,7 +60,6 @@ import java.sql.Timestamp;
  * resource.loader.ds.resource.timestamp_column = template_timestamp <br>
  * resource.loader.ds.cache = false <br>
  * resource.loader.ds.modification_check_interval = 60 <br>
- * resource.loader.ds.statements_pool_max_size = 50 <br>
  * </code></pre>
  * <p>Optionally, the developer can instantiate the DataSourceResourceLoader and set the DataSource via code in
  * a manner similar to the following:</p>
@@ -124,10 +123,10 @@ import java.sql.Timestamp;
  * <p>Since Velocity 2.4, the handling of JDBC connections and prepared statements is delegated to the
  * {@link org.apache.velocity.runtime.resource.loader.DatabaseObjectsFactory} instance. The default class for this
  * database objects factory is {@link org.apache.velocity.runtime.resource.loader.DefaultDatabaseObjectsFactory},
- * which obtains a new connection from the data source and prepares statements at each query. You can configure this
- * resource loader to use the {@link org.apache.velocity.runtime.resource.loader.CachingDatabaseObjectsFactory} which
- * will keep a single connection and tries to reuse prepared statements.
- * statements</p>
+ * which obtains a new connection from the data source and prepares statements at each query. Connection pooling
+ * and statement caching, if needed, are the responsibility of the configured {@link javax.sql.DataSource} / JDBC
+ * driver; users who need them should configure their pool (DBCP2, Tomcat JDBC Pool, HikariCP, etc.) accordingly,
+ * or provide a custom {@link org.apache.velocity.runtime.resource.loader.DatabaseObjectsFactory} implementation.</p>
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
