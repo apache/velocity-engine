@@ -165,8 +165,9 @@ public class DataSourceResourceLoader extends ResourceLoader
             super.close();
             try
             {
+                PreparedStatement statement = (PreparedStatement) resultSet.getStatement();
                 resultSet.close();
-                factory.releaseStatement(templateSQL, (PreparedStatement)resultSet.getStatement());
+                factory.releaseStatement(templateSQL, statement);
             }
             catch (RuntimeException re)
             {
