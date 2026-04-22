@@ -123,13 +123,17 @@ import java.sql.Timestamp;
  * <p>Since Velocity 2.5, the handling of JDBC connections and prepared statements is delegated to a
  * {@link org.apache.velocity.runtime.resource.loader.PreparedStatementsFactory} instance (the older
  * {@link org.apache.velocity.runtime.resource.loader.DatabaseObjectsFactory} remains supported but is
- * deprecated). The default class is
+ * deprecated). The default implementation is
  * {@link org.apache.velocity.runtime.resource.loader.DefaultPreparedStatementsFactory}, which obtains a
- * new connection from the data source and prepares a statement at each query. Connection pooling and
+ * new connection from the data source and prepares a statement for each query. Connection pooling and
  * statement caching, if needed, are the responsibility of the configured {@link javax.sql.DataSource} /
- * JDBC driver; users who need them should configure their pool (DBCP2, Tomcat JDBC Pool, HikariCP, etc.)
+ * JDBC driver ; users who need them should configure their pool (DBCP2, Tomcat JDBC Pool, HikariCP, etc.)
  * accordingly, or provide a custom
- * {@link org.apache.velocity.runtime.resource.loader.PreparedStatementsFactory} implementation.</p>
+ * {@link org.apache.velocity.runtime.resource.loader.PreparedStatementsFactory} implementation,
+ * by setting either {@code resource.loader.ds.prepared_statements_factory.instance} to a live
+ * java object implementing the interface, or
+ * {@code resource.loader.ds.prepared_statements_factory.class} to the classname of the
+ * implementing class, which must have a public default constructor.</p>
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
@@ -241,10 +245,10 @@ public class DataSourceResourceLoader extends ResourceLoader
 
     /**
      * Resolve the configured {@link PreparedStatementsFactory}, honouring (in order of
-     * precedence): {@code prepared_statements_factory.instance},
-     * {@code prepared_statements_factory.class}, deprecated
-     * {@code database_objects_factory.instance}, deprecated
-     * {@code database_objects_factory.class}, then the default.
+     * precedence): {@code prepared_statements_factory.instance}, {@code prepared_statements_factory.class},
+     * deprecated {@code database_objects_factory.instance},
+     * deprecated {@code database_objects_factory.class},
+     * then the default.
      */
     private PreparedStatementsFactory resolveFactory(ExtProperties configuration) throws Exception
     {
