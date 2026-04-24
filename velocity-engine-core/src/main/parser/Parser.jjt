@@ -1576,7 +1576,7 @@ boolean Statement(boolean afterNewline) #void :
 |   LOOKAHEAD( { getToken(1).kind == WORD || getToken(1).kind == BRACKETED_WORD || afterNewline && getToken(1).kind == WHITESPACE && ( getToken(2).kind == WORD || getToken(2).kind == BRACKETED_WORD ) } ) afterNewline = Directive(afterNewline) { return afterNewline; }
 |   afterNewline = Text() { return afterNewline; }
 |   (<NEWLINE>) #Text { return true; }
-|   (((<INLINE_TEXT>) { afterNewline = false; } ) ((<TEXT>) { afterNewline = true; })? ) #Text { return afterNewline; }
+|   (((<INLINE_TEXT>) { afterNewline = false; } ) (LOOKAHEAD(2) (<TEXT>) { afterNewline = true; })? ) #Text { return afterNewline; }
 |   (<WHITESPACE>) #Text { return false; }
 |   (<SUFFIX>) #Text { return true; }
 |   LOOKAHEAD(2) EndingZeroWidthWhitespace() { return afterNewline; }
@@ -2113,11 +2113,11 @@ void IntegerRange() : {}
  */
 void IndexParameter() #void: {}
 {
-    (<WHITESPACE>|<NEWLINE>)*
+    (LOOKAHEAD(2) (<WHITESPACE>|<NEWLINE>))*
         (
             Expression()
         )
-    (<WHITESPACE>|<NEWLINE>)*
+    (LOOKAHEAD(2) (<WHITESPACE>|<NEWLINE>))*
 }
 
 
@@ -2493,7 +2493,7 @@ void MultiplicativeExpression() #void : {}
 
 void UnaryExpression() #void : {}
 {
-    ( <WHITESPACE> | <NEWLINE> )*
+    (LOOKAHEAD(2) (<WHITESPACE> | <NEWLINE>))*
     (
           <LOGICAL_NOT>  UnaryExpression() #NotNode(1)
      |   <MINUS> PrimaryExpression() #NegateNode(1)
@@ -2503,7 +2503,7 @@ void UnaryExpression() #void : {}
 
 void PrimaryExpression() #void : {}
 {
-    ( <WHITESPACE> | <NEWLINE> )*
+    (LOOKAHEAD(2) (<WHITESPACE> | <NEWLINE>))*
     (
      StringLiteral()
     | Reference()
@@ -2516,7 +2516,7 @@ void PrimaryExpression() #void : {}
     | False()
     | <LPAREN>  Expression()  <RPAREN>
      )
-    ( <WHITESPACE> | <NEWLINE> )*
+    (LOOKAHEAD(2) (<WHITESPACE> | <NEWLINE>))*
 }
 
 /* ======================================================================
