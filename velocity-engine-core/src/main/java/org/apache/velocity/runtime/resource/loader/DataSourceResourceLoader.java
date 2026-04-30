@@ -60,7 +60,6 @@ import java.sql.Timestamp;
  * resource.loader.ds.resource.timestamp_column = template_timestamp <br>
  * resource.loader.ds.cache = false <br>
  * resource.loader.ds.modification_check_interval = 60 <br>
- * resource.loader.ds.statements_pool_max_size = 50 <br>
  * </code></pre>
  * <p>Optionally, the developer can instantiate the DataSourceResourceLoader and set the DataSource via code in
  * a manner similar to the following:</p>
@@ -121,13 +120,20 @@ import java.sql.Timestamp;
  *  );
  * </code></pre>
  * <p>Prior to Velocity 2.4, this class should not be considered thread-safe.</p>
- * <p>Since Velocity 2.4, the handling of JDBC connections and prepared statements is delegated to the
- * {@link org.apache.velocity.runtime.resource.loader.DatabaseObjectsFactory} instance. The default class for this
- * database objects factory is {@link org.apache.velocity.runtime.resource.loader.DefaultDatabaseObjectsFactory},
- * which obtains a new connection from the data source and prepares statements at each query. You can configure this
- * resource loader to use the {@link org.apache.velocity.runtime.resource.loader.CachingDatabaseObjectsFactory} which
- * will keep a single connection and tries to reuse prepared statements.
- * statements</p>
+ * <p>Since Velocity 2.5, the handling of JDBC connections and prepared statements is delegated to a
+ * {@link org.apache.velocity.runtime.resource.loader.PreparedStatementsFactory} instance (the older
+ * {@link org.apache.velocity.runtime.resource.loader.DatabaseObjectsFactory} remains supported but is
+ * deprecated). The default implementation is
+ * {@link org.apache.velocity.runtime.resource.loader.DefaultPreparedStatementsFactory}, which obtains a
+ * new connection from the data source and prepares a statement for each query. Connection pooling and
+ * statement caching, if needed, are the responsibility of the configured {@link javax.sql.DataSource} /
+ * JDBC driver ; users who need them should configure their pool (DBCP2, Tomcat JDBC Pool, HikariCP, etc.)
+ * accordingly, or provide a custom
+ * {@link org.apache.velocity.runtime.resource.loader.PreparedStatementsFactory} implementation,
+ * by setting either {@code resource.loader.ds.prepared_statements_factory.instance} to a live
+ * java object implementing the interface, or
+ * {@code resource.loader.ds.prepared_statements_factory.class} to the classname of the
+ * implementing class, which must have a public default constructor.</p>
  *
  * @author <a href="mailto:wglass@forio.com">Will Glass-Husain</a>
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
@@ -140,23 +146,21 @@ import java.sql.Timestamp;
  */
 public class DataSourceResourceLoader extends ResourceLoader
 {
-    private static final String DATABASE_OBJECTS_FACTORY_DEFAULT_CLASS = "org.apache.velocity.runtime.resource.loader.DefaultDatabaseObjectsFactory";
-
     private DataSource dataSource;
-    private DatabaseObjectsFactory factory;
+    private PreparedStatementsFactory factory;
     private String templateColumn;
     private String timestampColumn;
     private String templateSQL;
     private String timestampSQL;
 
-    private class SelfCleaningReader extends FilterReader
+    private static class SelfCleaningReader extends FilterReader
     {
-        private final ResultSet resultSet;
+        private final PreparedStatementsFactory.StatementHolder holder;
 
-        public SelfCleaningReader(Reader reader, ResultSet resultSet)
+        SelfCleaningReader(Reader reader, PreparedStatementsFactory.StatementHolder holder)
         {
             super(reader);
-            this.resultSet = resultSet;
+            this.holder = holder;
         }
 
         @Override
@@ -165,8 +169,7 @@ public class DataSourceResourceLoader extends ResourceLoader
             super.close();
             try
             {
-                resultSet.close();
-                factory.releaseStatement(templateSQL, (PreparedStatement)resultSet.getStatement());
+                holder.close();
             }
             catch (RuntimeException re)
             {
@@ -224,23 +227,76 @@ public class DataSourceResourceLoader extends ResourceLoader
             throw new RuntimeException(msg);
         }
 
-        String factoryClassName = configuration.getString("database_objects_factory.class");
-        if (factoryClassName == null)
-        {
-            factoryClassName = DATABASE_OBJECTS_FACTORY_DEFAULT_CLASS;
-        }
         try
         {
-            Class<?> factoryClass = ClassUtils.getClass(factoryClassName);
-            factory = (DatabaseObjectsFactory) factoryClass.getDeclaredConstructor().newInstance();
-            factory.init(dataSource, configuration.subset("database_objects_factory"));
+            factory = resolveFactory(configuration);
+        }
+        catch (VelocityException ve)
+        {
+            throw ve;
         }
         catch (Exception e)
         {
-            throw new VelocityException("could not find database objects factory class", e);
+            throw new VelocityException("could not instantiate prepared statements factory", e);
         }
 
         log.trace("DataSourceResourceLoader initialized.");
+    }
+
+    /**
+     * Resolve the configured {@link PreparedStatementsFactory}, honouring (in order of
+     * precedence): {@code prepared_statements_factory.instance}, {@code prepared_statements_factory.class},
+     * deprecated {@code database_objects_factory.instance},
+     * deprecated {@code database_objects_factory.class},
+     * then the default.
+     */
+    private PreparedStatementsFactory resolveFactory(ExtProperties configuration) throws Exception
+    {
+        Object newInstance = configuration.getProperty("prepared_statements_factory.instance");
+        if (newInstance != null)
+        {
+            if (!(newInstance instanceof PreparedStatementsFactory))
+            {
+                throw new VelocityException("prepared_statements_factory.instance is not a PreparedStatementsFactory");
+            }
+            PreparedStatementsFactory f = (PreparedStatementsFactory) newInstance;
+            f.init(dataSource, configuration.subset("prepared_statements_factory"));
+            return f;
+        }
+
+        String newClassName = configuration.getString("prepared_statements_factory.class");
+        if (newClassName != null)
+        {
+            PreparedStatementsFactory f = (PreparedStatementsFactory)
+                ClassUtils.getClass(newClassName).getDeclaredConstructor().newInstance();
+            f.init(dataSource, configuration.subset("prepared_statements_factory"));
+            return f;
+        }
+
+        Object oldInstance = configuration.getProperty("database_objects_factory.instance");
+        if (oldInstance != null)
+        {
+            if (!(oldInstance instanceof DatabaseObjectsFactory))
+            {
+                throw new VelocityException("database_objects_factory.instance is not a DatabaseObjectsFactory");
+            }
+            DatabaseObjectsFactory legacy = (DatabaseObjectsFactory) oldInstance;
+            legacy.init(dataSource, configuration.subset("database_objects_factory"));
+            return new DefaultDatabaseObjectsFactory.LegacyAdapter(legacy);
+        }
+
+        String oldClassName = configuration.getString("database_objects_factory.class");
+        if (oldClassName != null)
+        {
+            DatabaseObjectsFactory legacy = (DatabaseObjectsFactory)
+                ClassUtils.getClass(oldClassName).getDeclaredConstructor().newInstance();
+            legacy.init(dataSource, configuration.subset("database_objects_factory"));
+            return new DefaultDatabaseObjectsFactory.LegacyAdapter(legacy);
+        }
+
+        PreparedStatementsFactory f = new DefaultPreparedStatementsFactory();
+        f.init(dataSource, configuration.subset("prepared_statements_factory"));
+        return f;
     }
 
     /**
@@ -295,11 +351,13 @@ public class DataSourceResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException("DataSourceResourceLoader: Template name was empty or null");
         }
 
+        Reader out = null;
+        PreparedStatementsFactory.StatementHolder holder = null;
         ResultSet rs = null;
         try
         {
-            PreparedStatement statement = factory.prepareStatement(templateSQL);
-            rs = fetchResult(statement, name);
+            holder = factory.prepare(templateSQL);
+            rs = fetchResult(holder.getStatement(), name);
 
             if (rs.next())
             {
@@ -310,7 +368,8 @@ public class DataSourceResourceLoader extends ResourceLoader
                             + "template column for '"
                             + name + "' is null");
                 }
-                return new SelfCleaningReader(reader, rs);
+                out = new SelfCleaningReader(reader, holder);
+                return out;
             }
             else
             {
@@ -327,6 +386,24 @@ public class DataSourceResourceLoader extends ResourceLoader
 
             log.error(msg, e);
             throw new ResourceNotFoundException(msg);
+        }
+        finally
+        {
+            if (out == null)
+            {
+                closeResultSet(rs);
+                if (holder != null)
+                {
+                    try
+                    {
+                        holder.close();
+                    }
+                    catch (SQLException sqle)
+                    {
+                        log.debug("DataSourceResourceLoader: error releasing prepared statement", sqle);
+                    }
+                }
+            }
         }
     }
 
@@ -352,12 +429,10 @@ public class DataSourceResourceLoader extends ResourceLoader
         }
         else
         {
-            PreparedStatement statement = null;
             ResultSet rs = null;
-            try
+            try (PreparedStatementsFactory.StatementHolder holder = factory.prepare(timestampSQL))
             {
-                statement = factory.prepareStatement(timestampSQL);
-                rs = fetchResult(statement, name);
+                rs = fetchResult(holder.getStatement(), name);
 
                 if (rs.next())
                 {
@@ -382,18 +457,6 @@ public class DataSourceResourceLoader extends ResourceLoader
             finally
             {
                 closeResultSet(rs);
-                if (statement != null)
-                {
-                    try
-                    {
-                        factory.releaseStatement(timestampSQL, statement);
-                    }
-                    catch (SQLException sqle)
-                    {
-                        // just log, don't throw
-                        log.debug("DataSourceResourceLoader: error releasing prepared statement", sqle);
-                    }
-                }
             }
         }
         return timeStamp;
