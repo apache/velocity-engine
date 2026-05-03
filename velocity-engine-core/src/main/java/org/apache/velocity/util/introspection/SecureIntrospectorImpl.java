@@ -22,6 +22,8 @@ package org.apache.velocity.util.introspection;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>Prevent "dangerous" classloader/reflection related calls.  Use this
@@ -40,12 +42,69 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
 {
     private String[] badClasses;
     private String[] badPackages;
+    private List<RestrictedMethod> badMethods;
 
+    /**
+     * Backwards-compatible constructor without method-level restrictions.
+     */
     public SecureIntrospectorImpl(String[] badClasses, String[] badPackages, Logger log)
     {
+        this(badClasses, badPackages, null, log);
+    }
+
+    /**
+     * @param badClasses fully-qualified class names whose methods are entirely blocked (exact match)
+     * @param badPackages package names whose classes are entirely blocked (exact match)
+     * @param badMethods method specs of the form <code>fully.qualified.ClassName.methodName</code>;
+     *                   restriction applies to the named class and all its subclasses, all overloads
+     * @param log logger
+     * @since 2.5
+     */
+    public SecureIntrospectorImpl(String[] badClasses, String[] badPackages, String[] badMethods, Logger log)
+    {
         super(log);
-        this.badClasses = badClasses;
-        this.badPackages = badPackages;
+        this.badClasses = badClasses == null ? new String[0] : badClasses;
+        this.badPackages = badPackages == null ? new String[0] : badPackages;
+        this.badMethods = parseRestrictedMethods(badMethods, log);
+    }
+
+    private static List<RestrictedMethod> parseRestrictedMethods(String[] entries, Logger log)
+    {
+        List<RestrictedMethod> result = new ArrayList<>();
+        if (entries == null)
+        {
+            return result;
+        }
+        for (String entry : entries)
+        {
+            if (entry == null)
+            {
+                continue;
+            }
+            String spec = entry.trim();
+            if (spec.isEmpty())
+            {
+                continue;
+            }
+            int dot = spec.lastIndexOf('.');
+            if (dot <= 0 || dot == spec.length() - 1)
+            {
+                log.warn("Ignoring malformed introspector.restrict.methods entry: '{}' (expected fully.qualified.ClassName.methodName)", spec);
+                continue;
+            }
+            String className = spec.substring(0, dot);
+            String methodName = spec.substring(dot + 1);
+            try
+            {
+                Class<?> clazz = Class.forName(className, false, Thread.currentThread().getContextClassLoader());
+                result.add(new RestrictedMethod(clazz, methodName));
+            }
+            catch (ClassNotFoundException | LinkageError e)
+            {
+                log.warn("Cannot resolve class '{}' for introspector.restrict.methods entry '{}'; ignoring", className, spec);
+            }
+        }
+        return result;
     }
 
     /**
@@ -79,8 +138,8 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      * Determine which methods and classes to prevent from executing.  Always blocks
      * methods wait() and notify().  Always allows methods on Number, Boolean, and String.
      * Prohibits method calls on classes related to reflection and system operations.
-     * For the complete list, see the properties <code>introspector.restrict.classes</code>
-     * and <code>introspector.restrict.packages</code>.
+     * For the complete list, see the properties <code>introspector.restrict.classes</code>,
+     * <code>introspector.restrict.packages</code> and <code>introspector.restrict.methods</code>.
      *
      * @param clazz Class on which method will be called
      * @param methodName Name of method to be called
@@ -161,6 +220,33 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
             }
         }
 
+        /*
+         * check method-level restrictions: blocked if methodName matches and the
+         * restricted class is assignable from the target class (covers subclasses)
+         */
+        if (methodName != null)
+        {
+            for (RestrictedMethod bad : badMethods)
+            {
+                if (bad.methodName.equals(methodName) && bad.clazz.isAssignableFrom(clazz))
+                {
+                    return false;
+                }
+            }
+        }
+
         return true;
+    }
+
+    private static final class RestrictedMethod
+    {
+        final Class<?> clazz;
+        final String methodName;
+
+        RestrictedMethod(Class<?> clazz, String methodName)
+        {
+            this.clazz = clazz;
+            this.methodName = methodName;
+        }
     }
 }

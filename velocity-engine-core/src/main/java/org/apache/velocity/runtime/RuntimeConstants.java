@@ -408,6 +408,15 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
     /** A comma separated list of classes to restrict access to in the SecureIntrospector. */
     String INTROSPECTOR_RESTRICT_CLASSES = "introspector.restrict.classes";
 
+    /**
+     * A comma separated list of methods to restrict access to in the SecureIntrospector.
+     * Each entry has the form <code>fully.qualified.ClassName.methodName</code> and applies
+     * to the named class and all its subclasses. Method overloads cannot be distinguished;
+     * all overloads sharing the method name are blocked.
+     * @since 2.5
+     */
+    String INTROSPECTOR_RESTRICT_METHODS = "introspector.restrict.methods";
+
     /** key for Conversion Manager class */
     String CONVERSION_HANDLER_CLASS = "introspector.conversion_handler.class";
 

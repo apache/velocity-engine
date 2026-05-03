@@ -174,6 +174,100 @@ public class SecureIntrospectionTestCase extends BaseTestCase
         c.add("ccc");
         return c;
     }
+
+    public static class Parent
+    {
+        public String forbidden()
+        {
+            return "PARENT_FORBIDDEN";
+        }
+
+        public String allowed()
+        {
+            return "PARENT_ALLOWED";
+        }
+    }
+
+    public static class Child extends Parent
+    {
+        @Override
+        public String forbidden()
+        {
+            return "CHILD_FORBIDDEN";
+        }
+    }
+
+    /**
+     * Method restriction blocks a direct call on the configured class.
+     */
+    public void testRestrictedMethodDirectMatch() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.UBERSPECT_CLASSNAME, SecureUberspector.class.getName());
+        ve.setProperty(RuntimeConstants.INTROSPECTOR_RESTRICT_METHODS,
+                       Parent.class.getName() + ".forbidden");
+        ve.init();
+
+        Context c = new VelocityContext();
+        c.put("p", new Parent());
+        assertFalse("forbidden() on Parent should be blocked",
+                    doesStringEvaluate(ve, c, "$p.forbidden()"));
+        assertTrue("allowed() on Parent should pass",
+                   doesStringEvaluate(ve, c, "$p.allowed()"));
+    }
+
+    /**
+     * A restriction on a parent class also blocks the method on subclasses.
+     */
+    public void testRestrictedMethodSubclassMatch() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.UBERSPECT_CLASSNAME, SecureUberspector.class.getName());
+        ve.setProperty(RuntimeConstants.INTROSPECTOR_RESTRICT_METHODS,
+                       Parent.class.getName() + ".forbidden");
+        ve.init();
+
+        Context c = new VelocityContext();
+        c.put("ch", new Child());
+        assertFalse("forbidden() on Child must be blocked via parent restriction",
+                    doesStringEvaluate(ve, c, "$ch.forbidden()"));
+        assertTrue("allowed() on Child should still pass",
+                   doesStringEvaluate(ve, c, "$ch.allowed()"));
+    }
+
+    /**
+     * An unknown class in the configuration should not crash init; the entry is ignored.
+     */
+    public void testRestrictedMethodUnknownClass() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.UBERSPECT_CLASSNAME, SecureUberspector.class.getName());
+        ve.setProperty(RuntimeConstants.INTROSPECTOR_RESTRICT_METHODS,
+                       "com.example.does.not.Exist.someMethod");
+        ve.init();
+
+        Context c = new VelocityContext();
+        c.put("p", new Parent());
+        assertTrue("unknown-class entry must not block legitimate calls",
+                   doesStringEvaluate(ve, c, "$p.forbidden()"));
+    }
+
+    /**
+     * The default-shipped restriction on VelocityEngine.init must block that call from a template.
+     */
+    public void testDefaultVelocityEngineRestriction() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.UBERSPECT_CLASSNAME, SecureUberspector.class.getName());
+        ve.init();
+
+        Context c = new VelocityContext();
+        c.put("ve", ve);
+        assertFalse("VelocityEngine.init must be blocked by default",
+                    doesStringEvaluate(ve, c, "$ve.init()"));
+        assertFalse("VelocityEngine.reset must be blocked by default",
+                    doesStringEvaluate(ve, c, "$ve.reset()"));
+    }
 }
 
 
