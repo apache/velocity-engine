@@ -19,6 +19,19 @@
     under the License.
 
 -->
+<!--
+  Action attributes:
+    type    "add" (new feature) or "fix" (bug fix). Only these two render an
+            icon in the rendered changelog (see velocity-site changes.xsl).
+    dev     Author Apache handle.
+    due-to  Contributor credit when the change came from outside the
+            committers. Apache handle when applicable, GitHub username
+            otherwise.
+    issue   Apache JIRA issue ID, e.g. VELOCITY-988. Rendered as a link to
+            the JIRA browser.
+    pr      GitHub pull-request number on apache/velocity-engine. Rendered
+            as a link to the PR. May coexist with @issue.
+-->
 <document>
   <properties>
     <title>Changelog</title>
@@ -26,6 +39,31 @@
 
   <body>
     <release version="2.5">
+        <action type="add" dev="cbrisson">
+            Add a new <code>introspector.restrict.methods</code> property to restrict
+            method calls in the secure introspector. Block by default
+            <code>VelocityEngine.init()</code> and <code>VelocityEngine.reset()</code>.
+        </action>
+        <action type="fix" dev="cbrisson" due-to="fschlimme" issue="VELOCITY-989">
+            Fix connection leaks in <code>DataSourceResourceLoader</code>. Deprecate
+            <code>DatabaseObjectsFactory</code> in favor of <code>PreparedStatementsFactory</code>.
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-988">
+            Restore Velocity 1.7 behaviour: allow an extra dollar after <code>{</code>,
+            i.e. <code>${$foo}</code> and <code>$!{$foo}</code>.
+        </action>
+        <action type="fix" dev="cbrisson" due-to="ravimergu" issue="VELOCITY-986" pr="59">
+            <code>Map.size()</code> method is now called instead of any provided
+            <code>size</code> property.
+        </action>
+        <action type="add" dev="cbrisson">
+            Bump several dependencies and plugin versions. On JDK 8, dom4j 2.1.5 and
+            Spring 5.3.39 are the latest supported.
+        </action>
+        <action type="fix" dev="cbrisson" due-to="nate-dev" pr="55">
+            Fix time zone dependency in <code>Velocity952TestCase</code>
+            (<code>testEnd2End</code> failed outside GMT+1).
+        </action>
     </release>
     <release version="2.4.1" date="2024-10-14">
         <action type="fix" dev="tmortagne" issue="VELOCITY-983">
@@ -39,7 +77,7 @@
         </action>
     </release>
     <release version="2.4" date="2024-09-07">
-        <action type="new" dev="cbrisson" issue="VELOCITY-948">
+        <action type="add" dev="cbrisson" issue="VELOCITY-948">
             Add a new compatibility flag for integer ranges immutability.
         </action>
         <action type="fix" dev="cbrisson" issue="VELOCITY-961">
@@ -65,7 +103,7 @@
         <action type="fix" dev="cbrisson" due-to="Scott Cantor" issue="VELOCITY-943">
             Refactor <code>SpringResourceLoader</code>.
         </action>
-        <action type="new" dev="cbrisson" due-to="J. Tóth Tamás">
+        <action type="add" dev="cbrisson" due-to="J. Tóth Tamás">
             Support Java 16 records in property lookup.
         </action>
     </release>
@@ -73,13 +111,13 @@
         <action type="fix" dev="cbrisson" issue="VELOCITY-927">
             Fix parser bug (newline and space inside an empty inline map definition).
         </action>        
-        <action type="new" dev="cbrisson" issue="VELOCITY-933">
+        <action type="add" dev="cbrisson" issue="VELOCITY-933">
             Backported Spring framework Velocity Engine integration classes from Spring 4.x, in the new module <code>spring-velocity-support</code>.
         </action>        
         <action type="fix" dev="wglass" issue="VELOCITY-931">
             Let SecureUberspector block methods on ClassLoader and subclasses.
         </action>        
-        <action type="new" dev="cbrisson" due-to="mgrigorov">
+        <action type="add" dev="cbrisson" due-to="mgrigorov">
             Added Travis CI.
         </action>        
         <action type="fix" dev="cbrisson" due-to="donnerpeter">
@@ -87,7 +125,7 @@
         </action>
     </release>
     <release version="2.2" date="2020-02-02">
-        <action type="new" dev="cbrisson">
+        <action type="add" dev="cbrisson">
             Deprecated 2.1 flag <code>velocimacro.arguments.preserve_literals</code> in favor of
             the new <code>valocimacro_enable_bc_mode</code> flag, which will also, like 1.7 does,
             use global context values as defaults for missing macro arguments which do not have
