@@ -39,6 +39,11 @@
 
   <body>
     <release version="2.5">
+        <action type="add" dev="cbrisson" issue="VELOCITY-994">
+            Add a new <code>spring6-velocity-support</code> sibling module targeting
+            Spring 6.x and Java 17. The legacy <code>spring-velocity-support</code>
+            module remains in place for Spring 5.x on Java 8.
+        </action>
         <action type="add" dev="cbrisson">
             Add a new <code>introspector.restrict.methods</code> property to restrict
             method calls in the secure introspector. Block by default
