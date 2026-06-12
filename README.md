@@ -11,7 +11,8 @@ Here's a description of the top level directories:
     velocity-engine-core/       The Velocity Engine core module
     velocity-engine-examples/   Several simple examples
     velocity-engine-scripting/  JSR-223 implementation for Velocity scripting
-    spring-velocity-support     Velocity Engine factory bean for Spring framework
+    spring-velocity-support     Velocity Engine factory bean for current Spring (6.x/7.x, Java 17)
+    spring5-velocity-support    Velocity Engine factory bean for legacy Spring 5.x (Java 8)
     src/                        Source for parent modules, mainly changelog
 
 Apache Velocity requires at least Java 8 to run.

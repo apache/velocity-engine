@@ -1,10 +1,10 @@
-Title: Apache Velocity Spring 6 Support
+Title: Apache Velocity Spring 5 Support
 
-# Apache Velocity Spring 6 Support
+# Apache Velocity Spring 5 Support
 
-This module is the Spring 6.x variant of the engine support initially hosted by the Spring project in its 4.x versions. It targets Java 17+.
+This module is the legacy Spring 5.x variant (Java 8) of the engine support initially hosted by the Spring project in its 4.x versions.
 
-For Spring 5.x integration on Java 8, use the sibling `spring-velocity-support` module instead.
+For current Spring (6.x/7.x on Java 17), use the sibling `spring-velocity-support` module instead.
 
 Example configuration:
 

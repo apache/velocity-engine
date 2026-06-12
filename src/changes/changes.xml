@@ -39,10 +39,12 @@
 
   <body>
     <release version="2.5">
-        <action type="add" dev="cbrisson" issue="VELOCITY-994">
-            Add a new <code>spring6-velocity-support</code> sibling module targeting
-            Spring 6.x and Java 17. The legacy <code>spring-velocity-support</code>
-            module remains in place for Spring 5.x on Java 8.
+        <action type="update" dev="cbrisson" issue="VELOCITY-994">
+            <code>spring-velocity-support</code> now targets the current, Jakarta-based
+            Spring framework (Spring 6.x and 7.x) on Java 17. The previous Spring 5.x /
+            Java 8 support moves to the new <code>spring5-velocity-support</code> module.
+            Note: while this is a minor Velocity release, it is a major upgrade for the
+            <code>spring-velocity-support</code> artifact, which jumps from Spring 5 to 6/7.
         </action>
         <action type="add" dev="cbrisson">
             Add a new <code>introspector.restrict.methods</code> property to restrict
