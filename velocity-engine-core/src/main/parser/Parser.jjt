@@ -2159,7 +2159,7 @@ void Index() : {}
    <INDEX_LBRACKET> IndexParameter() <INDEX_RBRACKET>
 }
 
-void Reference() : {}
+void Reference() : { Token t; }
 {
     /*
      *  A reference is either $<FOO> or ${<FOO>} or ${<FOO>'|'<ALTERNATE_VALUE>)
@@ -2171,7 +2171,7 @@ void Reference() : {}
       )
       |
       (
-         <LCURLY>
+         t=<LCURLY> { jjtThis.setFormal(true); if (!t.image.endsWith("{")) jjtThis.setExtraDollar(true); }
          ( <IDENTIFIER> | <OLD_IDENTIFIER> ) (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
          [ <PIPE> Expression() ]

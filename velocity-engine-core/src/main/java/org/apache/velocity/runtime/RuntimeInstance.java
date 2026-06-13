@@ -279,6 +279,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
                 initializeProperties();
                 initializeSelfProperties();
                 initializeLog();
+                warnDeprecatedSettings();
                 initializeResourceManager();
                 initializeDirectives();
                 initializeEventHandlers();
@@ -399,6 +400,18 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
 
         /* init parser behavior */
         hyphenAllowedInIdentifiers = getBoolean(PARSER_HYPHEN_ALLOWED, false);
+    }
+
+    /**
+     * Warns about deprecated configuration settings, when runtime.deprecation.warn is on.
+     * Kept separate from {@link #initializeSelfProperties()} so it runs after the log is set up.
+     */
+    private void warnDeprecatedSettings()
+    {
+        if (getBoolean(RUNTIME_DEPRECATION_WARN, false) && hyphenAllowedInIdentifiers)
+        {
+            log.warn("the '{}' option is deprecated: hyphenated identifiers (e.g. $foo-bar) cannot be expressed in the next major version", PARSER_HYPHEN_ALLOWED);
+        }
     }
 
     private char getConfiguredCharacter(String configKey, char defaultChar)
