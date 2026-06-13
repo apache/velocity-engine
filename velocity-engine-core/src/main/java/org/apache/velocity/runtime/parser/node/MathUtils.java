@@ -109,6 +109,11 @@ public abstract class MathUtils
             return new BigDecimal ( (BigInteger)n );
         }
 
+        if (n instanceof Long)
+        {
+            return new BigDecimal(n.longValue());
+        }
+
         return BigDecimal.valueOf(n.doubleValue());
 
     }
