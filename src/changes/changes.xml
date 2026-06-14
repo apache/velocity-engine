@@ -38,7 +38,19 @@
   </properties>
 
   <body>
-    <release version="2.5">
+    <release version="2.5" date="2026-06-14">
+        <action type="fix" dev="cbrisson" due-to="ogawaffm" issue="VELOCITY-996">
+            Fix precision loss when converting <code>Long</code> values to
+            <code>BigDecimal</code> in VTL math operations.
+        </action>
+        <action type="add" dev="cbrisson" issue="VELOCITY-995">
+            Add deprecation warnings for VTL syntax constructs not supported by the
+            next major version: the informal <code>$foo.bar</code> notation rendered
+            to output, the <code>${foo|default}</code> default-value operator, the
+            extra <code>$</code> in <code>${$foo}</code>, and the
+            <code>parser.allow_hyphen_in_identifiers</code> backward compatibility option.
+            Gated by the new <code>runtime.deprecation.warn</code> property, off by default for now.
+        </action>
         <action type="update" dev="cbrisson" issue="VELOCITY-994">
             <code>spring-velocity-support</code> now targets the current, Jakarta-based
             Spring framework (Spring 6.x and 7.x) on Java 17. The previous Spring 5.x /
