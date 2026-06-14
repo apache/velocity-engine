@@ -132,10 +132,6 @@ CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 # Quick build to ensure green state
 mvn_q -q -DskipTests -U verify
 
-# Verify no SNAPSHOT deps (Enforcer rule)
-# (You can also wire requireReleaseDeps in a profile; here we invoke ad-hoc)
-mvn_q -Denforcer.skip=false -Drules=requireReleaseDeps enforcer:enforce
-
 # Determine SCM URLs from POM
 SCM_DEV_URL="$(mvn -q help:evaluate -Dexpression=project.scm.developerConnection -DforceStdout || true)"
 if [[ -z "$SCM_DEV_URL" || "$SCM_DEV_URL" == "null" ]]; then
@@ -148,6 +144,10 @@ fi
 # -------------------------
 pause "About to set project version to $RELEASE and <scm><tag> to $RELEASE_TAG."
 mvn_q -q versions:set -DnewVersion="$RELEASE"
+
+# Verify no SNAPSHOT deps
+mvn_q -Denforcer.skip=false -Drules=requireReleaseDeps enforcer:enforce
+
 mvn_q -q versions:commit
 
 # Stamp <scm><tag> with the final release tag for the release commit
