@@ -31,7 +31,7 @@
     <description>Velocity Engine factory bean for the current (Jakarta-based) Spring framework — Spring 6.x and 7.x</description>
     <properties>
         <javaVersion>17</javaVersion>
-        <spring.version>6.2.12</spring.version>
+        <spring.version>6.2.19</spring.version>
     </properties>
     <dependencyManagement>
         <dependencies>
