@@ -166,6 +166,14 @@ git_run push origin "refs/tags/$RC_TAG:refs/tags/$RC_TAG"
 # -------------------------
 # Step 3: Perform (deploy) from the RC tag
 # -------------------------
+# Prepare a release.properties file for `release:perform`
+if ! is_dry; then
+  cat > release.properties <<EOF
+scm.url=${SCM_DEV_URL}
+scm.tag=${RC_TAG}
+EOF
+fi
+
 # Build arguments for perform
 MVN_ARGS="-Dgpg.sign=true -DskipTests"
 [[ -n "$GPG_KEYNAME" ]] && MVN_ARGS="$MVN_ARGS -Dgpg.keyname=$GPG_KEYNAME"
@@ -173,11 +181,12 @@ MVN_ARGS="-Dgpg.sign=true -DskipTests"
 
 pause "About to run mvn release:perform from tag $RC_TAG (goals=deploy)."
 mvn_q -B -e \
-  -DconnectionUrl="$SCM_DEV_URL" \
-  -Dtag="$RC_TAG" \
   -Dgoals="deploy" \
   -Darguments="$MVN_ARGS" \
   release:perform
+
+# cleanup
+rm -f release.properties
 
 # -------------------------
 # Step 4: Assemble dist/dev staging folder + sha256  (SMART COPY)
