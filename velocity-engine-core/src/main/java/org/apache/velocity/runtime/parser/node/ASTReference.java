@@ -253,18 +253,13 @@ public class ASTReference extends SimpleNode
         /*
          * VTL syntax deprecation warnings (VELOCITY-995), gated by runtime.deprecation.warn.
          * The '|' spelling of the alternate value is deprecated in favour of '?:', which
-         * has the very same semantics; the extra '$' in ${$foo} is deprecated outright.
+         * has the very same semantics.
          */
         if (rsvc.getBoolean(RuntimeConstants.RUNTIME_DEPRECATION_WARN, true))
         {
             if (astAlternateValue != null && pipeAlternate)
             {
                 log.warn("the '|' alternate-value notation is deprecated; write ${foo?:alt} rather than ${foo|alt} - {} [line {}, column {}]",
-                         getTemplateName(), getLine(), getColumn());
-            }
-            if (extraDollar)
-            {
-                log.warn("the extra '$' after '{' is deprecated; write ${foo} rather than ${$foo} - {} [line {}, column {}]",
                          getTemplateName(), getLine(), getColumn());
             }
         }

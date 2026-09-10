@@ -45,8 +45,7 @@
         </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-995">
             Deprecate <code>${foo|bar}</code> in favor of <code>${foo?:bar}</code>, along with
-            the extra <code>$</code> in <code>${$foo}</code> and the
-            <code>parser.allow_hyphen_in_identifiers</code> option; warnings gated by
+            the <code>parser.allow_hyphen_in_identifiers</code> option; warnings gated by
             <code>runtime.deprecation.warn</code>, on by default.
         </action>
         <action type="update" dev="cbrisson" issue="VELOCITY-994">

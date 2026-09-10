@@ -116,17 +116,13 @@ public class DeprecationWarningTestCase extends BaseTestCase
                      1, out.split("alternate-value notation is deprecated", -1).length - 1);
     }
 
-    /* ---- the extra '$' after '{' (${$foo}): always deprecated, but still formal ---- */
+    /* ---- the extra '$' after '{' (${$foo}, re-added in 2.5 for 1.7 BC): supported, never warns ---- */
 
-    public void testExtraDollarWarns()
+    public void testExtraDollarNeverWarns()
     {
-        assertWarns("${$foo}");
-        assertWarns("${$foo.bar}");
-        assertWarns("$!{$foo}");
-    }
-
-    public void testFormalWithoutExtraDollarNeverWarns()
-    {
+        assertNoWarn("${$foo}");
+        assertNoWarn("${$foo.bar}");
+        assertNoWarn("$!{$foo}");
         assertNoWarn("${foo}");
         assertNoWarn("${foo.bar}");
     }
