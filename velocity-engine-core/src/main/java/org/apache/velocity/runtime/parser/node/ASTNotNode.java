@@ -23,12 +23,18 @@ import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.TemplateInitException;
 import org.apache.velocity.runtime.parser.Parser;
+import org.apache.velocity.runtime.parser.Token;
 
 /**
  *
  */
 public class ASTNotNode extends SimpleNode
 {
+    /**
+     * The operator token, kept until init
+     */
+    private Token operator;
+
     /**
      * @param id
      */
@@ -46,6 +52,16 @@ public class ASTNotNode extends SimpleNode
         super(p, id);
     }
 
+
+    /**
+     * @see org.apache.velocity.runtime.parser.node.Node#jjtOpen()
+     */
+    @Override
+    public void jjtOpen()
+    {
+        super.jjtOpen();
+        operator = parser.getToken(0); // the operator has just been consumed
+    }
 
     /**
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#jjtAccept(org.apache.velocity.runtime.parser.node.StandardParserVisitor, java.lang.Object)
@@ -84,6 +100,8 @@ public class ASTNotNode extends SimpleNode
     public Object init(InternalContextAdapter context, Object data) throws TemplateInitException
     {
     	Object obj = super.init(context, data);
+    	warnTextualOperator(operator);
+    	operator = null;
     	cleanupParserAndTokens(); // drop reference to Parser and all JavaCC Tokens
     	return obj;
     }

@@ -163,6 +163,99 @@ public class DeprecationWarningTestCase extends BaseTestCase
         assertFalse(warningsAtInit(hyphenEngine(false, true)).contains("allow_hyphen_in_identifiers"));
     }
 
+    /* ---- the word spellings of the operators: deprecated in favour of the symbols ---- */
+
+    /** so that the comparisons have something to compare, keeping the log to warnings */
+    private void operands()
+    {
+        context.put("a", 2);
+        context.put("b", 3);
+    }
+
+    private int warningCount(String vtl)
+    {
+        String out = warningsFor(vtl);
+        return out.split("textual operator", -1).length - 1;
+    }
+
+    public void testTextualOperatorsWarn()
+    {
+        operands();
+        assertWarns("#if($a and $b)x#end");
+        assertWarns("#if($a or $b)x#end");
+        assertWarns("#if(not $a)x#end");
+        assertWarns("#if($a eq $b)x#end");
+        assertWarns("#if($a ne $b)x#end");
+        assertWarns("#if($a lt $b)x#end");
+        assertWarns("#if($a le $b)x#end");
+        assertWarns("#if($a gt $b)x#end");
+        assertWarns("#if($a ge $b)x#end");
+        assertWarns("#set($x = $a lt $b)");
+    }
+
+    public void testTextualOperatorWarningNamesTheSymbol()
+    {
+        operands();
+        String out = warningsFor("#if($a and $b)x#end");
+        assertTrue("the warning must name the '&&' spelling, log was:\n" + out,
+                   out.contains("the textual operator 'and' is deprecated; write '&&' instead"));
+
+        out = warningsFor("#if($a ge $b)x#end");
+        assertTrue("the warning must name the '>=' spelling, log was:\n" + out,
+                   out.contains("the textual operator 'ge' is deprecated; write '>=' instead"));
+    }
+
+    public void testSymbolOperatorsNeverWarn()
+    {
+        operands();
+        assertNoWarn("#if($a && $b)x#end");
+        assertNoWarn("#if($a || $b)x#end");
+        assertNoWarn("#if(!$a)x#end");
+        assertNoWarn("#if($a == $b)x#end");
+        assertNoWarn("#if($a != $b)x#end");
+        assertNoWarn("#if($a < $b)x#end");
+        assertNoWarn("#if($a <= $b)x#end");
+        assertNoWarn("#if($a > $b)x#end");
+        assertNoWarn("#if($a >= $b)x#end");
+        assertNoWarn("#set($x = $a + $b * 2 - 1)");
+        assertNoWarn("#set($x = \"and or not gt\")");
+        assertNoWarn("#set($x = $a)#if($x)x#end");
+    }
+
+    public void testOneWarningPerTextualOperatorOccurrence()
+    {
+        operands();
+        context.put("c", 4);
+        assertEquals("one warning per operator expected",
+                     3, warningCount("#if($a and $b and not $c)x#end"));
+        assertEquals("only the word spellings count",
+                     1, warningCount("#if($a && $b or $a == $b)x#end"));
+        assertEquals("one warning per operator expected, nesting included",
+                     2, warningCount("#if(not ($a gt $b))x#end"));
+    }
+
+    public void testTextualOperatorWarnsFromATemplateFile()
+    {
+        operands();
+        addTemplate("wordops.vm", "#if($a and $b)x#end");
+        log.startCapture();
+        assertTmplEquals("x", "wordops.vm");
+        log.stopCapture();
+        String out = log.getLog();
+        assertTrue("a template file must warn just like evaluate(), log was:\n" + out,
+                   out.contains("the textual operator 'and' is deprecated"));
+        assertTrue("the warning must point at the operator itself, log was:\n" + out,
+                   out.contains("wordops.vm [line 1, column 8]"));
+    }
+
+    public void testTextualOperatorSilentWhenDeprecationOff()
+    {
+        operands();
+        String out = warningsWithoutSetting("#if($a and not $b)x#end", "false");
+        assertFalse("no warning expected with runtime.deprecation.warn = false, log was:\n" + out,
+                    out.contains("deprecated"));
+    }
+
     /* ---- on by default, silenced explicitly ---- */
 
     private String warningsWithoutSetting(String vtl, String deprecationWarn)

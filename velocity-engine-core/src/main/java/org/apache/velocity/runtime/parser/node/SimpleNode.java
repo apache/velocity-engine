@@ -407,6 +407,52 @@ public class SimpleNode implements Node, Cloneable
     }
 
     /**
+     * The symbol spelling of an operator written with its deprecated word spelling.
+     *
+     * @param operator image of an operator token
+     * @return the symbol to use instead, or null if this is not a word spelling
+     */
+    private static String symbolFor(String operator)
+    {
+        switch (operator)
+        {
+            case "and": return "&&";
+            case "or":  return "||";
+            case "not": return "!";
+            case "eq":  return "==";
+            case "ne":  return "!=";
+            case "lt":  return "<";
+            case "le":  return "<=";
+            case "gt":  return ">";
+            case "ge":  return ">=";
+            default:    return null;
+        }
+    }
+
+    /**
+     * VTL syntax deprecation warning (VELOCITY-995), gated by runtime.deprecation.warn:
+     * the word spellings of the operators are deprecated in favour of the symbols.
+     * <p>
+     * Called by the operator nodes at init time, with the operator token they captured
+     * while parsing. Silent when the symbol spelling was used.
+     *
+     * @param operator the operator token, may be null
+     */
+    protected void warnTextualOperator(Token operator)
+    {
+        if (operator == null)
+        {
+            return;
+        }
+        String symbol = symbolFor(operator.image);
+        if (symbol != null && rsvc.getBoolean(RuntimeConstants.RUNTIME_DEPRECATION_WARN, true))
+        {
+            log.warn("the textual operator '{}' is deprecated; write '{}' instead - {} [line {}, column {}]",
+                     operator.image, symbol, getTemplateName(), operator.beginLine, operator.beginColumn);
+        }
+    }
+
+    /**
      * @see org.apache.velocity.runtime.parser.node.Node#evaluate(org.apache.velocity.context.InternalContextAdapter)
      */
     @Override
