@@ -25,8 +25,9 @@ import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
 /**
  * Tests the gated VTL syntax deprecation warnings (VELOCITY-995): the {@code |}
- * spelling of the alternate value, the extra {@code $} of {@code ${$foo}}, and the
- * {@code parser.allow_hyphen_in_identifiers} option. The warning fires at parse/init
+ * spelling of the alternate value, the extra {@code $} of {@code ${$foo}}, the
+ * {@code parser.allow_hyphen_in_identifiers} option, the word spellings of the operators
+ * and a lone backslash right before the closing quote of a double-quoted string. The warning fires at parse/init
  * time and is independent of whether the reference resolves, so the templates need no
  * context.
  */
@@ -254,6 +255,69 @@ public class DeprecationWarningTestCase extends BaseTestCase
         String out = warningsWithoutSetting("#if($a and not $b)x#end", "false");
         assertFalse("no warning expected with runtime.deprecation.warn = false, log was:\n" + out,
                     out.contains("deprecated"));
+    }
+
+    /* ---- a lone backslash right before the closing quote of a double-quoted string ---- */
+
+    /** the authored VTL is #set($s = "a\") - a backslash against the closing quote */
+    private static final String TRAILING_BACKSLASH = "#set($s = \"a\\\")";
+
+    public void testTrailingBackslashInDoubleQuotesWarns()
+    {
+        assertWarns(TRAILING_BACKSLASH);
+        /* #m("a\") - a macro argument warns just the same */
+        assertWarns("#macro(m $x)$x#end#m(\"a\\\")");
+        /* "$foo\" - an interpolated literal warns just the same */
+        assertWarns("#set($s = \"$foo\\\")");
+    }
+
+    public void testTrailingBackslashWarningNamesTheSingleQuotedRecipe()
+    {
+        String out = warningsFor(TRAILING_BACKSLASH);
+        assertTrue("the warning must name the single-quoted spelling, log was:\n" + out,
+                   out.contains("use a single-quoted string instead ('a\\')"));
+    }
+
+    public void testEvenRunOfBackslashesNeverWarns()
+    {
+        /* "a\\" - both backslashes are kept literally here and \\ escapes a backslash there */
+        assertNoWarn("#set($s = \"a\\\\\")");
+        /* "a\\\\" */
+        assertNoWarn("#set($s = \"a\\\\\\\\\")");
+    }
+
+    public void testOtherStringsNeverWarn()
+    {
+        /* "a\nb", "a\\b", "ab", 'a\', 'a\\' */
+        assertNoWarn("#set($s = \"a\\nb\")");
+        assertNoWarn("#set($s = \"a\\\\b\")");
+        assertNoWarn("#set($s = \"ab\")");
+        assertNoWarn("#set($s = '')");
+        assertNoWarn("#set($s = \"\")");
+        assertNoWarn("#set($s = 'a\\')");
+        assertNoWarn("#set($s = 'a\\\\')");
+    }
+
+    public void testOneWarningPerDoubleQuotedLiteral()
+    {
+        /* "a\" then 'b\' then "c\" - only the two double-quoted ones count */
+        String out = warningsFor("#set($s = \"a\\\")#set($t = 'b\\')#set($u = \"c\\\")");
+        assertEquals("one warning per double-quoted literal expected, log was:\n" + out,
+                     2, out.split("right before the closing quote", -1).length - 1);
+    }
+
+    public void testTrailingBackslashSilentWhenDeprecationOff()
+    {
+        String out = warningsWithoutSetting(TRAILING_BACKSLASH, "false");
+        assertFalse("no warning expected with runtime.deprecation.warn = false, log was:\n" + out,
+                    out.contains("deprecated"));
+    }
+
+    /** the warning changes nothing: the backslash is still a literal backslash here */
+    public void testTrailingBackslashStillRendersTheBackslash()
+    {
+        assertEvalEquals("a\\", "#set($s = \"a\\\")$s");
+        assertEvalEquals("a\\\\", "#set($s = \"a\\\\\")$s");
     }
 
     /* ---- on by default, silenced explicitly ---- */

@@ -45,8 +45,9 @@
         </action>
         <action type="add" dev="cbrisson" issue="VELOCITY-995">
             Deprecate <code>${foo|bar}</code> in favor of <code>${foo?:bar}</code>, the textual
-            operators <code>and or not gt ge lt le eq ne</code> in favor of their symbols, and
-            the <code>parser.allow_hyphen_in_identifiers</code> option; warnings gated by
+            operators <code>and or not gt ge lt le eq ne</code> in favor of their symbols, a
+            backslash right before the closing quote of a double-quoted string, and the
+            <code>parser.allow_hyphen_in_identifiers</code> option; warnings gated by
             <code>runtime.deprecation.warn</code>, on by default.
         </action>
         <action type="update" dev="cbrisson" issue="VELOCITY-994">

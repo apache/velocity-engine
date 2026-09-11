@@ -112,6 +112,8 @@ public class ASTStringLiteral extends SimpleNode
 
         image = img.substring(1, img.length() - 1);
 
+        warnTrailingBackslash(img);
+
         if (img.startsWith("\""))
         {
             image = unescape(image);
@@ -170,6 +172,32 @@ public class ASTStringLiteral extends SimpleNode
         cleanupParserAndTokens();
 
         return data;
+    }
+
+    /**
+     * A backslash right before the closing quote of a double-quoted string is deprecated.
+     *
+     * @param img the authored image of the literal, enclosing quotes included, before any
+     *            unescaping
+     */
+    private void warnTrailingBackslash(String img)
+    {
+        if (img.charAt(0) != '"' || !rsvc.getBoolean(RuntimeConstants.RUNTIME_DEPRECATION_WARN, true))
+        {
+            return;
+        }
+
+        int backslashes = 0;
+        for (int i = img.length() - 2; i >= 1 && img.charAt(i) == '\\'; i--)
+        {
+            backslashes++;
+        }
+
+        if (backslashes % 2 == 1)
+        {
+            log.warn("a backslash right before the closing quote of a double-quoted string is deprecated; use a single-quoted string instead ('a\\') - {} [line {}, column {}]",
+                     getTemplateName(), getLine(), getColumn());
+        }
     }
 
     /**
