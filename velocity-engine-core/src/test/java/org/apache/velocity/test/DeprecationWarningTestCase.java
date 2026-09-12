@@ -20,16 +20,20 @@ package org.apache.velocity.test;
  */
 
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.MathException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 
+import java.util.Properties;
+
 /**
- * Tests the gated VTL syntax deprecation warnings (VELOCITY-995): the {@code |}
- * spelling of the alternate value, the extra {@code $} of {@code ${$foo}}, the
- * {@code parser.allow_hyphen_in_identifiers} option, the word spellings of the operators
- * and a lone backslash right before the closing quote of a double-quoted string. The warning fires at parse/init
- * time and is independent of whether the reference resolves, so the templates need no
- * context.
+ * Tests the gated VTL syntax deprecation warnings (VELOCITY-995):
+ * <ul>
+ *   <li>{@code ${$foo}}</li>
+ *   <li>{@code parser.allow_hyphen_in_identifiers = true}<li>
+ *   <li>a lone backslash right before the closing quote of a double-quoted string</li>
+ *   <li>{@code runtime.strict_math = false}
+ * </ul>
  */
 public class DeprecationWarningTestCase extends BaseTestCase
 {
@@ -318,6 +322,61 @@ public class DeprecationWarningTestCase extends BaseTestCase
     {
         assertEvalEquals("a\\", "#set($s = \"a\\\")$s");
         assertEvalEquals("a\\\\", "#set($s = \"a\\\\\")$s");
+    }
+
+    /* ---- lenient math (runtime.strict_math = false): deprecated, warned once at engine init ---- */
+
+    /** the init-time warning, whichever of its two wordings applies */
+    private static final String LENIENT_MATH = "lenient math is deprecated";
+
+    private VelocityEngine mathEngine(boolean warn, String strictMath)
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "string");
+        ve.addProperty("resource.loader.string.class", StringResourceLoader.class.getName());
+        ve.setProperty(RuntimeConstants.RUNTIME_DEPRECATION_WARN, String.valueOf(warn));
+        if (strictMath != null)
+        {
+            ve.setProperty(RuntimeConstants.STRICT_MATH, strictMath);
+        }
+        return ve;
+    }
+
+    private int occurrences(String needle, String out)
+    {
+        return out.split(needle, -1).length - 1;
+    }
+
+    public void testLenientMathWarnsAtInitWhenDefaulted()
+    {
+        String out = warningsAtInit(mathEngine(true, null));
+        assertTrue("the default must warn, log was:\n" + out, out.contains(LENIENT_MATH));
+        assertTrue("the warning must name the way out, log was:\n" + out,
+                   out.contains("runtime.strict_math is false"));
+        assertEquals("one warning per engine init expected, log was:\n" + out,
+                     1, occurrences(LENIENT_MATH, out));
+    }
+
+    public void testLenientMathWarnsAtInitWhenSetExplicitly()
+    {
+        String out = warningsAtInit(mathEngine(true, "false"));
+        assertEquals("one warning per engine init expected, log was:\n" + out,
+                     1, occurrences(LENIENT_MATH, out));
+    }
+
+    public void testStrictMathSilentAtInit()
+    {
+        String out = warningsAtInit(mathEngine(true, "true"));
+        assertFalse("strict math has nothing to warn about, log was:\n" + out,
+                    out.contains(LENIENT_MATH));
+    }
+
+    public void testLenientMathSilentAtInitWhenDeprecationOff()
+    {
+        String out = warningsAtInit(mathEngine(false, null));
+        assertFalse("no warning expected with runtime.deprecation.warn = false, log was:\n" + out,
+                    out.contains(LENIENT_MATH));
     }
 
     /* ---- on by default, silenced explicitly ---- */

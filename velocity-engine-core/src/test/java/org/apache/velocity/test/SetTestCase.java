@@ -122,6 +122,13 @@ public class SetTestCase extends BaseTestCase
         }
     }
 
+    @Override
+    protected void setUpEngine(org.apache.velocity.app.VelocityEngine engine)
+    {
+        // testInvalidSet is about the LENIENT path (a skipped operation must not NPE while building the log message)
+        engine.setProperty(RuntimeConstants.STRICT_MATH, "false");
+    }
+
     public void testInvalidSet() throws Exception
     {
         /* the purpose of this test is to check that in case of error, the calculation of the

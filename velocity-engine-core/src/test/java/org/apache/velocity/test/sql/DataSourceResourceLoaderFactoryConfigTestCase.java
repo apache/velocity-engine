@@ -20,6 +20,7 @@ package org.apache.velocity.test.sql;
  */
 
 import junit.framework.Test;
+import org.apache.velocity.test.misc.TestRuntimeInstance;
 import junit.framework.TestSuite;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeInstance;
@@ -135,7 +136,7 @@ public class DataSourceResourceLoaderFactoryConfigTestCase extends BaseSQLTest
 
     private void loadTemplate(ExtProperties props)
     {
-        RuntimeInstance engine = new RuntimeInstance();
+        RuntimeInstance engine = new TestRuntimeInstance();
         engine.setConfiguration(props);
         engine.init();
         engine.getTemplate("testTemplate1");

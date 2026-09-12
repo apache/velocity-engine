@@ -20,6 +20,7 @@ package org.apache.velocity.test;
  */
 
 import junit.framework.TestSuite;
+import org.apache.velocity.test.misc.TestVelocityEngine;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -70,7 +71,7 @@ public class SpaceGobblingTestCase extends BaseTestCase
     private VelocityEngine createEngine(SpaceGobbling mode)
             throws Exception
     {
-        VelocityEngine ve = new VelocityEngine();
+        VelocityEngine ve = new TestVelocityEngine();
         ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
         ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
         ve.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, TEST_COMPARE_DIR + "/gobbling");

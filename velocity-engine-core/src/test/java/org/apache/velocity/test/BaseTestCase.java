@@ -20,6 +20,7 @@ package org.apache.velocity.test;
  */
 
 import junit.framework.TestCase;
+import org.apache.velocity.test.misc.TestVelocityEngine;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
@@ -67,7 +68,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
 
     protected VelocityEngine createEngine()
     {
-        VelocityEngine ret = new VelocityEngine();
+        VelocityEngine ret = new TestVelocityEngine();
         ret.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
 
         // use string resource loader by default, instead of file
@@ -76,6 +77,7 @@ public abstract class BaseTestCase extends TestCase implements TemplateTestBase
         ret.addProperty("resource.loader.string.repository.name", stringRepoName);
         ret.addProperty("resource.loader.string.repository.static", "false");
 
+        // warning is noise here
         setUpEngine(ret);
         return ret;
     }

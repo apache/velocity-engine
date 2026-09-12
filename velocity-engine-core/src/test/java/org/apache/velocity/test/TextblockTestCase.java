@@ -20,6 +20,7 @@ package org.apache.velocity.test;
  */
 
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.parser.Parser;
 import org.apache.velocity.runtime.parser.node.ASTTextblock;
 
@@ -51,7 +52,7 @@ public class TextblockTestCase extends BaseTestCase
         super.setUp();
 
         // get a valid parser instance to initialize string constants
-        Field riField = engine.getClass().getDeclaredField("ri");
+        Field riField = VelocityEngine.class.getDeclaredField("ri");
         riField.setAccessible(true);
         RuntimeInstance ri = (RuntimeInstance)riField.get(engine);
         Parser parser = ri.createNewParser();

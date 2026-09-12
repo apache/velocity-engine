@@ -408,9 +408,19 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      */
     private void warnDeprecatedSettings()
     {
-        if (getBoolean(RUNTIME_DEPRECATION_WARN, true) && hyphenAllowedInIdentifiers)
+        if (!getBoolean(RUNTIME_DEPRECATION_WARN, true))
+        {
+            return;
+        }
+
+        if (hyphenAllowedInIdentifiers)
         {
             log.warn("the '{}' option is deprecated: hyphenated identifiers (e.g. $foo-bar) cannot be expressed in the next major version", PARSER_HYPHEN_ALLOWED);
+        }
+
+        if (!getBoolean(STRICT_MATH, false))
+        {
+            log.warn("{} is false: lenient math is deprecated, set it to true to fix this warning - math operations on null or non-numeric operands and divisions by zero will not silently be skipped.", STRICT_MATH);
         }
     }
 

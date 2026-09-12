@@ -20,6 +20,8 @@ package org.apache.velocity.test.util.introspection;
  */
 
 import junit.framework.TestSuite;
+import org.apache.velocity.test.misc.TestRuntimeInstance;
+import org.apache.velocity.test.misc.TestVelocityEngine;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.TypeUtils;
 import org.apache.velocity.Template;
@@ -115,7 +117,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
 
     public void testCustomConverter()
     {
-        RuntimeInstance ve = new RuntimeInstance();
+        RuntimeInstance ve = new TestRuntimeInstance();
         ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
         ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
@@ -197,7 +199,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
 
     public void testCustomConversionHandlerInstance()
     {
-        RuntimeInstance ve = new RuntimeInstance();
+        RuntimeInstance ve = new TestRuntimeInstance();
         ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
         ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");
@@ -278,7 +280,7 @@ public class ConversionHandlerTestCase extends BaseTestCase
     private VelocityEngine createEngine(boolean withConversionsHandler)
     throws Exception
     {
-        VelocityEngine ve = new VelocityEngine();
+        VelocityEngine ve = new TestVelocityEngine();
         ve.setProperty( Velocity.VM_PERM_INLINE_LOCAL, Boolean.TRUE);
         ve.setProperty(Velocity.RUNTIME_LOG_INSTANCE, log);
         ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file");

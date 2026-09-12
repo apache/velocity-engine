@@ -20,6 +20,7 @@ package org.apache.velocity.test;
  */
 
 import junit.framework.Test;
+import org.apache.velocity.test.misc.TestVelocityEngine;
 import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -104,7 +105,7 @@ public class FilteredEventHandlingTestCase extends BaseTestCase
         /*
          * Set up two VelocityEngines that will apply the handlers in both orders
          */
-        VelocityEngine ve = new VelocityEngine();
+        VelocityEngine ve = new TestVelocityEngine();
         ve.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         ve.setProperty(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION, sequence1);
         ve.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, sequence1);
@@ -112,7 +113,8 @@ public class FilteredEventHandlingTestCase extends BaseTestCase
         ve.addProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, FILE_RESOURCE_LOADER_PATH);
         ve.init();
 
-        VelocityEngine ve2 = new VelocityEngine();
+        VelocityEngine ve2 = new TestVelocityEngine();
+
         ve2.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
         ve2.setProperty(RuntimeConstants.EVENTHANDLER_METHODEXCEPTION, sequence2);
         ve2.setProperty(RuntimeConstants.EVENTHANDLER_REFERENCEINSERTION, sequence2);

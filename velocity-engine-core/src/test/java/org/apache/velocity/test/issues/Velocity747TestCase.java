@@ -20,6 +20,7 @@ package org.apache.velocity.test.issues;
  */
 
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.test.misc.TestVelocityEngine;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
@@ -53,13 +54,14 @@ public class Velocity747TestCase extends BaseTestCase
          */
         props.load(new FileReader(TEST_COMPARE_DIR + "/issues/velocity-747/vel.props"));
         props.setProperty("resource.loader.file.path", TEST_COMPARE_DIR + "/issues/velocity-747/");
-        engine1 = new VelocityEngine(props);
+        engine1 = new TestVelocityEngine(props);
 
         //by default, make the engine's log output go to the test-report
         log = new TestLogger(false, false);
         engine1.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
 
-        engine2 = new VelocityEngine();
+        engine2 = new TestVelocityEngine();
+
         engine2.setProperty(RuntimeConstants.RESOURCE_LOADERS, "file,string");
         engine2.addProperty("resource.loader.file.path", TEST_COMPARE_DIR + "/issues/velocity-747/");
         engine2.addProperty("resource.loader.file.cache", "true");

@@ -20,6 +20,7 @@ package org.apache.velocity.test;
  */
 
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.test.misc.TestVelocityEngine;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
@@ -49,7 +50,8 @@ public class MacroAutoReloadTestCase extends BaseTestCase
         // always copy macros library before modifying it, to ensure successive tests will pass
         Files.copy(FileSystems.getDefault().getPath(RELOAD_TEMPLATE_PATH + "/macros.vtl"), FileSystems.getDefault().getPath(RELOAD_TEMPLATE_PATH + "/macros2.vtl"), StandardCopyOption.REPLACE_EXISTING);
 
-        engine = new VelocityEngine();
+        engine = new TestVelocityEngine();
+
 
         //by default, make the engine's log output go to the test-report
         log = new TestLogger(false, false);

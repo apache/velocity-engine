@@ -20,6 +20,7 @@ package org.apache.velocity.test.sql;
  */
 
 import junit.framework.Test;
+import org.apache.velocity.test.misc.TestRuntimeInstance;
 import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -102,14 +103,14 @@ public class DataSourceResourceLoaderTestCase
         props.setProperty( "resource.loader.ds.instance", rl1);
         props.setProperty( "resource.loader.ds.resource.table", "velocity_template_varchar");
 
-        varcharTemplatesEngine = new RuntimeInstance();
+        varcharTemplatesEngine = new TestRuntimeInstance();
         varcharTemplatesEngine.setConfiguration(props);
         varcharTemplatesEngine.init();
 
         ExtProperties props2 = (ExtProperties)props.clone();
         props2.setProperty( "resource.loader.ds.instance", rl2);
         props2.setProperty( "resource.loader.ds.resource.table",  "velocity_template_clob");
-        clobTemplatesEngine = new RuntimeInstance();
+        clobTemplatesEngine = new TestRuntimeInstance();
         clobTemplatesEngine.setConfiguration(props2);
         clobTemplatesEngine.init();
     }

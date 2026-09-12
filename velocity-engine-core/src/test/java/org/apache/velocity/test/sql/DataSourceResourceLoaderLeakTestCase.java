@@ -20,6 +20,7 @@ package org.apache.velocity.test.sql;
  */
 
 import junit.framework.Test;
+import org.apache.velocity.test.misc.TestRuntimeInstance;
 import junit.framework.TestSuite;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -73,7 +74,7 @@ public class DataSourceResourceLoaderLeakTestCase extends BaseSQLTest
         props.setProperty("resource.loader.ds.cache", "false");
         props.setProperty(Velocity.RUNTIME_LOG_INSTANCE, new TestLogger(false, false));
 
-        engine = new RuntimeInstance();
+        engine = new TestRuntimeInstance();
         engine.setConfiguration(props);
         engine.init();
     }
