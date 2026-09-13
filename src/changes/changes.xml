@@ -40,6 +40,12 @@
   <body>
     <release version="2.5" date="2026-06-14">
         <action type="fix" dev="cbrisson">
+            <code>SecureUberspector</code> now checks <code>Class</code> receivers against
+            <code>Class</code> before the superclass looks a method up among the static
+            methods of the class they name (VELOCITY-102): reached that way, only
+            <code>getName()</code> goes through, whatever the named class.
+        </action>
+        <action type="fix" dev="cbrisson">
             Resource names are now normalized before being looked up by the loaders which
             resolve them against a root (file, classpath, jar and URL loaders): the
             <code>.</code> and <code>..</code> segments are collapsed, and a name climbing

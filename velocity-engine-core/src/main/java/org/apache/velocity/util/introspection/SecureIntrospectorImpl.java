@@ -136,7 +136,8 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
 
     /**
      * Determine which methods and classes to prevent from executing.  Always blocks
-     * methods wait() and notify().  Always allows methods on Number, Boolean, and String.
+     * methods wait() and notify().  Always allows the instance methods of Number, Boolean
+     * and String.
      * Prohibits method calls on classes related to reflection and system operations.
      * For the complete list, see the properties <code>introspector.restrict.classes</code>,
      * <code>introspector.restrict.packages</code> and <code>introspector.restrict.methods</code>.

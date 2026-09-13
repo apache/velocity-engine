@@ -253,6 +253,54 @@ public class SecureIntrospectionTestCase extends BaseTestCase
     }
 
     /**
+     * A static method reached through a Class object is checked against Class, and not
+     * against the class it names: only getName() goes through.
+     */
+    public void testStaticMethodsThroughClassObject() throws Exception
+    {
+        System.setProperty("velocity.test.secure.int", "42");
+        System.setProperty("velocity.test.secure.bool", "true");
+
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.UBERSPECT_CLASSNAME, SecureUberspector.class.getName());
+        ve.init();
+
+        Context c = new VelocityContext();
+        c.put("n", 1);
+        c.put("b", Boolean.TRUE);
+        c.put("s", "abcde");
+
+        /*
+         * reading a system property through the class of a whitelisted instance
+         */
+        assertFalse("Integer.getInteger must be blocked",
+                    doesStringEvaluate(ve, c, "$n.getClass().getInteger('velocity.test.secure.int')"));
+        assertFalse("Integer.getInteger must be blocked through the class property too",
+                    doesStringEvaluate(ve, c, "$n.class.getInteger('velocity.test.secure.int')"));
+        assertFalse("Boolean.getBoolean must be blocked",
+                    doesStringEvaluate(ve, c, "$b.getClass().getBoolean('velocity.test.secure.bool')"));
+        assertFalse("Class.forName must be blocked",
+                    doesStringEvaluate(ve, c, "$s.getClass().forName('java.lang.Runtime')"));
+        assertFalse("static parsing methods are blocked as well",
+                    doesStringEvaluate(ve, c, "$n.getClass().parseInt('7')"));
+
+        /*
+         * what the secure introspector does allow stays allowed
+         */
+        assertEquals("java.lang.Integer", render(ve, c, "$n.getClass().getName()"));
+        assertEquals("java.lang.Integer", render(ve, c, "$n.Class.Name"));
+        assertEquals("1", render(ve, c, "$n.intValue()"));
+        assertEquals("5", render(ve, c, "$s.length()"));
+    }
+
+    private String render(VelocityEngine ve, Context c, String inputString) throws Exception
+    {
+        Writer w = new StringWriter();
+        ve.evaluate(c, w, "foo", inputString);
+        return w.toString();
+    }
+
+    /**
      * The default-shipped restriction on VelocityEngine.init must block that call from a template.
      */
     public void testDefaultVelocityEngineRestriction() throws Exception

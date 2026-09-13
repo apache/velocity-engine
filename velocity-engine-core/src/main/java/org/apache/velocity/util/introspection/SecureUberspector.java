@@ -61,6 +61,32 @@ public class SecureUberspector extends UberspectImpl
     }
 
     /**
+     * Get a method from the given object. When the object is a <code>Class</code>, only allow <code>Class.getName()</code>.
+     *
+     * @param obj object on which the method is called
+     * @param methodName name of the called method
+     * @param args method arguments
+     * @param i line, column, template info
+     * @return Velocity method, or null when the call is not permitted
+     * @since 2.5
+     */
+    @Override
+    public VelMethod getMethod(Object obj, String methodName, Object[] args, Info i)
+    {
+        if (obj instanceof Class)
+        {
+            SecureIntrospectorControl sic = (SecureIntrospectorControl)introspector;
+            if (!sic.checkObjectExecutePermission(Class.class, methodName))
+            {
+                log.warn("Cannot retrieve method {} from object of class {} due to security restrictions."
+                         , methodName, Class.class.getName());
+                return null;
+            }
+        }
+        return super.getMethod(obj, methodName, args, i);
+    }
+
+    /**
      * Get an iterator from the given object.  Since the superclass method
      * this secure version checks for execute permission.
      *
