@@ -163,6 +163,11 @@ public class VelocimacroFactory
                      if (rsvc.getLoaderNameForResource(RuntimeConstants.OLD_VM_LIBRARY_DEFAULT) != null)
                      {
                          libfiles = RuntimeConstants.OLD_VM_LIBRARY_DEFAULT;
+                         if (rsvc.getBoolean(RuntimeConstants.RUNTIME_DEPRECATION_WARN, true))
+                         {
+                             log.warn("the macro library was found under its pre-2.1 default name '{}', which the next major version does not search for any more: rename it '{}' or declare it with '{}'",
+                                      RuntimeConstants.OLD_VM_LIBRARY_DEFAULT, RuntimeConstants.VM_LIBRARY_DEFAULT, RuntimeConstants.VM_LIBRARY);
+                         }
                      }
                      else
                      {

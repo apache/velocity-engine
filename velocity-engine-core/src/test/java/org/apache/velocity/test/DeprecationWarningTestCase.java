@@ -23,6 +23,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MathException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
+import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.apache.velocity.test.misc.TestVelocityEngine;
 
 import java.util.Properties;
@@ -38,6 +39,7 @@ import java.util.Properties;
  * and the settings the next major version does not provide any more:
  * <ul>
  *   <li>{@code velocimacro.enable_bc_mode}</li>
+ *   <li>an implicitly loaded macro library</li>
  * </ul>
  */
 public class DeprecationWarningTestCase extends BaseTestCase
@@ -484,6 +486,72 @@ public class DeprecationWarningTestCase extends BaseTestCase
     public void testBcModeSilentWhenDeprecationOff()
     {
         assertSilentAtInit(RuntimeConstants.VM_ENABLE_BC_MODE, false, RuntimeConstants.VM_ENABLE_BC_MODE, "true");
+    }
+
+
+    /* ---- an implicitly loaded macro library: deprecated, declare it instead ---- */
+
+    private static final String OLD_DEFAULT_LIBRARY = "pre-2.1 default name";
+
+    /**
+     * Initializes an engine whose loader can serve a library under the given name, which the engine
+     * then looks for on its own unless a library is declared.
+     *
+     * @param warn value of runtime.deprecation.warn
+     * @param libraryName the name the library is served under
+     * @param declaredPath value of velocimacro.library.path, or null to leave it unset
+     * @return what was logged at init
+     */
+    private String warningsAtInitWithLibrary(boolean warn, String libraryName, String declaredPath)
+    {
+        StringResourceRepository repository = StringResourceLoader.getRepository();
+        repository.putStringResource(libraryName, "#macro(fromlibrary)x#end");
+        try
+        {
+            VelocityEngine ve = settingEngine(warn, RuntimeConstants.VM_LIBRARY, declaredPath);
+            return warningsAtInit(ve);
+        }
+        finally
+        {
+            repository.removeStringResource(libraryName);
+        }
+    }
+
+    public void testOldDefaultMacroLibraryNameWarns()
+    {
+        String out = warningsAtInitWithLibrary(true, RuntimeConstants.OLD_VM_LIBRARY_DEFAULT, null);
+        assertTrue("a library found under the pre-2.1 name must warn, log was:\n" + out,
+                   out.contains(OLD_DEFAULT_LIBRARY) && out.contains(RuntimeConstants.OLD_VM_LIBRARY_DEFAULT));
+        assertTrue("the warning must say how to fix it, log was:\n" + out,
+                   out.contains(RuntimeConstants.VM_LIBRARY_DEFAULT) && out.contains(RuntimeConstants.VM_LIBRARY));
+    }
+
+    public void testDefaultMacroLibraryNameNeverWarns()
+    {
+        // velocimacros.vtl is still searched for in the next major version: nothing to warn about
+        String out = warningsAtInitWithLibrary(true, RuntimeConstants.VM_LIBRARY_DEFAULT, null);
+        assertFalse("the current default name has nothing to warn about, log was:\n" + out,
+                    out.contains(OLD_DEFAULT_LIBRARY));
+    }
+
+    public void testDeclaredMacroLibraryNeverWarns()
+    {
+        String out = warningsAtInitWithLibrary(true, RuntimeConstants.OLD_VM_LIBRARY_DEFAULT, RuntimeConstants.OLD_VM_LIBRARY_DEFAULT);
+        assertFalse("a declared library has nothing to warn about, log was:\n" + out,
+                    out.contains(OLD_DEFAULT_LIBRARY));
+    }
+
+    public void testOldDefaultMacroLibrarySilentWhenNoneIsThere()
+    {
+        String out = warningsAtInit(settingEngine(true, null, null));
+        assertFalse("no library, no warning, log was:\n" + out, out.contains(OLD_DEFAULT_LIBRARY));
+    }
+
+    public void testOldDefaultMacroLibrarySilentWhenDeprecationOff()
+    {
+        String out = warningsAtInitWithLibrary(false, RuntimeConstants.OLD_VM_LIBRARY_DEFAULT, null);
+        assertFalse("no warning expected with runtime.deprecation.warn = false, log was:\n" + out,
+                    out.contains(OLD_DEFAULT_LIBRARY));
     }
 
 }
