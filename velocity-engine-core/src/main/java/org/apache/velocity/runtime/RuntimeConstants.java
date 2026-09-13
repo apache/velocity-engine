@@ -474,7 +474,11 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
     /** Switch for the interpolation facility for string literals. */
     String INTERPOLATE_STRINGLITERALS = "runtime.interpolate_string_literals";
 
-    /** Switch for the immutability of integer ranges. */
+    /**
+     * Switch for the immutability of integer ranges.
+     * @deprecated since 2.5: ranges will always be immutable in the next major version
+     */
+    @Deprecated
     String IMMUTABLE_RANGES = "runtime.immutable_ranges";
 
     /** Whether to warn about deprecated VTL syntax constructs (on by default). */

@@ -430,6 +430,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             log.warn("the '{}' setting is deprecated without replacement: the next major version does not provide this compatibility mode", VM_ENABLE_BC_MODE);
         }
+
+        if (!getBoolean(IMMUTABLE_RANGES, true))
+        {
+            log.warn("{} is false: mutable integer ranges are deprecated, ranges will always be immutable in the next major version", IMMUTABLE_RANGES);
+        }
     }
 
     private char getConfiguredCharacter(String configKey, char defaultChar)

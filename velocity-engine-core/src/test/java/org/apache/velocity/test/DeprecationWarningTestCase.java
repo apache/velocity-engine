@@ -40,6 +40,7 @@ import java.util.Properties;
  * <ul>
  *   <li>{@code velocimacro.enable_bc_mode}</li>
  *   <li>an implicitly loaded macro library</li>
+ *   <li>{@code runtime.immutable_ranges = false}</li>
  * </ul>
  */
 public class DeprecationWarningTestCase extends BaseTestCase
@@ -552,6 +553,25 @@ public class DeprecationWarningTestCase extends BaseTestCase
         String out = warningsAtInitWithLibrary(false, RuntimeConstants.OLD_VM_LIBRARY_DEFAULT, null);
         assertFalse("no warning expected with runtime.deprecation.warn = false, log was:\n" + out,
                     out.contains(OLD_DEFAULT_LIBRARY));
+    }
+
+
+    /* ---- runtime.immutable_ranges = false: deprecated, ranges are always immutable ---- */
+
+    public void testMutableRangesWarn()
+    {
+        assertWarnsAtInit(RuntimeConstants.IMMUTABLE_RANGES, true, RuntimeConstants.IMMUTABLE_RANGES, "false");
+    }
+
+    public void testImmutableRangesSilent()
+    {
+        assertSilentAtInit(RuntimeConstants.IMMUTABLE_RANGES, true, RuntimeConstants.IMMUTABLE_RANGES, "true");
+        assertSilentAtInit(RuntimeConstants.IMMUTABLE_RANGES, true, null, null);
+    }
+
+    public void testMutableRangesSilentWhenDeprecationOff()
+    {
+        assertSilentAtInit(RuntimeConstants.IMMUTABLE_RANGES, false, RuntimeConstants.IMMUTABLE_RANGES, "false");
     }
 
 }
