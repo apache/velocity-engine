@@ -406,6 +406,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Warns about deprecated configuration settings, when runtime.deprecation.warn is on.
      * Kept separate from {@link #initializeSelfProperties()} so it runs after the log is set up.
      */
+    @SuppressWarnings("deprecation")
     private void warnDeprecatedSettings()
     {
         if (!getBoolean(RUNTIME_DEPRECATION_WARN, true))
@@ -421,6 +422,11 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         if (!getBoolean(STRICT_MATH, false))
         {
             log.warn("{} is false: lenient math is deprecated, set it to true to fix this warning - math operations on null or non-numeric operands and divisions by zero will not silently be skipped.", STRICT_MATH);
+        }
+
+        if (getBoolean(VM_ENABLE_BC_MODE, false))
+        {
+            log.warn("the '{}' setting is deprecated without replacement: the next major version does not provide this compatibility mode", VM_ENABLE_BC_MODE);
         }
     }
 

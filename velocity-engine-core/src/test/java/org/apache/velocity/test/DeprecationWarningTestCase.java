@@ -23,6 +23,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MathException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
+import org.apache.velocity.test.misc.TestVelocityEngine;
 
 import java.util.Properties;
 
@@ -33,6 +34,10 @@ import java.util.Properties;
  *   <li>{@code parser.allow_hyphen_in_identifiers = true}<li>
  *   <li>a lone backslash right before the closing quote of a double-quoted string</li>
  *   <li>{@code runtime.strict_math = false}
+ * </ul>
+ * and the settings the next major version does not provide any more:
+ * <ul>
+ *   <li>{@code velocimacro.enable_bc_mode}</li>
  * </ul>
  */
 public class DeprecationWarningTestCase extends BaseTestCase
@@ -412,4 +417,73 @@ public class DeprecationWarningTestCase extends BaseTestCase
         assertFalse("no warning expected with runtime.deprecation.warn = false, log was:\n" + out,
                     out.contains("deprecated"));
     }
+
+    /* ---- settings the next major version does not provide: warned once at engine init ---- */
+
+    /**
+     * An engine with one setting of interest, and nothing else to warn about: strict math is on,
+     * so the lenient-math warning stays out of these logs.
+     *
+     * @param warn value of runtime.deprecation.warn
+     * @param key the setting to apply, or null to apply none
+     * @param value its value
+     * @return the engine, not initialized yet
+     */
+    private VelocityEngine settingEngine(boolean warn, String key, String value)
+    {
+        VelocityEngine ve = new TestVelocityEngine();
+        ve.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, log);
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADERS, "string");
+        ve.addProperty("resource.loader.string.class", StringResourceLoader.class.getName());
+        ve.setProperty(RuntimeConstants.RUNTIME_DEPRECATION_WARN, String.valueOf(warn));
+        if (key != null && value != null)
+        {
+            ve.setProperty(key, value);
+        }
+        return ve;
+    }
+
+    private void assertWarnsAtInit(String needle, boolean warn, String key, String value)
+    {
+        String out = warningsAtInit(settingEngine(warn, key, value));
+        assertTrue("expected a deprecation warning naming '" + needle + "', log was:\n" + out,
+                   out.contains(needle) && out.contains("deprecated"));
+    }
+
+    private void assertSilentAtInit(String needle, boolean warn, String key, String value)
+    {
+        String out = warningsAtInit(settingEngine(warn, key, value));
+        assertFalse("unexpected deprecation warning naming '" + needle + "', log was:\n" + out,
+                    out.contains(needle));
+    }
+
+    /* ---- velocimacro.enable_bc_mode: deprecated without replacement ---- */
+
+    public void testBcModeWarnsWhenEnabled()
+    {
+        assertWarnsAtInit(RuntimeConstants.VM_ENABLE_BC_MODE, true, RuntimeConstants.VM_ENABLE_BC_MODE, "true");
+    }
+
+    public void testBcModeWarningSaysWithoutReplacement()
+    {
+        String out = warningsAtInit(settingEngine(true, RuntimeConstants.VM_ENABLE_BC_MODE, "true"));
+        assertTrue("the warning must say there is no replacement, log was:\n" + out,
+                   out.contains("without replacement"));
+    }
+
+    public void testBcModeSilentWhenDisabled()
+    {
+        assertSilentAtInit(RuntimeConstants.VM_ENABLE_BC_MODE, true, RuntimeConstants.VM_ENABLE_BC_MODE, "false");
+    }
+
+    public void testBcModeSilentWhenDefaulted()
+    {
+        assertSilentAtInit(RuntimeConstants.VM_ENABLE_BC_MODE, true, null, null);
+    }
+
+    public void testBcModeSilentWhenDeprecationOff()
+    {
+        assertSilentAtInit(RuntimeConstants.VM_ENABLE_BC_MODE, false, RuntimeConstants.VM_ENABLE_BC_MODE, "true");
+    }
+
 }

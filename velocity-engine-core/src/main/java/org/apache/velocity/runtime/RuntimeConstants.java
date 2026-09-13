@@ -355,7 +355,11 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      *     </li>
      * </ul>
      * @since 2.2
+     * @deprecated since 2.5, without replacement: the next major version does not provide this
+     * compatibility mode; a null argument renders the parameter's own literal and a missing
+     * argument is null, as since 2.0.
      */
+    @Deprecated
     String VM_ENABLE_BC_MODE = "velocimacro.enable_bc_mode";
 
     /**
