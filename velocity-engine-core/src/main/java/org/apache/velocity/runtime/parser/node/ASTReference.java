@@ -199,6 +199,7 @@ public class ASTReference extends SimpleNode
      * @see org.apache.velocity.runtime.parser.node.SimpleNode#init(org.apache.velocity.context.InternalContextAdapter, java.lang.Object)
      */
     @Override
+    @SuppressWarnings("deprecation")
     public Object init(InternalContextAdapter context, Object data)
     throws TemplateInitException
     {

@@ -451,7 +451,9 @@ public interface RuntimeServices
     /**
      * Create a new parser instance.
      * @return A new parser instance.
+     * @deprecated since 2.5: the next major version has no pluggable parser to hand out.
      */
+    @Deprecated
     Parser createNewParser();
 
     /**

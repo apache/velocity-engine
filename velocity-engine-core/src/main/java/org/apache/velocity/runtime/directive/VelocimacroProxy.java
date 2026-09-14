@@ -148,6 +148,7 @@ public class VelocimacroProxy extends Directive
      * Initialize members of VelocimacroProxy.  called from MacroEntry
      * @param rs runtime services
      */
+    @SuppressWarnings("deprecation")
     public void init(RuntimeServices rs)
     {
         rsvc = rs;

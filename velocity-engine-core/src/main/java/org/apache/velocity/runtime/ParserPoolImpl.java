@@ -43,6 +43,7 @@ public class ParserPoolImpl implements ParserPool {
      * @param rsvc
      */
     @Override
+    @SuppressWarnings("deprecation")
     public void initialize(RuntimeServices rsvc)
     {
         log = rsvc.getLog("parser");

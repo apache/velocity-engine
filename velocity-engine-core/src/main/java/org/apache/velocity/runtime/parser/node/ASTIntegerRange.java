@@ -213,6 +213,7 @@ public class ASTIntegerRange extends SimpleNode
      * @throws MethodInvocationException
      */
     @Override
+    @SuppressWarnings("deprecation")
     public Object value(InternalContextAdapter context)
         throws MethodInvocationException
     {

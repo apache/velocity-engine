@@ -1323,7 +1323,9 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
      * Returns a JavaCC generated Parser.
      *
      * @return Parser javacc generated parser
+     * @deprecated since 2.5: the next major version has no pluggable parser to hand out.
      */
+    @Deprecated
     @Override
     public Parser createNewParser()
     {
