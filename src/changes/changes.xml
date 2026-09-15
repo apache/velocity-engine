@@ -40,6 +40,15 @@
   <body>
     <release version="2.5" date="2026-06-14">
         <action type="fix" dev="cbrisson">
+            Resource names are now normalized before being looked up by the loaders which
+            resolve them against a root (file, classpath, jar and URL loaders): the
+            <code>.</code> and <code>..</code> segments are collapsed, and a name climbing
+            above the root is refused, as if the resource did not exist. Loaders which use
+            the name as an opaque key (<code>DataSourceResourceLoader</code>,
+            <code>StringResourceLoader</code>) keep seeing it unchanged. See
+            <code>ResourceLoader.normalizeResourceName()</code>.
+        </action>
+        <action type="fix" dev="cbrisson">
             <code>#evaluate</code> now honours the nesting depth limit set by
             <code>directive.parse.max_depth</code> (10 by default, zero or less meaning no
             limit).

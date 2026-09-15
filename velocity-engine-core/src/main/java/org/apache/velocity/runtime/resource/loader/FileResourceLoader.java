@@ -33,6 +33,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -170,7 +172,7 @@ public class FileResourceLoader extends ResourceLoader
             try
             {
                 File file = getFile(path, name);
-                if (file.canRead())
+                if (file != null && file.canRead())
                 {
                     return true;
                 }
@@ -198,7 +200,7 @@ public class FileResourceLoader extends ResourceLoader
         {
             File file = getFile(path, template);
 
-            if (file.canRead())
+            if (file != null && file.canRead())
             {
                 FileInputStream fis = null;
                 try
@@ -269,13 +271,13 @@ public class FileResourceLoader extends ResourceLoader
         {
             String testPath = (String) paths.get(i);
             File testFile = getFile(testPath, fileName);
-            if (testFile.canRead())
+            if (testFile != null && testFile.canRead())
             {
                 currentFile = testFile;
             }
         }
         File file = getFile(path, fileName);
-        if (currentFile == null || !file.exists())
+        if (currentFile == null || file == null || !file.exists())
         {
             /*
              * noop: if the file is missing now (either the cached
@@ -312,7 +314,7 @@ public class FileResourceLoader extends ResourceLoader
         String path = templatePaths.get(resource.getName());
         File file = getFile(path, resource.getName());
 
-        if (file.canRead())
+        if (file != null && file.canRead())
         {
             return file.lastModified();
         }
@@ -324,7 +326,10 @@ public class FileResourceLoader extends ResourceLoader
 
 
     /**
-     * Create a File based on either a relative path if given, or absolute path otherwise
+     * Create a File based on either a relative path if given, or absolute path otherwise.
+     *
+     * @return the file to read, or null when the template name does not resolve
+     *         inside the given path
      */
     private File getFile(String path, String template)
     {
@@ -333,10 +338,17 @@ public class FileResourceLoader extends ResourceLoader
 
         if("".equals(path))
         {
+            /* an empty path is an explicit configuration choice: absolute names are allowed */
             file = new File( template );
         }
         else
         {
+            template = normalizeResourceName(template);
+            if (template == null)
+            {
+                return null;
+            }
+
             /*
              *  if a / leads off, then just nip that :)
              */
@@ -346,8 +358,38 @@ public class FileResourceLoader extends ResourceLoader
             }
 
             file = new File ( path, template );
+
+            /* refuse to escape root path */
+            if (path != null && !isInside(path, file))
+            {
+                return null;
+            }
         }
 
         return file;
+    }
+
+    /**
+     * Tell whether the given file lies inside the given path. Paths are normalized but
+     * symbolic links are not resolved, so that a linked template stays reachable.
+     */
+    private boolean isInside(String path, File file)
+    {
+        try
+        {
+            Path root = Paths.get(path).toAbsolutePath().normalize();
+            Path target = file.toPath().toAbsolutePath().normalize();
+            if (target.startsWith(root))
+            {
+                return true;
+            }
+            log.debug("FileResourceLoader: template '{}' is not inside path '{}'", file, path);
+        }
+        catch (RuntimeException re)
+        {
+            /* invalid path: not something we can read */
+            log.debug("FileResourceLoader: cannot resolve template '{}' inside path '{}'", file, path);
+        }
+        return false;
     }
 }

@@ -35,6 +35,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is abstract class the all text resource loaders should
@@ -226,6 +228,81 @@ public abstract class ResourceLoader
     public long getModificationCheckInterval()
     {
         return modificationCheckInterval;
+    }
+
+    /**
+     * <p>Normalize a resource name before it is looked up, and tell whether it is acceptable
+     * at all. The default implementation collapses the <code>.</code> and <code>..</code>
+     * segments of the name, taking <code>/</code> as the separator, and returns
+     * <code>null</code> for a name whose <code>..</code> segments climb above the resource
+     * root: <code>a/../b.vm</code> is <code>b.vm</code>, while <code>../b.vm</code> and
+     * <code>a/../../b.vm</code> are refused. A leading <code>/</code> is preserved, each
+     * loader having its own way of handling it.</p>
+     *
+     * <p>This is meant for the loaders which resolve a name against one or several roots
+     * (file, classpath, jar and URL loaders do call it, and refuse a name for which it
+     * returns <code>null</code>). Loaders which use the name as an opaque key, like
+     * <code>DataSourceResourceLoader</code> and <code>StringResourceLoader</code>, do not
+     * call it: their keys may contain anything, including <code>..</code> segments.</p>
+     *
+     * @param name resource name, as asked by the application or by a directive
+     * @return the name to look up, or <code>null</code> if the name is not acceptable
+     * @since 2.5
+     */
+    public String normalizeResourceName(String name)
+    {
+        if (name == null || name.indexOf('.') == -1)
+        {
+            /* without a dot, the name cannot contain any . or .. segment */
+            return name;
+        }
+
+        boolean absolute = name.startsWith("/");
+        String[] segments = (absolute ? name.substring(1) : name).split("/", -1);
+        List<String> kept = new ArrayList<>(segments.length);
+        boolean changed = false;
+
+        for (String segment : segments)
+        {
+            if (".".equals(segment))
+            {
+                changed = true;
+            }
+            else if ("..".equals(segment))
+            {
+                if (kept.isEmpty())
+                {
+                    /* climbs above the root */
+                    return null;
+                }
+                kept.remove(kept.size() - 1);
+                changed = true;
+            }
+            else
+            {
+                kept.add(segment);
+            }
+        }
+
+        if (!changed)
+        {
+            return name;
+        }
+
+        StringBuilder normalized = new StringBuilder(name.length());
+        if (absolute)
+        {
+            normalized.append('/');
+        }
+        for (int i = 0; i < kept.size(); i++)
+        {
+            if (i > 0)
+            {
+                normalized.append('/');
+            }
+            normalized.append(kept.get(i));
+        }
+        return normalized.toString();
     }
 
     /**

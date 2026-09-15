@@ -347,6 +347,19 @@ public class StringResourceLoader extends ResourceLoader
     }
 
     /**
+     * Resource names are opaque keys here: they are used as given.
+     *
+     * @param name resource name
+     * @return the name, unchanged
+     * @since 2.5
+     */
+    @Override
+    public String normalizeResourceName(String name)
+    {
+        return name;
+    }
+
+    /**
      * Get a reader so that the Runtime can build a
      * template with it.
      *

@@ -185,6 +185,12 @@ public class JarResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException("Need to have a resource!");
         }
 
+        source = normalizeResourceName(source);
+        if (source == null)
+        {
+            throw new ResourceNotFoundException("JarResourceLoader Error: resource name is invalid");
+        }
+
         /*
          *  if a / leads off, then just nip that :)
          */

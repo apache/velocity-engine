@@ -42,10 +42,10 @@ import java.io.Writer;
  *
  * <p>Notes:</p>
  * <ol>
- * <li>For security reasons, the included source material can only come
- *    from somewhere within the template root tree.  If you want to include
- *    content from elsewhere on your disk, add extra template roots, or use
- *    a link from somwehere under template root to that content.</li>
+ * <li>The included source material must lie within a configured resource root:
+ *    a name climbing above it is refused by the resource loaders. If you want to
+ *    include content from elsewhere on your disk, add extra template roots, or use
+ *    a link from somewhere under a template root to that content.</li>
  *
  *  <li>By default, there is no output to the render stream in the event of
  *    a problem.  You can override this behavior with two property values :

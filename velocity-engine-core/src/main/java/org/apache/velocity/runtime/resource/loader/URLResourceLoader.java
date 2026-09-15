@@ -92,6 +92,12 @@ public class URLResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException("URLResourceLoader: No template name provided");
         }
 
+        name = normalizeResourceName(name);
+        if (name == null)
+        {
+            throw new ResourceNotFoundException("URLResourceLoader: resource name is invalid");
+        }
+
         Reader reader = null;
         Exception exception = null;
         for (String root : roots)

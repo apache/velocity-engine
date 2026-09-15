@@ -111,6 +111,12 @@ public class ClasspathResourceLoader extends ResourceLoader
             throw new ResourceNotFoundException ("No template name provided");
         }
 
+        name = normalizeResourceName(name);
+        if (name == null)
+        {
+            throw new ResourceNotFoundException("ClasspathResourceLoader Error: resource name is invalid");
+        }
+
         /*
          * look for resource in thread classloader first (e.g. WEB-INF\lib in
          * a servlet container) then fall back to the system classloader.
