@@ -171,6 +171,75 @@ public class EvaluateTestCase extends BaseTestCase
 
 
     /**
+     * Test that a self-referential #evaluate stops at the default depth
+     * instead of recursing until the stack is exhausted.
+     */
+    public void testEvaluateMaxDepthDefault()
+    {
+        context.put("bomb", "X#evaluate($bomb)");
+
+        /*
+         * the limit is 10 by default and the template itself occupies the first
+         * slot of the shared template name stack, hence nine nested evaluations
+         */
+        assertEvalEquals("XXXXXXXXX", "#evaluate($bomb)");
+    }
+
+    /**
+     * Test that the depth limit is configurable and that reaching it is logged.
+     */
+    public void testEvaluateMaxDepthConfigured()
+    {
+        engine.setProperty(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, "3");
+        context.put("bomb", "X#evaluate($bomb)");
+        log.startCapture();
+
+        assertEvalEquals("XX", "#evaluate($bomb)");
+
+        assertTrue("expected the limit to be logged, got: " + log.getLog(),
+                   log.getLog().contains("#evaluate(): max recursion depth reached (3)"));
+    }
+
+    /**
+     * Test that a zero or negative limit means no limit.
+     */
+    public void testEvaluateMaxDepthUnlimited()
+    {
+        engine.setProperty(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, "0");
+        context.put("i", 0);
+        // recursion that stops by itself, deeper than the default limit would allow
+        context.put("rec", "X#set($i = $i + 1)#if($i < 15)#evaluate($rec)#end");
+
+        assertEvalEquals("XXXXXXXXXXXXXXX", "#evaluate($rec)");
+    }
+
+    /**
+     * Test that the limit does not affect an #evaluate which does not recurse.
+     */
+    public void testEvaluateMaxDepthNoRecursion()
+    {
+        // 2 is the lowest limit leaving room for one evaluation, the template being the first
+        engine.setProperty(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, "2");
+        context.put("foo", "bar");
+
+        assertEvalEquals("bar", "#evaluate('$foo')");
+    }
+
+    /**
+     * Test that #parse and #evaluate share the limit, since they share the
+     * template name stack.
+     */
+    public void testEvaluateMaxDepthSharedWithParse()
+    {
+        engine.setProperty(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, "3");
+        addTemplate("shared.vm", "P#evaluate($bomb)");
+        context.put("bomb", "X#evaluate($bomb)");
+
+        // the #parse takes the second slot, so a single nested evaluation is left
+        assertEvalEquals("PX", "#parse('shared.vm')");
+    }
+
+    /**
      * Test errors are thrown
      * @throws Exception
      */

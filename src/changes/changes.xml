@@ -39,6 +39,11 @@
 
   <body>
     <release version="2.5" date="2026-06-14">
+        <action type="fix" dev="cbrisson">
+            <code>#evaluate</code> now honours the nesting depth limit set by
+            <code>directive.parse.max_depth</code> (10 by default, zero or less meaning no
+            limit).
+        </action>
         <action type="fix" dev="cbrisson" due-to="ogawaffm" issue="VELOCITY-996">
             Fix precision loss when converting <code>Long</code> values to
             <code>BigDecimal</code> in VTL math operations.

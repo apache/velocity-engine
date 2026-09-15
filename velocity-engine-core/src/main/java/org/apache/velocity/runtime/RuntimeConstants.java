@@ -105,7 +105,11 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
     String ERRORMSG_END = "directive.include.output_error_end";
 
-    /** Maximum recursion depth allowed for the #parse directive. */
+    /**
+     * Maximum nesting depth allowed for the #parse and #evaluate directives, which share the
+     * same template name stack: a chain mixing both directives is counted as a whole
+     * (#evaluate honours this limit since 2.5).
+     */
     String PARSE_DIRECTIVE_MAXDEPTH = "directive.parse.max_depth";
 
     /** Maximum recursion depth allowed for the #define directive. */

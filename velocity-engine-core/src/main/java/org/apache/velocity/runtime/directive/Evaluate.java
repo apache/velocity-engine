@@ -25,6 +25,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.parser.ParseException;
 import org.apache.velocity.runtime.parser.node.Node;
@@ -39,6 +40,11 @@ import java.io.Writer;
 /**
  * Evaluates the directive argument as a VTL string, using the existing
  * context.
+ * <p>
+ * The nesting depth is limited by the <code>directive.parse.max_depth</code> property
+ * (10 by default, zero or less meaning unlimited): <code>#evaluate</code> and
+ * <code>#parse</code> share the same template name stack, so a chain mixing both
+ * directives is counted as a whole against that one limit.
  *
  * @author <a href="mailto:wglass@apache.org">Will Glass-Husain</a>
  * @version $Id$
@@ -46,6 +52,10 @@ import java.io.Writer;
  */
 public class Evaluate extends Directive
 {
+    /**
+     * Maximum nesting depth, shared with #parse, zero or less meaning unlimited.
+     */
+    private int maxDepth;
 
     /**
      * Return name of this directive.
@@ -80,6 +90,8 @@ public class Evaluate extends Directive
         throws TemplateInitException
     {
         super.init( rs, context, node );
+
+        this.maxDepth = rsvc.getInt(RuntimeConstants.PARSE_DIRECTIVE_MAXDEPTH, 10);
 
         /*
          * Check that there is exactly one argument and it is a string or reference.
@@ -142,6 +154,26 @@ public class Evaluate extends Directive
                           Node node) throws IOException, ResourceNotFoundException,
             ParseErrorException, MethodInvocationException
     {
+
+        if (maxDepth > 0)
+        {
+            /*
+             * see if we have exceeded the configured max depth.
+             */
+            String[] templateStack = context.getTemplateNameStack();
+            if (templateStack.length >= maxDepth)
+            {
+                StringBuilder path = new StringBuilder();
+                for (String aTemplateStack : templateStack)
+                {
+                    path.append(" > ").append(aTemplateStack);
+                }
+                log.error("#{}(): max recursion depth reached ({}). File stack: {}",
+                          getName(), maxDepth, path);
+
+                return false;
+            }
+        }
 
         /*
          * Evaluate the string with the current context.  We know there is
