@@ -438,15 +438,26 @@ public interface RuntimeConstants extends DeprecatedRuntimeConstants
      */
 
     /**
-     * Property specifying the parser class to use
+     * Property specifying the parser class to use.
+     * <p>The four sigils the named parser lexes are not configured here: they are build-time inputs
+     * of its generation (the <code>parser.char.dollar</code>, <code>parser.char.hash</code>,
+     * <code>parser.char.at</code> and <code>parser.char.asterisk</code> properties of the build which
+     * generates it, as <code>velocity-custom-parser-example</code> shows), and the engine reads them
+     * back from the parser itself.</p>
      * @since 2.2
+     * @deprecated since 2.5: the next major version replaces the runtime parser properties by a
+     * pluggable lexer; this key has no effect there.
      */
+    @Deprecated
     String PARSER_CLASS = "parser.class";
 
     /**
      * Default parser class
      * @since 2.2
+     * @deprecated since 2.5, with {@link #PARSER_CLASS}: the next major version replaces the runtime
+     * parser properties by a pluggable lexer, and names another default.
      */
+    @Deprecated
     String DEFAULT_PARSER_CLASS = "org.apache.velocity.runtime.parser.StandardParser";
 
     /**

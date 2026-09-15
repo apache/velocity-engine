@@ -435,6 +435,35 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
         {
             log.warn("{} is false: mutable integer ranges are deprecated, ranges will always be immutable in the next major version", IMMUTABLE_RANGES);
         }
+
+        if (isExplicitlyConfigured(PARSER_CLASS))
+        {
+            log.warn("the '{}' setting is deprecated: the next major version replaces the runtime parser properties by a pluggable lexer, and this key has no effect there", PARSER_CLASS);
+        }
+
+        /*
+         * parser.char.dollar is a build-time input of the parser generation, which this engine never
+         * reads from the configuration: setting it expects a runtime effect it never had, and the next
+         * major version keeps the dollar for itself.
+         */
+        if (isExplicitlyConfigured(PARSER_CHAR_DOLLAR))
+        {
+            log.warn("the '{}' setting is deprecated: the '$' character will not be configurable in the next major version", PARSER_CHAR_DOLLAR);
+        }
+    }
+
+    /** the build-time property naming the character which stands for <code>$</code> in a generated parser */
+    private static final String PARSER_CHAR_DOLLAR = "parser.char.dollar";
+
+    /**
+     * Whether the application configured this property itself, as opposed to a shipped default value.
+     *
+     * @param key property key
+     * @return true if the property was set through any of the setProperty/addProperty/setProperties/setConfiguration methods
+     */
+    private boolean isExplicitlyConfigured(String key)
+    {
+        return overridingProperties != null && overridingProperties.containsKey(key);
     }
 
     private char getConfiguredCharacter(String configKey, char defaultChar)
@@ -1217,6 +1246,7 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
     /**
      * Initializes the Velocity parser pool.
      */
+    @SuppressWarnings("deprecation")
     private void initializeParserPool()
     {
         /*

@@ -75,8 +75,11 @@
         <action type="update" dev="cbrisson">
             Deprecate macros old BC mode <code>velocimacro.enable_bc_mode</code>, old
             default macros library name <code>VM_global_library.vm</code>,
-            <code>runtime.immutable_ranges = false</code>, and
-            <code>RuntimeServices.createNewParser()</code>.
+            <code>runtime.immutable_ranges = false</code>,
+            <code>RuntimeServices.createNewParser()</code>, the <code>parser.class</code>
+            setting and the <code>parser.char.dollar</code> build property (the next major
+            version replaces the runtime parser properties by a pluggable lexer, and
+            <code>$</code> is not configurable there).
         </action>
         <action type="update" dev="cbrisson" issue="VELOCITY-994">
             <code>spring-velocity-support</code> now targets the current, Jakarta-based

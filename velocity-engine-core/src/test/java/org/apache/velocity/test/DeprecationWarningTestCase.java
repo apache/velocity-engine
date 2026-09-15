@@ -41,6 +41,7 @@ import java.util.Properties;
  *   <li>{@code velocimacro.enable_bc_mode}</li>
  *   <li>an implicitly loaded macro library</li>
  *   <li>{@code runtime.immutable_ranges = false}</li>
+ *   <li>{@code parser.class} and the {@code parser.char.dollar} build property</li>
  * </ul>
  */
 public class DeprecationWarningTestCase extends BaseTestCase
@@ -572,6 +573,64 @@ public class DeprecationWarningTestCase extends BaseTestCase
     public void testMutableRangesSilentWhenDeprecationOff()
     {
         assertSilentAtInit(RuntimeConstants.IMMUTABLE_RANGES, false, RuntimeConstants.IMMUTABLE_RANGES, "false");
+    }
+
+
+
+    /* ---- the parser settings: deprecated, a pluggable lexer replaces them ---- */
+
+    /** the distinctive words of each of the two wordings */
+    private static final String PLUGGABLE_LEXER = "pluggable lexer";
+    private static final String DOLLAR_FIXED = "will not be configurable";
+
+    /** the shipped parser: the setting has to name a usable class for the engine to initialize */
+    @SuppressWarnings("deprecation")
+    private static final String STANDARD_PARSER = RuntimeConstants.DEFAULT_PARSER_CLASS;
+
+    @SuppressWarnings("deprecation")
+    public void testParserClassWarnsWhenSet()
+    {
+        String out = warningsAtInit(settingEngine(true, RuntimeConstants.PARSER_CLASS, STANDARD_PARSER));
+        assertTrue("setting the parser class must warn, log was:\n" + out,
+                   out.contains("deprecated") && out.contains("'parser.class'"));
+        assertTrue("the warning must say what replaces it, log was:\n" + out,
+                   out.contains(PLUGGABLE_LEXER));
+    }
+
+    /** the dollar is not configurable at all in the next major version */
+    public void testDollarSigilWarnsWhenSet()
+    {
+        String out = warningsAtInit(settingEngine(true, "parser.char.dollar", "$"));
+        assertTrue("setting 'parser.char.dollar' must warn, log was:\n" + out,
+                   out.contains("deprecated") && out.contains("'parser.char.dollar'"));
+        assertTrue("the warning must say the dollar stays fixed, log was:\n" + out,
+                   out.contains(DOLLAR_FIXED));
+    }
+
+    /** the other build properties of the parser generation are not runtime settings: no warning */
+    public void testOtherSigilKeysNeverWarn()
+    {
+        for (String key : new String[] { "parser.char.hash", "parser.char.at", "parser.char.asterisk" })
+        {
+            String out = warningsAtInit(settingEngine(true, key, "%"));
+            assertFalse("no warning expected for '" + key + "', log was:\n" + out,
+                        out.contains("'" + key + "'"));
+        }
+    }
+
+    /** nothing is shipped for either of them: an engine that asked for none has nothing to warn about */
+    public void testParserSettingsSilentWhenDefaulted()
+    {
+        String out = warningsAtInit(settingEngine(true, null, null));
+        assertFalse("no parser warning expected, log was:\n" + out,
+                    out.contains(PLUGGABLE_LEXER) || out.contains(DOLLAR_FIXED));
+    }
+
+    @SuppressWarnings("deprecation")
+    public void testParserSettingsSilentWhenDeprecationOff()
+    {
+        assertSilentAtInit(PLUGGABLE_LEXER, false, RuntimeConstants.PARSER_CLASS, STANDARD_PARSER);
+        assertSilentAtInit(DOLLAR_FIXED, false, "parser.char.dollar", "$");
     }
 
 }
