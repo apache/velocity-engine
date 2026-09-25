@@ -38,7 +38,7 @@
   </properties>
 
   <body>
-    <release version="2.5" date="2026-06-14">
+    <release version="2.5" date="2026-09-25">
         <action type="fix" dev="cbrisson">
             <code>SecureUberspector</code> now checks <code>Class</code> receivers against
             <code>Class</code> before the superclass looks a method up among the static

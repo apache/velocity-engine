@@ -19,9 +19,11 @@ Apache Velocity requires at least Java 8 to run.
 
 ## CUSTOMIZING THE PARSER
 
-It is possible to [build a custom parser](https://velocity.apache.org/engine/2.3/developer-guide.html#customizing-the-vtl-parser), to change some of the characters used by the VTL syntax: `*`, `@`, `$` and `#`.
+It is possible to [build a custom parser](https://velocity.apache.org/engine/2.5/developer-guide.html#customizing-the-vtl-parser), to change some of the characters used by the VTL syntax: `*`, `@` and `#`.
 
-Let's say you want to merge some templatized jQuery code full of `$` characters, you can for instance build you own parser which will use the `§` character as references prefix instead of `$`.
+Let's say you want to generate Markdown, where `#` starts a heading: you can for instance build your own parser which will use the `%` character as directives prefix instead of `#`.
+
+The `$` character can also be changed, but this is deprecated since 2.5: the next major version does not allow it.
 
 ## TRYING THE EXAMPLES
 
