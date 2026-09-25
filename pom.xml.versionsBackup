@@ -133,7 +133,7 @@
         <connection>scm:git:https://gitbox.apache.org/repos/asf/velocity-engine.git</connection>
         <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/velocity-engine.git</developerConnection>
         <url>https://gitbox.apache.org/repos/asf?p=velocity-engine.git</url>
-        <tag>2.5</tag>
+        <tag>2.4</tag>
     </scm>
 
     <issueManagement>
