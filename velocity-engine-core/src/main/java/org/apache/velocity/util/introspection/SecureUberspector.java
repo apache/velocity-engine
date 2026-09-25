@@ -57,7 +57,7 @@ public class SecureUberspector extends UberspectImpl
         String [] badMethods = rsvc.getConfiguration()
                         .getStringArray(RuntimeConstants.INTROSPECTOR_RESTRICT_METHODS);
 
-        introspector = new SecureIntrospectorImpl(badClasses, badPackages, badMethods, log);
+        introspector = new SecureIntrospectorImpl(badClasses, badPackages, badMethods, log, conversionHandler);
     }
 
     /**

@@ -293,6 +293,21 @@ public class SecureIntrospectionTestCase extends BaseTestCase
         assertEquals("5", render(ve, c, "$s.length()"));
     }
 
+    /**
+     * VELOCITY-999: the secure introspector keeps the conversion handler
+     */
+    public void testTypeConversionWithSecureUberspector() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.UBERSPECT_CLASSNAME, SecureUberspector.class.getName());
+        ve.init();
+
+        Context c = new VelocityContext();
+        c.put("s", "abcde");
+
+        assertEquals("cde", render(ve, c, "$s.substring('2')"));
+    }
+
     private String render(VelocityEngine ve, Context c, String inputString) throws Exception
     {
         Writer w = new StringWriter();

@@ -62,7 +62,21 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      */
     public SecureIntrospectorImpl(String[] badClasses, String[] badPackages, String[] badMethods, Logger log)
     {
-        super(log);
+        this(badClasses, badPackages, badMethods, log, null);
+    }
+
+    /**
+     * @param badClasses fully-qualified class names whose methods are entirely blocked (exact match)
+     * @param badPackages package names whose classes are entirely blocked (exact match)
+     * @param badMethods method specs of the form <code>fully.qualified.ClassName.methodName</code>;
+     *                   restriction applies to the named class and all its subclasses, all overloads
+     * @param log logger
+     * @param conversionHandler conversion handler, may be null
+     * @since 2.5
+     */
+    public SecureIntrospectorImpl(String[] badClasses, String[] badPackages, String[] badMethods, Logger log, TypeConversionHandler conversionHandler)
+    {
+        super(log, conversionHandler);
         this.badClasses = badClasses == null ? new String[0] : badClasses;
         this.badPackages = badPackages == null ? new String[0] : badPackages;
         this.badMethods = parseRestrictedMethods(badMethods, log);
