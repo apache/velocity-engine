@@ -137,7 +137,7 @@ public class ASTSetDirective extends SimpleNode
             /*
              *  grab this now.  No need to redo each time
              */
-            leftReference = left.firstImage.substring(1);
+            leftReference = referenceName(left.literal());
 
             /* handle backward compatible space gobbling if asked so */
             if (rsvc.getSpaceGobbling() == SpaceGobbling.BC)
@@ -203,6 +203,24 @@ public class ASTSetDirective extends SimpleNode
     public String getPostfix()
     {
         return postfix;
+    }
+
+    /**
+     * The assigned reference as written, without its sigil: <code>foo.bar</code> for
+     * <code>$foo.bar</code>, <code>$!foo.bar</code>, <code>${foo.bar}</code> or <code>$!{foo.bar}</code>
+     * @param literal reference literal
+     * @return reference name
+     */
+    private static String referenceName(String literal)
+    {
+        int start = literal.startsWith("$!") ? 2 : 1;
+        int end = literal.length();
+        if (literal.startsWith("{", start) && literal.endsWith("}"))
+        {
+            ++start;
+            --end;
+        }
+        return literal.substring(start, end);
     }
 
     /**

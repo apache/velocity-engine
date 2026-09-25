@@ -39,6 +39,11 @@
 
   <body>
     <release version="2.5" date="2026-09-25">
+        <action type="fix" dev="cbrisson" due-to="Peter SEVERIN" issue="VELOCITY-1000">
+            <code>InvalidReferenceEventHandler.invalidSetMethod()</code> now receives the whole
+            assigned reference as its left reference, e.g. <code>foo.bar</code> for
+            <code>#set($foo.bar = $null)</code>, instead of only its root name.
+        </action>
         <action type="fix" dev="cbrisson" due-to="Peter SEVERIN" issue="VELOCITY-999">
             <code>SecureUberspector</code> now honours the configured type conversion handler.
         </action>

@@ -34,6 +34,8 @@ import org.apache.velocity.util.introspection.Info;
 
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tests event handling for all event handlers except IncludeEventHandler.  This is tested
@@ -126,6 +128,46 @@ extends TestCase
         doTestInvalidReferenceEventHandler2(ve, inner);
         doTestInvalidReferenceEventHandler3(ve, inner);
         doTestInvalidReferenceEventHandler4(ve, inner);
+    }
+
+    /**
+     * VELOCITY-1000: invalidSetMethod receives the whole assigned reference
+     */
+    public void testInvalidSetMethodLeftReference()
+    throws Exception
+    {
+        final List<String> leftReferences = new ArrayList<>();
+        EventCartridge ec = new EventCartridge();
+        ec.addEventHandler(new InvalidReferenceEventHandler()
+        {
+            @Override
+            public Object invalidGetMethod(Context context, String reference, Object object, String property, Info info)
+            {
+                return null;
+            }
+
+            @Override
+            public boolean invalidSetMethod(Context context, String leftreference, String rightreference, Info info)
+            {
+                leftReferences.add(leftreference);
+                return false;
+            }
+
+            @Override
+            public Object invalidMethod(Context context, String reference, Object object, String method, Info info)
+            {
+                return null;
+            }
+        });
+
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
+        VelocityContext context = new VelocityContext();
+        ec.attachToContext(context);
+
+        ve.evaluate(context, new StringWriter(), "mystring",
+                    "#set($yy = $q1)#set($yy.dummy = $q1)#set(${zz.dummy} = $q1)#set($map['key'] = $q1)");
+        assertEquals("[yy, yy.dummy, zz.dummy, map['key']]", leftReferences.toString());
     }
 
     /**
