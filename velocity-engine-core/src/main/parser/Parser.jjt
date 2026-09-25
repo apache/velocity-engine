@@ -788,19 +788,6 @@ TOKEN:
            stateStackPop();
        }
    }
-   |
-   /* the elvis operator is the recommended spelling of the alternate value; same states, same action as <PIPE> */
-   <ELVIS: "?:">
-   {
-       if (curlyLevel == 1)
-       {
-           switchTo(ALT_VAL);
-       }
-       else
-       {
-           stateStackPop();
-       }
-   }
 }
 
 <REFINDEX>
@@ -1423,8 +1410,7 @@ TOKEN:
  *
  *  During the REFERENCE, REFMODIFIER or REFMOD3 lex states we will switch to:
  *  - REFINDEX if a bracket '[' is encountered:  $foo[1], $foo.bar[1], $foo.bar( "arg" )[1]
- *  - ALT_VAL if a pipe '|' or an elvis '?:' is encountered (only for formal
- *    references): ${foo|'foo'}, ${foo?:'foo'}
+ *  - ALT_VAL if a pipe '|' is encountered (only for formal references): ${foo|'foo'}
  * ---------------------------------------------------------------------------- */
 
 <PRE_REFERENCE,REFMODIFIER,REFMOD2>
@@ -2176,7 +2162,7 @@ void Index() : {}
 void Reference() : { Token t; }
 {
     /*
-     *  A reference is either $<FOO> or ${<FOO>} or ${<FOO>('|'|'?:')<ALTERNATE_VALUE>}
+     *  A reference is either $<FOO> or ${<FOO>} or ${<FOO>'|'<ALTERNATE_VALUE>)
      */
 
       (
@@ -2188,7 +2174,7 @@ void Reference() : { Token t; }
          t=<LCURLY> { jjtThis.setFormal(true); if (!t.image.endsWith("{")) jjtThis.setExtraDollar(true); }
          ( <IDENTIFIER> | <OLD_IDENTIFIER> ) (Index())*
          (LOOKAHEAD(2) <DOT> (LOOKAHEAD(3) Method() | Identifier() ) (Index())* )*
-         [ ( <PIPE> { jjtThis.setPipeAlternate(true); } | <ELVIS> ) Expression() ]
+         [ <PIPE> Expression() ]
          ( <RCURLY> | <RIGHT_CURLEY> )
       )
 }
@@ -2241,7 +2227,6 @@ boolean Text() :
   |  <RCURLY> { return false; }
   |  <EMPTY_INDEX> { return false; }
   |  <PIPE> { return false; }
-  |  <ELVIS> { return false; }
   |  t=<LONE_SYMBOL>
      {
          /* Drop the ending zero-width whitespace */
@@ -2598,7 +2583,7 @@ void PrimaryExpression() #void : {}
 
     REFINDEX : Array index. Triggered by '[' in REFERENCE, REFMODIFIER, REFMOD3.
 
-    ALT_VAL : Alternate value. Triggered by '|' or '?:' in REFERENCE, REFMODIFIER, REFMOD3.
+    ALT_VAL : Alternate value. Triggered by '|'  in REFERENCE, REFMODIFIER, REFMOD3.
 
     (cont)
 

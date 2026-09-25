@@ -25,10 +25,8 @@ import org.apache.velocity.exception.VelocityException;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
- * Tests the alternate value of a reference under <code>runtime.references.strict</code>,
- * in both its spellings: strict mode is where the two differ the most from an elvis
- * operator elsewhere, so every case is asserted for <code>|</code> and for
- * <code>?:</code> alike.
+ * Base test case that provides utility methods for
+ * the rest of the tests.
  *
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author Nathan Bubna
@@ -53,47 +51,26 @@ public class StrictAlternateValuesTestCase extends BaseTestCase
         context.put("foo", null);
     }
 
-    /**
-     * Asserts a template rendering, then the same template with every pipe rewritten
-     * as an elvis: the two spellings must be interchangeable, strict mode included.
-     */
-    private void assertBothSpellings(String expected, String vtl)
-    {
-        assertEvalEquals(expected, vtl);
-        assertEvalEquals(expected, vtl.replace("|", "?:"));
-    }
-
-    /**
-     * Same, for the templates that strict mode rejects.
-     */
-    private void assertBothSpellingsThrow(String vtl)
-    {
-        assertEvalException(vtl, VelocityException.class);
-        assertEvalException(vtl.replace("|", "?:"), VelocityException.class);
-    }
-
     public void testDefault()
     {
-        assertBothSpellings("<foo>", "<${foo|'foo'}>");
-        assertBothSpellings("bar", "#set($bar='bar')${foo|$bar}");
-        assertBothSpellings("bar", "#set($bar='bar')${foo|${bar}}");
-        // strict mode faults on the navigation, before the alternate value is reached
-        assertBothSpellingsThrow("${foo.bar.baz()[5]|'hop'}");
-        assertBothSpellings("{foo}", "{${foo|'foo'}}");
+        assertEvalEquals("<foo>", "<${foo|'foo'}>");
+        assertEvalEquals("bar", "#set($bar='bar')${foo|$bar}");
+        assertEvalEquals("bar", "#set($bar='bar')${foo|${bar}}");
+        assertEvalException("${foo.bar.baz()[5]|'hop'}", VelocityException.class);
+        assertEvalEquals("{foo}", "{${foo|'foo'}}");
         assertEvalException("$foo", VelocityException.class);
     }
 
     public void testComplexEval()
     {
-        assertBothSpellingsThrow("<${date.format('medium', $date.date)|'no date tool'}>");
-        assertBothSpellings("true", "#set($val=false)${val.toString().replace(\"false\", \"true\")|'so what'}");
-        assertBothSpellings("so what", "#set($foo='foo')${foo.contains('bar')|'so what'}");
-        assertBothSpellings("so what", "#set($val=false)${val.toString().contains('bar')|'so what'}");
-        assertBothSpellings("true", "#set($val=false)${val.toString().contains('false')|'so what'}");
-        // an alternate value that is itself an unset variable faults in strict mode
-        assertBothSpellingsThrow("$!{null|$null}");
-        assertBothSpellings("null", "$!{null|'null'}");
-        assertBothSpellings("so what", "#set($spaces='   ')${spaces.trim()|'so what'}");
+        assertEvalException("<${date.format('medium', $date.date)|'no date tool'}>", VelocityException.class);
+        assertEvalEquals("true", "#set($val=false)${val.toString().replace(\"false\", \"true\")|'so what'}");
+        assertEvalEquals("so what", "#set($foo='foo')${foo.contains('bar')|'so what'}");
+        assertEvalEquals("so what", "#set($val=false)${val.toString().contains('bar')|'so what'}");
+        assertEvalEquals("true", "#set($val=false)${val.toString().contains('false')|'so what'}");
+        assertEvalException("$!{null|$null}", VelocityException.class);
+        assertEvalEquals("null", "$!{null|'null'}");
+        assertEvalEquals("so what", "#set($spaces='   ')${spaces.trim()|'so what'}");
     }
 
 }

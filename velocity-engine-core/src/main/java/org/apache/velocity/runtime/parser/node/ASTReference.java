@@ -108,14 +108,7 @@ public class ASTReference extends SimpleNode
     private boolean formal = false;
 
     /**
-     * Whether the alternate value of this reference, if any, was written with the
-     * deprecated pipe notation ${foo|alt} rather than the elvis one ${foo?:alt}.
-     * Set by the parser.
-     */
-    private boolean pipeAlternate = false;
-
-    /**
-     * Whether this reference carries the deprecated extra '$' after '{', as in ${$foo}
+     * Whether this reference carries the extra '$' after '{', as in ${$foo}
      * (re-added in 2.5 for 1.7 backward compatibility). Set by the parser.
      */
     private boolean extraDollar = false;
@@ -177,17 +170,7 @@ public class ASTReference extends SimpleNode
     }
 
     /**
-     * Marks the alternate value of this reference as written with the deprecated pipe
-     * notation. Called by the parser.
-     * @param pipeAlternate pipe-spelling flag
-     */
-    public void setPipeAlternate(boolean pipeAlternate)
-    {
-        this.pipeAlternate = pipeAlternate;
-    }
-
-    /**
-     * Marks this reference as carrying the deprecated extra '$' after '{'. Called by the parser.
+     * Marks this reference as carrying the extra '$' after '{'. Called by the parser.
      * @param extraDollar extra-dollar flag
      */
     public void setExtraDollar(boolean extraDollar)
@@ -248,20 +231,6 @@ public class ASTReference extends SimpleNode
             else
             {
                 identifier = lastNode.getFirstTokenImage();
-            }
-        }
-
-        /*
-         * VTL syntax deprecation warnings (VELOCITY-995), gated by runtime.deprecation.warn.
-         * The '|' spelling of the alternate value is deprecated in favour of '?:', which
-         * has the very same semantics.
-         */
-        if (rsvc.getBoolean(RuntimeConstants.RUNTIME_DEPRECATION_WARN, true))
-        {
-            if (astAlternateValue != null && pipeAlternate)
-            {
-                log.warn("the '|' alternate-value notation is deprecated; write ${foo?:alt} rather than ${foo|alt} - {} [line {}, column {}]",
-                         getTemplateName(), getLine(), getColumn());
             }
         }
 
