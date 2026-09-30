@@ -40,6 +40,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <project.build.outputTimestamp>${maven.build.timestamp}</project.build.outputTimestamp>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.13.2</junit.version>
         <slf4j.version>2.0.20</slf4j.version>
@@ -72,7 +73,9 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.5.1</version>
                     <configuration>
                         <archive>
                             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
