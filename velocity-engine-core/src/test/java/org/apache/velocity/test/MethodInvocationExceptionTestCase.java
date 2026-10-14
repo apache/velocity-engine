@@ -24,6 +24,8 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.event.EventCartridge;
+import org.apache.velocity.app.event.ReferenceInsertionEventHandler;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.test.misc.TestLogger;
 
@@ -116,6 +118,36 @@ public class MethodInvocationExceptionTestCase extends TestCase
         }
     }
 
+
+    /**
+     * VELOCITY-998: a context event cartridge without any method exception
+     * handler must not swallow the exception.
+     * @throws Exception
+     */
+    public void testMethodInvocationExceptionWithContextCartridgeWithoutHandler ()
+            throws Exception
+    {
+        String template = "$woogie.doException() boing!";
+
+        VelocityContext vc = new VelocityContext();
+        vc.put("woogie", this );
+
+        EventCartridge contextCartridge = new EventCartridge();
+        contextCartridge.addEventHandler((ReferenceInsertionEventHandler) (context, reference, value) -> value);
+        contextCartridge.attachToContext(vc);
+
+        StringWriter w = new StringWriter();
+
+        try
+        {
+            Velocity.evaluate( vc,  w, "test", template );
+            fail("No exception thrown, output: " + w);
+        }
+        catch( MethodInvocationException mie )
+        {
+            assertEquals("doException", mie.getMethodName());
+        }
+    }
 
     public void testGetterMethodInvocationException ()
             throws Exception
