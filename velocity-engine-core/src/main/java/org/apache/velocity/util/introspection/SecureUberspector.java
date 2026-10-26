@@ -61,7 +61,7 @@ public class SecureUberspector extends UberspectImpl
     }
 
     /**
-     * Get a method from the given object. When the object is a <code>Class</code>, only allow <code>Class.getName()</code>.
+     * Get a method from the given object. When the object is a <code>Class</code>, only allow <code>Class.getName()</code> and <code>Class.getSimpleName()</code>.
      *
      * @param obj object on which the method is called
      * @param methodName name of the called method

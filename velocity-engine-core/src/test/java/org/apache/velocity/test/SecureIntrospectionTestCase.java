@@ -288,6 +288,7 @@ public class SecureIntrospectionTestCase extends BaseTestCase
          * what the secure introspector does allow stays allowed
          */
         assertEquals("java.lang.Integer", render(ve, c, "$n.getClass().getName()"));
+        assertEquals("Integer", render(ve, c, "$n.getClass().getSimpleName()"));
         assertEquals("java.lang.Integer", render(ve, c, "$n.Class.Name"));
         assertEquals("1", render(ve, c, "$n.intValue()"));
         assertEquals("5", render(ve, c, "$s.length()"));

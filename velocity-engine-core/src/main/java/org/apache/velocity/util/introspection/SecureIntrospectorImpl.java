@@ -189,10 +189,11 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         }
 
         /*
-         * Always allow Class.getName()
+         * Always allow Class.getName() and Class.getSimpleName()
          */
         else if (Class.class.isAssignableFrom(clazz) &&
-                 (methodName != null) && methodName.equals("getName"))
+                 (methodName != null) &&
+                 (methodName.equals("getName") || methodName.equals("getSimpleName")))
         {
             return true;
         }
