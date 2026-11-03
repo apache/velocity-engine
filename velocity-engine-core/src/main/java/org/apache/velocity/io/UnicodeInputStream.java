@@ -137,7 +137,7 @@ public class UnicodeInputStream
      *
      * @return  The encoding based on the BOM.
      *
-     * @throws  IllegalStateException  When a problem reading the BOM occured.
+     * @throws  IllegalStateException  When a problem reading the BOM occurred.
      */
     public String getEncodingFromStream()
     {
