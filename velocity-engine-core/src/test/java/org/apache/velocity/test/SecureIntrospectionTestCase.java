@@ -30,14 +30,18 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.util.introspection.SecureUberspector;
 
+import javax.script.ScriptEngine;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.concurrent.Callable;
 
 /**
  * Checks that the secure introspector is working properly.
@@ -233,6 +237,49 @@ public class SecureIntrospectionTestCase extends BaseTestCase
                     doesStringEvaluate(ve, c, "$ch.forbidden()"));
         assertTrue("allowed() on Child should still pass",
                    doesStringEvaluate(ve, c, "$ch.allowed()"));
+    }
+
+    /**
+     * A restricted class also restricts its subclasses, arrays of them included.
+     */
+    public void testRestrictedClassSubclassMatch() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.UBERSPECT_CLASSNAME, SecureUberspector.class.getName());
+        ve.setProperty(RuntimeConstants.INTROSPECTOR_RESTRICT_CLASSES, Parent.class.getName());
+        ve.init();
+
+        Context c = new VelocityContext();
+        c.put("ch", new Child());
+        c.put("array", new Child[][] { { new Child() } });
+        c.put("test", this);
+        assertFalse("allowed() on Child must be blocked via parent restriction",
+                    doesStringEvaluate(ve, c, "$ch.allowed()"));
+        assertFalse("an array of arrays of Child must not be iterated",
+                    doesStringEvaluate(ve, c, "#foreach($row in $array)row#end"));
+        assertTrue("unrelated classes should still pass",
+                   doesStringEvaluate(ve, c, "$test.aTestMethod()"));
+    }
+
+    /**
+     * The default-shipped restriction on the ScriptEngine interface must block its implementations,
+     * while the one on the java.lang.reflect package must not block all dynamic proxies.
+     */
+    public void testDefaultInterfaceRestriction() throws Exception
+    {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.UBERSPECT_CLASSNAME, SecureUberspector.class.getName());
+        ve.init();
+
+        InvocationHandler handler = (proxy, method, args) -> "called";
+        ClassLoader loader = getClass().getClassLoader();
+        Context c = new VelocityContext();
+        c.put("engine", Proxy.newProxyInstance(loader, new Class<?>[] { ScriptEngine.class }, handler));
+        c.put("callable", Proxy.newProxyInstance(loader, new Class<?>[] { Callable.class }, handler));
+        assertFalse("ScriptEngine.eval must be blocked by default on any implementation",
+                    doesStringEvaluate(ve, c, "$engine.eval('1 + 1')"));
+        assertTrue("a dynamic proxy of an unrestricted interface should pass",
+                   doesStringEvaluate(ve, c, "$callable.call()"));
     }
 
     /**

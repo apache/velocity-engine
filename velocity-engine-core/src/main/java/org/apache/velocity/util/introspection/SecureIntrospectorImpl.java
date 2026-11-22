@@ -23,7 +23,10 @@ import org.slf4j.Logger;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>Prevent "dangerous" classloader/reflection related calls.  Use this
@@ -40,9 +43,21 @@ import java.util.List;
  */
 public class SecureIntrospectorImpl extends Introspector implements SecureIntrospectorControl
 {
-    private String[] badClasses;
-    private String[] badPackages;
+    private final Set<String> badClasses;
+    private final Set<String> badPackages;
     private List<RestrictedMethod> badMethods;
+
+    /**
+     * Whether a class is restricted by <code>badClasses</code> or <code>badPackages</code>, cached per class.
+     */
+    private final ClassValue<Boolean> restricted = new ClassValue<Boolean>()
+    {
+        @Override
+        protected Boolean computeValue(Class<?> clazz)
+        {
+            return isRestricted(clazz);
+        }
+    };
 
     /**
      * Backwards-compatible constructor without method-level restrictions.
@@ -53,8 +68,10 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
     }
 
     /**
-     * @param badClasses fully-qualified class names whose methods are entirely blocked (exact match)
-     * @param badPackages package names whose classes are entirely blocked (exact match)
+     * @param badClasses fully-qualified names of the classes and interfaces whose methods are entirely blocked,
+     *                   along with the methods of the classes extending or implementing them
+     * @param badPackages names of the packages whose classes are entirely blocked (exact match, a class
+     *                    extending a class of a restricted package from another package is not blocked)
      * @param badMethods method specs of the form <code>fully.qualified.ClassName.methodName</code>;
      *                   restriction applies to the named class and all its subclasses, all overloads
      * @param log logger
@@ -66,8 +83,10 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
     }
 
     /**
-     * @param badClasses fully-qualified class names whose methods are entirely blocked (exact match)
-     * @param badPackages package names whose classes are entirely blocked (exact match)
+     * @param badClasses fully-qualified names of the classes and interfaces whose methods are entirely blocked,
+     *                   along with the methods of the classes extending or implementing them
+     * @param badPackages names of the packages whose classes are entirely blocked (exact match, a class
+     *                    extending a class of a restricted package from another package is not blocked)
      * @param badMethods method specs of the form <code>fully.qualified.ClassName.methodName</code>;
      *                   restriction applies to the named class and all its subclasses, all overloads
      * @param log logger
@@ -77,8 +96,8 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
     public SecureIntrospectorImpl(String[] badClasses, String[] badPackages, String[] badMethods, Logger log, TypeConversionHandler conversionHandler)
     {
         super(log, conversionHandler);
-        this.badClasses = badClasses == null ? new String[0] : badClasses;
-        this.badPackages = badPackages == null ? new String[0] : badPackages;
+        this.badClasses = badClasses == null ? new HashSet<>() : new HashSet<>(Arrays.asList(badClasses));
+        this.badPackages = badPackages == null ? new HashSet<>() : new HashSet<>(Arrays.asList(badPackages));
         this.badMethods = parseRestrictedMethods(badMethods, log);
     }
 
@@ -155,6 +174,8 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
      * Prohibits method calls on classes related to reflection and system operations.
      * For the complete list, see the properties <code>introspector.restrict.classes</code>,
      * <code>introspector.restrict.packages</code> and <code>introspector.restrict.methods</code>.
+     * A restricted class or interface also restricts the classes extending or implementing it,
+     * while a restricted package only restricts the classes it contains.
      *
      * @param clazz Class on which method will be called
      * @param methodName Name of method to be called
@@ -207,32 +228,11 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         }
 
         /*
-         * check the classname (minus any array info)
-         * whether it matches disallowed classes or packages
+         * check whether the class matches disallowed classes or packages
          */
-        String className = clazz.getName();
-        if (className.startsWith("[L") && className.endsWith(";"))
+        if (restricted.get(clazz))
         {
-            className = className.substring(2, className.length() - 1);
-        }
-
-        int dotPos = className.lastIndexOf('.');
-        String packageName = (dotPos == -1) ? "" : className.substring(0, dotPos);
-
-        for (String badPackage : badPackages)
-        {
-            if (packageName.equals(badPackage))
-            {
-                return false;
-            }
-        }
-
-        for (String badClass : badClasses)
-        {
-            if (className.equals(badClass))
-            {
-                return false;
-            }
+            return false;
         }
 
         /*
@@ -251,6 +251,45 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         }
 
         return true;
+    }
+
+    /**
+     * Check a class (minus any array info) against disallowed classes and packages.
+     */
+    private boolean isRestricted(Class<?> clazz)
+    {
+        while (clazz.isArray())
+        {
+            clazz = clazz.getComponentType();
+        }
+        String className = clazz.getName();
+        int dotPos = className.lastIndexOf('.');
+        String packageName = (dotPos == -1) ? "" : className.substring(0, dotPos);
+        return badPackages.contains(packageName) || inheritsBadClass(clazz);
+    }
+
+    /**
+     * Look for a disallowed name among a class, its superclasses and all the interfaces they implement.
+     * Names are compared rather than classes: an entry needs not be resolvable when the engine starts.
+     */
+    private boolean inheritsBadClass(Class<?> clazz)
+    {
+        if (clazz == null)
+        {
+            return false;
+        }
+        if (badClasses.contains(clazz.getName()))
+        {
+            return true;
+        }
+        for (Class<?> implemented : clazz.getInterfaces())
+        {
+            if (inheritsBadClass(implemented))
+            {
+                return true;
+            }
+        }
+        return inheritsBadClass(clazz.getSuperclass());
     }
 
     private static final class RestrictedMethod
