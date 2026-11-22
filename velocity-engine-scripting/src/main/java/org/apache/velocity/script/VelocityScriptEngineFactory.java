@@ -181,14 +181,12 @@ public class VelocityScriptEngineFactory implements ScriptEngineFactory
     /**
      * get VTL expression used to display specified string
      * @param toDisplay
-     * @return escaped string #[[toDisplay]]#
+     * @return escaped string #[[toDisplay]]# (along with the corner case handling of ']]#' inside the string)
      */
     @Override
     public String getOutputStatement(String toDisplay)
     {
-        StringBuilder buf = new StringBuilder();
-        buf.append("#[[").append(toDisplay).append("]]#");
-        return buf.toString();
+        return "#[[" + String.valueOf(toDisplay).replace("]]#", "]]]]##[[#") + "]]#";
     }
 
     /**

@@ -39,6 +39,10 @@
 
   <body>
     <release version="2.5" date="2026-09-25">
+        <action type="fix" dev="cbrisson">
+            <code>VelocityScriptEngineFactory.getOutputStatement()</code> now properly displays
+            its argument literally when it contains <code>]]#</code>.
+        </action>
         <action type="fix" dev="cbrisson" due-to="Peter SEVERIN" issue="VELOCITY-1000">
             <code>InvalidReferenceEventHandler.invalidSetMethod()</code> now receives the whole
             assigned reference as its left reference, e.g. <code>foo.bar</code> for

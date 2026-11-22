@@ -94,4 +94,16 @@ public class ScriptEngineTest extends AbstractScriptTest {
         assertEquals("javax.script.SimpleScriptContext java.io.StringWriter java.io.InputStreamReader java.io.PrintWriter", result);
     }
 
+    public void testOutputStatement() throws ScriptException
+    {
+        String path = System.getProperty("test.resources.dir");
+        engine.getContext().setAttribute(VelocityScriptEngine.VELOCITY_PROPERTIES_KEY, path + "/test-classes/velocity.properties", ScriptContext.ENGINE_SCOPE);
+        String[] texts = { "Hello $foo #set($x = 1)", "]]# #set($x = 7 * 7)$x #[[", "a]]#b]]#c]]" };
+        for (String text : texts)
+        {
+            engine.getContext().setWriter(new StringWriter());
+            assertEquals(text, engine.eval(engineFactory.getOutputStatement(text)).toString());
+        }
+    }
+
 }
