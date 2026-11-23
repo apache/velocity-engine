@@ -28,6 +28,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.test.misc.TestLogger;
 import org.apache.velocity.util.introspection.SecureUberspector;
 
 import javax.script.ScriptEngine;
@@ -283,6 +284,26 @@ public class SecureIntrospectionTestCase extends BaseTestCase
     }
 
     /**
+     * Only the refusal of an existing method is worth a warning.
+     */
+    public void testRefusalWarnings() throws Exception
+    {
+        TestLogger logger = new TestLogger(false, true);
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, logger);
+        ve.setProperty(RuntimeConstants.UBERSPECT_CLASSNAME, SecureUberspector.class.getName());
+        ve.init();
+
+        Context c = new VelocityContext();
+        c.put("n", 1);
+        c.put("math", Math.class);
+        render(ve, c, "$n.class.name $math.max(3, 7)");
+        assertFalse(logger.getLog().contains("security restrictions"));
+        render(ve, c, "$n.class.classLoader $n.class.forName('java.lang.Runtime') $n.class.getInteger('foo')");
+        assertEquals(3, logger.getLog().split("security restrictions", -1).length - 1);
+    }
+
+    /**
      * An unknown class in the configuration should not crash init; the entry is ignored.
      */
     public void testRestrictedMethodUnknownClass() throws Exception
@@ -300,8 +321,8 @@ public class SecureIntrospectionTestCase extends BaseTestCase
     }
 
     /**
-     * A static method reached through a Class object is checked against Class, and not
-     * against the class it names: only getName() goes through.
+     * A static method is checked the same way whether it is reached through an instance
+     * or through a Class object, and the methods of Class itself stay out of reach.
      */
     public void testStaticMethodsThroughClassObject() throws Exception
     {
@@ -316,10 +337,12 @@ public class SecureIntrospectionTestCase extends BaseTestCase
         c.put("n", 1);
         c.put("b", Boolean.TRUE);
         c.put("s", "abcde");
+        c.put("math", Math.class);
 
-        /*
-         * reading a system property through the class of a whitelisted instance
-         */
+        assertFalse("Integer.getInteger must be blocked on an instance",
+                    doesStringEvaluate(ve, c, "$n.getInteger('velocity.test.secure.int')"));
+        assertFalse("Boolean.getBoolean must be blocked on an instance",
+                    doesStringEvaluate(ve, c, "$b.getBoolean('velocity.test.secure.bool')"));
         assertFalse("Integer.getInteger must be blocked",
                     doesStringEvaluate(ve, c, "$n.getClass().getInteger('velocity.test.secure.int')"));
         assertFalse("Integer.getInteger must be blocked through the class property too",
@@ -328,8 +351,6 @@ public class SecureIntrospectionTestCase extends BaseTestCase
                     doesStringEvaluate(ve, c, "$b.getClass().getBoolean('velocity.test.secure.bool')"));
         assertFalse("Class.forName must be blocked",
                     doesStringEvaluate(ve, c, "$s.getClass().forName('java.lang.Runtime')"));
-        assertFalse("static parsing methods are blocked as well",
-                    doesStringEvaluate(ve, c, "$n.getClass().parseInt('7')"));
 
         /*
          * what the secure introspector does allow stays allowed
@@ -339,6 +360,9 @@ public class SecureIntrospectionTestCase extends BaseTestCase
         assertEquals("java.lang.Integer", render(ve, c, "$n.Class.Name"));
         assertEquals("1", render(ve, c, "$n.intValue()"));
         assertEquals("5", render(ve, c, "$s.length()"));
+        assertEquals("7", render(ve, c, "$n.parseInt('7')"));
+        assertEquals("7", render(ve, c, "$n.getClass().parseInt('7')"));
+        assertEquals("7", render(ve, c, "$math.max(3, 7)"));
     }
 
     /**

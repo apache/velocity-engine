@@ -52,10 +52,11 @@
             <code>SecureUberspector</code> now honours the configured type conversion handler.
         </action>
         <action type="fix" dev="cbrisson">
-            <code>SecureUberspector</code> now checks <code>Class</code> receivers against
-            <code>Class</code> before the superclass looks a method up among the static
-            methods of the class they name (VELOCITY-102): reached that way, only
-            <code>getName()</code> goes through, whatever the named class.
+            The secure introspector now checks <code>introspector.restrict.methods</code>
+            before whitelisting Boolean, Integer and Long.
+        </action>
+        <action type="fix" dev="cbrisson" issue="VELOCITY-1001">
+            Fixes a verbose warning in <code>SecureUberspector</code> when calling a static method.
         </action>
         <action type="fix" dev="cbrisson">
             Resource names are now normalized before being looked up by the loaders which

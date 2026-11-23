@@ -143,7 +143,7 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
     /**
      * Get the Method object corresponding to the given class, name and parameters.
      * Will check for appropriate execute permissions and return null if the method
-     * is not allowed to be executed.
+     * is not allowed to be executed. A warning is only logged when the refused method exists.
      *
      * @param clazz Class on which method will be called
      * @param methodName Name of method to be called
@@ -157,8 +157,12 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
     {
         if (!checkObjectExecutePermission(clazz, methodName))
         {
-            log.warn("Cannot retrieve method {} from object of class {} due to security restrictions."
-                     , methodName, clazz.getName());
+            // a lookup may just be trying a name out: only warn for a method which exists
+            if (super.getMethod(clazz, methodName, params) != null)
+            {
+                log.warn("Cannot retrieve method {} from object of class {} due to security restrictions."
+                         , methodName, clazz.getName());
+            }
             return null;
         }
         else
@@ -169,8 +173,8 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
 
     /**
      * Determine which methods and classes to prevent from executing.  Always blocks
-     * methods wait() and notify().  Always allows the instance methods of Number, Boolean
-     * and String.
+     * methods wait() and notify().  Always allows methods on Number, Boolean and String,
+     * unless listed in <code>introspector.restrict.methods</code>.
      * Prohibits method calls on classes related to reflection and system operations.
      * For the complete list, see the properties <code>introspector.restrict.classes</code>,
      * <code>introspector.restrict.packages</code> and <code>introspector.restrict.methods</code>.
@@ -193,10 +197,22 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
             return false;
         }
 
+        /* check method-level restrictions, including subclasses */
+        if (methodName != null)
+        {
+            for (RestrictedMethod bad : badMethods)
+            {
+                if (bad.methodName.equals(methodName) && bad.clazz.isAssignableFrom(clazz))
+                {
+                    return false;
+                }
+            }
+        }
+
         /*
          * Always allow the most common classes - Number, Boolean and String
          */
-        else if (Number.class.isAssignableFrom(clazz))
+        if (Number.class.isAssignableFrom(clazz))
         {
             return true;
         }
@@ -234,21 +250,6 @@ public class SecureIntrospectorImpl extends Introspector implements SecureIntros
         if (restricted.get(clazz))
         {
             return false;
-        }
-
-        /*
-         * check method-level restrictions: blocked if methodName matches and the
-         * restricted class is assignable from the target class (covers subclasses)
-         */
-        if (methodName != null)
-        {
-            for (RestrictedMethod bad : badMethods)
-            {
-                if (bad.methodName.equals(methodName) && bad.clazz.isAssignableFrom(clazz))
-                {
-                    return false;
-                }
-            }
         }
 
         return true;
