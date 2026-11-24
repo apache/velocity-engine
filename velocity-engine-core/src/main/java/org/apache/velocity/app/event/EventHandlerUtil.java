@@ -105,7 +105,7 @@ public class EventHandlerUtil {
                 return ev.methodException(context, claz, method, e, info);
             }
             EventCartridge contextCartridge = context.getEventCartridge();
-            if (contextCartridge != null)
+            if (contextCartridge != null && contextCartridge.hasMethodExceptionEventHandler())
             {
                 contextCartridge.setRuntimeServices(rsvc);
                 return contextCartridge.methodException(context, claz, method, e, info);
