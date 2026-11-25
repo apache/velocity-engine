@@ -26,7 +26,8 @@
     dev     Author Apache handle.
     due-to  Contributor credit when the change came from outside the
             committers. Apache handle when applicable, GitHub username
-            otherwise.
+            otherwise. Several contributors: one attribute, comma-separated
+            (rendered as is).
     issue   Apache JIRA issue ID, e.g. VELOCITY-988. Rendered as a link to
             the JIRA browser.
     pr      GitHub pull-request number on apache/velocity-engine. Rendered
@@ -39,9 +40,13 @@
 
   <body>
     <release version="2.5" date="2026-09-25">
-        <action type="fix" dev="cbrisson" due-to="sharanggupta" issue="VELOCITY-998">
+        <action type="fix" dev="cbrisson" due-to="Peter SEVERIN, sharanggupta" issue="VELOCITY-998" pr="68">
           The EventHandlerUtil.methodException method could swallow the exception with a
-          context EventCartrige without method exception handler.
+          context EventCartridge without method exception handler.
+        </action>
+        <action type="fix" dev="cbrisson" due-to="Peter SEVERIN, dajiaohuang" issue="VELOCITY-1003">
+            <code>SecureUberspector</code> now allows <code>Class.getSimpleName()</code>, as it
+            already did <code>Class.getName()</code>.
         </action>
         <action type="fix" dev="cbrisson">
             <code>VelocityScriptEngineFactory.getOutputStatement()</code> now properly displays
@@ -55,11 +60,15 @@
         <action type="fix" dev="cbrisson" due-to="Peter SEVERIN" issue="VELOCITY-999">
             <code>SecureUberspector</code> now honours the configured type conversion handler.
         </action>
+        <action type="fix" dev="cbrisson" due-to="Yashashree Gund">
+            A class or interface listed in <code>introspector.restrict.classes</code> now also
+            restricts the classes extending or implementing it.
+        </action>
         <action type="fix" dev="cbrisson">
             The secure introspector now checks <code>introspector.restrict.methods</code>
             before whitelisting Boolean, Integer and Long.
         </action>
-        <action type="fix" dev="cbrisson" issue="VELOCITY-1001">
+        <action type="fix" dev="cbrisson" due-to="Tagir Valeev" issue="VELOCITY-1001">
             Fixes a verbose warning in <code>SecureUberspector</code> when calling a static method.
         </action>
         <action type="fix" dev="cbrisson">
@@ -150,7 +159,7 @@
         <action type="fix" dev="cbrisson" issue="VELOCITY-962">
             An unclosed verbatim section should give an error, as in Velocity 1.7.
         </action>
-        <action type="fix" dev="cbrisson" issue="VELOCIY-982" due-to="John Tal">
+        <action type="fix" dev="cbrisson" issue="VELOCITY-982" due-to="John Tal">
             Add a few more dangerous classes to introspector blacklist.
         </action>
         <action type="fix" dev="cbrisson" issue="VELOCITY-957">
