@@ -426,11 +426,6 @@ public class RuntimeInstance implements RuntimeConstants, RuntimeServices
             log.warn("{} is false: lenient math is deprecated, set it to true to fix this warning - math operations on null or non-numeric operands and divisions by zero will not silently be skipped.", STRICT_MATH);
         }
 
-        if (getBoolean(VM_ENABLE_BC_MODE, false))
-        {
-            log.warn("the '{}' setting is deprecated without replacement: the next major version does not provide this compatibility mode", VM_ENABLE_BC_MODE);
-        }
-
         if (!getBoolean(IMMUTABLE_RANGES, true))
         {
             log.warn("{} is false: mutable integer ranges are deprecated, ranges will always be immutable in the next major version", IMMUTABLE_RANGES);

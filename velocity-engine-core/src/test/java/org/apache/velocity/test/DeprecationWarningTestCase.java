@@ -37,7 +37,6 @@ import java.util.Properties;
  * </ul>
  * and the settings the next major version does not provide any more:
  * <ul>
- *   <li>{@code velocimacro.enable_bc_mode}</li>
  *   <li>an implicitly loaded macro library</li>
  *   <li>{@code runtime.immutable_ranges = false}</li>
  *   <li>{@code parser.class} and the {@code parser.char.dollar} build property</li>
@@ -363,36 +362,6 @@ public class DeprecationWarningTestCase extends BaseTestCase
         assertFalse("unexpected deprecation warning naming '" + needle + "', log was:\n" + out,
                     out.contains(needle));
     }
-
-    /* ---- velocimacro.enable_bc_mode: deprecated without replacement ---- */
-
-    public void testBcModeWarnsWhenEnabled()
-    {
-        assertWarnsAtInit(RuntimeConstants.VM_ENABLE_BC_MODE, true, RuntimeConstants.VM_ENABLE_BC_MODE, "true");
-    }
-
-    public void testBcModeWarningSaysWithoutReplacement()
-    {
-        String out = warningsAtInit(settingEngine(true, RuntimeConstants.VM_ENABLE_BC_MODE, "true"));
-        assertTrue("the warning must say there is no replacement, log was:\n" + out,
-                   out.contains("without replacement"));
-    }
-
-    public void testBcModeSilentWhenDisabled()
-    {
-        assertSilentAtInit(RuntimeConstants.VM_ENABLE_BC_MODE, true, RuntimeConstants.VM_ENABLE_BC_MODE, "false");
-    }
-
-    public void testBcModeSilentWhenDefaulted()
-    {
-        assertSilentAtInit(RuntimeConstants.VM_ENABLE_BC_MODE, true, null, null);
-    }
-
-    public void testBcModeSilentWhenDeprecationOff()
-    {
-        assertSilentAtInit(RuntimeConstants.VM_ENABLE_BC_MODE, false, RuntimeConstants.VM_ENABLE_BC_MODE, "true");
-    }
-
 
     /* ---- an implicitly loaded macro library: deprecated, declare it instead ---- */
 
