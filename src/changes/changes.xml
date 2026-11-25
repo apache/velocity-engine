@@ -48,7 +48,7 @@
             <code>SecureUberspector</code> now allows <code>Class.getSimpleName()</code>, as it
             already did <code>Class.getName()</code>.
         </action>
-        <action type="fix" dev="cbrisson">
+        <action type="fix" dev="cbrisson" due-to="vulnessai">
             <code>VelocityScriptEngineFactory.getOutputStatement()</code> now properly displays
             its argument literally when it contains <code>]]#</code>.
         </action>
@@ -64,14 +64,14 @@
             A class or interface listed in <code>introspector.restrict.classes</code> now also
             restricts the classes extending or implementing it.
         </action>
-        <action type="fix" dev="cbrisson">
+        <action type="fix" dev="cbrisson" due-to="n0mi1k, MopMonk-AI">
             The secure introspector now checks <code>introspector.restrict.methods</code>
             before whitelisting Boolean, Integer and Long.
         </action>
         <action type="fix" dev="cbrisson" due-to="Tagir Valeev" issue="VELOCITY-1001">
             Fixes a verbose warning in <code>SecureUberspector</code> when calling a static method.
         </action>
-        <action type="fix" dev="cbrisson">
+        <action type="fix" dev="cbrisson" due-to="Ravishanker Kusuma, CyberLeo">
             Resource names are now normalized before being looked up by the loaders which
             resolve them against a root (file, classpath, jar and URL loaders): the
             <code>.</code> and <code>..</code> segments are collapsed, and a name climbing
@@ -80,7 +80,7 @@
             <code>StringResourceLoader</code>) keep seeing it unchanged. See
             <code>ResourceLoader.normalizeResourceName()</code>.
         </action>
-        <action type="fix" dev="cbrisson">
+        <action type="fix" dev="cbrisson" due-to="CyberLeo">
             <code>#evaluate</code> now honours the nesting depth limit set by
             <code>directive.parse.max_depth</code> (10 by default, zero or less meaning no
             limit).
