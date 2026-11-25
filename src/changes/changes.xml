@@ -39,7 +39,7 @@
   </properties>
 
   <body>
-    <release version="2.5" date="2026-09-25">
+    <release version="2.5" date="2026-11-25">
         <action type="fix" dev="cbrisson" issue="VELOCITY-1004">
             With <code>velocimacro.inline.local_scope</code>, inline macros are now looked up
             in the same consistent way among all the templates of a merge: the macros of the merged template
