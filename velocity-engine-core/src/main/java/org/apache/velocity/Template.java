@@ -346,6 +346,11 @@ public class Template extends Resource implements Cloneable
                     }
                 }
 
+                /*
+                 * this template is the first one of its merge: its own macros reach what it parses
+                 */
+                libTemplates.add(this);
+
                 if (provideScope)
                 {
                     ica.put(scopeName, new Scope(this, ica.get(scopeName)));

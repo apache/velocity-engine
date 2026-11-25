@@ -81,6 +81,11 @@ public class RuntimeMacro extends Directive
     private String badArgsErrorMsg = null;
 
     /**
+     * Whether inline macros replace global ones (<code>velocimacro.inline.replace_global</code>).
+     */
+    private boolean inlineReplacesGlobal = false;
+
+    /**
      * Return name of this Velocimacro.
      *
      * @return The name of this Velocimacro.
@@ -133,6 +138,7 @@ public class RuntimeMacro extends Directive
         macroName = Validate.notNull(name);
         macroName = rsvc.useStringInterning() ? macroName.intern() : macroName;
         this.node = node;
+        inlineReplacesGlobal = rsvc.getBoolean(RuntimeConstants.VM_PERM_ALLOW_INLINE_REPLACE_GLOBAL, false);
 
         /*
          * Apply strictRef setting only if this really looks like a macro,
@@ -236,12 +242,14 @@ public class RuntimeMacro extends Directive
 
     /**
      * Velocimacro implementation is not known at the init time. So look for
-     * a implementation in the macro libraries and if finds one renders it. The
-     * actual rendering is delegated to the VelocimacroProxy object. When
-     * looking for a macro we first loot at the template with has the
-     * macro call then we look at the macro libraries in the order they appear
-     * in the list. If a macro has many definitions above look up will
-     * determine the precedence.
+     * an implementation and if finds one renders it. The
+     * actual rendering is delegated to the VelocimacroProxy object. A call asks,
+     * in this order: the macros of the template it is written in; if inline macros
+     * replace global ones, those of the other templates of the merge, the latest
+     * entered first; the global macros; the other templates of the merge, the latest
+     * entered first. The templates of a merge are the libraries it was given, its root
+     * template and what was <code>#parse</code>d so far. A template only has macros
+     * of its own under <code>velocimacro.inline.local_scope</code>.
      *
      * @param context
      * @param writer
@@ -279,41 +287,38 @@ public class RuntimeMacro extends Directive
             throws IOException, ResourceNotFoundException,
             ParseErrorException, MethodInvocationException
     {
-        VelocimacroProxy vmProxy = null;
-        Template renderingTemplate = (Template)context.getCurrentResource();
+        Template callingTemplate = getTemplate();
+        List<Template> mergedTemplates = context.getMacroLibraries();
 
         /*
-         * first look in the source template
+         * first the macros of the template this call is written in
          */
-        Object o = rsvc.getVelocimacro(macroName, renderingTemplate, getTemplate());
+        VelocimacroProxy vmProxy = getOwnMacro(callingTemplate);
 
-        if( o != null )
+        /*
+         * the other templates of the merge come before the global macros when they replace them
+         */
+        if (vmProxy == null && inlineReplacesGlobal)
         {
-            // getVelocimacro can only return a VelocimacroProxy so we don't need the
-            // costly instanceof check
-            vmProxy = (VelocimacroProxy)o;
+            vmProxy = getMergedMacro(mergedTemplates);
         }
 
         /*
-         * if not found, look in the macro libraries.
+         * then the global macros: the calling template has none of that name
          */
         if (vmProxy == null)
         {
-            List<Template> macroLibraries = context.getMacroLibraries();
-            if (macroLibraries != null)
-            {
-                for (int i = macroLibraries.size() - 1; i >= 0; i--)
-                {
-                    o = rsvc.getVelocimacro(macroName, renderingTemplate, macroLibraries.get(i));
+            // getVelocimacro can only return a VelocimacroProxy so we don't need the
+            // costly instanceof check
+            vmProxy = (VelocimacroProxy)rsvc.getVelocimacro(macroName, null, callingTemplate);
+        }
 
-                    // get the first matching macro
-                    if (o != null)
-                    {
-                        vmProxy = (VelocimacroProxy) o;
-                        break;
-                    }
-                }
-            }
+        /*
+         * and after them otherwise
+         */
+        if (vmProxy == null && !inlineReplacesGlobal)
+        {
+            vmProxy = getMergedMacro(mergedTemplates);
         }
 
         if (vmProxy != null)
@@ -367,5 +372,41 @@ public class RuntimeMacro extends Directive
          */
         writer.write(getLiteral());
         return true;
+    }
+
+    /**
+     * Looks for this macro among a template's own ones.
+     * @param template template
+     * @return the macro, or null when the template does not define it for itself
+     */
+    private VelocimacroProxy getOwnMacro(Template template)
+    {
+        // the lookup goes on to the global macros: only ask for a macro the template has
+        if (template == null || !template.getMacros().containsKey(macroName))
+        {
+            return null;
+        }
+        return (VelocimacroProxy)rsvc.getVelocimacro(macroName, null, template);
+    }
+
+    /**
+     * Looks for this macro among the templates of the merge, the latest entered first.
+     * @param mergedTemplates templates of the merge, in the order they were entered
+     * @return the macro, or null
+     */
+    private VelocimacroProxy getMergedMacro(List<Template> mergedTemplates)
+    {
+        if (mergedTemplates != null)
+        {
+            for (int i = mergedTemplates.size() - 1; i >= 0; i--)
+            {
+                VelocimacroProxy vmProxy = getOwnMacro(mergedTemplates.get(i));
+                if (vmProxy != null)
+                {
+                    return vmProxy;
+                }
+            }
+        }
+        return null;
     }
 }

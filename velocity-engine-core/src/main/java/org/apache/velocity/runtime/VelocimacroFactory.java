@@ -556,7 +556,7 @@ public class VelocimacroFactory
                         throw new VelocityException(msg, e, rsvc.getLogContext().getStackTrace());
                     }
 
-                    vp = vmManager.get(vmName, sourceTemplate, renderingTemplate);
+                    vp = vmManager.get(vmName, renderingTemplate, sourceTemplate);
                 }
             }
         }

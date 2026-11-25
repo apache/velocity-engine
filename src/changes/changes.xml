@@ -40,6 +40,15 @@
 
   <body>
     <release version="2.5" date="2026-09-25">
+        <action type="fix" dev="cbrisson" issue="VELOCITY-1004">
+            With <code>velocimacro.inline.local_scope</code>, inline macros are now looked up
+            in the same consistent way among all the templates of a merge: the macros of the merged template
+            reach the templates it parses, a template's own macro always wins inside that
+            template, and with <code>velocimacro.inline.replace_global</code> a macro of any
+            template of the merge replaces a library one, where only the merged template's
+            did. Nothing changes when <code>velocimacro.inline.local_scope</code> is false,
+            the default.
+        </action>
         <action type="fix" dev="cbrisson" due-to="gregh3269">
             Add <code>project.build.outputTimestamp</code> to POM so that released jar dates
             are correctly set for new releases.
