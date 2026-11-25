@@ -39,6 +39,10 @@
 
   <body>
     <release version="2.5" date="2026-09-25">
+        <action type="fix" dev="cbrisson" due-to="sharanggupta" issue="VELOCITY-998">
+          The EventHandlerUtil.methodException method could swallow the exception with a
+          context EventCartrige without method exception handler.
+        </action>
         <action type="fix" dev="cbrisson">
             <code>VelocityScriptEngineFactory.getOutputStatement()</code> now properly displays
             its argument literally when it contains <code>]]#</code>.
