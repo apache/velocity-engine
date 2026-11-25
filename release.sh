@@ -105,6 +105,21 @@ CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 [[ -n "$CURRENT_BRANCH" ]] || die "Cannot determine current branch."
 [[ -z "$(git status --porcelain)" ]] || die "Working tree is not clean."
 
+# Check release date in changelog.
+CHANGES="src/changes/changes.xml"
+[[ -f "$CHANGES" ]] || die "$CHANGES not found."
+TOP_RELEASE="$(grep -m1 -o '<release [^>]*>' "$CHANGES" || true)"
+[[ "$TOP_RELEASE" =~ version=\"([^\"]*)\" ]] || die "No <release version=…> found in $CHANGES."
+CHANGES_VERSION="${BASH_REMATCH[1]}"
+[[ "$TOP_RELEASE" =~ date=\"([^\"]*)\" ]] || die "The top <release> of $CHANGES has no date."
+CHANGES_DATE="${BASH_REMATCH[1]}"
+TODAY="$(date +%Y-%m-%d)"
+[[ "$CHANGES_VERSION" == "$RELEASE" ]] \
+  || die "$CHANGES starts with release $CHANGES_VERSION, not $RELEASE."
+[[ "$CHANGES_DATE" == "$TODAY" ]] \
+  || die "$CHANGES dates release $RELEASE $CHANGES_DATE, not today ($TODAY): fix the date and commit."
+echo "Changelog: release $CHANGES_VERSION dated $CHANGES_DATE OK."
+
 # Signing self-test with the very key and passphrase of the deploy, before any tag is pushed.
 # Read-only, so it also runs in --dry-run.
 if [[ -z "${MAVEN_GPG_PASSPHRASE:-}" ]]; then
@@ -134,7 +149,8 @@ pause "About to set project version to $RELEASE and <scm><tag> to $RELEASE_TAG."
 mvn_q -q versions:set -DnewVersion="$RELEASE"
 mvn_q -Denforcer.skip=false -Drules=requireReleaseDeps enforcer:enforce
 mvn_q -q versions:commit
-mvn_q -q versions:set-scm-tag -DnewTag="$RELEASE_TAG"
+# no backup pom: versions:commit has run already, and `git add -A` would commit the file
+mvn_q -q versions:set-scm-tag -DnewTag="$RELEASE_TAG" -DgenerateBackupPoms=false
 
 git_run add -A
 git_run commit -m "Release $RELEASE: set versions to $RELEASE and <scm><tag>=$RELEASE_TAG"
@@ -268,7 +284,7 @@ NEXT="${NEXT_IN:-$NEXT_DEFAULT}"
 pause "About to bump to $NEXT and reset <scm><tag>=HEAD."
 mvn_q -q versions:set -DnewVersion="$NEXT"
 mvn_q -q versions:commit
-mvn_q -q versions:set-scm-tag -DnewTag=HEAD
+mvn_q -q versions:set-scm-tag -DnewTag=HEAD -DgenerateBackupPoms=false
 
 git_run add -A
 git_run commit -m "Start $NEXT (reset <scm><tag>=HEAD)"
