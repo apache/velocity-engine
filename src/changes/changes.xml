@@ -40,6 +40,10 @@
 
   <body>
     <release version="2.5" date="2026-09-25">
+        <action type="fix" dev="cbrisson" due-to="gregh3269">
+            Add <code>project.build.outputTimestamp</code> to POM so that released jar dates
+            are correctly set for new releases.
+        </action>
         <action type="fix" dev="cbrisson" due-to="Peter SEVERIN, sharanggupta" issue="VELOCITY-998" pr="68">
           The EventHandlerUtil.methodException method could swallow the exception with a
           context EventCartridge without method exception handler.
